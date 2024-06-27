@@ -1,0 +1,27 @@
+<nav class="pagination is-centered is-primary mt-5" role="navigation" aria-label="pagination">
+  {% if paginator.previous_page %}
+    <a href="{{ site.baseurl }}{{ paginator.previous_page_path }}" class="pagination-previous">
+      &larr; Newer
+    </a>
+  {% else %}
+    <a href="#" class="pagination-previous is-disabled" disabled>
+      &larr; Newer
+    </a>
+  {% endif %}
+
+  <span class="pagination-list">
+    <span class="pagination-link">
+      Page: {{ paginator.page }} of {{ paginator.total_pages }}
+    </span>
+  </span>
+
+  {% if paginator.next_page %}
+    <a href="{{ site.baseurl }}{{ paginator.next_page_path }}" class="pagination-next">
+      Older &rarr;
+    </a>
+  {% else %}
+    <a href="#" class="pagination-next is-disabled" disabled>
+      Older &rarr;
+    </a>
+  {% endif %}
+</nav>

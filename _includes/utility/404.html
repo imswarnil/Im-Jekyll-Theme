@@ -1,0 +1,89 @@
+{% if page.layout_type == 'vertical' %}
+<div class="hero is-small is-primary p-5">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-10">
+                        <div class="columns is-vcentered">
+                            <div class="column is-one-fourth">
+                                <figure class="image">
+                                    <img src="{{ page.error_image | relative_url }}" alt="404 Image">
+                                </figure>
+                            </div>
+                            <div class="column">
+                                <h1 class="title is-1 has-text-white">{{ page.title }}</h1>
+                                <h2 class="subtitle is-3 has-text-white">404 - Page Not Found</h2>
+                                <p class="subtitle is-5 has-text-white">
+                                    {{ page.description }}
+                                </p>
+                          <div class="buttons my-5">
+                                    {% for item in page.navigation_items %}
+                                        <a href="{{ item.link }}" class="button is-primary is-light">
+                                            <span class="icon"><i class="fas fa-home"></i></span>
+                                            <span>{{ item.label }}</span>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                                <form>
+                                    <div class="field has-addons is-fullwidth">
+                                        <div class="control">
+                                            <input class="input is-medium" type="text" placeholder="Search...">
+                                        </div>
+                                        <div class="control">
+                                            <button class="button is-medium is-primary is-inverted">
+                                                <span class="icon is-small">
+                                                    <i class="fas fa-search"></i>
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+{% else %}
+<div class="hero is-small is-primary p-5">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="columns is-centered">
+                    <div class="column is-7 mt-3">
+                        <figure class="image is-3by1">
+                            <img src="{{ page.error_image | relative_url }}" alt="404 Image">
+                        </figure>
+                        <h1 class="title is-1 has-text-white">{{ page.title }}</h1>
+                        <h2 class="subtitle is-3 has-text-white">404 - Page Not Found</h2>
+                        <p class="subtitle is-5 has-text-white">
+                            {{ page.description }}
+                        </p> 
+                    <div class="buttons is-centered p-5 my-5">
+                            <form>
+                                <div class="field has-addons">
+                                    <div class="control">
+                                        <input class="input" type="text" placeholder="Search...">
+                                    </div>
+                                    <div class="control">
+                                        <button class="button is-primary is-dark">
+                                            <span class="icon is-small">
+                                                <i class="fas fa-search"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            {% for item in page.navigation_items %}
+                                <a href="{{ item.link }}" class="button is-primary is-light">
+                                    <span class="icon"><i class="fas fa-home"></i></span>
+                                    <span>{{ item.label }}</span>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+{% endif %}

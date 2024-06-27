@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: "en-US" }}">
+
+<head>
+  <!-- General meta -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% if page.indexing == false %}
+  <meta name="robots" content="noindex">
+  {% endif %}
+  {% if page.collectionpage %}
+  {% assign collectiondata = site.collections | where: "label", page.collectionpage | first %}
+  <title>{{ collectiondata.title }} - {{ site.title }}</title>
+  <meta property="og:title" content="{{ collectiondata.title }}">
+  <meta name="description" content="{{ collectiondata.description }}">
+  <meta property="og:description" content="{{ collectiondata.description }}">
+  {% else %}
+  {% seo %}
+  {% endif %}
+  {% if site.fonts.preconnect_urls %}
+  {% for url in site.fonts.preconnect_urls %}
+  <link rel="preconnect" href="{{ url }}" crossorigin />
+  {% endfor %}
+  {% endif %}
+
+  <link rel="manifest" href="{{ "/manifest.json" | relative_url }}">
+  <meta name="theme-color" content="{{ site.manifest.theme_color | default: '#242e2b' }}"/>
+  <link rel="stylesheet" href="{{ "/assets/styles.css" | relative_url }}">
+  {% if site.favicons or site.avatarurl %}{% include site-favicons.html %}{% endif %}
+  {% if site.google_analytics %}{% include site-analytics.html %}{% endif %}
+  {% include site-fonts.html %}
+  {% include site-before-start.html %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    
+  {% include site-header.html %}
+  <section class="hero is-light is-primary is-small is-bold">
+    <div class="hero-body">
+        <div class="container py-5">
+            <div class="columns is-vcentered">
+                <div class="column is-8">
+                    <div class="tags has-addons my-3">
+                        <span class="tag is-dark">
+                            <i class="fas fa-code-branch"></i>
+                        </span>
+                        <span class="tag is-dark">Open Source</span>
+                        <span class="tag is-success">Multipurpose</span>
+                    </div>
+                    <!-- Content displayed second -->
+                    <h1 class="title is-2">
+                        Clean, Fast, Customizable, and Multipurpose
+                        <i class="fas fa-boxes-stacked"></i>
+                    </h1>
+                    <h2 class="subtitle mt-2">
+                        an open-source theme crafted using the Bulma CSS framework. This theme utilizes Bulma
+                        SCSS, making it incredibly easy to customize and adapt to your specific needs. With over
+                        7 layouts and 10+ collections
+                    </h2>
+                    <div class="buttons mt-3">
+                        <button class="button button is-primary is-inverted">Button 1</button>
+                        <button class="button is-light is-outlined">Button 2</button>
+                    </div>
+                </div>
+                <div class="column is-3">
+                    <!-- Image displayed first on mobile -->
+                    <figure class="image is-1by1">
+                        <img src="assets\theme.png" alt="Image">
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="features">
+    <div class="container">
+        <h1 class="title is-2 mb-5">Features</h1>
+        <div class="columns is-multiline">
+            <div class="column">
+                <div class="p-5">
+                    <span class="icon is-large has-text-primary ">
+                        <i class="fas fa-mobile-alt fa-2x"></i>
+                    </span>
+                    <h2 class="subtitle has-text-weight-medium">Responsive Design</h2>
+                    <p class="mt-1">Optimized for all screen sizes and devices.</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="p-5">
+                    <span class="icon is-large">
+                        <i class="fas fa-bolt fa-2x"></i>
+                    </span>
+                    <h2 class="subtitle">Fast Performance</h2>
+                    <p>Built with performance in mind to load quickly.</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="p-5">
+                    <span class="icon is-large">
+                        <i class="fas fa-leaf fa-2x"></i>
+                    </span>
+                    <h2 class="subtitle">Minimalistic</h2>
+                    <p>A clean design that focuses on content.</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="p-5">
+                    <span class="icon is-large">
+                        <i class="fas fa-code fa-2x"></i>
+                    </span>
+                    <h2 class="subtitle">JSON-LD & Snippets</h2>
+                    <p>Enhanced SEO with JSON-LD and rich snippets.</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class=" p-5">
+                    <span class="icon is-large">
+                        <i class="fas fa-lock-open fa-2x"></i>
+                    </span>
+                    <h2 class="subtitle">Open Source</h2>
+                    <p>Fully open-source and easy to customize.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="theme-demo">
+    <div class="container">
+        <div class="column p-5 mb-5 has-text-centered">
+            <h2 class="title mb-1 is-2">Theme Demo</h2>
+            <p class="subtitle">How to Use It</p>
+        </div>
+        <div class="columns is-multiline">
+            <div class="column is-one-third">
+                <div class="card">
+                    <div class="card-image">
+                        <figure class="image is-16by9">
+                            <img src="https://via.placeholder.com/300x200" alt="Blog Theme">
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <span class="tag is-info">Best for Bloggers</span>
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-4">Blog Theme</p>
+                                <p class="subtitle is-6">
+                                    A perfect theme for bloggers with clean and elegant design.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="buttons">
+                                <button class="button is-link">
+                                    <span class="icon is-small"><i class="fas fa-eye"></i></span>
+                                    <span>Live Preview</span>
+                                </button>
+                                <button class="button is-primary is-outlined">
+                                    <span class="icon is-small "><i class="fas fa-info-circle"></i></span>
+                                    <span>More Details</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-one-third">
+                <div class="card">
+                    <div class="card-image">
+                        <figure class="image is-4by3">
+                            <img src="https://via.placeholder.com/300x200" alt="Video Theme">
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <span class="tag is-danger">Best for YouTubers</span>
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-4">Video Theme</p>
+                                <p class="subtitle is-6">
+                                    An ideal theme for YouTubers and video content creators.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="buttons">
+                                <button class="button is-link">
+                                    <span class="icon is-small"><i class="fas fa-eye"></i></span>
+                                    <span>Live Preview</span>
+                                </button>
+                                <button class="button is-primary">
+                                    <span class="icon is-small"><i class="fas fa-info-circle"></i></span>
+                                    <span>More Details</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-one-third">
+                <div class="card">
+                    <div class="card-image">
+                        <figure class="image is-4by3">
+                            <img src="https://via.placeholder.com/300x200" alt="Documentation Theme">
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <span class="tag is-success">Best for Documentation</span>
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-4">Documentation Theme</p>
+                                <p class="subtitle is-6">
+                                    A theme designed for comprehensive and easy-to-read documentation.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="buttons">
+                                <button class="button is-link">
+                                    <span class="icon is-small"><i class="fas fa-eye"></i></span>
+                                    <span>Live Preview</span>
+                                </button>
+                                <button class="button is-primary">
+                                    <span class="icon is-small"><i class="fas fa-info-circle"></i></span>
+                                    <span>More Details</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-one-third">
+                <div class="card">
+                    <div class="card-image">
+                        <figure class="image is-4by3">
+                            <img src="https://via.placeholder.com/300x200" alt="Portfolio Theme">
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <span class="tag is-warning">Best for Portfolio</span>
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-4">Portfolio Theme</p>
+                                <p class="subtitle is-6">
+                                    Showcase your work with a sleek and modern portfolio theme.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="buttons">
+                                <button class="button is-link">
+                                    <span class="icon is-small"><i class="fas fa-eye"></i></span>
+                                    <span>Live Preview</span>
+                                </button>
+                                <button class="button is-primary">
+                                    <span class="icon is-small"><i class="fas fa-info-circle"></i></span>
+                                    <span>More Details</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Add more cards here if needed -->
+        </div>
+    </div>
+</section>
+  {% include home/hero.html %}
+  {% include home/get-started.html %}
+  {% include home/features.html %}
+  {% include home/lessons.html %}
+
+
+  
+<footer class="pt-6 pb-6">
+  <div class="container">
+      <div class="columns is-multiline">
+          <div class="column is-full">
+              <div class="content">
+                  <h3 class="title is-4">Sign up for our newsletter.</h3>
+                  <p>Sign up for our newsletter to stay updated on the latest news. Don't miss out, join our newsletter today!</p>
+                  <form class="mt-4 is-flex">
+                      <div class="field has-addons">
+                          <div class="control has-icons-left is-expanded">
+                              <input class="input" type="email" placeholder="Enter your email">
+                              <span class="icon is-small is-left">
+                                ✉️
+                              </span>
+                          </div>
+                          <div class="control">
+                              <button class="button is-primary">Subscribe</button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+          <div class="column is-full mt-5">
+              <div class="content">
+                  <ul class="is-flex is-flex-wrap-wrap">
+                      <li class="mr-4">
+                          <a href="/#features">Features</a>
+                      </li>
+                      <li class="mr-4">
+                          <a href="/tutorials/cs50">Lessons</a>
+                      </li>
+                      <li>
+                          <a href="/#pricing">Pricing</a>
+                      </li>
+                  </ul>
+                  <p class="mt-3">© 2023 IO Academy. All rights reserved.</p>
+              </div>
+          </div>
+      </div>
+  </div>
+</footer>
+  {% if site.service_worker != false %}{% include site-sw.html %}{% endif %}
+  {% include site-before-end.html %}
+</body>
+
+</html>

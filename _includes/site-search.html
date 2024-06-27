@@ -1,0 +1,102 @@
+<section class="section">
+  <div class="container">
+    <!-- Search Form -->
+    <div class="columns is-centered">
+      <div class="column is-half">
+        <form id="search-form" class="field has-addons">
+          <div class="control is-expanded">
+            <input class="input" type="text" placeholder="Search..." name="q" id="search-input" autocomplete="off">
+            <!-- Smart Suggestions Dropdown -->
+            <div class="dropdown" id="search-suggestions" style="display: none;">
+              <div class="dropdown-menu">
+                <div class="dropdown-content" id="suggestions-content">
+                  <!-- Smart Suggestions will be injected here -->
+                </div>
+              </div>
+            </div>
+            <!-- End Smart Suggestions Dropdown -->
+          </div>
+          <div class="control">
+            <button type="submit" class="button is-primary">Search</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- End Search Form -->
+
+    <!-- Search Result Page -->
+    <div id="search-results" class="mt-5" style="display: none;">
+      <h2 class="title is-4">Search Results</h2>
+      <div class="columns is-multiline" id="results-container">
+        <!-- Search results will be injected here -->
+      </div>
+    </div>
+    <!-- End Search Result Page -->
+  </div>
+</section>
+
+<script type="text/javascript" src="{{ "/assets/scripts/fetch.js" | relative_url }}"></script>
+<script type="text/javascript">
+  const endpoint = '{{ "/assets/search.json" | relative_url }}';
+  const pages = [];
+
+  fetch(endpoint)
+    .then(blob => blob.json())
+    .then(data => pages.push(...data));
+
+  function findResults(termToMatch, pages) {
+    return pages.filter(item => {
+      const regex = new RegExp(termToMatch, 'gi');
+      return item.title.match(regex) || item.content.match(regex);
+    });
+  }
+
+  function displayResults() {
+    const resultsArray = findResults(this.value, pages);
+    const suggestionsContent = document.getElementById('suggestions-content');
+    const resultsContainer = document.getElementById('results-container');
+    const searchResults = document.getElementById('search-results');
+    const searchSuggestions = document.getElementById('search-suggestions');
+
+    const suggestionsHTML = resultsArray.map(item => {
+      return `<a href="${item.url}" class="dropdown-item">${item.title}</a>`;
+    }).join('');
+
+    const resultsHTML = resultsArray.map(item => {
+      return `
+        <div class="column is-4">
+          <div class="card">
+            <div class="card-content">
+              <p class="title is-5">${item.title}</p>
+              <p>${item.description}</p>
+              <a href="${item.url}">Read More</a>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+
+    if (this.value === '') {
+      suggestionsContent.innerHTML = '';
+      searchSuggestions.style.display = 'none';
+      searchResults.style.display = 'none';
+    } else {
+      suggestionsContent.innerHTML = suggestionsHTML;
+      searchSuggestions.style.display = resultsArray.length ? 'block' : 'none';
+      resultsContainer.innerHTML = resultsHTML;
+      searchResults.style.display = resultsArray.length ? 'block' : 'none';
+    }
+
+    if (resultsArray.length === 0) {
+      resultsContainer.innerHTML = '<p>Sorry, nothing was found</p>';
+    }
+  }
+
+  const field = document.getElementById('search-input');
+  field.addEventListener('keyup', displayResults);
+  field.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  });
+</script>
+<noscript>Please enable JavaScript to use the search form.</noscript>

@@ -1,0 +1,77 @@
+{% if include.name %}
+  {% assign name = include.name %}
+{% else %}
+  {% assign name = "Contact" %}
+{% endif %}
+
+{% assign name_id = name | downcase | replace: " ", "-" %}
+
+{% if include.thanks_url %}
+  {% assign thanks_url = include.thanks_url %}
+{% else %}
+  {% assign thanks_url = "/thanks/" %}
+{% endif %}
+
+<form class="form form--{{ name_id }} p-5 has-background-light" method="post" name="{{ name }}" action="{{ thanks_url }}"
+  {% if include.netlify_form %}
+    netlify-honeypot="bot-field"
+    netlify
+  {% endif %}
+>
+  <fieldset class="fieldset form__fieldset">
+    <legend class="legend form__legend">{{ name }}</legend>
+
+    <div class="field my-3">
+      <label class="label" for="name--{{ name_id }}">Name: <span class="has-text-danger">*</span></label>
+      <div class="control">
+        <input class="input" id="name--{{ name_id }}" type="text" name="name" placeholder="Your Name" required>
+      </div>
+    </div>
+
+    <div class="field my-3">
+      <label class="label" for="email--{{ name_id }}">Email Address: <span class="has-text-danger">*</span></label>
+      <div class="control">
+        <input class="input" id="email--{{ name_id }}" type="email" name="email" placeholder="email@website.com" required>
+      </div>
+    </div>
+
+    <div class="field my-3">
+      <label class="label" for="message--{{ name_id }}">Message: <span class="has-text-danger">*</span></label>
+      <div class="control">
+        <textarea class="textarea" id="message--{{ name_id }}" name="message" placeholder="Your message..." required></textarea>
+      </div>
+    </div>
+
+    <div class="field my-3">
+      <div class="control">
+        <input class="button is-primary " type="submit" value="Send message">
+      </div>
+    </div>
+
+    <div class="field">
+      <small class="help is-danger"><span class="has-text-danger">*</span> indicates a required field</small>
+    </div>
+
+    {% if include.netlify_form %}
+      <div style="display:none">
+        <label>Don’t fill this out if you’re human: <input name="bot-field"></label>
+      </div>
+    {% else %}
+      <input type="text" name="_gotcha" style="display:none">
+      <input type="hidden" name="_subject" value="{{ site.title }} submission from {{ name }}">
+      <input type="hidden" name="_next" value="{{ thanks_url }}">
+    {% endif %}
+  </fieldset>
+</form>
+
+{% unless include.netlify_form %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var email = "{{ site.email | split: "" | reverse | join: "" }}";
+      var unraveledEmail = email.split("").reverse().join("");
+      var form = document.querySelector(".form--{{ name_id }}");
+      form.setAttribute("action", "https://formspree.io/" + unraveledEmail);
+    });
+  </script>
+  <noscript>Please enable JavaScript to use the form.</noscript>
+{% endunless %}

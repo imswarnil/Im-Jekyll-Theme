@@ -1,0 +1,31 @@
+title: "Im-Jekyll-Theme"
+email: "swarnilsinghaicse@gmail.com"
+description: "A new Jekyll theme by Swarnil"
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "http://yourdomain.com" # the base hostname & protocol for your site
+twitter_username: jekyllrb
+github_username: jekyll
+primary_color: "#E53935"
+logo: "/assets/logo.png"
+# Build settings
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-feed
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+
+# Include these directories and files in the `_site` output
+include:
+  - _pages
+
+# Permalinks configuration
+permalink: /:categories/:year/:month/:day/:title.html
