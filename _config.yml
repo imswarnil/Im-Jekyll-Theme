@@ -1,8 +1,8 @@
 title: "Im-Jekyll-Theme"
-email: "swarnilsinghaicse@gmail.com"
+email: "imswarnil@gmail.com"
 description: "A new Jekyll theme by Swarnil"
-url: "https://imswarnil.github.io" # the subpath of your site, e.g. /blog
-baseurl: "/Im-Jekyll-Theme-Fresh" # the base hostname & protocol for your site
+baseurl: "/Im-Jekyll-Theme" # the subpath of your site
+url: "" # the base hostname & protocol for your site
 twitter_username: jekyllrb
 github_username: jekyll
 primary_color: "#E53935"

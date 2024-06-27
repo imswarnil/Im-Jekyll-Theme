@@ -4,7 +4,6 @@
 <body class="layout-{{ page.layout | default: 'default' }}{% if page.title %} {{ page.title | slugify }}{% endif %}">
   {% include site-header.html %}
     {{ content }}
-  {% if site.service_worker != false %}{% include site-sw.html %}{% endif %}
   {% include site-before-end.html %}
 </body>
 
