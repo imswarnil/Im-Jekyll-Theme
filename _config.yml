@@ -13,6 +13,10 @@ plugins:
   - jekyll-sitemap
   - jekyll-feed
 
+# 4. Jekyll settings
+sass:
+  style: compressed # Style compression
+
 # Exclude from processing
 exclude:
   - Gemfile
