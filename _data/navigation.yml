@@ -5,7 +5,7 @@ navbar:
     link: /about/
     icon: fa-file
   - name: Elements
-    link: /elements/
+    link: /elements
   - name: Layouts
     link: /#
     dropdown:
