@@ -248,48 +248,83 @@ blockquote.innerHTML = bolden("Mr. Sullivan", blockquote.innerHTML)
 
 {% include figure.html image="https://picsum.photos/1600/800?image=894" alt="Image with just alt text" %}{% endraw %}
 ```
-<section class="hero is-primary">
-  <div class="hero-body">
-    <div class="container">
-      <nav class="columns">
-        <a class="column has-text-centered" href="{{ site.url }}/documentation/overview/responsiveness/">
-          <span class="icon is-large" style="margin-right: -15px;">
-            <i class="fas fa-lg fa-mobile-alt"></i>
-          </span>
-          <span class="icon is-large">
-            <i class="fas fa-2x fa-tablet-alt"></i>
-          </span>
-          <span class="icon is-large" style="margin-right: 10px;">
-            <i class="fas fa-3x fa-desktop"></i>
-          </span>
-          <p class="title is-4" style="margin-top: 0.5em;"><strong>100% Responsive</strong></p>
-          <p class="subtitle">Designed for <strong>mobile</strong> first</p>
-        </a>
-        <a class="column has-text-centered" href="{{ site.url }}/documentation/overview/modular/">
-          <span class="icon is-large">
-            <i class="fas fa-3x fa-cubes"></i>
-          </span>
-          <p class="title is-4" style="margin-top: 0.5em;"><strong>Modular</strong></p>
-          <p class="subtitle">Just import what you <strong>need</strong></p>
-        </a>
-        <a class="column has-text-centered" href="{{ site.url }}/documentation/columns/basics/">
-          <span class="icon is-large">
-            <i class="fab fa-3x fa-css3"></i>
-          </span>
-          <p class="title is-4" style="margin-top: 0.5em;"><strong>Modern</strong></p>
-          <p class="subtitle">Built with <strong>Flexbox</strong></p>
-        </a>
-        <a class="column has-text-centered" href="{{ site.github }}">
-          <span class="icon is-large">
-            <i class="fab fa-3x fa-github"></i>
-          </span>
-          <p class="title is-4" style="margin-top: 0.5em;"><strong>Free</strong></p>
-          <p class="subtitle">Open source on <strong>GitHub</strong></p>
-        </a>
-      </nav>
+
+ <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <nav class="columns">
+                    <a class="column has-text-centered" href="#">
+                        <span class="icon is-large" style="margin-right: -15px;">
+                            <i class="fas fa-lg fa-mobile-alt"></i>
+                        </span>
+                        <span class="icon is-large">
+                            <i class="fas fa-2x fa-tablet-alt"></i>
+                        </span>
+                        <span class="icon is-large" style="margin-right: 10px;">
+                            <i class="fas fa-3x fa-desktop"></i>
+                        </span>
+                        <p class="title is-4" style="margin-top: 0.5em;"><strong>100% Responsive</strong></p>
+                        <p class="subtitle">Designed for <strong>mobile</strong> first</p>
+                    </a>
+                    <a class="column has-text-centered" href="#">
+                        <span class="icon is-large">
+                            <i class="fas fa-3x fa-cubes"></i>
+                        </span>
+                        <p class="title is-4" style="margin-top: 0.5em;"><strong>Modular</strong></p>
+                        <p class="subtitle">Just import what you <strong>need</strong></p>
+                    </a>
+                    <a class="column has-text-centered" href="#">
+                        <span class="icon is-large">
+                            <i class="fab fa-3x fa-css3"></i>
+                        </span>
+                        <p class="title is-4" style="margin-top: 0.5em;"><strong>Modern</strong></p>
+                        <p class="subtitle">Built with <strong>Flexbox</strong></p>
+                    </a>
+                    <a class="column has-text-centered" href="#">
+                        <span class="icon is-large">
+                            <i class="fab fa-3x fa-github"></i>
+                        </span>
+                        <p class="title is-4" style="margin-top: 0.5em;"><strong>Free</strong></p>
+                        <p class="subtitle">Open source on <strong>GitHub</strong></p>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </section>
+
+ <style>
+        .pagination-box {
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <div class="container">
+            <div class="columns my-6">
+                <div class="column is-6">
+                    <a class="box is-flex pagination-box" href="https://hugo-mini-course.netlify.app/sections/intro/welcome/">
+                        <span class="icon is-medium">
+                            <i class="fas fa-2x fa-chevron-circle-left"></i>
+                        </span>
+                        <div class="has-text-right">
+                            <div class="has-text-weight-bold is-size-7 has-text-grey">Previous Section</div>
+                            <span class="is-size-5">Welcome</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="column is-6">
+                    <a class="box is-flex pagination-box" href="https://hugo-mini-course.netlify.app/sections/intro/setup/">
+                        <div>
+                            <div class="has-text-weight-bold is-size-7 has-text-grey">Next Section</div>
+                            <span class="is-size-5">Setup</span>
+                        </div>
+                        <span class="icon is-medium">
+                            <i class="fas fa-2x fa-chevron-circle-right"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</section>
-
-
-<div class="columns my-6"><div class="column is-6"><a class="box is-flex" style="justify-content:space-between;align-items:center" href="https://hugo-mini-course.netlify.app/sections/intro/welcome/"><span class="icon is-medium"><svg class="svg-inline--fa fa-chevron-circle-left fa-w-16 fa-2x" aria-hidden="true" data-prefix="fas" data-icon="chevron-circle-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M256 504C119 504 8 393 8 256S119 8 256 8s248 111 248 248-111 248-248 248zM142.1 273l135.5 135.5c9.4 9.4 24.6 9.4 33.9 0l17-17c9.4-9.4 9.4-24.6 0-33.9L226.9 256l101.6-101.6c9.4-9.4 9.4-24.6 0-33.9l-17-17c-9.4-9.4-24.6-9.4-33.9 0L142.1 239c-9.4 9.4-9.4 24.6 0 34z"></path></svg><!-- <i class="fas fa-2x fa-chevron-circle-left"></i> --></span><div class="has-text-right"><div class="has-text-weight-bold is-size-7 has-text-grey">Previous Section</div><span class="is-size-5">Welcome</span></div></a></div><div class="column is-6"><a class="box is-flex" style="justify-content:space-between;align-items:center" href="https://hugo-mini-course.netlify.app/sections/intro/setup/"><div><div class="has-text-weight-bold is-size-7 has-text-grey">Next Section</div><span class="is-size-5">Setup</span></div><span class="icon is-medium"><svg class="svg-inline--fa fa-chevron-circle-right fa-w-16 fa-2x" aria-hidden="true" data-prefix="fas" data-icon="chevron-circle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M256 8c137 0 248 111 248 248S393 504 256 504 8 393 8 256 119 8 256 8zm113.9 231L234.4 103.5c-9.4-9.4-24.6-9.4-33.9 0l-17 17c-9.4 9.4-9.4 24.6 0 33.9L285.1 256 183.5 357.6c-9.4 9.4-9.4 24.6 0 33.9l17 17c9.4 9.4 24.6 9.4 33.9 0L369.9 273c9.4-9.4 9.4-24.6 0-34z"></path></svg><!-- <i class="fas fa-2x fa-chevron-circle-right"></i> --></span></a></div></div>
