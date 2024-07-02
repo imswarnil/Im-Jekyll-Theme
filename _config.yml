@@ -72,6 +72,9 @@ collections:
   training:
     output: true
     permalink: /:title/
+   courses:
+    output: true
+    permalink: /:collection/:path/
 
 
 # 6. Jekyll collections settings
