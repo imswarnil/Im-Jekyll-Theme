@@ -1,19 +1,15 @@
-title: "Im-Jekyll-Theme"
-email: "imswarnil@gmail.com"
-description: "A new Jekyll theme by Swarnil"
-baseurl: "/Im-Jekyll-Theme" # the subpath of your site
-url: "https://imswarnil.com" # the base hostname & protocol for your site
-twitter_username: jekyllrb
-github_username: jekyll
-primary_color: "#E53935"
-logo: "/assets/logo.png"
-# Build settings
-plugins:
-  - jekyll-seo-tag
-  - jekyll-sitemap
-  - jekyll-feed
+# Site configuration
+# 1. Files excluded from Jekyll builds
+# 2. Installed Gems
+# 3. Gem settings
+# 4. Jekyll settings
+# 5. Collections
+# 6. Jekyll collections settings
+# 7. Site settings
+# 8. Site favicons & manifest icons
+# 9. Site navigation
 
-# Exclude from processing
+# 1. Files excluded from Jekyll builds
 exclude:
   - Gemfile
   - Gemfile.lock
