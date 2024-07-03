@@ -23,6 +23,12 @@ exclude:
   - vendor/gems/
   - vendor/ruby/
 
+# 14. Collections
+collections:
+  docs:
+    output: true
+
+
 # Include these directories and files in the `_site` output
 include:
   - _pages
