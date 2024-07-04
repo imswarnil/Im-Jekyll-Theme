@@ -1,16 +1,11 @@
 <aside class="aside typeset aside--{{ include.align | default: 'right' }}">
   {% if page.layout == "post" %}
-    <div class="section section--related-posts">
+    <div class="column">
+      <div class="my-5">
+        {% assign contentsTitle = page.toc_title | default: 'Contents' %}
+        {% include utility/toc.html html=content class='menu-list' h_min=2 h_max=3 contents_title=contentsTitle %}
+    </div>
       {% include post-related.html %}
-      <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-1291242080282540"
-     data-ad-slot="7663977887"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
     </div>
   {% elsif page.layout == "page" or page.layout == "home" or page.layout == "blog" %}
     <div class="section section--description">
@@ -21,59 +16,7 @@
         {% assign contentsTitle = page.toc_title | default: 'Contents' %}
         {% include utility/toc.html html=content class='menu-list' h_min=2 h_max=3 contents_title=contentsTitle %}
     </div>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        // Function to add 'is-active' class to the current section link in the TOC
-        const spyScroll = () => {
-            const sections = document.querySelectorAll('h2[id], h3[id]');
-            const tocLinks = document.querySelectorAll('.menu-list a');
-    
-            let currentSection = "";
-    
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (scrollY >= sectionTop - 200) { // 200px offset for activation before reaching the section
-                    currentSection = section.getAttribute('id');
-                }
-            });
-    
-            tocLinks.forEach(link => {
-                link.classList.remove('is-active');
-                if (link.getAttribute('href').includes(currentSection)) {
-                    link.classList.add('is-active');
-                }
-            });
-        };
-    
-        // Initial call and event listener on scroll
-        spyScroll();
-        document.addEventListener('scroll', spyScroll);
-    
-        // Toggleable feature for TOC
-        const tocToggle = document.querySelector('.toc-toggle');
-        const tocMenu = document.querySelector('.contents');
-    
-        tocToggle.addEventListener('click', () => {
-            tocMenu.classList.toggle('is-hidden');
-        });
-    });
-    
-    </script>
-    <style>
-      .is-active {
-        color: #3273dc; /* Highlight color */
-        font-weight: bold;
-    }
-    
-    .is-hidden {
-        display: none;
-    }
-    
-    .contents {
-        transition: all 0.3s ease;
-    }
-    
-    </style>
+ 
     
     </div>
      {% elsif page.layout == "categories" %}

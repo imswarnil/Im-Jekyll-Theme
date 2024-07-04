@@ -79,3 +79,41 @@
         {{ my_toc | markdownify | strip }}
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Function to add 'is-active' class to the current section link in the TOC
+      const spyScroll = () => {
+          const sections = document.querySelectorAll('h2[id], h3[id]');
+          const tocLinks = document.querySelectorAll('.menu-list a');
+  
+          let currentSection = "none";
+  
+          sections.forEach(section => {
+              const sectionTop = section.offsetTop;
+              if (scrollY >= sectionTop - 200) { // 200px offset for activation before reaching the section
+                  currentSection = section.getAttribute('id');
+              }
+          });
+  
+          tocLinks.forEach(link => {
+              link.classList.remove('is-active');
+              if (link.getAttribute('href').includes(currentSection)) {
+                  link.classList.add('is-active');
+              }
+          });
+      };
+  
+      // Initial call and event listener on scroll
+      spyScroll();
+      document.addEventListener('scroll', spyScroll);
+  
+      // Toggleable feature for TOC
+      const tocToggle = document.querySelector('.toc-toggle');
+      const tocMenu = document.querySelector('.contents');
+  
+      tocToggle.addEventListener('click', () => {
+          tocMenu.classList.toggle('is-hidden');
+      });
+  });
+  
+  </script>
