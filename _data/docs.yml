@@ -2,7 +2,7 @@
   icon: fas fa-rocket
   items:
     - name: Creating A Page
-      link: /docs/pages/creating-a-page/
+      link: /docs/pages/creating-a-page
     - name: Upgrading to v1
       link: /docs/getting-started/upgrading-to-v1/
     - name: Configuration
@@ -28,11 +28,11 @@
   icon: fas fa-file-alt
   items:
     - name: Creating a page
-      link: /docs/pages/creating-a-page/
+      link: /docs/pages/creating-a-page
     - name: Hero
-      link: /docs/pages/hero/
+      link: /docs/pages/hero
     - name: Table of Contents
-      link: /docs/pages/table-of-contents/
+      link: /docs/pages/table-of-contents
 
 - label: Posts
   icon: fas fa-pen-nib
