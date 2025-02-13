@@ -146,6 +146,54 @@ navigation_header:
 - title: Fork Alembic
   url: https://github.com/daviddarnes/alembic
 
+footer:
+  logo: "/assets/logos/logo.svg"
+  description: "Geek is feature-rich components and beautifully Bulma-based UIKit for developers, built with a responsive framework."
+  social_links:
+    - name: facebook
+      url: "https://facebook.com/"
+    - name: twitter
+      url: "https://twitter.com/"
+    - name: instagram
+      url: "https://instagram.com/"
+  links:
+    - title: Company
+      items:
+        - name: About
+          url: "/about"
+        - name: Pricing
+          url: "/pricing"
+        - name: Blog
+          url: "/blog"
+        - name: Careers
+          url: "/careers"
+        - name: Contact
+          url: "/contact"
+    - title: Support
+      items:
+        - name: Help and Support
+          url: "/support"
+        - name: Become Instructor
+          url: "/instructor"
+        - name: Get the app
+          url: "/app"
+        - name: FAQ’s
+          url: "/faq"
+        - name: Tutorial
+          url: "/tutorial"
+  contact:
+    address: "339 McDermott Points Hettingerhaven, NV 15283"
+    email: "support@geeksui.com"
+    phone: "(000) 123 456 789"
+  policies:
+    - name: Privacy Policy
+      url: "/privacy"
+    - name: Cookie Notice
+      url: "/cookies"
+    - name: Terms of Use
+      url: "/terms"
+
+
 navigation_footer:
 - title: Created by David Darnes
   url: https://darn.es

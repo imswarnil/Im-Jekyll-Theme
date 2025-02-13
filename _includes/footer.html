@@ -1,0 +1,69 @@
+{% assign footer = site.footer %}
+
+<footer class="footer has-background-white pt-5">
+  <div class="container">
+    <div class="columns is-multiline">
+      <!-- About Company -->
+      <div class="column is-4">
+        <div class="mb-4">
+          {% if footer.logo %}
+            <figure class="image is-64x64">
+              <img src="{{ footer.logo }}" alt="Company Logo">
+            </figure>
+          {% else %}
+            <figure class="image is-64x64 is-skeleton">
+              <img alt="Placeholder" src="https://placehold.co/64x64">
+            </figure>
+          {% endif %}
+          <p class="mt-4">{{ footer.description | default: "Your description here." }}</p>
+          <div class="is-flex mt-4 is-align-items-center">
+            {% for social in footer.social_links %}
+              <a href="{{ social.url }}" class="icon mr-3">
+                <i class="fab fa-{{ social.name | downcase }}"></i>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      
+      <!-- Dynamic Footer Links -->
+      {% for section in footer.links %}
+        <div class="column is-2">
+          <div class="mb-4">
+            <h3 class="title is-5 mb-3">{{ section.title }}</h3>
+            <ul>
+              {% for link in section.items %}
+                <li><a href="{{ link.url }}" class="has-text-dark">{{ link.name }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      {% endfor %}
+      
+      <!-- Contact Info -->
+      <div class="column is-3">
+        <div class="mb-4">
+          <h3 class="title is-5 mb-3">Get in Touch</h3>
+          <p>{{ footer.contact.address }}</p>
+          <p>Email: <a href="mailto:{{ footer.contact.email }}" class="has-text-dark">{{ footer.contact.email }}</a></p>
+          <p>Phone: <span class="has-text-dark has-text-weight-semibold">{{ footer.contact.phone }}</span></p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Bottom Section -->
+    <div class="columns is-vcentered mt-6 pt-4 border-top">
+      <div class="column is-4">
+        <p>&copy; <span id="copyright"></span> {{ site.title }}, Inc. All Rights Reserved</p>
+        <script>document.getElementById("copyright").textContent = new Date().getFullYear();</script>
+      </div>
+      <div class="column is-8 has-text-right">
+        <nav class="level">
+          {% for policy in footer.policies %}
+            <a href="{{ policy.url }}" class="level-item has-text-dark">{{ policy.name }}</a>
+          {% endfor %}
+        </nav>
+      </div>
+    </div>
+  </div>
+</footer>
