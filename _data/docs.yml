@@ -1,8 +1,8 @@
 - label: Getting Started
   icon: fas fa-rocket
   items:
-    - name: Installation
-      link: /docs/getting-started/installation/
+    - name: Creating A Page
+      link: /docs/pages/creating-a-page/
     - name: Upgrading to v1
       link: /docs/getting-started/upgrading-to-v1/
     - name: Configuration
