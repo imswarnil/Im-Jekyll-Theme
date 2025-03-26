@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ site.lang | default: "en-US" }}">
-{% include im-head %}
+{% include im-head.html %}
 <body class="layout-{{ page.layout | default: 'default' }}{% if page.title %} {{ page.title | slugify }}{% endif %}">
   <div class="container"> 
     {{ content }}
