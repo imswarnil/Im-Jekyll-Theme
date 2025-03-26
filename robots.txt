@@ -2,19 +2,28 @@
 layout: null
 permalink: /robots.txt
 ---
-{% for rule in site.data.robots.rules %}
-User-agent: {{ rule.user_agent }}
-{% for path in rule.disallow %}
-Disallow: {{ path }}
-{% endfor %}
-{% for path in rule.allow %}
-Allow: {{ path }}
-{% endfor %}
-
-{% endfor %}
+# robots.txt for {{ site.url }}
 
 {% if site.data.robots.indexing == false %}
+# ❌ Site-wide indexing is disabled
+User-agent: *
 Disallow: /
+{% else %}
+# ✅ Dynamically generated bot rules
+{% for bot, settings in site.data.robots.bots %}
+{% if settings.enabled %}
+User-agent: {{ bot }}
+{% for path in settings.disallow %}
+Disallow: {{ path }}
+{% endfor %}
+{% if settings.allow %}
+{% for path in settings.allow %}
+Allow: {{ path }}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% endfor %}
 {% endif %}
 
+# 🔗 Sitemap reference for better crawling
 Sitemap: {{ site.url }}/sitemap.xml
