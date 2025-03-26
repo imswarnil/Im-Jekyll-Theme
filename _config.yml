@@ -19,33 +19,34 @@ title: "Im Jekyll Theme" # Site name or title, also used in jekyll-seo-tag
 description: "Alembic is a starting point for Jekyll projects. Rather than starting from scratch, this boilerplate is designed to get the ball rolling immediately" # Site description and default description, also used in jekyll-seo-tag
 timezone: Europe/London # Timezone for blog posts and alike
 # ================ Indexing & Robots.txt Settings ========================
-indexing: true  # false = Noindex entire site
+# ================== Indexing & Robots.txt Settings ===================
+robots:
+  indexing: true  # false = Noindex entire site
+  bots:
+    "*":
+      enabled: true
+      disallow:
+        - "/private/"
+        - "/admin/"
+      allow:
+        - "/public/"
 
-bots:
-  "*":
-    enabled: true
-    disallow:
-      - "/private/"
-      - "/admin/"
-    allow:
-      - "/public/"
+    Googlebot:
+      enabled: true
+      disallow:
+        - "/test-page/"
+      allow: []
 
-  Googlebot:
-    enabled: true
-    disallow:
-      - "/test-page/"
-    allow: []
+    Bingbot:
+      enabled: true
+      disallow:
+        - "/example/"
+      allow: []
 
-  Bingbot:
-    enabled: true
-    disallow:
-      - "/example/"
-    allow: []
-
-  ChatGPTBot:
-    enabled: true
-    disallow: []
-    allow: ["/"]
+    ChatGPTBot:
+      enabled: true
+      disallow: []
+      allow: ["/"]
 # ========================================
 
 baseurl : '/Im-Jekyll-Theme'

@@ -4,15 +4,17 @@ permalink: /robots.txt
 ---
 # robots.txt for {{ site.url }}
 
-{% if site.data.robots.indexing == false %}
+{% if site.robots.indexing == false %}
 # ❌ Site-wide indexing is disabled
 User-agent: *
 Disallow: /
 {% else %}
 # ✅ Dynamically generated bot rules
 
-{% for bot in site.data.robots.bots %}
-{% assign settings = site.data.robots.bots[bot] %}
+{% for bot_hash in site.robots.bots %}
+{% assign bot = bot_hash[0] %}
+{% assign settings = bot_hash[1] %}
+
 {% if settings.enabled %}
 User-agent: {{ bot }}
 
