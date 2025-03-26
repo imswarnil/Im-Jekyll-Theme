@@ -10,17 +10,23 @@ User-agent: *
 Disallow: /
 {% else %}
 # ✅ Dynamically generated bot rules
-{% for bot, settings in site.data.robots.bots %}
+
+{% for bot in site.data.robots.bots %}
+{% assign settings = site.data.robots.bots[bot] %}
+
 {% if settings.enabled %}
 User-agent: {{ bot }}
+
 {% for path in settings.disallow %}
 Disallow: {{ path }}
 {% endfor %}
+
 {% if settings.allow %}
 {% for path in settings.allow %}
 Allow: {{ path }}
 {% endfor %}
 {% endif %}
+
 {% endif %}
 {% endfor %}
 {% endif %}
