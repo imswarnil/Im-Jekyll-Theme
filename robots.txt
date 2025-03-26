@@ -1,7 +1,7 @@
-
 ---
+layout: null
+permalink: /robots.txt
 ---
-
 {% for rule in site.data.robots.rules %}
 User-agent: {{ rule.user_agent }}
 {% for path in rule.disallow %}
