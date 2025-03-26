@@ -13,7 +13,6 @@ Disallow: /
 
 {% for bot in site.data.robots.bots %}
 {% assign settings = site.data.robots.bots[bot] %}
-
 {% if settings.enabled %}
 User-agent: {{ bot }}
 
@@ -21,11 +20,9 @@ User-agent: {{ bot }}
 Disallow: {{ path }}
 {% endfor %}
 
-{% if settings.allow %}
 {% for path in settings.allow %}
 Allow: {{ path }}
 {% endfor %}
-{% endif %}
 
 {% endif %}
 {% endfor %}
