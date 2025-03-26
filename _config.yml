@@ -1,42 +1,58 @@
 # Site configuration
-# 1. Files excluded from Jekyll builds
-# 2. Installed Gems
+# 1. Site Settings
+  # 1.1. Site Logo,Favicons,Manifest and Icons
+  # 1.2. Site Colors & Typography
+
 # 3. Gem settings
 # 4. Jekyll settings
 # 5. Collections
 # 6. Jekyll collections settings
 # 7. Site settings
-# 8. Site favicons & manifest icons
-# 9. Site navigation
+# 8. Installed Gems
+# 9. Files excluded from Jekyll builds
 
-# 1. Files excluded from Jekyll builds
-exclude:
-- README.md
-- CODE_OF_CONDUCT.md
-- CONTRIBUTING.md
-- screenshot.png
-- LICENSE
-- CNAME
-- Gemfile
-- Gemfile.lock
-- alembic-jekyll-theme.gemspec
-- .jekyll-cache
 
+# 1. Site Settings
+encoding: utf-8 # Make sure the encoding is right
+lang: en-GB # Set the site language
+title: "Im Jekyll Theme" # Site name or title, also used in jekyll-seo-tag
+description: "Alembic is a starting point for Jekyll projects. Rather than starting from scratch, this boilerplate is designed to get the ball rolling immediately" # Site description and default description, also used in jekyll-seo-tag
+timezone: Europe/London # Timezone for blog posts and alike
+indexing : true
+# ========================================
+
+baseurl : '/Im-Jekyll-Theme'
+url: 'https://theme.imswarnil.com' # Site URL, also used in jekyll-seo-tag
+permalink: /:title  # Permalink style /:categories/:title:output_ext
+repo: "https://github.com/imswarnil/CRM-Analytics-Academy"
+email: "contact@imswarnil.com"
+description_separator: <!-- more --> # Marks end of description in posts
+# disqus: "alembic-1" # Blog post comments, uncomment the option and set the site ID from your Disqus account
+# date_format: "%-d %B %Y" # Blog post date formatting using placeholder formatting
+# google_analytics: ""
+# google_analytics_anonymize_ip: ""
+service_worker: true # Will turn off the service worker if set to false
+# short_name: "Al" # The web application short name, defaults to the site title
+css_inline: true # Will insert all styles into a single <style> block in the <head> element and remove the style <link> reference
+
+# 1.1. Site Logo,Favicons,Manifest and Icons
+logo: "/assets/logos/logo.svg" # Site logo, also used in jekyll-seo-tag
+favicons: # Favicons are also used in the manifest file. Syntax is 'size: path'
+  16: '/assets/logos/logo@16px.png'
+  32: '/assets/logos/logo@32px.png'
+  96: '/assets/logos/logo@96px.png'
+  120: '/assets/logos/logo@120px.png'
+  144: '/assets/logos/logo@144px.png'
+  180: '/assets/logos/logo@180px.png'
+  512: '/assets/logos/logo@512px.png'
+  1024: '/assets/logos/logo@1024px.png'
+
+# 1.2. Site Colors & Typography
 
 
 # Include these directories and files in the `_site` output
 include:
   - _pages
-# 2. Installed Gems
-plugins:
-- jekyll-sitemap
-- jekyll-paginate
-- jekyll-seo-tag
-- jekyll-redirect-from
-- jekyll-feed
-- jekyll-commonmark
-- jekyll-include-cache
-- jemoji
 
 # 3. Gem settings
 paginate: 2 # jekyll-paginate > items per page
@@ -61,9 +77,7 @@ social: # jekyll-seo-tag > social overrides
 sass:
   style: compressed # Style compression
 primary_color : "#E53935"
-permalink: /:title  # Permalink style /:categories/:title:output_ext
-description_separator: <!-- more --> # Marks end of description in posts
-timezone: Europe/London # Timezone for blog posts and alike
+
 
 # 5. Collections
 collections:
@@ -163,12 +177,28 @@ sharing_links: # Appear at the bottom of single blog posts, add as desired. The 
   facebook: "#3B5998"
   Email: true
 
-# Load custom fonts from fonts.google.com etc
-#
-# TIP: Try to keep the number of urls as low to reduce the performance cost
-#      If multiple fonts can be requested in a single url opt for this
-fonts:
-  preconnect_urls:
-    - https://fonts.gstatic.com
-  font_urls:
-    - https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap
+
+
+# 8. Installed Gems
+plugins:
+- jekyll-sitemap
+- jekyll-paginate
+- jekyll-seo-tag
+- jekyll-redirect-from
+- jekyll-feed
+- jekyll-commonmark
+- jekyll-include-cache
+- jemoji
+
+# 9. Files excluded from Jekyll builds
+exclude:
+- README.md
+- CODE_OF_CONDUCT.md
+- CONTRIBUTING.md
+- screenshot.png
+- LICENSE
+- CNAME
+- Gemfile
+- Gemfile.lock
+- alembic-jekyll-theme.gemspec
+- .jekyll-cache

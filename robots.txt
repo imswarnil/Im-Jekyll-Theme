@@ -1,0 +1,20 @@
+
+---
+---
+
+{% for rule in site.data.robots.rules %}
+User-agent: {{ rule.user_agent }}
+{% for path in rule.disallow %}
+Disallow: {{ path }}
+{% endfor %}
+{% for path in rule.allow %}
+Allow: {{ path }}
+{% endfor %}
+
+{% endfor %}
+
+{% if site.data.robots.indexing == false %}
+Disallow: /
+{% endif %}
+
+Sitemap: {{ site.url }}/sitemap.xml

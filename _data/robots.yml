@@ -1,0 +1,17 @@
+# Site-wide indexing control
+indexing: true  # false = Noindex entire site
+
+# Robots.txt rules
+rules:
+  - user_agent: "*"
+    disallow:
+      - "/private/"
+      - "/admin/"
+    allow:
+      - "/public/"
+  - user_agent: "Googlebot"
+    disallow:
+      - "/test-page/"
+  - user_agent: "Bingbot"
+    disallow:
+      - "/example/"
