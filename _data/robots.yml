@@ -1,17 +1,36 @@
-# Site-wide indexing control
-indexing: true  # false = Noindex entire site
+---
+layout: null
+permalink: /robots.txt
+---
+# robots.txt for {{ site.url }}
 
-# Robots.txt rules
-rules:
-  - user_agent: "*"
-    disallow:
-      - "/private/"
-      - "/admin/"
-    allow:
-      - "/public/"
-  - user_agent: "Googlebot"
-    disallow:
-      - "/test-page/"
-  - user_agent: "Bingbot"
-    disallow:
-      - "/example/"
+{% if site.data.robots.indexing == false %}
+# ❌ Site-wide indexing is disabled
+User-agent: *
+Disallow: /
+{% else %}
+# ✅ Dynamically generated bot rules
+
+{% for bot_hash in site.data.robots.bots %}
+{% assign bot = bot_hash[0] %}
+{% assign settings = bot_hash[1] %}
+
+{% if settings.enabled %}
+User-agent: {{ bot }}
+
+{% for path in settings.disallow %}
+Disallow: {{ path }}
+{% endfor %}
+
+{% if settings.allow %}
+{% for path in settings.allow %}
+Allow: {{ path }}
+{% endfor %}
+{% endif %}
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+# 🔗 Sitemap reference for better crawling
+Sitemap: {{ site.url }}/sitemap.xml
