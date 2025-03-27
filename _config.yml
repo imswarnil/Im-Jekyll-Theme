@@ -36,7 +36,6 @@ favicons: # Favicons are also used in the manifest file. Syntax is 'size: path'
   512: '/assets/logos/logo@512px.png'
   1024: '/assets/logos/logo@1024px.png'
 # --------------------------------------------
-
  # 1.2. Site Url, Links & Github Repo
  #----------------------------------------------------------------------------------------------
 baseurl : ''
@@ -53,14 +52,7 @@ description_separator: <!-- more --> # Marks end of description in posts
 css_inline: true # Will insert all styles into a single <style> block in the <head> element and remove the style <link> reference
 sass:
   style: compressed # Style compression
-primary_color: "#E53935"
-secondary_color: "#FF9800"
-text_color: "#212121"
-background_color: "#FAFAFA"
-font_sans: "Roboto, Arial, sans-serif"
-font_mono: "Roboto Mono, monospace"
-
-
+  
 # Typography 
 fonts:
   preconnect_urls:
