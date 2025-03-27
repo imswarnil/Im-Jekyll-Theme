@@ -3,6 +3,7 @@
   {% include im-head.html %}
   <body>
     {% include site-header.html %}
+
     <!-- Hero Section -->
     <section class="hero is-small is-primary box my-5">
       <div class="hero-body">
@@ -28,41 +29,33 @@
           <!-- Sidebar Menu -->
           <div class="column is-3 is-3-desktop is-4-tablet">
             <aside class="menu is-hidden-mobile">
-              {% assign menu_data = site.data.documentation.[page.menu] %}
-              {% if menu_data %}
-                {% for item in menu_data %}
-                  <p class="menu-label">
-                    <i class="{{ item.icon }}"></i> {{ item.label }}
-                  </p>
-                  <ul class="menu-list">
-                    {% for subitem in item.items %}
-                      {% if subitem.items %}
-                        <li>
-                          <a class="has-text-weight-bold">{{ subitem.name }}</a>
-                          <ul>
-                            {% for subsubitem in subitem.items %}
-                              <li>
-                                <a href="{{ site.baseurl }}{{ subsubitem.link }}" class="{% if page.url == subsubitem.link %}is-active{% endif %}">
-                                  {{ subsubitem.name }}
-                                </a>
-                              </li>
-                            {% endfor %}
-                          </ul>
-                        </li>
-                      {% else %}
-                        <li>
-                          <a href="{{ site.baseurl }}{{ subitem.link }}" class="{% if page.url == subitem.link %}is-active{% endif %}">
-                            {{ subitem.name }}
-                          </a>
-                        </li>
-                      {% endif %}
-                    {% endfor %}
-                  </ul>
-                {% endfor %}
-              {% else %}
-                <p class="menu-label">No menu data found.</p>
-              {% endif %}
-            </aside>            
+              {% for item in site.data.docs %}
+                <p class="menu-label">
+                  <i class="{{ item.icon }}"></i> {{ item.label }}
+                </p>
+                <ul class="menu-list">
+                  {% for subitem in item.items %}
+                    {% if subitem.items %}
+                      <li>
+                        <a class="has-text-weight-bold">{{ subitem.name }}</a>
+                        <ul>
+                          {% for subsubitem in subitem.items %}
+                            <li>
+                              <a href="{{ site.baseurl }}{{ subsubitem.link }}" class="{% if page.url == subsubitem.link %}is-active{% endif %}">{{ subsubitem.name }}</a>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      </li>
+                    {% else %}
+                      <li>
+                        <a href="{{ site.baseurl }}{{ subitem.link }}" class="{% if page.url == subitem.link %}is-active{% endif %}">{{ subitem.name }}</a>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              {% endfor %}
+            </aside>
+
             <!-- Mobile Menu -->
             <div class="is-hidden-desktop">
               <div class="menu-button">
