@@ -53,7 +53,7 @@ description_separator: <!-- more --> # Marks end of description in posts
 css_inline: true # Will insert all styles into a single <style> block in the <head> element and remove the style <link> reference
 sass:
   style: compressed # Style compression
-primary_color : 89CFF0
+primary_color : "#89CFF0"
 
 # Typography 
 fonts:
