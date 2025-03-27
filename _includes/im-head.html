@@ -9,6 +9,11 @@
     <link rel="preconnect" href="{{ url }}" crossorigin />
     {% endfor %}
     {% endif %}
+    {% if site.css_inline == true %}
+      {% include head/styles.html %}
+    {% else %}
+      <link rel="stylesheet" href="{{ "/assets/styles.css" | relative_url }}">
+    {% endif %}
     <link rel="manifest" href="{{ "/manifest.json" | relative_url }}">
     <meta name="theme-color" content="{{ site.primary_color | default: '#E53935' }}"/>
     <link rel="stylesheet" href="{{ "/scss/main.css" | relative_url }}">
