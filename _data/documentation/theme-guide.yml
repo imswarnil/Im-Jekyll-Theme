@@ -1,0 +1,13 @@
+theme :
+  - label: "Getting Started"
+    icon: "fas fa-book"
+    items:
+      - name: "Introduction"
+        link: "/docs/introduction"
+      - name: "Installation"
+        link: "/docs/installation"
+        items:
+          - name: "Windows"
+            link: "/docs/installation/windows"
+          - name: "MacOS"
+            link: "/docs/installation/macos"
