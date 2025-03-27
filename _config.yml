@@ -53,7 +53,7 @@ description_separator: <!-- more --> # Marks end of description in posts
 css_inline: false # Will insert all styles into a single <style> block in the <head> element and remove the style <link> reference
 sass:
   style: compressed # Style compression
-primary_color : "#E53935"
+primary_color : "#fff"
 
 # Typography 
 fonts:
@@ -103,10 +103,6 @@ adsense:
 # disqus: "alembic-1" # Blog post comments, uncomment the option and set the site ID from your Disqus account
 
 # 1.1. Site Logo,Favicons,Manifest and Icons
-
-
-
-
 
 # Include these directories and files in the `_site` output
 include:
