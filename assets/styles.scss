@@ -1,6 +1,9 @@
 ---
 ---
 
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 $primary: #E53935;
 $link : $primary;
 $family-sans-serif: "Roboto", "Arial", sans-serif !default;
@@ -19,40 +22,5 @@ $render-mode: optimizeLegibility !default;
     top: 20px; // Adjust top spacing as needed
   }
 
-
-// Import Bulma
-@import "../node_modules/bulma/sass/index";
-
-// Navbar styles
-.navbar {
-
-  .navbar-item {
-    font-weight:inherit;
-
-    &:hover {
-      background-color: transparent;
-      color: $primary;
-    }
-
-    &.is-active {
-      background-color: transparent;
-      color: $primary;
-      font-weight:500;
-    }
-  }
-
-  .navbar-burger {
-    &:hover {
-      background-color: transparent;
-      color: $primary;
-    }
-  }
-}
-
 // Import custom resume extensions
-@import "../_sass/theme/index";
-// Custom styles and overrides
-html {
-  scroll-behavior: smooth;
-}
-
+@import "main";
