@@ -72,61 +72,6 @@ robots:
       enabled: true
       disallow: []
       allow: ["/"]
-
-    Googlebot:
-      enabled: true
-      disallow: ["/private", "/admin", "/hidden-page"]
-      allow: ["/"]
-
-    Googlebot-Image:
-      enabled: true
-      disallow: []
-      allow: ["/"]
-
-    Googlebot-Video:
-      enabled: true
-      disallow: []
-      allow: ["/"]
-
-    Bingbot:
-      enabled: true
-      disallow: []
-      allow: ["/"]
-
-    Yahoo! Slurp:
-      enabled: true
-      disallow: []
-      allow: ["/"]
-
-    Baiduspider:
-      enabled: true
-      disallow: []
-      allow: ["/"]
-
-    YandexBot:
-      enabled: true
-      disallow: []
-      allow: ["/"]
-
-    DuckDuckBot:
-      enabled: true
-      disallow: []
-      allow: ["/"]
-
-    Applebot:
-      enabled: true
-      disallow: []
-      allow: ["/"]
-
-    ChatGPTBot:
-      enabled: true
-      disallow: []
-      allow: ["/"]
-
-    GPTBot:
-      enabled: true
-      disallow: []
-      allow: ["/"]
 # ========================================
 
 # google_analytics: ""
