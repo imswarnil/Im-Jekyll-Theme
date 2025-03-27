@@ -1,41 +1,127 @@
 ---
 layout: docs
-title: Creating A Page
-subtitle: Pages
-menu: theme
+title: Configuring robots.txt
+subtitle: SEO & Indexing
 toc: true
 sidebar: false
 ---
+# Configuring robots.txt
 
-## Creating A Page
-Create your pages as individual Markdown files and when the site is built by Jekyll it will process the markdown into html. 
-You can create subdirectories with files in and they will have the subdirectory in their path. For example, this page is in the `docs` subdirectory and is called `creating-a-page.md`. This will become `/docs/creating-a-page.html`, or `/docs/creating-a-page/` depending on your permalink settings.
+## Introduction
 
-## Front Matter
+This guide explains how to configure `robots.txt` in the theme. The theme dynamically generates `robots.txt` using data from `_config.yml` and individual page settings.
 
-Ensure you use `layout: page` for normal pages.
+---
 
-Set the page's title and subtitle in the front matter and it will appear in the hero. The subtitle is optional.
+## 1. Enabling or Disabling Site-Wide Indexing
 
-```yaml
-layout: page
-title: The page title
-subtitle: The page subtitle
-```
-
-## Search Engine Optimisation
-
-Bulma Clean Theme uses Jekyll SEO tag to generate additional meta tags. Ensure each page and post has a unique title and description in the front matter. 
-
-You can also set an image that will be used when the page or post is shared on social media. 
+To **allow or disallow the entire site** from being indexed by search engines, modify `_config.yml`:
 
 ```yaml
-layout: page
-title: The page title
-subtitle: The page subtitle
-description: This is the meta description for this page and will help it appear in search engines
-image: /img/page-image.jpg
+robots:
+  indexing: true  # true = Allow full indexing, false = Noindex entire site
 ```
 
+If `indexing: false`, the site will **not be indexed**, and the `robots.txt` will contain:
 
+```
+User-agent: *
+Disallow: /
+```
 
+---
+
+## 2. Controlling Search Bots
+
+You can specify which bots are allowed or disallowed in `_config.yml`:
+
+```yaml
+robots:
+  bots:
+    "*":
+      enabled: true
+      disallow: []
+      allow: ["/"]
+      
+    Googlebot:
+      enabled: true
+      disallow: []
+      allow: ["/"]
+      
+    Bingbot:
+      enabled: true
+      disallow:
+        - "/private/"
+      allow: []
+```
+
+### How It Works
+
+- `"*"` applies rules to all bots.  
+- `disallow` blocks specific paths.  
+- `allow` grants access to certain paths.  
+- `enabled: false` disables bot indexing.
+
+---
+
+## 3. Blocking or Allowing Specific Pages
+
+To **block specific pages from being indexed**, add this to the page's front matter:
+
+```yaml
+---
+layout: page
+title: Private Page
+indexing: false
+---
+```
+
+This will **automatically** add a rule in `robots.txt`:
+
+```
+User-agent: *
+Disallow: /private-page/
+```
+
+---
+
+## 4. Example robots.txt Output
+
+If you have the following settings:
+
+- Site-wide indexing is **enabled**.
+- `indexing: false` is set on `/private/` and `/hidden/`.
+- Googlebot is allowed but **blocked from `/test/`**.
+
+The generated `robots.txt` will be:
+
+```
+# robots.txt for example.com
+
+User-agent: *
+Allow: /
+
+User-agent: Googlebot
+Disallow: /test/
+
+# Page-Specific Noindex Rules
+User-agent: *
+Disallow: /private/
+Disallow: /hidden/
+
+# 🔗 Sitemap reference
+Sitemap: https://example.com/sitemap.xml
+```
+
+---
+
+## 5. Summary of Features
+
+✅ **Control entire site indexing** (`robots.indexing: false`)
+✅ **Customize bot permissions** (Googlebot, Bingbot, etc.)
+✅ **Block specific pages from indexing** (`indexing: false` in front matter)
+✅ **Auto-generates a sitemap reference**
+
+---
+
+By following this guide, you can fully control how search engines and web crawlers interact with your site. 🚀

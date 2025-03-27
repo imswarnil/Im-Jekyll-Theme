@@ -4,16 +4,34 @@ permalink: /robots.txt
 ---
 
 # robots.txt for {{ site.url }}
+
 {% if site.robots.indexing == false %}
 # ❌ Site-wide indexing is disabled
 User-agent: *
 Disallow: /
 {% else %}
 # ✅ Dynamically generated bot rules
-{% for bot_hash in site.robots.bots %}{% assign bot = bot_hash[0] %}{% assign settings = bot_hash[1] %}{% if settings.enabled %}
-User-agent: {{ bot }} {% for path in settings.disallow %}
-Disallow: {{ path }}{% endfor %}{% for path in settings.allow %}
-Allow: {{ path }}{% endfor %}{% endif %}{% endfor %}
+{% for bot_hash in site.robots.bots %}
+{% assign bot = bot_hash[0] %}
+{% assign settings = bot_hash[1] %}
+{% if settings.enabled %}
+User-agent: {{ bot }}
+{% for path in settings.disallow %}
+Disallow: {{ path }}
+{% endfor %}
+{% for path in settings.allow %}
+Allow: {{ path }}
+{% endfor %}
 {% endif %}
+{% endfor %}
+# ❌ Page-Specific Noindex Rules
+{% for page in site.pages %}
+  {% if page.indexing == false %}
+User-agent: *
+Disallow: {{ page.url }}
+  {% endif %}
+{% endfor %}
+{% endif %}
+
 # 🔗 Sitemap reference for better crawling
 Sitemap: {{ site.url }}/sitemap.xml
