@@ -2,11 +2,14 @@
 layout: null
 permalink: /robots.txt
 ---
-
 # =========================================
 # robots.txt for {{ site.url }}
 # =========================================
 
+{% if site.data.robots.indexing == false %}
+User-agent: *
+Disallow: /
+{% else %}
 User-agent: *
 Allow: /
 
@@ -40,5 +43,5 @@ Allow: /
 # =========================================
 # 🔗 Sitemap Reference
 # =========================================
-
 Sitemap: {{ site.url }}/sitemap.xml
+{% endif %}
