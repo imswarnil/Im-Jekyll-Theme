@@ -25,28 +25,64 @@ robots:
   bots:
     "*":
       enabled: true
-      disallow:
-        - "/private/"
-        - "/admin/"
-      allow:
-        - "/public/"
+      disallow: []
+      allow: ["/"]
 
     Googlebot:
       enabled: true
-      disallow:
-        - "/test-page/"
-      allow: []
+      disallow: []
+      allow: ["/"]
+
+    Googlebot-Image:
+      enabled: true
+      disallow: []
+      allow: ["/"]
+
+    Googlebot-Video:
+      enabled: true
+      disallow: []
+      allow: ["/"]
 
     Bingbot:
       enabled: true
-      disallow:
-        - "/example/"
-      allow: []
+      disallow: []
+      allow: ["/"]
+
+    Yahoo! Slurp:
+      enabled: true
+      disallow: []
+      allow: ["/"]
+
+    Baiduspider:
+      enabled: true
+      disallow: []
+      allow: ["/"]
+
+    YandexBot:
+      enabled: true
+      disallow: []
+      allow: ["/"]
+
+    DuckDuckBot:
+      enabled: true
+      disallow: []
+      allow: ["/"]
+
+    Applebot:
+      enabled: true
+      disallow: []
+      allow: ["/"]
 
     ChatGPTBot:
       enabled: true
       disallow: []
       allow: ["/"]
+
+    GPTBot:
+      enabled: true
+      disallow: []
+      allow: ["/"]
+
 # ========================================
 
 baseurl : '/Im-Jekyll-Theme'
@@ -199,7 +235,7 @@ social_links: # Appears in sidebar. Set the urls then uncomment and comment out 
   GitHub: https://github.com/daviddarnes
   link: https://darn.es
   RSS: /feed.xml
-  
+
 # 8. Installed Gems
 plugins:
 - jekyll-sitemap
