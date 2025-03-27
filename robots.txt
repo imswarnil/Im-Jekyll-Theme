@@ -13,12 +13,12 @@ Allow: /
 {% for bot in site.robots.bots %}
   {% if site.robots.bots[bot].enabled %}
     User-agent: {{ bot }}
-    {% for path in site.robots.bots[bot].disallow %}
+    {%- for path in site.robots.bots[bot].disallow -%}
     Disallow: {{ path }}
-    {% endfor %}
-    {% for path in site.robots.bots[bot].allow %}
+    {%- endfor -%}
+    {%- for path in site.robots.bots[bot].allow -%}
     Allow: {{ path }}
-    {% endfor %}
+    {%- endfor -%}
   {% endif %}
 {% endfor %}
 
