@@ -9,18 +9,10 @@ Disallow: /
 {% else %}
 User-agent: *
 Allow: /
-
 {% for bot in site.robots.bots %}
   {% if site.robots.bots[bot].enabled %}
-    User-agent: {{ bot }}
-    {%- for path in site.robots.bots[bot].disallow -%}
-    Disallow: {{ path }}
-    {%- endfor -%}
-    {%- for path in site.robots.bots[bot].allow -%}
-    Allow: {{ path }}
-    {%- endfor -%}
+    User-agent: {{ bot }}{% for path in site.robots.bots[bot].disallow %}{{ "\n" }}Disallow: {{ path }}{% endfor %}{% for path in site.robots.bots[bot].allow %}{{ "\n" }}Allow: {{ path }}{% endfor %}
   {% endif %}
 {% endfor %}
-
 Sitemap: {{ site.url }}/sitemap.xml
 {% endif %}
