@@ -1,7 +1,17 @@
-
+// Assign variables dynamically from _config.yml
 $primary: {{ site.primary_color }};
-$link : $primary;
-$family-sans-serif: "Geist", "Arial", sans-serif !default;
-$family-monospace: "Roboto Mono", monospace !default;
-$render-mode: optimizeLegibility !default;
+$secondary: {{ site.secondary_color }};
+$text: {{ site.text_color }};
+$background: {{ site.background_color }};
+$family-sans-serif: {{ site.font_sans }};
+$family-monospace: {{ site.font_mono }};
 
+// Also store them as CSS variables
+:root {
+    --primary-color: #{$primary};
+    --secondary-color: #{$secondary};
+    --text-color: #{$text};
+    --background-color: #{$background};
+    --font-sans: #{$family-sans-serif};
+    --font-mono: #{$family-monospace};
+}
