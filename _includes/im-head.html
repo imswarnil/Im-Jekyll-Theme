@@ -3,6 +3,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% include head/robots.html %}    
+    {% if page.collectionpage %}
+    {% assign collectiondata = site.collections | where: "label", page.collectionpage | first %}
+    <title>{{ collectiondata.title }} - {{ site.title }}</title>
+    <meta property="og:title" content="{{ collectiondata.title }}">
+    <meta name="description" content="{{ collectiondata.description }}">
+    <meta property="og:description" content="{{ collectiondata.description }}">
+    {% else %}
+     page specific Json LD let it be filter based on layout also based on type etc 
+    {% endif %}
     {% if site.fonts.preconnect_urls %}
     {% for url in site.fonts.preconnect_urls %}
     <link rel="preconnect" href="{{ url }}" crossorigin />
