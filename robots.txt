@@ -7,39 +7,10 @@ permalink: /robots.txt
 # robots.txt for {{ site.url }}
 # =========================================
 
-{% if site.robots.indexing == false %}
-# ❌ Site-wide indexing is disabled
-User-agent: *
-Disallow: /
-{% else %}
-# ✅ Allow all bots by default
 User-agent: *
 Allow: /
 
-# =========================================
-# 🤖 Specific Bot Rules
-# =========================================
-
-{% for bot_hash in site.robots.bots %}
-  {% assign bot = bot_hash[0] %}
-  {% assign settings = bot_hash[1] %}
-  {% if settings.enabled -%}
-User-agent: {{ bot }}
-    {%- for path in settings.disallow %}  
-Disallow: {{ path }}
-    {%- endfor -%}
-    {%- for path in settings.allow %}  
-Allow: {{ path }}
-    {%- endfor -%}
-
-  {%- endif %}
-{% endfor %}
-
-# =========================================
-# 🚫 Block Non-Indexable Pages
-# =========================================
-
-{% assign disallowed_paths = "" %}
+{%- assign disallowed_paths = "" -%}
 
 {%- for page in site.pages -%}
   {%- if page.indexing == false -%}
@@ -61,12 +32,13 @@ Allow: {{ path }}
   {%- endfor -%}
 {%- endfor -%}
 
+{%- if disallowed_paths != "" -%}
+# 🚫 Block Non-Indexable Pages
 {{ disallowed_paths | strip_newlines }}
+{%- endif -%}
 
 # =========================================
 # 🔗 Sitemap Reference
 # =========================================
 
 Sitemap: {{ site.url }}/sitemap.xml
-
-{% endif %}
