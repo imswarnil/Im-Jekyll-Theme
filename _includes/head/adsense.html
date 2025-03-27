@@ -1,6 +1,5 @@
 {% if site.adsense.enabled %}
-<script {% if site.adsense.settings.async %}async{% endif %}
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ site.adsense.publisher.id }}"
-        crossorigin="{{ site.adsense.settings.crossorigin }}">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ site.adsense.publisher.id }}"
+        crossorigin="anonymous">
 </script>
 {% endif %}
