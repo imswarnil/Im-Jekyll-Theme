@@ -1,4 +1,6 @@
 {% capture styles %}
+
+  $primary: {{ site.primary_color }};
   @import "main";
 {% endcapture %}
 <style>{{ styles | scssify | strip_newlines }}</style>
