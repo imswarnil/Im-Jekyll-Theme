@@ -52,7 +52,7 @@ description_separator: <!-- more --> # Marks end of description in posts
 css_inline: true # Will insert all styles into a single <style> block in the <head> element and remove the style <link> reference
 sass:
   style: compressed # Style compression
-  
+
 # Typography 
 fonts:
   preconnect_urls:
@@ -60,6 +60,7 @@ fonts:
   font_urls:
     - https://fonts.googleapis.com/css2?family=Geist:wght@100&display=swap
     - https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap
+    - https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap 
 
 # -------------------------------------------------
 # 1.2. Robots And Indexing Settings 
