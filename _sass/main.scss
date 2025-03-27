@@ -1,5 +1,5 @@
 
-$primary: {{ site.primary_color }};
+$primary: "#{{ site.primary_color }}";
 $link : $primary;
 $family-sans-serif: "Roboto", "Arial", sans-serif !default;
 $family-monospace: "Roboto Mono", monospace !default;
