@@ -50,7 +50,7 @@ description_separator: <!-- more --> # Marks end of description in posts
 
 # 1.3. CSS, Site Colors & Typography
 #------------------------------------------------------------------------------------------------
-css_inline: true # Will insert all styles into a single <style> block in the <head> element and remove the style <link> reference
+css_inline: false # Will insert all styles into a single <style> block in the <head> element and remove the style <link> reference
 sass:
   style: compressed # Style compression
 primary_color : "#E53935"
