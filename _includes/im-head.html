@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% include head/robots.html %}    
-    {% include head/json-ld.html %}    
+    {% include head/jsonld.html %}    
     {% if page.collectionpage %}
     {% assign collectiondata = site.collections | where: "label", page.collectionpage | first %}
     <title>{{ collectiondata.title }} - {{ site.title }}</title>
