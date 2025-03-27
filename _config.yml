@@ -1,25 +1,70 @@
 # Site configuration
 # 1. Site Settings
   # 1.1. Site Logo,Favicons,Manifest and Icons
-  # 1.2. Site Colors & Typography
+  # 1.2. Site Url, Links & Github Repo
+  # 1.3. Site Colors & Typography
 
 # 3. Gem settings
 # 4. Jekyll settings
 # 5. Collections
 # 6. Jekyll collections settings
-# 7. Site settings
+# 7. Site setting 
 # 8. Installed Gems
 # 9. Files excluded from Jekyll builds
 
 
-# 1. Site Settings
+# 1. Site Settings 
+#################################################################################################
+
+# 1.1. Site Logo,Favicons,Manifest and Icons
+# -------------------------------------------
 encoding: utf-8 # Make sure the encoding is right
 lang: en-GB # Set the site language
 title: "Im Jekyll Theme" # Site name or title, also used in jekyll-seo-tag
 description: "Alembic is a starting point for Jekyll projects. Rather than starting from scratch, this boilerplate is designed to get the ball rolling immediately" # Site description and default description, also used in jekyll-seo-tag
 timezone: Europe/London # Timezone for blog posts and alike
-# 1.1. Robots And Indexing Settings 
-# 1.1. Robots And Indexing Settings
+service_worker: true # Will turn off the service worker if set to false
+short_name: "IMJKT" # The web application short name, defaults to the site title
+logo: "/assets/logos/logo.svg" # Site logo, also used in jekyll-seo-tag
+favicons: # Favicons are also used in the manifest file. Syntax is 'size: path'
+  16: '/assets/logos/logo@16px.png'
+  32: '/assets/logos/logo@32px.png'
+  96: '/assets/logos/logo@96px.png'
+  120: '/assets/logos/logo@120px.png'
+  144: '/assets/logos/logo@144px.png'
+  180: '/assets/logos/logo@180px.png'
+  512: '/assets/logos/logo@512px.png'
+  1024: '/assets/logos/logo@1024px.png'
+# --------------------------------------------
+
+ # 1.2. Site Url, Links & Github Repo
+ #----------------------------------------------------------------------------------------------
+baseurl : '/Im-Jekyll-Theme'
+url: 'https://theme.imswarnil.com' # Site URL, also used in jekyll-seo-tag
+permalink: /:title  # Permalink style /:categories/:title:output_ext
+repo: "https://github.com/imswarnil/CRM-Analytics-Academy"
+email: "contact@imswarnil.com"
+description_separator: <!-- more --> # Marks end of description in posts
+# date_format: "%-d %B %Y" # Blog post date formatting using placeholder formatting
+#------------------------------------------------------------------------------------------------
+
+# 1.3. CSS, Site Colors & Typography
+#------------------------------------------------------------------------------------------------
+css_inline: true # Will insert all styles into a single <style> block in the <head> element and remove the style <link> reference
+sass:
+  style: compressed # Style compression
+primary_color : "#E53935"
+
+# Typography 
+fonts:
+  preconnect_urls:
+    - https://fonts.gstatic.com
+  font_urls:
+    - https://fonts.googleapis.com/css2?family=Geist:wght@100&display=swap
+    - https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap
+
+# -------------------------------------------------
+# 1.2. Robots And Indexing Settings 
 indexing: true
 robots:
   bots:
@@ -82,37 +127,17 @@ robots:
       enabled: true
       disallow: []
       allow: ["/"]
-
-
 # ========================================
 
-baseurl : '/Im-Jekyll-Theme'
-url: 'https://theme.imswarnil.com' # Site URL, also used in jekyll-seo-tag
-permalink: /:title  # Permalink style /:categories/:title:output_ext
-repo: "https://github.com/imswarnil/CRM-Analytics-Academy"
-email: "contact@imswarnil.com"
-description_separator: <!-- more --> # Marks end of description in posts
-# disqus: "alembic-1" # Blog post comments, uncomment the option and set the site ID from your Disqus account
-# date_format: "%-d %B %Y" # Blog post date formatting using placeholder formatting
 # google_analytics: ""
 # google_analytics_anonymize_ip: ""
-service_worker: true # Will turn off the service worker if set to false
-# short_name: "Al" # The web application short name, defaults to the site title
-css_inline: true # Will insert all styles into a single <style> block in the <head> element and remove the style <link> reference
+
+# disqus: "alembic-1" # Blog post comments, uncomment the option and set the site ID from your Disqus account
 
 # 1.1. Site Logo,Favicons,Manifest and Icons
-logo: "/assets/logos/logo.svg" # Site logo, also used in jekyll-seo-tag
-favicons: # Favicons are also used in the manifest file. Syntax is 'size: path'
-  16: '/assets/logos/logo@16px.png'
-  32: '/assets/logos/logo@32px.png'
-  96: '/assets/logos/logo@96px.png'
-  120: '/assets/logos/logo@120px.png'
-  144: '/assets/logos/logo@144px.png'
-  180: '/assets/logos/logo@180px.png'
-  512: '/assets/logos/logo@512px.png'
-  1024: '/assets/logos/logo@1024px.png'
 
-# 1.2. Site Colors & Typography
+
+
 
 
 # Include these directories and files in the `_site` output
@@ -137,11 +162,6 @@ social: # jekyll-seo-tag > social overrides
 # commonmark:
   # options: ["SMART", "FOOTNOTES"]
   # extensions: ["strikethrough", "autolink", "table"]
-
-# 4. Jekyll settings
-sass:
-  style: compressed # Style compression
-primary_color : "#E53935"
 
 
 # 5. Collections
@@ -179,35 +199,6 @@ defaults:
       type: "pages"
     values:
       layout: page # Set the default layout for pages
-
-# 7. Site settings
-encoding: utf-8 # Make sure the encoding is right
-lang: en-GB # Set the site language
-title: "Im Jekyll Theme" # Site name or title, also used in jekyll-seo-tag
-baseurl : '/Im-Jekyll-Theme'
-logo: "/assets/logos/logo.svg" # Site logo, also used in jekyll-seo-tag
-description: "Alembic is a starting point for Jekyll projects. Rather than starting from scratch, this boilerplate is designed to get the ball rolling immediately" # Site description and default description, also used in jekyll-seo-tag
-url: 'https://theme.imswarnil.com' # Site URL, also used in jekyll-seo-tag
-repo: "https://github.com/imswarnil/CRM-Analytics-Academy"
-email: "contact@imswarnil.com"
-# disqus: "alembic-1" # Blog post comments, uncomment the option and set the site ID from your Disqus account
-# date_format: "%-d %B %Y" # Blog post date formatting using placeholder formatting
-# google_analytics: ""
-# google_analytics_anonymize_ip: ""
-service_worker: true # Will turn off the service worker if set to false
-# short_name: "Al" # The web application short name, defaults to the site title
-css_inline: true # Will insert all styles into a single <style> block in the <head> element and remove the style <link> reference
-
-# 8. Site favicons & manifest icons
-favicons: # Favicons are also used in the manifest file. Syntax is 'size: path'
-  16: '/assets/logos/logo@16px.png'
-  32: '/assets/logos/logo@32px.png'
-  96: '/assets/logos/logo@96px.png'
-  120: '/assets/logos/logo@120px.png'
-  144: '/assets/logos/logo@144px.png'
-  180: '/assets/logos/logo@180px.png'
-  512: '/assets/logos/logo@512px.png'
-  1024: '/assets/logos/logo@1024px.png'
 
 # 9. Site navigation
 navigation_header:

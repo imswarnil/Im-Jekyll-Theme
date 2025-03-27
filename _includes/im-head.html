@@ -3,33 +3,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% include head/robots.html %}    
-    {% include head/jsonld.html %}    
-    {% if page.collectionpage %}
-    {% assign collectiondata = site.collections | where: "label", page.collectionpage | first %}
-    <title>{{ collectiondata.title }} - {{ site.title }}</title>
-    <meta property="og:title" content="{{ collectiondata.title }}">
-    <meta name="description" content="{{ collectiondata.description }}">
-    <meta property="og:description" content="{{ collectiondata.description }}">
-    {% else %}
-    <title>{{ collectiondata.title }} - {{ site.title }}</title>
-    <meta property="og:title" content="{{ page.title }}">
-    <meta name="description" content="{{ page.description }}">
-    <meta property="og:description" content="{{ page.description }}">
-    {% endif %}
+    {% include head/jsonld.html %}   
     {% if site.fonts.preconnect_urls %}
     {% for url in site.fonts.preconnect_urls %}
     <link rel="preconnect" href="{{ url }}" crossorigin />
     {% endfor %}
     {% endif %}
-  
     <link rel="manifest" href="{{ "/manifest.json" | relative_url }}">
-    <meta name="theme-color" content="{{ site.manifest.theme_color | default: '#242e2b' }}"/>
-
-      <link rel="stylesheet" href="{{ "/assets/styles.css" | relative_url }}">
-
-  <link rel="stylesheet" href="{{ site.url }}/assets/style.css">
-
-  
+    <meta name="theme-color" content="{{ site.primary_color | default: '#E53935' }}"/>
+    <link rel="stylesheet" href="{{ "/sass/_main.scss" | relative_url }}">
+    <link rel="stylesheet" href="{{ site.url }}/assets/style.css">
     {% if site.favicons or site.avatarurl %}{% include site-favicons.html %}{% endif %}
     {% if site.google_analytics %}{% include site-analytics.html %}{% endif %}
     {% include site-fonts.html %}
