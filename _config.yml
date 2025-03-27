@@ -76,7 +76,6 @@ robots:
 
 # google_analytics: ""
 # google_analytics_anonymize_ip: ""
-
 adsense:
   enabled: true
   publisher:
@@ -86,7 +85,22 @@ adsense:
   settings:
     crossorigin: "anonymous"
     async: true
-
+  ads:
+    - name: "Square Ad"
+      width: 300
+      height: 250
+      ad_id: "1234567890"
+      type: "display"
+    - name: "Leaderboard Ad"
+      width: 728
+      height: 90
+      ad_id: "0987654321"
+      type: "display"
+    - name: "Responsive Ad"
+      width: "auto"
+      height: "auto"
+      ad_id: "5678901234"
+      type: "auto"
 
 
 # disqus: "alembic-1" # Blog post comments, uncomment the option and set the site ID from your Disqus account
