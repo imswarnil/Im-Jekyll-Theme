@@ -2,7 +2,6 @@
 layout: null
 permalink: /robots.txt
 ---
-
 # robots.txt for {{ site.url }}
 {% if site.robots.indexing == false %}
 # ❌ Site-wide indexing is disabled
