@@ -1,9 +1,33 @@
-// 1️⃣ Smooth scrolling for better UX
+
 html {
   scroll-behavior: smooth;
 }
 
-// 2️⃣ Import Variables & Theme Overrides (Before Bulma)
-@import "../_scss/theme/index";  // Loads all custom SCSS (variables, mixins, components, etc.)
-// 3️⃣ Import Bulma (After Custom Theme to Apply Overrides)
+@import "../_sass/theme/index";
 @import "../node_modules/bulma/sass/index";
+
+// Navbar styles
+.navbar {
+  .navbar-item {
+    font-weight:inherit;
+
+    &:hover {
+      background-color: transparent;
+      color: $primary;
+    }
+
+    &.is-active {
+      background-color: transparent;
+      color: $primary;
+      font-weight:500;
+    }
+  }
+
+  .navbar-burger {
+    &:hover {
+      background-color: transparent;
+      color: $primary;
+    }
+  }
+}
+
