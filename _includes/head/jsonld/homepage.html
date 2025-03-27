@@ -1,55 +1,63 @@
 {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "name": "{{ site.title | default: 'Default Site Title' }}",
-  "url": "{{ site.url | default: 'https://example.com' }}",
-  "description": "{{ site.description | default: 'Default site description' }}",
-  "inLanguage": "{{ site.lang | default: 'en' }}",
+  "name": "Namaste Salesforce",
+  "url": "https://namastesalesforce.com",
+  "description": "Learn Salesforce with an open-source community-driven LMS.",
+  "inLanguage": "en",
   "publisher": {
     "@type": "Organization",
-    "name": "{{ site.organization.name | default: 'Default Organization' }}",
-    "url": "{{ site.organization.url | default: 'https://example.com' }}",
+    "name": "Namaste Salesforce",
+    "url": "https://namastesalesforce.com",
     "logo": {
       "@type": "ImageObject",
-      "url": "{{ site.organization.logo | default: 'https://example.com/logo.png' }}",
+      "url": "https://namastesalesforce.com/logo.png",
       "width": 512,
       "height": 512
     },
     "sameAs": [
-      "{{ site.organization.twitter | default: '' }}",
-      "{{ site.organization.linkedin | default: '' }}",
-      "{{ site.organization.github | default: '' }}",
-      "{{ site.organization.facebook | default: '' }}",
-      "{{ site.organization.youtube | default: '' }}"
+      "https://twitter.com/namastesfdc",
+      "https://linkedin.com/company/namastesalesforce",
+      "https://github.com/namastesalesforce",
+      "https://facebook.com/namastesalesforce",
+      "https://youtube.com/namastesalesforce"
     ]
   },
   "author": {
     "@type": "Person",
-    "name": "{{ site.author.name | default: 'Default Author' }}",
-    "url": "{{ site.author.url | default: 'https://example.com' }}",
+    "name": "Swarnil",
+    "url": "https://namastesalesforce.com/about",
     "sameAs": [
-      "{{ site.author.twitter | default: '' }}",
-      "{{ site.author.linkedin | default: '' }}",
-      "{{ site.author.github | default: '' }}"
+      "https://twitter.com/swarnil",
+      "https://linkedin.com/in/swarnil",
+      "https://github.com/swarnil"
     ]
   },
   "potentialAction": {
     "@type": "SearchAction",
-    "target": "{{ site.url | default: 'https://example.com' }}/search?q={search_term_string}",
+    "target": "https://namastesalesforce.com/search?q={search_term_string}",
     "query-input": "required name=search_term_string"
   },
   "hasPart": [
-    {% for collection in site.collections %}
     {
       "@type": "CollectionPage",
-      "name": "{{ collection.label | capitalize | default: 'Default Collection' }}",
-      "url": "{{ site.url | default: 'https://example.com' }}/{{ collection.label | default: 'default' }}/"
-    }{% unless forloop.last %},{% endunless %}
-    {% endfor %}
+      "name": "Courses",
+      "url": "https://namastesalesforce.com/courses/"
+    },
+    {
+      "@type": "CollectionPage",
+      "name": "Blogs",
+      "url": "https://namastesalesforce.com/blogs/"
+    },
+    {
+      "@type": "CollectionPage",
+      "name": "Resources",
+      "url": "https://namastesalesforce.com/resources/"
+    }
   ],
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "{{ site.url | default: 'https://example.com' }}"
+    "@id": "https://namastesalesforce.com"
   },
   "breadcrumb": {
     "@type": "BreadcrumbList",
@@ -58,26 +66,48 @@
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "{{ site.url | default: 'https://example.com' }}"
+        "item": "https://namastesalesforce.com"
       }
     ]
   },
   "sitemap": {
     "@type": "SiteNavigationElement",
     "name": "Sitemap",
-    "url": "{{ site.url | default: 'https://example.com' }}/sitemap.xml"
+    "url": "https://namastesalesforce.com/sitemap.xml"
   },
   "navigation": {
     "@type": "ItemList",
     "itemListElement": [
-      {% for link in site.data.navigation %}
       {
         "@type": "ListItem",
-        "position": {{ forloop.index }},
-        "name": "{{ link.title | default: 'Default Link' }}",
-        "url": "{{ site.url | default: 'https://example.com' }}{{ link.url | default: '/' }}"
-      }{% unless forloop.last %},{% endunless %}
-      {% endfor %}
+        "position": 1,
+        "name": "Home",
+        "url": "https://namastesalesforce.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Courses",
+        "url": "https://namastesalesforce.com/courses/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Blog",
+        "url": "https://namastesalesforce.com/blogs/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Resources",
+        "url": "https://namastesalesforce.com/resources/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 5,
+        "name": "Contact",
+        "url": "https://namastesalesforce.com/contact/"
+      }
     ]
   }
 }
