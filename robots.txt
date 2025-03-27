@@ -23,14 +23,16 @@ Allow: /
 {% for bot_hash in site.robots.bots %}
   {% assign bot = bot_hash[0] %}
   {% assign settings = bot_hash[1] %}
-  {% if settings.enabled %}
+  {% if settings.enabled -%}
 User-agent: {{ bot }}
-    {% for path in settings.disallow %}Disallow: {{ path }}
-    {% endfor %}
-    {% for path in settings.allow %}Allow: {{ path }}
-    {% endfor %}
+    {%- for path in settings.disallow %}  
+Disallow: {{ path }}
+    {%- endfor -%}
+    {%- for path in settings.allow %}  
+Allow: {{ path }}
+    {%- endfor -%}
 
-  {% endif %}
+  {%- endif %}
 {% endfor %}
 
 # =========================================
@@ -39,27 +41,27 @@ User-agent: {{ bot }}
 
 {% assign disallowed_paths = "" %}
 
-{% for page in site.pages %}
-  {% if page.indexing == false %}
-    {% assign disallowed_paths = disallowed_paths | append: "Disallow: " | append: page.url | append: "\n" %}
-  {% endif %}
-{% endfor %}
+{%- for page in site.pages -%}
+  {%- if page.indexing == false -%}
+    {%- assign disallowed_paths = disallowed_paths | append: "Disallow: " | append: page.url | append: "\n" -%}
+  {%- endif -%}
+{%- endfor -%}
 
-{% for post in site.posts %}
-  {% if post.indexing == false %}
-    {% assign disallowed_paths = disallowed_paths | append: "Disallow: " | append: post.url | append: "\n" %}
-  {% endif %}
-{% endfor %}
+{%- for post in site.posts -%}
+  {%- if post.indexing == false -%}
+    {%- assign disallowed_paths = disallowed_paths | append: "Disallow: " | append: post.url | append: "\n" -%}
+  {%- endif -%}
+{%- endfor -%}
 
-{% for collection in site.collections %}
-  {% for item in collection.docs %}
-    {% if item.indexing == false %}
-      {% assign disallowed_paths = disallowed_paths | append: "Disallow: " | append: item.url | append: "\n" %}
-    {% endif %}
-  {% endfor %}
-{% endfor %}
+{%- for collection in site.collections -%}
+  {%- for item in collection.docs -%}
+    {%- if item.indexing == false -%}
+      {%- assign disallowed_paths = disallowed_paths | append: "Disallow: " | append: item.url | append: "\n" -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endfor -%}
 
-{{ disallowed_paths | strip_newlines | replace: "Disallow:", "\nDisallow:" }}
+{{ disallowed_paths | strip_newlines }}
 
 # =========================================
 # 🔗 Sitemap Reference
