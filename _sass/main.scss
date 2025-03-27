@@ -1,7 +1,4 @@
 
-// Import Bulma
-@import "../node_modules/bulma/sass/index";
-
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 $primary: #E53935;
@@ -21,6 +18,10 @@ $render-mode: optimizeLegibility !default;
     position: sticky;
     top: 20px; // Adjust top spacing as needed
   }
+
+// Import Bulma
+@import "../node_modules/bulma/sass/index";
+
 
 
 // Navbar styles
