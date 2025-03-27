@@ -2,46 +2,25 @@
 layout: null
 permalink: /robots.txt
 ---
-# =========================================
-# robots.txt for {{ site.url }}
-# =========================================
 
-{% if site.data.robots.indexing == false %}
+{% if site.robots.indexing == false %}
 User-agent: *
 Disallow: /
 {% else %}
 User-agent: *
 Allow: /
 
-{%- assign disallowed_paths = "" -%}
+{% for bot in site.robots.bots %}
+  {% if site.robots.bots[bot].enabled %}
+    User-agent: {{ bot }}
+    {% for path in site.robots.bots[bot].disallow %}
+    Disallow: {{ path }}
+    {% endfor %}
+    {% for path in site.robots.bots[bot].allow %}
+    Allow: {{ path }}
+    {% endfor %}
+  {% endif %}
+{% endfor %}
 
-{%- for page in site.pages -%}
-  {%- if page.indexing == false -%}
-    {%- assign disallowed_paths = disallowed_paths | append: "Disallow: " | append: page.url | append: "\n" -%}
-  {%- endif -%}
-{%- endfor -%}
-
-{%- for post in site.posts -%}
-  {%- if post.indexing == false -%}
-    {%- assign disallowed_paths = disallowed_paths | append: "Disallow: " | append: post.url | append: "\n" -%}
-  {%- endif -%}
-{%- endfor -%}
-
-{%- for collection in site.collections -%}
-  {%- for item in collection.docs -%}
-    {%- if item.indexing == false -%}
-      {%- assign disallowed_paths = disallowed_paths | append: "Disallow: " | append: item.url | append: "\n" -%}
-    {%- endif -%}
-  {%- endfor -%}
-{%- endfor -%}
-
-{%- if disallowed_paths != "" -%}
-# 🚫 Block Non-Indexable Pages
-{{ disallowed_paths | strip_newlines }}
-{%- endif -%}
-
-# =========================================
-# 🔗 Sitemap Reference
-# =========================================
 Sitemap: {{ site.url }}/sitemap.xml
 {% endif %}

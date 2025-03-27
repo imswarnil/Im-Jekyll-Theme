@@ -1,6 +1,6 @@
 <!-- SEO Indexing Logic: Controlled via _data/robots.yml & page front matter -->
-{% if page.indexing == false or site.data.robots.indexing == false %}
-    <meta name="robots" content="noindex, nofollow"> <!-- 🚫 Not indexed -->
+{% if site.robots.indexing == false %}
+  <meta name="robots" content="noindex, nofollow">
 {% else %}
-    <meta name="robots" content="index, follow"> <!-- ✅ Indexed -->
+  <meta name="robots" content="index, follow">
 {% endif %}

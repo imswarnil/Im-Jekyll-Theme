@@ -19,8 +19,9 @@ title: "Im Jekyll Theme" # Site name or title, also used in jekyll-seo-tag
 description: "Alembic is a starting point for Jekyll projects. Rather than starting from scratch, this boilerplate is designed to get the ball rolling immediately" # Site description and default description, also used in jekyll-seo-tag
 timezone: Europe/London # Timezone for blog posts and alike
 # 1.1. Robots And Indexing Settings 
+# 1.1. Robots And Indexing Settings
+indexing: true
 robots:
-  indexing: true  # false = Noindex entire site
   bots:
     "*":
       enabled: true
@@ -29,7 +30,7 @@ robots:
 
     Googlebot:
       enabled: true
-      disallow: []
+      disallow: ["/private", "/admin", "/hidden-page"]
       allow: ["/"]
 
     Googlebot-Image:
@@ -81,6 +82,7 @@ robots:
       enabled: true
       disallow: []
       allow: ["/"]
+
 
 # ========================================
 
