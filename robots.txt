@@ -4,34 +4,39 @@ permalink: /robots.txt
 ---
 
 # robots.txt for {{ site.url }}
-
 {% if site.robots.indexing == false %}
 # ❌ Site-wide indexing is disabled
 User-agent: *
 Disallow: /
 {% else %}
 # ✅ Dynamically generated bot rules
-{% for bot_hash in site.robots.bots %}
-{% assign bot = bot_hash[0] %}
-{% assign settings = bot_hash[1] %}
-{% if settings.enabled %}
+{% for bot_hash in site.robots.bots %} {% assign bot = bot_hash[0] %}  {% assign settings = bot_hash[1] %}{% if settings.enabled %}
 User-agent: {{ bot }}
 {% for path in settings.disallow %}
 Disallow: {{ path }}
 {% endfor %}
 {% for path in settings.allow %}
-Allow: {{ path }}
-{% endfor %}
+Allow: {{ path }}{% endfor %}
 {% endif %}
 {% endfor %}
-# ❌ Page-Specific Noindex Rules
+# 🚫 Exclude specific pages, posts, and all collections where `indexing: false` is set
 {% for page in site.pages %}
   {% if page.indexing == false %}
-User-agent: *
 Disallow: {{ page.url }}
   {% endif %}
 {% endfor %}
+{% for post in site.posts %}
+  {% if post.indexing == false %}
+Disallow: {{ post.url }}
+  {% endif %}
+{% endfor %}
+{% for collection in site.collections %}
+  {% for item in collection.docs %}
+    {% if item.indexing == false %}
+Disallow: {{ item.url }}
+    {% endif %}
+  {% endfor %}
+{% endfor %}
 {% endif %}
-
 # 🔗 Sitemap reference for better crawling
 Sitemap: {{ site.url }}/sitemap.xml
