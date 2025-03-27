@@ -2,6 +2,7 @@
 html {
   scroll-behavior: smooth;
 }
+
 // 2️⃣ Import Variables & Theme Overrides (Before Bulma)
 @import "../_scss/theme/index";  // Loads all custom SCSS (variables, mixins, components, etc.)
 // 3️⃣ Import Bulma (After Custom Theme to Apply Overrides)
