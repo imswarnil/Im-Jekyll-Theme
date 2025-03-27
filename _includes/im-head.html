@@ -11,7 +11,10 @@
     <meta name="description" content="{{ collectiondata.description }}">
     <meta property="og:description" content="{{ collectiondata.description }}">
     {% else %}
-     page specific Json LD let it be filter based on layout also based on type etc 
+    <title>{{ collectiondata.title }} - {{ site.title }}</title>
+    <meta property="og:title" content="{{ page.title }}">
+    <meta name="description" content="{{ page.description }}">
+    <meta property="og:description" content="{{ page.description }}">
     {% endif %}
     {% if site.fonts.preconnect_urls %}
     {% for url in site.fonts.preconnect_urls %}
