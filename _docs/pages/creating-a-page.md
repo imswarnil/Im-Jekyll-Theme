@@ -5,6 +5,7 @@ subtitle: Pages
 menubar: docs_menu
 toc: true
 sidebar: false
+indexing : false
 ---
 
 ## Creating A Page
