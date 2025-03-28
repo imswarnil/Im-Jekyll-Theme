@@ -28,7 +28,7 @@
         <div class="columns ">
           <!-- Sidebar Menu -->
           <div class="column is-3 is-3-desktop is-4-tablet">
-            <aside class="menu is-hidden-mobile">
+            <sidebar class="menu is-hidden-mobile">
               {% for item in site.data.documentation.docs %}
                 <p class="menu-label">
                   <i class="{{ item.icon }}"></i> {{ item.label }}
@@ -54,7 +54,7 @@
                   {% endfor %}
                 </ul>
               {% endfor %}
-            </aside>
+            </sidebar>
 
             <!-- Mobile Menu -->
             <div class="is-hidden-desktop">
@@ -67,7 +67,7 @@
                 </button>
               </div>
               <div id="menu-panel" class="box is-hidden">
-                <aside class="menu mt-3">
+                <sidebar class="menu mt-3">
                   {% for item in site.data.docs %}
                     <p class="menu-label">
                       <i class="{{ item.icon }}"></i> {{ item.label }}
@@ -93,7 +93,7 @@
                       {% endfor %}
                     </ul>
                   {% endfor %}
-                </aside>
+                </sidebar>
               </div>
             </div>
           </div>

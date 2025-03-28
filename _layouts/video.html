@@ -47,7 +47,7 @@ layout: base
                     <!-- FAQs Section -->
                 </div>
                 <div class="column is-3 is-12-mobile">
-                    <aside class="menu widget">
+                    <sidebar class="menu widget">
                         <p class="menu-label">Timestamps</p>
                         <ul class="menu-list">
                             {% for ts in page.timestamps %}
@@ -63,7 +63,7 @@ layout: base
                                 </li>
                             {% endfor %}
                         </ul>
-                    </aside>
+                    </sidebar>
 
                     <!-- Include Adsense -->
                 </div>
@@ -148,7 +148,7 @@ layout: base
                 </div>
 
                 <div class="column is-3 mt-5 is-centered">
-                    <aside class="widget my-5">
+                    <sidebar class="widget my-5">
                         <h2 class="title is-5">Products I Use</h2>
                         <div class="box">
                             {% for product in site.products %}
@@ -167,11 +167,11 @@ layout: base
                                 </div>
                             {% endfor %}
                         </div>
-                    </aside>
+                    </sidebar>
 
                  
 
-                    <aside class="widget">
+                    <sidebar class="widget">
                         <h2 class="title is-5">My Other Videos</h2>
                         <div class="video-list">
                             {% for video in site.videos limit: 3 %}
@@ -190,7 +190,7 @@ layout: base
                                 </a>
                             {% endfor %}
                         </div>
-                    </aside>
+                    </sidebar>
                 </div>
             </div>
         </div>

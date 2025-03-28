@@ -13,10 +13,10 @@ layout: default
         </article>
       </div>
       
-      {% if page.aside == true %}
-        <aside class="column is-4">
-          {% include site-aside.html %}
-        </aside>
+      {% if page.sidebar == true %}
+        <sidebar class="column is-4">
+          {% include im-sidebar.html %}
+        </sidebar>
       {% endif %}
       
     </div>
