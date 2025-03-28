@@ -2,7 +2,7 @@ html {
     scroll-behavior: smooth;
   }
   
-  $primary: #e53935;
+  $primary: {{site.theme_color}};
   $link : $primary;
   $family-sans-serif: "Outfit", "Arial", sans-serif !default;
   $family-monospace: "Roboto Mono", monospace !default;
