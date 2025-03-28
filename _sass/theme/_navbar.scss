@@ -1,0 +1,24 @@
+.navbar {
+    .navbar-item {
+      font-weight:inherit;
+  
+      &:hover {
+        background-color: transparent;
+        color: $primary;
+      }
+  
+      &.is-active {
+        background-color: transparent;
+        color: $primary;
+        font-weight:500;
+      }
+    }
+  
+    .navbar-burger {
+      &:hover {
+        background-color: transparent;
+        color: $primary;
+      }
+    }
+  }
+  
