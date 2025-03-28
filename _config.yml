@@ -65,20 +65,130 @@ fonts:
 # -------------------------------------------------
 # 1.2. Robots And Indexing Settings 
 indexing: true  # Global indexing control
+
 robots:
   bots:
     "*":
       enabled: true
-      disallow: ["/404"]
-      allow: ["/"]
+      disallow:
+        - /404
+      allow:
+        - /
     Googlebot:
       enabled: true
-      disallow: ["/private", "/hidden"]
-      allow: ["/public"]
+      disallow:
+        - /404
+      allow:
+        - /
     Bingbot:
       enabled: true
-      disallow: ["/test"]
-      allow: []
+      disallow:
+        - /404
+      allow:
+        - /
+    YandexBot:
+      enabled: true
+      disallow:
+        - /404
+      allow:
+        - /
+    DuckDuckBot:
+      enabled: true
+      disallow:
+        - /404
+      allow:
+        - /
+    Baiduspider:
+      enabled: true
+      disallow:
+        - /404
+      allow:
+        - /
+    GPTBot:
+      enabled: true
+      disallow:
+        - /404
+      allow:
+        - /
+    Google-Extended:  # Google's AI training bot
+      enabled: true
+      disallow:
+        - /404
+      allow:
+        - /
+    ClaudeBot:  # Anthropic's AI bot
+      enabled: true
+      disallow:
+        - /404
+      allow:
+        - /
+    PerplexityBot:  # Perplexity AI's web crawler
+      enabled: true
+      disallow:
+        - /404
+      allow:
+        - /
+    CCBot:  # Common Crawl bot used for AI models
+      enabled: true
+      disallow:
+        - /404
+      allow:
+        - /
+    SogouSpider:  # Chinese search engine bot
+      enabled: true
+      disallow:
+        - /404
+      allow:
+        - /
+    PetalBot:  # Huawei’s search engine bot
+      enabled: true
+      disallow:
+        - /404
+      allow:
+        - /
+    Bytespider:  # TikTok's web crawler
+      enabled: true
+      disallow:
+        - /404
+      allow:
+        - /
+    AhrefsBot:  # SEO crawler
+      enabled: true
+      disallow:
+        - /404
+      allow:
+        - /
+    SemrushBot:  # SEO bot from Semrush
+      enabled: true
+      disallow:
+        - /404
+      allow:
+        - /
+    MJ12bot:  # Majestic SEO crawler
+      enabled: true
+      disallow:
+        - /404
+      allow:
+        - /
+    DotBot:  # Moz's SEO bot
+      enabled: true
+      disallow:
+        - /404
+      allow:
+        - /
+    FacebookBot:  # Facebook's web crawler
+      enabled: true
+      disallow:
+        - /404
+      allow:
+        - /
+    TwitterBot:  # Twitter's web crawler
+      enabled: true
+      disallow:
+        - /404
+      allow:
+        - /
+
 # ========================================
 
 # google_analytics: ""

@@ -4,11 +4,16 @@ permalink: /robots.txt
 ---
 
 {% if site.indexing == false %}
+# Restrict all bots to only /404
 User-agent: *
 Disallow: /
+Allow: /404
+
 {% else %}
+# Allow all bots except /404
 User-agent: *
 Allow: /
+Disallow: /404
 
 {% for bot in site.robots.bots %}
   {% assign bot_settings = site.robots.bots[bot] %}
