@@ -9,6 +9,46 @@ $family-sans-serif: "Outfit", "Arial", sans-serif !default;
 $family-monospace: "Roboto Mono", monospace !default;
 $render-mode: optimizeLegibility !default;
 
+// Define colors for light mode (default)
+$primary: #e53935;
+$link: $primary;
+$background-light: #ffffff;
+$text-light: #363636;
+
+// Define colors for dark mode
+$background-dark: #121212;
+$text-dark: #f5f5f5;
+$card-dark: #1e1e1e;
+$button-dark: #333;
+$button-border-dark: #444;
+
+// Apply dynamic styles based on mode
+body {
+  background-color: $background-light;
+  color: $text-light;
+  transition: background 0.3s, color 0.3s;
+}
+
+// Dark mode styles
+body.dark-mode {
+  background-color: $background-dark;
+  color: $text-dark;
+
+  .navbar, .card, .box {
+    background-color: $card-dark;
+    color: $text-dark;
+  }
+
+  .button {
+    background-color: $button-dark;
+    border-color: $button-border-dark;
+    color: white;
+  }
+
+  a {
+    color: #90caf9;
+  }
+}
 
 // Ensure columns inside the main content are aligned properly
 .columns {
