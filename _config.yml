@@ -52,7 +52,7 @@ description_separator: <!-- more --> # Marks end of description in posts
 css_inline: true # Will insert all styles into a single <style> block in the <head> element and remove the style <link> reference
 sass:
   style: compressed # Style compression
-primary_color : '#e53935'
+theme_color : '#e53935'
 # Typography 
 fonts:
   preconnect_urls:
@@ -65,7 +65,6 @@ fonts:
 # -------------------------------------------------
 # 1.2. Robots And Indexing Settings 
 indexing: true  # Global indexing control
-
 robots:
   bots:
     "*":

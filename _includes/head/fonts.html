@@ -1,0 +1,5 @@
+{% if site.fonts.preconnect_urls %}
+{% for url in site.fonts.preconnect_urls %}
+     <link rel="preconnect" href="{{ url }}" crossorigin />
+  {% endfor %}
+{% endif %}

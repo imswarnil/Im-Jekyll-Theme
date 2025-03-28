@@ -17,7 +17,8 @@ Disallow: /404
 
 {% for bot in site.robots.bots %}
   {% assign bot_settings = site.robots.bots[bot] %}
-  {% if bot_settings.enabled %}
+  {% if bot_settings.enabled == true %}
+  
     User-agent: {{ bot }}
     {% for path in bot_settings.disallow %}
     Disallow: {{ path }}
@@ -25,6 +26,7 @@ Disallow: /404
     {% for path in bot_settings.allow %}
     Allow: {{ path }}
     {% endfor %}
+    
   {% endif %}
 {% endfor %}
 

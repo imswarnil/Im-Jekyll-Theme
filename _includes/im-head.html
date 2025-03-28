@@ -4,16 +4,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% include head/robots.html %}    
     {% include head/jsonld.html %}   
-    {% if site.fonts.preconnect_urls %}
-    {% for url in site.fonts.preconnect_urls %}
-    <link rel="preconnect" href="{{ url }}" crossorigin />
-    {% endfor %}
-    {% endif %}
-    {% if site.css_inline == true %}
-       {% include head/styles.html %}
-    {% else %}
-      <link rel="stylesheet" href="{{ "/assets/styles.css" | relative_url }}">
-    {% endif %}
+    {% include head/fonts.html %} 
+    {% include head/style.html %}  
     <link rel="manifest" href="{{ "/manifest.json" | relative_url }}">
     <meta name="theme-color" content="{{ site.primary_color | default: '#E53935' }}"/>
     {% if site.favicons or site.avatarurl %}{% include site-favicons.html %}{% endif %}
