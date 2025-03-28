@@ -4,67 +4,21 @@ layout: null
 sitemap: false
 ---
 {
-  "lang": "{{ site.lang | default: 'en-US' }}",
+  "lang": "{{ site.lang | default: "en-US" }}",
   "name": "{{ site.title }}",
   "short_name": "{{ site.short_name | default: site.title | replace: ' ', '' }}",
-  "description": "{{ site.description }}",
   "theme_color": "{{ site.manifest.theme_color | default: '#e53935' }}",
   "background_color": "{{ site.manifest.background_color | default: '#ffffff' }}",
-  "start_url": "/",
-  "display": "standalone",
-  "orientation": "portrait-primary",
-  "scope": "/",
-  "id": "/",
-  "categories": ["education", "technology", "developer"],
-  "dir": "ltr",
-  "iarc_rating_id": "e",
   {% if site.favicons -%}
     "icons": [
       {% for icon in site.favicons -%}
       {
         "src": "{{ icon[1] | relative_url }}",
-        "sizes": "{{ icon[0] }}x{{ icon[0] }}",
-        "type": "image/png"
+        "sizes": "{{ icon[0] }}x{{ icon[0] }}"
       }{% if forloop.last != true %},{% endif %}
       {% endfor %}
     ],
   {% endif -%}
-  "screenshots": [
-    {
-      "src": "/assets/screenshots/homepage.png",
-      "type": "image/png",
-      "sizes": "1280x720"
-    }
-  ],
-  "related_applications": [
-    {
-      "platform": "web",
-      "url": "https://theme.imswarnil.com"
-    },
-    {
-      "platform": "play",
-      "id": "com.imswarnil.app"
-    }
-  ],
-  "prefer_related_applications": false,
-  "shortcuts": [
-    {
-      "name": "Dashboard",
-      "short_name": "Dashboard",
-      "description": "Go to your dashboard",
-      "url": "/dashboard",
-      "icons": [{ "src": "/assets/icons/dashboard.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "Blog",
-      "short_name": "Blog",
-      "description": "Read the latest blogs",
-      "url": "/blog",
-      "icons": [{ "src": "/assets/icons/blog.png", "sizes": "192x192" }]
-    }
-  ],
-  "permissions": {
-    "geolocation": "optional",
-    "push": "granted"
-  }
+  "start_url": "/",
+  "display": "standalone"
 }
