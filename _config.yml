@@ -78,7 +78,7 @@ robots:
 
 # ========================================
 
-# google_analytics: ""
+google_analytics: "G-GGHMLZR4YQ"
 # google_analytics_anonymize_ip: ""
 adsense:
   enabled: true
