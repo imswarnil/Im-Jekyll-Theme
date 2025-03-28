@@ -39,7 +39,7 @@ navbar:
       - name: Showcase
         link: /showcase/
         icon: fa-star
-  - link: /search/
+  - link: /search
     icon: fa-search
 
 

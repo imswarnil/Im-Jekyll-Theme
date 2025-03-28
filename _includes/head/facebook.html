@@ -1,0 +1,24 @@
+<!-- Open Graph Metadata for Facebook -->
+{% if page.layout == "post" or page.layout == "article" %}
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
+  <meta property="article:modified_time" content="{{ page.last_modified_at | default: page.date | date_to_xmlschema }}">
+  <meta property="article:author" content="https://www.facebook.com/your-profile">
+  <meta property="article:tag" content="{{ page.tags | join: ', ' }}">
+{% else %}
+  <meta property="og:type" content="website">
+{% endif %}
+
+<meta property="og:title" content="{{ page.title | default: site.title }}">
+<meta property="og:description" content="{{ page.description | default: site.description }}">
+<meta property="og:url" content="{{ site.url }}{{ page.url }}">
+<meta property="og:site_name" content="{{ site.title }}">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="{{ site.url }}{{ page.image | default: '/assets/default-image.jpg' }}">
+<meta property="og:image:alt" content="{{ page.image_alt | default: 'Default image description' }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Facebook Admin and App ID (for Insights) -->
+<meta property="fb:app_id" content="Your-Facebook-App-ID">
+<meta property="fb:admins" content="Your-Facebook-Admin-ID">
