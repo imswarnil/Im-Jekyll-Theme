@@ -2,33 +2,167 @@
 layout: null
 permalink: /robots.txt
 ---
-
 {% if site.indexing == false %}
-# Restrict all bots to only /404
 User-agent: *
 Disallow: /
-Allow: /404
 
 {% else %}
-# Allow all bots except /404
 User-agent: *
 Allow: /
 Disallow: /404
-
-{% for bot in site.robots.bots %}
-  {% assign bot_settings = site.robots.bots[bot] %}
-  {% if bot_settings.enabled == true %}
-  
-    User-agent: {{ bot }}
-    {% for path in bot_settings.disallow %}
-    Disallow: {{ path }}
-    {% endfor %}
-    {% for path in bot_settings.allow %}
-    Allow: {{ path }}
-    {% endfor %}
-    
-  {% endif %}
-{% endfor %}
-
 Sitemap: {{ site.url }}/sitemap.xml
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-News
+Allow: /
+
+User-agent: Googlebot-Video
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: BingPreview
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: Yandex
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Sogou
+Allow: /
+
+User-agent: Exabot
+Allow: /
+
+User-agent: MojeekBot
+Allow: /
+
+User-agent: Gigablast
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: SemrushBot
+Allow: /
+
+User-agent: AhrefsBot
+Allow: /
+
+User-agent: MJ12bot
+Allow: /
+
+User-agent: PetalBot
+Allow: /
+
+User-agent: Facebot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: NeevaBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: DataForSeoBot
+Allow: /
+
+User-agent: SeznamBot
+Allow: /
+
+User-agent: Archive.org_bot
+Allow: /
+
+User-agent: DotBot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: Zoominfobot
+Allow: /
+
+User-agent: Pinterestbot
+Allow: /
+
+User-agent: Discordbot
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+User-agent: W3C-checklink
+Allow: /
+
+User-agent: Magpie-Crawler
+Allow: /
+
+User-agent: Serpstatbot
+Allow: /
+
+User-agent: AspiegelBot
+Allow: /
+
+User-agent: Redditbot
+Allow: /
+
+User-agent: BaiduImagespider
+Allow: /
+
+User-agent: Google-Site-Verification
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: AdsBot-Google-Mobile
+Allow: /
+
+User-agent: AdsBot-Google-Mobile-Apps
+Allow: /
+
 {% endif %}
