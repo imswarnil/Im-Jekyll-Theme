@@ -1,25 +1,4 @@
 
-html {
-  scroll-behavior: smooth;
-}
-
-$primary: #e53935;
-$link : $primary;
-$family-sans-serif: "Outfit", "Arial", sans-serif !default;
-$family-monospace: "Roboto Mono", monospace !default;
-
-// Ensure columns inside the main content are aligned properly
-.columns {
-    align-items: flex-start; // Adjust alignment as needed
-  }
-  
- // Sticky behavior for the sidebar when page scrolls
-.sidebar {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 20px; // Adjust top spacing as needed
-  }
-
 @import "../_sass/theme/index";
 @import "../node_modules/bulma/sass/index";
 
