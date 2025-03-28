@@ -69,7 +69,7 @@ robots:
   bots:
     "*":
       enabled: true
-      disallow: []
+      disallow: ["/404"]
       allow: ["/"]
     Googlebot:
       enabled: true
