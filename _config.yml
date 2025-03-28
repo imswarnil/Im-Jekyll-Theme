@@ -21,7 +21,7 @@
 encoding: utf-8 # Make sure the encoding is right
 lang: en-GB # Set the site language
 title: "Im Jekyll Theme" # Site name or title, also used in jekyll-seo-tag
-description: "Alembic is a starting point for Jekyll projects. Rather than starting from scratch, this boilerplate is designed to get the ball rolling immediately" # Site description and default description, also used in jekyll-seo-tag
+description: "An open-source Jekyll theme crafted using the Bulma CSS framework. This theme utilizes Bulma SCSS, making it incredibly easy to customize and adapt to your specific needs. With over 7 layouts and 10+ collections" # Site description and default description, also used in jekyll-seo-tag
 timezone: Europe/London # Timezone for blog posts and alike
 service_worker: false # Will turn off the service worker if set to false
 short_name: "IMJKT" # The web application short name, defaults to the site title
