@@ -8,15 +8,10 @@ Disallow: /
 
 {% else %}
 User-agent: *
-{% for path in site.robots.allow %}
-Allow: {{ path }}
-{% endfor %}
+Allow: /
+Disallow: /404
+Sitemap: {{ site.url }}/sitemap.xml
 
-{% for path in site.robots.disallow %}
-Disallow: {{ path }}
-{% endfor %}
-
-Sitemap: {{ site.site_url }}/sitemap.xml
 User-agent: Googlebot
 Allow: /
 
