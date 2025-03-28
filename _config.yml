@@ -39,7 +39,7 @@ favicons: # Favicons are also used in the manifest file. Syntax is 'size: path'
  #----------------------------------------------------------------------------------------------
 baseurl : ''
 url: 'https://theme.imswarnil.com' # Site URL, also used in jekyll-seo-tag
-permalink: none  # Permalink style /:categories/:title:output_ext
+permalink: /:title  # Permalink style /:categories/:title:output_ext
 repo: "https://github.com/imswarnil/CRM-Analytics-Academy"
 email: "contact@imswarnil.com"
 description_separator: <!-- more --> # Marks end of description in posts
