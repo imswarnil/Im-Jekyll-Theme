@@ -3,6 +3,12 @@ html {
   scroll-behavior: smooth;
 }
 
+// Prefixes
+$class-prefix: "" !default;
+$cssvars-prefix: "bulma-" !default;
+$helpers-prefix: "im-" !default;
+$helpers-has-prefix: "im-" !default;
+
 $primary: #e53935;
 $link : $primary;
 $family-sans-serif: "Outfit", "Arial", sans-serif !default;
