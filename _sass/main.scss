@@ -9,6 +9,33 @@ $family-sans-serif: "Outfit", "Arial", sans-serif !default;
 $family-monospace: "Roboto Mono", monospace !default;
 $render-mode: optimizeLegibility !default;
 
+$svg-primary: #e53935;
+$svg-secondary: #acbec2;
+$svg-light: #e8edee;
+$svg-text: #000000;
+$svg-background: #ffffff;
+
+.svg-primary {
+  fill: $svg-primary;
+}
+
+.svg-secondary {
+  fill: $svg-secondary;
+}
+
+.svg-light {
+  fill: $svg-light;
+}
+
+.svg-text {
+  fill: $svg-text;
+}
+
+.svg-background {
+  fill: $svg-background;
+}
+
+
 // Ensure columns inside the main content are aligned properly
 .columns {
     align-items: flex-start; // Adjust alignment as needed
