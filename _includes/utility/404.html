@@ -6,9 +6,9 @@
                     <div class="column is-10">
                         <div class="columns is-vcentered">
                             <div class="column is-one-fourth">
-                                <figure class="image">
-                                    <img src="{{ page.error_image | relative_url }}" alt="404 Image">
-                                </figure>
+                                <figure class="image is-3by1">
+                                    <object type="image/svg+xml" data="{{ page.error_image | relative_url }}" class="svg-icon"></object>
+                                </figure>                                
                             </div>
                             <div class="column">
                                 <h1 class="title is-1 has-text-white">{{ page.title }}</h1>
@@ -52,8 +52,8 @@
                 <div class="columns is-centered">
                     <div class="column is-7 mt-3">
                         <figure class="image is-3by1">
-                            <img src="{{ page.error_image | relative_url }}" alt="404 Image">
-                        </figure>
+                            <object type="image/svg+xml" data="{{ page.error_image | relative_url }}" class="svg-icon"></object>
+                        </figure>                        
                         <h1 class="title is-1 has-text-white">{{ page.title }}</h1>
                         <h2 class="subtitle is-3 has-text-white">404 - Page Not Found</h2>
                         <p class="subtitle is-5 has-text-white">

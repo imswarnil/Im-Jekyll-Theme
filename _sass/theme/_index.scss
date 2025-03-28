@@ -18,3 +18,28 @@
     border-radius: 20px;
 }
 
+/* Apply to all SVG elements */
+svg {
+    fill: #2196F3 !important;  /* Primary blue color */
+    stroke: #1565C0 !important; /* Darker blue for stroke */
+    stroke-width: 1.5; /* Slightly thicker stroke */
+    transition: all 0.3s ease-in-out; /* Smooth transition for color changes */
+}
+
+/* Ensure individual SVG elements inside are colored properly */
+svg path,
+svg rect,
+svg circle,
+svg ellipse,
+svg polygon,
+svg polyline {
+    fill: inherit; /* Inherit fill color from parent SVG */
+    stroke: inherit; /* Inherit stroke color */
+}
+
+/* Hover effect for interactive styling */
+svg:hover {
+    fill: #1E88E5 !important;  /* Slightly lighter blue on hover */
+    stroke: #0D47A1 !important; /* Darker stroke on hover */
+    transform: scale(1.05); /* Slight scale effect */
+}
