@@ -8,47 +8,20 @@ $link : $primary;
 $family-sans-serif: "Outfit", "Arial", sans-serif !default;
 $family-monospace: "Roboto Mono", monospace !default;
 $render-mode: optimizeLegibility !default;
+// 🏛 Golden Ratio Font Sizes
+$base-font-size: 1rem;      // 16px (Default)
+$size-7: $base-font-size * (1 / 1.618); // 9.8px (Small)
+$size-6: $base-font-size;                 // 16px (Body)
+$size-5: $base-font-size * 1.618;        // 25.9px (Subheadings)
+$size-4: $size-5 * 1.618;                // 41.9px (H4)
+$size-3: $size-4 * 1.618;                // 67.8px (H3)
+$size-2: $size-3 * 1.618;                // 109.7px (H2)
+$size-1: $size-2 * 1.618;                // 177.5px (H1)
 
-// Define colors for light mode (default)
-$primary: #e53935;
-$link: $primary;
-$background-light: #ffffff;
-$text-light: #363636;
-
-// Define colors for dark mode
-$background-dark: #121212;
-$text-dark: #f5f5f5;
-$card-dark: #1e1e1e;
-$button-dark: #333;
-$button-border-dark: #444;
-
-// Apply dynamic styles based on mode
-body {
-  background-color: $background-light;
-  color: $text-light;
-  transition: background 0.3s, color 0.3s;
-}
-
-// Dark mode styles
-body.dark-mode {
-  background-color: $background-dark;
-  color: $text-dark;
-
-  .navbar, .card, .box {
-    background-color: $card-dark;
-    color: $text-dark;
-  }
-
-  .button {
-    background-color: $button-dark;
-    border-color: $button-border-dark;
-    color: white;
-  }
-
-  a {
-    color: #90caf9;
-  }
-}
+// ⚖ Golden Ratio Line Heights
+$line-height-title: 1.3;
+$line-height-body: 1.618;
+$line-height-heading: 1.2;
 
 // Ensure columns inside the main content are aligned properly
 .columns {
