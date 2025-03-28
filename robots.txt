@@ -11,10 +11,15 @@ User-agent: *
 Allow: /
 
 {% for bot in site.robots.bots %}
-  {% if site.robots.bots[bot].enabled %}
+  {% assign bot_settings = site.robots.bots[bot] %}
+  {% if bot_settings.enabled %}
     User-agent: {{ bot }}
-    {% for path in site.robots.bots[bot].disallow %}Disallow: {{ path }}{% endfor %}
-    {% for path in site.robots.bots[bot].allow %}Allow: {{ path }}{% endfor %}
+    {% for path in bot_settings.disallow %}
+    Disallow: {{ path }}
+    {% endfor %}
+    {% for path in bot_settings.allow %}
+    Allow: {{ path }}
+    {% endfor %}
   {% endif %}
 {% endfor %}
 

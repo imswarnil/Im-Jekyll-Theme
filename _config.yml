@@ -64,13 +64,21 @@ fonts:
 
 # -------------------------------------------------
 # 1.2. Robots And Indexing Settings 
-indexing: true
+indexing: true  # Global indexing control
 robots:
   bots:
     "*":
       enabled: true
       disallow: []
       allow: ["/"]
+    Googlebot:
+      enabled: true
+      disallow: ["/private", "/hidden"]
+      allow: ["/public"]
+    Bingbot:
+      enabled: true
+      disallow: ["/test"]
+      allow: []
 # ========================================
 
 # google_analytics: ""
