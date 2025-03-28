@@ -2,63 +2,6 @@
 html {
   scroll-behavior: smooth;
 }
-// Primary Colors (Twilio Paste uses shades of red & blue)
-$primary: #e63946; // Twilio Red
-$info: #0073e6; // Twilio Blue
-$success: #2ca58d; // Twilio Green
-$warning: #ff9f1c;
-$danger: #d62828;
-
-// Text and Background
-$text: #121212; // Darker text for better readability
-$text-strong: #000000;
-$title-color: $text-strong;
-$link: $primary;
-
-// Font (Twilio uses Inter, but you can use Outfit)
-$family-sans-serif: "Inter", "Outfit", sans-serif;
-$family-monospace: "Roboto Mono", monospace;
-
-// Border Radius (Twilio Paste uses more rounded corners)
-$radius: 8px;
-$radius-small: 6px;
-$radius-large: 12px;
-
-// Shadows (for a soft, elevated look)
-$box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12);
-$box-shadow-light: 0px 1px 3px rgba(0, 0, 0, 0.08);
-$box-shadow-dark: 0px 4px 12px rgba(0, 0, 0, 0.15);
-
-// Spacing (Twilio Paste uses slightly more padding)
-$gap: 1.25rem;
-$padding: 1rem;
-$padding-small: 0.75rem;
-$padding-large: 1.5rem;
-
-// Buttons (Twilio has more defined buttons)
-$button-padding-vertical: 0.75rem;
-$button-padding-horizontal: 1.5rem;
-$button-border-width: 2px;
-$button-radius: $radius;
-$button-background-color: $primary;
-$button-color: #ffffff; // White text for contrast
-$button-hover-color: darken($primary, 10%);
-$button-shadow: $box-shadow;
-
-// Inputs (More rounded and larger)
-$input-border-radius: $radius;
-$input-background-color: #ffffff;
-$input-color: $text;
-$input-border-color: darken($primary, 15%);
-$input-hover-border-color: lighten($primary, 10%);
-$input-padding-vertical: 0.75rem;
-$input-padding-horizontal: 1rem;
-
-// Navbar (Make it minimalistic like Twilio's)
-$navbar-background-color: #ffffff;
-$navbar-item-color: $text;
-$navbar-item-hover-color: $primary;
-$navbar-item-hover-background-color: lighten($primary, 35%);
 
 
 // Ensure columns inside the main content are aligned properly
