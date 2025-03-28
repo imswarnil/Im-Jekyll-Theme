@@ -3,6 +3,12 @@ html {
   scroll-behavior: smooth;
 }
 
+$primary: #e53935;
+$link : $primary;
+$family-sans-serif: "Outfit", "Arial", sans-serif !default;
+$family-monospace: "Roboto Mono", monospace !default;
+$render-mode: optimizeLegibility !default;
+
 
 // Ensure columns inside the main content are aligned properly
 .columns {
