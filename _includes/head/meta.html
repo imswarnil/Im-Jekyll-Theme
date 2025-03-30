@@ -1,6 +1,8 @@
 <title>{{ page.title | default: site.title }}</title>
 <meta name="description" content="{{ page.description | default: site.description }}">
 <meta name="keywords" content="{{ page.keywords | default: site.keywords | join: ', ' }}">
+<meta name="author" content="{{ site.data.authors[page.author].name | default: site.author.name }}">
+
 
 <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
 <!-- Open Graph / Facebook -->
