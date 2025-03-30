@@ -62,7 +62,7 @@ author:
  # 1.2. Site Url, Links & Github Repo
  #----------------------------------------------------------------------------------------------
 baseurl : ''
-url: 'https://theme.imswarnil.com' # Site URL, also used in jekyll-seo-tag
+url: 'https://jekyll.imswarnil.com' # Site URL, also used in jekyll-seo-tag
 permalink: /:title  # Permalink style /:categories/:title:output_ext
 repo: "https://github.com/imswarnil/CRM-Analytics-Academy"
 email: "contact@imswarnil.com"
