@@ -20,7 +20,8 @@
 encoding: utf-8 # Make sure the encoding is right
 lang: en-GB # Set the site language
 title: "Im Jekyll Theme" # Site name or title, also used in jekyll-seo-tag
-description: "An open-source Jekyll theme crafted using the Bulma CSS framework. This theme utilizes Bulma SCSS, making it incredibly easy to customize and adapt to your specific needs. With over 7 layouts and 10+ collections" # Site description and default description, also used in jekyll-seo-tag
+description: "An open-source Jekyll theme crafted using the Bulma CSS framework. This theme utilizes Bulma SCSS, making it incredibly easy to customize and adapt to your specific needs. With over 7 layouts and 10+ collections" # Site description and default description, also used in seo
+keywords: ["Salesforce", "CRM", "Apex", "Lightning", "Trailhead", "Jekyll"]
 timezone: Europe/London # Timezone for blog posts and alike
 service_worker: false # Will turn off the service worker if set to false
 short_name: "IMJKT" # The web application short name, defaults to the site title
@@ -34,6 +35,29 @@ favicons: # Favicons are also used in the manifest file. Syntax is 'size: path'
   180: '/assets/logos/logo@180px.png'
   512: '/assets/logos/logo@512px.png'
   1024: '/assets/logos/logo@1024px.png'
+# Author (Admin) Information
+author:
+  name: "John Doe"
+  short_name: "JD"
+  image : "/assets/logos/logo.svg"
+  description: "A passionate developer and content creator who loves building open-source projects."
+  titles :
+    - "Software Engineer"
+    - "Content Creator"
+    - "Freelancer"
+  hobbies:
+    - "Coding"
+    - "Blogging"
+    - "Photography"
+    - "Traveling"
+  social:
+    twitter: "https://twitter.com/johndoe"
+    linkedin: "https://linkedin.com/in/johndoe"
+    github: "https://github.com/johndoe"
+    instagram: "https://instagram.com/johndoe"
+    facebook: "https://facebook.com/johndoe"
+    website: "https://johndoe.com"
+
 # --------------------------------------------
  # 1.2. Site Url, Links & Github Repo
  #----------------------------------------------------------------------------------------------
@@ -60,8 +84,6 @@ fonts:
     - https://fonts.googleapis.com/css2?family=Geist:wght@100&display=swap
     - https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap
     - https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap 
-
-
 # -------------------------------------------------
 # 1.2. Robots And Indexing Settings 
 indexing: true  # Global indexing control
