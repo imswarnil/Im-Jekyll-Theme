@@ -1,2 +1,25 @@
 <!-- Include Open Graph for different platforms -->
 {% include head/open-graph/facebook.html %}
+<!-- Primary Meta Tags -->
+<title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+<meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+<meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+<meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+<meta property="og:image" content="{{ site.url }}{% if page.image %}{{ page.image }}{% else %}/assets/default-og-image.jpg{% endif %}">
+<meta property="og:url" content="{{ site.url }}{{ page.permalink }}">
+<meta property="og:site_name" content="{{ site.title }}">
+<meta property="og:locale" content="{{ site.locale }}">
+
+<!-- Twitter Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+<meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+<meta name="twitter:image" content="{{ site.url }}{% if page.image %}{{ page.image }}{% else %}/assets/default-og-image.jpg{% endif %}">
+<meta name="twitter:site" content="@{{ site.twitter_username }}">
+
+<!-- Additional SEO Meta -->
+<link rel="canonical" href="{{ site.url }}{{ page.permalink }}">
+<meta name="author" content="{% if page.author %}{{ page.author }}{% else %}Namaste Salesforce{% endif %}">

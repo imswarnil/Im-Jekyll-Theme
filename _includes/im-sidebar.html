@@ -15,9 +15,7 @@
       <div class=" my-5">
         {% assign contentsTitle = page.toc_title | default: 'Contents' %}
         {% include utility/toc.html html=content class='menu-list' h_min=2 h_max=3 contents_title=contentsTitle %}
-    </div>
- 
-    
+    </div>   
     </div>
      {% elsif page.layout == "categories" %}
     <div class="section">
