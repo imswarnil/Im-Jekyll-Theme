@@ -64,7 +64,7 @@ author:
 baseurl : ''
 url: 'https://jekyll.imswarnil.com' # Site URL, also used in jekyll-seo-tag
 permalink: /:title  # Permalink style /:categories/:title:output_ext
-repo: "https://github.com/imswarnil/CRM-Analytics-Academy"
+repo: "https://github.com/imswarnil/Im-Jekyll-Theme"
 email: "contact@imswarnil.com"
 description_separator: <!-- more --> # Marks end of description in posts
 # date_format: "%-d %B %Y" # Blog post date formatting using placeholder formatting
