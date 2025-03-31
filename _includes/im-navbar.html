@@ -2,6 +2,13 @@
     <div class="container">
         <div class="navbar-brand">
             {% include navbar/logo.html %}
+             <!-- Search Icon -->
+             <a href="/search" class="navbar-item is-hidden-desktop">
+                <span class="icon is-medium has-text-primary"><i class="fas fa-search"></i></span>
+            </a>
+            <a href="/search" class="navbar-item is-hidden-desktop">
+                <span class="icon is-medium has-text-primary"><i class="fas fa-github"></i></span>
+            </a>
             <a
                 role="button"
                 class="navbar-burger burger"
@@ -15,10 +22,6 @@
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
-            </a>
-            <!-- Search Icon -->
-            <a href="/search" class="navbar-item is-hidden-desktop">
-                <span class="icon is-medium has-text-primary"><i class="fas fa-search"></i></span>
             </a>
         </div>
         <div class="navbar-menu" id="navMenu" :class="{ 'is-active': openNav }">
