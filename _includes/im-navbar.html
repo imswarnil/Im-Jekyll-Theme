@@ -1,10 +1,7 @@
-<nav class="navbar {% if site.fixed_navbar %} is-fixed-{{ site.fixed_navbar }} {% endif %}" x-data="{ openNav: false }">
+<nav class="navbar {% if site.fixed_navbar %} is-fixed-top {% endif %}" x-data="{ openNav: false }">
     <div class="container">
         <div class="navbar-brand">
-            <a href="{{ site.baseurl }}/" class="navbar-item">
-                <img class="image mr-2" src="{{ site.baseurl }}{{ site.logo}}" alt="{{ site.title }}Logo">
-                {{ site.title }}
-            </a>
+            {% include navbar/logo.html %}
             <a
                 role="button"
                 class="navbar-burger burger"
