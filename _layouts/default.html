@@ -5,4 +5,68 @@
     {{ content }}
 {% include site-before-end.html %}
 </body>
+<div class="layout" x-data="{ openNav: false }">
+    <!-- Sidebar -->
+    <aside class="sidenav" :class="{ 'is-expanded': openNav }">
+        <div class="sidenav-header">
+            <a href="{{ site.baseurl }}/" class="sidenav-brand">
+                <img src="{{ site.baseurl }}{{ site.logo }}" alt="{{ site.title }} Logo">
+                <span x-show="openNav">{{ site.title }}</span>
+            </a>
+            <button class="toggle-btn" x-on:click="openNav = !openNav">
+                <i class="fas" :class="{ 'fa-chevron-left': openNav, 'fa-chevron-right': !openNav }"></i>
+            </button>
+        </div>
+        
+        <nav class="sidenav-menu">
+            {% for item in site.data.navigation.navbar %}
+                {% if item.dropdown %}
+                    <div class="sidenav-item has-dropdown" x-data="{ open: false }">
+                        <a href="#" class="sidenav-link" x-on:click.prevent="open = !open">
+                            <i class="fas {{ item.icon }}"></i>
+                            <span x-show="openNav">{{ item.name }}</span>
+                            <i class="fas fa-chevron-down dropdown-icon" x-show="openNav"></i>
+                        </a>
+                        <div class="sidenav-dropdown" x-show="open" x-transition>
+                            {% for subitem in item.dropdown %}
+                                <a href="{{ subitem.link | relative_url }}" class="sidenav-subitem">
+                                    <i class="fas {{ subitem.icon }}"></i>
+                                    <span x-show="openNav">{{ subitem.name }}</span>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <hr>
+                {% else %}
+                    <a href="{{ item.link | relative_url }}" class="sidenav-item">
+                        <i class="fas {{ item.icon }}"></i>
+                        <span x-show="openNav">{{ item.name }}</span>
+                    </a>
+                    <hr>
+                {% endif %}
+            {% endfor %}
+        </nav>
+        
+        <!-- Bottom Section -->
+        <div class="sidenav-footer">
+            <a href="/search" class="sidenav-item">
+                <i class="fas fa-search"></i>
+                <span x-show="openNav">Search</span>
+            </a>
+            <div class="social-links">
+                {% for item in site.data.navigation.social_media %}
+                    <a href="{{ item.link }}" class="social-icon" target="_blank">
+                        <i class="fab fa-{{ item.name|downcase }}"></i>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="content" :class="{ 'shifted': openNav }">
+        {{ content }}
+    </main>
+</div>
+
 </html>
