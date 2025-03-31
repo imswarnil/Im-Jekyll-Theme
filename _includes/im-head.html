@@ -5,12 +5,11 @@
     {% include head/robots.html %}    
     {% include head/meta.html %} 
     {% include head/jsonld.html %}  
-    <link rel="sitemap" type="application/xml" title="Sitemap" href="{{ site.url }}/sitemap.xml">
-    <link rel="canonical" href="{{ site.url }}{{ page.url }}">
     {% include head/fonts.html %} 
     {% include head/style.html %}  
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="{{ site.url }}/sitemap.xml">
     <link rel="manifest" href="{{ "/manifest.json" | relative_url }}">
-    <meta name="theme-color" content="{{ site.primary_color | default: '#E53935' }}"/>
+    <link rel="canonical" href="{{ site.url }}{{ page.url | replace:'index.html','' }}">
     {% include head/favicons.html %}
     {% include head/google-analytics.html %}
     {% include head/adsense.html %}

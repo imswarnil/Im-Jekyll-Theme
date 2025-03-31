@@ -6,12 +6,10 @@
   {% else %}
   <meta name="author" content="{{ site.author.name }}">
 {% endif %}
-<link rel="canonical" href="{{ site.url }}{{ page.url | replace:'index.html','' }}">
-
+<meta name="theme-color" content="{{ site.primary_color | default: '#E53935' }}"/>
 <meta property="og:logo" content="{{ site.url }}{{ site.logo }}">
 <meta property="og:site_name" content="{{ site.title }}">
 <meta property="og:locale" content="{{ site.locale }}">
-
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="{% case page.layout %}
     {% when 'post' %}article
