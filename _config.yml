@@ -18,6 +18,7 @@
 # 1.1. Site Logo,Favicons,Manifest and Icons
 # -------------------------------------------
 encoding: utf-8 # Make sure the encoding is right
+sidebar_nav : true 
 lang: en # Set the site language
 locale : en-IN 
 title: "Im Jekyll Theme" # Site name or title, also used in jekyll-seo-tag

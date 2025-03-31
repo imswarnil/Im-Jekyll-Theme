@@ -1,10 +1,113 @@
 <!DOCTYPE html>
-<html lang="{{ site.lang | default: "en-US" }}">
+<html lang="{{ site.lang | default: 'en-US' }}">
 {% include im-head.html %}
 <body class="layout-{{ page.layout | default: 'default'}}">
-    {{ content }}
+    
+    {% if site.sidebar_nav %}
+        <div class="columns">
+                <div class="column is-2 is-sidebar menu is-hidden-mobile" x-data="{ openNav: true }" :class="{ 'is-collapsed': !openNav }">
+                    <div class="menu-header">
+                        <a href="{{ site.baseurl }}/" class="menu-item">
+                            <img class="image mr-2" src="{{ site.baseurl }}{{ site.logo }}" alt="{{ site.title }} Logo">
+                            {{ site.title }}
+                        </a>
+                        <button class="button is-small" @click="openNav = !openNav">
+                            <i class="fas" :class="openNav ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
+                        </button>
+                    </div>
+                    <hr>
+                    <ul class="menu-list">
+                        {% for item in site.data.navigation.navbar %}
+                            {% if item.dropdown %}
+                                <li>
+                                    <a class="has-text-weight-bold" @click.prevent="openNav = !openNav">
+                                        {% if item.icon %}<i class="fas {{ item.icon }} mr-2"></i>{% endif %}
+                                        {{ item.name }}
+                                        <i class="fas fa-chevron-down ml-auto"></i>
+                                    </a>
+                                    <ul class="menu-dropdown" x-show="openNav">
+                                        {% for subitem in item.dropdown %}
+                                            <li>
+                                                <a href="{{ subitem.link | relative_url }}">
+                                                    {% if subitem.icon %}<i class="fas {{ subitem.icon }} mr-2"></i>{% endif %}
+                                                    {{ subitem.name }}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{{ item.link | relative_url }}">
+                                        {% if item.icon %}<i class="fas {{ item.icon }} mr-2"></i>{% endif %}
+                                        {{ item.name }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                    <hr>
+                    <div class="menu-bottom">
+                        <a href="/search" class="menu-item has-text-link">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                        <div class="social-links">
+                            {% for item in site.data.navigation.social_media %}
+                                <a href="{{ item.link }}" target="_blank" class="menu-item">
+                                    <i class="fab fa-{{ item.name | downcase }}"></i>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </aside>
+                
+                <style>
+                .menu {
+                    width: 250px;
+                    background: #f8f9fa;
+                    height: 100vh;
+                    padding: 1rem;
+                    transition: width 0.3s;
+                    position: fixed;
+                    left: 0;
+                    top: 0;
+                    bottom: 0;
+                }
+                .menu.is-collapsed {
+                    width: 80px;
+                }
+                .menu-header {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+                .menu-list li {
+                    padding: 0.5rem 0;
+                }
+                .menu-dropdown {
+                    padding-left: 1rem;
+                }
+                .menu-bottom {
+                    position: absolute;
+                    bottom: 1rem;
+                    width: 100%;
+                }
+                </style>
+                
+            </aside>
+
+            <!-- Main Content -->
+            <main class="column is-10">
+                {{ content }}
+            </main>
+        </div>
+    {% else %}
+        <!-- Top Navbar -->
+        {% include im-navbar.html %}
+        <main>
+            {{ content }}
+        </main>
+    {% endif %}
 {% include site-before-end.html %}
 </body>
-{% include im-navbar.html %}
-{{content}}
 </html>
