@@ -1,80 +1,57 @@
-<aside class="sidebar" x-data="{ open: false }" :class="{ 'is-collapsed': !open }">
-    <div class="sidebar-header">
-        <a href="{{ site.baseurl }}/" class="sidebar-logo">
-            <img src="{{ site.baseurl }}{{ site.logo }}" alt="{{ site.title }} Logo">
-        </a>
-        <button class="toggle-btn" x-on:click="open = !open">
-            <i class="fas" :class="open ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
-        </button>
-    </div>
-    <nav class="sidebar-menu">
-        {% for item in site.data.navigation.navbar %}
-            {% if item.dropdown %}
-                <div class="menu-group" x-data="{ expanded: false }">
-                    <button class="menu-item has-dropdown" x-on:click="expanded = !expanded">
-                        {% if item.icon %}<i class="fas {{ item.icon }}"></i>{% endif %}
-                        <span x-show="open">{{ item.name }}</span>
-                        <i class="fas fa-chevron-down" x-show="open"></i>
-                    </button>
-                    <div class="submenu" x-show="expanded && open">
-                        {% for subitem in item.dropdown %}
-                            <a href="{{ subitem.link | relative_url }}" class="submenu-item">
-                                {% if subitem.icon %}<i class="fas {{ subitem.icon }}"></i>{% endif %}
-                                {{ subitem.name }}
-                            </a>
-                        {% endfor %}
-                    </div>
-                </div>
-            {% else %}
-                <a href="{{ item.link | relative_url }}" class="menu-item">
-                    {% if item.icon %}<i class="fas {{ item.icon }}"></i>{% endif %}
-                    <span x-show="open">{{ item.name }}</span>
+<aside class="sidebar" x-data="{ openNav: false }">
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle" x-on:click="openNav = !openNav">
+        <i class="fas" :class="{ 'fa-bars': !openNav, 'fa-times': openNav }"></i>
+    </button>
+    
+    <div class="sidebar-content" :class="{ 'is-active': openNav }">
+        <!-- Logo and Title -->
+        <div class="sidebar-header">
+            <a href="{{ site.baseurl }}/" class="sidebar-brand">
+                <img class="image mr-2" src="{{ site.baseurl }}{{ site.logo }}" alt="{{ site.title }} Logo">
+                <span>{{ site.title }}</span>
+            </a>
+        </div>
+        
+        <!-- Sidebar Menu Items -->
+        <ul class="sidebar-menu">
+            {% for item in site.data.navigation.navbar %}
+                {% if item.dropdown %}
+                    <li class="has-dropdown">
+                        <a href="{{ item.link | relative_url }}" class="sidebar-link">
+                            {% if item.icon %}<i class="fas {{ item.icon }}"></i>{% endif %}
+                            {{ item.name }}
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for subitem in item.dropdown %}
+                                <li>
+                                    <a href="{{ subitem.link | relative_url }}" class="sidebar-item">
+                                        {% if subitem.icon %}<i class="fas {{ subitem.icon }}"></i>{% endif %}
+                                        {{ subitem.name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{{ item.link | relative_url }}" class="sidebar-link">
+                            {% if item.icon %}<i class="fas {{ item.icon }}"></i>{% endif %}
+                            {{ item.name }}
+                        </a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        
+        <!-- Social Media Links -->
+        <div class="sidebar-social">
+            {% for item in site.data.navigation.social_media %}
+                <a href="{{ item.link }}" target="_blank" class="sidebar-social-item">
+                    <i class="fab fa-{{ item.name | downcase }}"></i>
                 </a>
-            {% endif %}
-        {% endfor %}
-    </nav>
+            {% endfor %}
+        </div>
+    </div>
 </aside>
-
-<style>
-.sidebar {
-    width: 250px;
-    background: #2d2d2d;
-    color: white;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    transition: width 0.3s;
-    overflow-x: hidden;
-}
-.sidebar.is-collapsed {
-    width: 80px;
-}
-.sidebar .sidebar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-}
-.sidebar .sidebar-menu {
-    padding: 10px;
-}
-.menu-item {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    color: white;
-    text-decoration: none;
-}
-.menu-item:hover {
-    background: #444;
-}
-.has-dropdown {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
-.submenu {
-    padding-left: 20px;
-}
-</style>
