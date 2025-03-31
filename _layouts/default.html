@@ -6,69 +6,71 @@
     {% if site.sidebar_nav %}
         <div class="columns is-gapless">
             <!-- Sidebar -->
-            <aside class="column is-sidebar menu is-hidden-mobile" x-data="{ openNav: true }" :class="{ 'is-collapsed': !openNav }">
-                <div class="menu-header">
-                    <a href="{{ site.baseurl }}/" class="menu-item">
-                        <img class="image mr-2" src="{{ site.baseurl }}{{ site.logo }}" alt="{{ site.title }} Logo">
-                        <span x-show="openNav">{{ site.title }}</span>
-                    </a>
-                    <button class="button is-small" @click="openNav = !openNav">
-                        <i class="fas" :class="openNav ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
-                    </button>
-                </div>
-                <hr>
-                
-                <!-- Sidebar Navigation -->
-                <ul class="menu-list">
-                    {% for item in site.data.navigation.navbar %}
-                        {% if item.dropdown %}
-                            <li x-data="{ openDropdown: false }">
-                                <a class="has-text-weight-bold" @click.prevent="openDropdown = !openDropdown">
-                                    {% if item.icon %}<i class="fas {{ item.icon }} mr-2"></i>{% endif %}
-                                    <span x-show="openNav">{{ item.name }}</span>
-                                    <i class="fas fa-chevron-down ml-auto"></i>
-                                </a>
-                                <ul class="menu-dropdown" x-show="openDropdown" x-transition>
-                                    {% for subitem in item.dropdown %}
-                                        <li>
-                                            <a href="{{ subitem.link | relative_url }}">
-                                                {% if subitem.icon %}<i class="fas {{ subitem.icon }} mr-2"></i>{% endif %}
-                                                <span x-show="openNav">{{ subitem.name }}</span>
-                                            </a>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </li>
-                        {% else %}
-                            <li>
-                                <a href="{{ item.link | relative_url }}">
-                                    {% if item.icon %}<i class="fas {{ item.icon }} mr-2"></i>{% endif %}
-                                    <span x-show="openNav">{{ item.name }}</span>
-                                </a>
-                            </li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
+            <aside class="column is-2 is-sidebar menu is-hidden-mobile" x-data="{ openNav: true }" :class="{ 'is-collapsed': !openNav }">
+                <div class="menu-content">
+                    <div class="menu-header">
+                        <a href="{{ site.baseurl }}/" class="menu-item">
+                            <img class="image mr-2" src="{{ site.baseurl }}{{ site.logo }}" alt="{{ site.title }} Logo">
+                            <span x-show="openNav">{{ site.title }}</span>
+                        </a>
+                        <button class="button is-small" @click="openNav = !openNav">
+                            <i class="fas" :class="openNav ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
+                        </button>
+                    </div>
+                    <hr>
 
-                <hr>
-                
-                <!-- Search & Social Media -->
-                <div class="menu-bottom">
-                    <a href="/search" class="menu-item has-text-link">
-                        <i class="fas fa-search"></i> <span x-show="openNav">Search</span>
-                    </a>
-                    <div class="social-links">
-                        {% for item in site.data.navigation.social_media %}
-                            <a href="{{ item.link }}" target="_blank" class="menu-item">
-                                <i class="fab fa-{{ item.name | downcase }}"></i>
-                            </a>
+                    <!-- Sidebar Navigation -->
+                    <ul class="menu-list">
+                        {% for item in site.data.navigation.navbar %}
+                            {% if item.dropdown %}
+                                <li x-data="{ openDropdown: false }">
+                                    <a class="has-text-weight-bold" @click.prevent="openDropdown = !openDropdown">
+                                        {% if item.icon %}<i class="fas {{ item.icon }} mr-2"></i>{% endif %}
+                                        <span x-show="openNav">{{ item.name }}</span>
+                                        <i class="fas fa-chevron-down ml-auto"></i>
+                                    </a>
+                                    <ul class="menu-dropdown" x-show="openDropdown" x-transition>
+                                        {% for subitem in item.dropdown %}
+                                            <li>
+                                                <a href="{{ subitem.link | relative_url }}">
+                                                    {% if subitem.icon %}<i class="fas {{ subitem.icon }} mr-2"></i>{% endif %}
+                                                    <span x-show="openNav">{{ subitem.name }}</span>
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{{ item.link | relative_url }}">
+                                        {% if item.icon %}<i class="fas {{ item.icon }} mr-2"></i>{% endif %}
+                                        <span x-show="openNav">{{ item.name }}</span>
+                                    </a>
+                                </li>
+                            {% endif %}
                         {% endfor %}
+                    </ul>
+
+                    <hr>
+                    
+                    <!-- Search & Social Media -->
+                    <div class="menu-bottom">
+                        <a href="/search" class="menu-item has-text-link">
+                            <i class="fas fa-search"></i> <span x-show="openNav">Search</span>
+                        </a>
+                        <div class="social-links">
+                            {% for item in site.data.navigation.social_media %}
+                                <a href="{{ item.link }}" target="_blank" class="menu-item">
+                                    <i class="fab fa-{{ item.name | downcase }}"></i>
+                                </a>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </aside>
 
             <!-- Main Content -->
-            <main class="column" :class="openNav ? 'is-10' : 'is-11'">
+            <main class="column is-8 is-fullhd content-area">
                 {% include im-navbar.html %}
                 <div class="content-container">
                     {{ content }}
