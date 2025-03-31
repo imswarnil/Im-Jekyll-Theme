@@ -69,6 +69,7 @@ permalink: /:title  # Permalink style /:categories/:title:output_ext
 repo: "https://github.com/imswarnil/"
 email: "contact@imswarnil.com"
 description_separator: <!-- more --> # Marks end of description in posts
+fixed_navbar : true
 # date_format: "%-d %B %Y" # Blog post date formatting using placeholder formatting
 #------------------------------------------------------------------------------------------------
 
