@@ -94,12 +94,12 @@
     <meta name="twitter:player:stream:content_type" content="{{ page.video_type | default: 'video/mp4' }}">
     <meta name="twitter:player:width" content="{{ page.video_width | default: '1280' }}">
     <meta name="twitter:player:height" content="{{ page.video_height | default: '720' }}">
-    <meta name="twitter:image" content="{{ site.url }}{{ page.thumbnail | default: site.logo }}">
+    <meta name="twitter:image" content="{{ site.url }}{{ page.image | default: site.logo }}">
 {% elsif page.layout == "podcast" %}
     <meta name="twitter:player" content="{{ page.audio_url }}">
     <meta name="twitter:player:stream" content="{{ page.audio_url }}">
     <meta name="twitter:player:stream:content_type" content="{{ page.audio_type | default: 'audio/mpeg' }}">
-    <meta name="twitter:image" content="{{ site.url }}{{ page.cover_image | default: site.logo }}">
+    <meta name="twitter:image" content="{{ site.url }}{{ page.image | default: site.logo }}">
 {% else %}
     <meta name="twitter:image" content="{{ site.url }}{{ page.image | default: site.logo }}">
 {% endif %}
