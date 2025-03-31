@@ -1,0 +1,80 @@
+<aside class="sidebar" x-data="{ open: false }" :class="{ 'is-collapsed': !open }">
+    <div class="sidebar-header">
+        <a href="{{ site.baseurl }}/" class="sidebar-logo">
+            <img src="{{ site.baseurl }}{{ site.logo }}" alt="{{ site.title }} Logo">
+        </a>
+        <button class="toggle-btn" x-on:click="open = !open">
+            <i class="fas" :class="open ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
+        </button>
+    </div>
+    <nav class="sidebar-menu">
+        {% for item in site.data.navigation.navbar %}
+            {% if item.dropdown %}
+                <div class="menu-group" x-data="{ expanded: false }">
+                    <button class="menu-item has-dropdown" x-on:click="expanded = !expanded">
+                        {% if item.icon %}<i class="fas {{ item.icon }}"></i>{% endif %}
+                        <span x-show="open">{{ item.name }}</span>
+                        <i class="fas fa-chevron-down" x-show="open"></i>
+                    </button>
+                    <div class="submenu" x-show="expanded && open">
+                        {% for subitem in item.dropdown %}
+                            <a href="{{ subitem.link | relative_url }}" class="submenu-item">
+                                {% if subitem.icon %}<i class="fas {{ subitem.icon }}"></i>{% endif %}
+                                {{ subitem.name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% else %}
+                <a href="{{ item.link | relative_url }}" class="menu-item">
+                    {% if item.icon %}<i class="fas {{ item.icon }}"></i>{% endif %}
+                    <span x-show="open">{{ item.name }}</span>
+                </a>
+            {% endif %}
+        {% endfor %}
+    </nav>
+</aside>
+
+<style>
+.sidebar {
+    width: 250px;
+    background: #2d2d2d;
+    color: white;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: width 0.3s;
+    overflow-x: hidden;
+}
+.sidebar.is-collapsed {
+    width: 80px;
+}
+.sidebar .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+.sidebar .sidebar-menu {
+    padding: 10px;
+}
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+}
+.menu-item:hover {
+    background: #444;
+}
+.has-dropdown {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.submenu {
+    padding-left: 20px;
+}
+</style>

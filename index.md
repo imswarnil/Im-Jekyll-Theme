@@ -4,5 +4,5 @@ description: "An open-source Jekyll theme crafted using the Bulma CSS framework.
 image: /assets/logos/logo.svg
 layout: default
 ---
- {% include site-header.html %}
+ {% include im-navbar.html %}
  {% include home.html %}
