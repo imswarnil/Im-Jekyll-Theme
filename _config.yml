@@ -243,6 +243,11 @@ social_media:
     link: https://youtube.com/@swarnil
 
 
+social_media:
+  - name: youtube
+    link: https://youtube.com/@swarnil
+
+
 navigation_footer:
 - title: Created by David Darnes
   url: https://darn.es
