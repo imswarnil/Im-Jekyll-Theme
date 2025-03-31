@@ -1,0 +1,37 @@
+<div class="navbar-start">
+    {% for item in site.navbar %}
+      {% if item.dropdown %}
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a href="{{ item.link | relative_url }}" class="navbar-link">
+            {% if item.image %}
+              <img src="{{ item.image }}" alt="{{ item.name }}" class="navbar-icon mr-2">
+            {% elsif item.icon %}
+              <i class="fas {{ item.icon }} navbar-icon mr-2"></i>
+            {% endif %}
+            {{ item.name }}
+          </a>
+          <div class="navbar-dropdown">
+            {% for subitem in item.dropdown %}
+              <a href="{{ subitem.link | relative_url }}" class="navbar-item">
+                {% if subitem.image %}
+                  <img src="{{ subitem.image }}" alt="{{ subitem.name }}" class="navbar-icon mr-2">
+                {% elsif subitem.icon %}
+                  <i class="fas {{ subitem.icon }} navbar-icon mr-2"></i>
+                {% endif %}
+                {{ subitem.name }}
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      {% else %}
+        <a href="{{ item.link | relative_url }}" class="navbar-item {% if page.url == item.link %}has-text-primary{% endif %}">
+          {% if item.image %}
+            <img src="{{ item.image }}" alt="{{ item.name }}" class="navbar-icon mr-2">
+          {% elsif item.icon %}
+            <i class="fas {{ item.icon }} navbar-icon mr-2"></i>
+          {% endif %}
+          {{ item.name }}
+        </a>
+      {% endif %}
+    {% endfor %}
+</div>

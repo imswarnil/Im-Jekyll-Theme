@@ -2,13 +2,6 @@
     <div class="container">
         <div class="navbar-brand">
             {% include navbar/logo.html %}
-             <!-- Search Icon -->
-             <a href="/search" class="navbar-item is-hidden-desktop">
-                <span class="icon is-medium has-text-primary"><i class="fas fa-search"></i></span>
-            </a>
-            <a href="/search" class="navbar-item is-hidden-desktop">
-                <span class="icon is-medium has-text-primary"><i class="fas fa-github"></i></span>
-            </a>
             <a
                 role="button"
                 class="navbar-burger burger"
@@ -23,49 +16,18 @@
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
             </a>
+             <!-- Search Icon -->
+             <a href="/search" class="navbar-item is-hidden-desktop">
+                <span class="icon is-medium has-text-primary"><i class="fas fa-search"></i></span>
+            </a>
+            <a href="/search" class="navbar-item is-hidden-desktop">
+                <span class="icon is-medium has-text-primary"><i class="fas fa-github"></i></span>
+            </a>
+
         </div>
         <div class="navbar-menu" id="navMenu" :class="{ 'is-active': openNav }">
-            <div class="navbar-end">
-                {% for item in site.navbar %}
-                  {% if item.dropdown %}
-                    <div class="navbar-item has-dropdown is-hoverable">
-                      <a href="{{ item.link | relative_url }}" class="navbar-link">
-                        {% if item.image %}
-                          <img src="{{ item.image }}" alt="{{ item.name }}" class="navbar-icon mr-2">
-                        {% elsif item.icon %}
-                          <i class="fas {{ item.icon }} navbar-icon mr-2"></i>
-                        {% endif %}
-                        {{ item.name }}
-                      </a>
-                      <div class="navbar-dropdown">
-                        {% for subitem in item.dropdown %}
-                          <a href="{{ subitem.link | relative_url }}" class="navbar-item">
-                            {% if subitem.image %}
-                              <img src="{{ subitem.image }}" alt="{{ subitem.name }}" class="navbar-icon mr-2">
-                            {% elsif subitem.icon %}
-                              <i class="fas {{ subitem.icon }} navbar-icon mr-2"></i>
-                            {% endif %}
-                            {{ subitem.name }}
-                          </a>
-                        {% endfor %}
-                      </div>
-                    </div>
-                  {% else %}
-                    <a href="{{ item.link | relative_url }}" class="navbar-item {% if page.url == item.link %}has-text-primary{% endif %}">
-                      {% if item.image %}
-                        <img src="{{ item.image }}" alt="{{ item.name }}" class="navbar-icon mr-2">
-                      {% elsif item.icon %}
-                        <i class="fas {{ item.icon }} navbar-icon mr-2"></i>
-                      {% endif %}
-                      {{ item.name }}
-                    </a>
-                  {% endif %}
-                {% endfor %}
-              </div>
-              
-            <div
-                class="navbar-end is-justify-content-center is-inline-flex is-vcentered"
-            >
+            {% include navbar/navigation.html %}
+            <div class="navbar-end is-justify-content-center is-inline-flex is-vcentered">
                 <!-- Social Media Links -->
                 {% if site.data.navigation.social_media %}
                     {% for item in site.data.navigation.social_media %}
