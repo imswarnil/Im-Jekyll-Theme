@@ -1,15 +1,3 @@
-<nav class="nav nav--footer">
-  <ul class="list list--nav">
-    {% for item in site.navigation_footer %}
-      {% if item.url contains '://' %}
-        {% assign url = item.url %}
-      {% else %}
-        {% assign url = item.url | relative_url %}
-      {% endif %}
-      <li class="item item--nav{% if item.url == page.url %} item--current{% endif %}">
-        <a href="{{ url }}">{{ item.title }}</a>
-      </li>
-    {% endfor %}
-  </ul>
-</nav>
 
+
+<div class="footer-bottom"><p>© 2025 Swarnil Singhai. All rights reserved.</p><p>Documenting my life since 2016</p></div>
