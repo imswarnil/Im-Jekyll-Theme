@@ -64,8 +64,10 @@ layout: default
           <h2 class="title is-4">Video Timestamps</h2>
           <div class="timestamps-list">
             {% for timestamp in page.timestamps %}
+              {% assign time_parts = timestamp.time | split: ":" %}
+              {% assign total_seconds = time_parts[0] | times: 60 | plus: time_parts[1] %}
               <div class="timestamp-item">
-                <div class="timestamp-time" data-time="{{ timestamp.time | split: ":" | first | times: 60 + timestamp.time | split: ":" | last | plus: 0 }}">
+                <div class="timestamp-time" data-time="{{ total_seconds }}">
                   {{ timestamp.time }}
                 </div>
                 <div class="timestamp-title">{{ timestamp.title }}</div>
@@ -78,19 +80,21 @@ layout: default
   </div>
 </div>
 
-  <script>
+<script>
   document.addEventListener("DOMContentLoaded", function() {
-    // Select all timestamp items
-    const timestamps = document.querySelectorAll('.timestamp-time');
+    // Select all timestamp elements
+    const timestamps = document.querySelectorAll(".timestamp-time");
 
-    timestamps.forEach(function(timestamp) {
-      // Add click event to each timestamp
-      timestamp.addEventListener('click', function(event) {
-        const time = event.target.getAttribute('data-time');  // Get the data-time attribute
-        const videoPlayer = document.getElementById('video-player');
-        
-        // Update the iframe src with the start time for the video
-        videoPlayer.src = `https://www.youtube.com/embed/{{ page.VideoId }}?start=${time}&rel=0&showinfo=0&autohide=1&mute=0&modestbranding=1`;
+    timestamps.forEach(timestamp => {
+      timestamp.addEventListener("click", function() {
+        const time = this.getAttribute("data-time"); // Get time in seconds
+        const videoPlayer = document.getElementById("video-player");
+
+        // Preserve existing video ID and refresh iframe with new timestamp
+        const videoId = "{{ page.VideoId }}";
+        const newSrc = `https://www.youtube.com/embed/${videoId}?start=${time}&autoplay=1&rel=0&showinfo=0&autohide=1&mute=0&modestbranding=1`;
+
+        videoPlayer.src = newSrc; // Update iframe src
       });
     });
   });
