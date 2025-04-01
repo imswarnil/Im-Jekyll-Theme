@@ -8,6 +8,7 @@ category: [Vlog, Job Search]
 duration: 02:51
 VideoId : Q9DOOU5oHMk  
 tags: [Bangalore, job search, fresher, vlog]
+comments : true
 timestamps:
   - time: "0:00"
     title: Introduction
