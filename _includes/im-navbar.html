@@ -34,7 +34,6 @@
                     {% for item in site.social_media %}
                         <a class="navbar-item" href="{{ item.url }}" target="_blank">
                             <span class="icon"><i class="fab fa-{{ item.name | downcase }}"></i></span>
-                            <span class="cta">{{ item.cta }}</span>
                         </a>
                     {% endfor %}
                 {% endif %}
