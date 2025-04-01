@@ -3,7 +3,7 @@ layout: video
 title: Going Bangalore To Search Job After College
 description: Are you a fresher considering a job in Bangalore? Join me as I share my journey and insights into the job market for freshers. Whether you're moving to Bangalore or already job hunting here, this video is for you.
 date: 2017-08-25
-type : YouTube
+source : YouTube
 category: [Vlog, Job Search]
 duration: 02:51
 VideoId : Q9DOOU5oHMk  
