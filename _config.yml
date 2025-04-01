@@ -52,7 +52,7 @@ author:
     - "Blogging"
     - "Photography"
     - "Traveling"
-  social:
+social:
     twitter: "https://twitter.com/johndoe"
     linkedin: "https://linkedin.com/in/johndoe"
     github: "https://github.com/johndoe"
@@ -142,14 +142,6 @@ paginate_path: blog/page:num # jekyll-paginate > blog page
 jekyll-mentions: https://twitter.com # jekyll-mentions > service used when @replying
 twitter:
   username: DavidDarnes # jekyll-seo-tag > Owners twitter username
-author: DavidDarnes # jekyll-seo-tag > default author
-social: # jekyll-seo-tag > social overrides
-  name: David Darnes # jekyll-seo-tag > real name
-  links:  # jekyll-seo-tag > social aliases (sameAs)
-    - https://twitter.com/DavidDarnes
-    - https://www.facebook.com/daviddarnes
-    - https://www.linkedin.com/in/daviddarnes
-    - https://github.com/daviddarnes
 # markdown: CommonMark # Markdown parse settings, CommonMark performs slightly better an others in build time
 # commonmark:
   # options: ["SMART", "FOOTNOTES"]
@@ -196,6 +188,11 @@ defaults:
 navbar:
   - name: Home
     link: /
+    icon: home
+    dropdown:
+      - name: Personal
+        link: /personal
+        icon: fa-user
   - name: About
     link: /about/
     icon: fa-file
