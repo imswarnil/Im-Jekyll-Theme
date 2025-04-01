@@ -14,8 +14,16 @@ permalink: /videos
             <div class="card">
               <div class="card-image">
                 <figure class="image is-4by3">
-                  <!-- Use a thumbnail image for the video -->
-                  <img src="https://img.youtube.com/vi/{{ video.VideoId }}/hqdefault.jpg" alt="{{ video.title }}">
+                  <!-- Check if preview video exists -->
+                  {% if video.preview %}
+                    <video autoplay loop muted playsinline class="has-ratio">
+                      <source src="{{ video.preview }}" type="video/mp4">
+                      Your browser does not support the video tag.
+                    </video>
+                  {% else %}
+                    <!-- Use YouTube thumbnail image if no video preview is available -->
+                    <img src="https://img.youtube.com/vi/{{ video.VideoId }}/hqdefault.jpg" alt="{{ video.title }}">
+                  {% endif %}
                 </figure>
               </div>
               <div class="card-content">
