@@ -52,7 +52,7 @@ author:
     - "Blogging"
     - "Photography"
     - "Traveling"
-    
+
 social_media:
   - name: "twitter"
     url: "https://twitter.com/johndoe"
@@ -250,17 +250,6 @@ navbar:
         icon: fa-star
   - link: /search
     icon: fa-search
-
-
-social_media:
-  - name: youtube
-    link: https://youtube.com/@swarnil
-
-
-social_media:
-  - name: youtube
-    link: https://youtube.com/@swarnil
-
 
 navigation_footer:
 - title: Created by David Darnes
