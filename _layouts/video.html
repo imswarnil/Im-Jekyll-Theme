@@ -51,9 +51,14 @@ layout: default
           <h2 class="title is-4">Description</h2>
           <p>{{ content }}</p>
         </div>
+      </div>
+    </div>
 
+    <!-- Sidebar -->
+    <div class="column is-4">
+      <div class="video-sidebar">
         <div class="timestamps-container">
-          <h2 class="title is-4">Timestamps</h2>
+          <h2 class="title is-4">Video Timestamps</h2>
           <div class="timestamps-list">
             {% for timestamp in page.timestamps %}
               <div class="timestamp-item">
@@ -63,25 +68,6 @@ layout: default
             {% endfor %}
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Sidebar -->
-    <div class="column is-4">
-      <div class="video-sidebar">
-        <h3 class="title is-4 mb-4">Related Videos</h3>
-        <!-- Related Videos (Repeat for each video) -->
-        <a href="/videos/another-video" class="related-video">
-          <div class="related-video-thumbnail">
-            <img alt="Related Video" src="/placeholder.svg" width="640" height="360">
-            <div class="related-duration">20:30</div>
-          </div>
-          <div class="related-video-info">
-            <h4 class="related-title">Related Video Title</h4>
-            <p class="related-author">Author Name</p>
-          </div>
-        </a>
-        <!-- Add More Related Videos as Needed -->
       </div>
     </div>
   </div>
