@@ -31,13 +31,14 @@
             <div class="navbar-end is-justify-content-center is-inline-flex is-vcentered">
                 <!-- Social Media Links -->
                 {% if site.social %}
-                    {% for name, link in site.social %}
-                        <a class="navbar-item" href="{{ link }}" target="_blank">
+                    {% for name in site.social %}
+                        <a class="navbar-item" href="{{ site.social[name] }}" target="_blank">
                             <span class="icon"><i class="fab fa-{{ name | downcase }}"></i></span>
                         </a>
                     {% endfor %}
                 {% endif %}
             </div>
+            
         </div>
     </div>
   </nav>
