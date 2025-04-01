@@ -75,32 +75,26 @@ layout: default
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const timestamps = document.querySelectorAll(".timestamp-item a");
     const videoPlayer = document.getElementById("video-player");
-    let hasInteracted = false;
+    const timestamps = document.querySelectorAll(".timestamp-item a");
 
+    // Start the video autoplay when the page loads
+    videoPlayer.src = `https://www.youtube.com/embed/{{ page.VideoId }}?rel=0&showinfo=0&autohide=1&mute=0&modestbranding=1&autoplay=1`;
+
+    // Set up click event for timestamps to change the start time of the video
     timestamps.forEach(timestamp => {
       timestamp.addEventListener("click", function (event) {
         event.preventDefault(); // Prevent default anchor action
 
         const startTime = this.parentElement.getAttribute("data-start");
 
-        if (!hasInteracted) {
-          // First click: Reload video with autoplay
-          videoPlayer.src = `https://www.youtube.com/embed/{{ page.VideoId }}?start=${startTime}&autoplay=1&rel=0&showinfo=0&autohide=1&mute=0&modestbranding=1`;
-          hasInteracted = true;
-        } else {
-          // If video is already played once, update only the start time
-          const newSrc = videoPlayer.src.split("?")[0] + `?start=${startTime}&autoplay=1&rel=0&showinfo=0&autohide=1&mute=0&modestbranding=1`;
-          videoPlayer.src = newSrc;
-        }
+        // Update the iframe src to start the video from the clicked timestamp
+        videoPlayer.src = `https://www.youtube.com/embed/{{ page.VideoId }}?start=${startTime}&autoplay=1&rel=0&showinfo=0&autohide=1&mute=0&modestbranding=1`;
       });
     });
 
-    // Floating video logic
+    // Floating video logic (optional, if needed)
     const videoContainer = document.getElementById("video-player-container");
-    const videoIframe = document.getElementById("video-player");
-    
     const floatingVideo = document.createElement('div');
     floatingVideo.classList.add('floating-video');
     floatingVideo.style.position = 'fixed';
@@ -110,7 +104,7 @@ layout: default
     floatingVideo.style.height = '180px';
     floatingVideo.style.display = 'none'; // Initially hidden
 
-    const iframeClone = videoIframe.cloneNode(true);
+    const iframeClone = videoPlayer.cloneNode(true);
     floatingVideo.appendChild(iframeClone);
     document.body.appendChild(floatingVideo);
 
@@ -119,11 +113,11 @@ layout: default
       if (rect.top + rect.height < 0) {
         // Video is not in viewport, float to bottom-left
         floatingVideo.style.display = 'block';
-        videoIframe.style.display = 'none'; // Hide the original video
+        videoPlayer.style.display = 'none'; // Hide the original video
       } else {
         // Video is in viewport
         floatingVideo.style.display = 'none';
-        videoIframe.style.display = 'block'; // Show the original video
+        videoPlayer.style.display = 'block'; // Show the original video
       }
     });
   });
