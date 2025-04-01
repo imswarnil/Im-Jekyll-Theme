@@ -11,7 +11,7 @@ layout: default
             class="has-ratio"
             width="640"
             height="360"
-            src="https://www.youtube.com/embed/{{ page.VideoId }}?enablejsapi=1&rel=0&showinfo=0&autohide=1&mute=0&modestbranding=1"
+            src="https://www.youtube.com/embed/{{ page.VideoId }}?rel=0&showinfo=0&autohide=1&mute=0&modestbranding=1"
             frameborder="0"
             allowfullscreen
             loading="lazy"
@@ -62,8 +62,7 @@ layout: default
               {% assign total_seconds = time_parts[0] | times: 60 | plus: time_parts[1] %}
               
               <div class="timestamp-item" data-start="{{ total_seconds }}">
-                <div class="timestamp-time">{{ timestamp.time }}</div>
-                <div class="timestamp-title">{{ timestamp.title }}</div>
+                <a href="#" class="timestamp-link">{{ timestamp.time }} - {{ timestamp.title }}</a>
               </div>
             {% endfor %}
           </div>
@@ -75,22 +74,20 @@ layout: default
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const timestamps = document.querySelectorAll(".timestamp-item");
+    const timestamps = document.querySelectorAll(".timestamp-item a");
     const videoPlayer = document.getElementById("video-player");
 
-    function sendCommand(command) {
-      videoPlayer.contentWindow.postMessage(JSON.stringify(command), "*");
-    }
-
     timestamps.forEach(timestamp => {
-      timestamp.addEventListener("click", function () {
-        const startTime = this.getAttribute("data-start");
-        
-        // Send the "seekTo" command to YouTube's player
-        sendCommand({ event: "command", func: "seekTo", args: [parseInt(startTime, 10), true] });
+      timestamp.addEventListener("click", function (event) {
+        event.preventDefault(); // Prevent the default anchor action
 
-        // Autoplay the video
-        sendCommand({ event: "command", func: "playVideo" });
+        const startTime = this.parentElement.getAttribute("data-start");
+
+        // Construct new YouTube embed URL with start time and autoplay
+        const newSrc = `https://www.youtube.com/embed/{{ page.VideoId }}?start=${startTime}&autoplay=1&rel=0&showinfo=0&autohide=1&mute=0&modestbranding=1`;
+
+        // Update the iframe source
+        videoPlayer.src = newSrc;
       });
     });
   });
