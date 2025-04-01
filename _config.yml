@@ -171,11 +171,12 @@ collections:
     feature_text: Welcome to the blog
     feature_image: "https://picsum.photos/2560/600?image=866"
     permalink: /blog/:title
-  training:
+  videos:
     output: true
-    permalink: /:title/
+    permalink: /videos/:title/
   docs:
     output: true
+  
 
 
 # 6. Jekyll collections settings
@@ -197,6 +198,12 @@ defaults:
       type: "pages"
     values:
       layout: page # Set the default layout for pages
+  - 
+   scope:
+      path: "_videos"
+   values:
+      layout: "video"
+      author: "Swarnil" 
 
 # 9. Site navigation
 navbar:

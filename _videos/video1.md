@@ -3,14 +3,10 @@ layout: video
 title: Going Bangalore To Search Job After College
 description: Are you a fresher considering a job in Bangalore? Join me as I share my journey and insights into the job market for freshers. Whether you're moving to Bangalore or already job hunting here, this video is for you.
 date: 2017-08-25
-video_source: YouTube
-video_type: Vlog
-video_duration: 02:51
-video_id: Q9DOOU5oHMk  # YouTube video ID
-start_time: 0:00
-end_time: 2:51
-comments: true
-category: Vlog
+type : YouTube
+category: [Vlog, Job Search]
+duration: 02:51
+id: Q9DOOU5oHMk  
 tags: [Bangalore, job search, fresher, vlog]
 timestamps:
   - time: "0:00"
@@ -27,18 +23,7 @@ timestamps:
     title: Thoughts/Plan to get a job in Bangalore
   - time: "1:23"
     title: I Love Travelling (Train Journey)
-  - time: "1:39"
-    title: Reached Bhopal (My B.Tech Place)
-  - time: "1:54"
-    title: Duration To Reach Bangalore From North
-  - time: "2:03"
-    title: Completing Pending Task - Scripting
-  - time: "2:16"
-    title: Beautiful View From Train When Going To Bangalore
-  - time: "2:42"
-    title: Roasting IRCTC and Rawnee Show In Vlog
-  - time: "2:51"
-    title: Reached Bangalore
+author : Swarnil 
 ---
 
 In this vlog, I document my journey from my hometown to Bangalore in search of a job after college. Join me as I share my experiences, challenges, and insights into the job market for freshers in Bangalore.
