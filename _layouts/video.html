@@ -6,9 +6,16 @@ layout: default
     <!-- Video Content -->
     <div class="column is-8">
       <div class="video-player-container">
-        <div class="video-player-placeholder">
-          <iframe src="https://www.youtube.com/embed/{{ page.VideoId }}" frameborder="0" allowfullscreen></iframe>
-        </div>
+        <figure class="image is-16by9 video-player-placeholder">
+          <iframe
+            class="has-ratio"
+            width="640"
+            height="360"
+            src="https://www.youtube.com/embed/{{ page.VideoId }}"
+            frameborder="0"
+            allowfullscreen
+          ></iframe>
+        </figure> 
       </div>
       <div class="video-info">
         <h1 class="title is-2">{{ page.title }}</h1>
