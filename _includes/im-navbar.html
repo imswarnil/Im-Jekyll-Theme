@@ -20,16 +20,12 @@
              <a href="/search" class="navbar-item is-hidden-desktop">
                 <span class="icon is-medium has-text-primary"><i class="fas fa-search"></i></span>
             </a>
-            <a href="/search" class="navbar-item is-hidden-desktop">
-                <span class="icon is-medium has-text-primary"><i class="fa-brands fa-github"></i></span>
-                
-            </a>
-
         </div>
-        <div class="navbar-menu is-flex is-justify-content-center is-align-items-center is-flex-direction-column-mobile" id="navMenu" :class="{ 'is-active': openNav }">
+        <div class="navbar-menu" id="navMenu" :class="{ 'is-active': openNav }">
+            <div style="margin: 0 auto;">
             {% include navbar/navigation.html %}
+        </div>
             <div class="navbar-end is-justify-content-center is-inline-flex is-vcentered">
-                <!-- Social Media Links -->
                 {% if site.social_media %}
                     {% for item in site.social_media %}
                         <a class="navbar-item" href="{{ item.url }}" target="_blank" title="{{ item.cta }}">
