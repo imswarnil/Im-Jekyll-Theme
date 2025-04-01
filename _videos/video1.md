@@ -39,13 +39,6 @@ timestamps:
     title: Roasting IRCTC and Rawnee Show In Vlog
   - time: "2:51"
     title: Reached Bangalore
-faqs:
-  - question: "Do big MNCs like TCS, Wipro, or HCL hire non-IT guys for IT jobs?"
-    answer: "Yes, some big MNCs do hire individuals from non-IT backgrounds for IT jobs, especially for roles like network engineer. However, it depends on the specific requirements of the company and the skills and qualifications of the candidate."
-  - question: "I'm from a commerce background. Can I apply for a network engineer role as a fresher?"
-    answer: "Yes, you can apply for a network engineer role even if you're from a commerce background, especially if you have relevant skills and certifications. However, you may need to demonstrate your knowledge and expertise in networking during the interview process."
-best_comment: "The Editing Style was quite good. It was not a new way but I have never seen an Indian YouTuber doing it before. The background music was quite powerful and energetic. And when the video sync with the music, ahh! satisfaction! You really did a good job pointing some minute things like the toilet one. The video was overall good and the voiceover was quite relaxing. #FromBhu"
-views: 13000
 ---
 
 In this vlog, I document my journey from my hometown to Bangalore in search of a job after college. Join me as I share my experiences, challenges, and insights into the job market for freshers in Bangalore.
