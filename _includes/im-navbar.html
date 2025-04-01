@@ -29,10 +29,10 @@
             {% include navbar/navigation.html %}
             <div class="navbar-end is-justify-content-center is-inline-flex is-vcentered">
                 <!-- Social Media Links -->
-                {% if site.data.navigation.social_media %}
-                    {% for item in site.data.navigation.social_media %}
-                        <a class="navbar-item" href="{{ item.link }}" target="_blank">
-                            <span class="icon"><i class="fab fa-{{ item.name|downcase }}"></i></span>
+                {% if site.social %}
+                    {% for name, link in site.social %}
+                        <a class="navbar-item" href="{{ link }}" target="_blank">
+                            <span class="icon"><i class="fab fa-{{ name | downcase }}"></i></span>
                         </a>
                     {% endfor %}
                 {% endif %}
