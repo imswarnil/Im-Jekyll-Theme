@@ -52,13 +52,30 @@ author:
     - "Blogging"
     - "Photography"
     - "Traveling"
-social:
-    twitter: "https://twitter.com/johndoe"
-    linkedin: "https://linkedin.com/in/johndoe"
-    github: "https://github.com/johndoe"
-    instagram: "https://instagram.com/johndoe"
-    facebook: "https://facebook.com/johndoe"
-    website: "https://johndoe.com"
+    
+social_media:
+  - name: "twitter"
+    url: "https://twitter.com/johndoe"
+    cta: "Tweet"
+  - name: "linkedin"
+    url: "https://linkedin.com/in/johndoe"
+    cta: "Connect on LinkedIn"
+  - name: "github"
+    url: "https://github.com/johndoe"
+    cta: "Follow on GitHub"
+  - name: "instagram"
+    url: "https://instagram.com/johndoe"
+    cta: "Follow on Instagram"
+  - name: "facebook"
+    url: "https://facebook.com/johndoe"
+    cta: "Like on Facebook"
+  - name: "website"
+    url: "https://johndoe.com"
+    cta: "Visit My Website"
+  - name: "youtube"
+    url: "https://youtube.com/johndoe"
+    cta: "Subscribe on YouTube"
+
 
 # --------------------------------------------
  # 1.2. Site Url, Links & Github Repo
