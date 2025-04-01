@@ -32,12 +32,49 @@
                 <!-- Social Media Links -->
                 {% if site.social_media %}
                     {% for item in site.social_media %}
-                        <a class="navbar-item" href="{{ item.url }}" target="_blank">
+                        <a class="navbar-item" href="{{ item.url }}" target="_blank" title="{{ item.cta }}">
                             <span class="icon"><i class="fab fa-{{ item.name | downcase }}"></i></span>
+                            <span class="cta">{{ item.cta }}</span>
                         </a>
                     {% endfor %}
                 {% endif %}
             </div>
+<style>
+    /* Hide CTA text by default */
+.navbar-item .cta {
+    display: none;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    white-space: nowrap;
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+    margin-left: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+}
+
+/* Make the CTA appear when hovering over the icon */
+.navbar-item:hover .cta {
+    display: block;
+    opacity: 1;
+}
+
+/* Optional: Styling for the social media icon */
+.navbar-item .icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px; /* Adjust icon size if needed */
+}
+
+</style>            
         </div>
     </div>
   </nav>
