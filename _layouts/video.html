@@ -5,65 +5,64 @@ layout: default
 <div class="container">
   <div class="columns">
     <div class="column is-8">
-      <div class="video-player-container" id="video-player-container">
-        <figure class="image is-16by9 video-player-placeholder">
-          <iframe
-            id="video-player"
-            class="has-ratio"
-            width="640"
-            height="360"
-            src="https://www.youtube.com/embed/{{ page.VideoId }}?rel=0&showinfo=0&autohide=1&mute=0&modestbranding=1&autoplay=1"
-            frameborder="0"
-            allowfullscreen
-            loading="lazy"
-          ></iframe>
-        </figure> 
-      </div>
-      <div class="video-info">
+      <figure class="image is-16by9">
+        <iframe
+          id="video-player"
+          class="has-ratio"
+          width="640"
+          height="360"
+          src="https://www.youtube.com/embed/{{ page.VideoId }}?rel=0&showinfo=0&autohide=1&mute=0&modestbranding=1&autoplay=1"
+          frameborder="0"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
+      </figure>
+
+      <div class="content">
         <h1 class="title is-2">{{ page.title }}</h1>
-        <div class="video-meta">
-          <div class="meta-item">
-            <i class="fas fa-clock meta-icon"></i>
-            <span>{{ page.duration }}</span>
-          </div>
-          <div class="meta-item">
-            <i class="fas fa-eye meta-icon"></i>
-            <span>254K views</span>
-          </div>
-          <div class="meta-item">
-            <i class="fas fa-thumbs-up meta-icon"></i>
-            <span>12K likes</span>
-          </div>
-        </div>
-        <div class="video-author">
-          <div class="author-info">
-            <div class="author-name">{{ page.author }}</div>
-          </div>
-          <div class="author-actions">
-            <button class="button is-primary is-rounded">Subscribe</button>
+        
+        <div class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <i class="fas fa-clock"></i>
+              <span>{{ page.duration }}</span>
+            </div>
+            <div class="level-item">
+              <i class="fas fa-eye"></i>
+              <span>254K views</span>
+            </div>
+            <div class="level-item">
+              <i class="fas fa-thumbs-up"></i>
+              <span>12K likes</span>
+            </div>
           </div>
         </div>
 
-        <div class="video-description">
+        <div class="content">
           <h2 class="title is-4">Description</h2>
           <p>{{ content }}</p>
         </div>
+
+        <div class="buttons">
+          <button class="button is-primary is-rounded">Subscribe</button>
+        </div>
+
         {% include utility/comments.html %}
       </div>
     </div>
 
     <!-- Sidebar -->
     <div class="column is-4">
-      <div class="video-sidebar">
-        <div class="timestamps-container">
+      <div class="box">
+        <div class="content">
           <h2 class="title is-4">Video Timestamps</h2>
-          <div class="timestamps-list">
+          <div>
             {% for timestamp in page.timestamps %}
               {% assign time_parts = timestamp.time | split: ":" %}
               {% assign total_seconds = time_parts[0] | times: 60 | plus: time_parts[1] %}
               
-              <div class="timestamp-item" data-start="{{ total_seconds }}">
-                <a href="#" class="timestamp-link">{{ timestamp.time }} - {{ timestamp.title }}</a>
+              <div class="notification">
+                <a href="#" class="timestamp-link" data-start="{{ total_seconds }}">{{ timestamp.time }} - {{ timestamp.title }}</a>
               </div>
             {% endfor %}
           </div>
@@ -76,7 +75,7 @@ layout: default
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const videoPlayer = document.getElementById("video-player");
-    const timestamps = document.querySelectorAll(".timestamp-item a");
+    const timestamps = document.querySelectorAll(".timestamp-link");
 
     // Start the video autoplay when the page loads
     videoPlayer.src = `https://www.youtube.com/embed/{{ page.VideoId }}?rel=0&showinfo=0&autohide=1&mute=0&modestbranding=1&autoplay=1`;
@@ -86,46 +85,11 @@ layout: default
       timestamp.addEventListener("click", function (event) {
         event.preventDefault(); // Prevent default anchor action
 
-        const startTime = this.parentElement.getAttribute("data-start");
+        const startTime = this.getAttribute("data-start");
 
         // Update the iframe src to start the video from the clicked timestamp
         videoPlayer.src = `https://www.youtube.com/embed/{{ page.VideoId }}?start=${startTime}&autoplay=1&rel=0&showinfo=0&autohide=1&mute=0&modestbranding=1`;
       });
     });
-
-    // Floating video logic (optional, if needed)
-    const videoContainer = document.getElementById("video-player-container");
-    const floatingVideo = document.createElement('div');
-    floatingVideo.classList.add('floating-video');
-    floatingVideo.style.position = 'fixed';
-    floatingVideo.style.bottom = '10px';
-    floatingVideo.style.left = '10px';
-    floatingVideo.style.width = '320px'; // Smaller video size when floating
-    floatingVideo.style.height = '180px';
-    floatingVideo.style.display = 'none'; // Initially hidden
-
-    const iframeClone = videoPlayer.cloneNode(true);
-    floatingVideo.appendChild(iframeClone);
-    document.body.appendChild(floatingVideo);
-
-    window.addEventListener('scroll', function () {
-      const rect = videoContainer.getBoundingClientRect();
-      if (rect.top + rect.height < 0) {
-        // Video is not in viewport, float to bottom-left
-        floatingVideo.style.display = 'block';
-        videoPlayer.style.display = 'none'; // Hide the original video
-      } else {
-        // Video is in viewport
-        floatingVideo.style.display = 'none';
-        videoPlayer.style.display = 'block'; // Show the original video
-      }
-    });
   });
 </script>
-
-<style>
-  .floating-video {
-    z-index: 1000;
-    transition: all 0.3s ease;
-  }
-</style>
