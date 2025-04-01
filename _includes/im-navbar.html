@@ -16,29 +16,29 @@
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
             </a>
-             <!-- Search Icon -->
-             <a href="/search" class="navbar-item is-hidden-desktop">
+            <!-- Optional Search and GitHub Icons -->
+            <a href="/search" class="navbar-item is-hidden-desktop">
                 <span class="icon is-medium has-text-primary"><i class="fas fa-search"></i></span>
             </a>
             <a href="/search" class="navbar-item is-hidden-desktop">
                 <span class="icon is-medium has-text-primary"><i class="fa-brands fa-github"></i></span>
-                
             </a>
+        </div>
 
-        </div>
-        <div class="navbar-menu" id="navMenu" :class="{ 'is-active': openNav }">
+        <!-- Navbar Menu (Centered) -->
+        <div class="navbar-menu is-flex is-justify-content-center is-align-items-center" id="navMenu" :class="{ 'is-active': openNav }">
             {% include navbar/navigation.html %}
-            <div class="navbar-end is-justify-content-center is-inline-flex is-vcentered">
-                <!-- Social Media Links -->
-                {% if site.social_media %}
-                    {% for item in site.social_media %}
-                        <a class="navbar-item" href="{{ item.url }}" target="_blank" title="{{ item.cta }}">
-                            <span class="icon"><i class="fab fa-{{ item.name | downcase }}"></i></span>
-                        </a>
-                    {% endfor %}
-                {% endif %}
-            </div>        
         </div>
+
+        <!-- Social Media Links (Aligned to the Right) -->
+        <div class="navbar-end is-justify-content-center is-inline-flex is-vcentered">
+            {% if site.social_media %}
+                {% for item in site.social_media %}
+                    <a class="navbar-item" href="{{ item.url }}" target="_blank" title="{{ item.cta }}">
+                        <span class="icon"><i class="fab fa-{{ item.name | downcase }}"></i></span>
+                    </a>
+                {% endfor %}
+            {% endif %}
+        </div>        
     </div>
-  </nav>
-  
+</nav>
