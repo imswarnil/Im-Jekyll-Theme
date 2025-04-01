@@ -30,16 +30,15 @@
             {% include navbar/navigation.html %}
             <div class="navbar-end is-justify-content-center is-inline-flex is-vcentered">
                 <!-- Social Media Links -->
-                {% if site.social %}
-                    {% for name, link in site.social %}
-                        <a class="navbar-item" href="{{ link }}" target="_blank">
-                            <span class="icon"><i class="fab fa-{{ name | downcase }}"></i></span>
+                {% if site.social_media %}
+                    {% for item in site.social_media %}
+                        <a class="navbar-item" href="{{ item.url }}" target="_blank">
+                            <span class="icon"><i class="fab fa-{{ item.name | downcase }}"></i></span>
+                            <span class="cta">{{ item.cta }}</span>
                         </a>
                     {% endfor %}
                 {% endif %}
             </div>
-            
-            
         </div>
     </div>
   </nav>
