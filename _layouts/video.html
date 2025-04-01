@@ -76,18 +76,23 @@ layout: default
   document.addEventListener("DOMContentLoaded", function () {
     const timestamps = document.querySelectorAll(".timestamp-item a");
     const videoPlayer = document.getElementById("video-player");
+    let hasInteracted = false;
 
     timestamps.forEach(timestamp => {
       timestamp.addEventListener("click", function (event) {
-        event.preventDefault(); // Prevent the default anchor action
+        event.preventDefault(); // Prevent default anchor action
 
         const startTime = this.parentElement.getAttribute("data-start");
 
-        // Construct new YouTube embed URL with start time and autoplay
-        const newSrc = `https://www.youtube.com/embed/{{ page.VideoId }}?start=${startTime}&autoplay=1&rel=0&showinfo=0&autohide=1&mute=0&modestbranding=1`;
-
-        // Update the iframe source
-        videoPlayer.src = newSrc;
+        if (!hasInteracted) {
+          // First click: Reload video with autoplay
+          videoPlayer.src = `https://www.youtube.com/embed/{{ page.VideoId }}?start=${startTime}&autoplay=1&rel=0&showinfo=0&autohide=1&mute=0&modestbranding=1`;
+          hasInteracted = true;
+        } else {
+          // If video is already played once, update only the start time
+          const newSrc = videoPlayer.src.split("?")[0] + `?start=${startTime}&autoplay=1&rel=0&showinfo=0&autohide=1&mute=0&modestbranding=1`;
+          videoPlayer.src = newSrc;
+        }
       });
     });
   });
