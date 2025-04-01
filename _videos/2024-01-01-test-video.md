@@ -6,7 +6,7 @@ date: 2017-08-25
 type : YouTube
 category: [Vlog, Job Search]
 duration: 02:51
-id: Q9DOOU5oHMk  
+VideoId: Q9DOOU5oHMk  
 tags: [Bangalore, job search, fresher, vlog]
 timestamps:
   - time: "0:00"
