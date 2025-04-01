@@ -1,18 +1,17 @@
----
-layout: default
----
 <div class="container">
   <div class="columns">
     <div class="column is-8">
       <div class="video-player-container">
         <figure class="image is-16by9 video-player-placeholder">
           <iframe
+            id="video-player"
             class="has-ratio"
             width="640"
             height="360"
-            src="https://www.youtube.com/embed/{{ page.VideoId }}"
+            src="https://www.youtube.com/embed/{{ page.VideoId }}?rel=0&showinfo=0&autohide=1&mute=0&modestbranding=1"
             frameborder="0"
             allowfullscreen
+            loading="lazy"  <!-- Lazy load for performance -->
           ></iframe>
         </figure> 
       </div>
@@ -63,7 +62,9 @@ layout: default
           <div class="timestamps-list">
             {% for timestamp in page.timestamps %}
               <div class="timestamp-item">
-                <div class="timestamp-time">{{ timestamp.time }}</div>
+                <div class="timestamp-time" data-time="{{ timestamp.time | split: ":" | first | times: 60 + timestamp.time | split: ":" | last | plus: 0 }}">
+                  {{ timestamp.time }}
+                </div>
                 <div class="timestamp-title">{{ timestamp.title }}</div>
               </div>
             {% endfor %}
@@ -73,3 +74,21 @@ layout: default
     </div>
   </div>
 </div>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Select all timestamp items
+    const timestamps = document.querySelectorAll('.timestamp-time');
+
+    timestamps.forEach(function(timestamp) {
+      // Add click event to each timestamp
+      timestamp.addEventListener('click', function(event) {
+        const time = event.target.getAttribute('data-time');  // Get the data-time attribute
+        const videoPlayer = document.getElementById('video-player');
+        
+        // Update the iframe src with the start time for the video
+        videoPlayer.src = `https://www.youtube.com/embed/{{ page.VideoId }}?start=${time}&rel=0&showinfo=0&autohide=1&mute=0&modestbranding=1`;
+      });
+    });
+  });
+</script>
