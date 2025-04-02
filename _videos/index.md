@@ -27,7 +27,7 @@ permalink: /videos
         <p class="subtitle is-4">Tutorials, reviews, vlogs, and more</p>
       </div>
       <div class="columns is-multiline">
-        {% for video in site.data.videos %}
+        {% for video in site.videos %}
         <div class="column is-4">
           <div class="im-video-card">
             <div class="im-video-thumbnail">
