@@ -23,7 +23,7 @@ timestamps:
     title: Thoughts/Plan to get a job in Bangalore
   - time: "1:23"
     title: I Love Travelling (Train Journey)
-author : Swarnil 
+author : John Doe 
 ---
 
 In this vlog, I document my journey from my hometown to Bangalore in search of a job after college. Join me as I share my experiences, challenges, and insights into the job market for freshers in Bangalore.
