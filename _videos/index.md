@@ -4,9 +4,6 @@ title: All Videos
 permalink: /videos
 ---
 
-{% assign categories = site.videos | map: 'category' | uniq %}
-{% assign tags = site.videos | map: 'tags' | join: ',' | split: ',' | uniq %}
-
 <main class="im-video-page">
   <div class="container mt-4">
     <nav class="breadcrumb" aria-label="breadcrumbs">
@@ -18,82 +15,55 @@ permalink: /videos
   </div>
   <section class="section">
     <div class="container">
-      <div class="columns">
-        <div class="column is-one-quarter">
-          <aside class="menu">
-            <p class="menu-label">Categories</p>
-            <ul class="menu-list">
-              <li><a href="?category=all">All Videos</a></li>
-              {% for category in categories %}
-              <li><a href="?category={{ category | url_encode }}">{{ category }}</a></li>
-              {% endfor %}
-            </ul>
-            <p class="menu-label">Tags</p>
-            <ul class="menu-list">
-              {% for tag in tags %}
-              <li><a href="?tag={{ tag | url_encode }}">#{{ tag }}</a></li>
-              {% endfor %}
-            </ul>
-          </aside>
-        </div>
-        <div class="column">
-          <div class="im-video-search mb-5">
-            <div class="field has-addons">
-              <div class="control is-expanded">
-                <input class="input" id="video-search" placeholder="Search videos..." type="text">
-              </div>
-              <div class="control">
-                <button class="button is-primary" onclick="filterVideos()">
-                  <i class="fas fa-search"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="columns is-multiline" id="video-list">
-            {% for video in site.videos %}
-            <div class="column is-4 video-item" data-category="{{ video.category }}" data-tags="{{ video.tags | join: ',' }}">
-              <div class="im-video-card">
-                <div class="im-video-thumbnail">
-                  <a href="{{ video.url }}">
-                    <img alt="{{ video.title }}" loading="lazy" class="im-video-image" 
-                         src="https://img.youtube.com/vi/{{ video.VideoId }}/hqdefault.jpg"
-                         onerror="this.src='/fallback-thumbnail.jpg'">
-                    <div class="im-video-duration">{{ video.duration }}</div>
-                    <div class="im-video-play-overlay">
-                      <i class="fas fa-play"></i>
-                    </div>
-                  </a>
+      <a href="/" class="button is-light is-small mb-6">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left mr-2">
+          <path d="m12 19-7-7 7-7"></path>
+          <path d="M19 12H5"></path>
+        </svg>
+        Back to Home
+      </a>
+      <div class="im-video-header mb-6">
+        <h1 class="title is-1">{{page.title}}</h1>
+        <p class="subtitle is-4">{{page.description}}</p>
+      </div>
+      <div class="im-video-search mb-5"><div class="field has-addons"><div class="control is-expanded"><input class="input" placeholder="Search videos..." type="text" value=""></div><div class="control"><button class="button is-primary"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg></button></div></div></div>
+      <div class="im-video-categories mb-5"><div class="tabs"><ul><li class=""><a>All Videos</a></li><li class="is-active"><a>Tutorials</a></li><li class=""><a>Reviews</a></li><li class=""><a>Coding</a></li><li class=""><a>Vlogs</a></li><li class=""><a>Interviews</a></li></ul></div></div>
+      <div class="columns is-multiline">
+        {% for video in site.videos %}
+        <div class="column is-4">
+          <div class="im-video-card">
+            <div class="im-video-thumbnail">
+              <a href="{{ video.url }}">
+                <img alt="{{ video.title }}" loading="lazy" width="1280" height="720" decoding="async" class="im-video-image" 
+                     src="https://img.youtube.com/vi/{{ video.VideoId }}/hqdefault.jpg">
+                <div class="im-video-duration">{{ video.duration }}</div>
+                <div class="im-video-play-overlay">
+                  <div class="im-video-play-button"><i class="fas fa-play"></i></div>
                 </div>
-                <div class="im-video-content">
+              </a>
+            </div>
+            <div class="im-video-content">
+              <div class="im-video-author">
+                <img alt="{{ video.author }}" loading="lazy" width="40" height="40" decoding="async" class="im-video-author-image" src="{{ video.author_image | default: '/placeholder.svg?height=100&width=100' }}">
+              </div>
+              <div class="im-video-details">
+                <a href="{{ video.url }}" class="im-video-title-link">
                   <h3 class="im-video-title">{{ video.title }}</h3>
-                  <p>{{ video.description }}</p>
-                  <div class="im-video-meta">
-                    <span>{{ video.author }}</span>
-                    <span>•</span>
-                    <span>{{ video.views }} views</span>
-                    <span>•</span>
-                    <span>{{ video.date | date: "%B %d, %Y" }}</span>
-                  </div>
-                  <a href="{{ video.url }}" class="button is-primary is-small mt-2">Watch Now</a>
+                </a>
+                <div class="im-video-meta">
+                  <span class="im-video-author-name">{{ video.author }}</span>
+                  <span class="im-video-dot">•</span>
+                  <span class="im-video-views">{{ video.views }} views</span>
+                  <span class="im-video-dot">•</span>
+                  <span class="im-video-date">{{ video.date | date: "%B %d, %Y" }}</span>
                 </div>
+                <a href="{{ video.url }}" class="button is-primary is-small mt-2">Watch Now</a>
               </div>
             </div>
-            {% endfor %}
           </div>
         </div>
+        {% endfor %}
       </div>
     </div>
   </section>
 </main>
-
-<script>
-function filterVideos() {
-  let searchQuery = document.getElementById('video-search').value.toLowerCase();
-  let videos = document.querySelectorAll('.video-item');
-  videos.forEach(video => {
-    let title = video.querySelector('.im-video-title').innerText.toLowerCase();
-    let tags = video.getAttribute('data-tags').toLowerCase();
-    video.style.display = (title.includes(searchQuery) || tags.includes(searchQuery)) ? 'block' : 'none';
-  });
-}
-</script>
