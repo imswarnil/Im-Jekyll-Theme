@@ -6,6 +6,7 @@ keywords : [Moving To Bangalore For Job, Job Search]
 date: 2017-08-25
 preview : /assets/videos/video.mp4
 source : YouTube
+author : swarnil
 category: [Vlog, Job Search]
 duration: 02:51
 VideoId : Q9DOOU5oHMk  
