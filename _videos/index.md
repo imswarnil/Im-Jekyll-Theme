@@ -23,8 +23,8 @@ permalink: /videos
         Back to Home
       </a>
       <div class="im-video-header mb-6">
-        <h1 class="title is-1">Videos</h1>
-        <p class="subtitle is-4">Tutorials, reviews, vlogs, and more</p>
+        <h1 class="title is-1">{{page.title}}</h1>
+        <p class="subtitle is-4">{{page.description}}</p>
       </div>
       <div class="columns is-multiline">
         {% for video in site.videos %}
