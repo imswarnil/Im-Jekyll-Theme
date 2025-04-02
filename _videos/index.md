@@ -1,6 +1,7 @@
 ---
 layout: default
 title: All Videos
+collection : videos
 permalink: /videos
 ---
 
