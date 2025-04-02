@@ -58,7 +58,7 @@ layout: default
                             <div class="im-video-thumbnail">
                               <a href="{{ video.url }}">
                                 <img alt="{{ video.title }}" loading="lazy" width="1280" height="720" decoding="async" class="im-video-image" 
-                                     src="https://img.youtube.com/vi/{{ video.VideoId }}/hqdefault.jpg">
+                                     src="https://img.youtube.com/vi/{{ video.VideoId }}/maxresdefault.jpg">
                                 <div class="im-video-duration">{{ video.duration }}</div>
                                 <div class="im-video-play-overlay">
                                   <div class="im-video-play-button"><i class="fas fa-play"></i></div>
@@ -87,7 +87,7 @@ layout: default
                               
                               <div class="im-video-author">
                                   {% if author_found %}
-                                      <img alt="{{ author_name }}" loading="lazy" width="40" height="40" decoding="async" data-nimg="1" class="im-video-author-image" src="{{ author_image | default: '/placeholder.svg?height=100&width=100' }}" style="color: transparent;">
+                                      <img alt="{{ author_name }}" loading="lazy" width="40" height="40" decoding="async" data-nimg="1" class="im-video-author-image" src="{{ author_image | default: 'https://dummyimage.com/50/000000/fff&text=File' }}" style="color: transparent;">
                                   {% else %}
                                       <img alt="Unknown Author" loading="lazy" width="40" height="40" decoding="async" data-nimg="1" class="im-video-author-image" src="/placeholder.svg?height=100&amp;width=100" style="color: transparent;">
                                   {% endif %}
