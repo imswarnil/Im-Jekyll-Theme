@@ -501,9 +501,33 @@ layout: default
               </a>
             </div>
             <div class="im-video-content">
+              {% assign video_author = page.author %}
+              {% assign author_found = false %}
+              
+              {%- if site.author.name == video_author -%}
+                {% assign author_name = site.author.name %}
+                {% assign author_image = site.author.image %}
+                {% assign author_found = true %}
+              {%- else -%}
+                {% for author_key in site.data.authors %}
+                  {% assign author_data = site.data.authors[author_key[0]] %}
+                  {% if author_data.name == video_author %}
+                    {% assign author_name = author_data.name %}
+                    {% assign author_image = author_data.image %}
+                    {% assign author_found = true %}
+                    {% break %}
+                  {% endif %}
+                {% endfor %}
+              {%- endif -%}
+              
               <div class="im-video-author">
-                <img alt="{{ video.author }}" loading="lazy" width="40" height="40" decoding="async" class="im-video-author-image" src="{{ video.author_image | default: '/placeholder.svg?height=100&width=100' }}">
+                  {% if author_found %}
+                      <img alt="{{ author_name }}" loading="lazy" width="40" height="40" decoding="async" data-nimg="1" class="im-video-author-image" src="{{ author_image | default: '/placeholder.svg?height=100&width=100' }}" style="color: transparent;">
+                  {% else %}
+                      <img alt="Unknown Author" loading="lazy" width="40" height="40" decoding="async" data-nimg="1" class="im-video-author-image" src="/placeholder.svg?height=100&amp;width=100" style="color: transparent;">
+                  {% endif %}
               </div>
+              
               <div class="im-video-details">
                 <a href="{{ video.url }}" class="im-video-title-link">
                   <h3 class="im-video-title">{{ video.title }}</h3>
