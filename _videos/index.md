@@ -32,7 +32,8 @@ permalink: /videos
           <div class="im-video-card">
             <div class="im-video-thumbnail">
               <a href="{{ video.url }}">
-                <img alt="{{ video.title }}" loading="lazy" width="1280" height="720" decoding="async" class="im-video-image" src="{{ video.thumbnail | default: '/placeholder.svg?height=720&width=1280' }}">
+                <img alt="{{ video.title }}" loading="lazy" width="1280" height="720" decoding="async" class="im-video-image" 
+                     src="https://img.youtube.com/vi/{{ video.VideoId }}/hqdefault.jpg">
                 <div class="im-video-duration">{{ video.duration }}</div>
                 <div class="im-video-play-overlay">
                   <div class="im-video-play-button"><i class="fas fa-play"></i></div>
