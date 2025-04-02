@@ -30,7 +30,7 @@ permalink: /videos
   let videos = [];
 
   // Fetch video data
-  fetch("/videos.json")
+  fetch("assets/videos.json")
     .then((response) => response.json())
     .then((data) => (videos = data));
 
