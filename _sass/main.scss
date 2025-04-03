@@ -3,7 +3,44 @@ $link : $primary;
 $family-sans-serif: "Outfit", "Arial", sans-serif !default;
 $family-monospace: "Roboto Mono", monospace !default;
 
-
-
 @import "../node_modules/bulma/sass/index";
 
+.is-sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: inherit;
+  }
+  
+  // Responsive Stickiness
+  @media (max-width: 768px) {
+    .is-sticky-mobile {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background-color: inherit;
+    }
+  }
+  
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .is-sticky-tablet {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background-color: inherit;
+    }
+  }
+  
+  @media (min-width: 1025px) {
+    .is-sticky-desktop {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background-color: inherit;
+    }
+  }
+  
