@@ -2,20 +2,6 @@
 layout: default
 ---
 
-<!-- Video Schema for SEO -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "VideoObject",
-  "name": "{{ page.title }}",
-  "description": "{{ page.description }}",
-  "thumbnailUrl": "https://img.youtube.com/vi/{{ page.VideoId }}/maxresdefault.jpg",
-  "uploadDate": "{{ page.date | date: '%Y-%m-%d' }}",
-  "duration": "PT{{ page.duration | replace: ':', 'M' }}S",
-  "contentUrl": "https://www.youtube.com/watch?v={{ page.VideoId }}",
-  "embedUrl": "https://www.youtube.com/embed/{{ page.VideoId }}"
-}
-</script>
 <!-- Main Content Container -->
 <div class="video-content-container">
   <div class="columns is-gapless">
@@ -69,20 +55,6 @@ layout: default
                 <span>#{{ tag }}</span>
               {% endfor %}
             </div>
-          </div>
-        </div>
-
-        <!-- Products Used -->
-        <div class="products-section">
-          <h3><i class="fas fa-camera"></i> Products Used in This Video</h3>
-          <div class="products-grid">
-            <div class="product-card">
-              <img src="https://via.placeholder.com/150" alt="Camera">
-              <h4>Primary Camera</h4>
-              <p>Sony A7 III</p>
-              <a href="#" class="product-link">View on Amazon <i class="fas fa-external-link-alt"></i></a>
-            </div>
-            <!-- Add more products as needed -->
           </div>
         </div>
 
@@ -199,10 +171,7 @@ layout: default
   </div>
 </div>
 
-<!-- Suggestions Button -->
-<button class="suggestions-button">
-  <i class="fas fa-lightbulb"></i> Suggestions
-</button>
+
 
 <style>
 /* Base Styles */
@@ -359,196 +328,6 @@ body {
 .video-tags span {
   color: #065fd4;
   font-size: 0.9rem;
-}
-
-/* Products Section */
-.products-section {
-  padding: 20px 0;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.products-section h3 {
-  font-size: 1.2rem;
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 15px;
-}
-
-.product-card {
-  background: var(--bg-color);
-  padding: 15px;
-  border-radius: 8px;
-  text-align: center;
-}
-
-.product-card img {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-  margin-bottom: 10px;
-}
-
-.product-card h4 {
-  margin: 5px 0;
-  font-size: 0.9rem;
-}
-
-.product-card p {
-  margin: 5px 0;
-  font-size: 0.8rem;
-  color: var(--light-text);
-}
-
-.product-link {
-  display: inline-block;
-  margin-top: 10px;
-  font-size: 0.8rem;
-  color: var(--primary-color);
-  text-decoration: none;
-}
-
-.product-link i {
-  margin-left: 5px;
-}
-
-/* Sponsor Section */
-.sponsor-section {
-  padding: 20px 0;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.sponsor-section h3 {
-  font-size: 1.2rem;
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.sponsor-card {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-  background: var(--bg-color);
-  padding: 15px;
-  border-radius: 8px;
-}
-
-.sponsor-card img {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
-  border-radius: 4px;
-}
-
-.sponsor-info h4 {
-  margin: 0 0 5px;
-  font-size: 1rem;
-}
-
-.sponsor-info p {
-  margin: 0 0 10px;
-  font-size: 0.9rem;
-  color: var(--light-text);
-}
-
-.sponsor-link {
-  color: var(--primary-color);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.sponsor-link i {
-  margin-left: 5px;
-}
-
-/* Comments Section */
-.comments-section {
-  padding: 20px 0;
-}
-
-.comments-section h3 {
-  font-size: 1.2rem;
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.comment-form {
-  margin-bottom: 20px;
-}
-
-.comment-form textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  min-height: 80px;
-  margin-bottom: 10px;
-}
-
-.comment-form button {
-  background: var(--primary-color);
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.comment {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.comment img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-
-.comment h4 {
-  margin: 0 0 5px;
-  font-size: 0.9rem;
-}
-
-.comment h4 span {
-  font-weight: normal;
-  color: var(--light-text);
-  font-size: 0.8rem;
-  margin-left: 10px;
-}
-
-.comment p {
-  margin: 0;
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-
-.comment-actions {
-  display: flex;
-  gap: 15px;
-  margin-top: 10px;
-  font-size: 0.8rem;
-  color: var(--light-text);
-}
-
-.comment-actions span {
-  cursor: pointer;
-}
-
-.comment-actions i {
-  margin-right: 5px;
 }
 
 /* Sidebar Styles */
@@ -855,7 +634,6 @@ function seekToTime(timestamp) {
   });
   event.currentTarget.classList.add('active');
 }
-
 // Toggle mobile timestamps
 document.querySelector('.timestamps-toggle').addEventListener('click', function() {
   const list = document.querySelector('.timestamps-list-mobile');
@@ -863,65 +641,6 @@ document.querySelector('.timestamps-toggle').addEventListener('click', function(
     list.style.display = 'none';
   } else {
     list.style.display = 'block';
-  }
-});
-
-// Toggle description content
-document.querySelector('.description-toggle').addEventListener('click', function() {
-  const content = document.querySelector('.description-content');
-  const icon = this.querySelector('i');
-  
-  if (content.style.display === 'none' || !content.style.display) {
-    content.style.display = 'block';
-    icon.style.transform = 'rotate(180deg)';
-  } else {
-    content.style.display = 'none';
-    icon.style.transform = 'rotate(0deg)';
-  }
-});
-
-// Share functionality
-function openShareModal() {
-  document.querySelector('.share-modal').style.display = 'flex';
-}
-
-function closeShareModal() {
-  document.querySelector('.share-modal').style.display = 'none';
-}
-
-// Copy link function
-function copyToClipboard() {
-  const url = window.location.href;
-  navigator.clipboard.writeText(url).then(() => {
-    alert('Link copied to clipboard!');
-  });
-}
-
-// Initialize event listeners
-document.addEventListener('DOMContentLoaded', function() {
-  // Share buttons
-  document.querySelectorAll('.share-button').forEach(button => {
-    button.addEventListener('click', function() {
-      // In a real implementation, this would open the respective share dialog
-      console.log('Sharing to', this.classList[1]);
-    });
-  });
-  
-  // Copy link button
-  document.querySelector('.copy-link').addEventListener('click', copyToClipboard);
-  
-  // Close share modal
-  document.querySelector('.close-share').addEventListener('click', closeShareModal);
-  
-  // Suggestions button
-  document.querySelector('.suggestions-button').addEventListener('click', function() {
-    alert('Suggestions feature would open here');
-  });
-  
-  // Initialize description as expanded on desktop, collapsed on mobile
-  if (window.innerWidth <= 768) {
-    document.querySelector('.description-content').style.display = 'none';
-    document.querySelector('.description-toggle i').style.transform = 'rotate(0deg)';
   }
 });
 </script>
