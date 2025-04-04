@@ -6,7 +6,7 @@ permalink: /videos
 ---
 
 <main class="im-video-page">
-    {% include breadcrumb.html %}
+    {% include utility/breadcrumb.html %}
     
     <section class="section">
         <div class="container">
