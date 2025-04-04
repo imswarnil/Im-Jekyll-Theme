@@ -4,17 +4,42 @@ title: All Videos
 collection : videos
 permalink: /videos
 ---
-
-<!-- Hero Section -->
+<!-- Hero Section with Split Layout -->
 <section class="hero is-primary is-medium">
+    <div class="hero-head">
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a class="navbar-item" href="/">
+                        <strong>{{ site.title }}</strong>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
     <div class="hero-body">
-        <div class="container has-text-centered">
-            <h1 class="title">
-                My Video Library
-            </h1>
-            <h2 class="subtitle">
-                Learn, create and grow your YouTube channel with my tutorials
-            </h2>
+        <div class="container">
+            <div class="columns is-vcentered">
+                <!-- Left Side - Title/Description -->
+                <div class="column is-8">
+                    <h1 class="title is-1">
+                        My Video Library
+                    </h1>
+                    <h2 class="subtitle is-4">
+                        Learn, create and grow your YouTube channel with my tutorials
+                    </h2>
+                </div>
+                
+                <!-- Right Side - Leaderboard Ad -->
+                <div class="column is-4">
+                    <div class="ad-container leaderboard-ad">
+                        <div class="ad-placeholder">
+                            <span class="ad-label">Advertisement</span>
+                            <div class="ad-content">728x90 Leaderboard</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -34,6 +59,16 @@ permalink: /videos
 <!-- Main Content -->
 <section class="section pt-2">
     <div class="container">
+        <!-- Top Ad Banner -->
+        <div class="mb-5">
+            <div class="ad-container rectangle-ad">
+                <div class="ad-placeholder">
+                    <span class="ad-label">Advertisement</span>
+                    <div class="ad-content">300x250 Rectangle</div>
+                </div>
+            </div>
+        </div>
+        
         <div class="columns">
             <!-- Main Video Listing (9 columns) -->
             <div class="column is-9">
@@ -82,45 +117,60 @@ permalink: /videos
                          data-tags="{% for tag in video.tags %}{{ tag | slugify }} {% endfor %}"
                          data-title="{{ video.title | downcase }}"
                          data-description="{{ video.description | downcase }}">
-                        <div class="card">
-                            <div class="card-image">
-                                <div class="video-thumbnail">
-                                    {% if video.image and page.image %}
-                                        <img src="{{ video.image | relative_url }}" alt="{{ video.title }}">
-                                    {% else %}
-                                        <img src="https://img.youtube.com/vi/{{ video.VideoId }}/maxresdefault.jpg" alt="{{ video.title }}">
-                                    {% endif %}
-                                    <span class="video-duration">{{ video.duration }}</span>
-                                </div>
-                            </div>
-                            <div class="card-content">
-                                <div class="media">
-                                    <div class="media-left">
-                                        {% if video.author_image %}
-                                            <img class="author-avatar" src="{{ video.author_image | relative_url }}" alt="{{ video.author }}">
+                        <a href="{{ video.url | relative_url }}" class="video-card-link">
+                            <div class="card">
+                                <div class="card-image">
+                                    <div class="video-thumbnail">
+                                        {% if video.image and page.image %}
+                                            <img src="{{ video.image | relative_url }}" alt="{{ video.title }}">
                                         {% else %}
-                                            <img class="author-avatar" src="https://via.placeholder.com/48" alt="{{ video.author }}">
+                                            <img src="https://img.youtube.com/vi/{{ video.VideoId }}/maxresdefault.jpg" alt="{{ video.title }}">
                                         {% endif %}
-                                    </div>
-                                    <div class="media-content">
-                                        <p class="title is-5">{{ video.title }}</p>
-                                        <p class="subtitle is-6">{{ video.author }}</p>
+                                        <span class="video-duration">{{ video.duration }}</span>
+                                        <div class="video-hover-overlay">
+                                            <i class="fas fa-play"></i>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="content">
-                                    {{ video.description | truncate: 120 }}
-                                    <br>
-                                    <small class="has-text-grey">Uploaded: {{ video.date | date: "%B %d, %Y" }}</small>
-                                </div>
-                                <div class="tags">
-                                    {% for tag in video.tags %}
-                                    <span class="tag">{{ tag }}</span>
-                                    {% endfor %}
+                                <div class="card-content">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            {% if video.author_image %}
+                                                <img class="author-avatar" src="{{ video.author_image | relative_url }}" alt="{{ video.author }}">
+                                            {% else %}
+                                                <img class="author-avatar" src="https://via.placeholder.com/48" alt="{{ video.author }}">
+                                            {% endif %}
+                                        </div>
+                                        <div class="media-content">
+                                            <p class="title is-5">{{ video.title }}</p>
+                                            <p class="subtitle is-6">{{ video.author }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        {{ video.description | truncate: 120 }}
+                                        <br>
+                                        <small class="has-text-grey">Uploaded: {{ video.date | date: "%B %d, %Y" }}</small>
+                                    </div>
+                                    <div class="tags">
+                                        {% for tag in video.tags %}
+                                        <span class="tag">{{ tag }}</span>
+                                        {% endfor %}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     {% endfor %}
+                </div>
+                
+                <!-- Middle Ad Banner -->
+                <div class="my-5">
+                    <div class="ad-container banner-ad">
+                        <div class="ad-placeholder">
+                            <span class="ad-label">Advertisement</span>
+                            <div class="ad-content">970x250 Billboard</div>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Pagination -->
@@ -224,6 +274,16 @@ permalink: /videos
             <!-- Sidebar (3 columns) -->
             <div class="column is-3">
                 <div class="sticky-sidebar">
+                    <!-- Sidebar Ad -->
+                    <div class="mb-5">
+                        <div class="ad-container square-ad">
+                            <div class="ad-placeholder">
+                                <span class="ad-label">Advertisement</span>
+                                <div class="ad-content">300x250 Square</div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!-- Masterclass Promotion -->
                     <div class="box mb-5">
                         <h3 class="title is-5">Free Masterclass</h3>
@@ -251,22 +311,34 @@ permalink: /videos
                         <h3 class="title is-5">Most Popular</h3>
                         {% assign popular_videos = site.videos | sort: 'views' | reverse | slice: 0, 5 %}
                         {% for video in popular_videos %}
-                        <article class="media mb-4">
-                            <figure class="media-left">
-                                <p class="image is-64x64">
-                                    {% if video.image %}
-                                        <img src="{{ video.image | relative_url }}" alt="{{ video.title }}">
-                                    {% else %}
-                                        <img src="https://img.youtube.com/vi/{{ video.VideoId }}/default.jpg" alt="{{ video.title }}">
-                                    {% endif %}
-                                </p>
-                            </figure>
-                            <div class="media-content">
-                                <p class="is-size-6 has-text-weight-semibold">{{ video.title | truncate: 40 }}</p>
-                                <small>{{ video.views | default: "0" }} views</small>
-                            </div>
-                        </article>
+                        <a href="{{ video.url | relative_url }}" class="video-sidebar-link">
+                            <article class="media mb-4">
+                                <figure class="media-left">
+                                    <p class="image is-64x64">
+                                        {% if video.image %}
+                                            <img src="{{ video.image | relative_url }}" alt="{{ video.title }}">
+                                        {% else %}
+                                            <img src="https://img.youtube.com/vi/{{ video.VideoId }}/default.jpg" alt="{{ video.title }}">
+                                        {% endif %}
+                                    </p>
+                                </figure>
+                                <div class="media-content">
+                                    <p class="is-size-6 has-text-weight-semibold">{{ video.title | truncate: 40 }}</p>
+                                    <small>{{ video.views | default: "0" }} views</small>
+                                </div>
+                            </article>
+                        </a>
                         {% endfor %}
+                    </div>
+                    
+                    <!-- Sidebar Bottom Ad -->
+                    <div class="mt-5">
+                        <div class="ad-container skyscraper-ad">
+                            <div class="ad-placeholder">
+                                <span class="ad-label">Advertisement</span>
+                                <div class="ad-content">160x600 Skyscraper</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -275,12 +347,14 @@ permalink: /videos
 </section>
 
 <style>
+/* Video Thumbnail Styles */
 .video-thumbnail {
     position: relative;
     padding-top: 56.25%; /* 16:9 aspect ratio */
     background-color: #f5f5f5;
     margin-bottom: 0.5rem;
     overflow: hidden;
+    transition: all 0.3s ease;
 }
 
 .video-thumbnail img {
@@ -290,6 +364,7 @@ permalink: /videos
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.3s ease;
 }
 
 .video-duration {
@@ -301,8 +376,48 @@ permalink: /videos
     padding: 2px 5px;
     border-radius: 3px;
     font-size: 0.8rem;
+    z-index: 2;
 }
 
+.video-hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.video-hover-overlay i {
+    color: white;
+    font-size: 2rem;
+}
+
+/* Video Card Hover Effects */
+.video-card-link:hover .video-thumbnail img {
+    transform: scale(1.05);
+}
+
+.video-card-link:hover .video-hover-overlay {
+    opacity: 1;
+}
+
+.video-card-link:hover .card {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+}
+
+.video-card-link .card {
+    transition: all 0.3s ease;
+}
+
+/* Author Avatar */
 .author-avatar {
     width: 24px;
     height: 24px;
@@ -310,14 +425,21 @@ permalink: /videos
     margin-right: 5px;
 }
 
+/* Sticky Sidebar */
 .sticky-sidebar {
     position: sticky;
     top: 20px;
 }
 
+/* Tag Filter Styles */
 .tag-filter .tag {
     cursor: pointer;
     margin-bottom: 5px;
+    transition: all 0.2s ease;
+}
+
+.tag-filter .tag:hover {
+    transform: translateY(-2px);
 }
 
 .tag-filter .tag.is-active {
@@ -325,14 +447,107 @@ permalink: /videos
     color: white;
 }
 
+/* Product Card Styles */
 .product-card {
     margin-bottom: 1rem;
+    transition: all 0.3s ease;
 }
 
+.product-card:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+}
+
+/* Advertisement Styles */
+.ad-container {
+    background: #f5f5f5;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.ad-placeholder {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eaeaea;
+    color: #999;
+    font-weight: bold;
+    text-align: center;
+}
+
+.ad-label {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 0.7rem;
+    color: #999;
+    background: white;
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+.leaderboard-ad .ad-placeholder {
+    height: 90px;
+    width: 728px;
+    max-width: 100%;
+}
+
+.rectangle-ad .ad-placeholder {
+    height: 250px;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.banner-ad .ad-placeholder {
+    height: 250px;
+    width: 970px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.square-ad .ad-placeholder {
+    height: 250px;
+    width: 300px;
+}
+
+.skyscraper-ad .ad-placeholder {
+    height: 600px;
+    width: 160px;
+    margin: 0 auto;
+}
+
+/* Sidebar Video Links */
+.video-sidebar-link {
+    display: block;
+    transition: all 0.2s ease;
+}
+
+.video-sidebar-link:hover {
+    background: #f5f5f5;
+    transform: translateX(5px);
+}
+
+/* Responsive Styles */
 @media screen and (max-width: 768px) {
     .video-column {
         flex: none;
         width: 50%;
+    }
+    
+    .hero-body .columns {
+        flex-direction: column;
+    }
+    
+    .hero-body .column.is-8,
+    .hero-body .column.is-4 {
+        width: 100%;
+    }
+    
+    .leaderboard-ad .ad-placeholder {
+        height: 90px;
+        width: 100%;
     }
 }
 </style>
