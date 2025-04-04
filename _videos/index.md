@@ -85,7 +85,7 @@ permalink: /videos
                         <div class="card">
                             <div class="card-image">
                                 <div class="video-thumbnail">
-                                    {% if video.image %}
+                                    {% if video.image and page.image %}
                                         <img src="{{ video.image | relative_url }}" alt="{{ video.title }}">
                                     {% else %}
                                         <img src="https://img.youtube.com/vi/{{ video.VideoId }}/maxresdefault.jpg" alt="{{ video.title }}">
