@@ -185,41 +185,13 @@ permalink: /videos
                 <!-- Request Video Section -->
                 <section class="section">
                     <div class="box">
-                      <h2 class="title is-4">Request a Video</h2>
-                      <p>Have a topic you'd like me to cover? Let me know!</p>
-                      <form id="custom-form">
-                        <div class="field">
-                          <label class="label">Your Name</label>
-                          <div class="control">
-                            <input type="text" id="name" class="input" placeholder="Enter your name" required>
-                          </div>
-                        </div>
-                        <div class="field">
-                          <label class="label">Video Request</label>
-                          <div class="control">
-                            <textarea id="request" class="textarea" placeholder="Your video idea..." required></textarea>
-                          </div>
-                        </div>
-                        <button type="submit" class="button is-info">Submit Request</button>
-                      </form>
+                        <h2 class="title is-4">Request a Video</h2>
+                        <p>Have a topic you'd like me to cover? Let me know!</p>
+                        <iframe data-tally-src="https://tally.so/embed/w2o9Dj?alignLeft=1&transparentBackground=1" loading="lazy" width="100%" height="300" frameborder="0" marginheight="0" marginwidth="0" title="Video Request"></iframe>
+<script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
+                        <button class="button is-info">Submit Request</button>
                     </div>
-                  </section>
-                  
-                  <script>
-                    const form = document.getElementById('custom-form');
-                    form.addEventListener('submit', function(e) {
-                      e.preventDefault();
-                      
-                      const name = encodeURIComponent(document.getElementById('name').value);
-                      const request = encodeURIComponent(document.getElementById('request').value);
-                      
-                      // Redirect with pre-filled values
-                      window.location.href = `https://tally.so/r/w2o9Dj?name=${name}&request=${request}`;
-                    });
-                  </script>
-                  <script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
-
-
+                </section>
                 
                 <!-- My Gear Section -->
                 <section class="section">
