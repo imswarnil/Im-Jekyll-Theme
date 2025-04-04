@@ -3,6 +3,7 @@
 {% include im-head.html %}
 <body class="layout-{{ page.layout | default: 'default'}}">
         {% include im-navbar.html %}
+        {% include adsense.html format="leaderboard" lazy="true" %}
             {{ content }}
 {% include site-before-end.html %}
 </body>
