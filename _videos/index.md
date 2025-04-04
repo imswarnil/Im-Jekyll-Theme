@@ -5,18 +5,7 @@ collection : videos
 permalink: /videos
 ---
 <!-- Hero Section with Split Layout -->
-<section class="hero is-primary is-medium">
-    <div class="hero-head">
-        <nav class="navbar">
-            <div class="container">
-                <div class="navbar-brand">
-                    <a class="navbar-item" href="/">
-                        <strong>{{ site.title }}</strong>
-                    </a>
-                </div>
-            </div>
-        </nav>
-    </div>
+<section class="hero is-primary is-small">
     <div class="hero-body">
         <div class="container">
             <div class="columns is-vcentered">
