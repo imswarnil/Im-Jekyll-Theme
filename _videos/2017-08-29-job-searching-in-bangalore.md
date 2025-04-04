@@ -7,15 +7,7 @@ type: YouTube
 category: [Vlog, Job Search]
 duration: 02:36
 VideoId: ARHfj8NP3YA
-tags: [
-  Bangalore, job seeker, IT jobs, fresher, job hunting, 
-  how to search job in bangalore, 
-  how to search jobs in bangalore, 
-  how to search for jobs in bangalore, 
-  how to find jobs in bangalore, 
-  how to search for a job in bangalore,
-  how to search job in bangalore for experienced
-]
+tags: [ bangalore, Job search, New In Town]
 timestamps:
   - time: "0:00"
     title: Introduction
