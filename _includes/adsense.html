@@ -1,295 +1,338 @@
 {% comment %}
-  AdSense Ad Component
-  Usage: {% include adsense.html ad_slot="1234567890" ad_format="auto" %}
+  Optimized AdSense Component with Lazy Loading
+  Usage: {% include adsense.html format="responsive" slot="auto" %}
 
   Parameters:
-  - ad_slot: Your AdSense ad slot ID (required)
-  - ad_format: 'auto', 'rectangle', 'leaderboard', 'banner', or 'responsive' (default: 'auto')
-  - ad_layout: For responsive ads - 'in-article', 'in-feed', or 'matched-content'
-  - ad_width: For fixed-size ads
-  - ad_height: For fixed-size ads
-  - ad_class: Additional CSS classes
-  - ad_style: Inline CSS styles
-  - ad_client: Your AdSense client ID (ca-pub-XXXXX)
-  - lazy_load: true/false - Enable lazy loading (default: true)
+  - format: ad format type (responsive, leaderboard, skyscraper, etc.)
+  - slot: specific slot ID or 'auto' to choose best for format
+  - layout: for responsive ads (in-article, in-feed, matched-content)
+  - lazy: enable lazy loading (true/false)
 {% endcomment %}
 
-{% assign ad_format = include.ad_format | default: 'auto' %}
-{% assign ad_slot = include.ad_slot | default: '' %}
-{% assign ad_layout = include.ad_layout | default: '' %}
-{% assign ad_width = include.ad_width | default: '' %}
-{% assign ad_height = include.ad_height | default: '' %}
-{% assign ad_class = include.ad_class | default: '' %}
-{% assign ad_style = include.ad_style | default: '' %}
-{% assign ad_client = include.ad_client | default: 'ca-pub-XXXXXXXXXXXXXXXX' %}
-{% assign lazy_load = include.lazy_load | default: true %}
+{% assign format = include.format | default: 'responsive' %}
+{% assign slot = include.slot | default: 'auto' %}
+{% assign layout = include.layout | default: '' %}
+{% assign lazy = include.lazy | default: true %}
 
-<div class="adsense-container {{ ad_class }} {{ ad_format }}" style="{{ ad_style }}">
-  {% if ad_slot != '' and ad_client != '' %}
-    {% if ad_format == 'auto' %}
-      <!-- Responsive Auto Ad -->
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="{{ ad_client }}"
-           data-ad-slot="{{ ad_slot }}"
-           data-ad-format="auto"
-           data-full-width-responsive="true"
-           {% if lazy_load %}data-loading="lazy"{% endif %}></ins>
-
-    {% elsif ad_format == 'responsive' %}
-      <!-- Responsive Ad with Layout -->
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-format="{{ ad_layout | default: 'fluid' }}"
-           data-ad-layout-key="{{ ad_layout | default: '-fg+5v+1k-9r+7j' }}"
-           data-ad-client="{{ ad_client }}"
-           data-ad-slot="{{ ad_slot }}"
-           {% if lazy_load %}data-loading="lazy"{% endif %}></ins>
-
-    {% elsif ad_format == 'rectangle' %}
-      <!-- Rectangle Ad (300x250) -->
-      <ins class="adsbygoogle"
-           style="display:inline-block;width:300px;height:250px"
-           data-ad-client="{{ ad_client }}"
-           data-ad-slot="{{ ad_slot }}"
-           {% if lazy_load %}data-loading="lazy"{% endif %}></ins>
-
-    {% elsif ad_format == 'leaderboard' %}
-      <!-- Leaderboard Ad (728x90) - Desktop Only -->
-      <div class="leaderboard-ad">
-        <ins class="adsbygoogle"
-             style="display:inline-block;width:728px;height:90px"
-             data-ad-client="{{ ad_client }}"
-             data-ad-slot="{{ ad_slot }}"
-             {% if lazy_load %}data-loading="lazy"{% endif %}></ins>
-      </div>
-
-    {% elsif ad_format == 'banner' %}
-      <!-- Banner Ad (468x60) -->
-      <ins class="adsbygoogle"
-           style="display:inline-block;width:468px;height:60px"
-           data-ad-client="{{ ad_client }}"
-           data-ad-slot="{{ ad_slot }}"
-           {% if lazy_load %}data-loading="lazy"{% endif %}></ins>
-
-    {% else %}
-      <!-- Custom Size Ad -->
-      <ins class="adsbygoogle"
-           style="display:inline-block;width:{{ ad_width }}px;height:{{ ad_height }}px"
-           data-ad-client="{{ ad_client }}"
-           data-ad-slot="{{ ad_slot }}"
-           {% if lazy_load %}data-loading="lazy"{% endif %}></ins>
-    {% endif %}
-
-    <!-- Ad Loading Script -->
-    <script>
-    (function() {
-      {% if lazy_load %}
-        function loadAd() {
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        }
-        
-        if ('IntersectionObserver' in window) {
-          var observer = new IntersectionObserver(function(entries) {
-            entries.forEach(function(entry) {
-              if (entry.isIntersecting) {
-                loadAd();
-                observer.unobserve(entry.target);
-              }
-            });
-          }, { rootMargin: '200px' });
-          
-          observer.observe(document.currentScript.parentElement);
-        } else {
-          // Fallback for browsers without IntersectionObserver
-          loadAd();
-        }
-      {% else %}
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      {% endif %}
-    })();
-    </script>
-
+{% comment %} Select appropriate slot based on format {% endcomment %}
+{% case format %}
+  {% when 'square' %}
+    {% assign ad_slot = slot == 'auto' ? '7663977887' : slot %}
+    {% assign ad_style = 'display:inline-block;width:250px;height:250px' %}
+  {% when 'horizontal' %}
+    {% assign ad_slot = slot == 'auto' ? '8939839370' : slot %}
+    {% assign ad_style = 'display:block;width:100%;height:90px' %}
+  {% when 'vertical' %}
+    {% assign ad_slot = slot == 'auto' ? '3487917390' : slot %}
+    {% assign ad_style = 'display:inline-block;width:120px;height:600px' %}
+  {% when 'leaderboard' %}
+    {% assign ad_slot = slot == 'auto' ? '1864856299' : slot %}
+    {% assign ad_style = 'display:inline-block;width:728px;height:90px' %}
+  {% when 'leaderboard-large' %}
+    {% assign ad_slot = slot == 'auto' ? '8539588233' : slot %}
+    {% assign ad_style = 'display:inline-block;width:980px;height:90px' %}
+  {% when 'billboard' %}
+    {% assign ad_slot = slot == 'auto' ? '4921873558' : slot %}
+    {% assign ad_style = 'display:inline-block;width:970px;height:250px' %}
+  {% when 'article' %}
+    {% assign ad_slot = slot == 'auto' ? '6501428979' : slot %}
+    {% assign ad_format = 'fluid' %}
+    {% assign ad_layout = 'in-article' %}
+  {% when 'skyscraper' %}
+    {% assign ad_slot = slot == 'auto' ? '5882506557' : slot %}
+    {% assign ad_style = 'display:inline-block;width:160px;height:600px' %}
+  {% when 'skyscraper-medium' %}
+    {% assign ad_slot = slot == 'auto' ? '4394096538' : slot %}
+    {% assign ad_style = 'display:inline-block;width:300px;height:600px' %}
+  {% when 'skyscraper-large' %}
+    {% assign ad_slot = slot == 'auto' ? '9488965956' : slot %}
+    {% assign ad_style = 'display:inline-block;width:300px;height:1050px' %}
+  {% when 'mobile-leaderboard' %}
+    {% assign ad_slot = slot == 'auto' ? '4003326983' : slot %}
+    {% assign ad_style = 'display:inline-block;width:300px;height:50px' %}
+  {% when 'button' %}
+    {% assign ad_slot = slot == 'auto' ? '3836856744' : slot %}
+    {% assign ad_style = 'display:inline-block;width:300px;height:60px' %}
+  {% when 'multiplex-h' %}
+    {% assign ad_slot = slot == 'auto' ? '9130894804' : slot %}
+    {% assign ad_format = 'autorelaxed' %}
+  {% when 'multiplex-v' %}
+    {% assign ad_slot = slot == 'auto' ? '6808134701' : slot %}
+    {% assign ad_format = 'autorelaxed' %}
   {% else %}
-    <!-- Ad Placeholder (shown when configuration is missing) -->
-    <div class="ad-placeholder {{ ad_format }}">
-      <span class="ad-label">Advertisement</span>
-      <div class="ad-content">
-        {% if ad_slot == '' %}
-          <p>Ad Slot Missing</p>
-        {% elsif ad_client == '' %}
-          <p>Ad Client ID Missing</p>
-        {% elsif ad_format == 'rectangle' %}
-          <p>300x250 Ad</p>
-        {% elsif ad_format == 'leaderboard' %}
-          <p>728x90 Leaderboard</p>
-        {% elsif ad_format == 'banner' %}
-          <p>468x60 Banner</p>
-        {% else %}
-          <p>Responsive Ad</p>
-        {% endif %}
-      </div>
+    {% assign ad_slot = slot == 'auto' ? '4774277934' : slot %}
+    {% assign ad_format = 'auto' %}
+{% endcase %}
+
+<div class="adsense-ad {{ format }}" 
+     data-format="{{ format }}" 
+     data-slot="{{ ad_slot }}"
+     {% if lazy %}data-lazy="true"{% endif %}>
+  <div class="ad-placeholder">
+    <span class="ad-label">Advertisement</span>
+    <div class="ad-content">
+      {{ format | capitalize }} Ad
+      <small>Loading...</small>
     </div>
-  {% endif %}
+  </div>
 </div>
 
 <style>
-/* Base Ad Styles */
-.adsense-container {
+/* Base Ad Container */
+.adsense-ad {
   margin: 1.5rem auto;
   text-align: center;
+  position: relative;
   overflow: hidden;
-  max-width: 100%;
+  background: #f8f9fa;
+  border-radius: 4px;
+  transition: all 0.3s ease;
 }
 
+/* Placeholder Styles */
 .ad-placeholder {
-  background: #f5f5f5;
+  padding: 20px;
+  color: #6c757d;
+  font-weight: 500;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  min-height: 100px;
   position: relative;
-  margin: 0 auto;
-  border: 1px dashed #ccc;
 }
 
 .ad-label {
   position: absolute;
   top: 5px;
-  left: 5px;
+  right: 5px;
   font-size: 0.7rem;
-  color: #666;
-  background: rgba(255,255,255,0.8);
+  color: #adb5bd;
+  background: white;
   padding: 2px 5px;
   border-radius: 3px;
-  font-family: sans-serif;
 }
 
-.ad-content {
-  color: #666;
-  font-weight: bold;
-  padding: 20px;
-  font-family: sans-serif;
+.ad-content small {
+  display: block;
+  font-size: 0.8rem;
+  margin-top: 5px;
+  color: #adb5bd;
 }
 
-/* Format-Specific Styles */
-/* Auto/Responsive Ad */
-.adsense-container.auto .ad-placeholder,
-.adsense-container.responsive .ad-placeholder {
-  width: 100%;
-  min-height: 100px;
-}
-
-/* Rectangle Ad */
-.adsense-container.rectangle .ad-placeholder {
-  width: 300px;
+/* Format-Specific Dimensions */
+.adsense-ad.square {
+  width: 250px;
   height: 250px;
 }
 
-/* Leaderboard Ad */
-.adsense-container.leaderboard .ad-placeholder {
+.adsense-ad.horizontal {
+  width: 100%;
+  height: 90px;
+}
+
+.adsense-ad.vertical {
+  width: 120px;
+  height: 600px;
+}
+
+.adsense-ad.leaderboard {
   width: 728px;
   height: 90px;
 }
 
-/* Banner Ad */
-.adsense-container.banner .ad-placeholder {
-  width: 468px;
+.adsense-ad.leaderboard-large {
+  width: 980px;
+  height: 90px;
+}
+
+.adsense-ad.billboard {
+  width: 970px;
+  height: 250px;
+}
+
+.adsense-ad.skyscraper {
+  width: 160px;
+  height: 600px;
+}
+
+.adsense-ad.skyscraper-medium {
+  width: 300px;
+  height: 600px;
+}
+
+.adsense-ad.skyscraper-large {
+  width: 300px;
+  height: 1050px;
+}
+
+.adsense-ad.mobile-leaderboard {
+  width: 300px;
+  height: 50px;
+}
+
+.adsense-ad.button {
+  width: 300px;
   height: 60px;
 }
 
 /* Responsive Behavior */
-@media (max-width: 800px) {
-  /* Hide leaderboard on mobile */
-  .leaderboard-ad {
+@media (max-width: 992px) {
+  .adsense-ad.leaderboard,
+  .adsense-ad.leaderboard-large,
+  .adsense-ad.billboard {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 970/250;
+  }
+  
+  .adsense-ad.vertical,
+  .adsense-ad.skyscraper,
+  .adsense-ad.skyscraper-medium,
+  .adsense-ad.skyscraper-large {
     display: none;
   }
-  
-  /* Make rectangle ads responsive */
-  .adsense-container.rectangle .ad-placeholder {
+}
+
+@media (max-width: 768px) {
+  .adsense-ad.square {
     width: 100%;
     max-width: 300px;
-    height: 250px;
   }
   
-  /* Make banner ads responsive */
-  .adsense-container.banner .ad-placeholder {
+  .adsense-ad.mobile-leaderboard {
     width: 100%;
-    max-width: 468px;
-    height: 60px;
   }
 }
 
-/* AdSense Ins Element Styles */
-ins.adsbygoogle {
-  margin: 0 auto;
-  display: block !important;
-  background: transparent;
+/* Ad Loaded State */
+.adsense-ad.loaded .ad-placeholder {
+  display: none;
 }
 
-/* Loading state */
-ins.adsbygoogle[data-loading="lazy"] {
-  min-height: 100px;
-  background: #f9f9f9 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ddd" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50"><animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 50 50" to="360 50 50" dur="1s" repeatCount="indefinite"/></path></svg>') no-repeat center;
-  background-size: 40px;
-}
-
-/* Error state */
-.ad-error {
-  background: #fff0f0;
-  padding: 10px;
-  color: #d33;
-  font-size: 0.9rem;
+/* Animation */
+.adsense-ad:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
 }
 </style>
 
 <script>
-// Initialize AdSense script
+// Lazy Load AdSense Ads
 document.addEventListener('DOMContentLoaded', function() {
-  // Only load if there are ads on the page
-  if (document.querySelector('ins.adsbygoogle') && !document.querySelector('script[src*="adsbygoogle.js"]')) {
+  // Load AdSense script
+  if (!window.adsbygoogle) {
     const script = document.createElement('script');
-    script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ ad_client }}';
+    script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1291242080282540';
     script.async = true;
     script.crossOrigin = 'anonymous';
     document.head.appendChild(script);
-    
-    // Add error handling
-    script.onerror = function() {
-      console.error('Failed to load AdSense script');
-      document.querySelectorAll('ins.adsbygoogle').forEach(function(ad) {
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'ad-error';
-        errorDiv.textContent = 'Failed to load advertisement';
-        ad.parentNode.insertBefore(errorDiv, ad);
-      });
-    };
   }
-  
-  // SPA support
-  if (typeof history !== 'undefined') {
-    const pushState = history.pushState;
-    history.pushState = function() {
-      pushState.apply(history, arguments);
-      window.dispatchEvent(new Event('locationchange'));
-    };
-    
-    const replaceState = history.replaceState;
-    history.replaceState = function() {
-      replaceState.apply(history, arguments);
-      window.dispatchEvent(new Event('locationchange'));
-    };
-    
-    window.addEventListener('popstate', function() {
-      window.dispatchEvent(new Event('locationchange'));
-    });
-    
-    window.addEventListener('locationchange', function() {
-      if (window.adsbygoogle) {
-        document.querySelectorAll('ins.adsbygoogle:not([data-ad-loaded])').forEach(function(ad) {
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        });
+
+  // Initialize Intersection Observer for lazy loading
+  const adObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const adContainer = entry.target;
+        const format = adContainer.dataset.format;
+        const slot = adContainer.dataset.slot;
+        
+        // Create ad element
+        const adElement = document.createElement('ins');
+        adElement.className = 'adsbygoogle';
+        adElement.style.display = 'block';
+        adElement.dataset.adClient = 'ca-pub-1291242080282540';
+        adElement.dataset.adSlot = slot;
+        
+        // Set format-specific attributes
+        switch(format) {
+          case 'article':
+            adElement.dataset.adFormat = 'fluid';
+            adElement.dataset.adLayout = 'in-article';
+            break;
+          case 'multiplex-h':
+          case 'multiplex-v':
+            adElement.dataset.adFormat = 'autorelaxed';
+            break;
+          case 'responsive':
+            adElement.dataset.adFormat = 'auto';
+            adElement.dataset.fullWidthResponsive = 'true';
+            break;
+          default:
+            adElement.style.display = 'inline-block';
+            const styles = {
+              'square': 'width:250px;height:250px',
+              'horizontal': 'width:100%;height:90px',
+              'vertical': 'width:120px;height:600px',
+              'leaderboard': 'width:728px;height:90px',
+              'leaderboard-large': 'width:980px;height:90px',
+              'billboard': 'width:970px;height:250px',
+              'skyscraper': 'width:160px;height:600px',
+              'skyscraper-medium': 'width:300px;height:600px',
+              'skyscraper-large': 'width:300px;height:1050px',
+              'mobile-leaderboard': 'width:300px;height:50px',
+              'button': 'width:300px;height:60px'
+            };
+            if (styles[format]) {
+              adElement.style = styles[format];
+            }
+        }
+        
+        // Replace placeholder with actual ad
+        adContainer.innerHTML = '';
+        adContainer.appendChild(adElement);
+        adContainer.classList.add('loaded');
+        
+        // Push ad to AdSense
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        
+        // Stop observing
+        observer.unobserve(adContainer);
       }
     });
-  }
+  }, {
+    rootMargin: '200px',
+    threshold: 0.1
+  });
+
+  // Observe all lazy ads
+  document.querySelectorAll('.adsense-ad[data-lazy="true"]').forEach(ad => {
+    adObserver.observe(ad);
+  });
+
+  // Load above-the-fold ads immediately
+  document.querySelectorAll('.adsense-ad:not([data-lazy="true"])').forEach(ad => {
+    const format = ad.dataset.format;
+    const slot = ad.dataset.slot;
+    const adElement = document.createElement('ins');
+    adElement.className = 'adsbygoogle';
+    adElement.style.display = 'block';
+    adElement.dataset.adClient = 'ca-pub-1291242080282540';
+    adElement.dataset.adSlot = slot;
+    
+    // Same format logic as above...
+    
+    ad.innerHTML = '';
+    ad.appendChild(adElement);
+    ad.classList.add('loaded');
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  });
 });
+
+// Handle SPA route changes
+if (typeof history !== 'undefined') {
+  const pushState = history.pushState;
+  history.pushState = function() {
+    pushState.apply(history, arguments);
+    window.dispatchEvent(new Event('locationchange'));
+  };
+  
+  window.addEventListener('locationchange', function() {
+    if (window.adsbygoogle) {
+      setTimeout(() => {
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      }, 300);
+    }
+  });
+}
 </script>
