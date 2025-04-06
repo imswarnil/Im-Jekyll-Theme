@@ -10,3 +10,6 @@ gem "jekyll-include-cache"
 gem "jemoji"
 gem "tzinfo-data"
 gem "wdm"
+gem 'jekyll-sass-converter'
+gem 'sass-embedded', '1.75.0'
+
