@@ -1,210 +1,338 @@
 {% comment %}
-  ──────────────────────────────────────────────────────────────────────
-  Optimized AdSense Component with Lazy Loading Support
-  ──────────────────────────────────────────────────────────────────────
-  Usage:
-    {% include adsense.html format="responsive" slot="auto" layout="in-article" lazy=true %}
+  Optimized AdSense Component with Lazy Loading
+  Usage: {% include adsense.html format="responsive" slot="auto" %}
 
   Parameters:
-    - format: Ad type (e.g., responsive, square, leaderboard, skyscraper, etc.)
-    - slot:   Ad slot ID or 'auto' to select default slot for format
-    - layout: Layout for fluid/responsive ads (e.g., in-article, in-feed)
-    - lazy:   Enable lazy loading (true/false)
+  - format: ad format type (responsive, leaderboard, skyscraper, etc.)
+  - slot: specific slot ID or 'auto' to choose best for format
+  - layout: for responsive ads (in-article, in-feed, matched-content)
+  - lazy: enable lazy loading (true/false)
 {% endcomment %}
 
 {% assign format = include.format | default: 'responsive' %}
 {% assign slot = include.slot | default: 'auto' %}
 {% assign layout = include.layout | default: '' %}
-{% assign lazy  = include.lazy | default: true %}
+{% assign lazy = include.lazy | default: true %}
 
-{% comment %} Assign slot ID and styles based on ad format {% endcomment %}
+{% comment %} Select appropriate slot based on format {% endcomment %}
 {% case format %}
   {% when 'square' %}
     {% assign ad_slot = slot == 'auto' ? '7663977887' : slot %}
     {% assign ad_style = 'display:inline-block;width:250px;height:250px' %}
-
   {% when 'horizontal' %}
     {% assign ad_slot = slot == 'auto' ? '8939839370' : slot %}
     {% assign ad_style = 'display:block;width:100%;height:90px' %}
-
   {% when 'vertical' %}
     {% assign ad_slot = slot == 'auto' ? '3487917390' : slot %}
     {% assign ad_style = 'display:inline-block;width:120px;height:600px' %}
-
   {% when 'leaderboard' %}
     {% assign ad_slot = slot == 'auto' ? '1864856299' : slot %}
     {% assign ad_style = 'display:inline-block;width:728px;height:90px' %}
-
   {% when 'leaderboard-large' %}
     {% assign ad_slot = slot == 'auto' ? '8539588233' : slot %}
     {% assign ad_style = 'display:inline-block;width:980px;height:90px' %}
-
   {% when 'billboard' %}
     {% assign ad_slot = slot == 'auto' ? '4921873558' : slot %}
     {% assign ad_style = 'display:inline-block;width:970px;height:250px' %}
-
   {% when 'article' %}
     {% assign ad_slot = slot == 'auto' ? '6501428979' : slot %}
     {% assign ad_format = 'fluid' %}
-    {% assign ad_layout = layout | default: 'in-article' %}
-
+    {% assign ad_layout = 'in-article' %}
   {% when 'skyscraper' %}
     {% assign ad_slot = slot == 'auto' ? '5882506557' : slot %}
     {% assign ad_style = 'display:inline-block;width:160px;height:600px' %}
-
   {% when 'skyscraper-medium' %}
     {% assign ad_slot = slot == 'auto' ? '4394096538' : slot %}
     {% assign ad_style = 'display:inline-block;width:300px;height:600px' %}
-
   {% when 'skyscraper-large' %}
     {% assign ad_slot = slot == 'auto' ? '9488965956' : slot %}
     {% assign ad_style = 'display:inline-block;width:300px;height:1050px' %}
-
   {% when 'mobile-leaderboard' %}
     {% assign ad_slot = slot == 'auto' ? '4003326983' : slot %}
     {% assign ad_style = 'display:inline-block;width:300px;height:50px' %}
-
   {% when 'button' %}
     {% assign ad_slot = slot == 'auto' ? '3836856744' : slot %}
     {% assign ad_style = 'display:inline-block;width:300px;height:60px' %}
-
   {% when 'multiplex-h' %}
     {% assign ad_slot = slot == 'auto' ? '9130894804' : slot %}
     {% assign ad_format = 'autorelaxed' %}
-
   {% when 'multiplex-v' %}
     {% assign ad_slot = slot == 'auto' ? '6808134701' : slot %}
     {% assign ad_format = 'autorelaxed' %}
-
   {% else %}
     {% assign ad_slot = slot == 'auto' ? '4774277934' : slot %}
     {% assign ad_format = 'auto' %}
 {% endcase %}
 
-<div class="adsense-ad {{ format }}"
-     data-format="{{ format }}"
+<div class="adsense-ad {{ format }}" 
+     data-format="{{ format }}" 
      data-slot="{{ ad_slot }}"
      {% if lazy %}data-lazy="true"{% endif %}>
   <div class="ad-placeholder">
     <span class="ad-label">Advertisement</span>
     <div class="ad-content">
       {{ format | capitalize }} Ad
-      <small>Loading…</small>
+      <small>Loading...</small>
     </div>
   </div>
 </div>
+
 <style>
-  .adsense-ad {
-    margin: 1.5rem auto;
-    text-align: center;
-    position: relative;
-    background: #f8f9fa;
-    border-radius: 4px;
-    overflow: hidden;
-    transition: 0.3s ease;
+/* Base Ad Container */
+.adsense-ad {
+  margin: 1.5rem auto;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: #f8f9fa;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+/* Placeholder Styles */
+.ad-placeholder {
+  padding: 20px;
+  color: #6c757d;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+  position: relative;
+}
+
+.ad-label {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 0.7rem;
+  color: #adb5bd;
+  background: white;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+.ad-content small {
+  display: block;
+  font-size: 0.8rem;
+  margin-top: 5px;
+  color: #adb5bd;
+}
+
+/* Format-Specific Dimensions */
+.adsense-ad.square {
+  width: 250px;
+  height: 250px;
+}
+
+.adsense-ad.horizontal {
+  width: 100%;
+  height: 90px;
+}
+
+.adsense-ad.vertical {
+  width: 120px;
+  height: 600px;
+}
+
+.adsense-ad.leaderboard {
+  width: 728px;
+  height: 90px;
+}
+
+.adsense-ad.leaderboard-large {
+  width: 980px;
+  height: 90px;
+}
+
+.adsense-ad.billboard {
+  width: 970px;
+  height: 250px;
+}
+
+.adsense-ad.skyscraper {
+  width: 160px;
+  height: 600px;
+}
+
+.adsense-ad.skyscraper-medium {
+  width: 300px;
+  height: 600px;
+}
+
+.adsense-ad.skyscraper-large {
+  width: 300px;
+  height: 1050px;
+}
+
+.adsense-ad.mobile-leaderboard {
+  width: 300px;
+  height: 50px;
+}
+
+.adsense-ad.button {
+  width: 300px;
+  height: 60px;
+}
+
+/* Responsive Behavior */
+@media (max-width: 992px) {
+  .adsense-ad.leaderboard,
+  .adsense-ad.leaderboard-large,
+  .adsense-ad.billboard {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 970/250;
   }
-  .ad-placeholder {
-    padding: 20px;
-    color: #6c757d;
-    font-weight: 500;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100px;
+  
+  .adsense-ad.vertical,
+  .adsense-ad.skyscraper,
+  .adsense-ad.skyscraper-medium,
+  .adsense-ad.skyscraper-large {
+    display: none;
   }
-  .ad-label {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    font-size: 0.7rem;
-    color: #adb5bd;
-    background: white;
-    padding: 2px 5px;
-    border-radius: 3px;
+}
+
+@media (max-width: 768px) {
+  .adsense-ad.square {
+    width: 100%;
+    max-width: 300px;
   }
-  .ad-content small {
-    display: block;
-    font-size: 0.8rem;
-    margin-top: 5px;
-    color: #adb5bd;
+  
+  .adsense-ad.mobile-leaderboard {
+    width: 100%;
   }
-  .adsense-ad.loaded .ad-placeholder { display: none; }
-  .adsense-ad:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); transform: translateY(-2px); }
-  </style>
-  
-  <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    if (!window.adsbygoogle) {
-      const s = document.createElement('script');
-      s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1291242080282540';
-      s.async = true;
-      s.crossOrigin = 'anonymous';
-      document.head.appendChild(s);
-    }
-  
-    const observer = new IntersectionObserver((entries, obs) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const el = entry.target;
-        const format = el.dataset.format;
-        const slot = el.dataset.slot;
-  
-        const ad = document.createElement('ins');
-        ad.className = 'adsbygoogle';
-        ad.style.display = 'block';
-        ad.dataset.adClient = 'ca-pub-1291242080282540';
-        ad.dataset.adSlot = slot;
-  
-        if (format === 'article') {
-          ad.dataset.adFormat = 'fluid';
-          ad.dataset.adLayout = 'in-article';
-        } else if (format.includes('multiplex')) {
-          ad.dataset.adFormat = 'autorelaxed';
-        } else if (format === 'responsive') {
-          ad.dataset.adFormat = 'auto';
-          ad.dataset.fullWidthResponsive = 'true';
-        } else {
-          const styles = {
-            square: '250x250', horizontal: '100%x90',
-            vertical: '120x600', leaderboard: '728x90',
-            'leaderboard-large': '980x90', billboard: '970x250',
-            skyscraper: '160x600', 'skyscraper-medium': '300x600',
-            'skyscraper-large': '300x1050', 'mobile-leaderboard': '300x50',
-            button: '300x60'
-          };
-          const size = styles[format];
-          if (size) {
-            const [w, h] = size.split('x');
-            ad.style.width = w.endsWith('%') ? w : w + 'px';
-            ad.style.height = h + 'px';
-          }
+}
+
+/* Ad Loaded State */
+.adsense-ad.loaded .ad-placeholder {
+  display: none;
+}
+
+/* Animation */
+.adsense-ad:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+</style>
+
+<script>
+// Lazy Load AdSense Ads
+document.addEventListener('DOMContentLoaded', function() {
+  // Load AdSense script
+  if (!window.adsbygoogle) {
+    const script = document.createElement('script');
+    script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1291242080282540';
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    document.head.appendChild(script);
+  }
+
+  // Initialize Intersection Observer for lazy loading
+  const adObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const adContainer = entry.target;
+        const format = adContainer.dataset.format;
+        const slot = adContainer.dataset.slot;
+        
+        // Create ad element
+        const adElement = document.createElement('ins');
+        adElement.className = 'adsbygoogle';
+        adElement.style.display = 'block';
+        adElement.dataset.adClient = 'ca-pub-1291242080282540';
+        adElement.dataset.adSlot = slot;
+        
+        // Set format-specific attributes
+        switch(format) {
+          case 'article':
+            adElement.dataset.adFormat = 'fluid';
+            adElement.dataset.adLayout = 'in-article';
+            break;
+          case 'multiplex-h':
+          case 'multiplex-v':
+            adElement.dataset.adFormat = 'autorelaxed';
+            break;
+          case 'responsive':
+            adElement.dataset.adFormat = 'auto';
+            adElement.dataset.fullWidthResponsive = 'true';
+            break;
+          default:
+            adElement.style.display = 'inline-block';
+            const styles = {
+              'square': 'width:250px;height:250px',
+              'horizontal': 'width:100%;height:90px',
+              'vertical': 'width:120px;height:600px',
+              'leaderboard': 'width:728px;height:90px',
+              'leaderboard-large': 'width:980px;height:90px',
+              'billboard': 'width:970px;height:250px',
+              'skyscraper': 'width:160px;height:600px',
+              'skyscraper-medium': 'width:300px;height:600px',
+              'skyscraper-large': 'width:300px;height:1050px',
+              'mobile-leaderboard': 'width:300px;height:50px',
+              'button': 'width:300px;height:60px'
+            };
+            if (styles[format]) {
+              adElement.style = styles[format];
+            }
         }
-  
-        el.innerHTML = '';
-        el.appendChild(ad);
+        
+        // Replace placeholder with actual ad
+        adContainer.innerHTML = '';
+        adContainer.appendChild(adElement);
+        adContainer.classList.add('loaded');
+        
+        // Push ad to AdSense
         (adsbygoogle = window.adsbygoogle || []).push({});
-        el.classList.add('loaded');
-        obs.unobserve(el);
-      });
-    }, { rootMargin: '200px', threshold: 0.1 });
-  
-    document.querySelectorAll('.adsense-ad[data-lazy="true"]').forEach(ad => observer.observe(ad));
-  
-    document.querySelectorAll('.adsense-ad:not([data-lazy="true"])').forEach(el => {
-      const format = el.dataset.format;
-      const slot = el.dataset.slot;
-      const ad = document.createElement('ins');
-      ad.className = 'adsbygoogle';
-      ad.style.display = 'block';
-      ad.dataset.adClient = 'ca-pub-1291242080282540';
-      ad.dataset.adSlot = slot;
-      ad.dataset.adFormat = 'auto';
-      el.innerHTML = '';
-      el.appendChild(ad);
-      (adsbygoogle = window.adsbygoogle || []).push({});
-      el.classList.add('loaded');
+        
+        // Stop observing
+        observer.unobserve(adContainer);
+      }
     });
+  }, {
+    rootMargin: '200px',
+    threshold: 0.1
   });
-  </script>
+
+  // Observe all lazy ads
+  document.querySelectorAll('.adsense-ad[data-lazy="true"]').forEach(ad => {
+    adObserver.observe(ad);
+  });
+
+  // Load above-the-fold ads immediately
+  document.querySelectorAll('.adsense-ad:not([data-lazy="true"])').forEach(ad => {
+    const format = ad.dataset.format;
+    const slot = ad.dataset.slot;
+    const adElement = document.createElement('ins');
+    adElement.className = 'adsbygoogle';
+    adElement.style.display = 'block';
+    adElement.dataset.adClient = 'ca-pub-1291242080282540';
+    adElement.dataset.adSlot = slot;
+    
+    // Same format logic as above...
+    
+    ad.innerHTML = '';
+    ad.appendChild(adElement);
+    ad.classList.add('loaded');
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  });
+});
+
+// Handle SPA route changes
+if (typeof history !== 'undefined') {
+  const pushState = history.pushState;
+  history.pushState = function() {
+    pushState.apply(history, arguments);
+    window.dispatchEvent(new Event('locationchange'));
+  };
   
+  window.addEventListener('locationchange', function() {
+    if (window.adsbygoogle) {
+      setTimeout(() => {
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      }, 300);
+    }
+  });
+}
+</script>
