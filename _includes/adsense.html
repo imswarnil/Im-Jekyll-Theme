@@ -1,338 +1,147 @@
 {% comment %}
-  Optimized AdSense Component with Lazy Loading
-  Usage: {% include adsense.html format="responsive" slot="auto" %}
-
+  AdSense Component - All Ad Types
+  Usage: {% include adsense.html format="leaderboard" %}
+  
   Parameters:
-  - format: ad format type (responsive, leaderboard, skyscraper, etc.)
-  - slot: specific slot ID or 'auto' to choose best for format
-  - layout: for responsive ads (in-article, in-feed, matched-content)
-  - lazy: enable lazy loading (true/false)
+  - format: ad format type (responsive, leaderboard, rectangle, skyscraper, etc.)
 {% endcomment %}
 
 {% assign format = include.format | default: 'responsive' %}
-{% assign slot = include.slot | default: 'auto' %}
-{% assign layout = include.layout | default: '' %}
-{% assign lazy = include.lazy | default: true %}
 
 {% comment %} Select appropriate slot based on format {% endcomment %}
 {% case format %}
   {% when 'square' %}
-    {% assign ad_slot = slot == 'auto' ? '7663977887' : slot %}
+    {% assign ad_slot = '7663977887' %}
     {% assign ad_style = 'display:inline-block;width:250px;height:250px' %}
   {% when 'horizontal' %}
-    {% assign ad_slot = slot == 'auto' ? '8939839370' : slot %}
+    {% assign ad_slot = '8939839370' %}
     {% assign ad_style = 'display:block;width:100%;height:90px' %}
   {% when 'vertical' %}
-    {% assign ad_slot = slot == 'auto' ? '3487917390' : slot %}
+    {% assign ad_slot = '3487917390' %}
     {% assign ad_style = 'display:inline-block;width:120px;height:600px' %}
   {% when 'leaderboard' %}
-    {% assign ad_slot = slot == 'auto' ? '1864856299' : slot %}
+    {% assign ad_slot = '1864856299' %}
     {% assign ad_style = 'display:inline-block;width:728px;height:90px' %}
   {% when 'leaderboard-large' %}
-    {% assign ad_slot = slot == 'auto' ? '8539588233' : slot %}
+    {% assign ad_slot = '8539588233' %}
     {% assign ad_style = 'display:inline-block;width:980px;height:90px' %}
   {% when 'billboard' %}
-    {% assign ad_slot = slot == 'auto' ? '4921873558' : slot %}
+    {% assign ad_slot = '4921873558' %}
     {% assign ad_style = 'display:inline-block;width:970px;height:250px' %}
   {% when 'article' %}
-    {% assign ad_slot = slot == 'auto' ? '6501428979' : slot %}
+    {% assign ad_slot = '6501428979' %}
     {% assign ad_format = 'fluid' %}
     {% assign ad_layout = 'in-article' %}
   {% when 'skyscraper' %}
-    {% assign ad_slot = slot == 'auto' ? '5882506557' : slot %}
+    {% assign ad_slot = '5882506557' %}
     {% assign ad_style = 'display:inline-block;width:160px;height:600px' %}
   {% when 'skyscraper-medium' %}
-    {% assign ad_slot = slot == 'auto' ? '4394096538' : slot %}
+    {% assign ad_slot = '4394096538' %}
     {% assign ad_style = 'display:inline-block;width:300px;height:600px' %}
   {% when 'skyscraper-large' %}
-    {% assign ad_slot = slot == 'auto' ? '9488965956' : slot %}
+    {% assign ad_slot = '9488965956' %}
     {% assign ad_style = 'display:inline-block;width:300px;height:1050px' %}
   {% when 'mobile-leaderboard' %}
-    {% assign ad_slot = slot == 'auto' ? '4003326983' : slot %}
+    {% assign ad_slot = '4003326983' %}
     {% assign ad_style = 'display:inline-block;width:300px;height:50px' %}
   {% when 'button' %}
-    {% assign ad_slot = slot == 'auto' ? '3836856744' : slot %}
+    {% assign ad_slot = '3836856744' %}
     {% assign ad_style = 'display:inline-block;width:300px;height:60px' %}
   {% when 'multiplex-h' %}
-    {% assign ad_slot = slot == 'auto' ? '9130894804' : slot %}
+    {% assign ad_slot = '9130894804' %}
     {% assign ad_format = 'autorelaxed' %}
   {% when 'multiplex-v' %}
-    {% assign ad_slot = slot == 'auto' ? '6808134701' : slot %}
+    {% assign ad_slot = '6808134701' %}
     {% assign ad_format = 'autorelaxed' %}
   {% else %}
-    {% assign ad_slot = slot == 'auto' ? '4774277934' : slot %}
+    {% assign ad_slot = '4774277934' %}
     {% assign ad_format = 'auto' %}
+    {% assign ad_style = 'display:block;width:100%;height:auto' %}
 {% endcase %}
 
-<div class="adsense-ad {{ format }}" 
-     data-format="{{ format }}" 
-     data-slot="{{ ad_slot }}"
-     {% if lazy %}data-lazy="true"{% endif %}>
-  <div class="ad-placeholder">
-    <span class="ad-label">Advertisement</span>
-    <div class="ad-content">
-      {{ format | capitalize }} Ad
-      <small>Loading...</small>
-    </div>
-  </div>
+<div class="ad-container ad-{{ format }}">
+  <ins class="adsbygoogle"
+       style="{{ ad_style }}"
+       data-ad-client="ca-pub-1291242080282540"
+       data-ad-slot="{{ ad_slot }}"
+       {% if ad_format %}data-ad-format="{{ ad_format }}"{% endif %}
+       {% if ad_layout %}data-ad-layout="{{ ad_layout }}"{% endif %}
+       data-full-width-responsive="true"></ins>
+  <div class="ad-label">Advertisement</div>
 </div>
 
 <style>
 /* Base Ad Container */
-.adsense-ad {
+.ad-container {
   margin: 1.5rem auto;
   text-align: center;
   position: relative;
   overflow: hidden;
   background: #f8f9fa;
-  border-radius: 4px;
-  transition: all 0.3s ease;
+  border-radius: 8px;
+  transition: all 0.2s ease;
 }
 
-/* Placeholder Styles */
-.ad-placeholder {
-  padding: 20px;
-  color: #6c757d;
-  font-weight: 500;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100px;
-  position: relative;
-}
-
+/* Ad Label */
 .ad-label {
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 8px;
+  right: 8px;
   font-size: 0.7rem;
-  color: #adb5bd;
-  background: white;
-  padding: 2px 5px;
-  border-radius: 3px;
-}
-
-.ad-content small {
-  display: block;
-  font-size: 0.8rem;
-  margin-top: 5px;
-  color: #adb5bd;
-}
-
-/* Format-Specific Dimensions */
-.adsense-ad.square {
-  width: 250px;
-  height: 250px;
-}
-
-.adsense-ad.horizontal {
-  width: 100%;
-  height: 90px;
-}
-
-.adsense-ad.vertical {
-  width: 120px;
-  height: 600px;
-}
-
-.adsense-ad.leaderboard {
-  width: 728px;
-  height: 90px;
-}
-
-.adsense-ad.leaderboard-large {
-  width: 980px;
-  height: 90px;
-}
-
-.adsense-ad.billboard {
-  width: 970px;
-  height: 250px;
-}
-
-.adsense-ad.skyscraper {
-  width: 160px;
-  height: 600px;
-}
-
-.adsense-ad.skyscraper-medium {
-  width: 300px;
-  height: 600px;
-}
-
-.adsense-ad.skyscraper-large {
-  width: 300px;
-  height: 1050px;
-}
-
-.adsense-ad.mobile-leaderboard {
-  width: 300px;
-  height: 50px;
-}
-
-.adsense-ad.button {
-  width: 300px;
-  height: 60px;
+  color: #666;
+  background: rgba(255,255,255,0.9);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  z-index: 1;
 }
 
 /* Responsive Behavior */
-@media (max-width: 992px) {
-  .adsense-ad.leaderboard,
-  .adsense-ad.leaderboard-large,
-  .adsense-ad.billboard {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 970/250;
+@media (max-width: 768px) {
+  .ad-leaderboard,
+  .ad-leaderboard-large,
+  .ad-billboard {
+    width: 100% !important;
+    height: 90px !important;
   }
   
-  .adsense-ad.vertical,
-  .adsense-ad.skyscraper,
-  .adsense-ad.skyscraper-medium,
-  .adsense-ad.skyscraper-large {
+  .ad-vertical,
+  .ad-skyscraper,
+  .ad-skyscraper-medium,
+  .ad-skyscraper-large {
     display: none;
   }
-}
-
-@media (max-width: 768px) {
-  .adsense-ad.square {
-    width: 100%;
-    max-width: 300px;
+  
+  .ad-square,
+  .ad-button {
+    width: 100% !important;
+    max-width: 300px !important;
   }
   
-  .adsense-ad.mobile-leaderboard {
-    width: 100%;
+  .ad-mobile-leaderboard {
+    width: 100% !important;
   }
 }
 
-/* Ad Loaded State */
-.adsense-ad.loaded .ad-placeholder {
-  display: none;
-}
-
-/* Animation */
-.adsense-ad:hover {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+/* Hover Effect */
+.ad-container:hover {
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   transform: translateY(-2px);
 }
 </style>
 
 <script>
-// Lazy Load AdSense Ads
-document.addEventListener('DOMContentLoaded', function() {
-  // Load AdSense script
-  if (!window.adsbygoogle) {
-    const script = document.createElement('script');
-    script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1291242080282540';
-    script.async = true;
-    script.crossOrigin = 'anonymous';
-    document.head.appendChild(script);
-  }
-
-  // Initialize Intersection Observer for lazy loading
-  const adObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const adContainer = entry.target;
-        const format = adContainer.dataset.format;
-        const slot = adContainer.dataset.slot;
-        
-        // Create ad element
-        const adElement = document.createElement('ins');
-        adElement.className = 'adsbygoogle';
-        adElement.style.display = 'block';
-        adElement.dataset.adClient = 'ca-pub-1291242080282540';
-        adElement.dataset.adSlot = slot;
-        
-        // Set format-specific attributes
-        switch(format) {
-          case 'article':
-            adElement.dataset.adFormat = 'fluid';
-            adElement.dataset.adLayout = 'in-article';
-            break;
-          case 'multiplex-h':
-          case 'multiplex-v':
-            adElement.dataset.adFormat = 'autorelaxed';
-            break;
-          case 'responsive':
-            adElement.dataset.adFormat = 'auto';
-            adElement.dataset.fullWidthResponsive = 'true';
-            break;
-          default:
-            adElement.style.display = 'inline-block';
-            const styles = {
-              'square': 'width:250px;height:250px',
-              'horizontal': 'width:100%;height:90px',
-              'vertical': 'width:120px;height:600px',
-              'leaderboard': 'width:728px;height:90px',
-              'leaderboard-large': 'width:980px;height:90px',
-              'billboard': 'width:970px;height:250px',
-              'skyscraper': 'width:160px;height:600px',
-              'skyscraper-medium': 'width:300px;height:600px',
-              'skyscraper-large': 'width:300px;height:1050px',
-              'mobile-leaderboard': 'width:300px;height:50px',
-              'button': 'width:300px;height:60px'
-            };
-            if (styles[format]) {
-              adElement.style = styles[format];
-            }
-        }
-        
-        // Replace placeholder with actual ad
-        adContainer.innerHTML = '';
-        adContainer.appendChild(adElement);
-        adContainer.classList.add('loaded');
-        
-        // Push ad to AdSense
-        (adsbygoogle = window.adsbygoogle || []).push({});
-        
-        // Stop observing
-        observer.unobserve(adContainer);
-      }
-    });
-  }, {
-    rootMargin: '200px',
-    threshold: 0.1
-  });
-
-  // Observe all lazy ads
-  document.querySelectorAll('.adsense-ad[data-lazy="true"]').forEach(ad => {
-    adObserver.observe(ad);
-  });
-
-  // Load above-the-fold ads immediately
-  document.querySelectorAll('.adsense-ad:not([data-lazy="true"])').forEach(ad => {
-    const format = ad.dataset.format;
-    const slot = ad.dataset.slot;
-    const adElement = document.createElement('ins');
-    adElement.className = 'adsbygoogle';
-    adElement.style.display = 'block';
-    adElement.dataset.adClient = 'ca-pub-1291242080282540';
-    adElement.dataset.adSlot = slot;
-    
-    // Same format logic as above...
-    
-    ad.innerHTML = '';
-    ad.appendChild(adElement);
-    ad.classList.add('loaded');
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  });
-});
-
-// Handle SPA route changes
-if (typeof history !== 'undefined') {
-  const pushState = history.pushState;
-  history.pushState = function() {
-    pushState.apply(history, arguments);
-    window.dispatchEvent(new Event('locationchange'));
-  };
+// Minimal script required for AdSense to work
+(function() {
+  const script = document.createElement('script');
+  script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1291242080282540';
+  script.async = true;
+  script.crossOrigin = 'anonymous';
+  document.head.appendChild(script);
   
-  window.addEventListener('locationchange', function() {
-    if (window.adsbygoogle) {
-      setTimeout(() => {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      }, 300);
-    }
-  });
-}
+  // Push ads after script loads
+  script.onload = function() {
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  };
+})();
 </script>
