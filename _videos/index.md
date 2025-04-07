@@ -18,13 +18,20 @@ permalink: /videos
                         Learn, create and grow your YouTube channel with my tutorials
                     </h2>
                 </div>
-                
                 <!-- Right Side - Leaderboard Ad -->
                 <div class="column is-4">
                     <div class="ad-container leaderboard-ad">
                         <div class="ad-placeholder">
                             <span class="ad-label">Advertisement</span>
-                            <div class="ad-content">728x90 Leaderboard</div>
+                            <div class="ad-content">
+                            <ins class="adsbygoogle"
+     style="display:inline-block;width:980px;height:90px"
+     data-ad-client="ca-pub-1291242080282540"
+     data-ad-slot="8539588233"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+                            </div>
                         </div>
                     </div>
                 </div>
