@@ -1,0 +1,77 @@
+<aside class="menu">
+    <p class="menu-label">
+      Categories
+    </p>
+    <ul class="menu-list">
+      {% assign categories = site.posts | map: 'category' | join: ',' | split: ',' | uniq %}
+      {% for category in categories %}
+        <li>
+          <a href="#" class="category-link" data-category="{{ category | slugify }}">
+            {{ category }}
+            <span class="tag is-rounded is-light is-pulled-right">
+              {{ site.posts | where_exp: "post", "post.category contains category" | size }}
+            </span>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  
+    <p class="menu-label">
+      Popular Tags
+    </p>
+    <div class="tags">
+      {% assign all_tags = site.posts | map: 'tags' | join: ',' | split: ',' %}
+      {% assign tag_counts = "" | split: "" %}
+      {% for tag in all_tags %}
+        {% assign tag_count = site.posts | where_exp: "post", "post.tags contains tag" | size %}
+        {% assign tag_info = tag | append: ":" | append: tag_count %}
+        {% assign tag_counts = tag_counts | push: tag_info %}
+      {% endfor %}
+      
+      {% assign unique_tags = tag_counts | uniq %}
+      {% assign sorted_tags = unique_tags | sort %}
+      {% assign sorted_tags = sorted_tags | sort_natural %}
+      
+      {% for tag_info in sorted_tags limit: 10 %}
+        {% assign tag_parts = tag_info | split: ":" %}
+        {% assign tag = tag_parts[0] %}
+        {% assign count = tag_parts[1] %}
+        <span class="tag is-medium is-info is-light tag-filter" data-tag="{{ tag | slugify }}">
+          {{ tag }} <span class="tag-count">({{ count }})</span>
+        </span>
+      {% endfor %}
+    </div>
+  
+    <p class="menu-label">
+      Recent Posts
+    </p>
+    <ul>
+      {% for post in site.posts limit:5 %}
+        <li>
+          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </aside>
+  
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Make category links in sidebar work
+    document.querySelectorAll('.category-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const categoryFilter = document.getElementById('category-filter');
+        categoryFilter.value = this.dataset.category;
+        
+        // Trigger change event
+        const event = new Event('change');
+        categoryFilter.dispatchEvent(event);
+        
+        // Scroll to filters
+        document.querySelector('.box').scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  });
+  </script>
