@@ -1,668 +1,102 @@
----
-layout: default
----
-
 <section class="section">
-  <!-- Search Section -->
   <div class="container">
+    <!-- Search Form -->
     <div class="columns is-centered">
-      <div class="column is-two-thirds">
+      <div class="column is-half">
         <form id="search-form" class="field has-addons">
-          <div class="control is-expanded has-icons-left">
-            <input class="input is-large" type="text" placeholder="Search across all collections..." name="q" id="search-input" autocomplete="off">
-            <span class="icon is-left">
-              <i class="fas fa-search"></i>
-            </span>
-            <!-- Enhanced Suggestions Dropdown -->
+          <div class="control is-expanded">
+            <input class="input" type="text" placeholder="Search..." name="q" id="search-input" autocomplete="off">
+            <!-- Smart Suggestions Dropdown -->
             <div class="dropdown" id="search-suggestions" style="display: none;">
-              <div class="dropdown-menu" style="width: 100%;">
+              <div class="dropdown-menu">
                 <div class="dropdown-content" id="suggestions-content">
-                  <!-- Suggestions will be injected here -->
+                  <!-- Smart Suggestions will be injected here -->
                 </div>
               </div>
             </div>
+            <!-- End Smart Suggestions Dropdown -->
           </div>
           <div class="control">
-            <button type="submit" class="button is-primary is-large">
-              <span class="icon">
-                <i class="fas fa-search"></i>
-              </span>
-            </button>
+            <button type="submit" class="button is-primary">Search</button>
           </div>
         </form>
       </div>
     </div>
-  </div>
+    <!-- End Search Form -->
 
-  <!-- Main Content with Tabs -->
-  <div class="container mt-5" id="collections-container">
-    <div class="tabs is-boxed is-centered">
-      <ul>
-        <li class="is-active" data-tab="all-collections">
-          <a>
-            <span class="icon is-small"><i class="fas fa-th-list"></i></span>
-            <span>All Collections</span>
-          </a>
-        </li>
-        {% for collection in site.collections %}
-          {% if collection.label != "posts" %}
-            <li data-tab="{{ collection.label }}">
-              <a>
-                <span class="icon is-small">
-                  <i class="fas fa-{% if collection.label == 'videos' %}video{% else %}folder{% endif %}"></i>
-                </span>
-                <span>{{ collection.label | capitalize }}</span>
-              </a>
-            </li>
-          {% endif %}
-        {% endfor %}
-        <li data-tab="all-tags">
-          <a>
-            <span class="icon is-small"><i class="fas fa-tags"></i></span>
-            <span>All Tags</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Tab Contents -->
-    <div id="tab-contents">
-      <!-- All Collections Tab -->
-      <div class="tab-content is-active" id="all-collections">
-        {% for collection in site.collections %}
-          {% if collection.label != "posts" %}
-            <div class="box collection-section" id="{{ collection.label }}-section">
-              <h2 class="title is-3">
-                <span class="icon-text">
-                  <span class="icon">
-                    <i class="fas fa-{% if collection.label == 'videos' %}video{% else %}folder{% endif %}"></i>
-                  </span>
-                  <span>{{ collection.label | capitalize }}</span>
-                </span>
-                <span class="tag is-info is-medium">{{ collection.docs.size }} items</span>
-              </h2>
-              
-              <div class="columns is-multiline">
-                {% for doc in collection.docs %}
-                  <div class="column is-one-third">
-                    <div class="card">
-                      <div class="card-image">
-                        <figure class="image is-16by9">
-                          {% if doc.video_thumbnail %}
-                            <img src="{{ doc.video_thumbnail | relative_url }}" alt="{{ doc.title }}" loading="lazy">
-                          {% elsif doc.image %}
-                            <img src="{{ doc.image | relative_url }}" alt="{{ doc.title }}" loading="lazy">
-                          {% else %}
-                            <div class="has-background-light has-text-centered" style="height: 100%; display: flex; align-items: center; justify-content: center;">
-                              <span class="icon is-large has-text-grey">
-                                <i class="fas fa-{% if collection.label == 'videos' %}video{% else %}file-alt{% endif %} fa-3x"></i>
-                              </span>
-                            </div>
-                          {% endif %}
-                        </figure>
-                      </div>
-                      <div class="card-content">
-                        <h3 class="title is-5">
-                          <a href="{{ doc.url | relative_url }}">{{ doc.title }}</a>
-                        </h3>
-                        <div class="content">
-                          {% if doc.date %}
-                            <time datetime="{{ doc.date | date_to_xmlschema }}">
-                              {{ doc.date | date: "%b %-d, %Y" }}
-                            </time>
-                            <br>
-                          {% endif %}
-                          <div class="tags">
-                            {% for tag in doc.tags %}
-                              <a href="#all-tags" class="tag is-light" data-tag="{{ tag | slugify }}">{{ tag }}</a>
-                            {% endfor %}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                {% endfor %}
-              </div>
-            </div>
-          {% endif %}
-        {% endfor %}
-      </div>
-
-      <!-- Individual Collection Tabs -->
-      {% for collection in site.collections %}
-        {% if collection.label != "posts" %}
-          <div class="tab-content" id="{{ collection.label }}">
-            <div class="box">
-              <h2 class="title is-3">
-                <span class="icon-text">
-                  <span class="icon">
-                    <i class="fas fa-{% if collection.label == 'videos' %}video{% else %}folder{% endif %}"></i>
-                  </span>
-                  <span>{{ collection.label | capitalize }}</span>
-                </span>
-              </h2>
-              
-              <div class="columns is-multiline">
-                {% for doc in collection.docs %}
-                  <div class="column is-one-third">
-                    <div class="card">
-                      <div class="card-image">
-                        <figure class="image is-16by9">
-                          {% if doc.video_thumbnail %}
-                            <img src="{{ doc.video_thumbnail | relative_url }}" alt="{{ doc.title }}" loading="lazy">
-                          {% elsif doc.image %}
-                            <img src="{{ doc.image | relative_url }}" alt="{{ doc.title }}" loading="lazy">
-                          {% else %}
-                            <div class="has-background-light has-text-centered" style="height: 100%; display: flex; align-items: center; justify-content: center;">
-                              <span class="icon is-large has-text-grey">
-                                <i class="fas fa-{% if collection.label == 'videos' %}video{% else %}file-alt{% endif %} fa-3x"></i>
-                              </span>
-                            </div>
-                          {% endif %}
-                        </figure>
-                      </div>
-                      <div class="card-content">
-                        <h3 class="title is-5">
-                          <a href="{{ doc.url | relative_url }}">{{ doc.title }}</a>
-                        </h3>
-                        <div class="content">
-                          {% if doc.date %}
-                            <time datetime="{{ doc.date | date_to_xmlschema }}">
-                              {{ doc.date | date: "%b %-d, %Y" }}
-                            </time>
-                            <br>
-                          {% endif %}
-                          <div class="tags">
-                            {% for tag in doc.tags %}
-                              <a href="#all-tags" class="tag is-light" data-tag="{{ tag | slugify }}">{{ tag }}</a>
-                            {% endfor %}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                {% endfor %}
-              </div>
-            </div>
-          </div>
-        {% endif %}
-      {% endfor %}
-
-      <!-- All Tags Tab -->
-      <div class="tab-content" id="all-tags">
-        <div class="box">
-          {% assign all_tags = "" | split: "," %}
-          {% for collection in site.collections %}
-            {% for doc in collection.docs %}
-              {% for tag in doc.tags %}
-                {% unless all_tags contains tag %}
-                  {% assign all_tags = all_tags | push: tag %}
-                {% endunless %}
-              {% endfor %}
-            {% endfor %}
-          {% endfor %}
-          
-          {% assign sorted_tags = all_tags | sort %}
-          <div class="tags are-large">
-            {% for tag in sorted_tags %}
-              <span class="tag is-primary is-light tag-pill" data-tag="{{ tag | slugify }}">
-                {{ tag }}
-              </span>
-            {% endfor %}
-          </div>
-          
-          <div id="tag-results">
-            <!-- Tag results will be shown here when a tag is clicked -->
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Search Results Section (hidden by default) -->
-<div id="search-results-section" class="section" style="display: none;">
-  <div class="container">
-    <button class="button is-small is-light mb-4" id="back-to-collections">
-      <span class="icon">
-        <i class="fas fa-arrow-left"></i>
-      </span>
-      <span>Back to Collections</span>
-    </button>
-    
-    <div id="search-results">
-      <div class="level">
-        <div class="level-left">
-          <h2 class="title is-4">Search Results</h2>
-        </div>
-        <div class="level-right">
-          <span class="tag is-info" id="results-count">0 results</span>
-        </div>
-      </div>
-      
-      <div id="search-filters" class="mb-5">
-        <div class="buttons has-addons">
-          <button class="button is-small filter-btn active" data-filter="all">All</button>
-          {% for collection in site.collections %}
-            {% if collection.label != "posts" %}
-              <button class="button is-small filter-btn" data-filter="{{ collection.label }}">
-                <span class="icon is-small">
-                  <i class="fas fa-{% if collection.label == 'videos' %}video{% else %}folder{% endif %}"></i>
-                </span>
-                <span>{{ collection.label | capitalize }}</span>
-              </button>
-            {% endif %}
-          {% endfor %}
-        </div>
-      </div>
-      
+    <!-- Search Result Page -->
+    <div id="search-results" class="mt-5" style="display: none;">
+      <h2 class="title is-4">Search Results</h2>
       <div class="columns is-multiline" id="results-container">
         <!-- Search results will be injected here -->
       </div>
-      
-      <div id="no-results" class="has-text-centered py-6" style="display: none;">
-        <div class="icon is-large has-text-grey-light mb-4">
-          <i class="fas fa-search fa-3x"></i>
-        </div>
-        <h3 class="title is-4">No results found</h3>
-        <p class="subtitle">Try different keywords or check out our popular content</p>
-        <a href="/popular" class="button is-primary is-outlined">View Popular Posts</a>
-      </div>
     </div>
+    <!-- End Search Result Page -->
   </div>
-</div>
+</section>
 
-<style>
-  /* Tab styling */
-  .tabs.is-boxed li.is-active a {
-    background-color: #3273dc;
-    color: white;
-    border-color: #3273dc;
-  }
-  
-  .tab-content {
-    display: none;
-  }
-  
-  .tab-content.is-active {
-    display: block;
-  }
-  
-  /* Card styling */
-  .card {
-    height: 100%;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  }
-  
-  .card-image .image.is-16by9 {
-    overflow: hidden;
-  }
-  
-  .card-image .image.is-16by9 img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-  }
-  
-  /* Tag styling */
-  .tag-pill {
-    margin-bottom: 0.5rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  
-  .tag-pill:hover {
-    background-color: #3273dc !important;
-    color: white !important;
-    transform: scale(1.05);
-  }
-  
-  /* Search suggestions */
-  .dropdown-content a {
-    padding: 0.75rem 1rem;
-  }
-  
-  .dropdown-content a:hover {
-    background-color: #f5f5f5;
-  }
-  
-  /* Animation */
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  #search-results-section, #tag-results {
-    animation: fadeIn 0.3s ease;
-  }
-</style>
+<script type="text/javascript" src="{{ "/assets/scripts/fetch.js" | relative_url }}"></script>
+<script type="text/javascript">
+  const endpoint = '{{ "/assets/search.json" | relative_url }}';
+  const pages = [];
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  // Tab functionality
-  const tabs = document.querySelectorAll('.tabs li');
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('is-active'));
-      tab.classList.add('is-active');
-      
-      const tabId = tab.getAttribute('data-tab');
-      document.querySelectorAll('.tab-content').forEach(content => {
-        content.classList.remove('is-active');
-      });
-      document.getElementById(tabId).classList.add('is-active');
-      
-      // Scroll to top of tab content
-      window.scrollTo({
-        top: document.getElementById('tab-contents').offsetTop - 20,
-        behavior: 'smooth'
-      });
-    });
-  });
-  
-  // Search functionality
-  const MIN_SEARCH_LENGTH = 2;
-  const DEBOUNCE_DELAY = 300;
-  let pages = [];
-  let debounceTimer;
-  
-  // Prepare search data from existing content
-  function prepareSearchData() {
-    pages = [];
-    
-    // Process all collections
-    {% for collection in site.collections %}
-      {% for doc in collection.docs %}
-        pages.push({
-          title: "{{ doc.title | escape }}",
-          content: "{{ doc.content | strip_html | escape }}",
-          excerpt: "{{ doc.excerpt | strip_html | escape | default: doc.content | strip_html | truncate: 140 | escape }}",
-          url: "{{ doc.url | relative_url }}",
-          collection: "{{ collection.label }}",
-          tags: [{% for tag in doc.tags %}"{{ tag | escape }}"{% unless forloop.last %},{% endunless %}{% endfor %}],
-          date: "{{ doc.date | date_to_xmlschema }}",
-          image: "{% if doc.image %}{{ doc.image | relative_url }}{% endif %}",
-          video_thumbnail: "{% if doc.video_thumbnail %}{{ doc.video_thumbnail | relative_url }}{% endif %}"
-        });
-      {% endfor %}
-    {% endfor %}
-  }
-  
-  // Initialize search data
-  prepareSearchData();
-  
-  // Search function
+  fetch(endpoint)
+    .then(blob => blob.json())
+    .then(data => pages.push(...data));
+
   function findResults(termToMatch, pages) {
-    if (termToMatch.length < MIN_SEARCH_LENGTH) return [];
-    
-    try {
+    return pages.filter(item => {
       const regex = new RegExp(termToMatch, 'gi');
-      return pages.filter(item => {
-        const titleMatch = item.title && item.title.match(regex);
-        const contentMatch = item.content && item.content.match(regex);
-        const tagMatch = item.tags && item.tags.some(tag => tag.match(regex));
-        
-        return titleMatch || contentMatch || tagMatch;
-      });
-    } catch (e) {
-      return [];
-    }
-  }
-  
-  // Highlight matching text
-  function highlightText(text, term) {
-    if (!term) return text;
-    const regex = new RegExp(term, 'gi');
-    return text.replace(regex, match => `<span class="has-background-warning">${match}</span>`);
-  }
-  
-  // Debounce search input
-  function debounceSearch() {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(displaySuggestions, DEBOUNCE_DELAY);
-  }
-  
-  // Display search suggestions
-  function displaySuggestions() {
-    const searchTerm = searchInput.value.trim();
-    const resultsArray = findResults(searchTerm, pages);
-    
-    if (searchTerm.length < MIN_SEARCH_LENGTH) {
-      suggestionsContent.innerHTML = '';
-      searchSuggestions.style.display = 'none';
-      return;
-    }
-    
-    const suggestionsHTML = resultsArray.slice(0, 5).map(item => {
-      return `
-        <a class="dropdown-item" data-search="${item.title.replace(/"/g, '&quot;')}">
-          <span class="icon-text">
-            <span class="icon">
-              <i class="fas fa-${item.collection === 'videos' ? 'video' : 'file-alt'}"></i>
-            </span>
-            <span>${highlightText(item.title, searchTerm)}</span>
-            <span class="tag is-light ml-2">${item.collection}</span>
-          </span>
-        </a>`;
-    }).join('');
-    
-    suggestionsContent.innerHTML = suggestionsHTML;
-    searchSuggestions.style.display = resultsArray.length ? 'block' : 'none';
-    
-    // Add click handlers to suggestions
-    document.querySelectorAll('.dropdown-item[data-search]').forEach(item => {
-      item.addEventListener('click', (e) => {
-        e.preventDefault();
-        searchInput.value = item.getAttribute('data-search');
-        searchSuggestions.style.display = 'none';
-        performSearch();
-      });
+      return item.title.match(regex) || item.content.match(regex);
     });
   }
-  
-  // Perform full search
-  function performSearch(e) {
-    if (e) e.preventDefault();
-    
-    const searchTerm = searchInput.value.trim();
-    const resultsArray = findResults(searchTerm, pages);
-    
-    // Hide collections and show search results
-    document.getElementById('collections-container').style.display = 'none';
-    searchResultsSection.style.display = 'block';
-    
+
+  function displayResults() {
+    const resultsArray = findResults(this.value, pages);
+    const suggestionsContent = document.getElementById('suggestions-content');
+    const resultsContainer = document.getElementById('results-container');
+    const searchResults = document.getElementById('search-results');
+    const searchSuggestions = document.getElementById('search-suggestions');
+
+    const suggestionsHTML = resultsArray.map(item => {
+      return `<a href="${item.url}" class="dropdown-item">${item.title}</a>`;
+    }).join('');
+
     const resultsHTML = resultsArray.map(item => {
-      const tagsHTML = item.tags ? item.tags.map(tag => 
-        `<span class="tag is-light">${tag}</span>`
-      ).join('') : '';
-      
       return `
-        <div class="column is-4" data-collection="${item.collection}">
+        <div class="column is-4">
           <div class="card">
-            <div class="card-image">
-              <figure class="image is-16by9">
-                ${item.video_thumbnail ? 
-                  `<img src="${item.video_thumbnail}" alt="${item.title}" loading="lazy">` :
-                  item.image ? 
-                  `<img src="${item.image}" alt="${item.title}" loading="lazy">` :
-                  `<div class="has-background-light has-text-centered" style="height: 100%; display: flex; align-items: center; justify-content: center;">
-                    <span class="icon is-large has-text-grey">
-                      <i class="fas fa-${item.collection === 'videos' ? 'video' : 'file-alt'} fa-3x"></i>
-                    </span>
-                  </div>`}
-              </figure>
-            </div>
             <div class="card-content">
-              <h3 class="title is-5">
-                <a href="${item.url}">${highlightText(item.title, searchTerm)}</a>
-              </h3>
-              <div class="content">
-                <span class="tag is-info is-light">${item.collection}</span>
-                ${item.date ? `
-                <time datetime="${item.date}">
-                  ${new Date(item.date).toLocaleDateString()}
-                </time>
-                <br>` : ''}
-                <p>${highlightText(item.excerpt, searchTerm)}</p>
-                <div class="tags">${tagsHTML}</div>
-              </div>
+              <p class="title is-5">${item.title}</p>
+              <p>${item.description}</p>
+              <a href="${item.url}">Read More</a>
             </div>
           </div>
         </div>`;
     }).join('');
-    
-    resultsContainer.innerHTML = resultsHTML;
-    noResults.style.display = resultsArray.length ? 'none' : 'block';
-    resultsCount.textContent = `${resultsArray.length} ${resultsArray.length === 1 ? 'result' : 'results'}`;
-    
-    // Scroll to search results
-    window.scrollTo({
-      top: searchResultsSection.offsetTop - 20,
-      behavior: 'smooth'
-    });
-  }
-  
-  // Filter results by collection
-  function filterResults(collection) {
-    const allItems = document.querySelectorAll('[data-collection]');
-    allItems.forEach(item => {
-      if (collection === 'all' || item.getAttribute('data-collection') === collection) {
-        item.style.display = 'block';
-      } else {
-        item.style.display = 'none';
-      }
-    });
-    
-    // Update active filter button
-    filterButtons.forEach(btn => {
-      btn.classList.toggle('active', btn.getAttribute('data-filter') === collection);
-    });
-  }
-  
-  // Tag click functionality
-  document.querySelectorAll('.tag-pill').forEach(tag => {
-    tag.addEventListener('click', function() {
-      const tagSlug = this.getAttribute('data-tag');
-      const tagName = this.textContent.trim();
-      
-      // Show all-tags tab
-      document.querySelector('[data-tab="all-tags"]').click();
-      
-      // Filter and display tagged items
-      const tagResults = document.getElementById('tag-results');
-      tagResults.innerHTML = `
-        <h3 class="title is-4">Posts tagged with <span class="tag is-primary is-medium">${tagName}</span></h3>
-        <div class="columns is-multiline" id="tagged-items">
-          <!-- Tagged items will be inserted here -->
-        </div>
-      `;
-      
-      const taggedItemsContainer = document.getElementById('tagged-items');
-      let taggedItemsHTML = '';
-      
-      // Find all documents with this tag
-      {% for collection in site.collections %}
-        {% for doc in collection.docs %}
-          {% if doc.tags %}
-            {% for tag in doc.tags %}
-              if ("{{ tag | slugify }}" === tagSlug) {
-                taggedItemsHTML += `
-                  <div class="column is-4">
-                    <div class="card">
-                      <div class="card-image">
-                        <figure class="image is-16by9">
-                          {% if doc.video_thumbnail %}
-                            <img src="{{ doc.video_thumbnail | relative_url }}" alt="{{ doc.title }}" loading="lazy">
-                          {% elsif doc.image %}
-                            <img src="{{ doc.image | relative_url }}" alt="{{ doc.title }}" loading="lazy">
-                          {% else %}
-                            <div class="has-background-light has-text-centered" style="height: 100%; display: flex; align-items: center; justify-content: center;">
-                              <span class="icon is-large has-text-grey">
-                                <i class="fas fa-{% if collection.label == 'videos' %}video{% else %}file-alt{% endif %} fa-3x"></i>
-                              </span>
-                            </div>
-                          {% endif %}
-                        </figure>
-                      </div>
-                      <div class="card-content">
-                        <h4 class="title is-5">
-                          <a href="{{ doc.url | relative_url }}">{{ doc.title }}</a>
-                        </h4>
-                        <div class="content">
-                          <span class="tag is-info is-light">{{ collection.label | capitalize }}</span>
-                          {% if doc.date %}
-                            <time datetime="{{ doc.date | date_to_xmlschema }}">
-                              {{ doc.date | date: "%b %-d, %Y" }}
-                            </time>
-                          {% endif %}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                `;
-              }
-            {% endfor %}
-          {% endif %}
-        {% endfor %}
-      {% endfor %}
-      
-      taggedItemsContainer.innerHTML = taggedItemsHTML || '<p>No items found with this tag.</p>';
-      
-      // Scroll to tag results
-      window.scrollTo({
-        top: tagResults.offsetTop - 20,
-        behavior: 'smooth'
-      });
-    });
-  });
-  
-  // Cache DOM elements
-  const searchInput = document.getElementById('search-input');
-  const searchForm = document.getElementById('search-form');
-  const suggestionsContent = document.getElementById('suggestions-content');
-  const searchSuggestions = document.getElementById('search-suggestions');
-  const resultsContainer = document.getElementById('results-container');
-  const searchResultsSection = document.getElementById('search-results-section');
-  const noResults = document.getElementById('no-results');
-  const resultsCount = document.getElementById('results-count');
-  const backToCollections = document.getElementById('back-to-collections');
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  
-  // Event listeners
-  searchInput.addEventListener('input', debounceSearch);
-  searchInput.addEventListener('focus', function() {
-    if (this.value.length >= MIN_SEARCH_LENGTH) {
-      searchSuggestions.style.display = 'block';
-    }
-  });
-  
-  document.addEventListener('click', function(e) {
-    if (!searchForm.contains(e.target)) {
+
+    if (this.value === '') {
+      suggestionsContent.innerHTML = '';
       searchSuggestions.style.display = 'none';
+      searchResults.style.display = 'none';
+    } else {
+      suggestionsContent.innerHTML = suggestionsHTML;
+      searchSuggestions.style.display = resultsArray.length ? 'block' : 'none';
+      resultsContainer.innerHTML = resultsHTML;
+      searchResults.style.display = resultsArray.length ? 'block' : 'none';
+    }
+
+    if (resultsArray.length === 0) {
+      resultsContainer.innerHTML = '<p>Sorry, nothing was found</p>';
+    }
+  }
+
+  const field = document.getElementById('search-input');
+  field.addEventListener('keyup', displayResults);
+  field.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
     }
   });
-  
-  searchForm.addEventListener('submit', performSearch);
-  
-  backToCollections.addEventListener('click', function() {
-    searchResultsSection.style.display = 'none';
-    document.getElementById('collections-container').style.display = 'block';
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  });
-  
-  // Filter buttons
-  filterButtons.forEach(btn => {
-    btn.addEventListener('click', function() {
-      filterResults(this.getAttribute('data-filter'));
-    });
-  });
-});
 </script>
+<noscript>Please enable JavaScript to use the search form.</noscript>
