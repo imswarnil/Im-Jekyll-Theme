@@ -1,34 +1,70 @@
-# _plugins/category-generator.rb
+# _plugins/generate_tags_categories.rb
+
 module Jekyll
-    class CategoryPageGenerator < Generator
+    class DynamicCategoryTagGenerator < Generator
       safe true
   
       def generate(site)
-        collection_name = 'courses' # <-- Replace with your collection
-        collection = site.collections[collection_name]
+        categories = Hash.new { |hash, key| hash[key] = [] }
+        tags = Hash.new { |hash, key| hash[key] = [] }
   
-        categories = collection.docs.map { |doc| doc.data['category'] }.uniq.compact
+        # Loop through all collections
+        site.collections.each do |collection_name, collection|
+          collection.docs.each do |doc|
+            # Skip drafts or unpublished
+            next if doc.data['published'] == false
   
-        categories.each do |category|
-          site.pages << CategoryPage.new(site, site.source, File.join('category', category), collection_name, category)
+            # Collect categories
+            Array(doc.data['category']).each do |cat|
+              categories[cat] << {
+                'url' => doc.url,
+                'title' => doc.data['title'],
+                'collection' => collection_name
+              }
+            end
+  
+            # Collect tags
+            Array(doc.data['tags']).each do |tag|
+              tags[tag] << {
+                'url' => doc.url,
+                'title' => doc.data['title'],
+                'collection' => collection_name
+              }
+            end
+          end
         end
+  
+        # Generate category pages
+        categories.each do |category, posts|
+          site.pages << CategoryTagPage.new(site, site.source, "category/#{slugify(category)}", "category", category, posts)
+        end
+  
+        # Generate tag pages
+        tags.each do |tag, posts|
+          site.pages << CategoryTagPage.new(site, site.source, "tag/#{slugify(tag)}", "tag", tag, posts)
+        end
+      end
+  
+      private
+  
+      def slugify(str)
+        str.to_s.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
       end
     end
   
-    class CategoryPage < Page
-      def initialize(site, base, dir, collection, category)
+    class CategoryTagPage < Page
+      def initialize(site, base, dir, type, name, items)
         @site = site
         @base = base
-        @dir  = dir
+        @dir = dir
         @name = 'index.html'
   
         self.process(@name)
-        self.read_yaml(File.join(base, '_layouts'), 'category.html')
-  
-        self.data['title'] = "Category: #{category.capitalize}"
-        self.data['category'] = category
-        self.data['collection'] = collection
-        self.data['layout'] = 'category'
+        self.read_yaml(File.join(base, '_layouts'), 'category_tag.html')
+        self.data['title'] = "#{type.capitalize}: #{name}"
+        self.data['items'] = items
+        self.data['type'] = type
+        self.data['name'] = name
       end
     end
   end
