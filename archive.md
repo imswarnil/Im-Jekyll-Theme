@@ -11,7 +11,6 @@ layout: page
       <div class="column is-one-quarter">
         <div class="box sticky-sidebar">
           <h2 class="title is-4 mb-4">Filter Archive</h2>
-          
           <!-- Year Filter -->
           <div class="mb-5">
             <h3 class="subtitle is-5 mb-3">By Year</h3>
@@ -22,7 +21,6 @@ layout: page
               {% endfor %}
             </div>
           </div>
-          
           <!-- Collection Filter -->
           <div class="mb-5">
             <h3 class="subtitle is-5 mb-3">By Collection</h3>
@@ -35,7 +33,6 @@ layout: page
               {% endfor %}
             </div>
           </div>
-          
           <!-- Search Box -->
           <div class="mb-5">
             <h3 class="subtitle is-5 mb-3">Search Archive</h3>
@@ -50,26 +47,21 @@ layout: page
           </div>
         </div>
       </div>
-      
       <!-- Main Content Column -->
       <div class="column">
         <h1 class="title is-2 mb-6">Complete Archive</h1>
-        
         {% assign all_docs = site.documents | sort: 'date' | reverse %}
         {% assign docs_by_year = all_docs | group_by_exp: "doc", "doc.date | date: '%Y'" %}
-        
         {% for year in docs_by_year %}
         <div class="archive-year" id="year-{{ year.name }}">
           <div class="year-header">
             <h2 class="title is-3">{{ year.name }}</h2>
             <hr class="year-divider">
           </div>
-          
           {% assign docs_by_month = year.items | group_by_exp: "doc", "doc.date | date: '%B'" %}
           {% for month in docs_by_month %}
           <div class="archive-month">
             <h3 class="subtitle is-4">{{ month.name }}</h3>
-            
             <div class="archive-items">
               {% for doc in month.items %}
               <article class="archive-item box" data-collection="{{ doc.collection }}" data-year="{{ year.name }}" data-month="{{ month.name }}">
@@ -147,7 +139,7 @@ layout: page
 
 .year-divider {
   height: 2px;
-  background: linear-gradient(to right, #00d1b2, transparent);
+  background: linear-gradient(to right, $primary , transparent);
   border: none;
   margin: 0.5rem 0 1.5rem;
 }
@@ -191,7 +183,7 @@ layout: page
   font-size: 1.5rem;
   margin-bottom: 1.5rem !important;
   padding-left: 1rem;
-  border-left: 3px solid #00d1b2;
+  border-left: 3px solid $primary;
 }
 
 .is-size-5 {

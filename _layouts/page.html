@@ -5,21 +5,7 @@ layout: default
 <main class="main section">
   {% include utility/breadcrumb.html %} 
   <div class="container">
-    <div class="columns">
-      <div class="column is-8">
-        <article class="article content animated intensifies">
-          <h1 class="title animated intensifies">{{ page.title }}</h1>
-          {{ content }}
-        </article>
-      </div>
-      
-      {% if page.sidebar == true %}
-        <sidebar class="column is-4 ">
-          {% include im-sidebar.html %}
-        </sidebar>
-      {% endif %}
-      
-    </div>
+          {{ content }}      
   </div>
 </main>
 
