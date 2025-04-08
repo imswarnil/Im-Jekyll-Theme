@@ -4,99 +4,310 @@
     <div class="columns is-centered">
       <div class="column is-half">
         <form id="search-form" class="field has-addons">
-          <div class="control is-expanded">
-            <input class="input" type="text" placeholder="Search..." name="q" id="search-input" autocomplete="off">
-            <!-- Smart Suggestions Dropdown -->
+          <div class="control is-expanded has-icons-left">
+            <input class="input is-medium" type="text" placeholder="Search articles, tags, and more..." name="q" id="search-input" autocomplete="off">
+            <span class="icon is-left">
+              <i class="fas fa-search"></i>
+            </span>
+            <!-- Enhanced Suggestions Dropdown -->
             <div class="dropdown" id="search-suggestions" style="display: none;">
-              <div class="dropdown-menu">
+              <div class="dropdown-menu" style="width: 100%;">
                 <div class="dropdown-content" id="suggestions-content">
-                  <!-- Smart Suggestions will be injected here -->
+                  <!-- Suggestions will be injected here -->
+                </div>
+                <div class="dropdown-item" id="search-all-results">
+                  <a href="#" class="has-text-weight-bold">View all results</a>
                 </div>
               </div>
             </div>
-            <!-- End Smart Suggestions Dropdown -->
+            <!-- End Suggestions Dropdown -->
           </div>
           <div class="control">
-            <button type="submit" class="button is-primary">Search</button>
+            <button type="submit" class="button is-primary is-medium">
+              <span class="icon">
+                <i class="fas fa-search"></i>
+              </span>
+              <span>Search</span>
+            </button>
           </div>
         </form>
+        <p class="help has-text-centered mt-2">
+          Try searching for posts, tags, or keywords. Minimum 3 characters.
+        </p>
       </div>
     </div>
     <!-- End Search Form -->
 
     <!-- Search Result Page -->
     <div id="search-results" class="mt-5" style="display: none;">
-      <h2 class="title is-4">Search Results</h2>
+      <div class="level">
+        <div class="level-left">
+          <h2 class="title is-4">Search Results</h2>
+        </div>
+        <div class="level-right">
+          <span class="tag is-info" id="results-count">0 results</span>
+        </div>
+      </div>
+      
+      <div id="search-filters" class="mb-5">
+        <div class="buttons has-addons">
+          <button class="button is-small filter-btn active" data-filter="all">All</button>
+          <button class="button is-small filter-btn" data-filter="posts">Posts</button>
+          <button class="button is-small filter-btn" data-filter="tags">Tags</button>
+        </div>
+      </div>
+      
       <div class="columns is-multiline" id="results-container">
         <!-- Search results will be injected here -->
+      </div>
+      
+      <div id="no-results" class="has-text-centered py-6" style="display: none;">
+        <div class="icon is-large has-text-grey-light mb-4">
+          <i class="fas fa-search fa-3x"></i>
+        </div>
+        <h3 class="title is-4">No results found</h3>
+        <p class="subtitle">Try different keywords or check out our popular content</p>
+        <a href="/popular" class="button is-primary is-outlined">View Popular Posts</a>
       </div>
     </div>
     <!-- End Search Result Page -->
   </div>
 </section>
 
-<script type="text/javascript" src="{{ "/assets/scripts/fetch.js" | relative_url }}"></script>
 <script type="text/javascript">
-  const endpoint = '{{ "/assets/search.json" | relative_url }}';
-  const pages = [];
-
-  fetch(endpoint)
-    .then(blob => blob.json())
-    .then(data => pages.push(...data));
-
-  function findResults(termToMatch, pages) {
-    return pages.filter(item => {
-      const regex = new RegExp(termToMatch, 'gi');
-      return item.title.match(regex) || item.content.match(regex);
-    });
-  }
-
-  function displayResults() {
-    const resultsArray = findResults(this.value, pages);
+  document.addEventListener('DOMContentLoaded', function() {
+    // Configuration
+    const MIN_SEARCH_LENGTH = 3;
+    const DEBOUNCE_DELAY = 300;
+    const endpoint = '{{ "/assets/search.json" | relative_url }}';
+    let pages = [];
+    let debounceTimer;
+    
+    // Cache DOM elements
+    const searchInput = document.getElementById('search-input');
+    const searchForm = document.getElementById('search-form');
     const suggestionsContent = document.getElementById('suggestions-content');
     const resultsContainer = document.getElementById('results-container');
     const searchResults = document.getElementById('search-results');
     const searchSuggestions = document.getElementById('search-suggestions');
-
-    const suggestionsHTML = resultsArray.map(item => {
-      return `<a href="${item.url}" class="dropdown-item">${item.title}</a>`;
-    }).join('');
-
-    const resultsHTML = resultsArray.map(item => {
-      return `
-        <div class="column is-4">
-          <div class="card">
-            <div class="card-content">
-              <p class="title is-5">${item.title}</p>
-              <p>${item.description}</p>
-              <a href="${item.url}">Read More</a>
+    const noResults = document.getElementById('no-results');
+    const resultsCount = document.getElementById('results-count');
+    const searchAllResults = document.getElementById('search-all-results');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    
+    // Fetch search index
+    fetch(endpoint)
+      .then(blob => blob.json())
+      .then(data => {
+        pages = data;
+        // Add excerpt if not present
+        pages.forEach(page => {
+          if (!page.excerpt) {
+            page.excerpt = page.content.substring(0, 140) + '...';
+          }
+        });
+      })
+      .catch(err => console.error('Error loading search index:', err));
+    
+    // Search function with highlighting
+    function findResults(termToMatch, pages) {
+      if (termToMatch.length < MIN_SEARCH_LENGTH) return [];
+      
+      try {
+        const regex = new RegExp(termToMatch, 'gi');
+        return pages.filter(item => {
+          const titleMatch = item.title && item.title.match(regex);
+          const contentMatch = item.content && item.content.match(regex);
+          const tagMatch = item.tags && item.tags.some(tag => tag.match(regex));
+          
+          return titleMatch || contentMatch || tagMatch;
+        });
+      } catch (e) {
+        // Handle invalid regex (like special characters)
+        return [];
+      }
+    }
+    
+    // Highlight matching text
+    function highlightText(text, term) {
+      if (!term) return text;
+      const regex = new RegExp(term, 'gi');
+      return text.replace(regex, match => `<span class="has-background-warning">${match}</span>`);
+    }
+    
+    // Debounce search input
+    function debounceSearch() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(displayResults, DEBOUNCE_DELAY);
+    }
+    
+    // Display results with filtering
+    function displayResults() {
+      const searchTerm = searchInput.value.trim();
+      const resultsArray = findResults(searchTerm, pages);
+      
+      // Update UI based on results
+      if (searchTerm.length < MIN_SEARCH_LENGTH) {
+        suggestionsContent.innerHTML = '';
+        searchSuggestions.style.display = 'none';
+        searchResults.style.display = 'none';
+        return;
+      }
+      
+      // Generate suggestions
+      const suggestionsHTML = resultsArray.slice(0, 5).map(item => {
+        return `<a href="${item.url}" class="dropdown-item">
+                  <span class="icon-text">
+                    <span class="icon">
+                      <i class="fas fa-${item.type === 'tag' ? 'tag' : 'file-alt'}"></i>
+                    </span>
+                    <span>${highlightText(item.title, searchTerm)}</span>
+                  </span>
+                </a>`;
+      }).join('');
+      
+      // Generate full results
+      const resultsHTML = resultsArray.map(item => {
+        const isPost = item.type !== 'tag';
+        const tagsHTML = item.tags ? item.tags.map(tag => 
+          `<span class="tag is-light">${tag}</span>`
+        ).join('') : '';
+        
+        return `
+          <div class="column is-4" data-type="${isPost ? 'posts' : 'tags'}">
+            <div class="card">
+              <div class="card-content">
+                <div class="media">
+                  <div class="media-content">
+                    <p class="title is-5">
+                      <a href="${item.url}">${highlightText(item.title, searchTerm)}</a>
+                    </p>
+                    <p class="subtitle is-6">
+                      ${isPost ? 
+                        `<time datetime="${item.date}">${new Date(item.date).toLocaleDateString()}</time>` : 
+                        `<span class="tag is-primary">Tag</span>`}
+                    </p>
+                  </div>
+                </div>
+                <div class="content">
+                  ${isPost ? 
+                    `<p>${highlightText(item.excerpt, searchTerm)}</p>` : 
+                    `<p>${item.posts ? `${item.posts.length} posts` : ''}</p>`}
+                  <div class="tags">${tagsHTML}</div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>`;
-    }).join('');
-
-    if (this.value === '') {
-      suggestionsContent.innerHTML = '';
-      searchSuggestions.style.display = 'none';
-      searchResults.style.display = 'none';
-    } else {
+          </div>`;
+      }).join('');
+      
+      // Update DOM
       suggestionsContent.innerHTML = suggestionsHTML;
       searchSuggestions.style.display = resultsArray.length ? 'block' : 'none';
       resultsContainer.innerHTML = resultsHTML;
-      searchResults.style.display = resultsArray.length ? 'block' : 'none';
+      searchResults.style.display = 'block';
+      noResults.style.display = resultsArray.length ? 'none' : 'block';
+      resultsCount.textContent = `${resultsArray.length} ${resultsArray.length === 1 ? 'result' : 'results'}`;
+      
+      // Set up "View all results" link
+      searchAllResults.querySelector('a').onclick = (e) => {
+        e.preventDefault();
+        searchSuggestions.style.display = 'none';
+        searchInput.blur();
+        window.scrollTo({
+          top: searchResults.offsetTop - 20,
+          behavior: 'smooth'
+        });
+      };
     }
-
-    if (resultsArray.length === 0) {
-      resultsContainer.innerHTML = '<p>Sorry, nothing was found</p>';
+    
+    // Filter results by type
+    function filterResults(type) {
+      const allItems = document.querySelectorAll('[data-type]');
+      allItems.forEach(item => {
+        if (type === 'all' || item.dataset.type === type) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+      
+      // Update active filter button
+      filterButtons.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.filter === type);
+      });
     }
-  }
-
-  const field = document.getElementById('search-input');
-  field.addEventListener('keyup', displayResults);
-  field.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-    }
+    
+    // Event listeners
+    searchInput.addEventListener('input', debounceSearch);
+    searchInput.addEventListener('focus', function() {
+      if (this.value.length >= MIN_SEARCH_LENGTH) {
+        searchSuggestions.style.display = 'block';
+      }
+    });
+    
+    document.addEventListener('click', function(e) {
+      if (!searchForm.contains(e.target)) {
+        searchSuggestions.style.display = 'none';
+      }
+    });
+    
+    searchForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      displayResults();
+      searchSuggestions.style.display = 'none';
+    });
+    
+    // Filter buttons
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        filterResults(this.dataset.filter);
+      });
+    });
+    
+    // Keyboard navigation for suggestions
+    searchInput.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowDown' && searchSuggestions.style.display === 'block') {
+        e.preventDefault();
+        const firstSuggestion = suggestionsContent.querySelector('a');
+        if (firstSuggestion) firstSuggestion.focus();
+      }
+    });
   });
 </script>
-<noscript>Please enable JavaScript to use the search form.</noscript>
+
+<style>
+  /* Custom styles for search */
+  #search-input:focus {
+    box-shadow: 0 0 0 0.125em rgba(72, 95, 199, 0.25);
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .filter-btn.active {
+    background-color: #3273dc;
+    color: white;
+  }
+  
+  .card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
+  }
+  
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+  }
+  
+  #no-results {
+    background-color: #f9f9f9;
+    border-radius: 6px;
+  }
+</style>
+
+<noscript>
+  <div class="notification is-warning">
+    JavaScript is required for search functionality. You can browse our <a href="/archive">archive</a> instead.
+  </div>
+</noscript>
