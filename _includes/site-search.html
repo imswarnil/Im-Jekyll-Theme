@@ -141,17 +141,6 @@ layout: default
                   <span>{{ collection.label | capitalize }}</span>
                 </span>
               </h2>
-              
-              <div class="columns is-multiline">
-                {% for doc in collection.docs %}
-                  <div class="column is-one-third">
-                    <div class="card">
-                      <!-- Same card content as above -->
-                      {% include collection-card.html doc=doc collection=collection %}
-                    </div>
-                  </div>
-                {% endfor %}
-              </div>
             </div>
           </div>
         {% endif %}
