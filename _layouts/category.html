@@ -1,0 +1,10 @@
+<h1>Category: {{ page.category }}</h1>
+
+<ul>
+  {% assign collection = site[page.collection] %}
+  {% for item in collection %}
+    {% if item.category == page.category %}
+      <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+    {% endif %}
+  {% endfor %}
+</ul>

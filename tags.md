@@ -1,6 +1,6 @@
 ---
 title: categories
 description: "All categories"
-layout : categories
+layout : category
 permalink : /tags
 ---
