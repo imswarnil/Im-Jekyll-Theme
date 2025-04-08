@@ -35,7 +35,7 @@ layout: default
   </div>
 
   <!-- Main Content with Tabs -->
-  <div class="container mt-5">
+  <div class="container mt-5" id="collections-container">
     <div class="tabs is-boxed is-centered">
       <ul>
         <li class="is-active" data-tab="all-collections">
@@ -146,8 +146,39 @@ layout: default
                 {% for doc in collection.docs %}
                   <div class="column is-one-third">
                     <div class="card">
-                      <!-- Same card content as above -->
-                    
+                      <div class="card-image">
+                        <figure class="image is-16by9">
+                          {% if doc.video_thumbnail %}
+                            <img src="{{ doc.video_thumbnail | relative_url }}" alt="{{ doc.title }}" loading="lazy">
+                          {% elsif doc.image %}
+                            <img src="{{ doc.image | relative_url }}" alt="{{ doc.title }}" loading="lazy">
+                          {% else %}
+                            <div class="has-background-light has-text-centered" style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                              <span class="icon is-large has-text-grey">
+                                <i class="fas fa-{% if collection.label == 'videos' %}video{% else %}file-alt{% endif %} fa-3x"></i>
+                              </span>
+                            </div>
+                          {% endif %}
+                        </figure>
+                      </div>
+                      <div class="card-content">
+                        <h3 class="title is-5">
+                          <a href="{{ doc.url | relative_url }}">{{ doc.title }}</a>
+                        </h3>
+                        <div class="content">
+                          {% if doc.date %}
+                            <time datetime="{{ doc.date | date_to_xmlschema }}">
+                              {{ doc.date | date: "%b %-d, %Y" }}
+                            </time>
+                            <br>
+                          {% endif %}
+                          <div class="tags">
+                            {% for tag in doc.tags %}
+                              <a href="#all-tags" class="tag is-light" data-tag="{{ tag | slugify }}">{{ tag }}</a>
+                            {% endfor %}
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 {% endfor %}
@@ -337,35 +368,33 @@ document.addEventListener('DOMContentLoaded', function() {
   // Search functionality
   const MIN_SEARCH_LENGTH = 2;
   const DEBOUNCE_DELAY = 300;
-  const endpoint = '{{ "/assets/search.json" | relative_url }}';
   let pages = [];
   let debounceTimer;
   
-  // Cache DOM elements
-  const searchInput = document.getElementById('search-input');
-  const searchForm = document.getElementById('search-form');
-  const suggestionsContent = document.getElementById('suggestions-content');
-  const searchSuggestions = document.getElementById('search-suggestions');
-  const resultsContainer = document.getElementById('results-container');
-  const searchResultsSection = document.getElementById('search-results-section');
-  const noResults = document.getElementById('no-results');
-  const resultsCount = document.getElementById('results-count');
-  const backToCollections = document.getElementById('back-to-collections');
-  const filterButtons = document.querySelectorAll('.filter-btn');
+  // Prepare search data from existing content
+  function prepareSearchData() {
+    pages = [];
+    
+    // Process all collections
+    {% for collection in site.collections %}
+      {% for doc in collection.docs %}
+        pages.push({
+          title: "{{ doc.title | escape }}",
+          content: "{{ doc.content | strip_html | escape }}",
+          excerpt: "{{ doc.excerpt | strip_html | escape | default: doc.content | strip_html | truncate: 140 | escape }}",
+          url: "{{ doc.url | relative_url }}",
+          collection: "{{ collection.label }}",
+          tags: [{% for tag in doc.tags %}"{{ tag | escape }}"{% unless forloop.last %},{% endunless %}{% endfor %}],
+          date: "{{ doc.date | date_to_xmlschema }}",
+          image: "{% if doc.image %}{{ doc.image | relative_url }}{% endif %}",
+          video_thumbnail: "{% if doc.video_thumbnail %}{{ doc.video_thumbnail | relative_url }}{% endif %}"
+        });
+      {% endfor %}
+    {% endfor %}
+  }
   
-  // Fetch search index
-  fetch(endpoint)
-    .then(blob => blob.json())
-    .then(data => {
-      pages = data;
-      // Enhance data with collection info
-      pages.forEach(page => {
-        if (!page.excerpt) {
-          page.excerpt = page.content.substring(0, 140) + '...';
-        }
-      });
-    })
-    .catch(err => console.error('Error loading search index:', err));
+  // Initialize search data
+  prepareSearchData();
   
   // Search function
   function findResults(termToMatch, pages) {
@@ -411,7 +440,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const suggestionsHTML = resultsArray.slice(0, 5).map(item => {
       return `
-        <a class="dropdown-item" data-search="${item.title}">
+        <a class="dropdown-item" data-search="${item.title.replace(/"/g, '&quot;')}">
           <span class="icon-text">
             <span class="icon">
               <i class="fas fa-${item.collection === 'videos' ? 'video' : 'file-alt'}"></i>
@@ -437,12 +466,14 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   // Perform full search
-  function performSearch() {
+  function performSearch(e) {
+    if (e) e.preventDefault();
+    
     const searchTerm = searchInput.value.trim();
     const resultsArray = findResults(searchTerm, pages);
     
     // Hide collections and show search results
-    document.querySelector('.section .container:last-child').style.display = 'none';
+    document.getElementById('collections-container').style.display = 'none';
     searchResultsSection.style.display = 'block';
     
     const resultsHTML = resultsArray.map(item => {
@@ -590,6 +621,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
   
+  // Cache DOM elements
+  const searchInput = document.getElementById('search-input');
+  const searchForm = document.getElementById('search-form');
+  const suggestionsContent = document.getElementById('suggestions-content');
+  const searchSuggestions = document.getElementById('search-suggestions');
+  const resultsContainer = document.getElementById('results-container');
+  const searchResultsSection = document.getElementById('search-results-section');
+  const noResults = document.getElementById('no-results');
+  const resultsCount = document.getElementById('results-count');
+  const backToCollections = document.getElementById('back-to-collections');
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  
   // Event listeners
   searchInput.addEventListener('input', debounceSearch);
   searchInput.addEventListener('focus', function() {
@@ -604,15 +647,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
-  searchForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    performSearch();
-    searchSuggestions.style.display = 'none';
-  });
+  searchForm.addEventListener('submit', performSearch);
   
   backToCollections.addEventListener('click', function() {
     searchResultsSection.style.display = 'none';
-    document.querySelector('.section .container:last-child').style.display = 'block';
+    document.getElementById('collections-container').style.display = 'block';
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
