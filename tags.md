@@ -1,6 +1,7 @@
 ---
-title: categories
-description: "All categories"
-layout : category
-permalink : /category
+title: tags
+description: "All tags"
+layout : tags
 ---
+
+Mt Tagsx
