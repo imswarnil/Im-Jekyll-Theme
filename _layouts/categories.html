@@ -2,30 +2,60 @@
 layout: default
 ---
 
-{% include im-navbar.html %}
+<div class="container">
+  <h1>Category: "{{ page.category }}"</h1>
+  
+  {% assign category_posts = site.posts | where_exp: "post", "post.category contains page.category" %}
+  {% if category_posts.size > 0 %}
+    <section class="posts-section">
+      <h2>Posts</h2>
+      <ul>
+        {% for post in category_posts %}
+          <li>
+            <a href="{{ post.url }}">{{ post.title }}</a>
+            <small>{{ post.date | date_to_string }}</small>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+  
+  {% assign category_videos = site.videos | where_exp: "video", "video.category contains page.category" %}
+  {% if category_videos.size > 0 %}
+    <section class="videos-section">
+      <h2>Videos</h2>
+      <ul>
+        {% for video in category_videos %}
+          <li>
+            <a href="{{ video.url }}">{{ video.title }}</a>
+            <small>{{ video.date | date_to_string }}</small>
+            <img src="https://img.youtube.com/vi/{{ video.VideoId }}/default.jpg" alt="{{ video.title }}" width="120">
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+</div>
+<style>
+  /* Add to your CSS file */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
-<main class="main section">
-  <div class="container">
-    <div class="columns">
-      <div class="column is-8">
-        <article class="article typeset">
-          <h1 class="title">{{ page.title }}</h1>
-          {% if page.image %}
-            <figure class="image">
-              <img src="{{ page.image }}" alt="{{ page.title }}">
-            </figure>
-          {% endif %}
-          {{ content }}
-        </article>
+.posts-section, .videos-section {
+  margin-bottom: 40px;
+}
 
-        {% include post-categories.html %}
-      </div>
+.videos-section li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
 
-      {% if page.sidebar == true %}
-        {% include im-sidebar.html align="left" %}
-      {% endif %}
-    </div>
-  </div>
-</main>
-
-{% include footer.html %}
+.videos-section img {
+  margin-left: 15px;
+  border-radius: 4px;
+}
+</style>
