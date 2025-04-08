@@ -1,0 +1,14 @@
+---
+layout: default
+---
+
+<h1>Tagged with: {{ page.tag }}</h1>
+
+<ul>
+  {% for doc in page.docs %}
+    <li>
+      <a href="{{ doc.url }}">{{ doc.data.title }}</a>
+      {% if doc.collection %}<small>({{ doc.collection }})</small>{% endif %}
+    </li>
+  {% endfor %}
+</ul>

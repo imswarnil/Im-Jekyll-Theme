@@ -1,47 +1,24 @@
-# _plugins/generate_tags_categories.rb
-
 module Jekyll
-    class DynamicCategoryTagGenerator < Generator
+    class DynamicTagPageGenerator < Generator
       safe true
   
       def generate(site)
-        categories = Hash.new { |hash, key| hash[key] = [] }
-        tags = Hash.new { |hash, key| hash[key] = [] }
+        tag_map = Hash.new { |hash, key| hash[key] = [] }
   
-        # Loop through all collections
-        site.collections.each do |collection_name, collection|
+        # Scan all collections
+        site.collections.each_value do |collection|
           collection.docs.each do |doc|
-            # Skip drafts or unpublished
-            next if doc.data['published'] == false
+            next if doc.data['tags'].nil?
   
-            # Collect categories
-            Array(doc.data['category']).each do |cat|
-              categories[cat] << {
-                'url' => doc.url,
-                'title' => doc.data['title'],
-                'collection' => collection_name
-              }
-            end
-  
-            # Collect tags
             Array(doc.data['tags']).each do |tag|
-              tags[tag] << {
-                'url' => doc.url,
-                'title' => doc.data['title'],
-                'collection' => collection_name
-              }
+              tag_map[tag] << doc
             end
           end
         end
   
-        # Generate category pages
-        categories.each do |category, posts|
-          site.pages << CategoryTagPage.new(site, site.source, "category/#{slugify(category)}", "category", category, posts)
-        end
-  
-        # Generate tag pages
-        tags.each do |tag, posts|
-          site.pages << CategoryTagPage.new(site, site.source, "tag/#{slugify(tag)}", "tag", tag, posts)
+        # Create a page for each tag
+        tag_map.each do |tag, docs|
+          site.pages << TagPage.new(site, site.source, File.join('tags', slugify(tag)), tag, docs)
         end
       end
   
@@ -52,19 +29,19 @@ module Jekyll
       end
     end
   
-    class CategoryTagPage < Page
-      def initialize(site, base, dir, type, name, items)
+    class TagPage < Page
+      def initialize(site, base, dir, tag, docs)
         @site = site
         @base = base
-        @dir = dir
+        @dir  = dir
         @name = 'index.html'
   
         self.process(@name)
-        self.read_yaml(File.join(base, '_layouts'), 'category_tag.html')
-        self.data['title'] = "#{type.capitalize}: #{name}"
-        self.data['items'] = items
-        self.data['type'] = type
-        self.data['name'] = name
+        self.read_yaml(File.join(base, '_layouts'), 'tag.html')
+  
+        self.data['tag'] = tag
+        self.data['title'] = "Posts tagged with '#{tag}'"
+        self.data['docs'] = docs
       end
     end
   end
