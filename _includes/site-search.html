@@ -1,102 +1,389 @@
 <section class="section">
   <div class="container">
-    <!-- Search Form -->
+    <!-- Enhanced Search Form -->
     <div class="columns is-centered">
       <div class="column is-half">
         <form id="search-form" class="field has-addons">
-          <div class="control is-expanded">
-            <input class="input" type="text" placeholder="Search..." name="q" id="search-input" autocomplete="off">
+          <div class="control is-expanded has-icons-left">
+            <input class="input is-medium" type="text" placeholder="Search articles, guides, and more..." name="q" id="search-input" autocomplete="off">
+            <span class="icon is-left">
+              <i class="fas fa-search"></i>
+            </span>
             <!-- Smart Suggestions Dropdown -->
             <div class="dropdown" id="search-suggestions" style="display: none;">
-              <div class="dropdown-menu">
+              <div class="dropdown-menu" style="width: 100%;">
                 <div class="dropdown-content" id="suggestions-content">
-                  <!-- Smart Suggestions will be injected here -->
+                  <!-- Suggestions will be injected here -->
                 </div>
               </div>
             </div>
-            <!-- End Smart Suggestions Dropdown -->
           </div>
           <div class="control">
-            <button type="submit" class="button is-primary">Search</button>
+            <button type="submit" class="button is-primary is-medium">
+              <span class="icon">
+                <i class="fas fa-search"></i>
+              </span>
+              <span>Search</span>
+            </button>
           </div>
         </form>
+        <p class="help is-size-7 has-text-centered mt-2">Type to see instant results or press Enter for full search</p>
       </div>
     </div>
-    <!-- End Search Form -->
 
-    <!-- Search Result Page -->
+    <!-- Search Results Section -->
     <div id="search-results" class="mt-5" style="display: none;">
-      <h2 class="title is-4">Search Results</h2>
+      <div class="level">
+        <div class="level-left">
+          <h2 class="title is-4">Search Results</h2>
+        </div>
+        <div class="level-right">
+          <p class="has-text-grey" id="results-count"></p>
+        </div>
+      </div>
       <div class="columns is-multiline" id="results-container">
-        <!-- Search results will be injected here -->
+        <!-- Results will be injected here -->
+      </div>
+      <div class="has-text-centered mt-5" id="no-results" style="display: none;">
+        <div class="box">
+          <span class="icon is-large has-text-grey-light">
+            <i class="fas fa-search fa-2x"></i>
+          </span>
+          <h3 class="title is-5 mt-3">No results found</h3>
+          <p class="subtitle is-6">Try different keywords or check your spelling</p>
+        </div>
+      </div>
+      <div class="has-text-centered mt-5" id="search-loading" style="display: none;">
+        <div class="box">
+          <span class="icon is-large has-text-grey-light">
+            <i class="fas fa-spinner fa-pulse fa-2x"></i>
+          </span>
+          <h3 class="title is-5 mt-3">Searching...</h3>
+        </div>
       </div>
     </div>
-    <!-- End Search Result Page -->
   </div>
 </section>
 
-<script type="text/javascript" src="{{ "/assets/scripts/fetch.js" | relative_url }}"></script>
-<script type="text/javascript">
-  const endpoint = '{{ "/assets/search.json" | relative_url }}';
-  const pages = [];
+<script>
+// Configuration
+const endpoint = '{{ "/assets/search.json" | relative_url }}';
+const iconMap = {
+  'post': 'fa-file-alt',
+  'article': 'fa-newspaper',
+  'guide': 'fa-book',
+  'tutorial': 'fa-graduation-cap',
+  'video': 'fa-video',
+  'default': 'fa-file'
+};
+const defaultImage = '/assets/images/default-search-image.jpg'; // Fallback image
 
+// State
+let pages = [];
+let currentSearchTerm = '';
+let debounceTimer;
+
+// DOM Elements
+const searchInput = document.getElementById('search-input');
+const searchForm = document.getElementById('search-form');
+const suggestionsContent = document.getElementById('suggestions-content');
+const resultsContainer = document.getElementById('results-container');
+const searchResults = document.getElementById('search-results');
+const searchSuggestions = document.getElementById('search-suggestions');
+const noResults = document.getElementById('no-results');
+const resultsCount = document.getElementById('results-count');
+const searchLoading = document.getElementById('search-loading');
+
+// Initialize search
+function initSearch() {
+  showLoading(true);
+  
   fetch(endpoint)
-    .then(blob => blob.json())
-    .then(data => pages.push(...data));
-
-  function findResults(termToMatch, pages) {
-    return pages.filter(item => {
-      const regex = new RegExp(termToMatch, 'gi');
-      return item.title.match(regex) || item.content.match(regex);
+    .then(response => {
+      if (!response.ok) throw new Error('Network response was not ok');
+      return response.json();
+    })
+    .then(data => {
+      pages = data;
+      setupEventListeners();
+    })
+    .catch(error => {
+      console.error('Error loading search index:', error);
+      showError('Failed to load search index. Please try again later.');
+    })
+    .finally(() => {
+      showLoading(false);
     });
-  }
+}
 
-  function displayResults() {
-    const resultsArray = findResults(this.value, pages);
-    const suggestionsContent = document.getElementById('suggestions-content');
-    const resultsContainer = document.getElementById('results-container');
-    const searchResults = document.getElementById('search-results');
-    const searchSuggestions = document.getElementById('search-suggestions');
-
-    const suggestionsHTML = resultsArray.map(item => {
-      return `<a href="${item.url}" class="dropdown-item">${item.title}</a>`;
-    }).join('');
-
-    const resultsHTML = resultsArray.map(item => {
-      return `
-        <div class="column is-4">
-          <div class="card">
-            <div class="card-content">
-              <p class="title is-5">${item.title}</p>
-              <p>${item.description}</p>
-              <a href="${item.url}">Read More</a>
-            </div>
-          </div>
-        </div>`;
-    }).join('');
-
-    if (this.value === '') {
-      suggestionsContent.innerHTML = '';
-      searchSuggestions.style.display = 'none';
-      searchResults.style.display = 'none';
-    } else {
-      suggestionsContent.innerHTML = suggestionsHTML;
-      searchSuggestions.style.display = resultsArray.length ? 'block' : 'none';
-      resultsContainer.innerHTML = resultsHTML;
-      searchResults.style.display = resultsArray.length ? 'block' : 'none';
-    }
-
-    if (resultsArray.length === 0) {
-      resultsContainer.innerHTML = '<p>Sorry, nothing was found</p>';
-    }
-  }
-
-  const field = document.getElementById('search-input');
-  field.addEventListener('keyup', displayResults);
-  field.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-      event.preventDefault();
+// Setup event listeners
+function setupEventListeners() {
+  searchInput.addEventListener('input', handleSearchInput);
+  searchInput.addEventListener('focus', handleSearchFocus);
+  searchForm.addEventListener('submit', handleFormSubmit);
+  
+  // Close suggestions when clicking outside
+  document.addEventListener('click', function(event) {
+    if (!event.target.closest('#search-form')) {
+      hideSuggestions();
     }
   });
+}
+
+// Search functions
+function findResults(termToMatch, pages) {
+  if (!termToMatch) return [];
+  
+  const terms = termToMatch.toLowerCase().split(' ').filter(term => term.length > 0);
+  
+  return pages.map(item => {
+    let score = 0;
+    let titleMatches = 0;
+    let contentMatches = 0;
+    let tagMatches = 0;
+    let exactMatch = false;
+    
+    terms.forEach(term => {
+      // Check for exact match in title
+      if (item.title.toLowerCase() === term.toLowerCase()) {
+        score += 10;
+        exactMatch = true;
+      }
+      
+      // Partial matches
+      const titleRegex = new RegExp(term, 'gi');
+      const contentRegex = new RegExp(term, 'gi');
+      const tagRegex = new RegExp(term, 'gi');
+      
+      // Title matches
+      const titleMatch = item.title.match(titleRegex);
+      if (titleMatch) {
+        score += 5 * titleMatch.length;
+        titleMatches += titleMatch.length;
+      }
+      
+      // Description matches
+      const descMatch = item.description && item.description.toLowerCase().includes(term);
+      if (descMatch) score += 3;
+      
+      // Content matches
+      const contentMatch = item.content.match(contentRegex);
+      if (contentMatch) {
+        score += contentMatch.length;
+        contentMatches += contentMatch.length;
+      }
+      
+      // Tag matches
+      if (item.tags) {
+        const tagMatch = item.tags.join(' ').match(tagRegex);
+        if (tagMatch) {
+          score += 2 * tagMatch.length;
+          tagMatches += tagMatch.length;
+        }
+      }
+    });
+    
+    return { 
+      ...item, 
+      score, 
+      titleMatches, 
+      contentMatches, 
+      tagMatches,
+      exactMatch
+    };
+  })
+  .filter(item => item.score > 0)
+  .sort((a, b) => {
+    // Exact matches first, then by score
+    if (a.exactMatch && !b.exactMatch) return -1;
+    if (!a.exactMatch && b.exactMatch) return 1;
+    return b.score - a.score;
+  });
+}
+
+// UI Helpers
+function getItemIcon(item) {
+  if (item.collection) {
+    return iconMap[item.collection.toLowerCase()] || iconMap.default;
+  }
+  return iconMap.default;
+}
+
+function getItemImage(item) {
+  if (item.image) {
+    return `<img src="${item.image}" alt="${item.title}" class="card-image" loading="lazy">`;
+  }
+  return `
+    <div class="card-image has-background-light has-text-centered py-5">
+      <span class="icon is-large has-text-grey">
+        <i class="fas ${getItemIcon(item)} fa-3x"></i>
+      </span>
+      ${item.collection ? `<p class="has-text-grey is-size-7 mt-2">${item.collection}</p>` : ''}
+    </div>
+  `;
+}
+
+function highlightText(text, terms) {
+  if (!text || !terms.length) return text;
+  
+  let highlighted = text;
+  terms.forEach(term => {
+    const regex = new RegExp(`(${term})`, 'gi');
+    highlighted = highlighted.replace(regex, '<span class="has-background-warning">$1</span>');
+  });
+  return highlighted;
+}
+
+function showLoading(show) {
+  if (show) {
+    searchLoading.style.display = 'block';
+    searchResults.style.display = 'none';
+  } else {
+    searchLoading.style.display = 'none';
+  }
+}
+
+function showError(message) {
+  noResults.innerHTML = `
+    <div class="box">
+      <span class="icon is-large has-text-danger">
+        <i class="fas fa-exclamation-triangle fa-2x"></i>
+      </span>
+      <h3 class="title is-5 mt-3">Error</h3>
+      <p class="subtitle is-6">${message}</p>
+    </div>
+  `;
+  noResults.style.display = 'block';
+  searchResults.style.display = 'block';
+}
+
+function hideSuggestions() {
+  searchSuggestions.style.display = 'none';
+}
+
+// Event Handlers
+function handleSearchInput() {
+  clearTimeout(debounceTimer);
+  currentSearchTerm = this.value.trim();
+  
+  if (currentSearchTerm === '') {
+    hideSuggestions();
+    searchResults.style.display = 'none';
+    return;
+  }
+  
+  debounceTimer = setTimeout(() => {
+    showLoading(true);
+    
+    // Small delay to prevent UI flicker for fast searches
+    setTimeout(() => {
+      const resultsArray = findResults(currentSearchTerm, pages);
+      displayResults(resultsArray, currentSearchTerm);
+      showLoading(false);
+    }, 100);
+  }, 300);
+}
+
+function handleSearchFocus() {
+  if (currentSearchTerm && currentSearchTerm === this.value.trim()) {
+    const resultsArray = findResults(currentSearchTerm, pages);
+    displaySuggestions(resultsArray.slice(0, 5), currentSearchTerm);
+  }
+}
+
+function handleFormSubmit(event) {
+  event.preventDefault();
+  const term = searchInput.value.trim();
+  
+  if (term) {
+    // Scroll to results
+    const resultsElement = document.getElementById('search-results');
+    resultsElement.style.display = 'block';
+    resultsElement.scrollIntoView({ behavior: 'smooth' });
+    
+    // Focus on search input for better UX
+    searchInput.focus();
+  }
+}
+
+// Display Functions
+function displaySuggestions(results, searchTerm) {
+  if (!searchTerm || results.length === 0) {
+    hideSuggestions();
+    return;
+  }
+  
+  const terms = searchTerm.toLowerCase().split(' ').filter(term => term.length > 0);
+  
+  suggestionsContent.innerHTML = results.map(item => `
+    <a href="${item.url}" class="dropdown-item">
+      <span class="icon is-small">
+        <i class="fas ${getItemIcon(item)}"></i>
+      </span>
+      ${highlightText(item.title, terms)}
+      ${item.collection ? `<span class="tag is-light is-small ml-2">${item.collection}</span>` : ''}
+    </a>
+  `).join('');
+  
+  searchSuggestions.style.display = 'block';
+}
+
+function displayResults(results, searchTerm) {
+  if (!searchTerm) {
+    searchResults.style.display = 'none';
+    return;
+  }
+  
+  const terms = searchTerm.toLowerCase().split(' ').filter(term => term.length > 0);
+  
+  // Update suggestions
+  displaySuggestions(results.slice(0, 5), searchTerm);
+  
+  // Update results count
+  resultsCount.textContent = results.length > 0 
+    ? `${results.length} ${results.length === 1 ? 'result' : 'results'} found` 
+    : '';
+  
+  // Update main results
+  resultsContainer.innerHTML = results.length > 0
+    ? results.map(item => `
+        <div class="column is-4">
+          <div class="card">
+            ${getItemImage(item)}
+            <div class="card-content">
+              <h3 class="title is-5">${highlightText(item.title, terms)}</h3>
+              <div class="content">
+                ${item.description ? `<p>${highlightText(item.description, terms)}</p>` : ''}
+                <div class="tags">
+                  ${item.tags ? item.tags.slice(0, 3).map(tag => 
+                    `<span class="tag is-light">${highlightText(tag, terms)}</span>`
+                  ).join('') : ''}
+                  ${item.collection ? `<span class="tag is-info is-light">${item.collection}</span>` : ''}
+                </div>
+              </div>
+              <a href="${item.url}" class="button is-small is-link is-outlined">
+                Read more
+              </a>
+            </div>
+          </div>
+        </div>
+      `).join('')
+    : '';
+  
+  // Show/hide no results message
+  noResults.style.display = results.length === 0 ? 'block' : 'none';
+  searchResults.style.display = 'block';
+}
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', initSearch);
 </script>
-<noscript>Please enable JavaScript to use the search form.</noscript>
+
+<noscript>
+  <div class="notification is-warning">
+    <span class="icon">
+      <i class="fas fa-exclamation-triangle"></i>
+    </span>
+    Please enable JavaScript to use the search functionality.
+  </div>
+</noscript>
