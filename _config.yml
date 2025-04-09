@@ -218,16 +218,23 @@ navbar:
         link: /personal
         icon: fa-user
   - name: About
-    link: /about/
-    icon: fa-file
+    link: /about
+    icon: fa-user
   - name: Elements
     link: /elements
   - name: Layouts
     link: /#
     dropdown:
-      - name: Post Layout
-        link: /blog
+      - name: Post Layouts
+        link: /#
         icon: fa-pen
+        dropdown:
+          - name: Post Listing Page
+            link: /blogs
+            icon: fa-pen
+          - name: Post Single Page
+            link: /blogs-single
+            icon: fa-pen
       - name: Video Layout
         link: /videos
         icon: fa-play
