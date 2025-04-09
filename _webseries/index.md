@@ -1,7 +1,6 @@
 ---
-title: "Web Series"
+title: "Web Series Collection"
 is_series_listing: true
-permalink : /webseries
 ---
 
-Browse all our web series below:
+Browse our collection of high-quality web series.

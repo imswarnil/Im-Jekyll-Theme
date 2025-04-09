@@ -1,9 +1,9 @@
 ---
-title: "Getting Started with React"
+title: "Why React"
 is_episode: true
 series_slug: "coding-adventures"
 series_title: "Coding Adventures"
-episode_number: 1
+episode_number: 2
 date: 2023-06-15
 duration: "22:45"
 media_type: "youtube"
