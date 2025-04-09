@@ -1,876 +1,292 @@
 <!DOCTYPE html>
 <html lang="{{ site.lang | default: 'en-US' }}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="{{ page.description | default: site.description }}">
-    <title>{{ page.title }} | {{ site.title }} Documentation</title>
+  {% include im-head.html %}
+  <body>
+    {% include im-navbar.html %}
     
-    <!-- Favicon -->
-    <link rel="icon" href="{{ '/favicon.ico' | relative_url }}" type="image/x-icon">
-    
-    <!-- Open Graph / Social Meta -->
-    <meta property="og:title" content="{{ page.title }}">
-    <meta property="og:description" content="{{ page.description | default: site.description }}">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ page.url | absolute_url }}">
-    <meta property="og:image" content="{{ '/images/docs-social-share.jpg' | absolute_url }}">
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ page.title }}">
-    <meta name="twitter:description" content="{{ page.description | default: site.description }}">
-    <meta name="twitter:image" content="{{ '/images/docs-social-share.jpg' | absolute_url }}">
-    
-    <!-- Schema.org markup for Google -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "TechArticle",
-      "headline": "{{ page.title }}",
-      "description": "{{ page.description | default: site.description }}",
-      "author": {
-        "@type": "Person",
-        "name": "{{ page.author | default: 'Documentation Team' }}"
-      },
-      "datePublished": "{{ page.date | date_to_xmlschema }}",
-      "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
-      "publisher": {
-        "@type": "Organization",
-        "name": "{{ site.title }}"
-      }
-    }
-    </script>
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary: #4f46e5;
-            --primary-dark: #4338ca;
-            --primary-light: #6366f1;
-            --text: #1e293b;
-            --text-light: #64748b;
-            --text-lighter: #94a3b8;
-            --border: #e2e8f0;
-            --border-dark: #cbd5e1;
-            --bg: #ffffff;
-            --bg-light: #f8fafc;
-            --bg-dark: #f1f5f9;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --radius: 6px;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            color: var(--text);
-            background-color: var(--bg);
-            line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        
-        /* Layout */
-        .container {
-            display: flex;
-            flex: 1;
-        }
-        
-        /* Left sidebar - Documentation menu */
-        .sidebar-left {
-            width: 280px;
-            background-color: var(--bg);
-            border-right: 1px solid var(--border);
-            height: 100vh;
-            position: sticky;
-            top: 0;
-            overflow-y: auto;
-            padding: 1.5rem 0;
-            flex-shrink: 0;
-        }
-        
-        .sidebar-left-inner {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-        
-        .brand {
-            padding: 0 1.5rem 1.5rem;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 1.5rem;
-        }
-        
-        .brand a {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            text-decoration: none;
-            color: var(--text);
-            font-weight: 700;
-            font-size: 1.25rem;
-        }
-        
-        .brand img {
-            height: 32px;
-            width: auto;
-        }
-        
-        .search {
-            padding: 0 1.5rem 1.5rem;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 1.5rem;
-        }
-        
-        .search input {
-            width: 100%;
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            font-family: inherit;
-            font-size: 0.875rem;
-            background-color: var(--bg-light);
-        }
-        
-        .search input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-        }
-        
-        .docs-menu {
-            flex: 1;
-            overflow-y: auto;
-            padding: 0 1.5rem;
-        }
-        
-        .docs-menu h3 {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-lighter);
-            margin-bottom: 1rem;
-        }
-        
-        .menu-section {
-            margin-bottom: 2rem;
-        }
-        
-        .menu-item {
-            margin-bottom: 0.5rem;
-        }
-        
-        .menu-item a {
-            display: block;
-            padding: 0.5rem 0.75rem;
-            text-decoration: none;
-            color: var(--text-light);
-            font-size: 0.9375rem;
-            border-radius: var(--radius);
-            transition: all 0.15s ease;
-        }
-        
-        .menu-item a:hover {
-            color: var(--primary);
-            background-color: var(--bg-dark);
-        }
-        
-        .menu-item.active a {
-            color: var(--primary);
-            background-color: rgba(79, 70, 229, 0.1);
-            font-weight: 500;
-        }
-        
-        .menu-item .submenu {
-            margin-top: 0.5rem;
-            margin-left: 0.75rem;
-            padding-left: 0.75rem;
-            border-left: 1px solid var(--border);
-        }
-        
-        /* Main content */
-        .main-content {
-            flex: 1;
-            max-width: 800px;
-            padding: 2rem 3rem;
-        }
-        
-        .breadcrumbs {
-            margin-bottom: 1.5rem;
-            font-size: 0.875rem;
-            color: var(--text-light);
-        }
-        
-        .breadcrumbs a {
-            color: var(--text-light);
-            text-decoration: none;
-        }
-        
-        .breadcrumbs a:hover {
-            color: var(--primary);
-            text-decoration: underline;
-        }
-        
-        .breadcrumbs span {
-            margin: 0 0.5rem;
-            color: var(--border-dark);
-        }
-        
-        .content-header {
-            margin-bottom: 2rem;
-        }
-        
-        .content-header h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            line-height: 1.3;
-        }
-        
-        .content-header p {
-            color: var(--text-light);
-            font-size: 1.125rem;
-            max-width: 700px;
-        }
-        
-        .content-body {
-            margin-bottom: 3rem;
-        }
-        
-        .content-body h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin: 2rem 0 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border);
-        }
-        
-        .content-body h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin: 1.5rem 0 0.75rem;
-        }
-        
-        .content-body p {
-            margin-bottom: 1rem;
-        }
-        
-        .content-body ul, .content-body ol {
-            margin-bottom: 1rem;
-            padding-left: 1.5rem;
-        }
-        
-        .content-body li {
-            margin-bottom: 0.5rem;
-        }
-        
-        .content-body code {
-            font-family: 'Source Code Pro', monospace;
-            font-size: 0.875rem;
-            background-color: var(--bg-dark);
-            padding: 0.2rem 0.4rem;
-            border-radius: 3px;
-        }
-        
-        .content-body pre {
-            background-color: var(--bg-dark);
-            padding: 1rem;
-            border-radius: var(--radius);
-            overflow-x: auto;
-            margin: 1.5rem 0;
-        }
-        
-        .content-body pre code {
-            background-color: transparent;
-            padding: 0;
-        }
-        
-        .content-footer {
-            border-top: 1px solid var(--border);
-            padding-top: 2rem;
-            margin-top: 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .pagination {
-            display: flex;
-            gap: 1rem;
-        }
-        
-        .pagination a {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background-color: var(--bg-light);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            text-decoration: none;
-            color: var(--text);
-            font-size: 0.875rem;
-            transition: all 0.15s ease;
-        }
-        
-        .pagination a:hover {
-            background-color: var(--bg-dark);
-            border-color: var(--border-dark);
-        }
-        
-        .pagination .prev {
-            margin-right: auto;
-        }
-        
-        .pagination .next {
-            margin-left: auto;
-        }
-        
-        .feedback {
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        .feedback button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            padding: 0.5rem 0.75rem;
-            background-color: var(--bg-light);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            font-size: 0.8125rem;
-            cursor: pointer;
-            transition: all 0.15s ease;
-        }
-        
-        .feedback button:hover {
-            background-color: var(--bg-dark);
-        }
-        
-        .feedback button.like {
-            color: var(--success);
-        }
-        
-        .feedback button.dislike {
-            color: var(--danger);
-        }
-        
-        /* Right sidebar - Table of contents */
-        .sidebar-right {
-            width: 260px;
-            padding: 2rem 1.5rem;
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            overflow-y: auto;
-            flex-shrink: 0;
-        }
-        
-        .toc {
-            margin-bottom: 2rem;
-        }
-        
-        .toc h3 {
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-lighter);
-            margin-bottom: 1rem;
-        }
-        
-        .toc ul {
-            list-style: none;
-        }
-        
-        .toc li {
-            margin-bottom: 0.5rem;
-        }
-        
-        .toc a {
-            display: block;
-            padding: 0.375rem 0;
-            font-size: 0.875rem;
-            color: var(--text-light);
-            text-decoration: none;
-            transition: color 0.15s ease;
-        }
-        
-        .toc a:hover {
-            color: var(--primary);
-        }
-        
-        .toc .level-2 {
-            padding-left: 0.75rem;
-        }
-        
-        .toc .level-3 {
-            padding-left: 1.5rem;
-        }
-        
-        .ad-container {
-            background-color: var(--bg-light);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1rem;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-        
-        .ad-container img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 4px;
-        }
-        
-        .ad-label {
-            display: block;
-            font-size: 0.6875rem;
-            color: var(--text-lighter);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.5rem;
-        }
-        
-        .author-card {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .author-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        
-        .author-info h4 {
-            font-size: 0.9375rem;
-            margin-bottom: 0.25rem;
-        }
-        
-        .author-info p {
-            font-size: 0.8125rem;
-            color: var(--text-light);
-        }
-        
-        .social-share {
-            margin-bottom: 1.5rem;
-        }
-        
-        .social-share h4 {
-            font-size: 0.875rem;
-            margin-bottom: 0.75rem;
-            color: var(--text-light);
-        }
-        
-        .social-icons {
-            display: flex;
-            gap: 0.75rem;
-        }
-        
-        .social-icons a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: var(--bg-light);
-            color: var(--text-light);
-            transition: all 0.15s ease;
-        }
-        
-        .social-icons a:hover {
-            background-color: var(--bg-dark);
-            color: var(--primary);
-        }
-        
-        .last-updated {
-            font-size: 0.8125rem;
-            color: var(--text-light);
-        }
-        
-        /* Mobile menu toggle */
-        .mobile-menu-toggle {
-            display: none;
-            position: fixed;
-            bottom: 1rem;
-            right: 1rem;
-            z-index: 50;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            box-shadow: var(--shadow-md);
-            cursor: pointer;
-        }
-        
-        /* Responsive styles */
-        @media (max-width: 1200px) {
-            .sidebar-right {
-                display: none;
-            }
-            
-            .main-content {
-                max-width: 100%;
-                padding-right: 2rem;
-            }
-        }
-        
-        @media (max-width: 992px) {
-            .sidebar-left {
-                position: fixed;
-                left: -280px;
-                top: 0;
-                z-index: 40;
-                transition: left 0.3s ease;
-            }
-            
-            .sidebar-left.active {
-                left: 0;
-            }
-            
-            .main-content {
-                padding-left: 2rem;
-                margin-left: 0;
-            }
-            
-            .mobile-menu-toggle {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .main-content {
-                padding: 1.5rem;
-            }
-            
-            .content-header h1 {
-                font-size: 1.75rem;
-            }
-            
-            .content-header p {
-                font-size: 1rem;
-            }
-            
-            .content-footer {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: flex-start;
-            }
-            
-            .pagination {
-                width: 100%;
-                justify-content: space-between;
-            }
-        }
-    </style>
-</head>
-<body>
+    <!-- Documentation Layout -->
     <div class="container">
-        <!-- Left sidebar - Documentation menu -->
-        <aside class="sidebar-left">
-            <div class="sidebar-left-inner">
-                <div class="brand">
-                    <a href="{{ '/' | relative_url }}">
-                        <img src="{{ '/logo.svg' | relative_url }}" alt="{{ site.title }} Logo">
-                        <span>Docs</span>
-                    </a>
-                </div>
-                
-                <div class="search">
-                    <input type="text" placeholder="Search documentation..." id="docsSearch">
-                </div>
-                
-                <nav class="docs-menu">
-                    {% for section in site.data.docs_navigation %}
-                    <div class="menu-section">
-                        <h3>{{ section.title }}</h3>
-                        {% for item in section.items %}
-                        <div class="menu-item {% if page.url == item.url %}active{% endif %}">
-                            <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
-                            {% if item.subitems %}
-                            <div class="submenu">
-                                {% for subitem in item.subitems %}
-                                <div class="menu-item {% if page.url == subitem.url %}active{% endif %}">
-                                    <a href="{{ subitem.url | relative_url }}">{{ subitem.title }}</a>
-                                </div>
-                                {% endfor %}
-                            </div>
-                            {% endif %}
-                        </div>
-                        {% endfor %}
-                    </div>
-                    {% endfor %}
-                </nav>
-            </div>
-        </aside>
-        
-        <!-- Main content -->
-        <main class="main-content">
-            <div class="breadcrumbs">
-                <a href="{{ '/' | relative_url }}">Home</a>
-                <span>/</span>
-                <a href="{{ '/docs' | relative_url }}">Documentation</a>
-                {% assign path_parts = page.url | split: '/' %}
-                {% assign current_path = '' %}
-                {% for part in path_parts offset: 2 %}
-                    {% if part != '' and part != 'index.html' %}
-                        {% assign current_path = current_path | append: '/' | append: part %}
-                        <span>/</span>
-                        {% if forloop.last %}
-                            <span>{{ page.title }}</span>
-                        {% else %}
-                            {% assign doc_page = site.docs | where: "url", current_path | first %}
-                            <a href="{{ current_path | relative_url }}">{{ doc_page.title | default: part | capitalize }}</a>
-                        {% endif %}
-                    {% endif %}
-                {% endfor %}
-            </div>
-            
-            <div class="content-header">
-                <h1>{{ page.title }}</h1>
-                {% if page.description %}
-                <p>{{ page.description }}</p>
-                {% endif %}
-            </div>
-            
-            <div class="content-body">
-                {{ content }}
-            </div>
-            
-            <div class="content-footer">
-                <div class="pagination">
-                    {% if page.previous %}
-                    <a href="{{ page.previous.url | relative_url }}" class="prev">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="15 18 9 12 15 6"></polyline>
-                        </svg>
-                        Previous: {{ page.previous.title }}
-                    </a>
-                    {% endif %}
-                    {% if page.next %}
-                    <a href="{{ page.next.url | relative_url }}" class="next">
-                        Next: {{ page.next.title }}
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </a>
-                    {% endif %}
-                </div>
-                
-                <div class="feedback">
-                    <p>Was this helpful?</p>
-                    <button class="like">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
-                        </svg>
-                        Yes
-                    </button>
-                    <button class="dislike">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path>
-                        </svg>
-                        No
-                    </button>
-                </div>
-            </div>
-        </main>
-        
-        <!-- Right sidebar - Table of contents -->
-        <aside class="sidebar-right">
-            <div class="toc">
-                <h3>On this page</h3>
-                <ul>
-                    {% for heading in page.headings %}
-                    <li class="level-{{ heading.level }}">
-                        <a href="#{{ heading.id }}">{{ heading.text }}</a>
-                        {% if heading.children %}
-                        <ul>
-                            {% for child in heading.children %}
-                            <li class="level-{{ child.level }}">
-                                <a href="#{{ child.id }}">{{ child.text }}</a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            
-            <div class="ad-container">
-                <span class="ad-label">Sponsored</span>
-                <img src="{{ '/images/ad-placeholder.jpg' | relative_url }}" alt="Advertisement" width="250" height="250">
-            </div>
-            
-            <div class="author-card">
-                <img src="{{ page.author_image | default: '/images/author-avatar.jpg' | relative_url }}" alt="Author Avatar" class="author-avatar">
-                <div class="author-info">
-                    <h4>{{ page.author | default: 'Documentation Team' }}</h4>
-                    <p>{{ page.author_role | default: 'Product Documentation' }}</p>
-                </div>
-            </div>
-            
-            <div class="social-share">
-                <h4>Share this page</h4>
-                <div class="social-icons">
-                    <a href="#" class="share-twitter" aria-label="Share on Twitter">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-                        </svg>
-                    </a>
-                    <a href="#" class="share-linkedin" aria-label="Share on LinkedIn">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                            <rect x="2" y="9" width="4" height="12"></rect>
-                            <circle cx="4" cy="4" r="2"></circle>
-                        </svg>
-                    </a>
-                    <a href="#" class="share-facebook" aria-label="Share on Facebook">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                        </svg>
-                    </a>
-                    <a href="#" class="share-copy" aria-label="Copy link">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="last-updated">
-                <p>Last updated: {{ page.last_modified_at | date: "%B %d, %Y" | default: "January 15, 2023" }}</p>
-            </div>
-        </aside>
-    </div>
-    
-    <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+      <!-- Mobile Menu Toggle -->
+      <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
         </svg>
-    </button>
-    
+      </button>
+      
+      <!-- Left Sidebar - Documentation Menu -->
+      <aside class="sidebar-left" id="docsSidebar">
+        <div class="sidebar-left-inner">
+          <!-- Brand Logo -->
+          <div class="brand">
+            <a href="{{ site.baseurl }}/" class="docs-brand-link">
+              <img src="{{ site.logo | default: '/assets/logos/logo.svg' }}" alt="{{ site.title }} Logo">
+              <span>Documentation</span>
+            </a>
+          </div>
+
+          <!-- Search Box -->
+          <div class="search">
+            <input type="text" placeholder="Search documentation..." id="docsSearchInput">
+          </div>
+
+          <!-- Documentation Menu -->
+          <nav class="docs-menu">
+            {% for item in site.data.documentation.docs %}
+              <div class="menu-section">
+                <h3>{{ item.label }}</h3>
+                <ul>
+                  {% for subitem in item.items %}
+                    {% if subitem.items %}
+                      <li class="menu-item">
+                        <a>{{ subitem.name }}</a>
+                        <div class="submenu">
+                          {% for subsubitem in subitem.items %}
+                            <div class="menu-item {% if page.url == subsubitem.link %}active{% endif %}">
+                              <a href="{{ site.baseurl }}{{ subsubitem.link }}" 
+                                 data-search="{{ subsubitem.name | downcase }} {{ subitem.name | downcase }} {{ item.label | downcase }}">
+                                {{ subsubitem.name }}
+                              </a>
+                            </div>
+                          {% endfor %}
+                        </div>
+                      </li>
+                    {% else %}
+                      <li class="menu-item {% if page.url == subitem.link %}active{% endif %}">
+                        <a href="{{ site.baseurl }}{{ subitem.link }}" 
+                           data-search="{{ subitem.name | downcase }} {{ item.label | downcase }}">
+                          {{ subitem.name }}
+                        </a>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endfor %}
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <!-- Breadcrumbs -->
+        <nav class="breadcrumbs">
+          <ul>
+            <li><a href="{{ site.baseurl }}/">Home</a></li>
+            <li><a href="{{ site.baseurl }}/docs/">Documentation</a></li>
+            {% if page.category %}
+              <li><a href="#">{{ page.category }}</a></li>
+            {% endif %}
+            <li>{{ page.title }}</li>
+          </ul>
+        </nav>
+
+        <!-- Page Header -->
+        <header class="content-header">
+          <h1>{{ page.title }}</h1>
+          {% if page.subtitle %}
+            <p>{{ page.subtitle }}</p>
+          {% endif %}
+          
+          {% if page.last_modified_at %}
+            <div class="last-updated">
+              Last updated: {{ page.last_modified_at | date: "%B %d, %Y" }}
+            </div>
+          {% endif %}
+        </header>
+
+        <!-- Content -->
+        <div class="content-body">
+          {{ content }}
+        </div>
+
+        <!-- Page Footer with Feedback and Navigation -->
+        <footer class="content-footer">
+          <div class="pagination">
+            {% if page.previous %}
+              <a href="{{ site.baseurl }}{{ page.previous.url }}" class="prev">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                Previous: {{ page.previous.title }}
+              </a>
+            {% endif %}
+            {% if page.next %}
+              <a href="{{ site.baseurl }}{{ page.next.url }}" class="next">
+                Next: {{ page.next.title }}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+            {% endif %}
+          </div>
+          
+          <div class="feedback">
+            <p>Was this helpful?</p>
+            <button class="docs-feedback-button like">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+              </svg>
+              Yes
+            </button>
+            <button class="docs-feedback-button dislike">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path>
+              </svg>
+              No
+            </button>
+          </div>
+        </footer>
+      </main>
+
+      <!-- Right Sidebar - Table of Contents -->
+      <aside class="sidebar-right">
+        <div class="toc">
+          <h3>On this page</h3>
+          {% include utility/toc.html html=content class="menu-list" h_min=2 h_max=3 %}
+        </div>
+
+        {% if site.docs.show_ads %}
+        <div class="ad-container">
+          <span class="ad-label">Sponsored</span>
+          <img src="https://via.placeholder.com/250" alt="Advertisement">
+        </div>
+        {% endif %}
+
+        <div class="author-card">
+          <img src="{{ page.author_image | default: 'https://via.placeholder.com/48' }}" alt="Author Avatar" class="author-avatar">
+          <div class="author-info">
+            <h4>{{ page.author | default: 'Documentation Team' }}</h4>
+            <p>{{ page.author_role | default: 'Technical Writer' }}</p>
+          </div>
+        </div>
+
+        <div class="social-share">
+          <h4>Share this page</h4>
+          <div class="social-icons">
+            <a href="#" class="docs-share-twitter" aria-label="Share on Twitter">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+              </svg>
+            </a>
+            <a href="#" class="docs-share-linkedin" aria-label="Share on LinkedIn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect x="2" y="9" width="4" height="12"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+            </a>
+            <a href="#" class="docs-share-facebook" aria-label="Share on Facebook">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+              </svg>
+            </a>
+            <a href="#" class="docs-share-copy" aria-label="Copy link">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    {% include footer.html %}
+
     <script>
-        // Mobile menu toggle
+      document.addEventListener('DOMContentLoaded', function() {
+        // Mobile menu toggle functionality
         const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-        const sidebarLeft = document.querySelector('.sidebar-left');
+        const docsSidebar = document.getElementById('docsSidebar');
         
-        mobileMenuToggle.addEventListener('click', () => {
-            sidebarLeft.classList.toggle('active');
+        if (mobileMenuToggle && docsSidebar) {
+          mobileMenuToggle.addEventListener('click', function() {
+            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !isExpanded);
+            docsSidebar.classList.toggle('active');
+            
+            // Toggle body overflow when menu is open
+            document.body.style.overflow = isExpanded ? '' : 'hidden';
+          });
+        }
+
+        // Close menu when clicking outside or pressing Escape
+        document.addEventListener('click', function(e) {
+          if (docsSidebar && docsSidebar.classList.contains('active')) {
+            const isClickInsideSidebar = docsSidebar.contains(e.target);
+            const isClickOnToggle = mobileMenuToggle && mobileMenuToggle.contains(e.target);
+            
+            if (!isClickInsideSidebar && !isClickOnToggle) {
+              docsSidebar.classList.remove('active');
+              if (mobileMenuToggle) {
+                mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+              }
+            }
+          }
         });
-        
+
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && docsSidebar && docsSidebar.classList.contains('active')) {
+            docsSidebar.classList.remove('active');
+            if (mobileMenuToggle) {
+              mobileMenuToggle.setAttribute('aria-expanded', 'false');
+              document.body.style.overflow = '';
+            }
+          }
+        });
+
         // Search functionality
-        const docsSearch = document.getElementById('docsSearch');
-        if (docsSearch) {
-            docsSearch.addEventListener('input', function() {
-                const searchTerm = this.value.toLowerCase();
-                const menuItems = document.querySelectorAll('.menu-item a');
+        const docsSearchInput = document.getElementById('docsSearchInput');
+        const docsMenuSections = document.querySelectorAll('.docs-menu > .menu-section');
+        
+        if (docsSearchInput) {
+          docsSearchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            
+            if (searchTerm.length > 0) {
+              docsMenuSections.forEach(section => {
+                const menuLabel = section.querySelector('h3');
+                const menuItems = section.querySelectorAll('.menu-item');
+                
+                let hasVisibleItems = false;
                 
                 menuItems.forEach(item => {
-                    const text = item.textContent.toLowerCase();
-                    if (text.includes(searchTerm)) {
-                        item.closest('.menu-item').style.display = 'block';
-                        // Show parent sections
-                        let parent = item.closest('.menu-section');
-                        while (parent) {
-                            parent.style.display = 'block';
-                            parent = parent.parentElement.closest('.menu-section');
-                        }
-                    } else {
-                        item.closest('.menu-item').style.display = 'none';
-                    }
+                  const link = item.querySelector('a');
+                  const searchData = link.getAttribute('data-search');
+                  
+                  if (searchData.includes(searchTerm)) {
+                    item.style.display = 'block';
+                    hasVisibleItems = true;
+                  } else {
+                    item.style.display = 'none';
+                  }
                 });
-            });
+                
+                if (hasVisibleItems) {
+                  section.style.display = 'block';
+                  menuLabel.style.display = 'block';
+                } else {
+                  section.style.display = 'none';
+                }
+              });
+            } else {
+              // Show all items when search is empty
+              docsMenuSections.forEach(section => {
+                section.style.display = 'block';
+                const menuLabel = section.querySelector('h3');
+                const menuItems = section.querySelectorAll('.menu-item');
+                
+                menuLabel.style.display = 'block';
+                menuItems.forEach(item => {
+                  item.style.display = 'block';
+                });
+              });
+            }
+          });
         }
-        
-        // Smooth scrolling for table of contents links
-        document.querySelectorAll('.toc a').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 20,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Update URL without page jump
-                    history.pushState(null, null, targetId);
-                }
-            });
-        });
-        
-        // Highlight current section in TOC while scrolling
-        window.addEventListener('scroll', function() {
-            const sections = document.querySelectorAll('.content-body h2, .content-body h3');
-            let currentSection = '';
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                
-                if (pageYOffset >= (sectionTop - 100)) {
-                    currentSection = '#' + section.getAttribute('id');
-                }
-            });
-            
-            document.querySelectorAll('.toc a').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === currentSection) {
-                    link.classList.add('active');
-                }
-            });
-        });
-        
-        // Social sharing
-        const pageUrl = encodeURIComponent(window.location.href);
-        const pageTitle = encodeURIComponent(document.title);
-        
-        document.querySelector('.share-twitter').href = `https://twitter.com/intent/tweet?url=${pageUrl}&text=${pageTitle}`;
-        document.querySelector('.share-linkedin').href = `https://www.linkedin.com/shareArticle?mini=true&url=${pageUrl}&title=${pageTitle}`;
-        document.querySelector('.share-facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
-        
-        document.querySelector('.share-copy').addEventListener('click', function(e) {
-            e.preventDefault();
-            navigator.clipboard.writeText(window.location.href);
-            alert('Link copied to clipboard!');
-        });
-        
-        // Feedback buttons
-        document.querySelectorAll('.feedback button').forEach(button => {
-            button.addEventListener('click', function() {
-                // Here you would typically send feedback to your backend
-                alert('Thanks for your feedback!');
-            });
-        });
-    </script>
-</body>
-</html>
+
+        // Smooth scrolling for TOC links
+        document.querySelectorAll('.
