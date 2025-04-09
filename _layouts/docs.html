@@ -201,9 +201,9 @@
     <style>
       /* Documentation Layout Variables */
       :root {
-        --docs-primary: #4f46e5;
-        --docs-primary-dark: #4338ca;
-        --docs-primary-light: #6366f1;
+        --docs-primary: var(--bulma-primary);
+        --docs-primary-dark: var(--bulma-primary-45);
+        --docs-primary-light: var(--bulma-primary-45-invert);
         --docs-text: #1e293b;
         --docs-text-light: #64748b;
         --docs-text-lighter: #94a3b8;
@@ -422,7 +422,7 @@
       }
 
       .docs-title {
-        font-size: 2rem;
+        font-size: 2.5rem;
         font-weight: 700;
         margin-bottom: 1rem;
         line-height: 1.3;
@@ -430,7 +430,7 @@
 
       .docs-subtitle {
         color: var(--docs-text-light);
-        font-size: 1.125rem;
+        font-size: 1.5rem;
         max-width: 700px;
       }
 
