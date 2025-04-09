@@ -5,7 +5,7 @@
     {% include im-navbar.html %}
 
     <!-- Documentation Layout -->
-    <div class="section docs-container mt-5">
+    <div class="docs-container">
       <!-- Mobile Menu Toggle -->
       <button class="docs-mobile-toggle is-hidden-desktop" id="docsMobileToggle">
         <span class="icon">
@@ -28,7 +28,7 @@
           <!-- Search Box -->
           <div class="docs-search">
             <div class="docs-search-inner">
-              <input type="text" placeholder="Search documentation..." class="docs-search-input">
+              <input type="text" placeholder="Search documentation..." class="docs-search-input" id="docsSearchInput">
               <button class="docs-search-button">
                 <i class="fas fa-search"></i>
               </button>
@@ -36,7 +36,7 @@
           </div>
 
           <!-- Documentation Menu -->
-          <nav class="docs-menu">
+          <nav class="docs-menu" id="docsMenu">
             {% for item in site.data.documentation.docs %}
               <div class="docs-menu-section">
                 <h3 class="docs-menu-label">
@@ -51,7 +51,8 @@
                           {% for subsubitem in subitem.items %}
                             <li class="docs-menu-item">
                               <a href="{{ site.baseurl }}{{ subsubitem.link }}" 
-                                 class="docs-menu-link {% if page.url == subsubitem.link %}is-active{% endif %}">
+                                 class="docs-menu-link {% if page.url == subsubitem.link %}is-active{% endif %}"
+                                 data-search="{{ subsubitem.name | downcase }} {{ subitem.name | downcase }} {{ item.label | downcase }}">
                                 {{ subsubitem.name }}
                               </a>
                             </li>
@@ -61,7 +62,8 @@
                     {% else %}
                       <li class="docs-menu-item">
                         <a href="{{ site.baseurl }}{{ subitem.link }}" 
-                           class="docs-menu-link {% if page.url == subitem.link %}is-active{% endif %}">
+                           class="docs-menu-link {% if page.url == subitem.link %}is-active{% endif %}"
+                           data-search="{{ subitem.name | downcase }} {{ item.label | downcase }}">
                           {{ subitem.name }}
                         </a>
                       </li>
@@ -239,6 +241,7 @@
         overflow-y: auto;
         padding: 1.5rem 0;
         flex-shrink: 0;
+        transition: transform 0.3s ease;
       }
 
       .docs-sidebar-inner {
@@ -361,6 +364,12 @@
         margin-left: 0.75rem;
         padding-left: 0.75rem;
         border-left: 1px solid var(--docs-border);
+      }
+
+      /* Hidden elements for search filtering */
+      .docs-menu-section.hidden,
+      .docs-menu-item.hidden {
+        display: none;
       }
 
       /* Main Content */
@@ -731,6 +740,21 @@
         justify-content: center;
       }
 
+      /* Mobile sidebar state */
+      @media (max-width: 768px) {
+        .docs-sidebar {
+          position: fixed;
+          left: -280px;
+          top: 3.25rem;
+          z-index: 40;
+          transition: transform 0.3s ease;
+        }
+        
+        .docs-sidebar.is-active {
+          transform: translateX(280px);
+        }
+      }
+
       /* Responsive Styles */
       @media (max-width: 1200px) {
         .docs-toc {
@@ -740,25 +764,6 @@
         .docs-main {
           max-width: 100%;
           padding-right: 2rem;
-        }
-      }
-
-      @media (max-width: 992px) {
-        .docs-sidebar {
-          position: fixed;
-          left: -280px;
-          top: 3.25rem;
-          z-index: 40;
-          transition: left 0.3s ease;
-        }
-        
-        .docs-sidebar.is-active {
-          left: 0;
-        }
-        
-        .docs-main {
-          padding-left: 2rem;
-          margin-left: 0;
         }
       }
 
@@ -788,14 +793,64 @@
 
     <!-- JavaScript -->
     <script>
-      // Mobile menu toggle
-      document.addEventListener('DOMContentLoaded', () => {
+      document.addEventListener('DOMContentLoaded', function() {
+        // Mobile menu toggle functionality
         const mobileToggle = document.getElementById('docsMobileToggle');
         const sidebar = document.getElementById('docsSidebar');
         
         if (mobileToggle && sidebar) {
-          mobileToggle.addEventListener('click', () => {
+          mobileToggle.addEventListener('click', function() {
             sidebar.classList.toggle('is-active');
+            
+            // Toggle aria-expanded attribute
+            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !isExpanded);
+          });
+        }
+
+        // Search functionality
+        const searchInput = document.getElementById('docsSearchInput');
+        const menuItems = document.querySelectorAll('.docs-menu-item');
+        const menuSections = document.querySelectorAll('.docs-menu-section');
+        
+        if (searchInput) {
+          searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            if (searchTerm.length > 0) {
+              // Search through menu items
+              let hasVisibleItems = false;
+              
+              menuItems.forEach(item => {
+                const link = item.querySelector('.docs-menu-link');
+                const searchData = link.getAttribute('data-search');
+                
+                if (searchData.includes(searchTerm)) {
+                  item.classList.remove('hidden');
+                  hasVisibleItems = true;
+                  
+                  // Show parent sections if item is visible
+                  let parent = item.closest('.docs-menu-section');
+                  if (parent) parent.classList.remove('hidden');
+                } else {
+                  item.classList.add('hidden');
+                }
+              });
+              
+              // Hide sections with no visible items
+              menuSections.forEach(section => {
+                const visibleItems = section.querySelectorAll('.docs-menu-item:not(.hidden)');
+                if (visibleItems.length === 0) {
+                  section.classList.add('hidden');
+                } else {
+                  section.classList.remove('hidden');
+                }
+              });
+            } else {
+              // Show all items when search is empty
+              menuItems.forEach(item => item.classList.remove('hidden'));
+              menuSections.forEach(section => section.classList.remove('hidden'));
+            }
           });
         }
 
@@ -839,6 +894,19 @@
               link.classList.add('is-active');
             }
           });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+          if (sidebar && sidebar.classList.contains('is-active')) {
+            const isClickInsideSidebar = sidebar.contains(e.target);
+            const isClickOnToggle = mobileToggle.contains(e.target);
+            
+            if (!isClickInsideSidebar && !isClickOnToggle) {
+              sidebar.classList.remove('is-active');
+              mobileToggle.setAttribute('aria-expanded', 'false');
+            }
+          }
         });
       });
     </script>
