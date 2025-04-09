@@ -5,192 +5,245 @@
     {% include im-navbar.html %}
     
     <!-- Documentation Layout -->
-    <div class="container">
-      <!-- Mobile Menu Toggle -->
-      <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="3" y1="12" x2="21" y2="12"></line>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <line x1="3" y1="18" x2="21" y2="18"></line>
-        </svg>
-      </button>
-      
-      <!-- Left Sidebar - Documentation Menu -->
-      <aside class="sidebar-left" id="docsSidebar">
-        <div class="sidebar-left-inner">
-          <!-- Brand Logo -->
-          <div class="brand">
-            <a href="{{ site.baseurl }}/" class="docs-brand-link">
-              <img src="{{ site.logo | default: '/assets/logos/logo.svg' }}" alt="{{ site.title }} Logo">
-              <span>Documentation</span>
-            </a>
-          </div>
-
-          <!-- Search Box -->
-          <div class="search">
-            <input type="text" placeholder="Search documentation..." id="docsSearchInput">
-          </div>
-
-          <!-- Documentation Menu -->
-          <nav class="docs-menu">
-            {% for item in site.data.documentation.docs %}
-              <div class="menu-section">
-                <h3>{{ item.label }}</h3>
-                <ul>
-                  {% for subitem in item.items %}
-                    {% if subitem.items %}
-                      <li class="menu-item">
-                        <a>{{ subitem.name }}</a>
-                        <div class="submenu">
-                          {% for subsubitem in subitem.items %}
-                            <div class="menu-item {% if page.url == subsubitem.link %}active{% endif %}">
-                              <a href="{{ site.baseurl }}{{ subsubitem.link }}" 
-                                 data-search="{{ subsubitem.name | downcase }} {{ subitem.name | downcase }} {{ item.label | downcase }}">
-                                {{ subsubitem.name }}
-                              </a>
-                            </div>
-                          {% endfor %}
-                        </div>
-                      </li>
-                    {% else %}
-                      <li class="menu-item {% if page.url == subitem.link %}active{% endif %}">
-                        <a href="{{ site.baseurl }}{{ subitem.link }}" 
-                           data-search="{{ subitem.name | downcase }} {{ item.label | downcase }}">
-                          {{ subitem.name }}
-                        </a>
-                      </li>
-                    {% endif %}
-                  {% endfor %}
-                </ul>
-              </div>
-            {% endfor %}
-          </nav>
-        </div>
-      </aside>
-
-      <!-- Main Content Area -->
-      <main class="main-content">
-        <!-- Breadcrumbs -->
-        <nav class="breadcrumbs">
-          <ul>
-            <li><a href="{{ site.baseurl }}/">Home</a></li>
-            <li><a href="{{ site.baseurl }}/docs/">Documentation</a></li>
-            {% if page.category %}
-              <li><a href="#">{{ page.category }}</a></li>
-            {% endif %}
-            <li>{{ page.title }}</li>
-          </ul>
-        </nav>
-
-        <!-- Page Header -->
-        <header class="content-header">
-          <h1>{{ page.title }}</h1>
-          {% if page.subtitle %}
-            <p>{{ page.subtitle }}</p>
-          {% endif %}
-          
-          {% if page.last_modified_at %}
-            <div class="last-updated">
-              Last updated: {{ page.last_modified_at | date: "%B %d, %Y" }}
+    <div class="section">
+      <div class="columns is-gapless">
+        <!-- Mobile Menu Toggle -->
+        <button class="docs-mobile-toggle button is-primary is-hidden-desktop" id="docsMobileToggle" aria-expanded="false" aria-controls="docsSidebar">
+          <span class="icon">
+            <i class="fas fa-bars"></i>
+          </span>
+          <span>Menu</span>
+        </button>
+        
+        <!-- Left Sidebar - Documentation Menu -->
+        <aside class="column is-2 is-hidden-mobile" id="docsSidebar">
+          <div class="docs-sidebar-inner panel is-sticky">
+            <!-- Brand Logo -->
+            <div class="docs-brand panel-block">
+              <a href="{{ site.baseurl }}/" class="docs-brand-link">
+                <figure class="image is-32x32 mr-2">
+                  <img src="{{ site.logo | default: '/assets/logos/logo.svg' }}" alt="{{ site.title }} Logo">
+                </figure>
+                <span class="has-text-weight-bold">Documentation</span>
+              </a>
             </div>
-          {% endif %}
-        </header>
 
-        <!-- Content -->
-        <div class="content-body">
-          {{ content }}
-        </div>
+            <!-- Search Box -->
+            <div class="docs-search panel-block">
+              <div class="control has-icons-left is-expanded">
+                <input class="input is-small" type="text" placeholder="Search documentation..." id="docsSearchInput">
+                <span class="icon is-left">
+                  <i class="fas fa-search"></i>
+                </span>
+              </div>
+            </div>
 
-        <!-- Page Footer with Feedback and Navigation -->
-        <footer class="content-footer">
-          <div class="pagination">
-            {% if page.previous %}
-              <a href="{{ site.baseurl }}{{ page.previous.url }}" class="prev">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-                Previous: {{ page.previous.title }}
-              </a>
+            <!-- Documentation Menu -->
+            <nav class="docs-menu menu">
+              {% for item in site.data.documentation.docs %}
+                <div class="docs-menu-section">
+                  <p class="menu-label">
+                    <span class="icon-text">
+                      <span class="icon">
+                        <i class="{{ item.icon }}"></i>
+                      </span>
+                      <span>{{ item.label }}</span>
+                    </span>
+                  </p>
+                  <ul class="menu-list">
+                    {% for subitem in item.items %}
+                      {% if subitem.items %}
+                        <li>
+                          <a>{{ subitem.name }}</a>
+                          <ul>
+                            {% for subsubitem in subitem.items %}
+                              <li>
+                                <a href="{{ site.baseurl }}{{ subsubitem.link }}" 
+                                   class="{% if page.url == subsubitem.link %}is-active{% endif %}"
+                                   data-search="{{ subsubitem.name | downcase }} {{ subitem.name | downcase }} {{ item.label | downcase }}">
+                                  {{ subsubitem.name }}
+                                </a>
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        </li>
+                      {% else %}
+                        <li>
+                          <a href="{{ site.baseurl }}{{ subitem.link }}" 
+                             class="{% if page.url == subitem.link %}is-active{% endif %}"
+                             data-search="{{ subitem.name | downcase }} {{ item.label | downcase }}">
+                            {{ subitem.name }}
+                          </a>
+                        </li>
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endfor %}
+            </nav>
+          </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="docs-main column is-8">
+          <!-- Breadcrumbs -->
+          <nav class="docs-breadcrumb breadcrumb" aria-label="breadcrumbs">
+            <ul>
+              <li><a href="{{ site.baseurl }}/">Home</a></li>
+              <li><a href="{{ site.baseurl }}/docs/">Documentation</a></li>
+              {% if page.category %}
+                <li><a href="#">{{ page.category }}</a></li>
+              {% endif %}
+              <li class="is-active"><a href="#" aria-current="page">{{ page.title }}</a></li>
+            </ul>
+          </nav>
+
+          <!-- Page Header -->
+          <header class="docs-header mb-5">
+            <h1 class="title is-2">{{ page.title }}</h1>
+            {% if page.subtitle %}
+              <p class="subtitle is-4 has-text-grey">{{ page.subtitle }}</p>
             {% endif %}
-            {% if page.next %}
-              <a href="{{ site.baseurl }}{{ page.next.url }}" class="next">
-                Next: {{ page.next.title }}
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </a>
+            
+            {% if page.last_modified_at %}
+              <div class="docs-last-updated has-text-grey is-size-7">
+                Last updated: {{ page.last_modified_at | date: "%B %d, %Y" }}
+              </div>
             {% endif %}
-          </div>
-          
-          <div class="feedback">
-            <p>Was this helpful?</p>
-            <button class="docs-feedback-button like">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
-              </svg>
-              Yes
-            </button>
-            <button class="docs-feedback-button dislike">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path>
-              </svg>
-              No
-            </button>
-          </div>
-        </footer>
-      </main>
+          </header>
 
-      <!-- Right Sidebar - Table of Contents -->
-      <aside class="sidebar-right">
-        <div class="toc">
-          <h3>On this page</h3>
-          {% include utility/toc.html html=content class="menu-list" h_min=2 h_max=3 %}
-        </div>
-
-        {% if site.docs.show_ads %}
-        <div class="ad-container">
-          <span class="ad-label">Sponsored</span>
-          <img src="https://via.placeholder.com/250" alt="Advertisement">
-        </div>
-        {% endif %}
-
-        <div class="author-card">
-          <img src="{{ page.author_image | default: 'https://via.placeholder.com/48' }}" alt="Author Avatar" class="author-avatar">
-          <div class="author-info">
-            <h4>{{ page.author | default: 'Documentation Team' }}</h4>
-            <p>{{ page.author_role | default: 'Technical Writer' }}</p>
+          <!-- Content -->
+          <div class="docs-content content">
+            {{ content }}
           </div>
-        </div>
 
-        <div class="social-share">
-          <h4>Share this page</h4>
-          <div class="social-icons">
-            <a href="#" class="docs-share-twitter" aria-label="Share on Twitter">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-              </svg>
-            </a>
-            <a href="#" class="docs-share-linkedin" aria-label="Share on LinkedIn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                <rect x="2" y="9" width="4" height="12"></rect>
-                <circle cx="4" cy="4" r="2"></circle>
-              </svg>
-            </a>
-            <a href="#" class="docs-share-facebook" aria-label="Share on Facebook">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-              </svg>
-            </a>
-            <a href="#" class="docs-share-copy" aria-label="Copy link">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-              </svg>
-            </a>
+          <!-- Page Footer with Feedback and Navigation -->
+          <footer class="docs-footer mt-6">
+            <div class="docs-feedback field is-grouped is-grouped-multiline mb-5">
+              <div class="control">
+                <p class="is-size-6">Was this helpful?</p>
+              </div>
+              <div class="control">
+                <button class="docs-feedback-button button is-small is-success">
+                  <span class="icon">
+                    <i class="fas fa-thumbs-up"></i>
+                  </span>
+                  <span>Yes</span>
+                </button>
+              </div>
+              <div class="control">
+                <button class="docs-feedback-button button is-small is-danger">
+                  <span class="icon">
+                    <i class="fas fa-thumbs-down"></i>
+                  </span>
+                  <span>No</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="docs-pagination columns">
+              {% if page.previous %}
+                <div class="column is-6">
+                  <a href="{{ site.baseurl }}{{ page.previous.url }}" class="docs-pagination-link button is-light is-fullwidth">
+                    <span class="icon">
+                      <i class="fas fa-arrow-left"></i>
+                    </span>
+                    <span>
+                      <span class="has-text-grey is-size-7">Previous</span>
+                      <span class="is-size-6">{{ page.previous.title }}</span>
+                    </span>
+                  </a>
+                </div>
+              {% endif %}
+              {% if page.next %}
+                <div class="column is-6">
+                  <a href="{{ site.baseurl }}{{ page.next.url }}" class="docs-pagination-link button is-light is-fullwidth">
+                    <span>
+                      <span class="has-text-grey is-size-7">Next</span>
+                      <span class="is-size-6">{{ page.next.title }}</span>
+                    </span>
+                    <span class="icon">
+                      <i class="fas fa-arrow-right"></i>
+                    </span>
+                  </a>
+                </div>
+              {% endif %}
+            </div>
+          </footer>
+        </main>
+
+        <!-- Right Sidebar - Table of Contents -->
+        <aside class="column is-2 is-hidden-mobile">
+          <div class="docs-toc-inner is-sticky">
+            <div class="mb-5">
+              <p class="menu-label">On this page</p>
+              {% include utility/toc.html html=content class="menu-list" h_min=2 h_max=3 %}
+            </div>
+
+            {% if site.docs.show_ads %}
+              <div class="docs-ad box mb-5">
+                <span class="tag is-light is-small is-uppercase">Advertisement</span>
+                <div class="mt-2">
+                  <img src="https://via.placeholder.com/250" alt="Advertisement">
+                </div>
+              </div>
+            {% endif %}
+
+            <div class="docs-author box mb-5">
+              <article class="media">
+                <figure class="media-left">
+                  <p class="image is-48x48">
+                    <img class="is-rounded" src="{{ page.author_image | default: 'https://via.placeholder.com/48' }}" alt="Author avatar">
+                  </p>
+                </figure>
+                <div class="media-content">
+                  <div class="content">
+                    <p>
+                      <strong>{{ page.author | default: 'Documentation Team' }}</strong>
+                      <br>
+                      <small class="has-text-grey">{{ page.author_role | default: 'Technical Writer' }}</small>
+                    </p>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div class="docs-social box">
+              <p class="menu-label">Share this page</p>
+              <div class="field is-grouped">
+                <p class="control">
+                  <a class="button is-small docs-share-twitter" aria-label="Share on Twitter">
+                    <span class="icon">
+                      <i class="fab fa-twitter"></i>
+                    </span>
+                  </a>
+                </p>
+                <p class="control">
+                  <a class="button is-small docs-share-linkedin" aria-label="Share on LinkedIn">
+                    <span class="icon">
+                      <i class="fab fa-linkedin"></i>
+                    </span>
+                  </a>
+                </p>
+                <p class="control">
+                  <a class="button is-small docs-share-facebook" aria-label="Share on Facebook">
+                    <span class="icon">
+                      <i class="fab fa-facebook"></i>
+                    </span>
+                  </a>
+                </p>
+                <p class="control">
+                  <a class="button is-small docs-share-copy" aria-label="Copy link">
+                    <span class="icon">
+                      <i class="fas fa-link"></i>
+                    </span>
+                  </a>
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-      </aside>
+        </aside>
+      </div>
     </div>
 
     {% include footer.html %}
@@ -198,14 +251,14 @@
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         // Mobile menu toggle functionality
-        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const docsMobileToggle = document.getElementById('docsMobileToggle');
         const docsSidebar = document.getElementById('docsSidebar');
         
-        if (mobileMenuToggle && docsSidebar) {
-          mobileMenuToggle.addEventListener('click', function() {
+        if (docsMobileToggle && docsSidebar) {
+          docsMobileToggle.addEventListener('click', function() {
             const isExpanded = this.getAttribute('aria-expanded') === 'true';
             this.setAttribute('aria-expanded', !isExpanded);
-            docsSidebar.classList.toggle('active');
+            docsSidebar.classList.toggle('is-active');
             
             // Toggle body overflow when menu is open
             document.body.style.overflow = isExpanded ? '' : 'hidden';
@@ -214,14 +267,14 @@
 
         // Close menu when clicking outside or pressing Escape
         document.addEventListener('click', function(e) {
-          if (docsSidebar && docsSidebar.classList.contains('active')) {
+          if (docsSidebar && docsSidebar.classList.contains('is-active')) {
             const isClickInsideSidebar = docsSidebar.contains(e.target);
-            const isClickOnToggle = mobileMenuToggle && mobileMenuToggle.contains(e.target);
+            const isClickOnToggle = docsMobileToggle && docsMobileToggle.contains(e.target);
             
             if (!isClickInsideSidebar && !isClickOnToggle) {
-              docsSidebar.classList.remove('active');
-              if (mobileMenuToggle) {
-                mobileMenuToggle.setAttribute('aria-expanded', 'false');
+              docsSidebar.classList.remove('is-active');
+              if (docsMobileToggle) {
+                docsMobileToggle.setAttribute('aria-expanded', 'false');
                 document.body.style.overflow = '';
               }
             }
@@ -229,10 +282,10 @@
         });
 
         document.addEventListener('keydown', function(e) {
-          if (e.key === 'Escape' && docsSidebar && docsSidebar.classList.contains('active')) {
-            docsSidebar.classList.remove('active');
-            if (mobileMenuToggle) {
-              mobileMenuToggle.setAttribute('aria-expanded', 'false');
+          if (e.key === 'Escape' && docsSidebar && docsSidebar.classList.contains('is-active')) {
+            docsSidebar.classList.remove('is-active');
+            if (docsMobileToggle) {
+              docsMobileToggle.setAttribute('aria-expanded', 'false');
               document.body.style.overflow = '';
             }
           }
@@ -240,7 +293,7 @@
 
         // Search functionality
         const docsSearchInput = document.getElementById('docsSearchInput');
-        const docsMenuSections = document.querySelectorAll('.docs-menu > .menu-section');
+        const docsMenuSections = document.querySelectorAll('.docs-menu > div');
         
         if (docsSearchInput) {
           docsSearchInput.addEventListener('input', function() {
@@ -248,8 +301,9 @@
             
             if (searchTerm.length > 0) {
               docsMenuSections.forEach(section => {
-                const menuLabel = section.querySelector('h3');
-                const menuItems = section.querySelectorAll('.menu-item');
+                const menuLabel = section.querySelector('.menu-label');
+                const menuList = section.querySelector('.menu-list');
+                const menuItems = menuList.querySelectorAll('li');
                 
                 let hasVisibleItems = false;
                 
@@ -268,6 +322,7 @@
                 if (hasVisibleItems) {
                   section.style.display = 'block';
                   menuLabel.style.display = 'block';
+                  menuList.style.display = 'block';
                 } else {
                   section.style.display = 'none';
                 }
@@ -276,10 +331,12 @@
               // Show all items when search is empty
               docsMenuSections.forEach(section => {
                 section.style.display = 'block';
-                const menuLabel = section.querySelector('h3');
-                const menuItems = section.querySelectorAll('.menu-item');
+                const menuLabel = section.querySelector('.menu-label');
+                const menuList = section.querySelector('.menu-list');
+                const menuItems = menuList.querySelectorAll('li');
                 
                 menuLabel.style.display = 'block';
+                menuList.style.display = 'block';
                 menuItems.forEach(item => {
                   item.style.display = 'block';
                 });
@@ -289,4 +346,109 @@
         }
 
         // Smooth scrolling for TOC links
-        document.querySelectorAll('.
+        document.querySelectorAll('.docs-toc-inner .menu-list a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetElement = document.querySelector(this.hash);
+            
+            if (targetElement) {
+              window.scrollTo({
+                top: targetElement.offsetTop - 20,
+                behavior: 'smooth'
+              });
+              
+              history.pushState(null, null, this.hash);
+            }
+          });
+        });
+
+        // Highlight current section in TOC while scrolling
+        const highlightCurrentSection = () => {
+          const sections = document.querySelectorAll('.docs-content h2[id], .docs-content h3[id]');
+          let currentSection = '';
+          
+          sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (window.scrollY >= sectionTop - 100) {
+              currentSection = '#' + section.id;
+            }
+          });
+          
+          document.querySelectorAll('.docs-toc-inner .menu-list a').forEach(link => {
+            link.classList.remove('is-active');
+            if (link.getAttribute('href') === currentSection) {
+              link.classList.add('is-active');
+            }
+          });
+        };
+
+        window.addEventListener('scroll', highlightCurrentSection);
+        highlightCurrentSection(); // Run once on load
+
+        // Social sharing functionality
+        const pageUrl = encodeURIComponent(window.location.href);
+        const pageTitle = encodeURIComponent(document.title);
+        
+        document.querySelector('.docs-share-twitter').href = 
+          `https://twitter.com/intent/tweet?url=${pageUrl}&text=${pageTitle}`;
+        document.querySelector('.docs-share-linkedin').href = 
+          `https://www.linkedin.com/shareArticle?mini=true&url=${pageUrl}&title=${pageTitle}`;
+        document.querySelector('.docs-share-facebook').href = 
+          `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
+        
+        document.querySelector('.docs-share-copy').addEventListener('click', (e) => {
+          e.preventDefault();
+          navigator.clipboard.writeText(window.location.href);
+          // Show a small notification
+          const notification = document.createElement('div');
+          notification.className = 'notification is-success is-light is-small';
+          notification.textContent = 'Link copied to clipboard!';
+          document.body.appendChild(notification);
+          setTimeout(() => notification.remove(), 2000);
+        });
+
+        // Feedback buttons
+        document.querySelectorAll('.docs-feedback-button').forEach(button => {
+          button.addEventListener('click', () => {
+            // Here you would typically send feedback to your backend
+            const notification = document.createElement('div');
+            notification.className = 'notification is-success is-light is-small';
+            notification.textContent = 'Thanks for your feedback!';
+            document.querySelector('.docs-feedback').appendChild(notification);
+            setTimeout(() => notification.remove(), 2000);
+          });
+        });
+      });
+    </script>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "{{ page.title }}",
+      "description": "{{ page.description | default: page.excerpt | strip_html | strip_newlines | truncate: 160 }}",
+      "author": {
+        "@type": "Person",
+        "name": "{{ page.author | default: site.author }}"
+      },
+      "datePublished": "{{ page.date | date_to_xmlschema }}",
+      "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+      "publisher": {
+        "@type": "Organization",
+        "name": "{{ site.title }}",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "{{ site.logo | absolute_url }}"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ page.url | absolute_url }}"
+      }
+    }
+    </script>
+
+    {% include site-before-end.html %}
+  </body>
+</html>
