@@ -3,245 +3,251 @@
   {% include im-head.html %}
   <body>
     {% include im-navbar.html %}
+    
     <!-- Documentation Layout -->
-     <div class="section">
-    <div class="columns">
-      <!-- Mobile Menu Toggle -->
-      <button class="docs-mobile-toggle button is-primary is-hidden-desktop" id="docsMobileToggle" aria-expanded="false" aria-controls="docsSidebar">
-        <span class="icon">
-          <i class="fas fa-bars"></i>
-        </span>
-        <span>Menu</span>
-      </button>
-      <!-- Left Sidebar - Documentation Menu -->
-      <aside class="column is-2 is-hidden-mobile" id="docsSidebar">
-        <div class="docs-sidebar-inner panel">
-          <!-- Brand Logo -->
-          <div class="docs-brand panel-block">
-            <a href="{{ site.baseurl }}/" class="docs-brand-link">
-              <figure class="image is-32x32 mr-2">
-                <img src="{{ site.logo | default: '/assets/logos/logo.svg' }}" alt="{{ site.title }} Logo">
-              </figure>
-              <span class="has-text-weight-bold">Documentation</span>
-            </a>
-          </div>
-
-          <!-- Search Box -->
-          <div class="docs-search panel-block">
-            <div class="control has-icons-left is-expanded">
-              <input class="input is-small" type="text" placeholder="Search documentation..." id="docsSearchInput">
-              <span class="icon is-left">
-                <i class="fas fa-search"></i>
-              </span>
+    <div class="section">
+      <div class="columns is-gapless">
+        <!-- Mobile Menu Toggle -->
+        <button class="docs-mobile-toggle button is-primary is-hidden-desktop" id="docsMobileToggle" aria-expanded="false" aria-controls="docsSidebar">
+          <span class="icon">
+            <i class="fas fa-bars"></i>
+          </span>
+          <span>Menu</span>
+        </button>
+        
+        <!-- Left Sidebar - Documentation Menu -->
+        <aside class="column is-2 is-hidden-mobile" id="docsSidebar">
+          <div class="docs-sidebar-inner panel is-sticky">
+            <!-- Brand Logo -->
+            <div class="docs-brand panel-block">
+              <a href="{{ site.baseurl }}/" class="docs-brand-link">
+                <figure class="image is-32x32 mr-2">
+                  <img src="{{ site.logo | default: '/assets/logos/logo.svg' }}" alt="{{ site.title }} Logo">
+                </figure>
+                <span class="has-text-weight-bold">Documentation</span>
+              </a>
             </div>
-          </div>
 
-          <!-- Documentation Menu -->
-          <nav class="docs-menu menu">
-            {% for item in site.data.documentation.docs %}
-              <div class="docs-menu-section">
-                <p class="menu-label">
-                  <span class="icon-text">
-                    <span class="icon">
-                      <i class="{{ item.icon }}"></i>
+            <!-- Search Box -->
+            <div class="docs-search panel-block">
+              <div class="control has-icons-left is-expanded">
+                <input class="input is-small" type="text" placeholder="Search documentation..." id="docsSearchInput">
+                <span class="icon is-left">
+                  <i class="fas fa-search"></i>
+                </span>
+              </div>
+            </div>
+
+            <!-- Documentation Menu -->
+            <nav class="docs-menu menu">
+              {% for item in site.data.documentation.docs %}
+                <div class="docs-menu-section">
+                  <p class="menu-label">
+                    <span class="icon-text">
+                      <span class="icon">
+                        <i class="{{ item.icon }}"></i>
+                      </span>
+                      <span>{{ item.label }}</span>
                     </span>
-                    <span>{{ item.label }}</span>
-                  </span>
-                </p>
-                <ul class="menu-list">
-                  {% for subitem in item.items %}
-                    {% if subitem.items %}
-                      <li>
-                        <a>{{ subitem.name }}</a>
-                        <ul>
-                          {% for subsubitem in subitem.items %}
-                            <li>
-                              <a href="{{ site.baseurl }}{{ subsubitem.link }}" 
-                                 class="{% if page.url == subsubitem.link %}is-active{% endif %}"
-                                 data-search="{{ subsubitem.name | downcase }} {{ subitem.name | downcase }} {{ item.label | downcase }}">
-                                {{ subsubitem.name }}
-                              </a>
-                            </li>
-                          {% endfor %}
-                        </ul>
-                      </li>
-                    {% else %}
-                      <li>
-                        <a href="{{ site.baseurl }}{{ subitem.link }}" 
-                           class="{% if page.url == subitem.link %}is-active{% endif %}"
-                           data-search="{{ subitem.name | downcase }} {{ item.label | downcase }}">
-                          {{ subitem.name }}
-                        </a>
-                      </li>
-                    {% endif %}
-                  {% endfor %}
-                </ul>
-              </div>
-            {% endfor %}
-          </nav>
-        </div>
-      </aside>
-
-      <!-- Main Content Area -->
-      <main class="docs-main column is-8">
-        <!-- Breadcrumbs -->
-        <nav class="docs-breadcrumb breadcrumb" aria-label="breadcrumbs">
-          <ul>
-            <li><a href="{{ site.baseurl }}/">Home</a></li>
-            <li><a href="{{ site.baseurl }}/docs/">Documentation</a></li>
-            {% if page.category %}
-              <li><a href="#">{{ page.category }}</a></li>
-            {% endif %}
-            <li class="is-active"><a href="#" aria-current="page">{{ page.title }}</a></li>
-          </ul>
-        </nav>
-
-        <!-- Page Header -->
-        <header class="docs-header mb-5">
-          <h1 class="title is-2">{{ page.title }}</h1>
-          {% if page.subtitle %}
-            <p class="subtitle is-4 has-text-grey">{{ page.subtitle }}</p>
-          {% endif %}
-        </header>
-
-        <!-- Content -->
-        <div class="docs-content content">
-          {{ content }}
-        </div>
-
-        <!-- Page Footer with Feedback and Navigation -->
-        <footer class="docs-footer">
-          <div class="docs-feedback field is-grouped is-grouped-multiline mb-5">
-            <div class="control">
-              <p>Was this helpful?</p>
-            </div>
-            <div class="control">
-              <button class="docs-feedback-button button is-small is-success">
-                <span class="icon">
-                  <i class="fas fa-thumbs-up"></i>
-                </span>
-                <span>Yes</span>
-              </button>
-            </div>
-            <div class="control">
-              <button class="docs-feedback-button button is-small is-danger">
-                <span class="icon">
-                  <i class="fas fa-thumbs-down"></i>
-                </span>
-                <span>No</span>
-              </button>
-            </div>
-          </div>
-
-          <div class="docs-pagination columns">
-            {% if page.previous %}
-              <div class="column is-6">
-                <a href="{{ site.baseurl }}{{ page.previous.url }}" class="docs-pagination-link button is-light is-fullwidth">
-                  <span class="icon">
-                    <i class="fas fa-arrow-left"></i>
-                  </span>
-                  <span>
-                    <span class="has-text-grey is-size-7">Previous</span>
-                    <span class="is-size-6">{{ page.previous.title }}</span>
-                  </span>
-                </a>
-              </div>
-            {% endif %}
-            {% if page.next %}
-              <div class="column is-6">
-                <a href="{{ site.baseurl }}{{ page.next.url }}" class="docs-pagination-link button is-light is-fullwidth">
-                  <span>
-                    <span class="has-text-grey is-size-7">Next</span>
-                    <span class="is-size-6">{{ page.next.title }}</span>
-                  </span>
-                  <span class="icon">
-                    <i class="fas fa-arrow-right"></i>
-                  </span>
-                </a>
-              </div>
-            {% endif %}
-          </div>
-        </footer>
-      </main>
-
-      <!-- Right Sidebar - Table of Contents -->
-      <aside class="column is-2 is-hidden-mobile">
-        <div class="docs-toc-inner  is-sticky">
-          <div class="mb-5">
-            <p class="menu-label">On this page</p>
-            {% include utility/toc.html html=content class="menu-list" h_min=2 h_max=3 %}
-          </div>
-
-          <div class="docs-ad box mb-5">
-            <span class="tag is-light is-small is-uppercase">Advertisement</span>
-            <div class="mt-2">
-              <img src="https://via.placeholder.com/250" alt="Advertisement">
-            </div>
-          </div>
-
-          <div class="docs-author box mb-5">
-            <article class="media">
-              <figure class="media-left">
-                <p class="image is-48x48">
-                  <img class="is-rounded" src="https://via.placeholder.com/48" alt="Author avatar">
-                </p>
-              </figure>
-              <div class="media-content">
-                <div class="content">
-                  <p>
-                    <strong>Documentation Team</strong>
-                    <br>
-                    <small class="has-text-grey">Last updated: {{ page.last_modified_at | date: "%b %d, %Y" }}</small>
                   </p>
+                  <ul class="menu-list">
+                    {% for subitem in item.items %}
+                      {% if subitem.items %}
+                        <li>
+                          <a>{{ subitem.name }}</a>
+                          <ul>
+                            {% for subsubitem in subitem.items %}
+                              <li>
+                                <a href="{{ site.baseurl }}{{ subsubitem.link }}" 
+                                   class="{% if page.url == subsubitem.link %}is-active{% endif %}"
+                                   data-search="{{ subsubitem.name | downcase }} {{ subitem.name | downcase }} {{ item.label | downcase }}">
+                                  {{ subsubitem.name }}
+                                </a>
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        </li>
+                      {% else %}
+                        <li>
+                          <a href="{{ site.baseurl }}{{ subitem.link }}" 
+                             class="{% if page.url == subitem.link %}is-active{% endif %}"
+                             data-search="{{ subitem.name | downcase }} {{ item.label | downcase }}">
+                            {{ subitem.name }}
+                          </a>
+                        </li>
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endfor %}
+            </nav>
+          </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="docs-main column is-8">
+          <!-- Breadcrumbs -->
+          <nav class="docs-breadcrumb breadcrumb" aria-label="breadcrumbs">
+            <ul>
+              <li><a href="{{ site.baseurl }}/">Home</a></li>
+              <li><a href="{{ site.baseurl }}/docs/">Documentation</a></li>
+              {% if page.category %}
+                <li><a href="#">{{ page.category }}</a></li>
+              {% endif %}
+              <li class="is-active"><a href="#" aria-current="page">{{ page.title }}</a></li>
+            </ul>
+          </nav>
+
+          <!-- Page Header -->
+          <header class="docs-header mb-5">
+            <h1 class="title is-2">{{ page.title }}</h1>
+            {% if page.subtitle %}
+              <p class="subtitle is-4 has-text-grey">{{ page.subtitle }}</p>
+            {% endif %}
+            
+            {% if page.last_modified_at %}
+              <div class="docs-last-updated has-text-grey is-size-7">
+                Last updated: {{ page.last_modified_at | date: "%B %d, %Y" }}
+              </div>
+            {% endif %}
+          </header>
+
+          <!-- Content -->
+          <div class="docs-content content">
+            {{ content }}
+          </div>
+
+          <!-- Page Footer with Feedback and Navigation -->
+          <footer class="docs-footer mt-6">
+            <div class="docs-feedback field is-grouped is-grouped-multiline mb-5">
+              <div class="control">
+                <p class="is-size-6">Was this helpful?</p>
+              </div>
+              <div class="control">
+                <button class="docs-feedback-button button is-small is-success">
+                  <span class="icon">
+                    <i class="fas fa-thumbs-up"></i>
+                  </span>
+                  <span>Yes</span>
+                </button>
+              </div>
+              <div class="control">
+                <button class="docs-feedback-button button is-small is-danger">
+                  <span class="icon">
+                    <i class="fas fa-thumbs-down"></i>
+                  </span>
+                  <span>No</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="docs-pagination columns">
+              {% if page.previous %}
+                <div class="column is-6">
+                  <a href="{{ site.baseurl }}{{ page.previous.url }}" class="docs-pagination-link button is-light is-fullwidth">
+                    <span class="icon">
+                      <i class="fas fa-arrow-left"></i>
+                    </span>
+                    <span>
+                      <span class="has-text-grey is-size-7">Previous</span>
+                      <span class="is-size-6">{{ page.previous.title }}</span>
+                    </span>
+                  </a>
+                </div>
+              {% endif %}
+              {% if page.next %}
+                <div class="column is-6">
+                  <a href="{{ site.baseurl }}{{ page.next.url }}" class="docs-pagination-link button is-light is-fullwidth">
+                    <span>
+                      <span class="has-text-grey is-size-7">Next</span>
+                      <span class="is-size-6">{{ page.next.title }}</span>
+                    </span>
+                    <span class="icon">
+                      <i class="fas fa-arrow-right"></i>
+                    </span>
+                  </a>
+                </div>
+              {% endif %}
+            </div>
+          </footer>
+        </main>
+
+        <!-- Right Sidebar - Table of Contents -->
+        <aside class="column is-2 is-hidden-mobile">
+          <div class="docs-toc-inner is-sticky">
+            <div class="mb-5">
+              <p class="menu-label">On this page</p>
+              {% include utility/toc.html html=content class="menu-list" h_min=2 h_max=3 %}
+            </div>
+
+            {% if site.docs.show_ads %}
+              <div class="docs-ad box mb-5">
+                <span class="tag is-light is-small is-uppercase">Advertisement</span>
+                <div class="mt-2">
+                  <img src="https://via.placeholder.com/250" alt="Advertisement">
                 </div>
               </div>
-            </article>
-          </div>
+            {% endif %}
 
-          <div class="docs-social box">
-            <p class="menu-label">Share this page</p>
-            <div class="field is-grouped">
-              <p class="control">
-                <a class="button is-small" aria-label="Twitter">
-                  <span class="icon">
-                    <i class="fab fa-twitter"></i>
-                  </span>
-                </a>
-              </p>
-              <p class="control">
-                <a class="button is-small" aria-label="LinkedIn">
-                  <span class="icon">
-                    <i class="fab fa-linkedin"></i>
-                  </span>
-                </a>
-              </p>
-              <p class="control">
-                <a class="button is-small" aria-label="Facebook">
-                  <span class="icon">
-                    <i class="fab fa-facebook"></i>
-                  </span>
-                </a>
-              </p>
-              <p class="control">
-                <a class="button is-small" aria-label="Copy link">
-                  <span class="icon">
-                    <i class="fas fa-link"></i>
-                  </span>
-                </a>
-              </p>
+            <div class="docs-author box mb-5">
+              <article class="media">
+                <figure class="media-left">
+                  <p class="image is-48x48">
+                    <img class="is-rounded" src="{{ page.author_image | default: 'https://via.placeholder.com/48' }}" alt="Author avatar">
+                  </p>
+                </figure>
+                <div class="media-content">
+                  <div class="content">
+                    <p>
+                      <strong>{{ page.author | default: 'Documentation Team' }}</strong>
+                      <br>
+                      <small class="has-text-grey">{{ page.author_role | default: 'Technical Writer' }}</small>
+                    </p>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div class="docs-social box">
+              <p class="menu-label">Share this page</p>
+              <div class="field is-grouped">
+                <p class="control">
+                  <a class="button is-small docs-share-twitter" aria-label="Share on Twitter">
+                    <span class="icon">
+                      <i class="fab fa-twitter"></i>
+                    </span>
+                  </a>
+                </p>
+                <p class="control">
+                  <a class="button is-small docs-share-linkedin" aria-label="Share on LinkedIn">
+                    <span class="icon">
+                      <i class="fab fa-linkedin"></i>
+                    </span>
+                  </a>
+                </p>
+                <p class="control">
+                  <a class="button is-small docs-share-facebook" aria-label="Share on Facebook">
+                    <span class="icon">
+                      <i class="fab fa-facebook"></i>
+                    </span>
+                  </a>
+                </p>
+                <p class="control">
+                  <a class="button is-small docs-share-copy" aria-label="Copy link">
+                    <span class="icon">
+                      <i class="fas fa-link"></i>
+                    </span>
+                  </a>
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </aside>
+        </aside>
+      </div>
     </div>
-  </div>
 
     {% include footer.html %}
 
-    <!-- Custom CSS using Bulma variables and custom variables -->
-
-
-    <!-- JavaScript -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         // Mobile menu toggle functionality
@@ -340,7 +346,7 @@
         }
 
         // Smooth scrolling for TOC links
-        document.querySelectorAll('.docs-toc .menu-list a[href^="#"]').forEach(anchor => {
+        document.querySelectorAll('.docs-toc-inner .menu-list a[href^="#"]').forEach(anchor => {
           anchor.addEventListener('click', function(e) {
             e.preventDefault();
             const targetElement = document.querySelector(this.hash);
@@ -368,7 +374,7 @@
             }
           });
           
-          document.querySelectorAll('.docs-toc .menu-list a').forEach(link => {
+          document.querySelectorAll('.docs-toc-inner .menu-list a').forEach(link => {
             link.classList.remove('is-active');
             if (link.getAttribute('href') === currentSection) {
               link.classList.add('is-active');
@@ -378,6 +384,40 @@
 
         window.addEventListener('scroll', highlightCurrentSection);
         highlightCurrentSection(); // Run once on load
+
+        // Social sharing functionality
+        const pageUrl = encodeURIComponent(window.location.href);
+        const pageTitle = encodeURIComponent(document.title);
+        
+        document.querySelector('.docs-share-twitter').href = 
+          `https://twitter.com/intent/tweet?url=${pageUrl}&text=${pageTitle}`;
+        document.querySelector('.docs-share-linkedin').href = 
+          `https://www.linkedin.com/shareArticle?mini=true&url=${pageUrl}&title=${pageTitle}`;
+        document.querySelector('.docs-share-facebook').href = 
+          `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
+        
+        document.querySelector('.docs-share-copy').addEventListener('click', (e) => {
+          e.preventDefault();
+          navigator.clipboard.writeText(window.location.href);
+          // Show a small notification
+          const notification = document.createElement('div');
+          notification.className = 'notification is-success is-light is-small';
+          notification.textContent = 'Link copied to clipboard!';
+          document.body.appendChild(notification);
+          setTimeout(() => notification.remove(), 2000);
+        });
+
+        // Feedback buttons
+        document.querySelectorAll('.docs-feedback-button').forEach(button => {
+          button.addEventListener('click', () => {
+            // Here you would typically send feedback to your backend
+            const notification = document.createElement('div');
+            notification.className = 'notification is-success is-light is-small';
+            notification.textContent = 'Thanks for your feedback!';
+            document.querySelector('.docs-feedback').appendChild(notification);
+            setTimeout(() => notification.remove(), 2000);
+          });
+        });
       });
     </script>
 
@@ -389,8 +429,8 @@
       "headline": "{{ page.title }}",
       "description": "{{ page.description | default: page.excerpt | strip_html | strip_newlines | truncate: 160 }}",
       "author": {
-        "@type": "Organization",
-        "name": "{{ site.title }}"
+        "@type": "Person",
+        "name": "{{ page.author | default: site.author }}"
       },
       "datePublished": "{{ page.date | date_to_xmlschema }}",
       "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
