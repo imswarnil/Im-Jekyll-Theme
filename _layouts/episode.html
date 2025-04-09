@@ -1,0 +1,66 @@
+---
+layout: default
+---
+{% assign series_data = site.webseries | where: "content_type", "series" | where_exp: "item", "item.path contains page.series" | first %}
+
+<div class="episode">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/webseries/">All Series</a></li>
+      <li class="breadcrumb-item"><a href="{{ series_data.url }}">{{ series_data.title }}</a></li>
+      <li class="breadcrumb-item active">Episode {{ page.episode }}</li>
+    </ol>
+  </nav>
+
+  <h1>{{ page.title }}</h1>
+  
+  <div class="episode-meta">
+    <span class="date">{{ page.date | date: "%B %d, %Y" }}</span>
+    <span class="duration">{{ page.duration }}</span>
+  </div>
+
+  {% case page.content_type %}
+    {% when 'video' %}
+      <div class="video-player">
+        <video controls>
+          <source src="{{ page.video_url }}" type="video/mp4">
+          Your browser does not support HTML5 video.
+        </video>
+      </div>
+    {% when 'youtube' %}
+      <div class="video-player">
+        <iframe src="https://www.youtube.com/embed/{{ page.youtube_id }}" frameborder="0" allowfullscreen></iframe>
+      </div>
+  {% endcase %}
+
+  <div class="episode-content">
+    {{ content }}
+  </div>
+
+  {% if page.resources %}
+  <div class="resources">
+    <h3>Resources</h3>
+    <ul>
+      {% for resource in page.resources %}
+        <li><a href="{{ resource.url }}">{{ resource.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <div class="episode-navigation">
+    {% assign all_episodes = site.webseries | where: "content_type", "episode" | where: "series", page.series | sort: "episode" %}
+    {% for ep in all_episodes %}
+      {% if ep.episode == page.episode %}
+        {% unless forloop.first %}
+          {% assign prev = all_episodes[forloop.index0 | minus: 1] %}
+          <a href="{{ prev.url }}" class="btn prev">Previous: {{ prev.title }}</a>
+        {% endunless %}
+        {% unless forloop.last %}
+          {% assign next = all_episodes[forloop.index0 | plus: 1] %}
+          <a href="{{ next.url }}" class="btn next">Next: {{ next.title }}</a>
+        {% endunless %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>

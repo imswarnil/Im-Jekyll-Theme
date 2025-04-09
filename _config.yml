@@ -174,6 +174,9 @@ collections:
     permalink: /videos/:title/
   docs:
     output: true
+  webseries:
+    output: true
+    permalink: /webseries/:path/
   
 
 
@@ -207,6 +210,21 @@ defaults:
       path: "_docs"
     values:
       layout: docs
+  - scope:
+      path: "_webseries/*/index.md"
+    values:
+      layout: "series_detail"
+      content_type: "series"
+  - scope:
+      path: "_webseries/*/*.md"
+      type: "webseries"
+    values:
+      layout: "episode"
+      content_type: "episode"
+  - scope:
+      path: "_webseries/index.md"
+    values:
+      layout: "series_listing"
 
 # 9. Site navigation
 navbar:
