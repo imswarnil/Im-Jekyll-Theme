@@ -3,9 +3,9 @@
   {% include im-head.html %}
   <body>
     {% include im-navbar.html %}
-
     <!-- Documentation Layout -->
-    <div class="docs-container columns is-gapless">
+     <div class="container">
+    <div class="columns">
       <!-- Mobile Menu Toggle -->
       <button class="docs-mobile-toggle button is-primary is-hidden-desktop" id="docsMobileToggle" aria-expanded="false" aria-controls="docsSidebar">
         <span class="icon">
@@ -13,9 +13,8 @@
         </span>
         <span>Menu</span>
       </button>
-
       <!-- Left Sidebar - Documentation Menu -->
-      <aside class="docs-sidebar column is-3 is-hidden-mobile" id="docsSidebar">
+      <aside class="column is-2 is-hidden-mobile" id="docsSidebar">
         <div class="docs-sidebar-inner panel">
           <!-- Brand Logo -->
           <div class="docs-brand panel-block">
@@ -84,7 +83,7 @@
       </aside>
 
       <!-- Main Content Area -->
-      <main class="docs-main column is-6">
+      <main class="docs-main column is-8">
         <!-- Breadcrumbs -->
         <nav class="docs-breadcrumb breadcrumb" aria-label="breadcrumbs">
           <ul>
@@ -166,7 +165,7 @@
       </main>
 
       <!-- Right Sidebar - Table of Contents -->
-      <aside class="docs-toc column is-3 is-hidden-mobile">
+      <aside class="column is-2 is-hidden-mobile">
         <div class="docs-toc-inner panel is-sticky">
           <div class="mb-5">
             <p class="menu-label">On this page</p>
@@ -235,6 +234,7 @@
         </div>
       </aside>
     </div>
+  </div>
 
     {% include footer.html %}
 
