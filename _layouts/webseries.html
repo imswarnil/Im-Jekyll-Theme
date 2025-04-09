@@ -13,7 +13,7 @@
        <div class="series-grid">
          {% assign all_series = site.webseries | where: "is_series", true %}
          {% for series in all_series %}
-           {% include webseries/series_card.html series=series %}
+           {% include webseries/series.html series=series %}
          {% endfor %}
        </div>
      </div>
@@ -85,7 +85,7 @@
        <div class="episodes-list">
          {% assign episodes = site.webseries | where: "series_slug", page.series_slug | where: "is_episode", true | sort: "episode_number" %}
          {% for episode in episodes %}
-           {% include webseries/episode_card.html episode=episode %}
+           {% include webseries/episode.html episode=episode %}
          {% endfor %}
        </div>
      </div>
