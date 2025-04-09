@@ -5,7 +5,7 @@
     {% include im-navbar.html %}
 
     <!-- Documentation Layout -->
-    <div class="docs-container">
+    <div class="docs-container columns is-gapless">
       <!-- Mobile Menu Toggle -->
       <button class="docs-mobile-toggle button is-primary is-hidden-desktop" id="docsMobileToggle" aria-expanded="false" aria-controls="docsSidebar">
         <span class="icon">
@@ -15,8 +15,8 @@
       </button>
 
       <!-- Left Sidebar - Documentation Menu -->
-      <aside class="docs-sidebar menu is-hidden-mobile" id="docsSidebar">
-        <div class="docs-sidebar-inner">
+      <aside class="docs-sidebar column is-3 is-hidden-mobile" id="docsSidebar">
+        <div class="docs-sidebar-inner panel">
           <!-- Brand Logo -->
           <div class="docs-brand panel-block">
             <a href="{{ site.baseurl }}/" class="docs-brand-link">
@@ -38,7 +38,7 @@
           </div>
 
           <!-- Documentation Menu -->
-          <nav class="docs-menu">
+          <nav class="docs-menu menu">
             {% for item in site.data.documentation.docs %}
               <div class="docs-menu-section">
                 <p class="menu-label">
@@ -84,7 +84,7 @@
       </aside>
 
       <!-- Main Content Area -->
-      <main class="docs-main">
+      <main class="docs-main column is-6">
         <!-- Breadcrumbs -->
         <nav class="docs-breadcrumb breadcrumb" aria-label="breadcrumbs">
           <ul>
@@ -166,8 +166,8 @@
       </main>
 
       <!-- Right Sidebar - Table of Contents -->
-      <aside class="docs-toc menu is-hidden-mobile">
-        <div class="docs-toc-inner">
+      <aside class="docs-toc column is-3 is-hidden-mobile">
+        <div class="docs-toc-inner panel is-sticky">
           <div class="mb-5">
             <p class="menu-label">On this page</p>
             {% include utility/toc.html html=content class="menu-list" h_min=2 h_max=3 %}
@@ -238,19 +238,17 @@
 
     {% include footer.html %}
 
-    <!-- Custom CSS using Bulma variables -->
+    <!-- Custom CSS using Bulma variables and custom variables -->
     <style>
       /* Documentation Layout */
       .docs-container {
-        display: flex;
         min-height: calc(100vh - var(--navbar-height, 3.25rem));
       }
 
       /* Left Sidebar */
       .docs-sidebar {
-        width: 280px;
-        background-color: var(--bulma-scheme-main);
-        border-right: 1px solid var(--bulma-border);
+        background-color: var(--background-color);
+        border-right: 1px solid var(--border-color);
         height: calc(100vh - var(--navbar-height, 3.25rem));
         position: fixed;
         top: var(--navbar-height, 3.25rem);
@@ -258,13 +256,7 @@
         overflow-y: auto;
         padding: 1.5rem;
         z-index: 39;
-        transition: transform 0.3s ease;
-      }
-
-      @media screen and (min-width: 1024px) {
-        .docs-sidebar {
-          position: sticky;
-        }
+        transition: transform var(--transition-normal);
       }
 
       .docs-sidebar-inner {
@@ -274,38 +266,28 @@
       }
 
       .docs-brand {
-        padding-bottom: 1.5rem;
-        margin-bottom: 1.5rem;
-        border-bottom: 1px solid var(--bulma-border);
-      }
-
-      .docs-brand-link {
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-        color: var(--bulma-text);
+        padding-bottom: var(--spacing-lg);
+        margin-bottom: var(--spacing-lg);
+        border-bottom: 1px solid var(--border-color);
       }
 
       /* Main Content */
       .docs-main {
-        flex: 1;
-        max-width: 800px;
-        padding: 2rem 3rem;
-        margin-left: 280px;
+        padding: var(--spacing-xl) var(--spacing-xxl);
       }
 
       /* Page Header */
       .docs-header {
-        margin-bottom: 2rem;
-        border-bottom: 1px solid var(--bulma-border);
-        padding-bottom: 1.5rem;
+        margin-bottom: var(--spacing-xl);
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: var(--spacing-lg);
       }
 
       /* Footer */
       .docs-footer {
-        border-top: 1px solid var(--bulma-border);
-        padding-top: 2rem;
-        margin-top: 3rem;
+        border-top: 1px solid var(--border-color);
+        padding-top: var(--spacing-xl);
+        margin-top: var(--spacing-xxl);
       }
 
       /* Pagination */
@@ -319,24 +301,26 @@
 
       /* Right Sidebar - Table of Contents */
       .docs-toc {
-        width: 260px;
-        padding: 2rem 1.5rem;
-        position: sticky;
-        top: var(--navbar-height, 3.25rem);
+        background-color: var(--background-color);
         height: calc(100vh - var(--navbar-height, 3.25rem));
-        overflow-y: auto;
+        padding: var(--spacing-xl) var(--spacing-lg);
+      }
+
+      .docs-toc-inner.is-sticky {
+        position: sticky;
+        top: var(--spacing-lg);
       }
 
       /* Mobile Menu Toggle */
       .docs-mobile-toggle {
         position: fixed;
-        bottom: 1rem;
-        right: 1rem;
+        bottom: var(--spacing-lg);
+        right: var(--spacing-lg);
         z-index: 40;
         border-radius: 50%;
         width: 48px;
         height: 48px;
-        box-shadow: var(--bulma-shadow);
+        box-shadow: var(--shadow-md);
       }
 
       /* Hidden elements for search filtering */
@@ -352,8 +336,7 @@
         }
         
         .docs-main {
-          padding-right: 2rem;
-          margin-left: 0;
+          padding-right: var(--spacing-xl);
           width: 100%;
         }
 
@@ -368,7 +351,7 @@
 
       @media screen and (max-width: 768px) {
         .docs-main {
-          padding: 1.5rem;
+          padding: var(--spacing-lg);
         }
         
         .docs-pagination .column {
@@ -381,14 +364,14 @@
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         // Mobile menu toggle functionality
-        const mobileToggle = document.getElementById('docsMobileToggle');
-        const sidebar = document.getElementById('docsSidebar');
+        const docsMobileToggle = document.getElementById('docsMobileToggle');
+        const docsSidebar = document.getElementById('docsSidebar');
         
-        if (mobileToggle && sidebar) {
-          mobileToggle.addEventListener('click', function() {
+        if (docsMobileToggle && docsSidebar) {
+          docsMobileToggle.addEventListener('click', function() {
             const isExpanded = this.getAttribute('aria-expanded') === 'true';
             this.setAttribute('aria-expanded', !isExpanded);
-            sidebar.classList.toggle('is-active');
+            docsSidebar.classList.toggle('is-active');
             
             // Toggle body overflow when menu is open
             document.body.style.overflow = isExpanded ? '' : 'hidden';
@@ -397,14 +380,14 @@
 
         // Close menu when clicking outside or pressing Escape
         document.addEventListener('click', function(e) {
-          if (sidebar && sidebar.classList.contains('is-active')) {
-            const isClickInsideSidebar = sidebar.contains(e.target);
-            const isClickOnToggle = mobileToggle && mobileToggle.contains(e.target);
+          if (docsSidebar && docsSidebar.classList.contains('is-active')) {
+            const isClickInsideSidebar = docsSidebar.contains(e.target);
+            const isClickOnToggle = docsMobileToggle && docsMobileToggle.contains(e.target);
             
             if (!isClickInsideSidebar && !isClickOnToggle) {
-              sidebar.classList.remove('is-active');
-              if (mobileToggle) {
-                mobileToggle.setAttribute('aria-expanded', 'false');
+              docsSidebar.classList.remove('is-active');
+              if (docsMobileToggle) {
+                docsMobileToggle.setAttribute('aria-expanded', 'false');
                 document.body.style.overflow = '';
               }
             }
@@ -412,25 +395,25 @@
         });
 
         document.addEventListener('keydown', function(e) {
-          if (e.key === 'Escape' && sidebar && sidebar.classList.contains('is-active')) {
-            sidebar.classList.remove('is-active');
-            if (mobileToggle) {
-              mobileToggle.setAttribute('aria-expanded', 'false');
+          if (e.key === 'Escape' && docsSidebar && docsSidebar.classList.contains('is-active')) {
+            docsSidebar.classList.remove('is-active');
+            if (docsMobileToggle) {
+              docsMobileToggle.setAttribute('aria-expanded', 'false');
               document.body.style.overflow = '';
             }
           }
         });
 
         // Search functionality
-        const searchInput = document.getElementById('docsSearchInput');
-        const menuSections = document.querySelectorAll('.docs-menu > div');
+        const docsSearchInput = document.getElementById('docsSearchInput');
+        const docsMenuSections = document.querySelectorAll('.docs-menu > div');
         
-        if (searchInput) {
-          searchInput.addEventListener('input', function() {
+        if (docsSearchInput) {
+          docsSearchInput.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase().trim();
             
             if (searchTerm.length > 0) {
-              menuSections.forEach(section => {
+              docsMenuSections.forEach(section => {
                 const menuLabel = section.querySelector('.menu-label');
                 const menuList = section.querySelector('.menu-list');
                 const menuItems = menuList.querySelectorAll('li');
@@ -459,7 +442,7 @@
               });
             } else {
               // Show all items when search is empty
-              menuSections.forEach(section => {
+              docsMenuSections.forEach(section => {
                 section.style.display = 'block';
                 const menuLabel = section.querySelector('.menu-label');
                 const menuList = section.querySelector('.menu-list');
@@ -476,7 +459,7 @@
         }
 
         // Smooth scrolling for TOC links
-        document.querySelectorAll('.menu-list a[href^="#"]').forEach(anchor => {
+        document.querySelectorAll('.docs-toc .menu-list a[href^="#"]').forEach(anchor => {
           anchor.addEventListener('click', function(e) {
             e.preventDefault();
             const targetElement = document.querySelector(this.hash);
