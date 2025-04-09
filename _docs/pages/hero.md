@@ -4,8 +4,6 @@ title: Hero
 subtitle: Pages
 menubar: docs_menu
 sidebar: false
-redirect_from:
-    - /page-without-hero/
 ---
 
 ## Page Hero

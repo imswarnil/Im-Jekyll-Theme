@@ -51,15 +51,12 @@
       link: /docs/page-components/callouts/
     - name: Cookie Banner
       link: /docs/page-components/cookie-banner/
-    - label: Image Gallery
-      icon: fas fa-image
+    - name: Image Gallery
       items:
         - name: Page
           link: /docs/page-components/page/
         - name: Cookie
           link: /docs/page-components/cookie/
-    - name: Image Gallery
-      link: /docs/page-components/image-gallery/
     - name: Image Modal
       link: /docs/page-components/image-modal/
     - name: Notifications
