@@ -45,205 +45,166 @@ $family-monospace: "Roboto Mono", monospace !default;
   }
 }
 
+
+
+
 /* Variables */
-$primary-color: #3498db;
-$dark-color: #2c3e50;
-$light-color: #ecf0f1;
-$spacing: 1rem;
-$border-radius: 4px;
-
-/* Base Styles */
-.webseries-header {
-  background: $dark-color;
-  color: white;
-  padding: $spacing * 2 0;
-  
-  .back-link {
-    color: rgba(white, 0.7);
-    display: inline-block;
-    margin-bottom: $spacing;
-    
-    &:hover {
-      color: white;
-    }
-  }
-  
-  .series-title {
-    opacity: 0.8;
-    font-size: 1.1rem;
-    margin-top: $spacing/2;
-    
-    a {
-      color: white;
-      text-decoration: underline;
-    }
-  }
+:root {
+  --series-primary: #e50914; /* Netflix red */
+  --series-dark: #141414;
+  --series-light: #f5f5f1;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 $spacing;
+/* Override Bulma defaults */
+.navbar {
+  background-color: var(--series-dark) !important;
 }
 
-/* Series Listing */
+.hero.is-dark {
+  background-color: var(--series-dark);
+}
+
+/* Series Grid */
 .series-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: $spacing * 2;
-  margin: $spacing * 2 0;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
 }
 
 .series-card {
-  border: 1px solid rgba($dark-color, 0.1);
-  border-radius: $border-radius;
-  overflow: hidden;
-  transition: transform 0.2s;
-  color: $dark-color;
-  text-decoration: none;
-  
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  }
-  
-  .series-thumb {
-    height: 180px;
-    background-size: cover;
-    background-position: center;
-  }
-  
-  h3 {
-    margin: $spacing;
-    font-size: 1.3rem;
-  }
-  
-  p {
-    margin: 0 $spacing $spacing;
-    color: lighten($dark-color, 20%);
-  }
+  transition: transform 0.3s ease;
+  position: relative;
 }
 
-/* Series Detail */
-.series-hero {
-  height: 300px;
-  background-size: cover;
-  background-position: center;
-  margin: 0 (-$spacing) $spacing * 2;
-  border-radius: $border-radius;
+.series-card:hover {
+  transform: scale(1.05);
+  z-index: 2;
 }
 
-.series-content {
+.series-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
-  gap: $spacing * 2;
-  
-  .main-content {
-    flex: 1;
-  }
-  
-  .series-sidebar {
-    width: 300px;
-  }
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.episode-list {
-  background: $light-color;
-  padding: $spacing;
-  border-radius: $border-radius;
-  
-  h3 {
-    margin-top: 0;
-  }
+.series-card:hover .series-overlay {
+  opacity: 1;
 }
 
-.episode-link {
-  display: block;
-  padding: $spacing/2 0;
-  border-bottom: 1px solid rgba($dark-color, 0.1);
-  color: $dark-color;
-  text-decoration: none;
-  
-  &.active {
-    font-weight: bold;
-    color: $primary-color;
-  }
-  
-  .episode-number {
-    display: inline-block;
-    width: 2rem;
-    color: rgba($dark-color, 0.6);
-  }
+.series-overlay .icon {
+  color: white;
+  font-size: 3rem;
 }
 
-/* Episode Styles */
+.series-info {
+  padding: 1rem 0;
+}
+
+/* Episode Cards */
+.episode-card {
+  transition: box-shadow 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.episode-card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Video Container */
 .video-container {
   position: relative;
   padding-bottom: 56.25%; /* 16:9 */
   height: 0;
   overflow: hidden;
-  margin-bottom: $spacing * 2;
-  
-  iframe, video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: $border-radius;
-  }
+  margin-bottom: 2rem;
+  background: #000;
+  border-radius: 6px;
 }
 
-.episode-article {
-  line-height: 1.6;
-  
-  h2, h3 {
-    color: $dark-color;
-  }
+.video-container iframe,
+.video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.episode-nav {
+/* Episode Navigation */
+.episode-navigation {
   display: flex;
   justify-content: space-between;
-  margin: $spacing * 2 0;
-  padding: $spacing 0;
-  border-top: 1px solid rgba($dark-color, 0.1);
-  border-bottom: 1px solid rgba($dark-color, 0.1);
-  
-  .nav-button {
-    color: $primary-color;
-    text-decoration: none;
-    font-weight: bold;
-    
-    &.prev {
-      margin-right: auto;
-    }
-    
-    &.next {
-      margin-left: auto;
-    }
-  }
+  margin: 2rem 0;
+  padding: 1rem 0;
+  border-top: 1px solid #dbdbdb;
+  border-bottom: 1px solid #dbdbdb;
 }
 
-/* Footer */
-.webseries-footer {
-  margin-top: $spacing * 3;
-  padding: $spacing 0;
-  border-top: 1px solid rgba($dark-color, 0.1);
-  color: lighten($dark-color, 40%);
+/* Episode Preview in Sidebar */
+.episode-preview {
+  display: flex;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.episode-preview:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.episode-preview figure {
+  width: 120px;
+  min-width: 120px;
+  margin-right: 1rem;
+}
+
+.episode-preview-info {
+  flex-grow: 1;
+}
+
+.episode-preview-info strong {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.episode-preview-info p {
   font-size: 0.9rem;
+  margin-bottom: 0.25rem;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .series-content {
+.episode-preview-info span {
+  font-size: 0.8rem;
+  color: #7a7a7a;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+  .episode-card .columns {
     flex-direction: column;
-    
-    .series-sidebar {
-      width: 100%;
-    }
   }
   
-  .series-hero {
-    height: 200px;
+  .episode-card .column.is-one-quarter {
+    margin-bottom: 1rem;
+  }
+  
+  .episode-preview {
+    flex-direction: column;
+  }
+  
+  .episode-preview figure {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 0.5rem;
   }
 }

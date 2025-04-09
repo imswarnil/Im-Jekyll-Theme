@@ -3,101 +3,180 @@
 {% include im-head.html %}
 <body class="{% if page.content_type %}content-type-{{ page.content_type }}{% endif %} layout-{{ page.layout | default: 'default'}}">
   {% include im-navbar.html %}
-  <header class="webseries-header">
-    <div class="container">
-      <a href="/webseries/" class="back-link">← All Series</a>
-      <h1>{{ page.title }}</h1>
-      
-      {% if page.content_type == 'episode' %}
-        {% assign series = site.webseries | where: "is_series", true | where: "series_slug", page.series_slug | first %}
-        <p class="series-title">Part of: <a href="{{ series.url }}">{{ series.title }}</a></p>
-      {% endif %}
-    </div>
-  </header>
+   <!-- Main Content -->
+   {% if page.is_series_listing %}
+   <!-- Series Listing Page -->
+   <section class="section series-listing">
+     <div class="container">
+       <h1 class="title is-1 has-text-white">Popular Series</h1>
+       
+       <div class="series-grid">
+         {% assign all_series = site.webseries | where: "is_series", true %}
+         {% for series in all_series %}
+           {% include webseries/series_card.html series=series %}
+         {% endfor %}
+       </div>
+     </div>
+   </section>
 
-  <main class="webseries-main container">
-    {% if page.is_series_listing %}
-      <!-- Series listing page -->
-      <div class="series-grid">
-        {% assign all_series = site.webseries | where: "is_series", true %}
-        {% for series in all_series %}
-          <a href="{{ series.url }}" class="series-card">
-            <div class="series-thumb" style="background-image: url('{{ series.thumbnail }}')"></div>
-            <h3>{{ series.title }}</h3>
-            <p>{{ series.description | truncate: 100 }}</p>
-          </a>
-        {% endfor %}
-      </div>
+ {% elsif page.is_series %}
+   <!-- Series Detail Page -->
+   {% include webseries/hero.html %}
+   
+   <section class="section series-detail">
+     <div class="container">
+       <div class="columns">
+         <div class="column is-two-thirds">
+           <div class="content">
+             <h2 class="title is-2">About the Series</h2>
+             {{ content }}
+           </div>
+         </div>
+         
+         <div class="column">
+           <div class="series-meta box">
+             <div class="field is-grouped is-grouped-multiline">
+               <div class="control">
+                 <div class="tags has-addons">
+                   <span class="tag is-dark">Seasons</span>
+                   <span class="tag is-primary">{{ page.seasons | default: 1 }}</span>
+                 </div>
+               </div>
+               
+               <div class="control">
+                 <div class="tags has-addons">
+                   <span class="tag is-dark">Episodes</span>
+                   <span class="tag is-primary">{{ page.episodes | size }}</span>
+                 </div>
+               </div>
+               
+               <div class="control">
+                 <div class="tags has-addons">
+                   <span class="tag is-dark">Rating</span>
+                   <span class="tag is-warning">
+                     {{ page.rating | default: "4.5" }}/5
+                     <span class="icon has-text-warning">
+                       <i class="fas fa-star"></i>
+                     </span>
+                   </span>
+                 </div>
+               </div>
+             </div>
+             
+             <div class="buttons">
+               <button class="button is-primary is-medium">
+                 <span class="icon">
+                   <i class="fas fa-play"></i>
+                 </span>
+                 <span>Watch Trailer</span>
+               </button>
+               <button class="button is-dark is-medium">
+                 <span class="icon">
+                   <i class="fas fa-plus"></i>
+                 </span>
+                 <span>My List</span>
+               </button>
+             </div>
+           </div>
+         </div>
+       </div>
+       
+       <h2 class="title is-2">Episodes</h2>
+       <div class="episodes-list">
+         {% assign episodes = site.webseries | where: "series_slug", page.series_slug | where: "is_episode", true | sort: "episode_number" %}
+         {% for episode in episodes %}
+           {% include webseries/episode_card.html episode=episode %}
+         {% endfor %}
+       </div>
+     </div>
+   </section>
 
-    {% elsif page.is_series %}
-      <!-- Series detail page -->
-      <div class="series-detail">
-        <div class="series-hero" style="background-image: url('{{ page.banner }}')"></div>
-        
-        <div class="series-content">
-          <div class="main-content">
-            {{ content }}
-          </div>
-          
-          <aside class="series-sidebar">
-            <div class="episode-list">
-              <h3>Episodes</h3>
-              {% assign episodes = site.webseries | where: "series_slug", page.series_slug | where: "content_type", "episode" | sort: "episode_number" %}
-              {% for ep in episodes %}
-                <a href="{{ ep.url }}" class="episode-link {% if ep.url == page.url %}active{% endif %}">
-                  <span class="episode-number">#{{ ep.episode_number }}</span>
-                  <span class="episode-title">{{ ep.title }}</span>
-                  <span class="episode-duration">{{ ep.duration }}</span>
-                </a>
-              {% endfor %}
-            </div>
-          </aside>
-        </div>
-      </div>
-
-    {% elsif page.content_type == 'episode' %}
-      <!-- Episode page -->
-      <div class="episode-content">
-        {% if page.media_type == 'youtube' %}
-          <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/{{ page.youtube_id }}" frameborder="0" allowfullscreen></iframe>
-          </div>
-        {% elsif page.media_type == 'video' %}
-          <div class="video-container">
-            <video controls>
-              <source src="{{ page.video_url }}" type="video/mp4">
-            </video>
-          </div>
-        {% endif %}
-
-        <article class="episode-article">
-          {{ content }}
-        </article>
-
-        <div class="episode-nav">
-          {% assign all_eps = site.webseries | where: "series_slug", page.series_slug | where: "content_type", "episode" | sort: "episode_number" %}
-          {% for ep in all_eps %}
-            {% if ep.episode_number == page.episode_number %}
-              {% unless forloop.first %}
-                {% assign prev = all_eps[forloop.index0 | minus: 1] %}
-                <a href="{{ prev.url }}" class="nav-button prev">← {{ prev.title }}</a>
-              {% endunless %}
-              {% unless forloop.last %}
-                {% assign next = all_eps[forloop.index0 | plus: 1] %}
-                <a href="{{ next.url }}" class="nav-button next">{{ next.title }} →</a>
-              {% endunless %}
-            {% endif %}
-          {% endfor %}
-        </div>
-      </div>
-    {% endif %}
-  </main>
-
-  <footer class="webseries-footer">
-    <div class="container">
-      <p>© {{ site.time | date: '%Y' }} Web Series</p>
-    </div>
-  </footer>
+ {% elsif page.is_episode %}
+   <!-- Episode Page -->
+   {% include webseries/hero.html %}
+   
+   <section class="section episode-detail">
+     <div class="container">
+       <nav class="breadcrumb" aria-label="breadcrumbs">
+         <ul>
+           <li><a href="/webseries/">All Series</a></li>
+           <li><a href="/webseries/{{ page.series_slug }}/">{{ page.series_title }}</a></li>
+           <li class="is-active"><a href="#">Episode {{ page.episode_number }}</a></li>
+         </ul>
+       </nav>
+       
+       <div class="columns">
+         <div class="column is-two-thirds">
+           <div class="video-container">
+             {% if page.media_type == "youtube" %}
+               <iframe src="https://www.youtube.com/embed/{{ page.youtube_id }}" frameborder="0" allowfullscreen></iframe>
+             {% else %}
+               <video controls poster="{{ page.episode_thumb | default: site.defaults[0].values.episode_thumb }}">
+                 <source src="{{ page.video_url }}" type="video/mp4">
+               </video>
+             {% endif %}
+           </div>
+           
+           <div class="content episode-description">
+             <h2 class="title is-2">{{ page.title }}</h2>
+             <div class="tags">
+               <span class="tag is-primary">{{ page.duration }}</span>
+               <span class="tag">{{ page.date | date: "%b %d, %Y" }}</span>
+             </div>
+             {{ content }}
+           </div>
+           
+           <div class="episode-navigation">
+             {% assign all_eps = site.webseries | where: "series_slug", page.series_slug | where: "is_episode", true | sort: "episode_number" %}
+             {% for ep in all_eps %}
+               {% if ep.episode_number == page.episode_number %}
+                 {% unless forloop.first %}
+                   {% assign prev = all_eps[forloop.index0 | minus: 1] %}
+                   <a href="{{ prev.url }}" class="button is-dark">
+                     <span class="icon">
+                       <i class="fas fa-arrow-left"></i>
+                     </span>
+                     <span>Previous Episode</span>
+                   </a>
+                 {% endunless %}
+                 {% unless forloop.last %}
+                   {% assign next = all_eps[forloop.index0 | plus: 1] %}
+                   <a href="{{ next.url }}" class="button is-primary">
+                     <span>Next Episode</span>
+                     <span class="icon">
+                       <i class="fas fa-arrow-right"></i>
+                     </span>
+                   </a>
+                 {% endunless %}
+               {% endif %}
+             {% endfor %}
+           </div>
+         </div>
+         
+         <div class="column">
+           <div class="episode-sidebar box">
+             <h3 class="title is-4">More Episodes</h3>
+             {% assign other_eps = site.webseries | where: "series_slug", page.series_slug | where: "is_episode", true | sort: "episode_number" | limit: 5 %}
+             {% for ep in other_eps %}
+               {% unless ep.episode_number == page.episode_number %}
+                 <a href="{{ ep.url }}" class="episode-preview">
+                   <figure class="image is-16by9">
+                     <img src="{{ ep.episode_thumb | default: site.defaults[0].values.episode_thumb }}" alt="{{ ep.title }}">
+                   </figure>
+                   <div class="episode-preview-info">
+                     <strong>Episode {{ ep.episode_number }}</strong>
+                     <p>{{ ep.title }}</p>
+                     <span>{{ ep.duration }}</span>
+                   </div>
+                 </a>
+               {% endunless %}
+             {% endfor %}
+           </div>
+         </div>
+       </div>
+     </div>
+   </section>
+ {% endif %}
 
 </body>
 </html>

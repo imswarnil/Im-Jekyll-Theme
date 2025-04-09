@@ -1,0 +1,29 @@
+<article class="episode-card box">
+    <div class="columns is-vcentered">
+      <div class="column is-one-quarter">
+        <figure class="image is-16by9">
+          <img src="{{ include.episode.episode_thumb | default: site.defaults[0].values.episode_thumb }}" alt="{{ include.episode.title }}">
+        </figure>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="title is-4">
+            <a href="{{ include.episode.url }}">Episode {{ include.episode.episode_number }}: {{ include.episode.title }}</a>
+          </h3>
+          <div class="tags">
+            <span class="tag is-dark">{{ include.episode.date | date: "%b %d, %Y" }}</span>
+            <span class="tag is-info">{{ include.episode.duration }}</span>
+          </div>
+          <p>{{ include.episode.description | truncate: 150 }}</p>
+        </div>
+      </div>
+      <div class="column is-one-fifth">
+        <a href="{{ include.episode.url }}" class="button is-primary is-fullwidth">
+          <span class="icon">
+            <i class="fas fa-play"></i>
+          </span>
+          <span>Watch</span>
+        </a>
+      </div>
+    </div>
+  </article>
