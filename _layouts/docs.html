@@ -8,17 +8,17 @@
     <div class="section">
       <div class="columns is-gapless">
         <!-- Mobile Menu Toggle -->
-        <button class="docs-mobile-toggle button is-primary is-hidden-desktop" id="docsMobileToggle" aria-expanded="false" aria-controls="docsSidebar">
+        <button class="docs-mobile-toggle button is-primary is-hidden-desktop" id="docsMobileToggle">
           <span class="icon">
             <i class="fas fa-bars"></i>
           </span>
           <span>Menu</span>
         </button>
         
-        <!-- Left Sidebar - Documentation Menu -->
+        <!-- Left Sidebar -->
         <aside class="column is-2 is-hidden-mobile" id="docsSidebar">
           <div class="docs-sidebar-inner panel is-sticky">
-            <!-- Brand Logo -->
+            <!-- Branding -->
             <div class="docs-brand panel-block">
               <a href="{{ site.baseurl }}/" class="docs-brand-link">
                 <figure class="image is-32x32 mr-2">
@@ -28,17 +28,17 @@
               </a>
             </div>
 
-            <!-- Search Box -->
+            <!-- Search -->
             <div class="docs-search panel-block">
               <div class="control has-icons-left is-expanded">
-                <input class="input is-small" type="text" placeholder="Search documentation..." id="docsSearchInput">
+                <input class="input is-small" type="text" placeholder="Search docs..." id="docsSearchInput">
                 <span class="icon is-left">
                   <i class="fas fa-search"></i>
                 </span>
               </div>
             </div>
 
-            <!-- Documentation Menu -->
+            <!-- Navigation Menu -->
             <nav class="docs-menu menu">
               {% for item in site.data.documentation.docs %}
                 <div class="docs-menu-section">
@@ -59,8 +59,7 @@
                             {% for subsubitem in subitem.items %}
                               <li>
                                 <a href="{{ site.baseurl }}{{ subsubitem.link }}" 
-                                   class="{% if page.url == subsubitem.link %}is-active{% endif %}"
-                                   data-search="{{ subsubitem.name | downcase }} {{ subitem.name | downcase }} {{ item.label | downcase }}">
+                                   class="{% if page.url == subsubitem.link %}is-active{% endif %}">
                                   {{ subsubitem.name }}
                                 </a>
                               </li>
@@ -70,8 +69,7 @@
                       {% else %}
                         <li>
                           <a href="{{ site.baseurl }}{{ subitem.link }}" 
-                             class="{% if page.url == subitem.link %}is-active{% endif %}"
-                             data-search="{{ subitem.name | downcase }} {{ item.label | downcase }}">
+                             class="{% if page.url == subitem.link %}is-active{% endif %}">
                             {{ subitem.name }}
                           </a>
                         </li>
@@ -84,7 +82,7 @@
           </div>
         </aside>
 
-        <!-- Main Content Area -->
+        <!-- Main Content -->
         <main class="docs-main column is-8">
           <!-- Breadcrumbs -->
           <nav class="docs-breadcrumb breadcrumb" aria-label="breadcrumbs">
@@ -104,12 +102,6 @@
             {% if page.subtitle %}
               <p class="subtitle is-4 has-text-grey">{{ page.subtitle }}</p>
             {% endif %}
-            
-            {% if page.last_modified_at %}
-              <div class="docs-last-updated has-text-grey is-size-7">
-                Last updated: {{ page.last_modified_at | date: "%B %d, %Y" }}
-              </div>
-            {% endif %}
           </header>
 
           <!-- Content -->
@@ -117,11 +109,11 @@
             {{ content }}
           </div>
 
-          <!-- Page Footer with Feedback and Navigation -->
-          <footer class="docs-footer mt-6">
+          <!-- Page Footer -->
+          <footer class="docs-footer">
             <div class="docs-feedback field is-grouped is-grouped-multiline mb-5">
               <div class="control">
-                <p class="is-size-6">Was this helpful?</p>
+                <p>Was this helpful?</p>
               </div>
               <div class="control">
                 <button class="docs-feedback-button button is-small is-success">
@@ -172,7 +164,7 @@
           </footer>
         </main>
 
-        <!-- Right Sidebar - Table of Contents -->
+        <!-- Right Sidebar - TOC -->
         <aside class="column is-2 is-hidden-mobile">
           <div class="docs-toc-inner is-sticky">
             <div class="mb-5">
@@ -180,28 +172,26 @@
               {% include utility/toc.html html=content class="menu-list" h_min=2 h_max=3 %}
             </div>
 
-            {% if site.docs.show_ads %}
-              <div class="docs-ad box mb-5">
-                <span class="tag is-light is-small is-uppercase">Advertisement</span>
-                <div class="mt-2">
-                  <img src="https://via.placeholder.com/250" alt="Advertisement">
-                </div>
+            <div class="docs-ad box mb-5">
+              <span class="tag is-light is-small is-uppercase">Advertisement</span>
+              <div class="mt-2">
+                <img src="https://via.placeholder.com/250" alt="Advertisement">
               </div>
-            {% endif %}
+            </div>
 
             <div class="docs-author box mb-5">
               <article class="media">
                 <figure class="media-left">
                   <p class="image is-48x48">
-                    <img class="is-rounded" src="{{ page.author_image | default: 'https://via.placeholder.com/48' }}" alt="Author avatar">
+                    <img class="is-rounded" src="https://via.placeholder.com/48" alt="Author avatar">
                   </p>
                 </figure>
                 <div class="media-content">
                   <div class="content">
                     <p>
-                      <strong>{{ page.author | default: 'Documentation Team' }}</strong>
+                      <strong>Documentation Team</strong>
                       <br>
-                      <small class="has-text-grey">{{ page.author_role | default: 'Technical Writer' }}</small>
+                      <small class="has-text-grey">Last updated: {{ page.last_modified_at | date: "%b %d, %Y" }}</small>
                     </p>
                   </div>
                 </div>
@@ -212,28 +202,28 @@
               <p class="menu-label">Share this page</p>
               <div class="field is-grouped">
                 <p class="control">
-                  <a class="button is-small docs-share-twitter" aria-label="Share on Twitter">
+                  <a class="button is-small" aria-label="Twitter">
                     <span class="icon">
                       <i class="fab fa-twitter"></i>
                     </span>
                   </a>
                 </p>
                 <p class="control">
-                  <a class="button is-small docs-share-linkedin" aria-label="Share on LinkedIn">
+                  <a class="button is-small" aria-label="LinkedIn">
                     <span class="icon">
                       <i class="fab fa-linkedin"></i>
                     </span>
                   </a>
                 </p>
                 <p class="control">
-                  <a class="button is-small docs-share-facebook" aria-label="Share on Facebook">
+                  <a class="button is-small" aria-label="Facebook">
                     <span class="icon">
                       <i class="fab fa-facebook"></i>
                     </span>
                   </a>
                 </p>
                 <p class="control">
-                  <a class="button is-small docs-share-copy" aria-label="Copy link">
+                  <a class="button is-small" aria-label="Copy link">
                     <span class="icon">
                       <i class="fas fa-link"></i>
                     </span>
@@ -250,46 +240,15 @@
 
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        // Mobile menu toggle functionality
+        // Mobile menu toggle
         const docsMobileToggle = document.getElementById('docsMobileToggle');
         const docsSidebar = document.getElementById('docsSidebar');
         
         if (docsMobileToggle && docsSidebar) {
           docsMobileToggle.addEventListener('click', function() {
-            const isExpanded = this.getAttribute('aria-expanded') === 'true';
-            this.setAttribute('aria-expanded', !isExpanded);
             docsSidebar.classList.toggle('is-active');
-            
-            // Toggle body overflow when menu is open
-            document.body.style.overflow = isExpanded ? '' : 'hidden';
           });
         }
-
-        // Close menu when clicking outside or pressing Escape
-        document.addEventListener('click', function(e) {
-          if (docsSidebar && docsSidebar.classList.contains('is-active')) {
-            const isClickInsideSidebar = docsSidebar.contains(e.target);
-            const isClickOnToggle = docsMobileToggle && docsMobileToggle.contains(e.target);
-            
-            if (!isClickInsideSidebar && !isClickOnToggle) {
-              docsSidebar.classList.remove('is-active');
-              if (docsMobileToggle) {
-                docsMobileToggle.setAttribute('aria-expanded', 'false');
-                document.body.style.overflow = '';
-              }
-            }
-          }
-        });
-
-        document.addEventListener('keydown', function(e) {
-          if (e.key === 'Escape' && docsSidebar && docsSidebar.classList.contains('is-active')) {
-            docsSidebar.classList.remove('is-active');
-            if (docsMobileToggle) {
-              docsMobileToggle.setAttribute('aria-expanded', 'false');
-              document.body.style.overflow = '';
-            }
-          }
-        });
 
         // Search functionality
         const docsSearchInput = document.getElementById('docsSearchInput');
@@ -299,156 +258,47 @@
           docsSearchInput.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase().trim();
             
-            if (searchTerm.length > 0) {
-              docsMenuSections.forEach(section => {
-                const menuLabel = section.querySelector('.menu-label');
-                const menuList = section.querySelector('.menu-list');
-                const menuItems = menuList.querySelectorAll('li');
-                
-                let hasVisibleItems = false;
-                
-                menuItems.forEach(item => {
-                  const link = item.querySelector('a');
-                  const searchData = link.getAttribute('data-search');
-                  
-                  if (searchData.includes(searchTerm)) {
-                    item.style.display = 'block';
-                    hasVisibleItems = true;
-                  } else {
-                    item.style.display = 'none';
-                  }
-                });
-                
-                if (hasVisibleItems) {
-                  section.style.display = 'block';
-                  menuLabel.style.display = 'block';
-                  menuList.style.display = 'block';
+            docsMenuSections.forEach(section => {
+              const menuItems = section.querySelectorAll('li');
+              let hasMatches = false;
+              
+              menuItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                  item.style.display = 'block';
+                  hasMatches = true;
                 } else {
-                  section.style.display = 'none';
+                  item.style.display = 'none';
                 }
               });
-            } else {
-              // Show all items when search is empty
-              docsMenuSections.forEach(section => {
-                section.style.display = 'block';
-                const menuLabel = section.querySelector('.menu-label');
-                const menuList = section.querySelector('.menu-list');
-                const menuItems = menuList.querySelectorAll('li');
-                
-                menuLabel.style.display = 'block';
-                menuList.style.display = 'block';
-                menuItems.forEach(item => {
-                  item.style.display = 'block';
-                });
-              });
-            }
+              
+              section.style.display = hasMatches ? 'block' : 'none';
+            });
           });
         }
 
-        // Smooth scrolling for TOC links
-        document.querySelectorAll('.docs-toc-inner .menu-list a[href^="#"]').forEach(anchor => {
-          anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetElement = document.querySelector(this.hash);
-            
-            if (targetElement) {
-              window.scrollTo({
-                top: targetElement.offsetTop - 20,
-                behavior: 'smooth'
-              });
-              
-              history.pushState(null, null, this.hash);
-            }
-          });
-        });
-
-        // Highlight current section in TOC while scrolling
-        const highlightCurrentSection = () => {
-          const sections = document.querySelectorAll('.docs-content h2[id], .docs-content h3[id]');
-          let currentSection = '';
+        // TOC highlighting
+        const highlightTOC = () => {
+          const headings = document.querySelectorAll('.docs-content h2[id], .docs-content h3[id]');
+          let currentId = '';
           
-          sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            if (window.scrollY >= sectionTop - 100) {
-              currentSection = '#' + section.id;
+          headings.forEach(heading => {
+            if (window.scrollY >= heading.offsetTop - 100) {
+              currentId = '#' + heading.id;
             }
           });
           
-          document.querySelectorAll('.docs-toc-inner .menu-list a').forEach(link => {
+          document.querySelectorAll('.docs-toc-inner a').forEach(link => {
             link.classList.remove('is-active');
-            if (link.getAttribute('href') === currentSection) {
+            if (link.getAttribute('href') === currentId) {
               link.classList.add('is-active');
             }
           });
         };
 
-        window.addEventListener('scroll', highlightCurrentSection);
-        highlightCurrentSection(); // Run once on load
-
-        // Social sharing functionality
-        const pageUrl = encodeURIComponent(window.location.href);
-        const pageTitle = encodeURIComponent(document.title);
-        
-        document.querySelector('.docs-share-twitter').href = 
-          `https://twitter.com/intent/tweet?url=${pageUrl}&text=${pageTitle}`;
-        document.querySelector('.docs-share-linkedin').href = 
-          `https://www.linkedin.com/shareArticle?mini=true&url=${pageUrl}&title=${pageTitle}`;
-        document.querySelector('.docs-share-facebook').href = 
-          `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
-        
-        document.querySelector('.docs-share-copy').addEventListener('click', (e) => {
-          e.preventDefault();
-          navigator.clipboard.writeText(window.location.href);
-          // Show a small notification
-          const notification = document.createElement('div');
-          notification.className = 'notification is-success is-light is-small';
-          notification.textContent = 'Link copied to clipboard!';
-          document.body.appendChild(notification);
-          setTimeout(() => notification.remove(), 2000);
-        });
-
-        // Feedback buttons
-        document.querySelectorAll('.docs-feedback-button').forEach(button => {
-          button.addEventListener('click', () => {
-            // Here you would typically send feedback to your backend
-            const notification = document.createElement('div');
-            notification.className = 'notification is-success is-light is-small';
-            notification.textContent = 'Thanks for your feedback!';
-            document.querySelector('.docs-feedback').appendChild(notification);
-            setTimeout(() => notification.remove(), 2000);
-          });
-        });
+        window.addEventListener('scroll', highlightTOC);
+        highlightTOC();
       });
     </script>
-
-    <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "TechArticle",
-      "headline": "{{ page.title }}",
-      "description": "{{ page.description | default: page.excerpt | strip_html | strip_newlines | truncate: 160 }}",
-      "author": {
-        "@type": "Person",
-        "name": "{{ page.author | default: site.author }}"
-      },
-      "datePublished": "{{ page.date | date_to_xmlschema }}",
-      "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
-      "publisher": {
-        "@type": "Organization",
-        "name": "{{ site.title }}",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "{{ site.logo | absolute_url }}"
-        }
-      },
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "{{ page.url | absolute_url }}"
-      }
-    }
-    </script>
-
-    {% include site-before-end.html %}
   </body>
 </html>
