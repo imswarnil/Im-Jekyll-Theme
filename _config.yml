@@ -87,7 +87,7 @@ fixed_navbar : true
 
 # 1.3. CSS, Site Colors & Typography
 #------------------------------------------------------------------------------------------------
-css_inline: true # Will insert all styles into a single <style> block in the <head> element and remove the style <link> reference
+css_inline: false # Will insert all styles into a single <style> block in the <head> element and remove the style <link> reference
 sass:
   style: compressed # Style compression
 theme_color : '#fff'
@@ -177,6 +177,7 @@ collections:
   webseries:
     output: true
     permalink: /webseries/:path/
+
   
 
 
@@ -211,20 +212,10 @@ defaults:
     values:
       layout: docs
   - scope:
-      path: "_webseries/*/index.md"
-    values:
-      layout: "series_detail"
-      content_type: "series"
-  - scope:
-      path: "_webseries/*/*.md"
+      path: "_webseries"
       type: "webseries"
     values:
-      layout: "episode"
-      content_type: "episode"
-  - scope:
-      path: "_webseries/index.md"
-    values:
-      layout: "series_listing"
+      layout: "webseries"
 
 # 9. Site navigation
 navbar:
