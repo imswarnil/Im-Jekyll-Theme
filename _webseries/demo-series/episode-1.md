@@ -10,6 +10,7 @@ media_type: "youtube"
 youtube_id: "dQw4w9WgXcQ"
 episode_thumb: "/assets/images/coding-adventures/ep1-thumb.jpg"
 description: "Learn the fundamentals of React in this comprehensive introduction"
+layout: webseries
 ---
 
 ## Episode Description

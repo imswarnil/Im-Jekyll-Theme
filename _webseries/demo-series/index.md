@@ -14,6 +14,7 @@ episodes:
     url: "/webseries/coding-adventures/episode-1/"
   - title: "Advanced State Management"
     url: "/webseries/coding-adventures/episode-2/"
+layout: webseries
 ---
 
 ## About This Series
