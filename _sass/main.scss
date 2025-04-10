@@ -55,15 +55,6 @@ $family-monospace: "Roboto Mono", monospace !default;
   --series-light: #f5f5f1;
 }
 
-/* Override Bulma defaults */
-.navbar {
-  background-color: var(--series-dark) !important;
-}
-
-.hero.is-dark {
-  background-color: var(--series-dark);
-}
-
 /* Series Grid */
 .series-grid {
   display: grid;
