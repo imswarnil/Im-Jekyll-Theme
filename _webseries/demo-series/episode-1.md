@@ -7,8 +7,7 @@ episode_number: 1
 date: 2023-06-15
 duration: "22:45"
 media_type: "youtube"
-youtube_id: "JWbnEt3xuos"  # Real React tutorial video
-episode_thumb: "https://images.cnbctv18.com/uploads/2024/06/kota-factory-2024-06-44430ba472228de4a57110087d95feaf.png?im=Resize,width=360,aspect=fit,type=normal"
+youtube_id: "w7ejDZ8SWv8"  # Real React tutorial video
 description: "Learn the fundamentals of React in this comprehensive introduction"
 layout: webseries
 ---

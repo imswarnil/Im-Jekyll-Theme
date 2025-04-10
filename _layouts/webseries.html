@@ -3,110 +3,197 @@
 {% include im-head.html %}
 <body class="{% if page.content_type %}content-type-{{ page.content_type }}{% endif %} layout-{{ page.layout | default: 'default'}}">
   {% include im-navbar.html %}
-  
-  {% if page.is_series_listing %}
-    <!-- Series Listing Page -->
-    <section class="section">
-      <div class="container">
-        <h1 class="title is-1 has-text-white">{{ page.title }}</h1>
-        <p class="subtitle is-4 has-text-grey-light">Browse our collection</p>
-        
-        <div class="columns is-multiline">
+  <main class="section">
+    <div class="container">
+      {% if page.is_series_listing %}
+      <style>
+        <style>
+    :root {
+      --primary-color: #00d1b2;
+      --dark-bg: #121212;
+      --card-bg: #1e1e1e;
+      --text-light: #f5f5f5;
+      --text-gray: #b5b5b5;
+    }
+    
+    body {
+      background-color: var(--dark-bg);
+      color: var(--text-light);
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    .placeholder {
+      background-color: #333;
+      color: #666;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    
+    .placeholder-thumb {
+      background-color: #333;
+      color: #666;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .series-card {
+      background-color: var(--card-bg);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+    
+    .series-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .series-card-image {
+      height: 0;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      position: relative;
+    }
+    
+    .episode-card {
+      background-color: var(--card-bg);
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      transition: all 0.3s;
+    }
+    
+    .episode-card.active {
+      border-left: 4px solid var(--primary-color);
+      background-color: #252525;
+    }
+    
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      background-color: #000;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+    }
+    
+    .video-container iframe,
+    .video-container video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .episode-thumb {
+      width: 160px;
+      height: 90px;
+      flex-shrink: 0;
+    }
+    
+    .breadcrumb li + li::before {
+      color: var(--text-gray);
+    }
+    
+    @media (max-width: 768px) {
+      .episode-thumb {
+        width: 120px;
+        height: 68px;
+      }
+    }
+  </style>
+      </style>
+        <!-- Series Listing Page -->
+        <h1 class="title is-1 has-text-white mb-6">{{ page.title }}</h1>
+        <div class="series-grid">
           {% assign all_series = site.webseries | where: "is_series", true %}
           {% for series in all_series %}
-            <div class="column is-one-third">
-              <a href="{{ series.url }}" class="series-card">
-                <div class="card-image">
-                  <figure class="image is-16by9">
-                    <img src="{{ series.thumbnail | default: layout.default_thumb }}" alt="{{ series.title }}">
-                  </figure>
+            <a href="{{ series.url }}" class="series-card">
+              <div class="series-card-image">
+                <div class="placeholder-thumb">
+                  {{ series.title | truncate: 20 }}
                 </div>
-                <div class="card-content">
-                  <h3 class="title is-4 has-text-white">{{ series.title }}</h3>
-                  <p class="subtitle is-6 has-text-grey-light">{{ series.tagline | default: "Check out this amazing series" }}</p>
-                  <div class="tags">
-                    {% for genre in series.genres limit:3 %}
-                      <span class="tag is-dark genre-tag">{{ genre }}</span>
-                    {% endfor %}
-                  </div>
+              </div>
+              <div class="card-content">
+                <h3 class="title is-4 has-text-white mb-2">{{ series.title }}</h3>
+                <p class="has-text-grey-light">{{ series.tagline | default: "Explore this series" }}</p>
+                <div class="tags mt-3">
+                  {% for genre in series.genres limit:2 %}
+                    <span class="tag is-dark">{{ genre }}</span>
+                  {% endfor %}
                 </div>
-              </a>
-            </div>
+              </div>
+            </a>
           {% endfor %}
         </div>
-      </div>
-    </section>
 
-  {% elsif page.is_series %}
-    <!-- Series Detail Page -->
-    <section class="hero is-series">
-      <div class="hero-body">
-        <div class="container">
-          <h1 class="title is-1 has-text-white">{{ page.title }}</h1>
-          <h2 class="subtitle is-4 has-text-grey-light">{{ page.tagline }}</h2>
-          <div class="buttons">
-            <button class="button is-danger is-medium">
-              <span class="icon">
-                <i class="fas fa-play"></i>
-              </span>
-              <span>Play Trailer</span>
-            </button>
-            <button class="button is-dark is-medium">
-              <span class="icon">
-                <i class="fas fa-plus"></i>
-              </span>
-              <span>My List</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
+      {% elsif page.is_series %}
+        <!-- Series Detail Page -->
+        <nav class="breadcrumb mb-5" aria-label="breadcrumbs">
+          <ul>
+            <li><a href="/webseries/">All Series</a></li>
+            <li class="is-active"><a href="#">{{ page.title }}</a></li>
+          </ul>
+        </nav>
+        
         <div class="columns">
           <div class="column is-two-thirds">
-            <div class="content">
-              <h2 class="title is-2 has-text-white">About the Series</h2>
+            <div class="placeholder" style="height: 400px; border-radius: 6px; margin-bottom: 2rem;">
+              SERIES BANNER: {{ page.title }}
+            </div>
+            
+            <div class="content mb-6">
+              <h1 class="title is-1 has-text-white">{{ page.title }}</h1>
+              <p class="subtitle is-4 has-text-grey-light">{{ page.tagline }}</p>
               {{ content }}
             </div>
             
-            <div class="mt-6">
-              <h2 class="title is-2 has-text-white">Episodes</h2>
-              <div class="episodes-list">
-                {% for episode in page.episodes %}
-                  {% assign ep_page = site.webseries | where: "url", episode.url | first %}
-                  <a href="{{ ep_page.url }}" class="episode-card {% if page.url == episode.url %}active{% endif %}">
-                    <div class="columns is-vcentered">
-                      <div class="column is-one-quarter">
-                        <figure class="image is-16by9">
-                          <img src="{{ episode.thumb | default: layout.default_thumb }}" alt="{{ episode.title }}">
-                        </figure>
-                      </div>
-                      <div class="column">
-                        <h3 class="title is-4 has-text-white">Episode {{ forloop.index }}: {{ episode.title }}</h3>
-                        <p class="has-text-grey-light">{{ episode.duration | default: "20:00" }} • {{ ep_page.date | date: "%b %d, %Y" | default: "Coming soon" }}</p>
-                        <div class="progress-container">
-                          <div class="progress-bar" style="width: {% cycle '30%', '65%', '80%' %}"></div>
-                        </div>
-                      </div>
-                      <div class="column is-one-fifth">
-                        <button class="button is-small is-dark is-fullwidth">
-                          <span class="icon">
-                            <i class="fas fa-play"></i>
-                          </span>
-                        </button>
+            <h2 class="title is-2 has-text-white mb-4">Episodes</h2>
+            <div class="episodes-list">
+              {% for episode in page.episodes %}
+                {% assign ep_page = site.webseries | where: "url", episode.url | first %}
+                <a href="{{ ep_page.url }}" class="episode-card {% if page.url == episode.url %}active{% endif %}">
+                  <div class="media">
+                    <div class="media-left">
+                      <div class="episode-thumb placeholder">
+                        Ep {{ forloop.index }}
                       </div>
                     </div>
-                  </a>
-                {% endfor %}
-              </div>
+                    <div class="media-content">
+                      <h3 class="title is-4 has-text-white mb-1">Episode {{ forloop.index }}: {{ episode.title }}</h3>
+                      <p class="has-text-grey-light mb-2">{{ episode.duration }} • {{ ep_page.date | date: "%b %d, %Y" }}</p>
+                      <div class="progress-container" style="height: 3px; background: #333; margin-top: 8px;">
+                        <div class="progress-bar" style="height: 100%; background: var(--primary-color); width: {% cycle '30%', '65%', '80%' %}"></div>
+                      </div>
+                    </div>
+                    <div class="media-right">
+                      <button class="button is-small is-dark">
+                        <span class="icon">
+                          <i class="fas fa-play"></i>
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </a>
+              {% endfor %}
             </div>
           </div>
           
           <div class="column">
             <div class="box" style="background-color: var(--card-bg); border: none;">
-              <div class="field is-grouped is-grouped-multiline">
+              <div class="field is-grouped is-grouped-multiline mb-4">
                 <div class="control">
                   <div class="tags has-addons">
                     <span class="tag is-dark">Seasons</span>
@@ -120,13 +207,15 @@
                     <span class="tag is-primary">{{ page.episodes | size }}</span>
                   </div>
                 </div>
-                
+              </div>
+              
+              <div class="field is-grouped is-grouped-multiline mb-5">
                 <div class="control">
                   <div class="tags has-addons">
                     <span class="tag is-dark">Rating</span>
                     <span class="tag is-warning">
                       {{ page.rating | default: "4.5" }}/5
-                      <span class="icon has-text-warning">
+                      <span class="icon is-small">
                         <i class="fas fa-star"></i>
                       </span>
                     </span>
@@ -134,35 +223,35 @@
                 </div>
               </div>
               
-              <hr style="background-color: #444;">
+              <div class="buttons">
+                <button class="button is-primary is-medium is-fullwidth">
+                  <span class="icon">
+                    <i class="fas fa-play"></i>
+                  </span>
+                  <span>Watch Trailer</span>
+                </button>
+                <button class="button is-dark is-medium is-fullwidth">
+                  <span class="icon">
+                    <i class="fas fa-plus"></i>
+                  </span>
+                  <span>My List</span>
+                </button>
+              </div>
+              
+              <hr style="background-color: #333;">
               
               <div class="content">
-                <h4 class="title is-5 has-text-white">Details</h4>
+                <h4 class="title is-5 has-text-white mb-3">Details</h4>
                 <p><strong>Genre:</strong> {{ page.genres | join: ", " | default: "Various" }}</p>
                 <p><strong>Released:</strong> {{ page.date | date: "%Y" | default: "2023" }}</p>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
 
-  {% elsif page.is_episode %}
-    <!-- Episode Page -->
-    <section class="hero is-series" style="background-image: linear-gradient(to top, var(--netflix-dark) 0%, transparent 100%), 
-                  linear-gradient(to right, var(--netflix-dark) 0%, transparent 50%),
-                  url('{{ page.banner | default: layout.default_banner }}')">
-      <div class="hero-body">
-        <div class="container">
-          <h1 class="title is-1 has-text-white">{{ page.series_title }}</h1>
-          <h2 class="subtitle is-4 has-text-grey-light">Episode {{ page.episode_number }}: {{ page.title }}</h2>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <nav class="breadcrumb" aria-label="breadcrumbs">
+      {% elsif page.is_episode %}
+        <!-- Episode Page -->
+        <nav class="breadcrumb mb-5" aria-label="breadcrumbs">
           <ul>
             <li><a href="/webseries/">All Series</a></li>
             <li><a href="/webseries/{{ page.series_slug }}/">{{ page.series_title }}</a></li>
@@ -176,23 +265,22 @@
               {% if page.media_type == "youtube" %}
                 <iframe src="https://www.youtube.com/embed/{{ page.youtube_id }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
               {% else %}
-                <video controls poster="{{ page.episode_thumb | default: layout.default_thumb }}">
-                  <source src="{{ page.video_url | default: '/assets/defaults/sample-video.mp4' }}" type="video/mp4">
-                  Your browser does not support the video tag.
-                </video>
+                <div class="placeholder" style="height: 100%;">
+                  VIDEO PLACEHOLDER: {{ page.title }}
+                </div>
               {% endif %}
             </div>
             
-            <div class="content">
-              <h2 class="title is-2 has-text-white">{{ page.title }}</h2>
-              <div class="tags">
-                <span class="tag is-danger">{{ page.duration | default: "20:00" }}</span>
+            <div class="content mb-5">
+              <h1 class="title is-1 has-text-white">{{ page.title }}</h1>
+              <div class="tags mb-4">
+                <span class="tag is-primary">{{ page.duration | default: "20:00" }}</span>
                 <span class="tag is-dark">{{ page.date | date: "%b %d, %Y" | default: "Coming soon" }}</span>
               </div>
               {{ content }}
             </div>
             
-            <div class="episode-navigation buttons">
+            <div class="episode-navigation buttons are-medium">
               {% assign all_eps = site.webseries | where: "series_slug", page.series_slug | where: "is_episode", true | sort: "episode_number" %}
               {% for ep in all_eps %}
                 {% if ep.episode_number == page.episode_number %}
@@ -207,7 +295,7 @@
                   {% endunless %}
                   {% unless forloop.last %}
                     {% assign next = all_eps[forloop.index0 | plus: 1] %}
-                    <a href="{{ next.url }}" class="button is-danger">
+                    <a href="{{ next.url }}" class="button is-primary">
                       <span>Next Episode</span>
                       <span class="icon">
                         <i class="fas fa-arrow-right"></i>
@@ -221,24 +309,19 @@
           
           <div class="column">
             <div class="box" style="background-color: var(--card-bg); border: none;">
-              <h3 class="title is-4 has-text-white">More Episodes</h3>
+              <h3 class="title is-4 has-text-white mb-4">More Episodes</h3>
               {% assign other_eps = site.webseries | where: "series_slug", page.series_slug | where: "is_episode", true | sort: "episode_number" | limit: 5 %}
               {% for ep in other_eps %}
                 {% unless ep.episode_number == page.episode_number %}
-                  <a href="{{ ep.url }}" class="episode-preview">
-                    <div class="columns is-mobile">
-                      <div class="column is-one-third">
-                        <figure class="image is-16by9">
-                          <img src="{{ ep.episode_thumb | default: layout.default_thumb }}" alt="{{ ep.title }}">
-                        </figure>
+                  <a href="{{ ep.url }}" class="media mb-4" style="align-items: center;">
+                    <div class="media-left">
+                      <div class="placeholder" style="width: 120px; height: 68px;">
+                        Ep {{ ep.episode_number }}
                       </div>
-                      <div class="column">
-                        <div class="content">
-                          <strong>Episode {{ ep.episode_number }}</strong>
-                          <p class="has-text-grey-light">{{ ep.title | truncate: 30 }}</p>
-                          <span class="tag is-dark is-small">{{ ep.duration | default: "20:00" }}</span>
-                        </div>
-                      </div>
+                    </div>
+                    <div class="media-content">
+                      <p class="has-text-weight-semibold">Episode {{ ep.episode_number }}</p>
+                      <p class="has-text-grey-light is-size-7">{{ ep.title | truncate: 30 }}</p>
                     </div>
                   </a>
                 {% endunless %}
@@ -246,39 +329,38 @@
             </div>
           </div>
         </div>
-      </div>
-    </section>
-  {% endif %}
+      {% endif %}
+    </div>
+  </main>
+
+  <footer class="footer has-background-black">
+    <div class="content has-text-centered has-text-grey-light">
+      <p>
+        <strong class="has-text-white">WEBFLIX</strong> - A web series platform
+      </p>
+      <p>© 2023 All rights reserved.</p>
+    </div>
+  </footer>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Mobile menu toggle
-      const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-      $navbarBurgers.forEach(el => {
-        el.addEventListener('click', () => {
-          const target = el.dataset.target;
-          const $target = document.getElementById(target);
-          el.classList.toggle('is-active');
-          $target.classList.toggle('is-active');
-        });
-      });
-
-      // Simulate video progress
-      setInterval(() => {
-        const progressBars = document.querySelectorAll('.progress-bar');
-        progressBars.forEach(bar => {
-          const currentWidth = parseFloat(bar.style.width);
-          if (currentWidth < 100) {
-            bar.style.width = (currentWidth + 0.5) + '%';
+      // Simulate progress bars animation
+      const progressBars = document.querySelectorAll('.progress-bar');
+      progressBars.forEach(bar => {
+        const targetWidth = parseFloat(bar.style.width);
+        let currentWidth = 0;
+        
+        const animateProgress = () => {
+          if (currentWidth < targetWidth) {
+            currentWidth += 0.5;
+            bar.style.width = currentWidth + '%';
+            requestAnimationFrame(animateProgress);
           }
-        });
-      }, 1000);
+        };
+        
+        setTimeout(animateProgress, 300);
+      });
     });
   </script>
 </body>
 </html>
-
-
-
-
-
