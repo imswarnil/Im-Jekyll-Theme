@@ -7,8 +7,8 @@ episode_number: 1
 date: 2023-06-15
 duration: "22:45"
 media_type: "youtube"
-youtube_id: "dQw4w9WgXcQ"
-episode_thumb: "/assets/images/coding-adventures/ep1-thumb.jpg"
+youtube_id: "JWbnEt3xuos"  # Real React tutorial video
+episode_thumb: "https://images.cnbctv18.com/uploads/2024/06/kota-factory-2024-06-44430ba472228de4a57110087d95feaf.png?im=Resize,width=360,aspect=fit,type=normal"
 description: "Learn the fundamentals of React in this comprehensive introduction"
 layout: webseries
 ---
@@ -25,4 +25,4 @@ In this first episode, we'll cover:
 ## Resources
 
 - [React Documentation](https://reactjs.org/docs/getting-started.html)
-- [Starter Code](https://github.com/example/starter-code)
+- [Starter Code](https://github.com/facebook/create-react-app)
