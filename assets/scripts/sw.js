@@ -33,7 +33,7 @@ self.addEventListener("install", (event) => {
       console.log("Service Worker: Caching static assets");
       return cache.addAll(ASSETS_TO_CACHE);
     }).then(() => {
-        return self.skipWaiting();
+      return self.skipWaiting();
     })
   );
 });
@@ -50,7 +50,7 @@ self.addEventListener("activate", (event) => {
           })
       );
     }).then(() => {
-        return self.clients.claim();
+      return self.clients.claim();
     })
   );
 });
@@ -60,45 +60,62 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
 
   if (url.origin === location.origin) {
-      if (request.mode === 'navigate') {
-        event.respondWith(
-          caches.match(request).then(cachedResponse => {
-              return cachedResponse || fetch(request).then(response => {
-                  if (response.status < 400) {
-                      return caches.open(dynamicCacheName).then(cache => {
-                          cache.put(request.url, response.clone());
-                          return response;
-                      });
-                  }
-                  return response;
-              });
-          }).catch(() => {
-              return caches.match(OFFLINE_PAGE);
-          })
-        );
-      } else if (ASSETS_TO_CACHE.includes(url.pathname) ||
-                 request.destination === 'image' ||
-                 request.destination === 'style' ||
-                 request.destination === 'script') {
-          event.respondWith(
-            caches.match(request).then(cachedResponse => {
-                return cachedResponse || fetch(request).then(response => {
-                    if (response.status < 400) {
-                        return caches.open(cacheName).then(cache => {
-                            cache.put(request.url, response.clone());
-                            return response;
-                        });
-                    }
+    if (request.mode === 'navigate') {
+      event.respondWith(
+        caches.match(request)
+          .then(cachedResponse => {
+            if (cachedResponse) {
+              return cachedResponse;
+            }
+            return fetch(request)
+              .then(response => {
+                if (response.status < 400) {
+                  return caches.open(dynamicCacheName).then(cache => {
+                    cache.put(request.url, response.clone());
                     return response;
-                }).catch(() => {
-                    if (request.destination === 'image') {
-                        return caches.match(OFFLINE_IMAGE);
-                    }
-                    return Response.error();
-                });
-            })
-          );
-      }
+                  });
+                }
+                return response;
+              });
+          })
+          .catch(() => {
+            return caches.match(OFFLINE_PAGE);
+          })
+      );
+      return; // Important: Exit the fetch event handler here for 'navigate'
+    } else if (ASSETS_TO_CACHE.includes(url.pathname) ||
+               request.destination === 'image' ||
+               request.destination === 'style' ||
+               request.destination === 'script') {
+      event.respondWith(
+        caches.match(request)
+          .then(cachedResponse => {
+            if (cachedResponse) {
+              return cachedResponse;
+            }
+            return fetch(request)
+              .then(response => {
+                if (response.status < 400) {
+                  return caches.open(cacheName).then(cache => {
+                    cache.put(request.url, response.clone());
+                    return response;
+                  });
+                }
+                return response;
+              })
+              .catch(() => {
+                if (request.destination === 'image') {
+                  return caches.match(OFFLINE_IMAGE);
+                }
+                return Response.error();
+              });
+          })
+      );
+      return; // Important: Exit the fetch event handler here for assets
     }
-    event.respondWith(fetch(request));
+  }
+  // 3. For other requests (e.g., API calls, cross-origin), go to the network
+  event.respondWith(fetch(request).catch(() => {
+        return Response.error();
+  }));
 });
