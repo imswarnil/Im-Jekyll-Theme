@@ -1,25 +1,19 @@
-<!-- Service Worker Registration -->
 <script>
-    // Check if service workers are supported
     if ('serviceWorker' in navigator) {
-      // Register the service worker after the page loads
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('{{ "/sw.js" | relative_url }}') // Use relative_url filter
+        navigator.serviceWorker.register('{{ "/sw.js" | relative_url }}')
           .then(registration => {
-            console.log('[SW Registration] Service Worker registered successfully with scope:', registration.scope);
-            // Optional: Listen for updates to the service worker
+            console.log('[SW Registration] Registered:', registration.scope);
             registration.onupdatefound = () => {
               const installingWorker = registration.installing;
               if (installingWorker) {
                 installingWorker.onstatechange = () => {
                   if (installingWorker.state === 'installed') {
                     if (navigator.serviceWorker.controller) {
-                      // New update available
-                      console.log('[SW Registration] New content is available; please refresh.');
-                      // You could show a notification to the user here
+                      console.log('[SW Registration] New content available, please refresh.');
+                      // Optional: Display an update notification to the user here
                     } else {
-                      // Content is cached for the first time
-                      console.log('[SW Registration] Content is cached for offline use.');
+                      console.log('[SW Registration] Content cached for offline use.');
                     }
                   }
                 };
@@ -27,15 +21,17 @@
             };
           })
           .catch(error => {
-            console.error('[SW Registration] Service Worker registration failed:', error);
+            console.error('[SW Registration] Failed:', error);
           });
       });
-      // Optional: Handle controller change (when a new SW takes over)
-      navigator.serviceWorker.oncontrollerchange = () => {
-        console.log('[SW Registration] Controller changed. Page may reload if needed.');
-        // window.location.reload(); // Uncomment if you want to force reload on SW update
-      };
-    } else {
-      console.log('[SW Registration] Service Workers are not supported in this browser.');
+  
+      let refreshing;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+         if (refreshing) return;
+         console.log('[SW Registration] Controller changed, reloading.');
+         // Uncomment next line to force reload on SW update activation
+         // window.location.reload();
+         refreshing = true;
+      });
     }
   </script>

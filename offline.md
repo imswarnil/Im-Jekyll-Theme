@@ -1,48 +1,17 @@
 ---
-title: Looks like you're offline
-indexing: false
+title: You Appear To Be Offline
+permalink: /offline/
+layout: default
 sitemap: false
-permalink: "/offline/"
+indexing: false
 ---
 
-<!DOCTYPE html>
-<html lang="{{ site.lang | default: "en-US" }}">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title }}</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #f4f4f4;
-    }
-    h1 {
-      color: #333;
-      margin-bottom: 20px;
-    }
-    p {
-      color: #666;
-      text-align: center;
-      margin-bottom: 15px;
-    }
-    a {
-      color: #007bff;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
-</head>
-<body>
-  <h1>{{ page.title }}</h1>
-  <p>It appears that you've lost your network connection and this page is not available offline.</p>
-  <p>Try either <a href="javascript:history.back()">returning to the previous page</a>, using the site navigation (if available), or restoring your network connection.</p>
-</body>
-</html>
+## Lost Connection?
+
+It looks like you're currently offline, and we couldn't load the page you requested because it wasn't stored for offline use.
+
+You can still browse pages and posts that were saved previously.
+
+*   Try going back to the [Homepage]({{ "/" | relative_url }}).
+*   Check your network connection and refresh the page.
+*   Use the site navigation to explore cached content.
