@@ -10,7 +10,7 @@ permalink: /videos
         <div class="container">
             <div class="columns is-vcentered">
                 <!-- Left Side - Title/Description -->
-                <div class="column is-5">
+                <div class="column is-auto">
                     <h1 class="title is-1">
                         My Video Library
                     </h1>
@@ -19,7 +19,7 @@ permalink: /videos
                     </h2>
                 </div>
                 <!-- Right Side - Leaderboard Ad -->
-                <div class="column is-7">
+                <div class="column is-auto">
                     <div class="ad-container leaderboard-ad">
                         <div class="ad-placeholder">
                             <span class="ad-label">Advertisement</span>
