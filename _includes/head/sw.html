@@ -4,27 +4,17 @@
         if (!navigator.serviceWorker) {
           return;
         }
+    
         navigator.serviceWorker
-          .register("{{ "/assets/scripts/sw.js" | relative_url }}") // Registers the SW file
+          .register("{{ "/sw.js" | relative_url }}")
           .then(registration => {
-            // Optional: Listen for updates
-            registration.onupdatefound = () => {
-              const installingWorker = registration.installing;
-              if (installingWorker) {
-                installingWorker.onstatechange = () => {
-                  // You can add console logs here if needed for debugging states
-                };
-              }
-            };
+            console.log("Service Worker: registered");
           })
           .catch(err => {
-            console.error("SW registration failed: ", err);
-          });
-          // Optional: Listener for when a new SW takes control
-          navigator.serviceWorker.addEventListener('controllerchange', () => {
-             // Can trigger actions like reload if needed
+            console.log("Service Worker: registration failed ", err);
           });
       };
-      window.addEventListener('load', registerServiceWorker);
+    
+      registerServiceWorker();
     })();
     </script>

@@ -59,6 +59,7 @@
       return value
     }
   
+    // Build a destructive iterator for the value list
     function iteratorFor(items) {
       var iterator = {
         next: function() {
@@ -214,6 +215,7 @@
           this._bodyText = body.toString()
         } else if (support.arrayBuffer && support.blob && isDataView(body)) {
           this._bodyArrayBuffer = bufferClone(body.buffer)
+          // IE 10-11 can't handle a DataView body.
           this._bodyInit = new Blob([this._bodyArrayBuffer])
         } else if (support.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(body) || isArrayBufferView(body))) {
           this._bodyArrayBuffer = bufferClone(body)
@@ -289,6 +291,7 @@
       return this
     }
   
+    // HTTP methods whose capitalization should be normalized
     var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
   
     function normalizeMethod(method) {
