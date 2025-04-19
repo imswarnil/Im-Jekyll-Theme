@@ -110,13 +110,6 @@ robots:
 
 # Service Worker Configuration
 service_worker: true  # Master switch
-offline_page: /offline/  # Optional offline page
-cache_version: v1  # Change this to force cache updates
-# Assets to cache
-cache_assets:
-  - /assets/css/
-  - /assets/js/
-  - /assets/images/
 
 google_analytics: "G-GGHMLZR4YQ"
 # google_analytics_anonymize_ip: ""
