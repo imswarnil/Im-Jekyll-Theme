@@ -1,0 +1,51 @@
+<!-- _includes/sw.html -->
+<script type="text/javascript">
+  (() => {
+    const registerServiceWorker = () => {
+      // Check for browser support
+      if (!('serviceWorker' in navigator)) {
+        console.log("Service Worker: Not supported by this browser.");
+        return;
+      }
+  
+      // Register the Service Worker located at the root
+      navigator.serviceWorker
+        .register('{{ "/sw.js" | relative_url }}') // Use relative_url for baseurl compatibility
+        .then(registration => {
+          console.log(`Service Worker: Registration successful with scope: ${registration.scope}`);
+  
+          // Optional: Listen for updates
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            console.log('Service Worker: New version found, installing...');
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed') {
+                console.log('Service Worker: New version installed.');
+                // You could prompt the user to refresh here if needed
+                // if (navigator.serviceWorker.controller) {
+                //   console.log('Service Worker: New version ready, prompt user to refresh.');
+                // }
+              }
+            });
+          });
+  
+        })
+        .catch(error => {
+          console.error("Service Worker: Registration failed: ", error);
+        });
+  
+      // Optional: Detect controller change (when a new SW takes over)
+      let refreshing;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (refreshing) return;
+        console.log('Service Worker: Controller changed, reloading page.');
+        window.location.reload();
+        refreshing = true;
+      });
+  
+    };
+  
+    // Register after the page has finished loading
+    window.addEventListener('load', registerServiceWorker);
+  })();
+  </script>
