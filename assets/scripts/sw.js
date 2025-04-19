@@ -1,6 +1,7 @@
 ---
-    layout: null # Keep this front matter
+    layout : null
 sitemap: false
+permalink: /sw.js
 ---
 const version = '{{ site.time | date: "%Y%m%d%H%M%S" }}';
 const CACHE_NAME = `static-cache-v${version}`;
