@@ -1,3 +1,82 @@
+<section class="section featured-projects-section">
+  <div class="container">
+    <h2 class="title is-size-2 has-text-centered mb-5">Featured Projects</h2>
+    <p class="subtitle is-size-5 has-text-centered has-text-grey mb-6">
+      A glimpse into some of the work I'm proud of.
+    </p>
+
+    <div class="columns is-multiline is-centered">
+      {% assign featured_projects = site.projects | where: "featured", true | sort: "date" | reverse | limit: 3 %}
+      {% for p in featured_projects %}
+      <div class="column is-4-desktop is-6-tablet">
+        {# Reuse the same card structure as the listing page #}
+        {# You can copy/paste the card HTML from projects.html here #}
+        {# OR create an include: _includes/project_card.html #}
+
+        {% comment %} --- Start Reusable Card Code --- {% endcomment %}
+        <div class="card project-card">
+          {% if p.image %}
+          <div class="card-image">
+            <figure class="image is-4by3">
+              <a href="{{ p.url | relative_url }}" title="{{ p.title }}">
+                <img src="{{ p.image | relative_url }}" alt="{{ p.title }}">
+              </a>
+            </figure>
+          </div>
+          {% endif %}
+          <div class="card-content">
+            <div class="content">
+               <h3 class="title is-size-4 mb-2">
+                 <a href="{{ p.url | relative_url }}" title="{{ p.title }}">{{ p.title }}</a>
+               </h3>
+               {% if p.date %}
+               <p class="is-size-7 has-text-grey mb-2">
+                 {{ p.date | date: "%B %Y" }}
+                 {% if p.status %} | <span class="tag is-info is-light is-small">{{ p.status }}</span>{% endif %}
+               </p>
+               {% endif %}
+              <p class="is-size-6 project-card-description">{{ p.description | strip_html | truncatewords: 15 }}</p> {# Shorter description maybe #}
+              {% if p.tags and p.tags.size > 0 %}
+              <div class="tags are-small mt-3">
+                {% for tag in p.tags limit: 3 %} {# Fewer tags maybe #}
+                  <span class="tag is-primary is-light">{{ tag }}</span>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+          </div>
+           {% if p.repo_url or p.live_url %}
+           <footer class="card-footer">
+              {% if p.repo_url %}
+              <a href="{{ p.repo_url }}" class="card-footer-item" target="_blank" rel="noopener noreferrer">
+                  <span class="icon is-small"><i class="fab fa-github"></i></span> Repo
+              </a>
+              {% endif %}
+              {% if p.live_url %}
+               <a href="{{ p.live_url }}" class="card-footer-item" target="_blank" rel="noopener noreferrer">
+                   <span class="icon is-small"><i class="fas fa-external-link-alt"></i></span> Live
+               </a>
+              {% endif %}
+           </footer>
+          {% endif %}
+        </div>
+        {% comment %} --- End Reusable Card Code --- {% endcomment %}
+
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if site.projects.size > featured_projects.size %}
+    <div class="has-text-centered mt-6">
+      <a href="{{ '/projects/' | relative_url }}" class="button is-primary is-medium">
+        View All Projects
+      </a>
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
 <section class="hero is-light is-primary is-small is-bold">
     <div class="hero-body">
         <div class="container py-5">

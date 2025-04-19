@@ -6,8 +6,6 @@ $family-monospace: "Roboto Mono", monospace !default;
 @import "../node_modules/bulma/sass/index";
 @import "./theme/index";
 
-
-
 .is-sticky {
   position: -webkit-sticky;
   position: sticky;
@@ -46,6 +44,3 @@ $family-monospace: "Roboto Mono", monospace !default;
     background-color: inherit;
   }
 }
-
-
-

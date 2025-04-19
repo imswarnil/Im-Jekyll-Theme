@@ -174,6 +174,9 @@ collections:
   webseries:
     output: true
     permalink: /webseries/:path/
+  projects:
+    output: true # Creates individual pages for each project
+    permalink: /projects/:path/ # Defines the URL structure (e.g., /projects/my-cool-project/)
 
   
 
@@ -217,6 +220,15 @@ defaults:
       thumbnail: "https://m.media-amazon.com/images/M/MV5BMjg2NmM0MTEtYWY2Yy00NmFlLTllNTMtMjVkZjEwMGVlNzdjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"
       banner: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0M0nOm5GHoz9vwFo093zwkz5zLFKPwx2e4Q&s"
       episode_thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXHiiP7LIFPf0-8QIEEFYXRh4w_zoViLHVpKJI1V7avZe-SkxGXw6gMeH-jT8wywMfbBo&usqp=CAU"
+  - scope:
+      path: ""
+      type: "projects" # Defaults specifically for the projects collection
+    values:
+      layout: project # We will create this layout soon
+      author: Swarnil # Default author for projects
+      image: /assets/images/projects/placeholder.png # Default placeholder image
+      category: ["Project"] # Default category if none specified
+
 
 # 9. Site navigation
 navbar:
