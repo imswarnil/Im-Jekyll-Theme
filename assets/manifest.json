@@ -1,24 +1,42 @@
 ---
-permalink: "manifest.json"
+# --- manifest.json ---
+# Tells Jekyll to process this file.
 layout: null
-sitemap: false
+permalink: /manifest.json # Defines the output path
+sitemap: false # Exclude from sitemap
 ---
 {
-  "lang": "{{ site.lang | default: "en-US" }}",
-  "name": "{{ site.title }}",
-  "short_name": "{{ site.short_name | default: site.title | replace: ' ', '' }}",
-  "theme_color": "{{ site.manifest.theme_color | default: '#e53935' }}",
+  "name": "{{ site.manifest.name | default: site.title }}",
+  "short_name": "{{ site.manifest.short_name | default: site.title | replace: ' ', '' }}",
+  "description": "{{ site.manifest.description | default: site.description }}",
+  "icons": [
+    {%- for icon in site.pwa_icons -%}
+    {
+      "src": "{{ icon[1] | relative_url }}",
+      "sizes": "{{ icon[0] }}x{{ icon[0] }}",
+      "type": "image/png",
+      "purpose": "any maskable"  {# 'any maskable' allows icons to adapt better on different platforms #}
+    }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ],
+  "start_url": "{{ site.manifest.start_url | default: '/' | relative_url }}",
+  "display": "{{ site.manifest.display | default: 'standalone' }}",
   "background_color": "{{ site.manifest.background_color | default: '#ffffff' }}",
-  {% if site.favicons -%}
-    "icons": [
-      {% for icon in site.favicons -%}
-      {
-        "src": "{{ icon[1] | relative_url }}",
-        "sizes": "{{ icon[0] }}x{{ icon[0] }}"
-      }{% if forloop.last != true %},{% endif %}
-      {% endfor %}
-    ],
-  {% endif -%}
-  "start_url": "/",
-  "display": "standalone"
+  "theme_color": "{{ site.manifest.theme_color | default: '#000000' }}",
+  "scope": "{{ site.manifest.scope | default: '/' | relative_url }}",
+  "lang": "{{ site.lang | default: 'en-US' }}",
+  "dir": "auto", {# Directionality: auto, ltr, rtl #}
+  "orientation": "portrait-primary" {# Optional: portrait-primary, landscape, etc. #}
+  {# Optional: Define shortcuts for quick actions #}
+  {#
+  "shortcuts": [
+    {
+      "name": "Latest Posts",
+      "short_name": "Posts",
+      "description": "View the latest blog posts",
+      "url": "{{ '/blog/' | relative_url }}?utm_source=homescreen_shortcut",
+      "icons": [{ "src": "{{ '/assets/icons/shortcut-blog-96x96.png' | relative_url }}", "sizes": "96x96" }]
+    }
+  ]
+  #}
 }
