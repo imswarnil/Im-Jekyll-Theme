@@ -20,14 +20,8 @@ $syntax-inserted-color: hsl(141, 53%, 30%);
 @import "../node_modules/bulma/sass/utilities/initial-variables.scss";
 
 .highlight {
-    margin: 20px 0;
-}
-
-/* Syntax highlighting */
-.content pre {
     color: $syntax-color;
     background-color: $syntax-bg;
-    border-left: 5px solid $syntax-border;
     border-radius: $radius-medium;
 }
 
@@ -131,19 +125,6 @@ $syntax-inserted-color: hsl(141, 53%, 30%);
     color: $syntax-number-color;
 }
 
-.copy-code-button {
-    margin-bottom: 10px;
-    /* Adjust margin top as needed */
-    background-color: var(--bulma-primary);
-    color: #fff;
-    /* Light color */
-    border: none;
-    border-radius: 3px;
-}
-
-.copy-code-button .icon {
-    margin-right: 5px;
-}
 
 /* Language tag */
 .language-tag {

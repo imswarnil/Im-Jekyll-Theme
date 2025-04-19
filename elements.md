@@ -112,7 +112,7 @@ Indented code
 
 Block code "fences"
 
-```
+```js
 Sample text here...
 ```
 

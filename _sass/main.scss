@@ -2,9 +2,9 @@ $primary: #e53935;
 $link : $primary;
 $family-sans-serif: "Outfit", "Arial", sans-serif !default;
 $family-monospace: "Roboto Mono", monospace !default;
-
+@import "theme/syntax";
 @import "../node_modules/bulma/sass/index";
-@import "./theme/index";
+
 
 .is-sticky {
   position: -webkit-sticky;
