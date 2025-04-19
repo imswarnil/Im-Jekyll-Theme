@@ -1,37 +1,30 @@
-<script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('{{ "/sw.js" | relative_url }}')
+<script type="text/javascript">
+    (() => {
+      const registerServiceWorker = () => {
+        if (!navigator.serviceWorker) {
+          return;
+        }
+        navigator.serviceWorker
+          .register("{{ "/assets/scripts/sw.js" | relative_url }}") // Registers the SW file
           .then(registration => {
-            console.log('[SW Registration] Registered:', registration.scope);
+            // Optional: Listen for updates
             registration.onupdatefound = () => {
               const installingWorker = registration.installing;
               if (installingWorker) {
                 installingWorker.onstatechange = () => {
-                  if (installingWorker.state === 'installed') {
-                    if (navigator.serviceWorker.controller) {
-                      console.log('[SW Registration] New content available, please refresh.');
-                      // Optional: Display an update notification to the user here
-                    } else {
-                      console.log('[SW Registration] Content cached for offline use.');
-                    }
-                  }
+                  // You can add console logs here if needed for debugging states
                 };
               }
             };
           })
-          .catch(error => {
-            console.error('[SW Registration] Failed:', error);
+          .catch(err => {
+            console.error("SW registration failed: ", err);
           });
-      });
-  
-      let refreshing;
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-         if (refreshing) return;
-         console.log('[SW Registration] Controller changed, reloading.');
-         // Uncomment next line to force reload on SW update activation
-         // window.location.reload();
-         refreshing = true;
-      });
-    }
-  </script>
+          // Optional: Listener for when a new SW takes control
+          navigator.serviceWorker.addEventListener('controllerchange', () => {
+             // Can trigger actions like reload if needed
+          });
+      };
+      window.addEventListener('load', registerServiceWorker);
+    })();
+    </script>

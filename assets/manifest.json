@@ -1,29 +1,50 @@
 ---
-# --- manifest.json ---
+permalink: "manifest.json"
 layout: null
-permalink: /manifest.json
 sitemap: false
 ---
 {
-  "name": "{{ site.manifest.name | default: site.title }}",
-  "short_name": "{{ site.manifest.short_name | default: site.title | replace: ' ', '' }}",
-  "description": "{{ site.manifest.description | default: site.description }}",
+  "lang": "{{ site.lang | default: "en-US" }}",
+  "dir": "auto", {# Or "ltr", "rtl" #}
+  "name": "{{ site.title }}",
+  "short_name": "{{ site.short_name | default: site.title | replace: ' ', '' }}",
+  "description": "{{ site.description | default: 'An awesome site powered by Jekyll and PWA technology.' }}", {# Add site.description in _config.yml #}
+  "scope": "{{ site.baseurl }}/", {# Defines the URL scope the PWA controls #}
+  "start_url": "{{ site.baseurl }}/?utm_source=homescreen", {# The page loaded on launch #}
+  "display": "standalone", {# Or minimal-ui, fullscreen, browser #}
+  "orientation": "portrait-primary", {# Or any, natural, landscape, portrait, etc. #}
+  "theme_color": "{{ site.manifest.theme_color | default: '#e53935' }}", {# Address bar color etc. Add site.manifest.theme_color in _config.yml #}
+  "background_color": "{{ site.manifest.background_color | default: '#ffffff' }}", {# Splash screen background. Add site.manifest.background_color in _config.yml #}
+  {%- if site.favicons -%}
   "icons": [
-    {%- for icon in site.pwa_icons -%}
+    {%- for icon in site.favicons -%}
     {
       "src": "{{ icon[1] | relative_url }}",
       "sizes": "{{ icon[0] }}x{{ icon[0] }}",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png",  {# Assuming PNG format #}
+      "purpose": "any maskable" {# 'any' for general, 'maskable' allows adaptive icons #}
     }{% unless forloop.last %},{% endunless %}
-    {%- endfor -%}
+    {%- endfor %}
   ],
-  "start_url": "{{ site.manifest.start_url | default: '/' | relative_url }}",
-  "display": "{{ site.manifest.display | default: 'standalone' }}",
-  "background_color": "{{ site.manifest.background_color | default: '#ffffff' }}",
-  "theme_color": "{{ site.manifest.theme_color | default: '#000000' }}",
-  "scope": "{{ site.manifest.scope | default: '/' | relative_url }}",
-  "lang": "{{ site.lang | default: 'en-US' }}",
-  "dir": "auto",
-  "orientation": "portrait-primary"
+  {%- endif -%}
+
+  {# Example of shortcuts for quick actions (optional) #}
+  {# Make sure the referenced icons exist #}
+  "shortcuts": [
+    {
+      "name": "Latest Posts",
+      "short_name": "Posts",
+      "description": "View the latest blog posts",
+      "url": "{{ site.baseurl }}/blog/?utm_source=homescreen_shortcut", {# Adjust URL if needed #}
+      "icons": [{ "src": "{{ '/assets/icons/shortcut-posts-96x96.png' | relative_url }}", "sizes": "96x96" }]
+    },
+    {
+      "name": "About Us",
+      "short_name": "About",
+      "description": "Learn more about us",
+      "url": "{{ site.baseurl }}/about/?utm_source=homescreen_shortcut", {# Adjust URL if needed #}
+      "icons": [{ "src": "{{ '/assets/icons/shortcut-about-96x96.png' | relative_url }}", "sizes": "96x96" }]
+    }
+  ]
+
 }
