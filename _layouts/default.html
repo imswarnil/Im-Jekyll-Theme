@@ -4,7 +4,26 @@
 <body class="layout-{{ page.layout | default: 'default'}}">
     {% include im-navbar.html %}
             {{ content }}
-       {% if site.service_worker != false %}{% include head/sw.html  %}{% endif %}
+            <script type="text/javascript">
+                (() => {
+                  const registerServiceWorker = () => {
+                    if (!navigator.serviceWorker) {
+                      return;
+                    }
+                
+                    navigator.serviceWorker
+                      .register("{{ "/sw.js" | relative_url }}")
+                      .then(registration => {
+                        console.log("Service Worker: registered");
+                      })
+                      .catch(err => {
+                        console.log("Service Worker: registration failed ", err);
+                      });
+                  };
+                
+                  registerServiceWorker();
+                })();
+                </script>
        {% include site-before-end.html %}
 </body>
 </html>
