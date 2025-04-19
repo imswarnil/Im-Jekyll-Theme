@@ -4,88 +4,101 @@ layout: null
 sitemap: false
 ---
 
-const version = '{{ site.time | date: '%Y%m%d%H%M%S' }}';
-const cacheName = `static::${version}`;
+const version = '{{ site.time | date: "%Y%m%d%H%M%S" }}';
+const cacheName = `static-v${version}`;
+const dynamicCacheName = `dynamic-v${version}`;
+const OFFLINE_PAGE = "{{ '/offline/' | relative_url }}";
+const OFFLINE_IMAGE = "{{ site.baseurl }}/assets/default-offline-image.png";
 
-const buildContentBlob = () => {
-  return [
-    {%- for post in site.posts limit: 10 -%}
-      "{{ post.url | relative_url }}",
-    {%- endfor -%}
-    {%- for page in site.pages -%}
-      {%- unless page.url contains 'sw.js' or page.url contains '404.html' -%}
-        "{{ page.url | relative_url }}",
-      {%- endunless -%}
-    {%- endfor -%}
-      "{{ site.logo | relative_url }}",
-      "{{ site.baseurl }}/assets/default-offline-image.png",
-      "{{ site.baseurl }}/assets/scripts/fetch.js",
-      "{{ '/offline/' | relative_url }}" // ENSURE THIS IS HERE AND CORRECT
-  ]
-}
+const ASSETS_TO_CACHE = [
+  OFFLINE_PAGE,
+  OFFLINE_IMAGE,
+  "{{ site.baseurl }}/assets/css/style.css",
+  "{{ site.baseurl }}/assets/js/app.js",
+  "{{ site.logo | relative_url }}",
+  "/",
+  {% for post in site.posts limit: 10 %}
+  "{{ post.url | relative_url }}",
+  {% endfor %}
+  {% for page in site.pages %}
+    {% unless page.url contains 'sw.js' or page.url contains '404.html' or page.url contains 'offline.html' %}
+      "{{ page.url | relative_url }}",
+    {% endunless %}
+  {% endfor %}
+];
 
-const updateStaticCache = () => {
-  return caches.open(cacheName).then(cache => {
-    return cache.addAll(buildContentBlob());
-  });
-};
-
-const clearOldCache = () => {
-  return caches.keys().then(keys => {
-    // Remove caches whose name is no longer valid.
-    return Promise.all(
-      keys
-        .filter(key => {
-          return key !== cacheName;
-        })
-        .map(key => {
-          console.log(`Service Worker: removing cache ${key}`);
-          return caches.delete(key);
-        })
-    );
-  });
-};
-
-self.addEventListener("install", event => {
+self.addEventListener("install", (event) => {
   event.waitUntil(
-    updateStaticCache().then(() => {
-      console.log(`Service Worker: cache updated to version: ${cacheName}`);
+    caches.open(cacheName).then((cache) => {
+      console.log("Service Worker: Caching static assets");
+      return cache.addAll(ASSETS_TO_CACHE);
+    }).then(() => {
+        return self.skipWaiting();
     })
   );
 });
 
-self.addEventListener("activate", event => {
-  event.waitUntil(clearOldCache());
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames
+          .filter((name) => name !== cacheName && name !== dynamicCacheName)
+          .map((name) => {
+            console.log("Service Worker: Deleting old cache:", name);
+            return caches.delete(name);
+          })
+      );
+    }).then(() => {
+        return self.clients.claim();
+    })
+  );
 });
 
-self.addEventListener("fetch", event => {
-  let request = event.request;
-  let url = new URL(request.url);
+self.addEventListener("fetch", (event) => {
+  const { request } = event;
+  const url = new URL(request.url);
 
-  // Only deal with requests from the same domain.
-  if (url.origin !== location.origin) {
-    return;
-  }
-
-  // Always fetch non-GET requests from the network.
-  if (request.method !== "GET") {
+  if (url.origin === location.origin) {
+      if (request.mode === 'navigate') {
+        event.respondWith(
+          caches.match(request).then(cachedResponse => {
+              return cachedResponse || fetch(request).then(response => {
+                  if (response.status < 400) {
+                      return caches.open(dynamicCacheName).then(cache => {
+                          cache.put(request.url, response.clone());
+                          return response;
+                      });
+                  }
+                  return response;
+              });
+          }).catch(() => {
+              return caches.match(OFFLINE_PAGE);
+          })
+        );
+      } else if (ASSETS_TO_CACHE.includes(url.pathname) ||
+                 request.destination === 'image' ||
+                 request.destination === 'style' ||
+                 request.destination === 'script') {
+          event.respondWith(
+            caches.match(request).then(cachedResponse => {
+                return cachedResponse || fetch(request).then(response => {
+                    if (response.status < 400) {
+                        return caches.open(cacheName).then(cache => {
+                            cache.put(request.url, response.clone());
+                            return response;
+                        });
+                    }
+                    return response;
+                }).catch(() => {
+                    if (request.destination === 'image') {
+                        return caches.match(OFFLINE_IMAGE);
+                    }
+                    return Response.error();
+                });
+            })
+          );
+      }
+    }
     event.respondWith(fetch(request));
-    return;
-  }
-
-  // Default url returned if page isn't cached
-  let offlineAsset = "{{ '/offline/' | relative_url }}";
-
-  if (request.url.match(/\.(jpe?g|png|gif|svg)$/)) {
-    // If url requested is an image and isn't cached, return default offline image
-    offlineAsset = "{{ site.baseurl }}/assets/default-offline-image.png";
-  }
-
-  // For all urls request image from network, then fallback to cache, then fallback to offline page
-  event.respondWith(
-    fetch(request).catch(async () => {
-      return (await caches.match(request)) || caches.match(offlineAsset);
-    })
-  );
-  return;
 });

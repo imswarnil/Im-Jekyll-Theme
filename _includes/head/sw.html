@@ -4,6 +4,52 @@
         navigator.serviceWorker.register('/sw.js')
         .then(function(registration) {
           console.log('Service Worker registered with scope:', registration.scope);
+  
+          // Request permission for push notifications
+          Notification.requestPermission().then(function(permission) {
+            console.log('Push notification permission:', permission);
+            if (permission === 'granted') {
+              // Optionally, subscribe to push notifications here
+              // Example (requires backend integration):
+              // fetch('/api/subscribe', {
+              //   method: 'POST',
+              //   body: JSON.stringify({
+              //     subscription: /* get push subscription object */
+              //   }),
+              //   headers: {
+              //     'Content-Type': 'application/json'
+              //   }
+              // });
+            }
+          });
+  
+          // Register background sync (example - when user attempts a new post offline)
+          function registerBackgroundSync() {
+            navigator.serviceWorker.ready.then(function(swRegistration) {
+              return swRegistration.sync.register('new-post');
+            });
+          }
+          // Example of when to call registerBackgroundSync (e.g., after a failed post submission)
+          // document.querySelector('#submit-post-button').addEventListener('click', function() {
+          //   if (!navigator.onLine) {
+          //     localStorage.setItem('unsynced-post', JSON.stringify(getFormData()));
+          //     registerBackgroundSync();
+          //     alert('Your post will be submitted when you are back online.');
+          //   } else {
+          //     // Submit post online
+          //   }
+          // });
+  
+          // Register periodic background sync (example - check for new content daily)
+          if ('periodicSync' in registration) {
+            registration.periodicSync.register('check-new-content', {
+              minInterval: 24 * 60 * 60 * 1000, // 1 day
+            }).then(() => {
+              console.log('Periodic background sync registered!');
+            }).catch(error => {
+              console.error('Periodic background sync failed:', error);
+            });
+          }
         })
         .catch(function(error) {
           console.log('Service Worker registration failed:', error);

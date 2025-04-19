@@ -7,18 +7,95 @@ sitemap: false
   "lang": "{{ site.lang | default: "en-US" }}",
   "name": "{{ site.title }}",
   "short_name": "{{ site.short_name | default: site.title | replace: ' ', '' }}",
+  "description": "A Progressive Web App for {{ site.title }} built with Jekyll.",
   "theme_color": "{{ site.manifest.theme_color | default: '#e53935' }}",
   "background_color": "{{ site.manifest.background_color | default: '#ffffff' }}",
-  {% if site.favicons -%}
-    "icons": [
-      {% for icon in site.favicons -%}
-      {
-        "src": "{{ icon[1] | relative_url }}",
-        "sizes": "{{ icon[0] }}x{{ icon[0] }}"
-      }{% if forloop.last != true %},{% endif %}
-      {% endfor %}
-    ],
-  {% endif -%}
+  "display": "standalone",
+  "orientation": "any",
   "start_url": "/",
-  "display": "standalone"
+  "scope": "{{ site.baseurl }}/",
+  "icons": [
+    {% if site.favicons -%}
+    {% for icon in site.favicons -%}
+    {
+      "src": "{{ icon[1] | relative_url }}",
+      "sizes": "{{ icon[0] }}x{{ icon[0] }}",
+      "type": "image/png",
+      "purpose": "any"
+    }{% if forloop.last != true %},{% endif %}
+    {% endfor %}
+    {% else %}
+    {
+      "src": "{{ site.baseurl }}/assets/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "{{ site.baseurl }}/assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+    {% endif -%}
+  ],
+  "screenshots": [
+    {
+      "src": "{{ site.baseurl }}/assets/screenshots/screenshot1.png",
+      "sizes": "640x480",
+      "type": "image/png",
+      "label": "Home Page"
+    },
+     {
+      "src": "{{ site.baseurl }}/assets/screenshots/screenshot2.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "label": "Article Page"
+    }
+  ],
+  "categories": [
+    "website",
+    "blog"
+  ],
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "{{ site.url }}/manifest.json"
+    }
+  ],
+  "prefer_related_applications": false,
+  "handle_links": "auto",
+  "dir": "ltr",
+  "id": "{{ site.url }}",
+  "launch_handler": {
+    "client_mode": "auto"
+  },
+  "scope_extensions": [
+    "{{ site.url }}"
+  ],
+  "protocol_handlers": [
+        {
+            "protocol": "web+{{ site.short_name | downcase | replace: ' ', '' }}",
+            "url": "/open-link?url=%s"
+        }
+    ],
+  "share_target": {
+      "action": "/share",
+      "method": "POST",
+      "enctype": "multipart/form-data",
+      "params": {
+          "title": "title",
+          "text": "text",
+          "url": "url"
+      }
+  },
+  "shortcuts": [
+    {
+      "name": "Latest Posts",
+      "short_name": "Latest",
+      "description": "View the latest posts",
+      "url": "/latest"
+    }
+  ],
+  "iarc_rating_id": "eJzjg9Pd_8AAQAAAAAAjAA"
 }
