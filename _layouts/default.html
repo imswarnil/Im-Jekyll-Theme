@@ -2,7 +2,7 @@
 <html lang="{{ site.lang | default: 'en-US' }}" class=" {% if site.fixed_navbar %} has-navbar-fixed-top {% endif %}" >
 {% include im-head.html %}
 <body class="layout-{{ page.layout | default: 'default'}}">
-        {% include im-navbar.html %}
+    {% include im-navbar.html %}
             {{ content }}
        {% if site.service_worker != false %}{% include head/sw.html  %}{% endif %}
        {% include site-before-end.html %}

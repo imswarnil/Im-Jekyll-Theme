@@ -4,7 +4,7 @@ $family-sans-serif: "Outfit", "Arial", sans-serif !default;
 $family-monospace: "Roboto Mono", monospace !default;
 
 @import "../node_modules/bulma/sass/index";
-@import "../_sass/theme/index";
+@import "./theme/index";
 
 .is-sticky {
   position: -webkit-sticky;
@@ -42,5 +42,160 @@ $family-monospace: "Roboto Mono", monospace !default;
     top: 0;
     z-index: 1000;
     background-color: inherit;
+  }
+}
+
+
+
+
+/* Variables */
+:root {
+  --series-primary: #e50914; /* Netflix red */
+  --series-dark: #141414;
+  --series-light: #f5f5f1;
+}
+
+/* Series Grid */
+.series-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.series-card {
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.series-card:hover {
+  transform: scale(1.05);
+  z-index: 2;
+}
+
+.series-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.series-card:hover .series-overlay {
+  opacity: 1;
+}
+
+.series-overlay .icon {
+  color: white;
+  font-size: 3rem;
+}
+
+.series-info {
+  padding: 1rem 0;
+}
+
+/* Episode Cards */
+.episode-card {
+  transition: box-shadow 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.episode-card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Video Container */
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  background: #000;
+  border-radius: 6px;
+}
+
+.video-container iframe,
+.video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Episode Navigation */
+.episode-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem 0;
+  padding: 1rem 0;
+  border-top: 1px solid #dbdbdb;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+/* Episode Preview in Sidebar */
+.episode-preview {
+  display: flex;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.episode-preview:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.episode-preview figure {
+  width: 120px;
+  min-width: 120px;
+  margin-right: 1rem;
+}
+
+.episode-preview-info {
+  flex-grow: 1;
+}
+
+.episode-preview-info strong {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.episode-preview-info p {
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.episode-preview-info span {
+  font-size: 0.8rem;
+  color: #7a7a7a;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+  .episode-card .columns {
+    flex-direction: column;
+  }
+  
+  .episode-card .column.is-one-quarter {
+    margin-bottom: 1rem;
+  }
+  
+  .episode-preview {
+    flex-direction: column;
+  }
+  
+  .episode-preview figure {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 0.5rem;
   }
 }
