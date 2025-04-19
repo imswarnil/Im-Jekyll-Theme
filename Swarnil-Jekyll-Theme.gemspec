@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 Gem::Specification.new do |spec|
-  spec.name          = "Im-Jekyll-Theme"
+  spec.name          = "Swarnil-Jekyll-Theme"
   spec.version       = "0.1.0"
   spec.authors       = ["Swarnil"]
   spec.email         = ["swarnilsinghaicse@gmail.com"]
 
-  spec.summary       = "A new Jekyll theme"
+  spec.summary       = "Swarnil Jekyll theme"
   spec.homepage      = "http://example.com" # Replace with your actual website or repo URL
   spec.license       = "MIT"
 
