@@ -17,8 +17,10 @@ const buildContentBlob = () => {
         "{{ page.url | relative_url }}",
       {%- endunless -%}
     {%- endfor -%}
-      "{{ site.logo | relative_url }}", "{{ site.baseurl }}/assets/default-offline-image.png", "{{ site.baseurl }}/assets/scripts/fetch.js",
-      "{{ '/offline/' | relative_url }}" // Ensure the offline page is cached
+      "{{ site.logo | relative_url }}",
+      "{{ site.baseurl }}/assets/default-offline-image.png",
+      "{{ site.baseurl }}/assets/scripts/fetch.js",
+      "{{ '/offline/' | relative_url }}" // ENSURE THIS IS HERE AND CORRECT
   ]
 }
 
