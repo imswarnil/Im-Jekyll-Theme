@@ -1,5 +1,5 @@
 ---
-permalink: "/sw.js"
+    permalink: "/sw.js"
 layout: null
 sitemap: false
 ---
