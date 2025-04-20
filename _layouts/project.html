@@ -1,5 +1,144 @@
 ---
 layout: default
 ---
+{%- assign p = page -%}
+{%- assign default_image_path = '/assets/images/projects/placeholder.png' -%} {# Define the default image path #}
 
-{{content}}
+<section class="section project-single-page">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-10-tablet is-8-desktop is-7-widescreen project-single-content-column">
+
+        <nav class="breadcrumb project-breadcrumb mb-5" aria-label="breadcrumbs">
+          <ul>
+            <li><a href="{{ '/' | relative_url }}">Home</a></li>
+            <li><a href="{{ '/projects/' | relative_url }}">Projects</a></li>
+            <li class="is-active"><a href="{{ p.url | relative_url }}" aria-current="page">{{ p.title | truncatewords: 5, "..." }}</a></li>
+          </ul>
+        </nav>
+
+        <h1 class="title is-size-1 is-size-2-mobile has-text-weight-bold project-title">{{ p.title }}</h1>
+        <div class="project-meta-top mb-4">
+          {% if p.date %}
+          <span class="is-size-6 has-text-grey project-date">
+            <span class="icon is-small"><i class="fas fa-calendar-alt" aria-hidden="true"></i></span> <!-- Added aria-hidden -->
+            <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%B %d, %Y" }}</time>
+          </span>
+          {% endif %}
+          {% if p.status and p.status != "N/A" %}
+          <span class="tag is-info is-light project-status ml-3">{{ p.status }}</span>
+          {% endif %}
+        </div>
+
+        {% comment %} --- CORRECTED IMAGE CHECK --- {% endcomment %}
+        {% if p.image and p.image != default_image_path %} {# Check if image exists AND is not the default #}
+        <figure class="image is-16by9 mb-5 project-cover-image">
+          <img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }} Cover Image">
+        </figure>
+        {% endif %}
+        {% comment %} --- END CORRECTED IMAGE CHECK --- {% endcomment %}
+
+
+        {% if p.repo_url or p.live_url %}
+        <div class="buttons project-links mb-5">
+          {% if p.repo_url %}
+          <a href="{{ p.repo_url }}" class="button is-primary" target="_blank" rel="noopener noreferrer">
+            <span class="icon"><i class="fab fa-github" aria-hidden="true"></i></span> <!-- Added aria-hidden -->
+            <span>View Repository</span>
+          </a>
+          {% endif %}
+          {% if p.live_url %}
+          <a href="{{ p.live_url }}" class="button is-link" target="_blank" rel="noopener noreferrer">
+            <span class="icon"><i class="fas fa-external-link-alt" aria-hidden="true"></i></span> <!-- Added aria-hidden -->
+            <span>View Live Site</span>
+          </a>
+          {% endif %}
+        </div>
+        {% endif %}
+
+        <div class="content project-main-content mt-5 mb-6">
+          {{ content }} {# The main markdown content goes here #}
+        </div>
+
+        <div class="project-meta-bottom box project-meta-box">
+          {% if p.technologies and p.technologies.size > 0 %}
+          <div class="mb-4 project-technologies">
+            <p class="is-size-6 has-text-weight-semibold mb-2">Technologies Used:</p>
+            <div class="tags project-tech-tags">
+              {% for tech in p.technologies %}
+              <span class="tag is-light is-medium">{{ tech }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% if p.tags and p.tags.size > 0 %}
+          <div class="mb-4 project-tags">
+             <p class="is-size-6 has-text-weight-semibold mb-2">Tags:</p>
+            <div class="tags">
+              {% for tag in p.tags %}
+               <span class="tag is-primary is-light">{{ tag }}</span>
+               <!-- Optional: Link tags: <a href="/tags/{{ tag | slugify }}/" class="tag is-primary is-light">{{ tag }}</a> -->
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% if p.category and p.category.size > 0 %}
+           <div class="project-categories">
+             <p class="is-size-6 has-text-weight-semibold mb-2">Categories:</p>
+             <div class="tags">
+               {% for cat in p.category %}
+                <span class="tag is-info is-light">{{ cat }}</span>
+                <!-- Optional: Link categories: <a href="/category/{{ cat | slugify }}/" class="tag is-info is-light">{{ cat }}</a> -->
+               {% endfor %}
+             </div>
+           </div>
+          {% endif %}
+        </div><!-- .project-meta-box -->
+
+      </div><!-- .column -->
+    </div><!-- .columns -->
+  </div><!-- .container -->
+</section>
+
+{# ----- Add JSON-LD Schema ----- #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  {% if p.category contains "Case Study" %} "@type": "TechArticle", {% else %} "@type": "SoftwareApplication", {% endif %} {# Adjust @type based on category or manually #}
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ page.url | absolute_url }}"
+  },
+  "name": "{{ p.title | escape }}",
+  "headline": "{{ p.title | escape }}",
+  {% comment %} --- CORRECTED JSON-LD IMAGE CHECK --- {% endcomment %}
+  {% if p.image and p.image != default_image_path %}"image": "{{ p.image | absolute_url }}",{% endif %}
+  {% comment %} --- END CORRECTED JSON-LD IMAGE CHECK --- {% endcomment %}
+  "datePublished": "{{ p.date | date_to_xmlschema }}",
+  "dateModified": "{{ p.date | date_to_xmlschema }}", {# Consider using last_modified_at if available #}
+  "author": {
+    "@type": "Person",
+    "name": "{{ p.author | default: site.author.name | default: 'Swarnil' | escape }}"
+  },
+  "publisher": {
+     "@type": "Organization",
+     "name": "{{ site.title | escape }}",
+     "logo": {
+       "@type": "ImageObject",
+       "url": "{{ site.logo | absolute_url }}" {# Assumes site.logo in _config.yml #}
+     }
+  },
+  "description": "{{ p.description | strip_html | strip_newlines | escape }}",
+  {% assign schema_keywords = "" %}
+  {% if p.technologies %}{% assign schema_keywords = p.technologies | join: ', ' %}{% endif %}
+  {% if p.tags %}{% assign tag_keywords = p.tags | join: ', ' %}{% if schema_keywords != "" %}{% assign schema_keywords = schema_keywords | append: ', ' %}{% endif %}{% assign schema_keywords = schema_keywords | append: tag_keywords %}{% endif %}
+  {% if schema_keywords != "" %}"keywords": "{{ schema_keywords | escape }}",{% endif %}
+  {% if p.repo_url %}"codeRepository": "{{ p.repo_url }}",{% endif %}
+  {% if p.live_url %}"url": "{{ p.live_url }}",{% endif %}
+  "applicationCategory": "{% if p.category %}{{ p.category | join: ', ' | escape }}{% else %}Web Development{% endif %}", {# Example #}
+  {% if p.status == "Completed" %}"softwareVersion": "1.0",{% endif %} {# Example - might need manual setting #}
+  "articleBody": "{{ content | strip_html | strip_newlines | escape }}"
+}
+</script>

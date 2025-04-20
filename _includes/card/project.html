@@ -1,0 +1,54 @@
+{% assign p = include.project %}
+<div class="card project-card is-flex is-flex-direction-column">
+  {% if p.image %}
+  <div class="card-image project-card-image">
+    <figure class="image is-16by9">
+      <a href="{{ p.url | relative_url }}" title="{{ p.title | escape }}">
+        <img src="{{ p.image | relative_url }}" loading="lazy" alt="{{ p.title | escape }}">
+      </a>
+    </figure>
+    {% if p.status and p.status != "N/A" %}
+      <span class="tag is-info project-card-status-tag">{{ p.status }}</span>
+    {% endif %}
+  </div>
+  {% endif %}
+  <div class="card-content project-card-content is-flex-grow-1">
+    <div class="content">
+       <h3 class="title is-size-4 mb-2 project-card-title">
+         <a href="{{ p.url | relative_url }}" title="{{ p.title | escape }}">{{ p.title }}</a>
+       </h3>
+       {% if p.date %}
+       <p class="is-size-7 has-text-grey mb-3 project-card-date">
+         <span class="icon is-small"><i class="fas fa-calendar-alt"></i></span>
+         {{ p.date | date: "%B %Y" }}
+       </p>
+       {% endif %}
+      <p class="is-size-6 project-card-description">{{ p.description | strip_html | truncatewords: 22 }}</p>
+    </div>
+  </div>
+   <div class="card-footer project-card-footer">
+      {% if p.tags and p.tags.size > 0 %}
+      <div class="tags project-card-tags are-small p-3">
+        {% for tag in p.tags limit: 4 %}
+          <span class="tag is-primary is-light">{{ tag }}</span>
+        {% endfor %}
+        {% if p.tags.size > 4 %}<span class="tag is-light">...</span>{% endif %}
+      </div>
+      {% endif %}
+      <div class="project-card-links card-footer">
+          <a href="{{ p.url | relative_url }}" class="card-footer-item project-card-details-link">
+            Details
+          </a>
+          {% if p.repo_url %}
+          <a href="{{ p.repo_url }}" class="card-footer-item" target="_blank" rel="noopener noreferrer" title="View Repository">
+              <span class="icon is-small"><i class="fab fa-github"></i></span>
+          </a>
+          {% endif %}
+          {% if p.live_url %}
+           <a href="{{ p.live_url }}" class="card-footer-item" target="_blank" rel="noopener noreferrer" title="View Live Site">
+               <span class="icon is-small"><i class="fas fa-external-link-alt"></i></span>
+           </a>
+          {% endif %}
+      </div>
+   </div>
+</div>
