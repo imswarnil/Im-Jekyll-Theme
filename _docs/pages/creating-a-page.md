@@ -2,7 +2,7 @@
 layout: docs
 title: Creating A Page
 subtitle: Pages
-menubar: docs_menu
+menubar: docs
 toc: true
 sidebar: false
 indexing: false

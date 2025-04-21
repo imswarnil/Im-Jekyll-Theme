@@ -1,49 +1,78 @@
 <!DOCTYPE html>
 <html lang="{{ site.lang | default: 'en-US' }}">
   {% include im-head.html %}
-<body>
+<body class="has-navbar-fixed-top">
     {% include im-navbar.html %}
-
     
-    <div class="container">
+    <div class="docs-layout">
+        <!-- Mobile menu toggle -->
+        <button class="docs-mobile-menu-button button is-primary is-hidden-tablet" id="docsMobileMenuToggle">
+            <span class="icon">
+                <i class="fas fa-bars"></i>
+            </span>
+        </button>
+
         <!-- Left sidebar - Documentation menu -->
-        <aside class="sidebar-left">
-            <div class="sidebar-left-inner">
-                <div class="brand">
-                    <a href="{{ site.baseurl }}/">
-                        <img src="{{ site.logo | default: '/assets/logos/logo.svg' }}" alt="{{ site.title }} Logo">
-                        <span>Documentation</span>
+        <aside class="docs-sidebar menu is-hidden-touch" id="docsSidebar">
+            <div class="docs-sidebar-inner">
+                <!-- Brand/logo section -->
+                <div class="docs-brand">
+                    <a href="{{ site.baseurl }}/" class="navbar-item">
+                        <figure class="image is-32x32">
+                            <img src="{{ site.logo | default: '/assets/logos/logo.svg' }}" alt="{{ site.title }} Logo">
+                        </figure>
+                        <span class="has-text-weight-bold ml-2">Documentation</span>
                     </a>
                 </div>
                 
-                <div class="search">
-                    <input type="text" placeholder="Search documentation..." id="docsSearchInput">
+                <!-- Search box -->
+                <div class="docs-search px-3 pb-4">
+                    <div class="field has-icons-right">
+                        <p class="control has-icons-left">
+                            <input class="input is-small" type="text" placeholder="Search documentation..." id="docsSearchInput">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </p>
+                    </div>
                 </div>
                 
-                <nav class="docs-menu">
+                <!-- Documentation menu -->
+                <div class="docs-menu-container">
                     {% for item in site.data.documentation.docs %}
-                    <div class="menu-section">
-                        <h3>{{ item.label }}</h3>
-                        <ul>
+                    <div class="docs-menu-section">
+                        <p class="menu-label is-size-7 has-text-grey">{{ item.label }}</p>
+                        <ul class="menu-list">
                             {% for subitem in item.items %}
                                 {% if subitem.items %}
-                                <li class="menu-item">
-                                    <a>{{ subitem.name }}</a>
-                                    <div class="submenu">
+                                <li>
+                                    <a class="has-text-grey-dark">
+                                        <span class="icon is-small">
+                                            <i class="fas fa-folder"></i>
+                                        </span>
+                                        {{ subitem.name }}
+                                    </a>
+                                    <ul>
                                         {% for subsubitem in subitem.items %}
-                                        <div class="menu-item {% if page.url == subsubitem.link %}active{% endif %}">
+                                        <li class="{% if page.url == subsubitem.link %}is-active{% endif %}">
                                             <a href="{{ site.baseurl }}{{ subsubitem.link }}" 
                                                data-search="{{ subsubitem.name | downcase }} {{ subitem.name | downcase }} {{ item.label | downcase }}">
+                                                <span class="icon is-small">
+                                                    <i class="fas fa-file-alt"></i>
+                                                </span>
                                                 {{ subsubitem.name }}
                                             </a>
-                                        </div>
+                                        </li>
                                         {% endfor %}
-                                    </div>
+                                    </ul>
                                 </li>
                                 {% else %}
-                                <li class="menu-item {% if page.url == subitem.link %}active{% endif %}">
+                                <li class="{% if page.url == subitem.link %}is-active{% endif %}">
                                     <a href="{{ site.baseurl }}{{ subitem.link }}" 
                                        data-search="{{ subitem.name | downcase }} {{ item.label | downcase }}">
+                                        <span class="icon is-small">
+                                            <i class="fas fa-file-alt"></i>
+                                        </span>
                                         {{ subitem.name }}
                                     </a>
                                 </li>
@@ -52,186 +81,375 @@
                         </ul>
                     </div>
                     {% endfor %}
-                </nav>
+                </div>
+                
+                <!-- Sidebar footer -->
+                <div class="docs-sidebar-footer">
+                    <div class="docs-ad-container has-background-light p-3 mb-3">
+                        <p class="is-size-7 has-text-grey mb-1">Advertisement</p>
+                        <div class="has-text-centered">
+                            <img src="https://via.placeholder.com/250x100" alt="Advertisement" class="is-block mx-auto">
+                        </div>
+                    </div>
+                </div>
             </div>
         </aside>
         
-        <!-- Main content -->
-        <main class="main-content">
-            <div class="breadcrumbs">
-                <a href="{{ site.baseurl }}/">Home</a>
-                <span>/</span>
-                <a href="{{ site.baseurl }}/docs/">Documentation</a>
-                {% if page.category %}
-                <span>/</span>
-                <a href="#">{{ page.category }}</a>
-                {% endif %}
-                <span>/</span>
-                <span>{{ page.title }}</span>
-            </div>
-            
-            <div class="content-header">
-                <h1>{{ page.title }}</h1>
-                {% if page.subtitle %}
-                <p>{{ page.subtitle }}</p>
-                {% endif %}
-                
-                {% if page.last_modified_at %}
-                <div class="last-updated">
-                    Last updated: {{ page.last_modified_at | date: "%B %d, %Y" }}
+        <!-- Main content area -->
+        <main class="docs-main">
+            <div class="columns is-desktop">
+                <div class="column is-8 is-offset-1">
+                    <!-- Breadcrumbs -->
+                    <nav class="docs-breadcrumb breadcrumb has-succeeds-separator" aria-label="breadcrumbs">
+                        <ul>
+                            <li><a href="{{ site.baseurl }}/">Home</a></li>
+                            <li><a href="{{ site.baseurl }}/docs/">Documentation</a></li>
+                            {% if page.category %}
+                            <li><a href="#">{{ page.category }}</a></li>
+                            {% endif %}
+                            <li class="is-active"><a href="#" aria-current="page">{{ page.title }}</a></li>
+                        </ul>
+                    </nav>
+                    
+                    <!-- Top ad banner -->
+                    <div class="docs-ad-banner has-background-light p-3 mb-5">
+                        <p class="is-size-7 has-text-grey mb-1">Advertisement</p>
+                        <div class="has-text-centered">
+                            <img src="https://via.placeholder.com/728x90" alt="Advertisement" class="is-block mx-auto">
+                        </div>
+                    </div>
+                    
+                    <!-- Content header -->
+                    <div class="docs-content-header mb-5">
+                        <h1 class="title is-2 has-text-weight-bold">{{ page.title }}</h1>
+                        {% if page.subtitle %}
+                        <h2 class="subtitle is-4 has-text-grey">{{ page.subtitle }}</h2>
+                        {% endif %}
+                        
+                        {% if page.last_modified_at %}
+                        <div class="is-size-7 has-text-grey">
+                            <span class="icon is-small">
+                                <i class="fas fa-clock"></i>
+                            </span>
+                            Last updated: {{ page.last_modified_at | date: "%B %d, %Y" }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Mobile TOC - Visible only on mobile -->
+                    <div class="docs-mobile-toc is-hidden-desktop mb-5">
+                        <div class="box">
+                            <h3 class="title is-5">{{ page.toc_title | default: 'On this page' }}</h3>
+                            {% include utility/toc.html html=content class="menu-list" h_min=2 h_max=3 %}
+                        </div>
+                    </div>
+                    
+                    <!-- Main content -->
+                    <div class="docs-content content is-medium">
+                        {{ content }}
+                    </div>
+                    
+                    <!-- Mid-content ad banner -->
+                    <div class="docs-ad-banner has-background-light p-3 my-5">
+                        <p class="is-size-7 has-text-grey mb-1">Advertisement</p>
+                        <div class="has-text-centered">
+                            <img src="https://via.placeholder.com/728x90" alt="Advertisement" class="is-block mx-auto">
+                        </div>
+                    </div>
+                    
+                    <!-- Content footer with pagination -->
+                    <div class="docs-content-footer">
+                        <div class="level is-mobile">
+                            <div class="level-left">
+                                {% if page.previous %}
+                                <div class="level-item">
+                                    <a href="{{ site.baseurl }}{{ page.previous.url }}" class="button is-small">
+                                        <span class="icon">
+                                            <i class="fas fa-arrow-left"></i>
+                                        </span>
+                                        <span>Previous: {{ page.previous.title }}</span>
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="level-right">
+                                {% if page.next %}
+                                <div class="level-item">
+                                    <a href="{{ site.baseurl }}{{ page.next.url }}" class="button is-small">
+                                        <span>Next: {{ page.next.title }}</span>
+                                        <span class="icon">
+                                            <i class="fas fa-arrow-right"></i>
+                                        </span>
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Feedback section -->
+                        <div class="docs-feedback box mt-5">
+                            <h3 class="title is-5 mb-3">Was this page helpful?</h3>
+                            <div class="buttons">
+                                <button class="button is-success is-light docs-feedback-button">
+                                    <span class="icon">
+                                        <i class="fas fa-thumbs-up"></i>
+                                    </span>
+                                    <span>Yes</span>
+                                </button>
+                                <button class="button is-danger is-light docs-feedback-button">
+                                    <span class="icon">
+                                        <i class="fas fa-thumbs-down"></i>
+                                    </span>
+                                    <span>No</span>
+                                </button>
+                            </div>
+                            <div class="docs-feedback-message is-hidden mt-2">
+                                <p class="help">Thank you for your feedback!</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                {% endif %}
-            </div>
-            
-            <div class="content-body">
-                {{ content }}
-            </div>
-            
-            <div class="content-footer">
-                <div class="pagination">
-                    {% if page.previous %}
-                    <a href="{{ site.baseurl }}{{ page.previous.url }}" class="prev">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="15 18 9 12 15 6"></polyline>
-                        </svg>
-                        Previous: {{ page.previous.title }}
-                    </a>
-                    {% endif %}
-                    {% if page.next %}
-                    <a href="{{ site.baseurl }}{{ page.next.url }}" class="next">
-                        Next: {{ page.next.title }}
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </a>
-                    {% endif %}
-                </div>
                 
-                <div class="feedback">
-                    <p>Was this helpful?</p>
-                    <button class="docs-feedback-button like">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
-                        </svg>
-                        Yes
-                    </button>
-                    <button class="docs-feedback-button dislike">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path>
-                        </svg>
-                        No
-                    </button>
+                <!-- Desktop TOC - Visible only on desktop -->
+                <div class="column is-3 is-hidden-touch">
+                    <div class="docs-toc" id="docsToc">
+                        <div class="docs-toc-inner">
+                            <div class="docs-toc-header">
+                                <h3 class="title is-5">{{ page.toc_title | default: 'On this page' }}</h3>
+                            </div>
+                            
+                            <div class="docs-toc-content">
+                                {% include utility/toc.html html=content class="menu-list" h_min=2 h_max=3 %}
+                            </div>
+                            
+                            <!-- Right sidebar ad -->
+                            <div class="docs-ad-container has-background-light p-3 mt-4">
+                                <p class="is-size-7 has-text-grey mb-1">Advertisement</p>
+                                <div class="has-text-centered">
+                                    <img src="https://via.placeholder.com/250x250" alt="Advertisement" class="is-block mx-auto">
+                                </div>
+                            </div>
+                            
+                            <!-- Author info -->
+                            <div class="docs-author box mt-4">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <figure class="image is-48x48">
+                                            <img src="{{ page.author_image | default: 'https://via.placeholder.com/48' }}" alt="Author Avatar" class="is-rounded">
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-6">{{ page.author | default: 'Documentation Team' }}</p>
+                                        <p class="subtitle is-7 has-text-grey">{{ page.author_role | default: 'Technical Writer' }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
-        
-        <!-- Right sidebar - Table of contents -->
-        <aside class="sidebar-right">
-            <div class="toc">
-                <h3>{{ page.toc_title | default: 'Contents' }}</h3>
-                {% include utility/toc.html html=content class="menu-list" h_min=2 h_max=3 %}
-            </div>
-            
-            <div class="ad-container">
-                <span class="ad-label">Sponsored</span>
-                <img src="https://via.placeholder.com/250" alt="Advertisement">
-            </div>
-            
-            <div class="author-card">
-                <img src="{{ page.author_image | default: 'https://via.placeholder.com/48' }}" alt="Author Avatar" class="author-avatar">
-                <div class="author-info">
-                    <h4>{{ page.author | default: 'Documentation Team' }}</h4>
-                    <p>{{ page.author_role | default: 'Technical Writer' }}</p>
-                </div>
-            </div>
-            
-            <div class="social-share">
-                <h4>Share this page</h4>
-                <div class="social-icons">
-                    <a href="#" class="docs-share-twitter" aria-label="Share on Twitter">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-                        </svg>
-                    </a>
-                    <a href="#" class="docs-share-linkedin" aria-label="Share on LinkedIn">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                            <rect x="2" y="9" width="4" height="12"></rect>
-                            <circle cx="4" cy="4" r="2"></circle>
-                        </svg>
-                    </a>
-                    <a href="#" class="docs-share-facebook" aria-label="Share on Facebook">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                        </svg>
-                    </a>
-                    <a href="#" class="docs-share-copy" aria-label="Copy link">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </aside>
     </div>
     
-    <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-        </svg>
-    </button>
-    
     {% include footer.html %}
+
+    <!-- Custom styles for documentation layout -->
+    <style>
+        /* Documentation layout structure */
+        .docs-layout {
+            display: flex;
+            min-height: calc(100vh - 3.25rem); /* Subtract navbar height */
+        }
+        
+        /* Sidebar styles */
+        .docs-sidebar {
+            width: 280px;
+            background-color: white;
+            border-right: 1px solid #f0f0f0;
+            padding: 1rem 0;
+            height: calc(100vh - 3.25rem);
+            position: fixed;
+            top: 3.25rem; /* Navbar height */
+            left: 0;
+            overflow-y: auto;
+            z-index: 30;
+            transform: translateX(-280px);
+            transition: transform 0.3s ease;
+        }
+        
+        .docs-sidebar.is-active {
+            transform: translateX(0);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .docs-sidebar-inner {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .docs-brand {
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 1rem;
+        }
+        
+        .docs-menu-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 0 1rem;
+        }
+        
+        .docs-menu-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .docs-sidebar-footer {
+            padding: 0 1rem;
+            margin-top: auto;
+        }
+        
+        /* Main content styles */
+        .docs-main {
+            flex-grow: 1;
+            width: 100%;
+            padding: 2rem 0;
+            margin-left: 0;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .docs-sidebar.is-active ~ .docs-main {
+            margin-left: 280px;
+        }
+        
+        .docs-breadcrumb {
+            margin-bottom: 2rem;
+        }
+        
+        .docs-content-header {
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .docs-content {
+            margin-top: 2rem;
+        }
+        
+        .docs-content h2 {
+            font-size: 1.5rem;
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .docs-content h3 {
+            font-size: 1.25rem;
+            margin-top: 2rem;
+        }
+        
+        /* Mobile menu button */
+        .docs-mobile-menu-button {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 40;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Ad containers */
+        .docs-ad-container {
+            border-radius: 6px;
+        }
+        
+        .docs-ad-banner {
+            border-radius: 6px;
+        }
+        
+        /* Responsive adjustments */
+        @media screen and (min-width: 1024px) {
+            .docs-sidebar {
+                transform: translateX(0);
+            }
+            
+            .docs-main {
+                margin-left: 280px;
+            }
+            
+            .docs-mobile-menu-button {
+                display: none;
+            }
+        }
+        
+        @media screen and (max-width: 768px) {
+            .docs-content-header .title {
+                font-size: 1.5rem !important;
+            }
+            
+            .docs-content-header .subtitle {
+                font-size: 1.1rem !important;
+            }
+            
+            .docs-ad-banner img {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+    </style>
 
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         // Mobile menu toggle functionality
-        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-        const docsSidebar = document.querySelector('.sidebar-left');
+        const mobileMenuToggle = document.getElementById('docsMobileMenuToggle');
+        const docsSidebar = document.getElementById('docsSidebar');
         
         if (mobileMenuToggle && docsSidebar) {
-          mobileMenuToggle.addEventListener('click', function() {
-            const isExpanded = this.getAttribute('aria-expanded') === 'true';
-            this.setAttribute('aria-expanded', !isExpanded);
-            docsSidebar.classList.toggle('active');
+          mobileMenuToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            docsSidebar.classList.toggle('is-active');
+            this.classList.toggle('is-active');
             
             // Toggle body overflow when menu is open
-            document.body.style.overflow = isExpanded ? '' : 'hidden';
+            if (docsSidebar.classList.contains('is-active')) {
+              document.body.style.overflow = 'hidden';
+            } else {
+              document.body.style.overflow = '';
+            }
           });
         }
 
-        // Close menu when clicking outside or pressing Escape
+        // Close menu when clicking outside
         document.addEventListener('click', function(e) {
-          if (docsSidebar && docsSidebar.classList.contains('active')) {
+          if (docsSidebar && docsSidebar.classList.contains('is-active')) {
             const isClickInsideSidebar = docsSidebar.contains(e.target);
             const isClickOnToggle = mobileMenuToggle && mobileMenuToggle.contains(e.target);
             
             if (!isClickInsideSidebar && !isClickOnToggle) {
-              docsSidebar.classList.remove('active');
+              docsSidebar.classList.remove('is-active');
               if (mobileMenuToggle) {
-                mobileMenuToggle.setAttribute('aria-expanded', 'false');
-                document.body.style.overflow = '';
+                mobileMenuToggle.classList.remove('is-active');
               }
-            }
-          }
-        });
-
-        document.addEventListener('keydown', function(e) {
-          if (e.key === 'Escape' && docsSidebar && docsSidebar.classList.contains('active')) {
-            docsSidebar.classList.remove('active');
-            if (mobileMenuToggle) {
-              mobileMenuToggle.setAttribute('aria-expanded', 'false');
               document.body.style.overflow = '';
             }
           }
         });
 
+        // Close menu when pressing Escape key
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && docsSidebar && docsSidebar.classList.contains('is-active')) {
+            docsSidebar.classList.remove('is-active');
+            if (mobileMenuToggle) {
+              mobileMenuToggle.classList.remove('is-active');
+            }
+            document.body.style.overflow = '';
+          }
+        });
+
         // Search functionality
         const docsSearchInput = document.getElementById('docsSearchInput');
-        const docsMenuSections = document.querySelectorAll('.docs-menu > .menu-section');
+        const docsMenuSections = document.querySelectorAll('.docs-menu-section');
         
         if (docsSearchInput) {
           docsSearchInput.addEventListener('input', function() {
@@ -239,26 +457,28 @@
             
             if (searchTerm.length > 0) {
               docsMenuSections.forEach(section => {
-                const menuLabel = section.querySelector('h3');
-                const menuItems = section.querySelectorAll('.menu-item');
+                const menuLabel = section.querySelector('.menu-label');
+                const menuItems = section.querySelectorAll('.menu-list li');
                 
                 let hasVisibleItems = false;
                 
                 menuItems.forEach(item => {
                   const link = item.querySelector('a');
-                  const searchData = link.getAttribute('data-search');
-                  
-                  if (searchData.includes(searchTerm)) {
-                    item.style.display = 'block';
-                    hasVisibleItems = true;
-                  } else {
-                    item.style.display = 'none';
+                  if (link) {
+                    const searchData = link.getAttribute('data-search') || '';
+                    
+                    if (searchData.includes(searchTerm)) {
+                      item.style.display = 'block';
+                      hasVisibleItems = true;
+                    } else {
+                      item.style.display = 'none';
+                    }
                   }
                 });
                 
                 if (hasVisibleItems) {
                   section.style.display = 'block';
-                  menuLabel.style.display = 'block';
+                  if (menuLabel) menuLabel.style.display = 'block';
                 } else {
                   section.style.display = 'none';
                 }
@@ -267,10 +487,10 @@
               // Show all items when search is empty
               docsMenuSections.forEach(section => {
                 section.style.display = 'block';
-                const menuLabel = section.querySelector('h3');
-                const menuItems = section.querySelectorAll('.menu-item');
+                const menuLabel = section.querySelector('.menu-label');
+                const menuItems = section.querySelectorAll('.menu-list li');
                 
-                menuLabel.style.display = 'block';
+                if (menuLabel) menuLabel.style.display = 'block';
                 menuItems.forEach(item => {
                   item.style.display = 'block';
                 });
@@ -279,77 +499,14 @@
           });
         }
 
-        // Smooth scrolling for TOC links
-        document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
-          anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetElement = document.querySelector(this.hash);
-            
-            if (targetElement) {
-              window.scrollTo({
-                top: targetElement.offsetTop - 20,
-                behavior: 'smooth'
-              });
-              
-              history.pushState(null, null, this.hash);
-            }
-          });
-        });
-
-        // Highlight current section in TOC while scrolling
-        const highlightCurrentSection = () => {
-          const sections = document.querySelectorAll('.content-body h2[id], .content-body h3[id]');
-          let currentSection = '';
-          
-          sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            if (window.scrollY >= sectionTop - 100) {
-              currentSection = '#' + section.id;
-            }
-          });
-          
-          document.querySelectorAll('.toc a').forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === currentSection) {
-              link.classList.add('active');
-            }
-          });
-        };
-
-        window.addEventListener('scroll', highlightCurrentSection);
-        highlightCurrentSection(); // Run once on load
-
-        // Social sharing functionality
-        const pageUrl = encodeURIComponent(window.location.href);
-        const pageTitle = encodeURIComponent(document.title);
-        
-        document.querySelector('.docs-share-twitter').href = 
-          `https://twitter.com/intent/tweet?url=${pageUrl}&text=${pageTitle}`;
-        document.querySelector('.docs-share-linkedin').href = 
-          `https://www.linkedin.com/shareArticle?mini=true&url=${pageUrl}&title=${pageTitle}`;
-        document.querySelector('.docs-share-facebook').href = 
-          `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
-        
-        document.querySelector('.docs-share-copy').addEventListener('click', (e) => {
-          e.preventDefault();
-          navigator.clipboard.writeText(window.location.href);
-          // Show a small notification
-          const notification = document.createElement('div');
-          notification.className = 'notification is-success is-light is-small';
-          notification.textContent = 'Link copied to clipboard!';
-          document.body.appendChild(notification);
-          setTimeout(() => notification.remove(), 2000);
-        });
-
         // Feedback buttons
         document.querySelectorAll('.docs-feedback-button').forEach(button => {
           button.addEventListener('click', () => {
-            // Here you would typically send feedback to your backend
-            const notification = document.createElement('div');
-            notification.className = 'notification is-success is-light is-small';
-            notification.textContent = 'Thanks for your feedback!';
-            document.querySelector('.feedback').appendChild(notification);
-            setTimeout(() => notification.remove(), 2000);
+            const feedbackMessage = document.querySelector('.docs-feedback-message');
+            if (feedbackMessage) {
+              feedbackMessage.classList.remove('is-hidden');
+              setTimeout(() => feedbackMessage.classList.add('is-hidden'), 2000);
+            }
           });
         });
       });

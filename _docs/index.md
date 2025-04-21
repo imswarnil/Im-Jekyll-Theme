@@ -2,7 +2,7 @@
 layout: docs
 title: Docs
 permalink: /docs
-menubar: docs
+menubar: blah
 show_sidebar: false
 ---
 

@@ -1,323 +1,233 @@
 <!DOCTYPE html>
-<html lang="{{ site.lang | default: 'en-US' }}" class=" {% if site.fixed_navbar %} has-navbar-fixed-top {% endif %}" >
+<html lang="{{ site.lang | default: 'en-US' }}" class="has-navbar-fixed-top has-background-black-ter">
 {% include im-head.html %}
-<body class="{% if page.content_type %}content-type-{{ page.content_type }}{% endif %} layout-{{ page.layout | default: 'default'}}">
+<body class="layout-webseries has-background-black-ter has-text-light-bis">
   {% include im-navbar.html %}
-  <style>
-    :root {
-      --primary: #00d1b2;
-      --dark: #121212;
-      --card: #1e1e1e;
-      --light: #f5f5f5;
-      --gray: #b5b5b5;
-    }
-    
-    
-    /* YouTube Thumbnail System */
-    .yt-thumb {
-      position: relative;
-      padding-bottom: 56.25%;
-      background: #333;
-      overflow: hidden;
-    }
-    
-    .yt-thumb img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .yt-thumb::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%);
-    }
-    
-    /* Grid System */
-    .series-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-    
-    /* Episode Cards */
-    .episode-card {
-      transition: transform 0.3s;
-    }
-    
-    .episode-card:hover {
-      transform: translateY(-5px);
-    }
-    
-    .episode-card .progress {
-      height: 3px;
-      margin: 0.5rem 0;
-    }
-    
-    /* Video Container */
-    .video-container {
-      position: relative;
-      padding-bottom: 56.25%;
-      background: #000;
-    }
-    
-    .video-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-    
-    /* Responsive Adjustments */
-    @media (max-width: 768px) {
-      .episode-info {
-        padding: 1rem !important;
-      }
-    }
-  </style>
 
+  <main>
+    {% assign collection_type = page.collection_type %}
 
-  <main class="section">
-    <div class="container">
-      {% if page.collection_type == "series_listing" %}
-        <!-- Series Listing Page -->
-        <h1 class="title is-1 has-text-white mb-6">{{ page.title }}</h1>
-        
-        <div class="series-grid">
-          {% assign all_series = site.webseries | where: "collection_type", "series_detail" %}
-          {% for series in all_series %}
-            <a href="{{ series.url }}" class="series-card">
-              <div class="card">
-                <div class="card-image">
-                  <div class="yt-thumb">
-                    <img src="{{ series.default_thumbnail }}" alt="{{ series.title }}">
-                  </div>
-                </div>
-                <div class="card-content">
-                  <h3 class="title is-4 has-text-white">{{ series.title }}</h3>
-                  <div class="tags">
-                    <span class="tag is-dark">YouTube Series</span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          {% endfor %}
-        </div>
-
-      {% elsif page.collection_type == "series_detail" %}
-        <!-- Series Detail Page -->
-        <div class="yt-thumb mb-6">
-          <img src="{{ page.default_thumbnail }}" alt="{{ page.title }}">
-          <div class="container" style="position: relative; z-index: 2; padding-top: 20%;">
-            <h1 class="title is-1 has-text-white">{{ page.title }}</h1>
-            <button class="button is-primary is-medium">
-              <span class="icon">
-                <i class="fas fa-play"></i>
-              </span>
-              <span>Watch Trailer</span>
-            </button>
+    {% if collection_type == "series_listing" %}
+      <section class="section">
+        <div class="container">
+          <div class="webseries-ad-placeholder-container mb-5">
+            <div class="box has-background-dark has-text-centered py-5">
+              <p class="has-text-grey is-size-7">Ad Placeholder: Listing Top (e.g., 728x90)</p>
+            </div>
           </div>
-        </div>
-        
-        <div class="columns">
-          <div class="column is-two-thirds">
-            <div class="content">
-              <h2 class="title is-2 has-text-white">Episodes</h2>
-              
-              <!-- Placeholder for YouTube API fetched episodes -->
-              <div class="episodes-list">
-                <div class="card episode-card mb-4">
-                  <div class="card-content">
-                    <div class="media">
-                      <div class="media-left">
-                        <figure class="image is-16by9">
-                          <img src="https://img.youtube.com/vi/w7ejDZ8SWv8/mqdefault.jpg" alt="Episode 1">
+
+          <h1 class="title is-2 has-text-weight-semibold mb-6 has-text-light">{{ page.title }}</h1>
+          {% assign all_series = site.webseries | where_exp: "item", "item.collection_type == 'series_detail'" | sort: "title" %}
+          {% if all_series.size > 0 %}
+            <div class="columns is-multiline is-variable is-4">
+              {% for series in all_series %}
+                {% assign series_thumb = series.default_thumbnail | default: site.defaults.defaults.thumbnail %}
+                <div class="column is-one-third-desktop is-half-tablet">
+                  <a href="{{ series.url | relative_url }}">
+                    <div class="card is-shadowless has-background-black-bis has-text-light" style="height: 100%;">
+                      <div class="card-image">
+                        <figure class="image is-16by9 has-background-black">
+                          <img src="{{ series_thumb }}" alt="{{ series.title | escape }}" style="object-fit: cover;">
                         </figure>
                       </div>
-                      <div class="media-content">
-                        <h3 class="title is-4 has-text-white">1. React Fundamentals</h3>
-                        <p class="has-text-grey-light">22:45 • 250K views</p>
-                        <progress class="progress is-primary" value="30" max="100">30%</progress>
+                      <div class="card-content is-flex is-flex-direction-column" style="flex-grow: 1;">
+                          <h3 class="title is-5 has-text-weight-semibold mb-2 has-text-light">{{ series.title }}</h3>
+                          <div class="content is-size-7 has-text-grey-light mb-4" style="flex-grow: 1;">
+                            <p>{{ series.description | default: "Explore this series." | strip_html | truncatewords: 15 }}</p>
+                          </div>
+                          <div class="tags">
+                            {% if series.tags %}{% for tag in series.tags limit:3 %}<span class="tag is-dark">{{ tag }}</span>{% endfor %}{% endif %}
+                          </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                
-                <div class="card episode-card mb-4">
-                  <div class="card-content">
-                    <div class="media">
-                      <div class="media-left">
-                        <figure class="image is-16by9">
-                          <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg" alt="Episode 2">
-                        </figure>
-                      </div>
-                      <div class="media-content">
-                        <h3 class="title is-4 has-text-white">2. Advanced Concepts</h3>
-                        <p class="has-text-grey-light">18:30 • 180K views</p>
-                        <progress class="progress is-primary" value="65" max="100">65%</progress>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="column">
-            <div class="box has-background-card">
-              <div class="content">
-                <h3 class="title is-4 has-text-white">About This Series</h3>
-                <p>Learn React through practical examples and projects in this comprehensive video series.</p>
-                
-                <div class="field is-grouped is-grouped-multiline mt-4">
-                  <div class="control">
-                    <div class="tags has-addons">
-                      <span class="tag is-dark">Episodes</span>
-                      <span class="tag is-primary">12</span>
-                    </div>
-                  </div>
-                  
-                  <div class="control">
-                    <div class="tags has-addons">
-                      <span class="tag is-dark">Rating</span>
-                      <span class="tag is-warning">4.8/5</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <button class="button is-primary is-fullwidth mt-4">
-                  <span class="icon">
-                    <i class="fab fa-youtube"></i>
-                  </span>
-                  <span>Subscribe on YouTube</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      {% elsif page.collection_type == "episode" %}
-        <!-- Episode Page -->
-        <nav class="breadcrumb mb-5" aria-label="breadcrumbs">
-          <ul>
-            <li><a href="/webseries/">All Series</a></li>
-            <li><a href="/webseries/{{ page.series_slug }}/">{{ page.series_title }}</a></li>
-            <li class="is-active"><a href="#">{{ page.title }}</a></li>
-          </ul>
-        </nav>
-        
-        <div class="columns">
-          <div class="column is-two-thirds">
-            <div class="video-container mb-5">
-              <iframe src="https://www.youtube.com/embed/{{ page.youtube_id }}?autoplay=1" frameborder="0" allowfullscreen></iframe>
-            </div>
-            
-            <div class="content">
-              <h1 class="title is-1 has-text-white mb-4">{{ page.title }}</h1>
-              <div class="tags mb-5">
-                <span class="tag is-primary">Episode {{ page.episode_number }}</span>
-                <span class="tag is-dark">22:45</span>
-                <span class="tag is-info">250K views</span>
-              </div>
-              
-              {{ content }}
-              
-              <div class="buttons mt-6">
-                {% if page.episode_number > 1 %}
-                  <a href="/webseries/{{ page.series_slug }}/episode-{{ page.episode_number | minus: 1 }}/" class="button is-dark">
-                    <span class="icon">
-                      <i class="fas fa-arrow-left"></i>
-                    </span>
-                    <span>Previous Episode</span>
                   </a>
-                {% endif %}
-                
-                <a href="/webseries/{{ page.series_slug }}/episode-{{ page.episode_number | plus: 1 }}/" class="button is-primary">
-                  <span>Next Episode</span>
-                  <span class="icon">
-                    <i class="fas fa-arrow-right"></i>
-                  </span>
-                </a>
-              </div>
+                </div>
+              {% endfor %}
+            </div>
+             <div class="webseries-ad-placeholder-container mt-6">
+                <div class="box has-background-dark has-text-centered py-5">
+                 <p class="has-text-grey is-size-7">Ad Placeholder: Listing Bottom (e.g., Responsive)</p>
+                </div>
+             </div>
+          {% else %}
+            <div class="notification is-warning is-light has-text-dark">No web series found.</div>
+          {% endif %}
+        </div>
+      </section>
+
+    {% elsif collection_type == "series_detail" %}
+       {% assign banner_image = page.banner | default: page.default_thumbnail | default: site.defaults.defaults.banner %}
+        <section class="hero is-medium is-dark is-bold" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url('{{ banner_image | relative_url }}'); background-size: cover; background-position: center;">
+          <div class="hero-body">
+            <div class="container">
+                <h1 class="title is-2 has-text-weight-bold mb-2">{{ page.title }}</h1>
+                {% if page.subtitle %}<p class="subtitle is-5 mb-4">{{ page.subtitle }}</p>{% endif %}
+                {% assign first_episode = site.webseries | where_exp: "item", "item.collection_type == 'episode' and item.series_slug == page.series_slug" | sort: "episode_number" | first %}
+                {% if first_episode %} <a href="{{ first_episode.url | relative_url }}" class="button is-primary"> <span class="icon is-small"><i class="fas fa-play"></i></span> <span>Watch Episode 1</span> </a> {% endif %}
+                {% if page.youtube_playlist %} <a href="https://www.youtube.com/playlist?list={{ page.youtube_playlist }}" target="_blank" rel="noopener noreferrer" class="button is-danger is-outlined ml-2"> <span class="icon is-small"><i class="fab fa-youtube"></i></span> <span>Playlist</span> </a> {% endif %}
             </div>
           </div>
-          
-          <div class="column">
-            <div class="box has-background-card">
-              <h3 class="title is-4 has-text-white mb-4">More Episodes</h3>
-              
-              <a href="#" class="media mb-4">
-                <div class="media-left">
-                  <figure class="image is-16by9">
-                    <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg" alt="Next Episode">
-                  </figure>
+        </section>
+         <div class="container mt-5 mb-5">
+            <div class="webseries-ad-placeholder-container">
+                <div class="box has-background-dark has-text-centered py-5">
+                 <p class="has-text-grey is-size-7">Ad Placeholder: Detail - Below Hero (e.g., 728x90)</p>
                 </div>
-                <div class="media-content">
-                  <p class="has-text-weight-semibold">Episode {{ page.episode_number | plus: 1 }}</p>
-                  <p class="has-text-grey-light">State Management</p>
-                </div>
-              </a>
-              
-              <a href="#" class="media mb-4">
-                <div class="media-left">
-                  <figure class="image is-16by9">
-                    <img src="https://img.youtube.com/vi/w7ejDZ8SWv8/mqdefault.jpg" alt="Popular Episode">
-                  </figure>
-                </div>
-                <div class="media-content">
-                  <p class="has-text-weight-semibold">Episode 1</p>
-                  <p class="has-text-grey-light">React Fundamentals</p>
-                </div>
-              </a>
             </div>
-            
-            <div class="box has-background-card mt-4">
-              <h3 class="title is-4 has-text-white mb-4">Series Info</h3>
-              <p>This series teaches React through practical examples and projects.</p>
-              <button class="button is-primary is-fullwidth mt-4">
-                <span class="icon">
-                  <i class="fas fa-list"></i>
-                </span>
-                <span>View All Episodes</span>
-              </button>
+         </div>
+
+        <section class="section pt-0">
+            <div class="container">
+              <div class="columns is-variable is-5-desktop">
+                <div class="column is-two-thirds-desktop">
+                  <h2 class="title is-4 mb-4 has-text-light">Episodes</h2>
+                  {% assign series_episodes = site.webseries | where_exp: "item", "item.collection_type == 'episode' and item.series_slug == page.series_slug" | sort: "episode_number" %}
+                  {% if series_episodes.size > 0 %}
+                    <div class="box has-background-black-bis p-3">
+                      {% for episode in series_episodes %}
+                        {% assign ep_thumb = episode.thumbnail | default: page.default_thumbnail | default: site.defaults.defaults.episode_thumb %}
+                        {% if episode.youtube_id %}{% assign ep_thumb = "https://img.youtube.com/vi/" | append: episode.youtube_id | append: "/mqdefault.jpg" %}{% endif %}
+                        <a href="{{ episode.url | relative_url }}" class="mb-3 is-block">
+                          <article class="media is-align-items-center p-2 is-hoverable-list-item">
+                              <figure class="media-left"> <p class="image is-128x72 has-background-black"> <img src="{{ ep_thumb }}" alt="{{ episode.title | escape }}" style="border-radius: 4px;"> </p> </figure>
+                              <div class="media-content">
+                                  <div class="content">
+                                      <p class="mb-1 has-text-light has-text-weight-semibold is-size-6">{{ episode.episode_number }}. {{ episode.title }}</p>
+                                      <p class="is-size-7 has-text-grey"> {{ episode.excerpt | default: episode.content | strip_html | truncatewords: 18 }} </p>
+                                  </div>
+                              </div>
+                          </article>
+                        </a>
+                      {% endfor %}
+                    </div>
+                     <div class="webseries-ad-placeholder-container mt-5">
+                        <div class="box has-background-dark has-text-centered py-5">
+                            <p class="has-text-grey is-size-7">Ad Placeholder: Detail - Below Episodes (e.g., Responsive)</p>
+                        </div>
+                    </div>
+                  {% else %} <div class="notification is-info is-light has-text-dark">No episodes found yet.</div> {% endif %}
+                </div>
+                <div class="column is-one-third-desktop">
+                  <div class="box has-background-black-bis mb-4">
+                    <h3 class="title is-5 mb-3 has-text-light">About</h3>
+                    <div class="content is-small has-text-grey-light"> {% if page.description %}<p>{{ page.description }}</p>{% else %}<p>Details coming soon.</p>{% endif %} <div class="field is-grouped is-grouped-multiline mt-3"> <div class="control"> <div class="tags has-addons"> <span class="tag is-dark">Episodes</span> <span class="tag is-primary">{{ series_episodes.size }}</span> </div> </div> {% if page.rating %} <div class="control"> <div class="tags has-addons"> <span class="tag is-dark">Rating</span> <span class="tag is-warning"> <span class="icon is-small"><i class="fas fa-star"></i></span> <span>{{ page.rating }}</span> </span> </div> </div> {% endif %} {% if page.tags %}{% for tag in page.tags %} <div class="control"><span class="tag is-info is-light">{{ tag }}</span></div> {% endfor %}{% endif %} </div> </div>
+                  </div>
+                   <div class="webseries-ad-placeholder-container mb-4">
+                        <div class="box has-background-dark has-text-centered py-6">
+                            <p class="has-text-grey is-size-7">Ad Placeholder: Detail Sidebar (e.g., 300x250)</p>
+                        </div>
+                    </div>
+                  {% if page.cast and page.cast.size > 0 %} <div class="box has-background-black-bis"> <h3 class="title is-5 mb-4 has-text-light">Cast</h3> <div class="columns is-mobile is-multiline is-variable is-2"> {% for member in page.cast %} <div class="column is-one-quarter has-text-centered"> <figure class="image is-64x64 is-inline-block mb-1"> <img class="is-rounded" src="{{ member.avatar | default: site.defaults.defaults.cast_avatar }}" alt="{{ member.name | escape }}"> </figure> <p class="is-size-7 has-text-weight-semibold has-text-light">{{ member.name }}</p> {% if member.role %}<p class="is-size-7 has-text-grey-light">{{ member.role }}</p>{% endif %} </div> {% endfor %} </div> </div> {% endif %}
+                </div>
+              </div>
+               <div class="webseries-ad-placeholder-container mt-6 pt-5" style="border-top: 1px solid var(--bulma-border);">
+                    <div class="box has-background-dark has-text-centered py-5">
+                        <p class="has-text-grey is-size-7">Ad Placeholder: Detail - Before Comments (e.g., 728x90)</p>
+                    </div>
+               </div>
+               <div class="mt-4 box has-background-black-bis py-6 has-text-centered">
+                   <p class="has-text-grey">Comments / Feedback Area Placeholder</p>
+               </div>
+          </section>
+
+    {% elsif collection_type == "episode" %}
+      <section class="section pt-4 pb-4">
+        <div class="container is-fluid">
+          <div class="columns is-variable is-4-desktop">
+            <div class="column is-two-thirds-desktop">
+              {% if page.youtube_id %}
+                <figure class="image is-16by9 has-background-black mb-4">
+                  <iframe class="has-ratio" width="640" height="360" src="https://www.youtube.com/embed/{{ page.youtube_id }}?autoplay=1&color=white&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="{{ page.title | escape }}"></iframe>
+                </figure>
+              {% else %}
+                <div class="box has-background-black has-text-centered py-6 mb-4"> <p class="has-text-grey">Video Unavailable</p> </div>
+              {% endif %}
+
+              {% assign parent_series = site.webseries | where_exp: "item", "item.collection_type == 'series_detail' and item.series_slug == page.series_slug" | first %}
+              <nav class="breadcrumb is-small mb-3" aria-label="breadcrumbs">
+                <ul class="has-text-grey-light">
+                  <li><a class="has-text-grey-light" href="{{ '/webseries/' | relative_url }}">Series</a></li>
+                  {% if parent_series %} <li><a class="has-text-grey-light" href="{{ parent_series.url | relative_url }}">{{ parent_series.title }}</a></li>
+                  {% else %} <li><a class="has-text-grey-light" href="#">{{ page.series_title }}</a></li> {% endif %}
+                  <li class="is-active"><a class="has-text-light" href="#" aria-current="page">Episode {{ page.episode_number }}</a></li>
+                </ul>
+              </nav>
+
+              <h1 class="title is-4 has-text-weight-semibold mb-2 has-text-light">{{ page.episode_number }}. {{ page.title }}</h1>
+              <div class="tags mb-4">
+                {% if page.duration %}<span class="tag is-dark">{{ page.duration }}</span>{% endif %}
+                {% if page.published_date %}<span class="tag is-dark">{{ page.published_date | date: "%b %d, %Y" }}</span>{% endif %}
+              </div>
+              <div class="content is-normal has-text-light-bis mb-5"> {{ content }} </div>
+
+               <div class="webseries-ad-placeholder-container mb-5">
+                 <div class="box has-background-dark has-text-centered py-5">
+                    <p class="has-text-grey is-size-7">Ad Placeholder: Episode - Below Description (e.g., Responsive)</p>
+                 </div>
+               </div>
+
+              {% assign current_ep_num = page.episode_number | plus: 0 %}
+              {% assign prev_ep_num = current_ep_num | minus: 1 %}
+              {% assign next_ep_num = current_ep_num | plus: 1 %}
+              {% assign prev_episode = site.webseries | where_exp:"item", "item.collection_type == 'episode' and item.series_slug == page.series_slug and item.episode_number == prev_ep_num" | first %}
+              {% assign next_episode = site.webseries | where_exp:"item", "item.collection_type == 'episode' and item.series_slug == page.series_slug and item.episode_number == next_ep_num" | first %}
+              <div class="buttons is-justify-content-space-between">
+                {% if prev_episode %} <a href="{{ prev_episode.url | relative_url }}" class="button is-outlined is-light"> <span class="icon is-small"><i class="fas fa-arrow-left"></i></span> <span>Prev</span> </a> {% else %} <span></span> {% endif %}
+                {% if next_episode %} <a href="{{ next_episode.url | relative_url }}" class="button is-primary"> <span>Next</span> <span class="icon is-small"><i class="fas fa-arrow-right"></i></span> </a> {% else %} <span></span> {% endif %}
+              </div>
+            </div>
+
+            <div class="column is-one-third-desktop">
+               <div class="webseries-ad-placeholder-container mb-4">
+                 <div class="box has-background-dark has-text-centered py-5">
+                    <p class="has-text-grey is-size-7">Ad Placeholder: Episode Sidebar Top (e.g., 300x250)</p>
+                 </div>
+               </div>
+              <h3 class="title is-5 mb-3 has-text-light">Episodes</h3>
+              <div class="box has-background-black-bis p-2" style="max-height: 65vh; overflow-y: auto;">
+                {% assign series_episodes = site.webseries | where_exp: "item", "item.collection_type == 'episode' and item.series_slug == page.series_slug" | sort: "episode_number" %}
+                {% if series_episodes.size > 0 %}
+                  {% for episode in series_episodes %}
+                    {% assign ep_is_active = false %}{% if episode.url == page.url %} {% assign ep_is_active = true %} {% endif %}
+                    {% assign ep_thumb = episode.thumbnail | default: parent_series.default_thumbnail | default: site.defaults.defaults.episode_thumb %}
+                    {% if episode.youtube_id %}{% assign ep_thumb = "https://img.youtube.com/vi/" | append: episode.youtube_id | append: "/mqdefault.jpg" %}{% endif %}
+                    <a href="{{ episode.url | relative_url }}" class="p-1 is-block {% if ep_is_active %}has-background-grey-darker{% else %}is-hoverable-list-item{% endif %}" style="border-radius: 4px; margin-bottom: 0.5rem;">
+                      <article class="media is-align-items-center">
+                          <figure class="media-left"> <p class="image is-16by9 is-96x54 has-background-black"> <img src="{{ ep_thumb }}" alt="{{ episode.title | escape }}" style="border-radius: 3px;"> </p> </figure>
+                          <div class="media-content">
+                              <p class="is-size-7 has-text-weight-semibold {% if ep_is_active %}has-text-primary-light{% else %}has-text-light{% endif %} mb-0">{{ episode.episode_number }}. {{ episode.title }}</p>
+                              {% if episode.duration %}<p class="is-size-7 has-text-grey-light">{{ episode.duration }}</p>{% endif %}
+                          </div>
+                      </article>
+                    </a>
+                  {% endfor %}
+                {% else %} <p class="has-text-grey is-size-7 p-3">No episodes found.</p> {% endif %}
+              </div>
+               <div class="webseries-ad-placeholder-container mt-4">
+                 <div class="box has-background-dark has-text-centered py-5">
+                    <p class="has-text-grey is-size-7">Ad Placeholder: Episode Sidebar Bottom (e.g., 300x100)</p>
+                 </div>
+               </div>
             </div>
           </div>
         </div>
-      {% endif %}
-    </div>
+      </section>
+
+    {% else %}
+      <section class="section">
+        <div class="container">
+          <div class="notification is-danger is-light has-text-dark">Layout Error: Unknown collection type '{{ collection_type }}'.</div>
+        </div>
+      </section>
+    {% endif %}
   </main>
 
   <footer class="footer has-background-black">
-    <div class="content has-text-centered has-text-grey-light">
-      <p>
-        <strong class="has-text-white">WEBFLIX</strong> - YouTube Series Viewer
-      </p>
-      <p class="is-size-7 mt-2">© 2023 All rights reserved</p>
+    <div class="content has-text-centered">
+      <p class="has-text-grey-light"> <strong>{{ site.title | default: "Web Series" }}</strong> </p>
+      <p class="is-size-7 has-text-grey-light mt-2"> © {{ "now" | date: "%Y" }} {{ site.author | default: "" }}. </p>
     </div>
   </footer>
 
-  <script>
-    // Simple progress bar animation
-    document.querySelectorAll('.progress').forEach(bar => {
-      const value = bar.getAttribute('value');
-      let width = 0;
-      const animate = () => {
-        if (width < value) {
-          width++;
-          bar.value = width;
-          setTimeout(animate, 20);
-        }
-      };
-      animate();
-    });
-  </script>
 </body>
 </html>
