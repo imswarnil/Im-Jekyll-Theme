@@ -13,10 +13,10 @@
         </button>
 
         <!-- Left sidebar - Documentation menu -->
-        <aside class="docs-sidebar menu is-hidden-touch" id="docsSidebar">
+        <aside class="docs-sidebar menu" id="docsSidebar">
             <div class="docs-sidebar-inner">
                 <!-- Brand/logo section -->
-                <div class="docs-brand">
+                <div class="docs-brand px-4 py-3">
                     <a href="{{ site.baseurl }}/" class="navbar-item">
                         <figure class="image is-32x32">
                             <img src="{{ site.logo | default: '/assets/logos/logo.svg' }}" alt="{{ site.title }} Logo">
@@ -26,7 +26,7 @@
                 </div>
                 
                 <!-- Search box -->
-                <div class="docs-search px-3 pb-4">
+                <div class="docs-search px-4 pb-4">
                     <div class="field has-icons-right">
                         <p class="control has-icons-left">
                             <input class="input is-small" type="text" placeholder="Search documentation..." id="docsSearchInput">
@@ -38,29 +38,30 @@
                 </div>
                 
                 <!-- Documentation menu -->
-                <div class="docs-menu-container">
+                <div class="docs-menu-container px-2">
                     {% for item in site.data.documentation.docs %}
-                    <div class="docs-menu-section">
-                        <p class="menu-label is-size-7 has-text-grey">{{ item.label }}</p>
+                    <div class="docs-menu-section mb-5">
+                        <p class="menu-label is-size-7 has-text-grey px-2">{{ item.label }}</p>
                         <ul class="menu-list">
                             {% for subitem in item.items %}
                                 {% if subitem.items %}
                                 <li>
-                                    <a class="has-text-grey-dark">
+                                    <a class="has-text-grey-dark is-radiusless">
                                         <span class="icon is-small">
                                             <i class="fas fa-folder"></i>
                                         </span>
-                                        {{ subitem.name }}
+                                        <span>{{ subitem.name }}</span>
                                     </a>
                                     <ul>
                                         {% for subsubitem in subitem.items %}
                                         <li class="{% if page.url == subsubitem.link %}is-active{% endif %}">
                                             <a href="{{ site.baseurl }}{{ subsubitem.link }}" 
-                                               data-search="{{ subsubitem.name | downcase }} {{ subitem.name | downcase }} {{ item.label | downcase }}">
+                                               data-search="{{ subsubitem.name | downcase }} {{ subitem.name | downcase }} {{ item.label | downcase }}"
+                                               class="is-radiusless">
                                                 <span class="icon is-small">
                                                     <i class="fas fa-file-alt"></i>
                                                 </span>
-                                                {{ subsubitem.name }}
+                                                <span>{{ subsubitem.name }}</span>
                                             </a>
                                         </li>
                                         {% endfor %}
@@ -69,11 +70,12 @@
                                 {% else %}
                                 <li class="{% if page.url == subitem.link %}is-active{% endif %}">
                                     <a href="{{ site.baseurl }}{{ subitem.link }}" 
-                                       data-search="{{ subitem.name | downcase }} {{ item.label | downcase }}">
+                                       data-search="{{ subsubitem.name | downcase }} {{ subitem.name | downcase }} {{ item.label | downcase }}"
+                                       class="is-radiusless">
                                         <span class="icon is-small">
                                             <i class="fas fa-file-alt"></i>
                                         </span>
-                                        {{ subitem.name }}
+                                        <span>{{ subitem.name }}</span>
                                     </a>
                                 </li>
                                 {% endif %}
@@ -84,12 +86,10 @@
                 </div>
                 
                 <!-- Sidebar footer -->
-                <div class="docs-sidebar-footer">
+                <div class="docs-sidebar-footer px-4">
                     <div class="docs-ad-container has-background-light p-3 mb-3">
                         <p class="is-size-7 has-text-grey mb-1">Advertisement</p>
-                        <div class="has-text-centered">
-                            <img src="https://via.placeholder.com/250x100" alt="Advertisement" class="is-block mx-auto">
-                        </div>
+                        <div class="ad-placeholder" data-ad-pos="sidebar-bottom"></div>
                     </div>
                 </div>
             </div>
@@ -98,9 +98,9 @@
         <!-- Main content area -->
         <main class="docs-main">
             <div class="columns is-desktop">
-                <div class="column is-8 is-offset-1">
+                <div class="column is-8">
                     <!-- Breadcrumbs -->
-                    <nav class="docs-breadcrumb breadcrumb has-succeeds-separator" aria-label="breadcrumbs">
+                    <nav class="docs-breadcrumb breadcrumb has-succeeds-separator mb-5" aria-label="breadcrumbs">
                         <ul>
                             <li><a href="{{ site.baseurl }}/">Home</a></li>
                             <li><a href="{{ site.baseurl }}/docs/">Documentation</a></li>
@@ -114,9 +114,7 @@
                     <!-- Top ad banner -->
                     <div class="docs-ad-banner has-background-light p-3 mb-5">
                         <p class="is-size-7 has-text-grey mb-1">Advertisement</p>
-                        <div class="has-text-centered">
-                            <img src="https://via.placeholder.com/728x90" alt="Advertisement" class="is-block mx-auto">
-                        </div>
+                        <div class="ad-placeholder" data-ad-pos="content-top"></div>
                     </div>
                     
                     <!-- Content header -->
@@ -147,13 +145,11 @@
                     <!-- Main content -->
                     <div class="docs-content content is-medium">
                         {{ content }}
-                    </div>
-                    
-                    <!-- Mid-content ad banner -->
-                    <div class="docs-ad-banner has-background-light p-3 my-5">
-                        <p class="is-size-7 has-text-grey mb-1">Advertisement</p>
-                        <div class="has-text-centered">
-                            <img src="https://via.placeholder.com/728x90" alt="Advertisement" class="is-block mx-auto">
+                        
+                        <!-- Mid-content ad banner -->
+                        <div class="docs-ad-banner has-background-light p-3 my-5">
+                            <p class="is-size-7 has-text-grey mb-1">Advertisement</p>
+                            <div class="ad-placeholder" data-ad-pos="content-mid"></div>
                         </div>
                     </div>
                     
@@ -185,35 +181,13 @@
                                 {% endif %}
                             </div>
                         </div>
-                        
-                        <!-- Feedback section -->
-                        <div class="docs-feedback box mt-5">
-                            <h3 class="title is-5 mb-3">Was this page helpful?</h3>
-                            <div class="buttons">
-                                <button class="button is-success is-light docs-feedback-button">
-                                    <span class="icon">
-                                        <i class="fas fa-thumbs-up"></i>
-                                    </span>
-                                    <span>Yes</span>
-                                </button>
-                                <button class="button is-danger is-light docs-feedback-button">
-                                    <span class="icon">
-                                        <i class="fas fa-thumbs-down"></i>
-                                    </span>
-                                    <span>No</span>
-                                </button>
-                            </div>
-                            <div class="docs-feedback-message is-hidden mt-2">
-                                <p class="help">Thank you for your feedback!</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 
                 <!-- Desktop TOC - Visible only on desktop -->
-                <div class="column is-3 is-hidden-touch">
+                <div class="column is-4 is-hidden-touch">
                     <div class="docs-toc" id="docsToc">
-                        <div class="docs-toc-inner">
+                        <div class="docs-toc-inner is-sticky">
                             <div class="docs-toc-header">
                                 <h3 class="title is-5">{{ page.toc_title | default: 'On this page' }}</h3>
                             </div>
@@ -222,27 +196,15 @@
                                 {% include utility/toc.html html=content class="menu-list" h_min=2 h_max=3 %}
                             </div>
                             
-                            <!-- Right sidebar ad -->
+                            <!-- Right sidebar ads -->
                             <div class="docs-ad-container has-background-light p-3 mt-4">
                                 <p class="is-size-7 has-text-grey mb-1">Advertisement</p>
-                                <div class="has-text-centered">
-                                    <img src="https://via.placeholder.com/250x250" alt="Advertisement" class="is-block mx-auto">
-                                </div>
+                                <div class="ad-placeholder" data-ad-pos="sidebar-toc"></div>
                             </div>
                             
-                            <!-- Author info -->
-                            <div class="docs-author box mt-4">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <figure class="image is-48x48">
-                                            <img src="{{ page.author_image | default: 'https://via.placeholder.com/48' }}" alt="Author Avatar" class="is-rounded">
-                                        </figure>
-                                    </div>
-                                    <div class="media-content">
-                                        <p class="title is-6">{{ page.author | default: 'Documentation Team' }}</p>
-                                        <p class="subtitle is-7 has-text-grey">{{ page.author_role | default: 'Technical Writer' }}</p>
-                                    </div>
-                                </div>
+                            <div class="docs-ad-container has-background-light p-3 mt-4">
+                                <p class="is-size-7 has-text-grey mb-1">Advertisement</p>
+                                <div class="ad-placeholder" data-ad-pos="sidebar-toc-2"></div>
                             </div>
                         </div>
                     </div>
@@ -266,7 +228,6 @@
             width: 280px;
             background-color: white;
             border-right: 1px solid #f0f0f0;
-            padding: 1rem 0;
             height: calc(100vh - 3.25rem);
             position: fixed;
             top: 3.25rem; /* Navbar height */
@@ -288,32 +249,28 @@
             height: 100%;
         }
         
-        .docs-brand {
-            padding: 0.5rem 1rem;
-            border-bottom: 1px solid #f0f0f0;
-            margin-bottom: 1rem;
+        /* Proper Bulma menu styling */
+        .docs-menu-container .menu-list {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
         }
         
-        .docs-menu-container {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 0 1rem;
+        .docs-menu-container .menu-list a {
+            padding: 0.5em 0.75em;
+            border-radius: 4px;
         }
         
-        .docs-menu-section {
-            margin-bottom: 1.5rem;
-        }
-        
-        .docs-sidebar-footer {
-            padding: 0 1rem;
-            margin-top: auto;
+        .docs-menu-container .menu-list li ul {
+            margin-top: 0.25rem;
+            margin-bottom: 0.25rem;
+            border-left: 1px solid #f0f0f0;
         }
         
         /* Main content styles */
         .docs-main {
             flex-grow: 1;
             width: 100%;
-            padding: 2rem 0;
+            padding: 2rem;
             margin-left: 0;
             transition: margin-left 0.3s ease;
         }
@@ -322,29 +279,22 @@
             margin-left: 280px;
         }
         
-        .docs-breadcrumb {
-            margin-bottom: 2rem;
+        /* Sticky TOC */
+        .is-sticky {
+            position: sticky;
+            top: 3.25rem; /* Navbar height */
+            max-height: calc(100vh - 3.25rem);
+            overflow-y: auto;
         }
         
-        .docs-content-header {
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        
-        .docs-content {
-            margin-top: 2rem;
-        }
-        
-        .docs-content h2 {
-            font-size: 1.5rem;
-            margin-top: 2.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid #f0f0f0;
-        }
-        
-        .docs-content h3 {
-            font-size: 1.25rem;
-            margin-top: 2rem;
+        /* Ad placeholders */
+        .ad-placeholder {
+            min-height: 250px;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
         }
         
         /* Mobile menu button */
@@ -359,15 +309,6 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         
-        /* Ad containers */
-        .docs-ad-container {
-            border-radius: 6px;
-        }
-        
-        .docs-ad-banner {
-            border-radius: 6px;
-        }
-        
         /* Responsive adjustments */
         @media screen and (min-width: 1024px) {
             .docs-sidebar {
@@ -376,10 +317,21 @@
             
             .docs-main {
                 margin-left: 280px;
+                padding-left: 3rem;
+                padding-right: 3rem;
             }
             
             .docs-mobile-menu-button {
                 display: none;
+            }
+            
+            .column.is-8 {
+                width: 66.6666%;
+                margin-left: 0;
+            }
+            
+            .column.is-4 {
+                width: 33.3333%;
             }
         }
         
@@ -391,11 +343,6 @@
             .docs-content-header .subtitle {
                 font-size: 1.1rem !important;
             }
-            
-            .docs-ad-banner img {
-                max-width: 100%;
-                height: auto;
-            }
         }
     </style>
 
@@ -405,109 +352,103 @@
         const mobileMenuToggle = document.getElementById('docsMobileMenuToggle');
         const docsSidebar = document.getElementById('docsSidebar');
         
+        function toggleMenu() {
+            docsSidebar.classList.toggle('is-active');
+            mobileMenuToggle.classList.toggle('is-active');
+            document.body.style.overflow = docsSidebar.classList.contains('is-active') ? 'hidden' : '';
+        }
+        
         if (mobileMenuToggle && docsSidebar) {
           mobileMenuToggle.addEventListener('click', function(e) {
             e.stopPropagation();
-            docsSidebar.classList.toggle('is-active');
-            this.classList.toggle('is-active');
-            
-            // Toggle body overflow when menu is open
-            if (docsSidebar.classList.contains('is-active')) {
-              document.body.style.overflow = 'hidden';
-            } else {
-              document.body.style.overflow = '';
-            }
+            toggleMenu();
           });
         }
 
         // Close menu when clicking outside
         document.addEventListener('click', function(e) {
           if (docsSidebar && docsSidebar.classList.contains('is-active')) {
-            const isClickInsideSidebar = docsSidebar.contains(e.target);
-            const isClickOnToggle = mobileMenuToggle && mobileMenuToggle.contains(e.target);
-            
-            if (!isClickInsideSidebar && !isClickOnToggle) {
-              docsSidebar.classList.remove('is-active');
-              if (mobileMenuToggle) {
-                mobileMenuToggle.classList.remove('is-active');
-              }
-              document.body.style.overflow = '';
+            if (!docsSidebar.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+              toggleMenu();
             }
           }
         });
 
         // Close menu when pressing Escape key
         document.addEventListener('keydown', function(e) {
-          if (e.key === 'Escape' && docsSidebar && docsSidebar.classList.contains('is-active')) {
-            docsSidebar.classList.remove('is-active');
-            if (mobileMenuToggle) {
-              mobileMenuToggle.classList.remove('is-active');
-            }
-            document.body.style.overflow = '';
+          if (e.key === 'Escape' && docsSidebar.classList.contains('is-active')) {
+            toggleMenu();
           }
         });
 
         // Search functionality
         const docsSearchInput = document.getElementById('docsSearchInput');
-        const docsMenuSections = document.querySelectorAll('.docs-menu-section');
-        
         if (docsSearchInput) {
           docsSearchInput.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase().trim();
+            const docsMenuSections = document.querySelectorAll('.docs-menu-section');
             
-            if (searchTerm.length > 0) {
-              docsMenuSections.forEach(section => {
+            docsMenuSections.forEach(section => {
                 const menuLabel = section.querySelector('.menu-label');
                 const menuItems = section.querySelectorAll('.menu-list li');
-                
                 let hasVisibleItems = false;
                 
                 menuItems.forEach(item => {
-                  const link = item.querySelector('a');
-                  if (link) {
-                    const searchData = link.getAttribute('data-search') || '';
-                    
-                    if (searchData.includes(searchTerm)) {
-                      item.style.display = 'block';
-                      hasVisibleItems = true;
-                    } else {
-                      item.style.display = 'none';
+                    const link = item.querySelector('a');
+                    if (link) {
+                        const searchData = link.getAttribute('data-search') || '';
+                        const shouldShow = searchData.includes(searchTerm);
+                        item.style.display = shouldShow ? 'block' : 'none';
+                        hasVisibleItems = hasVisibleItems || shouldShow;
                     }
-                  }
                 });
                 
-                if (hasVisibleItems) {
-                  section.style.display = 'block';
-                  if (menuLabel) menuLabel.style.display = 'block';
-                } else {
-                  section.style.display = 'none';
-                }
-              });
-            } else {
-              // Show all items when search is empty
-              docsMenuSections.forEach(section => {
-                section.style.display = 'block';
-                const menuLabel = section.querySelector('.menu-label');
-                const menuItems = section.querySelectorAll('.menu-list li');
-                
-                if (menuLabel) menuLabel.style.display = 'block';
-                menuItems.forEach(item => {
-                  item.style.display = 'block';
-                });
-              });
-            }
+                section.style.display = hasVisibleItems ? 'block' : 'none';
+                if (menuLabel) menuLabel.style.display = hasVisibleItems ? 'block' : 'none';
+            });
           });
         }
 
-        // Feedback buttons
-        document.querySelectorAll('.docs-feedback-button').forEach(button => {
-          button.addEventListener('click', () => {
-            const feedbackMessage = document.querySelector('.docs-feedback-message');
-            if (feedbackMessage) {
-              feedbackMessage.classList.remove('is-hidden');
-              setTimeout(() => feedbackMessage.classList.add('is-hidden'), 2000);
+        // Ad rotation functionality
+        const adPositions = ['content-top', 'content-mid', 'sidebar-toc', 'sidebar-toc-2', 'sidebar-bottom'];
+        let currentAdIndex = 0;
+        
+        function rotateAds() {
+            const adPlaceholders = document.querySelectorAll('.ad-placeholder');
+            adPlaceholders.forEach(placeholder => {
+                placeholder.innerHTML = '';
+                const adPos = placeholder.getAttribute('data-ad-pos');
+                
+                // Only show one ad at a time in sequence
+                if (adPos === adPositions[currentAdIndex]) {
+                    // Replace with actual ad code
+                    placeholder.innerHTML = `
+                        <div class="ad-content">
+                            <p class="is-size-7 has-text-grey">Ad Space ${currentAdIndex + 1}</p>
+                            <img src="https://via.placeholder.com/300x250?text=Ad+${currentAdIndex + 1}" alt="Advertisement">
+                        </div>
+                    `;
+                }
+            });
+            
+            currentAdIndex = (currentAdIndex + 1) % adPositions.length;
+        }
+        
+        // Rotate ads every 5 seconds
+        setInterval(rotateAds, 5000);
+        rotateAds(); // Initial call
+        
+        // Show next ad when scrolling
+        let lastScrollPosition = 0;
+        const scrollThreshold = 500; // pixels
+        
+        window.addEventListener('scroll', function() {
+            const currentScrollPosition = window.scrollY;
+            
+            if (Math.abs(currentScrollPosition - lastScrollPosition) > scrollThreshold) {
+                rotateAds();
+                lastScrollPosition = currentScrollPosition;
             }
-          });
         });
       });
     </script>
