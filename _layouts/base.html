@@ -2,10 +2,7 @@
 <html lang="{{ site.lang | default: 'en-US' }}" class=" {% if site.fixed_navbar %} has-navbar-fixed-top {% endif %}" >
 {% include im-head.html %}
 <body class="layout-{{ page.layout | default: 'default'}}">
-    {% include im-navbar.html %}
-    <div class="content is-medium ">
-        {{ content }} <!-- This is where your markdown gets rendered -->
-      </div>
+            {{ content }} 
    {% include site-before-end.html %}
    {% include head/sw.html %}
 </body>

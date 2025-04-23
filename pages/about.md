@@ -1,7 +1,7 @@
 ---
-title: About
-description: "this is about page"
-image: /assets/logo.png
+title: About Swarnil Singhai
+description: "Learn more about Swarnil Singhai, a Salesforce CRM Analytics Developer and Content Creator passionate about data, tech, and sharing knowledge."
+image: /assets/images/your-photo.jpg # Replace with your photo path for social sharing
 layout : extra/about
-permalink : /about
+permalink : /about/
 ---

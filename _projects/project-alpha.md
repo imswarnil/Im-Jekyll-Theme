@@ -11,11 +11,6 @@ repo_url: "https://github.com/yourusername/project-alpha"
 live_url: "https://project-alpha.yourdomain.com"
 technologies: ["React", "Node.js", "Express", "PostgreSQL", "Bulma", "Sass", "Webpack"]
 featured: true # Show this on the homepage
-
-# --- SEO Overrides ---
-seo_title: "Project Alpha: React Web App Modernization Case Study | Swarnil"
-seo_description: "Details on modernizing a web app with React, Node.js, and Bulma, focusing on performance and UX improvements."
-og_image: /assets/images/projects/project-alpha-og.jpg # Specific OG image if different from cover
 ---
 
 ## Project Overview

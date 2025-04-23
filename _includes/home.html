@@ -1,35 +1,3 @@
-<section class="section featured-projects-section has-background-light"> {# Example background #}
-    <div class="container">
-      <div class="has-text-centered mb-6">
-        <h2 class="title is-size-2 has-text-weight-bold">Featured Projects</h2>
-        <p class="subtitle is-size-5 has-text-grey">
-          A selection of recent or notable work.
-        </p>
-      </div>
-  
-      <div class="columns is-multiline is-variable is-4-tablet is-5-desktop project-grid">
-        {% assign featured_projects = site.projects | where: "featured", true | sort: "date" | reverse | limit: 3 %}
-        {% for p in featured_projects %}
-        <div class="column is-6-tablet is-4-desktop project-column">
-           {% include card/project.html project=p %}
-        </div>
-        {% endfor %}
-      </div>
-  
-      {% assign project_count = site.projects | size %}
-      {% assign featured_count = featured_projects | size %}
-      {% if project_count > featured_count %}
-      <div class="has-text-centered mt-6">
-        <a href="{{ '/projects/' | relative_url }}" class="button is-primary is-medium project-view-all-button">
-          <span>View All Projects</span>
-          <span class="icon"><i class="fas fa-arrow-right"></i></span>
-        </a>
-      </div>
-      {% endif %}
-  
-    </div>
-  </section>
-
 <section class="hero is-light is-primary is-small is-bold">
     <div class="hero-body">
         <div class="container py-5">
