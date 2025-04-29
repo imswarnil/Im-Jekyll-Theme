@@ -1,23 +1,8 @@
-// Custom Variables
 $primary: #e53935;
-$link: $primary;
+$link : $primary;
 $family-sans-serif: "Outfit", "Arial", sans-serif !default;
 $family-monospace: "Roboto Mono", monospace !default;
 
-// Import Bulma
 @import "../node_modules/bulma/sass/index";
-
-// Import Theme Components
 @import "./theme/index";
 
-// Custom IM Prefix CSS Components
-@import "./theme/im-typography";
-@import "./theme/im-helpers";
-@import "./theme/im-cards";
-@import "./theme/im-hero";
-@import "./theme/im-sections";
-@import "./theme/im-carousel";
-@import "./theme/im-timeline";
-@import "./theme/im-comments";
-@import "./theme/im-forms";
-@import "./theme/im-footer";
