@@ -1,0 +1,78 @@
+// IM Helpers
+.im-section {
+    padding: 3rem 1.5rem;
+    
+    @include tablet {
+      padding: 5rem 3rem;
+    }
+    
+    &.is-small {
+      padding: 2rem 1.5rem;
+    }
+    
+    &.is-large {
+      padding: 6rem 1.5rem;
+      
+      @include tablet {
+        padding: 9rem 3rem;
+      }
+    }
+    
+    &.has-background-primary {
+      background-color: $primary;
+      color: findColorInvert($primary);
+    }
+    
+    &.has-background-light {
+      background-color: $light;
+    }
+    
+    &.has-background-dark {
+      background-color: $dark;
+      color: findColorInvert($dark);
+    }
+  }
+  
+  .im-divider {
+    height: 2px;
+    background-color: $primary;
+    width: 80px;
+    margin: 2rem auto;
+    
+    &.is-left {
+      margin-left: 0;
+    }
+    
+    &.is-right {
+      margin-right: 0;
+    }
+  }
+  
+  .im-icon-box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    
+    .icon {
+      margin-right: 1rem;
+      color: $primary;
+    }
+  }
+  
+  .im-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background-color: $primary;
+    color: findColorInvert($primary);
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    
+    &.is-outlined {
+      background-color: transparent;
+      border: 1px solid $primary;
+      color: $primary;
+    }
+  }

@@ -1,0 +1,131 @@
+// IM Footer
+.im-footer {
+    background-color: $dark;
+    color: white;
+    padding: 4rem 1.5rem 2rem;
+    
+    .im-footer-logo {
+      margin-bottom: 1.5rem;
+      
+      img {
+        max-height: 50px;
+      }
+    }
+    
+    .im-footer-description {
+      color: $grey-light;
+      margin-bottom: 1.5rem;
+      max-width: 300px;
+    }
+    
+    .im-footer-social {
+      display: flex;
+      margin-bottom: 2rem;
+      
+      .im-social-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+        margin-right: 0.75rem;
+        transition: background-color 0.3s ease;
+        
+        &:hover {
+          background-color: $primary;
+        }
+      }
+    }
+    
+    .im-footer-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: white;
+    }
+    
+    .im-footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      
+      li {
+        margin-bottom: 0.75rem;
+        
+        a {
+          color: $grey-light;
+          transition: color 0.3s ease;
+          
+          &:hover {
+            color: $primary;
+          }
+        }
+      }
+    }
+    
+    .im-footer-contact {
+      .im-contact-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+        
+        .icon {
+          color: $primary;
+          margin-right: 1rem;
+          margin-top: 0.25rem;
+        }
+        
+        .im-contact-text {
+          color: $grey-light;
+        }
+      }
+    }
+    
+    .im-footer-bottom {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      
+      @include mobile {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .im-copyright {
+        color: $grey-light;
+        
+        @include mobile {
+          margin-bottom: 1rem;
+        }
+      }
+      
+      .im-footer-bottom-links {
+        display: flex;
+        
+        @include mobile {
+          flex-direction: column;
+        }
+        
+        a {
+          color: $grey-light;
+          margin-left: 1.5rem;
+          transition: color 0.3s ease;
+          
+          @include mobile {
+            margin-left: 0;
+            margin-bottom: 0.5rem;
+          }
+          
+          &:hover {
+            color: $primary;
+          }
+        }
+      }
+    }
+  }
