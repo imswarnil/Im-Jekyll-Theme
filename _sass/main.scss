@@ -692,10 +692,3 @@ h6, .title.is-6 { font-size: 1rem; } /* 16px */
 .has-background-white { background-color: #ffffff !important; color: #1f2937 !important; }
 .has-background-light { background-color: #f3f4f6 !important; color: #374151 !important; }
 .has-background-dark { background-color: #1f2937 !important; color: #f3f4f6 !important; }
-
-/* Override spacing/typography helpers only if absolutely needed */
-/* .m-4 { margin: 1rem !important; } .p-4 { padding: 1rem !important; } etc. */
-/* .is-size-4 { font-size: 1.25rem !important; } etc. */
-@import "../node_modules/bulma/sass/index";
-@import "./theme/index";
-
