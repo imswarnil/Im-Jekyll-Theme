@@ -23,35 +23,35 @@ $im-amber-500:  #f59e0b; // Your warning base
 $im-rose-600:   #e11d48; // Your danger base
 $im-pink-600:   #db2777; // Your code/accent base
 
-// Explicit Invert Colors (calculated manually or chosen)
+// Explicit Invert Colors
 $im-red-600-invert:    $im-white;
 $im-sky-500-invert:    $im-white;
 $im-emerald-500-invert: $im-white;
-$im-amber-500-invert:  $im-gray-900; // Dark text usually best on amber
+$im-amber-500-invert:  $im-gray-900;
 $im-rose-600-invert:   $im-white;
 $im-pink-600-invert:   $im-white;
 $im-light-invert:      $im-gray-900;
 $im-dark-invert:       $im-white;
 
-// Hover/Active States (Calculated from base)
+// Hover/Active States
 $im-red-600-hover:     darken($im-red-600, 5%);
 $im-red-600-active:    darken($im-red-600, 10%);
 $im-sky-500-hover:     darken($im-sky-500, 5%);
 $im-sky-500-active:    darken($im-sky-500, 10%);
-// ... Add hover/active for success, warning, danger if needed for buttons etc.
+// Add hover/active for success, warning, danger if needed
 
 // --- im- Typography ---
 $im-font-sans: "Outfit", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 $im-font-mono: "Roboto Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
-$im-text-base-size: 1rem; // 16px
-$im-text-sm:  0.875rem; // 14px
-$im-text-lg:  1.125rem; // 18px
-$im-text-xl:  1.25rem;  // 20px
-$im-text-2xl: 1.5rem;   // 24px
-$im-text-3xl: 1.875rem; // 30px
-$im-text-4xl: 2.25rem;  // 36px
-$im-text-5xl: 3rem;     // 48px
+$im-text-base-size: 1rem;
+$im-text-sm:  0.875rem;
+$im-text-lg:  1.125rem;
+$im-text-xl:  1.25rem;
+$im-text-2xl: 1.5rem;
+$im-text-3xl: 1.875rem;
+$im-text-4xl: 2.25rem;
+$im-text-5xl: 3rem;
 
 $im-leading-normal: 1.5;
 $im-leading-tight:  1.25;
@@ -63,36 +63,35 @@ $im-font-medium: 500;
 $im-font-semibold: 600;
 $im-font-bold: 700;
 
-// --- im- Spacing ---
-// Base unit: 1rem = 16px (Tailwind's space-4)
+// --- im- Spacing (CSS-safe keys) ---
 $im-space-0: 0;
 $im-space-px: 1px;
-$im-space-0-5: 0.125rem; // 2px
-$im-space-1:   0.25rem;  // 4px
-$im-space-1-5: 0.375rem; // 6px
-$im-space-2:   0.5rem;   // 8px
-$im-space-2-5: 0.625rem; // 10px
-$im-space-3:   0.75rem;  // 12px
-$im-space-4:   1rem;     // 16px
-$im-space-5:   1.25rem;  // 20px
-$im-space-6:   1.5rem;   // 24px
-$im-space-8:   2rem;     // 32px
-$im-space-10:  2.5rem;   // 40px
-$im-space-12:  3rem;     // 48px
-$im-space-16:  4rem;     // 64px
-// ... add more as needed
+$im-space-0-5: 0.125rem;
+$im-space-1:   0.25rem;
+$im-space-1-5: 0.375rem;
+$im-space-2:   0.5rem;
+$im-space-2-5: 0.625rem;
+$im-space-3:   0.75rem;
+$im-space-3-5: 0.875rem;
+$im-space-4:   1rem;
+$im-space-5:   1.25rem;
+$im-space-6:   1.5rem;
+$im-space-8:   2rem;
+$im-space-10:  2.5rem;
+$im-space-12:  3rem;
+$im-space-16:  4rem;
 
 // --- im- Borders ---
 $im-border-width-default: 1px;
 $im-border-color-default: $im-gray-300;
 $im-border-color-light:   $im-gray-200;
-$im-border-color-focus:   $im-red-600; // Example focus color
+$im-border-color-focus:   $im-red-600;
 
 $im-radius-none: 0px;
-$im-radius-sm:   0.125rem; // 2px
-$im-radius-md:   0.375rem; // 6px
-$im-radius-lg:   0.5rem;   // 8px
-$im-radius-xl:   0.75rem;  // 12px
+$im-radius-sm:   0.125rem;
+$im-radius-md:   0.375rem;
+$im-radius-lg:   0.5rem;
+$im-radius-xl:   0.75rem;
 $im-radius-full: 9999px;
 
 // --- im- Shadows ---
@@ -112,17 +111,13 @@ $im-z-30: 30;
 $im-z-40: 40;
 $im-z-50: 50;
 
-
 // ==========================================================
 // STEP 2: Import Bulma Core
-// (Generates CSS using Bulma's internal default variables)
 // ==========================================================
 @import "../node_modules/bulma/sass/index";
 
-
 // ==========================================================
 // STEP 3: Apply YOUR Tokens by Overriding Bulma CSS Rules
-// (This requires writing specific rules for elements/components)
 // ==========================================================
 
 // --- Base Element Overrides ---
@@ -133,30 +128,29 @@ body {
   font-size: $im-text-base-size;
   line-height: $im-leading-normal;
   font-weight: $im-font-normal;
-  // Note: Bulma sets -webkit-font-smoothing, etc. Keep those or override if needed.
 }
 
 a {
-  color: $im-red-600; // Use primary color for links
+  color: $im-red-600;
   &:hover {
     color: $im-red-600-hover;
   }
 }
 
 p {
-  margin-bottom: $im-space-4; // Example paragraph spacing
+  margin-bottom: $im-space-4;
 }
 
 strong, b {
   font-weight: $im-font-bold;
-  color: $im-gray-900; // Or inherit? Your choice.
+  color: $im-gray-900;
 }
 
 code {
   background-color: $im-gray-100;
   color: $im-pink-600;
   font-family: $im-font-mono;
-  font-size: 0.875em; // Slightly smaller
+  font-size: 0.875em;
   padding: $im-space-0-5 $im-space-1-5;
   border-radius: $im-radius-sm;
 }
@@ -168,7 +162,7 @@ pre {
   padding: $im-space-3 $im-space-4;
   border-radius: $im-radius-md;
   overflow-x: auto;
-  code { // Reset styles for code inside pre
+  code {
     background-color: transparent;
     color: inherit;
     padding: 0;
@@ -191,13 +185,10 @@ h4, .title.is-4 { font-size: $im-text-xl; font-weight: $im-font-semibold; line-h
 h5, .title.is-5 { font-size: $im-text-lg; font-weight: $im-font-medium; line-height: $im-leading-normal; color: $im-gray-800; margin-bottom: $im-space-2; }
 h6, .title.is-6 { font-size: $im-text-base-size; font-weight: $im-font-medium; line-height: $im-leading-normal; color: $im-gray-800; margin-bottom: $im-space-2; }
 
-.subtitle { // Adjust subtitle styling
+.subtitle {
   color: $im-gray-600;
   font-weight: $im-font-normal;
-  // Adjust .is-1 to .is-6 sizes if needed, e.g.:
-  // &.is-3 { font-size: $im-text-xl; }
 }
-
 
 // --- Form Controls ---
 .input,
@@ -207,10 +198,10 @@ h6, .title.is-6 { font-size: $im-text-base-size; font-weight: $im-font-medium; l
   border-color: $im-border-color-default;
   border-radius: $im-radius-md;
   color: $im-gray-800;
-  padding: $im-space-2 $im-space-3; // Example padding
-  box-shadow: $im-shadow-none; // Remove Bulma's default inset shadow
+  padding: $im-space-2 $im-space-3;
+  box-shadow: $im-shadow-none;
   font-size: $im-text-base-size;
-  line-height: $im-leading-normal; // Ensure consistent line height
+  line-height: $im-leading-normal;
 
   &:hover {
     border-color: $im-gray-400;
@@ -218,15 +209,14 @@ h6, .title.is-6 { font-size: $im-text-base-size; font-weight: $im-font-medium; l
 
   &:focus, &.is-focused, &:active, &.is-active {
     border-color: $im-border-color-focus;
-    box-shadow: 0 0 0 3px rgba($im-red-600, 0.2); // Focus ring using primary color
-    outline: none; // Remove default outline
+    box-shadow: 0 0 0 3px rgba($im-red-600, 0.2);
+    outline: none;
   }
 
   &::placeholder {
     color: $im-gray-400;
   }
 
-  // Disabled state
   &[disabled],
   fieldset[disabled] & {
     background-color: $im-gray-100;
@@ -238,16 +228,13 @@ h6, .title.is-6 { font-size: $im-text-base-size; font-weight: $im-font-medium; l
 }
 
 .textarea {
-  // Specific textarea adjustments if needed
   min-height: 120px;
 }
 
 .select {
-  // Select wrapper might need height adjustment
-  height: auto; // Let the inner select determine height based on padding
-  &::after { // Style the dropdown arrow
+  height: auto;
+  &::after {
     border-color: $im-gray-500;
-    // Adjust position/size if needed based on padding
   }
   &:not(.is-multiple):not(.is-loading):hover::after {
      border-color: $im-gray-600;
@@ -256,18 +243,16 @@ h6, .title.is-6 { font-size: $im-text-base-size; font-weight: $im-font-medium; l
 
 .checkbox,
 .radio {
-  // Basic resets - More complex styling might need custom components
   margin-right: $im-space-1;
   input {
     margin-right: $im-space-0-5;
   }
-  // Add custom checkbox/radio appearance overrides here if desired
 }
 
 .label {
   color: $im-gray-700;
   font-weight: $im-font-semibold;
-  font-size: $im-text-base-size; // Or $im-text-sm
+  font-size: $im-text-base-size;
 }
 
 .help {
@@ -282,33 +267,31 @@ h6, .title.is-6 { font-size: $im-text-base-size; font-weight: $im-font-medium; l
   border-width: $im-border-width-default;
   border-radius: $im-radius-md;
   color: $im-gray-800;
-  padding: $im-space-2 $im-space-4; // Example padding
+  padding: $im-space-2 $im-space-4;
   font-size: $im-text-base-size;
   line-height: $im-leading-normal;
-  font-weight: $im-font-medium; // Slightly heavier than base text
-  box-shadow: $im-shadow-none; // Optional: Add subtle shadow like $im-shadow-sm
+  font-weight: $im-font-medium;
+  box-shadow: $im-shadow-none;
   transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
   &:hover {
     border-color: $im-gray-400;
     color: $im-gray-900;
-    background-color: $im-gray-50; // Subtle hover background
+    background-color: $im-gray-50;
   }
 
   &:focus, &.is-focused {
     border-color: $im-border-color-focus;
-    box-shadow: 0 0 0 3px rgba($im-red-600, 0.2); // Focus ring
+    box-shadow: 0 0 0 3px rgba($im-red-600, 0.2);
     outline: none;
-    // color: $im-red-600; // Optional: Change text color on focus
   }
 
   &:active, &.is-active {
     border-color: $im-gray-500;
-    background-color: $im-gray-100; // Slightly darker active background
-    box-shadow: $im-shadow-inner; // Optional: inner shadow on active
+    background-color: $im-gray-100;
+    box-shadow: $im-shadow-inner;
   }
 
-  // Primary Button Color
   &.is-primary {
     background-color: $im-red-600;
     border-color: $im-red-600;
@@ -318,11 +301,11 @@ h6, .title.is-6 { font-size: $im-text-base-size; font-weight: $im-font-medium; l
       border-color: $im-red-600-hover;
       color: $im-red-600-invert;
     }
-     &:focus, &.is-focused { // Keep focus ring consistent
-       border-color: $im-red-600-hover; // Darker border matches hover
+     &:focus, &.is-focused {
+       border-color: $im-red-600-hover;
        box-shadow: 0 0 0 3px rgba($im-red-600, 0.25);
        color: $im-red-600-invert;
-       background-color: $im-red-600-hover; // Match hover bg
+       background-color: $im-red-600-hover;
      }
     &:active, &.is-active {
       background-color: $im-red-600-active;
@@ -332,7 +315,6 @@ h6, .title.is-6 { font-size: $im-text-base-size; font-weight: $im-font-medium; l
     }
   }
 
-  // Info Button Color
   &.is-info {
     background-color: $im-sky-500;
     border-color: $im-sky-500;
@@ -342,43 +324,53 @@ h6, .title.is-6 { font-size: $im-text-base-size; font-weight: $im-font-medium; l
      &:active, &.is-active { background-color: $im-sky-500-active; border-color: $im-sky-500-active; color: $im-sky-500-invert; box-shadow: $im-shadow-inner; }
   }
 
-  // Success Button Color
   &.is-success {
      background-color: $im-emerald-500; border-color: $im-emerald-500; color: $im-emerald-500-invert;
      &:hover { background-color: darken($im-emerald-500, 5%); border-color: darken($im-emerald-500, 5%); color: $im-emerald-500-invert; }
      &:focus, &.is-focused { border-color: darken($im-emerald-500, 5%); box-shadow: 0 0 0 3px rgba($im-emerald-500, 0.25); color: $im-emerald-500-invert; background-color: darken($im-emerald-500, 5%); }
      &:active, &.is-active { background-color: darken($im-emerald-500, 10%); border-color: darken($im-emerald-500, 10%); color: $im-emerald-500-invert; box-shadow: $im-shadow-inner; }
   }
-  // ... Add .is-warning, .is-danger similarly ...
 
-  // Light Button Color
+  &.is-warning {
+     background-color: $im-amber-500; border-color: $im-amber-500; color: $im-amber-500-invert;
+     &:hover { background-color: darken($im-amber-500, 5%); border-color: darken($im-amber-500, 5%); color: $im-amber-500-invert; }
+     &:focus, &.is-focused { border-color: darken($im-amber-500, 5%); box-shadow: 0 0 0 3px rgba($im-amber-500, 0.25); color: $im-amber-500-invert; background-color: darken($im-amber-500, 5%); }
+     &:active, &.is-active { background-color: darken($im-amber-500, 10%); border-color: darken($im-amber-500, 10%); color: $im-amber-500-invert; box-shadow: $im-shadow-inner; }
+  }
+
+  &.is-danger {
+     background-color: $im-rose-600; border-color: $im-rose-600; color: $im-rose-600-invert;
+     &:hover { background-color: darken($im-rose-600, 5%); border-color: darken($im-rose-600, 5%); color: $im-rose-600-invert; }
+     &:focus, &.is-focused { border-color: darken($im-rose-600, 5%); box-shadow: 0 0 0 3px rgba($im-rose-600, 0.25); color: $im-rose-600-invert; background-color: darken($im-rose-600, 5%); }
+     &:active, &.is-active { background-color: darken($im-rose-600, 10%); border-color: darken($im-rose-600, 10%); color: $im-rose-600-invert; box-shadow: $im-shadow-inner; }
+  }
+
+
   &.is-light {
     background-color: $im-gray-100;
-    border-color: transparent; // Often no border on light buttons
+    border-color: transparent;
     color: $im-gray-700;
      &:hover { background-color: $im-gray-200; border-color: transparent; color: $im-gray-800; }
-     &:focus, &.is-focused { background-color: $im-gray-200; border-color: $im-gray-400; box-shadow: 0 0 0 3px rgba($im-gray-400, 0.25); color: $im-gray-800; } // Add focus border
+     &:focus, &.is-focused { background-color: $im-gray-200; border-color: $im-gray-400; box-shadow: 0 0 0 3px rgba($im-gray-400, 0.25); color: $im-gray-800; }
      &:active, &.is-active { background-color: $im-gray-300; border-color: transparent; color: $im-gray-800; box-shadow: $im-shadow-inner; }
   }
 
-  // Disabled state for all buttons
   &[disabled],
   fieldset[disabled] & {
-    background-color: $im-gray-200; // Or specific disabled bg
+    background-color: $im-gray-200;
     border-color: $im-gray-200;
     color: $im-gray-400;
     cursor: not-allowed;
     box-shadow: none;
-    opacity: 0.65; // Example opacity
+    opacity: 0.65;
   }
 
-  // Text Button Style
   &.is-text {
     background-color: transparent;
     border-color: transparent;
-    color: $im-red-600; // Use link/primary color
-    text-decoration: underline; // Add underline
-    padding-left: $im-space-1; // Less horizontal padding
+    color: $im-red-600;
+    text-decoration: underline;
+    padding-left: $im-space-1;
     padding-right: $im-space-1;
      &:hover, &:focus, &.is-focused { background-color: $im-gray-100; color: $im-red-600-hover; text-decoration: underline; }
      &:active, &.is-active { background-color: $im-gray-200; color: $im-red-600-active; text-decoration: underline; }
@@ -386,14 +378,13 @@ h6, .title.is-6 { font-size: $im-text-base-size; font-weight: $im-font-medium; l
 
 }
 
-// --- Other Common Components (Examples) ---
-
+// --- Other Common Components ---
 .box {
   background-color: $im-white;
-  border-radius: $im-radius-lg; // Larger radius for boxes/cards
+  border-radius: $im-radius-lg;
   box-shadow: $im-shadow-md;
   color: $im-gray-700;
-  padding: $im-space-5; // Example padding
+  padding: $im-space-5;
 }
 
 .card {
@@ -401,9 +392,8 @@ h6, .title.is-6 { font-size: $im-text-base-size; font-weight: $im-font-medium; l
   border-radius: $im-radius-lg;
   box-shadow: $im-shadow-md;
   color: $im-gray-700;
-  // Bulma structure: .card-header, .card-content, .card-footer
   .card-header {
-    background-color: transparent; // No distinct bg
+    background-color: transparent;
     border-bottom: $im-border-width-default solid $im-border-color-light;
     padding: $im-space-3 $im-space-4;
     box-shadow: none;
@@ -411,7 +401,6 @@ h6, .title.is-6 { font-size: $im-text-base-size; font-weight: $im-font-medium; l
       color: $im-gray-800;
       font-weight: $im-font-semibold;
     }
-    // Style .card-header-icon if used
   }
   .card-content {
     padding: $im-space-4;
@@ -419,59 +408,54 @@ h6, .title.is-6 { font-size: $im-text-base-size; font-weight: $im-font-medium; l
   .card-footer {
     border-top: $im-border-width-default solid $im-border-color-light;
     padding: $im-space-3 $im-space-4;
-    // Style .card-footer-item if used
   }
 }
 
 .notification {
-  background-color: $im-gray-100; // Default light background
+  background-color: $im-gray-100;
   border-radius: $im-radius-md;
   color: $im-gray-700;
   padding: $im-space-4 $im-space-5;
 
-  // Color variants
   &.is-primary { background-color: $im-red-600; color: $im-red-600-invert; a:not(.button) { color: currentColor; text-decoration: underline; } }
   &.is-info { background-color: $im-sky-500; color: $im-sky-500-invert; a:not(.button) { color: currentColor; text-decoration: underline; } }
-  // ... etc for success, warning, danger
+  &.is-success { background-color: $im-emerald-500; color: $im-emerald-500-invert; a:not(.button) { color: currentColor; text-decoration: underline; } }
+  &.is-warning { background-color: $im-amber-500; color: $im-amber-500-invert; a:not(.button) { color: currentColor; text-decoration: underline; } }
+  &.is-danger { background-color: $im-rose-600; color: $im-rose-600-invert; a:not(.button) { color: currentColor; text-decoration: underline; } }
 }
 
 .tag {
-  background-color: $im-gray-200; // Default tag background
+  background-color: $im-gray-200;
   border-radius: $im-radius-sm;
   color: $im-gray-700;
   font-size: $im-text-sm;
   padding: $im-space-0-5 $im-space-2;
-  line-height: $im-leading-snug; // Adjust line height for tags
-  // Style .delete button inside tags if needed
+  line-height: $im-leading-snug;
 
-  // Color variants
   &.is-primary { background-color: $im-red-600; color: $im-red-600-invert; }
   &.is-info { background-color: $im-sky-500; color: $im-sky-500-invert; }
-  // ... etc
+  &.is-success { background-color: $im-emerald-500; color: $im-emerald-500-invert; }
+  &.is-warning { background-color: $im-amber-500; color: $im-amber-500-invert; }
+  &.is-danger { background-color: $im-rose-600; color: $im-rose-600-invert; }
 }
 
 .navbar {
   background-color: $im-white;
-  // Use border instead of shadow for bottom line
   border-bottom: $im-border-width-default solid $im-border-color-light;
   box-shadow: $im-shadow-none;
-  min-height: ($im-space-4 * 3.5); // Example height based on spacing unit
+  min-height: ($im-space-4 * 3.5);
   z-index: $im-z-30;
 
   .navbar-item, .navbar-link {
     color: $im-gray-700;
-    // Adjust padding if needed
     &:hover, &.is-active {
-      background-color: $im-gray-50; // Subtle hover/active bg
-      color: $im-red-600; // Primary color for hover/active text
+      background-color: $im-gray-50;
+      color: $im-red-600;
     }
-    // Adjust navbar-link arrow etc.
   }
-  // ... More navbar overrides (brand, burger, dropdown)
 }
 
 // --- Add more overrides for Table, Tabs, Pagination, Modal etc. as needed ---
-
 
 // ==========================================================
 // STEP 4: (Optional) Define Custom Utility Classes using im- Tokens
@@ -479,12 +463,13 @@ h6, .title.is-6 { font-size: $im-text-base-size; font-weight: $im-font-medium; l
 $im-spacing-scale: (
   "0": $im-space-0,
   "px": $im-space-px,
-  "0.5": $im-space-0-5,
+  "0-5": $im-space-0-5,
   "1": $im-space-1,
-  "1.5": $im-space-1-5,
+  "1-5": $im-space-1-5,
   "2": $im-space-2,
-  "2.5": $im-space-2-5,
+  "2-5": $im-space-2-5,
   "3": $im-space-3,
+  "3-5": $im-space-3-5,
   "4": $im-space-4,
   "5": $im-space-5,
   "6": $im-space-6,
@@ -494,7 +479,7 @@ $im-spacing-scale: (
   "16": $im-space-16,
 );
 
-// Generate Padding Utilities (e.g., .im-p-4, .im-pt-2)
+// Generate Padding Utilities
 @each $key, $value in $im-spacing-scale {
   .im-p-#{$key}  { padding:        $value !important; }
   .im-pt-#{$key} { padding-top:    $value !important; }
@@ -505,10 +490,12 @@ $im-spacing-scale: (
   .im-py-#{$key} { padding-top:    $value !important; padding-bottom:$value !important; }
 }
 
-// Generate Margin Utilities (e.g., .im-m-4, .im-mt-auto)
+// Generate Margin Utilities
 .im-m-auto { margin: auto !important; }
 .im-mt-auto { margin-top: auto !important; }
-// ... etc for auto margins
+.im-mb-auto { margin-bottom: auto !important; }
+.im-ml-auto { margin-left: auto !important; }
+.im-mr-auto { margin-right: auto !important; }
 
 @each $key, $value in $im-spacing-scale {
   .im-m-#{$key}  { margin:        $value !important; }
@@ -528,33 +515,29 @@ $im-spacing-scale: (
   .-im-my-#{$key} { margin-top:    -$value !important; margin-bottom:-$value !important; }
 }
 
-// --- Text Color Utilities (e.g., .im-text-red-600) ---
+// --- Text Color Utilities ---
 $im-text-colors: (
   "white": $im-white, "black": $im-black,
   "gray-50": $im-gray-50, "gray-100": $im-gray-100, "gray-200": $im-gray-200, "gray-300": $im-gray-300, "gray-400": $im-gray-400, "gray-500": $im-gray-500, "gray-600": $im-gray-600, "gray-700": $im-gray-700, "gray-800": $im-gray-800, "gray-900": $im-gray-900,
   "red-600": $im-red-600, "sky-500": $im-sky-500, "emerald-500": $im-emerald-500, "amber-500": $im-amber-500, "rose-600": $im-rose-600, "pink-600": $im-pink-600,
-  // Add aliases if desired
   "primary": $im-red-600, "info": $im-sky-500, "success": $im-emerald-500, "warning": $im-amber-500, "danger": $im-rose-600
 );
 @each $name, $color in $im-text-colors {
   .im-text-#{$name} { color: $color !important; }
 }
 
-// --- Background Color Utilities (e.g., .im-bg-gray-100) ---
-@each $name, $color in $im-text-colors { // Reuse the same map for backgrounds
+// --- Background Color Utilities ---
+@each $name, $color in $im-text-colors {
   .im-bg-#{$name} { background-color: $color !important; }
 }
 
-// --- Add more utilities for font-size, font-weight, border-radius, display, etc. using im- tokens ---
+// --- Add more utilities for font-size, font-weight, border-radius, display, etc. ---
 
 
 // ==========================================================
-// STEP 5: Your Custom Theme File (if needed, structure as you like)
+// STEP 5: Your Custom Theme File (if needed)
 // ==========================================================
-// You might not need a separate theme/index anymore if all overrides
-// and utilities are handled above, but you can still import one here
-// for highly specific site styles not covered by tokens/utilities.
-// @import "./theme/index";
+// @import "./theme/index"; // Import last if you have site-specific styles
 @import "../node_modules/bulma/sass/index";
 @import "./theme/index";
 
