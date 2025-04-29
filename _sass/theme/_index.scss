@@ -2,3 +2,536 @@
 @import "./project";
 @import "./syntax";
 @import "./about";
+
+// ==========================================================
+// STEP 1: Define YOUR Custom Design Tokens (im- prefixed)
+// ==========================================================
+
+// --- im- Colors ---
+$im-white:    #ffffff;
+$im-black:    #000000;
+$im-gray-50:  #f9fafb;
+$im-gray-100: #f3f4f6;
+$im-gray-200: #e5e7eb;
+$im-gray-300: #d1d5db;
+$im-gray-400: #9ca3af;
+$im-gray-500: #6b7280;
+$im-gray-600: #4b5563;
+$im-gray-700: #374151;
+$im-gray-800: #1f2937;
+$im-gray-900: #11182c;
+
+$im-red-600:    #e53935; // Your primary base
+$im-sky-500:    #0ea5e9; // Your info base
+$im-emerald-500: #10b981; // Your success base
+$im-amber-500:  #f59e0b; // Your warning base
+$im-rose-600:   #e11d48; // Your danger base
+$im-pink-600:   #db2777; // Your code/accent base
+
+// Explicit Invert Colors
+$im-red-600-invert:    $im-white;
+$im-sky-500-invert:    $im-white;
+$im-emerald-500-invert: $im-white;
+$im-amber-500-invert:  $im-gray-900;
+$im-rose-600-invert:   $im-white;
+$im-pink-600-invert:   $im-white;
+$im-light-invert:      $im-gray-900;
+$im-dark-invert:       $im-white;
+
+// Hover/Active States
+$im-red-600-hover:     darken($im-red-600, 5%);
+$im-red-600-active:    darken($im-red-600, 10%);
+$im-sky-500-hover:     darken($im-sky-500, 5%);
+$im-sky-500-active:    darken($im-sky-500, 10%);
+// Add hover/active for success, warning, danger if needed
+
+// --- im- Typography ---
+$im-font-sans: "Outfit", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$im-font-mono: "Roboto Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+$im-text-base-size: 1rem;
+$im-text-sm:  0.875rem;
+$im-text-lg:  1.125rem;
+$im-text-xl:  1.25rem;
+$im-text-2xl: 1.5rem;
+$im-text-3xl: 1.875rem;
+$im-text-4xl: 2.25rem;
+$im-text-5xl: 3rem;
+
+$im-leading-normal: 1.5;
+$im-leading-tight:  1.25;
+$im-leading-snug:   1.375;
+
+$im-font-light: 300;
+$im-font-normal: 400;
+$im-font-medium: 500;
+$im-font-semibold: 600;
+$im-font-bold: 700;
+
+// --- im- Spacing (CSS-safe keys) ---
+$im-space-0: 0;
+$im-space-px: 1px;
+$im-space-0-5: 0.125rem;
+$im-space-1:   0.25rem;
+$im-space-1-5: 0.375rem;
+$im-space-2:   0.5rem;
+$im-space-2-5: 0.625rem;
+$im-space-3:   0.75rem;
+$im-space-3-5: 0.875rem;
+$im-space-4:   1rem;
+$im-space-5:   1.25rem;
+$im-space-6:   1.5rem;
+$im-space-8:   2rem;
+$im-space-10:  2.5rem;
+$im-space-12:  3rem;
+$im-space-16:  4rem;
+
+// --- im- Borders ---
+$im-border-width-default: 1px;
+$im-border-color-default: $im-gray-300;
+$im-border-color-light:   $im-gray-200;
+$im-border-color-focus:   $im-red-600;
+
+$im-radius-none: 0px;
+$im-radius-sm:   0.125rem;
+$im-radius-md:   0.375rem;
+$im-radius-lg:   0.5rem;
+$im-radius-xl:   0.75rem;
+$im-radius-full: 9999px;
+
+// --- im- Shadows ---
+$im-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$im-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$im-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$im-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+$im-shadow-inner: inset 0 2px 4px 0 rgba(0,0,0,0.06);
+$im-shadow-none: none;
+
+// --- im- Z-Index ---
+$im-z-auto: auto;
+$im-z-0: 0;
+$im-z-10: 10;
+$im-z-20: 20;
+$im-z-30: 30;
+$im-z-40: 40;
+$im-z-50: 50;
+
+// ==========================================================
+// STEP 2: Import Bulma Core
+// ==========================================================
+@import "../node_modules/bulma/sass/index";
+
+// ==========================================================
+// STEP 3: Apply YOUR Tokens by Overriding Bulma CSS Rules
+// ==========================================================
+
+// --- Base Element Overrides ---
+body {
+  background-color: $im-white;
+  color: $im-gray-700;
+  font-family: $im-font-sans;
+  font-size: $im-text-base-size;
+  line-height: $im-leading-normal;
+  font-weight: $im-font-normal;
+}
+
+a {
+  color: $im-red-600;
+  &:hover {
+    color: $im-red-600-hover;
+  }
+}
+
+p {
+  margin-bottom: $im-space-4;
+}
+
+strong, b {
+  font-weight: $im-font-bold;
+  color: $im-gray-900;
+}
+
+code {
+  background-color: $im-gray-100;
+  color: $im-pink-600;
+  font-family: $im-font-mono;
+  font-size: 0.875em;
+  padding: $im-space-0-5 $im-space-1-5;
+  border-radius: $im-radius-sm;
+}
+
+pre {
+  background-color: $im-gray-100;
+  color: $im-gray-800;
+  font-family: $im-font-mono;
+  padding: $im-space-3 $im-space-4;
+  border-radius: $im-radius-md;
+  overflow-x: auto;
+  code {
+    background-color: transparent;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+  }
+}
+
+hr {
+  background-color: $im-border-color-light;
+  border: none;
+  height: $im-border-width-default;
+  margin: $im-space-6 0;
+}
+
+// --- Headings ---
+h1, .title.is-1 { font-size: $im-text-4xl; font-weight: $im-font-bold; line-height: $im-leading-tight; color: $im-gray-900; margin-bottom: $im-space-6; }
+h2, .title.is-2 { font-size: $im-text-3xl; font-weight: $im-font-bold; line-height: $im-leading-tight; color: $im-gray-900; margin-bottom: $im-space-5; }
+h3, .title.is-3 { font-size: $im-text-2xl; font-weight: $im-font-semibold; line-height: $im-leading-snug; color: $im-gray-900; margin-bottom: $im-space-4; }
+h4, .title.is-4 { font-size: $im-text-xl; font-weight: $im-font-semibold; line-height: $im-leading-snug; color: $im-gray-800; margin-bottom: $im-space-3; }
+h5, .title.is-5 { font-size: $im-text-lg; font-weight: $im-font-medium; line-height: $im-leading-normal; color: $im-gray-800; margin-bottom: $im-space-2; }
+h6, .title.is-6 { font-size: $im-text-base-size; font-weight: $im-font-medium; line-height: $im-leading-normal; color: $im-gray-800; margin-bottom: $im-space-2; }
+
+.subtitle {
+  color: $im-gray-600;
+  font-weight: $im-font-normal;
+}
+
+// --- Form Controls ---
+.input,
+.textarea,
+.select select {
+  background-color: $im-white;
+  border-color: $im-border-color-default;
+  border-radius: $im-radius-md;
+  color: $im-gray-800;
+  padding: $im-space-2 $im-space-3;
+  box-shadow: $im-shadow-none;
+  font-size: $im-text-base-size;
+  line-height: $im-leading-normal;
+
+  &:hover {
+    border-color: $im-gray-400;
+  }
+
+  &:focus, &.is-focused, &:active, &.is-active {
+    border-color: $im-border-color-focus;
+    box-shadow: 0 0 0 3px rgba($im-red-600, 0.2);
+    outline: none;
+  }
+
+  &::placeholder {
+    color: $im-gray-400;
+  }
+
+  &[disabled],
+  fieldset[disabled] & {
+    background-color: $im-gray-100;
+    border-color: $im-border-color-light;
+    color: $im-gray-400;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}
+
+.textarea {
+  min-height: 120px;
+}
+
+.select {
+  height: auto;
+  &::after {
+    border-color: $im-gray-500;
+  }
+  &:not(.is-multiple):not(.is-loading):hover::after {
+     border-color: $im-gray-600;
+  }
+}
+
+.checkbox,
+.radio {
+  margin-right: $im-space-1;
+  input {
+    margin-right: $im-space-0-5;
+  }
+}
+
+.label {
+  color: $im-gray-700;
+  font-weight: $im-font-semibold;
+  font-size: $im-text-base-size;
+}
+
+.help {
+  color: $im-gray-500;
+  font-size: $im-text-sm;
+}
+
+// --- Buttons ---
+.button {
+  background-color: $im-white;
+  border-color: $im-border-color-default;
+  border-width: $im-border-width-default;
+  border-radius: $im-radius-md;
+  color: $im-gray-800;
+  padding: $im-space-2 $im-space-4;
+  font-size: $im-text-base-size;
+  line-height: $im-leading-normal;
+  font-weight: $im-font-medium;
+  box-shadow: $im-shadow-none;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+  &:hover {
+    border-color: $im-gray-400;
+    color: $im-gray-900;
+    background-color: $im-gray-50;
+  }
+
+  &:focus, &.is-focused {
+    border-color: $im-border-color-focus;
+    box-shadow: 0 0 0 3px rgba($im-red-600, 0.2);
+    outline: none;
+  }
+
+  &:active, &.is-active {
+    border-color: $im-gray-500;
+    background-color: $im-gray-100;
+    box-shadow: $im-shadow-inner;
+  }
+
+  &.is-primary {
+    background-color: $im-red-600;
+    border-color: $im-red-600;
+    color: $im-red-600-invert;
+    &:hover {
+      background-color: $im-red-600-hover;
+      border-color: $im-red-600-hover;
+      color: $im-red-600-invert;
+    }
+     &:focus, &.is-focused {
+       border-color: $im-red-600-hover;
+       box-shadow: 0 0 0 3px rgba($im-red-600, 0.25);
+       color: $im-red-600-invert;
+       background-color: $im-red-600-hover;
+     }
+    &:active, &.is-active {
+      background-color: $im-red-600-active;
+      border-color: $im-red-600-active;
+      color: $im-red-600-invert;
+      box-shadow: $im-shadow-inner;
+    }
+  }
+
+  &.is-info {
+    background-color: $im-sky-500;
+    border-color: $im-sky-500;
+    color: $im-sky-500-invert;
+     &:hover { background-color: $im-sky-500-hover; border-color: $im-sky-500-hover; color: $im-sky-500-invert; }
+     &:focus, &.is-focused { border-color: $im-sky-500-hover; box-shadow: 0 0 0 3px rgba($im-sky-500, 0.25); color: $im-sky-500-invert; background-color: $im-sky-500-hover; }
+     &:active, &.is-active { background-color: $im-sky-500-active; border-color: $im-sky-500-active; color: $im-sky-500-invert; box-shadow: $im-shadow-inner; }
+  }
+
+  &.is-success {
+     background-color: $im-emerald-500; border-color: $im-emerald-500; color: $im-emerald-500-invert;
+     &:hover { background-color: darken($im-emerald-500, 5%); border-color: darken($im-emerald-500, 5%); color: $im-emerald-500-invert; }
+     &:focus, &.is-focused { border-color: darken($im-emerald-500, 5%); box-shadow: 0 0 0 3px rgba($im-emerald-500, 0.25); color: $im-emerald-500-invert; background-color: darken($im-emerald-500, 5%); }
+     &:active, &.is-active { background-color: darken($im-emerald-500, 10%); border-color: darken($im-emerald-500, 10%); color: $im-emerald-500-invert; box-shadow: $im-shadow-inner; }
+  }
+
+  &.is-warning {
+     background-color: $im-amber-500; border-color: $im-amber-500; color: $im-amber-500-invert;
+     &:hover { background-color: darken($im-amber-500, 5%); border-color: darken($im-amber-500, 5%); color: $im-amber-500-invert; }
+     &:focus, &.is-focused { border-color: darken($im-amber-500, 5%); box-shadow: 0 0 0 3px rgba($im-amber-500, 0.25); color: $im-amber-500-invert; background-color: darken($im-amber-500, 5%); }
+     &:active, &.is-active { background-color: darken($im-amber-500, 10%); border-color: darken($im-amber-500, 10%); color: $im-amber-500-invert; box-shadow: $im-shadow-inner; }
+  }
+
+  &.is-danger {
+     background-color: $im-rose-600; border-color: $im-rose-600; color: $im-rose-600-invert;
+     &:hover { background-color: darken($im-rose-600, 5%); border-color: darken($im-rose-600, 5%); color: $im-rose-600-invert; }
+     &:focus, &.is-focused { border-color: darken($im-rose-600, 5%); box-shadow: 0 0 0 3px rgba($im-rose-600, 0.25); color: $im-rose-600-invert; background-color: darken($im-rose-600, 5%); }
+     &:active, &.is-active { background-color: darken($im-rose-600, 10%); border-color: darken($im-rose-600, 10%); color: $im-rose-600-invert; box-shadow: $im-shadow-inner; }
+  }
+
+
+  &.is-light {
+    background-color: $im-gray-100;
+    border-color: transparent;
+    color: $im-gray-700;
+     &:hover { background-color: $im-gray-200; border-color: transparent; color: $im-gray-800; }
+     &:focus, &.is-focused { background-color: $im-gray-200; border-color: $im-gray-400; box-shadow: 0 0 0 3px rgba($im-gray-400, 0.25); color: $im-gray-800; }
+     &:active, &.is-active { background-color: $im-gray-300; border-color: transparent; color: $im-gray-800; box-shadow: $im-shadow-inner; }
+  }
+
+  &[disabled],
+  fieldset[disabled] & {
+    background-color: $im-gray-200;
+    border-color: $im-gray-200;
+    color: $im-gray-400;
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.65;
+  }
+
+  &.is-text {
+    background-color: transparent;
+    border-color: transparent;
+    color: $im-red-600;
+    text-decoration: underline;
+    padding-left: $im-space-1;
+    padding-right: $im-space-1;
+     &:hover, &:focus, &.is-focused { background-color: $im-gray-100; color: $im-red-600-hover; text-decoration: underline; }
+     &:active, &.is-active { background-color: $im-gray-200; color: $im-red-600-active; text-decoration: underline; }
+  }
+
+}
+
+// --- Other Common Components ---
+.box {
+  background-color: $im-white;
+  border-radius: $im-radius-lg;
+  box-shadow: $im-shadow-md;
+  color: $im-gray-700;
+  padding: $im-space-5;
+}
+
+.card {
+  background-color: $im-white;
+  border-radius: $im-radius-lg;
+  box-shadow: $im-shadow-md;
+  color: $im-gray-700;
+  .card-header {
+    background-color: transparent;
+    border-bottom: $im-border-width-default solid $im-border-color-light;
+    padding: $im-space-3 $im-space-4;
+    box-shadow: none;
+    .card-header-title {
+      color: $im-gray-800;
+      font-weight: $im-font-semibold;
+    }
+  }
+  .card-content {
+    padding: $im-space-4;
+  }
+  .card-footer {
+    border-top: $im-border-width-default solid $im-border-color-light;
+    padding: $im-space-3 $im-space-4;
+  }
+}
+
+.notification {
+  background-color: $im-gray-100;
+  border-radius: $im-radius-md;
+  color: $im-gray-700;
+  padding: $im-space-4 $im-space-5;
+
+  &.is-primary { background-color: $im-red-600; color: $im-red-600-invert; a:not(.button) { color: currentColor; text-decoration: underline; } }
+  &.is-info { background-color: $im-sky-500; color: $im-sky-500-invert; a:not(.button) { color: currentColor; text-decoration: underline; } }
+  &.is-success { background-color: $im-emerald-500; color: $im-emerald-500-invert; a:not(.button) { color: currentColor; text-decoration: underline; } }
+  &.is-warning { background-color: $im-amber-500; color: $im-amber-500-invert; a:not(.button) { color: currentColor; text-decoration: underline; } }
+  &.is-danger { background-color: $im-rose-600; color: $im-rose-600-invert; a:not(.button) { color: currentColor; text-decoration: underline; } }
+}
+
+.tag {
+  background-color: $im-gray-200;
+  border-radius: $im-radius-sm;
+  color: $im-gray-700;
+  font-size: $im-text-sm;
+  padding: $im-space-0-5 $im-space-2;
+  line-height: $im-leading-snug;
+
+  &.is-primary { background-color: $im-red-600; color: $im-red-600-invert; }
+  &.is-info { background-color: $im-sky-500; color: $im-sky-500-invert; }
+  &.is-success { background-color: $im-emerald-500; color: $im-emerald-500-invert; }
+  &.is-warning { background-color: $im-amber-500; color: $im-amber-500-invert; }
+  &.is-danger { background-color: $im-rose-600; color: $im-rose-600-invert; }
+}
+
+.navbar {
+  background-color: $im-white;
+  border-bottom: $im-border-width-default solid $im-border-color-light;
+  box-shadow: $im-shadow-none;
+  min-height: ($im-space-4 * 3.5);
+  z-index: $im-z-30;
+
+  .navbar-item, .navbar-link {
+    color: $im-gray-700;
+    &:hover, &.is-active {
+      background-color: $im-gray-50;
+      color: $im-red-600;
+    }
+  }
+}
+
+// --- Add more overrides for Table, Tabs, Pagination, Modal etc. as needed ---
+
+// ==========================================================
+// STEP 4: (Optional) Define Custom Utility Classes using im- Tokens
+// ==========================================================
+$im-spacing-scale: (
+  "0": $im-space-0,
+  "px": $im-space-px,
+  "0-5": $im-space-0-5,
+  "1": $im-space-1,
+  "1-5": $im-space-1-5,
+  "2": $im-space-2,
+  "2-5": $im-space-2-5,
+  "3": $im-space-3,
+  "3-5": $im-space-3-5,
+  "4": $im-space-4,
+  "5": $im-space-5,
+  "6": $im-space-6,
+  "8": $im-space-8,
+  "10": $im-space-10,
+  "12": $im-space-12,
+  "16": $im-space-16,
+);
+
+// Generate Padding Utilities
+@each $key, $value in $im-spacing-scale {
+  .im-p-#{$key}  { padding:        $value !important; }
+  .im-pt-#{$key} { padding-top:    $value !important; }
+  .im-pb-#{$key} { padding-bottom: $value !important; }
+  .im-pl-#{$key} { padding-left:   $value !important; }
+  .im-pr-#{$key} { padding-right:  $value !important; }
+  .im-px-#{$key} { padding-left:   $value !important; padding-right: $value !important; }
+  .im-py-#{$key} { padding-top:    $value !important; padding-bottom:$value !important; }
+}
+
+// Generate Margin Utilities
+.im-m-auto { margin: auto !important; }
+.im-mt-auto { margin-top: auto !important; }
+.im-mb-auto { margin-bottom: auto !important; }
+.im-ml-auto { margin-left: auto !important; }
+.im-mr-auto { margin-right: auto !important; }
+
+@each $key, $value in $im-spacing-scale {
+  .im-m-#{$key}  { margin:        $value !important; }
+  .im-mt-#{$key} { margin-top:    $value !important; }
+  .im-mb-#{$key} { margin-bottom: $value !important; }
+  .im-ml-#{$key} { margin-left:   $value !important; }
+  .im-mr-#{$key} { margin-right:  $value !important; }
+  .im-mx-#{$key} { margin-left:   $value !important; margin-right: $value !important; }
+  .im-my-#{$key} { margin-top:    $value !important; margin-bottom:$value !important; }
+  // Negative margins
+  .-im-m-#{$key}  { margin:        -$value !important; }
+  .-im-mt-#{$key} { margin-top:    -$value !important; }
+  .-im-mb-#{$key} { margin-bottom: -$value !important; }
+  .-im-ml-#{$key} { margin-left:   -$value !important; }
+  .-im-mr-#{$key} { margin-right:  -$value !important; }
+  .-im-mx-#{$key} { margin-left:   -$value !important; margin-right: -$value !important; }
+  .-im-my-#{$key} { margin-top:    -$value !important; margin-bottom:-$value !important; }
+}
+
+// --- Text Color Utilities ---
+$im-text-colors: (
+  "white": $im-white, "black": $im-black,
+  "gray-50": $im-gray-50, "gray-100": $im-gray-100, "gray-200": $im-gray-200, "gray-300": $im-gray-300, "gray-400": $im-gray-400, "gray-500": $im-gray-500, "gray-600": $im-gray-600, "gray-700": $im-gray-700, "gray-800": $im-gray-800, "gray-900": $im-gray-900,
+  "red-600": $im-red-600, "sky-500": $im-sky-500, "emerald-500": $im-emerald-500, "amber-500": $im-amber-500, "rose-600": $im-rose-600, "pink-600": $im-pink-600,
+  "primary": $im-red-600, "info": $im-sky-500, "success": $im-emerald-500, "warning": $im-amber-500, "danger": $im-rose-600
+);
+@each $name, $color in $im-text-colors {
+  .im-text-#{$name} { color: $color !important; }
+}
+
+// --- Background Color Utilities ---
+@each $name, $color in $im-text-colors {
+  .im-bg-#{$name} { background-color: $color !important; }
+}
