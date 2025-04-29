@@ -1,8 +1,3 @@
-$primary: #e53935;
-$link : $primary;
-$family-sans-serif: "Outfit", "Arial", sans-serif !default;
-$family-monospace: "Roboto Mono", monospace !default;
-
 // ==========================================================
 // STEP 1: Define Design Tokens (Tailwind/Shadcn Inspired)
 // SIMPLIFIED: Using PX for base $gap and related layout to avoid unit conflicts
@@ -299,6 +294,8 @@ $label-weight: $weight-medium;
 $help-color: $gray-500;
 $help-size: $size-small; // Uses rem, generally safe
 
-
-@import "../node_modules/bulma/sass/index";
-@import "./theme/index";
+// ==========================================================
+// STEP 3: Import Bulma & Custom Theme
+// ==========================================================
+@import "../node_modules/bulma/sass/index"; // Bulma uses all variables defined above
+@import "./theme/index";                 // Your custom utilities/styles (if any) go here
