@@ -1,667 +1,304 @@
 // ==========================================================
-// STEP 1: Initial Bulma Variable Setup (Optional)
-// ==========================================================
-$primary: #000000; // Brutalism often uses black as primary action color
-$link: #000000;    // Links will be black, styled differently below
-$family-sans-serif: "Inter", "Arial Black", sans-serif !default; // Bold, blocky sans-serif
-$family-monospace: "IBM Plex Mono", "Courier New", monospace !default; // Utilitarian monospace
-
-// ==========================================================
-// STEP 2: Import Bulma Core
-// ==========================================================
-@import "../node_modules/bulma/sass/index";
-
-// ==========================================================
-// STEP 3: PURE CSS Overrides - Brutalist Inspired
-// (Targeting ONLY Bulma classes - NO 'im-' classes, NO SCSS logic)
+// STEP 1: Define Design Tokens (Tailwind/Shadcn Inspired)
 // ==========================================================
 
-// --- Reset & Base Styles ---
-html {
-  background-color: #ffffff; /* White background */
-  font-size: 16px;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-  overflow-y: scroll;
-}
+// --- Fonts ---
+$family-sans-serif: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$family-monospace: "Roboto Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+$family-primary: $family-sans-serif; // Use sans-serif as primary
+$family-code: $family-monospace;
 
-body {
-  font-family: "Inter", "Arial Black", sans-serif; /* Bold sans-serif */
-  color: #000000; /* Black text */
-  font-size: 1rem;
-  font-weight: 400; /* Start with normal weight */
-  line-height: 1.4; /* Tighter line height */
-  background-color: #ffffff;
-  padding-top: 4rem; /* Adjust if navbar height changes */
-}
+// --- Colors (Tailwind-like Palette) ---
+// Grays
+$white:    #ffffff;
+$black:    #000000; // True black, use sparingly
+$gray-50:  #f9fafb; // Often used for subtle backgrounds
+$gray-100: #f3f4f6; // Light backgrounds, borders
+$gray-200: #e5e7eb; // Borders, dividers
+$gray-300: #d1d5db; // Input borders
+$gray-400: #9ca3af; // Placeholder text, disabled text
+$gray-500: #6b7280; // Secondary text
+$gray-600: #4b5563; // Body text subtle variation
+$gray-700: #374151; // Body text primary
+$gray-800: #1f2937; // Headings, dark elements
+$gray-900: #11182c; // Strong headings, near black
+
+// Primary Accent (Example: Blue, common in Shadcn/Tailwind examples)
+// You could replace this with your original red: $primary-color: #e53935;
+$primary-color: #2563eb; // blue-600
+$primary-color-hover: darken($primary-color, 5%);
+$primary-color-active: darken($primary-color, 10%);
+$primary-color-focus-ring: rgba($primary-color, 0.25); // For focus box-shadow
+
+// Semantic Colors (Map from palette)
+$info-color:    #0ea5e9; // sky-500
+$success-color: #16a34a; // green-600
+$warning-color: #f59e0b; // amber-500
+$danger-color:  #dc2626; // red-600 (Slightly different red for danger)
+
+// Calculate Inverts (Crucial to do this early!)
+$primary-invert: findColorInvert($primary-color);
+$info-invert:    findColorInvert($info-color);
+$success-invert: findColorInvert($success-color);
+$warning-invert: $gray-900; // Dark text on yellow/amber
+$danger-invert:  findColorInvert($danger-color);
+$link-invert:    $primary-invert;
+$light-invert:   $gray-900;
+$dark-invert:    $white;
+$text-invert:    $white;
+
+// --- Typography Sizes (rem units, Tailwind scale) ---
+$size-1: 2.25rem;  // 36px (text-4xl)
+$size-2: 1.875rem; // 30px (text-3xl)
+$size-3: 1.5rem;   // 24px (text-2xl)
+$size-4: 1.25rem;  // 20px (text-xl)
+$size-5: 1.125rem; // 18px (text-lg)
+$size-6: 1rem;     // 16px (text-base) - Default body size
+$size-7: 0.875rem; // 14px (text-sm)
+$size-normal: $size-6;
+$size-small: $size-7;
+$size-medium: $size-4; // Map Bulma sizes reasonably
+$size-large: $size-2;
+
+// --- Font Weights ---
+$weight-light: 300;
+$weight-normal: 400;
+$weight-medium: 500;
+$weight-semibold: 600;
+$weight-bold: 700;
+
+// --- Spacing (Key for Tailwind/Shadcn feel) ---
+$gap: 1rem; // SIGNIFICANTLY reduce Bulma's default (e.g., 16px or 24px)
+$block-spacing: 1rem; // Space below paragraphs etc.
+
+// Component Paddings (Tighter than Bulma defaults)
+$button-padding-vertical:   0.5rem;   // ~ py-2
+$button-padding-horizontal: 1rem;     // ~ px-4
+$input-padding-vertical:    0.5rem;   // ~ py-2
+$input-padding-horizontal:  0.75rem;  // ~ px-3
+$textarea-padding:          0.75rem;  // ~ p-3
+$control-padding-vertical: $input-padding-vertical; // Alias
+$control-padding-horizontal: $input-padding-horizontal; // Alias
+$notification-padding: 1rem 1.25rem; // ~ p-4 / p-5
+$section-padding: 3rem 1rem;        // Generous section padding (py-12 px-4)
+$section-padding-medium: 4rem 1.5rem;
+$section-padding-large: 6rem 2rem;
+$box-padding: 1.25rem;              // ~ p-5
+$card-content-padding: 1rem;       // ~ p-4
+$card-header-padding: 0.75rem 1rem; // ~ py-3 px-4
+$card-footer-padding: 0.75rem 1rem; // ~ py-3 px-4
+
+// --- Borders & Radius ---
+$border-width: 1px;
+$border-color: $gray-200; // Subtle border default (gray-200 or gray-300)
+$border-hover: $gray-300;
+$border-focus: $primary-color; // Use primary for focus border
+
+$radius-small:  0.125rem; // 2px (rounded-sm)
+$radius:        0.375rem; // 6px (rounded-md) - Default component radius
+$radius-medium: 0.5rem;   // 8px (rounded-lg)
+$radius-large:  0.75rem;  // 12px (rounded-xl)
+$radius-rounded: 9999px;  // (rounded-full)
+
+// --- Shadows ---
+$shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); // ~ shadow-md
+// Alternative: $shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); // ~ shadow-sm
+
+// ==========================================================
+// STEP 2: Map Tokens to Bulma Variables
+// ==========================================================
+
+// --- Core Semantic Colors ---
+$primary: $primary-color;
+$link:    $primary-color; // Links use primary color
+$info:    $info-color;
+$success: $success-color;
+$warning: $warning-color;
+$danger:  $danger-color;
+
+// --- Text ---
+$body-size: $size-6;
+$body-line-height: 1.5;
+$body-color: $gray-700; // Main body text
+$text: $body-color;
+$text-light: $gray-500; // Secondary text
+$text-strong: $gray-900; // Bold text
 
 // --- Links ---
-a {
-  color: #000000; /* Black links */
-  cursor: pointer;
-  text-decoration: underline; /* Underline by default */
-  text-decoration-style: solid;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
-  font-weight: 600; /* Bolder links */
-  transition: background-color 0.1s ease, color 0.1s ease;
-}
-a:hover {
-  color: #ffffff; /* White text on hover */
-  background-color: #000000; /* Black background on hover */
-  text-decoration: underline;
-}
+$link-hover: $primary-color-hover;
+$link-hover-border: transparent;
+$link-focus: $primary-color-hover; // Use hover color for focus text
+$link-focus-border: $border-focus; // Use primary border for focus
+$link-active: $primary-color-active;
+$link-active-border: $border-focus; // Use primary border for active
+$link-visited: $link; // Keep visited links same color
 
-// --- Selection ---
-::selection {
-  background-color: #000000; /* Black selection */
-  color: #ffffff; /* White text */
-}
+// --- Backgrounds & Borders ---
+$body-background-color: $white; // Or $gray-50
+$background: $gray-50; // Subtle background for cards/sections
+$border: $border-color; // Use the defined border color
+$border-hover: $border-hover;
+$hr-background-color: $border-color;
+$hr-height: $border-width;
 
-// --- Basic Elements ---
-p {
-  margin: 0 0 1.25em 0; /* Slightly more space */
-}
+// --- Light/Dark Theme Elements ---
+$light: $gray-100;
+$dark: $gray-800;
 
-strong, b {
-  color: #000000;
-  font-weight: 700; /* Boldest weight */
-}
+// --- Code Blocks ---
+$code-family: $family-monospace;
+$code: $danger-color; // Use danger/red for inline code often
+$code-background: $gray-100;
+$code-weight: $weight-normal;
+$pre: $gray-800;
+$pre-background: $gray-100;
+$pre-padding: 1rem 1.25rem;
 
-em, i {
-  font-style: normal; /* Remove italics, maybe use underline or different font? */
-  /* Or keep italics: font-style: italic; */
-}
+// --- Aggregate Color Maps (Must come after colors & inverts defined) ---
+$colors: (
+  "white": ($white, $black),
+  "black": ($black, $white),
+  "light": ($light, $light-invert),
+  "dark": ($dark, $dark-invert),
+  "primary": ($primary, $primary-invert), // Keep it simple or add shades if needed by Bulma internals
+  "link": ($link, $link-invert),
+  "info": ($info, $info-invert),
+  "success": ($success, $success-invert),
+  "warning": ($warning, $warning-invert),
+  "danger": ($danger, $danger-invert),
+  // Map grays if needed by Bulma helpers, but usually overrides work
+  "grey-darker": ($gray-900, $white),
+  "grey-dark": ($gray-800, $white),
+  "grey": ($gray-600, $white),
+  "grey-light": ($gray-400, $gray-900),
+  "grey-lighter": ($gray-200, $gray-900),
+  "grey-lightest": ($gray-100, $gray-900)
+);
+$shades: ( // Less critical with direct color mapping, but define reasonably
+  "black-bis": darken($black, 5%),
+  "black-ter": darken($black, 10%),
+  "grey-darker": $gray-900,
+  "grey-dark": $gray-800,
+  "grey": $gray-600,
+  "grey-light": $gray-400,
+  "grey-lighter": $gray-200,
+  "white-ter": darken($white, 2%),
+  "white-bis": darken($white, 4%)
+);
 
-small {
-  font-size: 0.8em; /* Even smaller */
-}
+// --- Typography Details ---
+$title-color: $gray-900;
+$title-weight: $weight-bold;
+$subtitle-color: $gray-600;
+$subtitle-weight: $weight-normal;
+$strong-weight: $weight-bold; // Or $weight-semibold
 
-hr {
-  background-color: #000000; /* Solid black divider */
-  border: none;
-  height: 2px; /* Thicker */
-  margin: 2rem 0; /* More spacing */
-}
+// --- Borders & Radius ---
+$input-radius: $radius;
+$button-radius: $radius;
+$box-radius: $radius-medium; // Slightly larger radius for boxes/cards
+$card-radius: $radius-medium;
+$tag-radius: $radius-small; // Smaller radius for tags/chips
+$tabs-link-active-border-bottom-color: $primary; // Use primary for active tab underline
 
-// --- Headings & Titles ---
-h1, h2, h3, h4, h5, h6,
-.title, .subtitle {
-  font-family: "Inter", "Arial Black", sans-serif;
-  font-weight: 700; /* Bold default for headings */
-  line-height: 1.1; /* Very tight */
-  color: #000000;
-  word-break: break-word;
-  margin: 0.75em 0 1em 0;
-  padding: 0;
-  text-transform: none; /* No default case change */
-}
+// --- Shadows ---
+$box-shadow: $shadow;
+$card-shadow: $shadow;
 
-h1, .title.is-1 { font-size: 3rem; letter-spacing: -0.02em; } /* Large, slightly tight */
-h2, .title.is-2 { font-size: 2.25rem; letter-spacing: -0.01em; }
-h3, .title.is-3 { font-size: 1.75rem; }
-h4, .title.is-4 { font-size: 1.25rem; font-weight: 600; } /* Slightly less bold */
-h5, .title.is-5 { font-size: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;} /* Uppercase small title */
-h6, .title.is-6 { font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #555555; } /* Gray uppercase */
+// --- Focus States (Crucial for Shadcn/Tailwind feel) ---
+$input-focus-border-color: $border-focus;
+$input-focus-box-shadow-size: 0 0 0 3px;
+$input-focus-box-shadow-color: $primary-color-focus-ring;
+$input-box-shadow: none; // Remove Bulma's default inset shadow
+$textarea-focus-border-color: $border-focus;
+$textarea-focus-box-shadow-size: $input-focus-box-shadow-size;
+$textarea-focus-box-shadow-color: $primary-color-focus-ring;
+$button-focus-border-color: $border-focus; // Or same as hover border?
+$button-focus-box-shadow-size: $input-focus-box-shadow-size;
+$button-focus-box-shadow-color: $primary-color-focus-ring;
+$button-focus-color: inherit; // Text color doesn't usually change on focus ring
 
-.subtitle {
-  color: #000000; /* Keep subtitles black */
-  font-weight: 400; /* Normal weight */
-  line-height: 1.3;
-  margin-top: -0.75em; /* Pull closer */
-  opacity: 0.9; /* Slightly less prominent */
-}
-.subtitle.is-1 { font-size: 1.75rem; }
-.subtitle.is-2 { font-size: 1.5rem; }
-.subtitle.is-3 { font-size: 1.25rem; }
-.subtitle.is-4 { font-size: 1.125rem; }
-.subtitle.is-5 { font-size: 1rem; }
-.subtitle.is-6 { font-size: 0.875rem; }
+// --- Component Specific Adjustments ---
+// Button
+$button-color: $gray-700; // Default button text color
+$button-background-color: $white;
+$button-border-color: $gray-300; // Default border color
+$button-border-width: $border-width;
+$button-hover-color: $gray-800;
+$button-hover-border-color: $gray-400;
+$button-hover-background-color: $gray-50; // Subtle hover bg
+$button-active-color: $gray-900;
+$button-active-border-color: $gray-400;
+$button-active-background-color: $gray-100; // Slightly darker active bg
+// Semantic button colors will use $primary, $info etc. Bulma handles this.
+$button-text-color: $link; // Text button color
+$button-text-hover-background-color: $gray-100; // Background for text button hover
+$button-text-hover-color: $link-hover;
+$button-disabled-background-color: $white; // Keep background, adjust opacity below
+$button-disabled-border-color: $gray-200;
+$button-disabled-shadow: none;
+$button-disabled-opacity: 0.5; // Use opacity for disabled state
 
-.title + .subtitle { margin-top: -0.75rem; margin-bottom: 1.5rem; }
+// Navbar
+$navbar-background-color: $white;
+$navbar-height: 3.5rem; // ~56px
+$navbar-padding-vertical: 0; // Let items center vertically
+$navbar-padding-horizontal: 1rem;
+$navbar-box-shadow-size: 0 1px 2px 0; // Subtle shadow below navbar
+$navbar-box-shadow-color: rgba($black, 0.05);
+$navbar-item-color: $gray-600; // Default nav item color
+$navbar-item-hover-color: $gray-900; // Darker on hover
+$navbar-item-hover-background-color: $gray-50; // Subtle background hover
+$navbar-item-active-color: $primary; // Active item uses primary color
+$navbar-item-active-background-color: $gray-50; // Same subtle background for active
+$navbar-tab-active-border-bottom-color: $primary; // Underline for active tabs
+$navbar-tab-active-color: $primary;
+$navbar-dropdown-background-color: $white;
+$navbar-dropdown-border-top: 1px solid $gray-100; // Lighter dropdown border
+$navbar-dropdown-radius: $radius;
+$navbar-dropdown-shadow: $shadow;
+$navbar-divider-background-color: $gray-100;
 
-// --- Content Class ---
-.content {
-  font-size: 1rem;
-  line-height: 1.5; /* Slightly more readable content */
-}
-.content h1, .content h2, .content h3, .content h4, .content h5, .content h6 { margin-bottom: 1.25em; }
-.content ul { list-style: square outside; margin-left: 1.5em; margin-top: 1em; margin-bottom: 1em; } /* Square bullets */
-.content ol { list-style: decimal outside; margin-left: 1.5em; margin-top: 1em; margin-bottom: 1em; }
-.content li { margin-top: 0.5em; }
-.content ul ul, .content ol ol, .content ul ol, .content ol ul { margin-left: 1.5em; margin-top: 0.5em; }
-.content blockquote { background-color: #f1f1f1; border: 1px solid #000000; border-left-width: 4px; padding: 1em 1.5em; margin-bottom: 1.5em; border-radius: 0; } /* Bordered quote */
-.content table { width: 100%; margin-bottom: 1.5em; border-collapse: collapse; border: 1px solid #000000; }
-.content table td, .content table th { border: 1px solid #000000; padding: 0.5em 0.75em; vertical-align: top; font-size: 0.875rem; line-height: 1.3; }
-.content table th { color: #000000; font-weight: 700; text-align: left; background-color: #dddddd; } /* Gray header bg */
-.content table thead td, .content table thead th { border-bottom-width: 2px; }
-.content table tfoot td, .content table tfoot th { border-top-width: 2px; }
-.content code { font-family: "IBM Plex Mono", "Courier New", monospace; background-color: #dddddd; color: #000000; padding: 0.1em 0.4em; border-radius: 0; font-size: 0.9em; }
-.content pre { font-family: "IBM Plex Mono", "Courier New", monospace; background-color: #dddddd; color: #000000; padding: 1em; border-radius: 0; border: 1px solid #000000; overflow-x: auto; white-space: pre; word-wrap: normal; line-height: 1.3; }
-.content pre code { background-color: transparent; color: inherit; padding: 0; font-size: inherit; border: none; }
+// Card
+$card-background-color: $white;
+$card-header-background-color: transparent;
+$card-header-color: $gray-900;
+$card-header-weight: $weight-semibold;
+$card-header-shadow: none;
+$card-footer-border-top: 1px solid $gray-100;
 
-// --- Layout ---
-.section {
-  padding: 2rem 1rem; /* Consistent padding */
-}
-@media screen and (min-width: 769px) {
-  .section { padding: 3rem 1.5rem; }
-}
+// Tag / Chip
+$tag-background-color: $gray-100; // Lighter default chip
+$tag-color: $gray-700;
+// Colored tags will use $primary, $info etc. Make them subtle.
+$tag-primary-background-color: lighten($primary, 40%);
+$tag-primary-color: $primary;
+$tag-info-background-color: lighten($info, 40%);
+$tag-info-color: $info;
+// ... Add subtle backgrounds for other tag colors
 
-.container {
-  max-width: 1100px; /* Slightly different max width */
-}
+// Notification / Alert
+$notification-background-color: $gray-50; // Default subtle bg
+$notification-radius: $radius;
+$notification-code-background-color: $white;
+// Colored notifications
+$notification-primary-background-color: lighten($primary, 40%);
+$notification-primary-color: $primary;
+$notification-info-background-color: lighten($info, 40%);
+$notification-info-color: $info;
+// ... Add subtle backgrounds for other notification colors
 
-.hero {
-  background-color: #ffffff; /* White default */
-  color: #000000;
-  padding: 3rem 1.5rem;
-  border-bottom: 2px solid #000000; /* Add border */
-  border-radius: 0;
-}
-.hero .title, .hero .subtitle { color: #000000; }
-.hero.is-primary { background-color: #000000; color: #ffffff; border-color: #ffffff; } /* Black primary hero */
-.hero.is-primary .title, .hero.is-primary .subtitle { color: #ffffff; }
-/* Remove other color variants or make them black/white */
-.hero.is-link, .hero.is-info, .hero.is-success, .hero.is-warning, .hero.is-danger, .hero.is-light, .hero.is-dark {
-    background-color: #000000; color: #ffffff; border-color: #ffffff;
-}
-.hero.is-link .title, .hero.is-link .subtitle, .hero.is-info .title, .hero.is-info .subtitle,
-.hero.is-success .title, .hero.is-success .subtitle, .hero.is-warning .title, .hero.is-warning .subtitle,
-.hero.is-danger .title, .hero.is-danger .subtitle, .hero.is-light .title, .hero.is-light .subtitle,
-.hero.is-dark .title, .hero.is-dark .subtitle {
-    color: #ffffff;
-}
-.hero.is-medium { padding-top: 6rem; padding-bottom: 6rem; }
-.hero.is-large { padding-top: 12rem; padding-bottom: 12rem; }
+// Other defaults
+$control-border-width: $border-width;
+$control-height: 2.5em; // Based on font-size
+$control-line-height: 1.5;
+$label-color: $gray-700;
+$label-weight: $weight-medium;
+$help-color: $gray-500;
+$help-size: $size-small;
 
-.footer {
-    background-color: #ffffff;
-    color: #000000;
-    padding: 2rem 1.5rem;
-    border-top: 2px solid #000000;
-    font-size: 0.875rem;
-}
-.footer a { color: #000000; font-weight: 600; }
-.footer a:hover { background-color: #000000; color: #ffffff; }
-
-.level {
-  align-items: center;
-  justify-content: space-between;
-}
-.level:not(:last-child) { margin-bottom: 1.5rem; }
-.level-item { align-items: center; display: flex; flex-basis: auto; flex-grow: 0; flex-shrink: 0; justify-content: center; }
-.level-left, .level-right { flex-basis: auto; flex-grow: 0; flex-shrink: 0; }
-.level-left .level-item:not(:last-child), .level-right .level-item:not(:last-child) { margin-right: 1rem; }
-.level-left { justify-content: flex-start; }
-.level-right { justify-content: flex-end; }
-
-.media {
-  align-items: flex-start;
-  display: flex;
-  text-align: left;
-  border: 1px solid #000000; /* Border around media object */
-  padding: 1rem;
-  background-color: #ffffff;
-}
-.media:not(:last-child) { margin-bottom: 1.5rem; }
-.media-left, .media-right { flex-basis: auto; flex-grow: 0; flex-shrink: 0; }
-.media-left { margin-right: 1rem; }
-.media-right { margin-left: 1rem; }
-.media-content { flex-basis: auto; flex-grow: 1; flex-shrink: 1; text-align: left; }
-
-// --- Form Controls ---
-.input,
-.textarea,
-.select select {
-  background-color: #ffffff;
-  border: 1px solid #000000; /* Black border */
-  border-radius: 0; /* Sharp corners */
-  color: #000000;
-  padding: 0.75em 0.75em; /* Slightly different padding */
-  box-shadow: none;
-  font-size: 1rem;
-  font-family: "IBM Plex Mono", "Courier New", monospace; /* Monospace for inputs */
-  line-height: 1.4;
-  height: auto;
-  appearance: none; /* Remove default styling */
-  transition: border-width 0.1s ease, outline 0.1s ease;
-}
-.input:hover,
-.textarea:hover,
-.select select:hover {
-  border-color: #000000; /* Keep border black */
-}
-.input:focus, .input.is-focused, .input:active, .input.is-active,
-.textarea:focus, .textarea.is-focused, .textarea:active, .textarea.is-active,
-.select select:focus, .select select.is-focused, .select select:active, .select select.is-active {
-  border: 1px solid #000000; /* Keep border */
-  box-shadow: none;
-  outline: 2px solid #000000; /* Black outline on focus */
-  outline-offset: 1px;
-}
-.input::placeholder,
-.textarea::placeholder {
-  color: #888888;
-  opacity: 1;
-  font-family: "IBM Plex Mono", "Courier New", monospace;
-}
-.input[disabled], .textarea[disabled], .select[disabled]::after, .select select[disabled] {
-  background-color: #eeeeee; /* Lighter gray disabled */
-  border-color: #aaaaaa;
-  color: #aaaaaa;
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-.textarea {
-  min-height: 100px;
-  line-height: 1.4;
-  padding: 0.75em;
-}
-
-.select {
-  height: auto;
-  display: inline-block;
-  position: relative;
-  vertical-align: top;
-  border: 1px solid #000000; /* Border on the wrapper */
-  border-radius: 0;
-  background-color: #ffffff;
-}
-.select:not(.is-multiple) {
-  height: auto;
-}
-.select::after { /* Simple black arrow */
-  border: solid #000000;
-  border-width: 0 2px 2px 0;
-  display: inline-block;
-  padding: 3px;
-  transform: rotate(45deg) translateY(-50%);
-  position: absolute;
-  right: 1em;
-  top: 50%;
-  content: '';
-  pointer-events: none;
-  width: 0.6em;
-  height: 0.6em;
-  margin-top: 0; /* Reset */
-  z-index: 4;
-}
-.select select {
-  padding-right: 2.5em !important;
-  border: none !important; /* Remove border from inner select */
-  height: calc(1.4em + 1.5em + 2px) !important; /* Calculate height based on padding + lineheight */
-  padding-top: 0.75em !important;
-  padding-bottom: 0.75em !important;
-  outline: none;
-}
-.select:hover { border-color: #000000; }
-.select:focus-within { /* Style wrapper on focus */
-  outline: 2px solid #000000;
-  outline-offset: 1px;
-  border-color: #000000;
-}
-
-.checkbox, .radio {
-  cursor: pointer;
-  line-height: 1.25;
-  margin-right: 0.5em;
-  display: inline-block;
-  vertical-align: middle;
-  /* Use default browser appearance for brutalist feel */
-}
-.checkbox input, .radio input {
-  margin-right: 0.25em;
-  vertical-align: middle;
-  height: 1em; width: 1em; /* Consistent size */
-}
-.checkbox[disabled], .radio[disabled] {
-  color: #aaaaaa;
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-.label {
-  color: #000000;
-  font-weight: 700; /* Bold label */
-  font-size: 1rem;
-  display: block;
-  margin-bottom: 0.5em;
-  text-transform: none; /* Normal case */
-}
-
-.help {
-  color: #555555; /* Darker gray help text */
-  font-size: 0.875rem;
-  display: block;
-  margin-top: 0.25rem;
-  font-family: "IBM Plex Mono", "Courier New", monospace; /* Monospace help */
-}
-.input.is-danger, .textarea.is-danger, .select.is-danger select, .select.is-danger {
-  border-color: #FF0000 !important; /* Use a harsh red or accent */
-  outline-color: #FF0000 !important; /* Match outline */
-}
-.select.is-danger:not(:hover)::after { border-color: #FF0000 !important; }
-.help.is-danger { color: #FF0000 !important; }
-
-.field:not(:last-child) { margin-bottom: 1rem; }
-
-// --- Buttons ---
-.button {
-  border-radius: 0; /* Sharp corners */
-  padding: 0.5em 1.5em; /* Standard padding */
-  font-size: 1rem;
-  font-weight: 700; /* Bold */
-  line-height: 1.5;
-  min-height: auto;
-  text-transform: uppercase; /* Uppercase */
-  letter-spacing: 0.05em;
-  transition: background-color 0.1s ease, color 0.1s ease, transform 0.05s ease, box-shadow 0.1s ease;
-  border: 1px solid #000000; /* Visible border */
-  cursor: pointer;
-  justify-content: center;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  box-shadow: 3px 3px 0px #000000; /* Harsh shadow */
-  /* Default: White bg, black text */
-  background-color: #ffffff;
-  color: #000000;
-}
-.button:hover {
-  background-color: #eeeeee; /* Light gray hover */
-  color: #000000;
-  box-shadow: 3px 3px 0px #000000; /* Keep shadow */
-  transform: translate(-1px, -1px); /* Slight move on hover */
-}
-.button:focus {
-  outline: 2px solid #000000;
-  outline-offset: 2px;
-  background-color: #eeeeee;
-  box-shadow: 3px 3px 0px #000000;
-}
-.button:active {
-  background-color: #dddddd; /* Darker gray active */
-  color: #000000;
-  transform: translate(1px, 1px); /* Button press effect */
-  box-shadow: 1px 1px 0px #000000; /* Smaller shadow when active */
-}
-
-/* Contained Button Styles (Primary uses black bg) */
-.button.is-primary, .button.is-link, .button.is-info, .button.is-success, .button.is-warning, .button.is-danger, .button.is-dark {
-  background-color: #000000;
-  border-color: #000000;
-  color: #ffffff;
-  box-shadow: 3px 3px 0px #555555; /* Slightly lighter shadow for dark buttons */
-}
-.button.is-primary:hover, .button.is-link:hover, .button.is-info:hover, .button.is-success:hover, .button.is-warning:hover, .button.is-danger:hover, .button.is-dark:hover {
-  background-color: #222222; /* Slightly lighter black */
-  color: #ffffff;
-  transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0px #555555;
-}
-.button.is-primary:focus, .button.is-link:focus, .button.is-info:focus, .button.is-success:focus, .button.is-warning:focus, .button.is-danger:focus, .button.is-dark:focus {
-  outline: 2px solid #ffffff; /* White outline on black */
-  outline-offset: 2px;
-  background-color: #222222;
-  box-shadow: 3px 3px 0px #555555;
-}
-.button.is-primary:active, .button.is-link:active, .button.is-info:active, .button.is-success:active, .button.is-warning:active, .button.is-danger:active, .button.is-dark:active {
-  background-color: #333333;
-  transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0px #555555;
-}
-
-/* Light Button (Uses default white style) */
-.button.is-light {
-  background-color: #ffffff; color: #000000; border-color: #000000; box-shadow: 3px 3px 0px #000000;
-}
-.button.is-light:hover { background-color: #eeeeee; }
-.button.is-light:focus { outline-color: #000000; background-color: #eeeeee; }
-.button.is-light:active { background-color: #dddddd; box-shadow: 1px 1px 0px #000000; }
-
-/* Outlined Styles (Keep border, transparent bg) */
-.button.is-outlined {
-  background-color: transparent;
-  border: 1px solid #000000;
-  color: #000000;
-  box-shadow: none; /* No shadow for outlined */
-}
-.button.is-outlined:hover { background-color: rgba(0, 0, 0, 0.05); transform: none; } /* Subtle bg hover */
-.button.is-outlined:focus { outline-color: #000000; background-color: rgba(0, 0, 0, 0.05); }
-.button.is-outlined:active { background-color: rgba(0, 0, 0, 0.1); transform: none; box-shadow: none; }
-
-.button.is-outlined.is-primary, .button.is-outlined.is-link, .button.is-outlined.is-info, .button.is-outlined.is-success, .button.is-outlined.is-warning, .button.is-outlined.is-danger, .button.is-outlined.is-dark {
-  background-color: transparent;
-  border: 1px solid #000000;
-  color: #000000;
-}
-/* Optional: Outlined hover state could use accent color? e.g.: */
-/* .button.is-outlined.is-primary:hover { background-color: rgba(127, 255, 0, 0.1); border-color: #000000; color: #000000; } */
-
-/* Disabled Buttons */
-.button[disabled] {
-  background-color: #eeeeee;
-  border-color: #aaaaaa;
-  color: #aaaaaa;
-  box-shadow: none;
-  cursor: not-allowed;
-  opacity: 0.7;
-  transform: none;
-}
-.button.is-outlined[disabled] {
-  background-color: transparent;
-  border-color: #aaaaaa;
-}
-
-/* Button Sizes (Mostly rely on padding, maybe slightly adjust font) */
-.button.is-small { font-size: 0.875rem; padding: 0.4em 1.2em; }
-.button.is-large { font-size: 1.125rem; padding: 0.6em 1.8em; }
-
-/* Other Button Modifiers */
-.button.is-loading::after { border-color: transparent transparent #000000 #000000; } /* Black spinner */
-.button.is-rounded { border-radius: 0; } /* Keep sharp */
-.button.is-fullwidth { display: flex; width: 100%; }
-
-/* Button Groups */
-.buttons .button { margin-right: 0.5rem; margin-bottom: 0.5rem; }
-.buttons:last-child { margin-bottom: -0.5rem; }
-.buttons:not(:last-child) { margin-bottom: 1rem; }
-.buttons.has-addons .button { margin-right: 0; border-radius: 0 !important; } /* Ensure sharp */
-.buttons.has-addons .button:not(:first-child) { border-left: none; } /* Remove inner border */
-.buttons.has-addons .button:focus { position: relative; z-index: 1; } /* Help focus outline */
-
-// --- Icon Component ---
-.icon {
-  align-items: center; display: inline-flex; justify-content: center; height: 1.5em; width: 1.5em; font-size: 1rem; /* Match text size */ vertical-align: middle;
-}
-.icon.is-small { height: 1em; width: 1em; font-size: 0.75rem; }
-.icon.is-medium { height: 2em; width: 2em; font-size: 1.5rem; }
-.icon.is-large { height: 3em; width: 3em; font-size: 2rem; }
-/* Color helpers .has-text-* should style the icon */
-
-// --- Image Component ---
-.image { display: block; position: relative; }
-.image img { display: block; height: auto; width: 100%; border-radius: 0; } /* Sharp image corners */
-.image.is-rounded img { border-radius: 0; } /* No rounded images */
-/* Bulma sizes .is-16x16 etc */
-.image.is-16x16, .image.is-24x24, .image.is-32x32, .image.is-48x48, .image.is-64x64, .image.is-96x96, .image.is-128x128 {
-   display: inline-block; /* Allow inline behavior */
-}
-
-// --- Tag / Chip Component ---
-.tag:not(body) {
-  align-items: center; background-color: #ffffff; border: 1px solid #000000; border-radius: 0; color: #000000; display: inline-flex; font-size: 0.875rem; height: auto; justify-content: center; line-height: 1.3; padding: 0.1em 0.5em; white-space: nowrap; margin: 2px; font-family: "IBM Plex Mono", "Courier New", monospace;
-}
-/* Colored Tags */
-.tag.is-primary, .tag.is-link, .tag.is-info, .tag.is-success, .tag.is-warning, .tag.is-danger, .tag.is-dark {
-    background-color: #000000; color: #ffffff; border-color: #000000;
-}
-.tag.is-light { background-color: #eeeeee; color: #000000; border-color: #000000; }
-/* Tag delete button */
-.tag .delete { background-color: #000000; border-radius: 0; height: 1.2em; width: 1.2em; margin-left: 0.3em; margin-right: -0.4em; }
-.tag .delete::before, .tag .delete::after { background-color: #ffffff; height: 1px; }
-.tag .delete:hover { background-color: #333333; }
-/* Tag Sizes */
-.tag.is-medium { font-size: 1rem; padding: 0.2em 0.75em; }
-.tag.is-large { font-size: 1.25rem; padding: 0.3em 1em; }
-/* Tags container */
-.tags .tag { margin-right: 0.3rem; margin-bottom: 0.3rem; }
-.tags:last-child { margin-bottom: -0.3rem; }
-.tags:not(:last-child) { margin-bottom: 0.75rem; }
-.tags.has-addons .tag { margin-right: 0; border-radius: 0 !important; }
-.tags.has-addons .tag:not(:first-child) { border-left: none; }
-
-// --- Notification ---
-.notification {
-  background-color: #ffffff;
-  border: 2px solid #000000; /* Thick border */
-  border-radius: 0;
-  color: #000000;
-  padding: 1.25rem 1.5rem;
-  position: relative;
-  box-shadow: 4px 4px 0px #aaaaaa; /* Harsh gray shadow */
-}
-.notification:not(:last-child) { margin-bottom: 1.5rem; }
-.notification strong { color: inherit; font-weight: 700; }
-.notification a:not(.button) { color: #000000; font-weight: 700; background-color: transparent; } /* Stark links */
-.notification a:not(.button):hover { background-color: #000000; color: #ffffff; }
-.notification code, .notification pre { background-color: #dddddd; border: 1px solid #000000; }
-/* Color variants - Use border/shadow color */
-.notification.is-primary { border-color: #000000; box-shadow: 4px 4px 0px #7FFF00; } /* Accent shadow */
-.notification.is-link { border-color: #000000; box-shadow: 4px 4px 0px #0000FF; } /* Blue shadow */
-.notification.is-info, .notification.is-success, .notification.is-warning, .notification.is-danger {
-    border-color: #000000; box-shadow: 4px 4px 0px #FF0000; /* Red shadow for others */
-}
-/* Delete button */
-.notification .delete {
-  position: absolute; right: 0.5rem; top: 0.5rem; background: #000000; border-radius: 0; height: 20px; width: 20px;
-  &::before, &::after { background-color: #ffffff; height: 1px; }
-  &:hover { background-color: #333333; }
-}
-
-// --- Progress Bar ---
-.progress {
-  background-color: #ffffff; border: 1px solid #000000;
-  border-radius: 0; height: 1rem; overflow: hidden; display: block; padding: 2px; /* Padding inside border */
-}
-.progress::-webkit-progress-value { background-color: #000000; border-radius: 0;}
-.progress::-moz-progress-bar { background-color: #000000; border-radius: 0;}
-.progress::-ms-fill { background-color: #000000; border: none; border-radius: 0;}
-/* Colored progress bars */
-.progress.is-primary::-webkit-progress-value, .progress.is-primary::-moz-progress-bar, .progress.is-primary::-ms-fill { background-color: #7FFF00; } /* Accent */
-/* Sizes */
-.progress.is-small { height: 0.75rem; padding: 1px; }
-.progress.is-medium { height: 1.5rem; padding: 3px; }
-.progress.is-large { height: 2rem; padding: 4px; }
-
-// --- Table ---
-.table {
-  background-color: #ffffff; color: #000000; width: 100%; border-collapse: collapse; border-spacing: 0; border: 1px solid #000000;
-}
-.table td, .table th {
-  border: 1px solid #000000; padding: 0.5em 0.75em; vertical-align: top; text-align: left; line-height: 1.3;
-}
-.table th { font-weight: 700; background-color: #dddddd; }
-.table thead td, .table thead th { border-bottom-width: 2px; }
-.table tfoot td, .table tfoot th { border-top-width: 2px; }
-.table.is-striped tbody tr:nth-child(even) { background-color: #eeeeee; }
-.table.is-hoverable tbody tr:hover { background-color: #dddddd; }
-.table.is-bordered td, .table.is-bordered th { } /* Already bordered */
-.table.is-fullwidth { width: 100%; }
-
-// --- Breadcrumb ---
-.breadcrumb {
-  font-size: 0.875rem; white-space: nowrap; padding: 0.5rem 0; font-family: "IBM Plex Mono", "Courier New", monospace;
-}
-.breadcrumb ul { list-style: none; padding: 0; margin: 0; display: flex; align-items: center; }
-.breadcrumb li { align-items: center; display: flex; }
-.breadcrumb li + li::before { content: ">"; color: #000000; margin: 0 0.75em; font-weight: 700; } /* Bold angle bracket */
-.breadcrumb a { color: #000000; font-weight: 400; text-decoration: none; &:hover { background-color: #000000; color: #ffffff; } }
-.breadcrumb li.is-active a { color: #000000; font-weight: 700; pointer-events: none; background: none; }
-
-// --- Panel (List) ---
-.panel {
-  font-size: 1rem; border: 1px solid #000000; border-radius: 0; box-shadow: none; background-color: #ffffff; overflow: hidden;
-}
-.panel-heading { background-color: #ffffff; color: #000000; font-weight: 700; padding: 0.75em 1em; border-bottom: 1px solid #000000; border-radius: 0; }
-.panel-tabs { border-bottom: 1px solid #000000; background-color: #eeeeee; padding: 0 0.5em; }
-.panel-tabs a { padding: 0.5em 0.75em; color: #000000; border: none; margin-bottom: 0; font-weight: 600; &:hover { background-color: #dddddd; } }
-.panel-tabs li.is-active a { background-color: #ffffff; color: #000000; border: 1px solid #000000; border-bottom: 1px solid #ffffff; margin-bottom: -1px; } /* Active tab "pops" */
-.panel-block {
-  align-items: center; color: #000000; display: flex; justify-content: flex-start; padding: 0.75em 1em; border: none; min-height: auto;
-}
-.panel-block:not(:last-child) { border-bottom: 1px dashed #aaaaaa; } /* Dashed divider */
-.panel-block:hover { background-color: #f0f0f0; }
-.panel-icon { margin-right: 0.75em; color: #000000; }
-a.panel-block { color: #000000; &:hover { color: #ffffff; background-color: #000000; } }
-a.panel-block.is-active { color: #ffffff; font-weight: 700; background-color: #000000; }
-
-// --- Tabs ---
-.tabs {
-  align-items: stretch; display: flex; font-size: 1rem; overflow: hidden; overflow-x: auto; white-space: nowrap; border-bottom: 2px solid #000000; background-color: transparent; box-shadow: none; margin-bottom: 1rem;
-}
-.tabs ul { align-items: stretch; border-bottom: none; display: flex; flex-grow: 1; justify-content: flex-start; margin: 0 0 -2px 0; padding: 0; }
-.tabs li { display: block; margin: 0; }
-.tabs li a {
-  align-items: center; border: 2px solid #000000; border-bottom: none; background-color: #eeeeee; color: #000000; display: flex; justify-content: center; margin-right: 4px; padding: 0.5em 1.5em; vertical-align: top; text-transform: uppercase; font-weight: 700; border-radius: 0; transition: none;
-}
-.tabs li a:hover { background-color: #dddddd; border-color: #000000; color: #000000; }
-.tabs li.is-active a { background-color: #ffffff; border-color: #000000; border-bottom: 2px solid #ffffff; color: #000000; z-index: 1; }
-.tabs.is-centered ul { justify-content: center; }
-.tabs.is-right ul { justify-content: flex-end; }
-.tabs.is-fullwidth ul { justify-content: space-evenly; li { flex-grow: 1; margin-right: 0; } li a { margin-right: 0; } }
-.tabs.is-toggle, .tabs.is-boxed { display: none; } /* Hide non-brutalist styles */
-
-// --- Delete ---
-.delete {
-  background-color: #000000; border: 1px solid #000000; cursor: pointer; padding: 0; height: 24px; width: 24px; position: relative; outline: none; vertical-align: middle; border-radius: 0;
-}
-.delete::before, .delete::after {
-  background-color: #ffffff; content: ""; display: block; left: 50%; position: absolute; top: 50%; transform: translateX(-50%) translateY(-50%) rotate(45deg); transform-origin: center center; width: 75%; height: 2px;
-}
-.delete::after { transform: translateX(-50%) translateY(-50%) rotate(-45deg); }
-.delete:hover { background-color: #333333; }
-/* Sizes */
-.delete.is-small { height: 16px; width: 16px; }
-.delete.is-medium { height: 32px; width: 32px; }
-.delete.is-large { height: 40px; width: 40px; }
-
-// --- Bulma Helper Class Overrides ---
-/* Colors */
-.has-text-primary, .has-text-link, .has-text-info, .has-text-success, .has-text-warning, .has-text-danger, .has-text-dark, .has-text-grey-darker, .has-text-grey-dark, .has-text-grey { color: #000000 !important; }
-.has-text-black { color: #000000 !important; }
-.has-text-white { color: #ffffff !important; }
-.has-text-light, .has-text-grey-light, .has-text-grey-lighter { color: #555555 !important; } /* Dark gray for light text */
-
-.has-background-primary, .has-background-link, .has-background-info, .has-background-success, .has-background-warning, .has-background-danger, .has-background-dark, .has-background-black { background-color: #000000 !important; color: #ffffff !important; }
-.has-background-white { background-color: #ffffff !important; color: #000000 !important; }
-.has-background-light { background-color: #eeeeee !important; color: #000000 !important; }
-
-/* Typography Helpers */
-.has-text-weight-light { font-weight: 400 !important; } /* No light weight */
-.has-text-weight-normal { font-weight: 400 !important; }
-.has-text-weight-medium { font-weight: 600 !important; } /* Map medium to boldish */
-.has-text-weight-semibold { font-weight: 600 !important; }
-.has-text-weight-bold { font-weight: 700 !important; }
-
-/* Sizes - Override if needed */
-/* Spacing - Override if needed with hardcoded values */
-.m-0 { margin: 0 !important; } .p-0 { padding: 0 !important; }
-.m-1 { margin: 0.25rem !important; } .p-1 { padding: 0.25rem !important; }
-.m-2 { margin: 0.5rem !important; } .p-2 { padding: 0.5rem !important; }
-.m-3 { margin: 0.75rem !important; } .p-3 { padding: 0.75rem !important; }
-.m-4 { margin: 1rem !important; } .p-4 { padding: 1rem !important; }
-.m-5 { margin: 1.5rem !important; } .p-5 { padding: 1.5rem !important; }
-.m-6 { margin: 2rem !important; } .p-6 { padding: 2rem !important; }
-/* ... etc for all spacing helpers ... */
-
-.is-radiusless { border-radius: 0 !important; }
-.is-shadowless { box-shadow: none !important; }
-.is-underlined { text-decoration: underline !important; }
-.is-uppercase { text-transform: uppercase !important; letter-spacing: 0.05em; }
-@import "../node_modules/bulma/sass/index";
-@import "./theme/index";
-
+// ==========================================================
+// STEP 3: Import Bulma & Custom Theme
+// ==========================================================
+@import "../node_modules/bulma/sass/index"; // Bulma uses all variables defined above
+@import "./theme/index";                 // Your custom utilities/styles (if any) go here
