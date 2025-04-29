@@ -1,3 +1,9 @@
+// ==========================================================
+// STEP 1: Base User Settings & Raw Color Palette
+// ==========================================================
+@import "../node_modules/bulma/sass/index"; // Bulma uses all variables defined above
+
+
 $primary: #e53935;
 $link: $primary;
 $family-sans-serif: "Outfit", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
@@ -16,40 +22,42 @@ $gray-700: #374151;
 $gray-800: #1f2937;
 $gray-900: #11182c;
 
-$red-600: #e53935;
-$sky-500:   #0ea5e9;
-$emerald-500: #10b981;
-$amber-500: #f59e0b;
-$rose-600: #e11d48;
-$pink-600: #db2777;
+$red-600: #e53935; // $primary's raw color
+$sky-500:   #0ea5e9; // Raw for info
+$emerald-500: #10b981; // Raw for success
+$amber-500: #f59e0b; // Raw for warning
+$rose-600: #e11d48; // Raw for danger
+$pink-600: #db2777; // Raw for code
 
+// ==========================================================
+// STEP 2: Map Raw Colors to Semantic & Calculate Core Derived Values
+// ==========================================================
 $info:    $sky-500;
 $success: $emerald-500;
 $warning: $amber-500;
 $danger:  $rose-600;
 
+// Calculate Inverts (depend on semantic colors + white/black)
 $primary-invert: findColorInvert($primary);
 $info-invert:    findColorInvert($info);
 $success-invert: findColorInvert($success);
-$warning-invert: $gray-900;
+$warning-invert: $gray-900; // Explicit dark text for yellow
 $danger-invert:  findColorInvert($danger);
-$link-invert:    $primary-invert;
+$link-invert:    $primary-invert; // Link invert depends on primary invert
 $light-invert:   $gray-900;
 $dark-invert:    $white;
 $text-invert:    $white;
 
-$text:          $gray-700;
-$text-light:    $gray-500;
-$text-strong:   $gray-900;
-$body-background-color: $white;
-$background:    $gray-50;
-$border:        $gray-300;
-$border-hover:  $gray-400;
-$border-light:  $gray-200;
-$border-width:  1px;
-$light:         $gray-100;
-$dark:          $gray-800;
+// Calculate Link States (depend on $link / $primary)
+$link-hover:         darken($link, 8%);
+$link-hover-border:  transparent; // Often transparent
+$link-focus:         darken($link, 10%);
+$link-focus-border:  $link; // Use link color for focus outline
+$link-active:        darken($link, 12%);
+$link-active-border: $link; // Use link color for active outline
+$link-visited:       $link; // Keep visited same color
 
+// Calculate Semantic Shades (depend on semantic colors)
 $primary-light: lighten($primary, 15%);
 $primary-dark: darken($primary, 10%);
 $info-light:    lighten($info, 20%);
@@ -60,13 +68,31 @@ $warning-light: lighten($warning, 20%);
 $warning-dark: darken($warning, 10%);
 $danger-light:  lighten($danger, 15%);
 $danger-dark:  darken($danger, 10%);
-$link-light:    lighten($link, 15%);
-$link-dark:    darken($link, 10%);
-$dark-light:    lighten($dark, 15%);
-$dark-dark:    darken($dark, 10%);
-$light-dark:    darken($light, 10%);
-$light-light:  lighten($light, 5%);
+$link-light:    lighten($link, 15%); // Depends on $link
+$link-dark:    darken($link, 10%);  // Depends on $link
 
+// ==========================================================
+// STEP 3: Define Core Text, Background, Border, Light/Dark (using grays/calcs)
+// ==========================================================
+$text:          $gray-700;
+$text-light:    $gray-500;
+$text-strong:   $gray-900;
+$body-background-color: $white;
+$background:    $gray-50;
+$border:        $gray-300;
+$border-hover:  $gray-400;
+$border-light:  $gray-200;
+$border-width:  1px;
+$light:         $gray-100; // Uses raw gray
+$dark:          $gray-800; // Uses raw gray
+$light-dark:    darken($light, 10%); // Derived from $light
+$light-light:   lighten($light, 5%); // Derived from $light
+$dark-light:    lighten($dark, 15%); // Derived from $dark
+$dark-dark:     darken($dark, 10%);  // Derived from $dark
+
+// ==========================================================
+// STEP 4: Define Aggregate Maps (depend on all previously defined colors)
+// ==========================================================
 $colors: (
   "white": ($white, $black),
   "black": ($black, $white),
@@ -99,6 +125,9 @@ $shades: (
   "white-bis": hsl(0, 0%, 98%)
 );
 
+// ==========================================================
+// STEP 5: Define Core Typography & Layout Variables
+// ==========================================================
 $family-primary: $family-sans-serif;
 $family-secondary: $family-sans-serif;
 $family-code: $family-monospace;
@@ -108,7 +137,7 @@ $body-rendering: optimizeLegibility;
 $body-family: $family-primary;
 $body-line-height: 1.5;
 $body-weight: 400;
-$body-color: $text;
+$body-color: $text; // Depends on $text
 
 $size-1: 3rem; $size-2: 2.25rem; $size-3: 1.875rem; $size-4: 1.5rem; $size-5: 1.25rem; $size-6: 1rem; $size-7: 0.875rem;
 $size-small: $size-7; $size-medium: $size-5; $size-large: $size-3;
@@ -117,12 +146,6 @@ $weight-light: 300; $weight-normal: 400; $weight-medium: 500; $weight-semibold: 
 $title-family: $family-primary; $title-size: $size-3; $title-weight: $weight-semibold; $title-line-height: 1.125; $title-color: $gray-900; $title-strong-weight: $weight-bold;
 $subtitle-family: $family-primary; $subtitle-size: $size-5; $subtitle-weight: $weight-normal; $subtitle-line-height: 1.25; $subtitle-color: $gray-700; $subtitle-strong-weight: $weight-semibold;
 $strong-color: inherit; $strong-weight: $weight-bold; $small-size: $size-7;
-
-$code: $pink-600;
-$code-background: $gray-100; $code-weight: $weight-normal; $code-family: $family-code; $code-size: 0.875em;
-$pre: $gray-800; $pre-background: $gray-100; $pre-code-font-size: 0.875em; $pre-padding: 1rem 1.25rem; $pre-overflow-x: auto; $pre-family: $family-code;
-
-$hr-background-color: $gray-200; $hr-height: 1px; $hr-margin: 1.5rem 0;
 
 $gap: 1.5rem; $block-spacing: 1rem;
 $container-offset: (2 * $gap); $container-max-width: 1152px; $container-padding-horizontal: $gap;
@@ -136,7 +159,27 @@ $shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); 
 $tablet: 768px; $desktop: 1024px; $widescreen: 1280px; $fullhd: 1536px;
 $gap-tablet: $gap; $gap-desktop: $gap; $gap-widescreen: $gap; $gap-fullhd: $gap;
 
-$button-color: $text-strong; $button-background-color: $white; $button-border-color: $gray-300; $button-border-width: $border-width; $button-padding-vertical: calc(0.5em - #{$border-width}); $button-padding-horizontal: 1em; $button-radius: $radius; $button-hover-color: $link-hover; $button-hover-border-color: $gray-400; $button-focus-color: $link; $button-focus-border-color: $link; $button-focus-box-shadow-size: 0 0 0 0.125em; $button-focus-box-shadow-color: rgba($link, 0.25); $button-active-color: $link-active; $button-active-border-color: $gray-500; $button-text-color: $text; $button-text-hover-background-color: $gray-100; $button-text-hover-color: $text-strong; $button-disabled-background-color: $white; $button-disabled-border-color: $gray-200; $button-disabled-shadow: none; $button-disabled-opacity: 0.5; $button-static-color: $gray-500; $button-static-background-color: $background; $button-static-border-color: $border;
+// ==========================================================
+// STEP 6: Define Generic Element Variables (depend on core values)
+// ==========================================================
+$code: $pink-600; // Depends on $pink-600
+$code-background: $gray-100; $code-weight: $weight-normal; $code-family: $family-code; $code-size: 0.875em;
+$pre: $gray-800; $pre-background: $gray-100; $pre-code-font-size: 0.875em; $pre-padding: 1rem 1.25rem; $pre-overflow-x: auto; $pre-family: $family-code;
+
+$hr-background-color: $gray-200; $hr-height: 1px; $hr-margin: 1.5rem 0;
+
+// ==========================================================
+// STEP 7: Define Component Variables (depend heavily on previous steps)
+// ==========================================================
+$button-color: $text-strong; $button-background-color: $white; $button-border-color: $gray-300; $button-border-width: $border-width; $button-padding-vertical: calc(0.5em - #{$border-width}); $button-padding-horizontal: 1em; $button-radius: $radius;
+$button-hover-color: $link-hover; // Depends on $link-hover (defined in Step 2)
+$button-hover-border-color: $gray-400;
+$button-focus-color: $link; // Depends on $link
+$button-focus-border-color: $link; // Depends on $link
+$button-focus-box-shadow-size: 0 0 0 0.125em; $button-focus-box-shadow-color: rgba($link, 0.25);
+$button-active-color: $link-active; // Depends on $link-active (defined in Step 2)
+$button-active-border-color: $gray-500;
+$button-text-color: $text; $button-text-hover-background-color: $gray-100; $button-text-hover-color: $text-strong; $button-disabled-background-color: $white; $button-disabled-border-color: $gray-200; $button-disabled-shadow: none; $button-disabled-opacity: 0.5; $button-static-color: $gray-500; $button-static-background-color: $background; $button-static-border-color: $border;
 $button-family: $family-sans-serif; $button-weight: $weight-normal; $button-text-decoration: none; $button-text-transform: none; $button-letter-spacing: normal; $button-line-height: 1.5;
 
 $control-radius: $radius; $control-radius-small: $radius-small; $control-border-width: $border-width; $control-height: 2.5em; $control-line-height: 1.5; $control-padding-vertical: calc(0.5em - #{$control-border-width}); $control-padding-horizontal: calc(0.75em - #{$control-border-width});
@@ -175,9 +218,16 @@ $breadcrumb-item-color: $primary; $breadcrumb-item-hover-color: darken($primary,
 
 $footer-background-color: $gray-100; $footer-color: inherit; $footer-padding: 3rem 1.5rem 3rem;
 
-$easing: ease-out; $render-speed: 80ms; $speed: 300ms; $variable-columns: true;
+// ==========================================================
+// STEP 8: Utility & Misc Variables
+// ==========================================================
+$easing: ease-out;
+$render-speed: 80ms;
+$speed: 300ms;
+$variable-columns: true;
 $control-sizes: ( "small": $size-small, "medium": $size-medium, "large": $size-large );
 
-
-@import "../node_modules/bulma/sass/index";
-@import "./theme/index";
+// ==========================================================
+// STEP 9: Import Bulma & Custom Code
+// ==========================================================
+@import "./theme/index";                 // Your custom utilities/styles come AFTER Bulma
