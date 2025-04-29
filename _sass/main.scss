@@ -1,3 +1,10 @@
+
+// ==========================================================
+// STEP 3: Import Bulma & Custom Theme
+// ==========================================================
+@import "../node_modules/bulma/sass/index";
+@import "./theme/index";
+
 // ==========================================================
 // STEP 1: Define Design Tokens (Netflix Inspired)
 // Using PX for core layout, Hex codes for colors
@@ -356,9 +363,3 @@ $box-background-color: $dark-gray-1;
 $box-radius: $radius;
 $box-shadow: $shadow; // None
 
-
-// ==========================================================
-// STEP 3: Import Bulma & Custom Theme
-// ==========================================================
-@import "../node_modules/bulma/sass/index";
-@import "./theme/index";
