@@ -1,11 +1,364 @@
+// ==========================================================
+// STEP 1: Define Design Tokens (Netflix Inspired)
+// Using PX for core layout, Hex codes for colors
+// ==========================================================
+
+// --- Fonts ---
+$family-sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif !default; // Common fallback for Netflix Sans
+$family-monospace: "Courier New", monospace !default; // Standard monospace
+$family-primary: $family-sans-serif;
+$family-code: $family-monospace;
+
+// --- Colors (Netflix Palette - Explicit Hex Codes ONLY) ---
+$netflix-red:    #E50914;
+$netflix-red-darker: #B81D24; // For active/hover maybe
+
+$black:          #000000; // Pure black for contrast if needed
+$near-black:     #141414; // Common Netflix background
+$dark-gray-1:    #181818;
+$dark-gray-2:    #2F2F2F; // Borders, subtle UI elements
+$dark-gray-3:    #404040;
+$medium-gray:    #808080; // Secondary text, placeholders
+$light-gray:     #aaaaaa; // Lighter secondary text
+$off-white:      #f5f5f5; // Used sparingly, maybe for contrast elements
+$white:          #ffffff; // Primary text color
+
+// Primary Accent
+$primary-color: $netflix-red;
+$primary-color-hover: $netflix-red-darker;
+$primary-color-active: darken($netflix-red-darker, 5%); // Calculate one step darker if needed, or define explicitly #A81A1F
+$primary-color-light: lighten($primary-color, 20%); // Approx #F47174 - Use explicit hex if lighten fails
+$primary-color-dark: $netflix-red-darker;
+$primary-invert: $white; // White text on red background
+
+// Semantic Colors (Adapt to dark theme)
+$link-color:     $off-white; // Links are typically light on dark bg
+$link-color-hover: $white; // Brighter white on hover
+$link-color-active: $light-gray; // Slightly dimmer active state
+$link-invert:    $near-black; // Dark text if link is on light background
+
+$info-color:    $dark-gray-3; // Use grays for info/success etc.
+$info-invert:   $white;
+$info-light:    lighten($info-color, 15%); // Needs explicit hex if fails
+$info-dark:     darken($info-color, 10%); // Needs explicit hex if fails
+
+$success-color: $dark-gray-3; // Use grays
+$success-invert: $white;
+$success-light: lighten($success-color, 15%);
+$success-dark: darken($success-color, 10%);
+
+$warning-color: $dark-gray-3; // Use grays
+$warning-invert: $white;
+$warning-light: lighten($warning-color, 15%);
+$warning-dark: darken($warning-color, 10%);
+
+$danger-color:  $netflix-red; // Danger can use the primary red
+$danger-invert: $white;
+$danger-light:  $primary-color-light;
+$danger-dark:   $primary-color-dark;
+
+$light-color:   $dark-gray-2; // "Light" element bg in dark theme
+$light-invert:  $white;       // Text on light element
+$dark-color:    $dark-gray-1; // "Dark" element bg (slightly lighter than main bg)
+$dark-invert:   $white;       // Text on dark element
+
+// Focus state color (e.g., white or red outline)
+$focus-border-color: $white;
+$focus-shadow-color: rgba(255, 255, 255, 0.3); // Subtle white glow
+
+// --- Typography Sizes (rem units) ---
+$size-1: 2rem;    // 32px
+$size-2: 1.75rem; // 28px
+$size-3: 1.5rem;  // 24px
+$size-4: 1.25rem; // 20px
+$size-5: 1.125rem;// 18px
+$size-6: 1rem;    // 16px - Default body size
+$size-7: 0.875rem;// 14px
+$size-normal: $size-6;
+$size-small: $size-7;
+$size-medium: $size-4;
+$size-large: $size-2;
+
+// --- Font Weights ---
+$weight-light: 300;
+$weight-normal: 400;
+$weight-medium: 500; // Use medium more often
+$weight-semibold: 600;
+$weight-bold: 700;
+
+// --- Spacing (Use PX for core layout) ---
+$gap: 24px;
+$block-spacing: 20px; // Slightly more block spacing
+
+// Component Paddings (Use rem)
+$button-padding-vertical:   0.5rem; // 8px
+$button-padding-horizontal: 1.5rem; // 24px (Wider buttons common)
+$input-padding-vertical:    0.75rem; // 12px (Taller inputs)
+$input-padding-horizontal:  1rem;   // 16px
+$textarea-padding:          0.75rem 1rem;
+$control-padding-vertical: $input-padding-vertical;
+$control-padding-horizontal: $input-padding-horizontal;
+$notification-padding: 1rem 1.5rem;
+$section-padding: 3rem 1.5rem; // px values if rem causes issues: 48px 24px
+$section-padding-medium: 4.5rem 1.5rem; // 72px 24px
+$section-padding-large: 6rem 1.5rem;   // 96px 24px
+$box-padding: 1.5rem; // 24px
+$card-content-padding: 1rem;
+$card-header-padding: 1rem 1.25rem;
+$card-footer-padding: 1rem 1.25rem;
+
+// --- Borders & Radius ---
+$border-width: 1px;
+$border-color: $dark-gray-2; // Dark gray border, subtle
+$border-hover: $dark-gray-3; // Slightly lighter hover
+$border-focus: $focus-border-color; // White focus border
+
+// Netflix uses subtle rounding or none
+$radius-small:  2px;
+$radius:        4px; // Default 4px radius
+$radius-medium: 4px;
+$radius-large:  4px;
+$radius-rounded: 50%; // For avatars etc.
+
+// --- Shadows ---
+// Netflix UI generally avoids shadows for depth, relies on contrast/layering
+$shadow: none;
+$box-shadow: none;
+$card-shadow: none;
+
+// --- Breakpoints (Explicit px) ---
+$tablet: 769px;
+$desktop: 1024px;
+$widescreen: 1216px;
+$fullhd: 1408px;
+
+// --- Container Offset (Explicit px) ---
+$container-offset: 48px; // 2 * $gap (2 * 24px)
+
+// ==========================================================
+// STEP 2: Map Tokens to Bulma Variables (Simplified)
+// ==========================================================
+
+// --- Core Semantic Colors ---
+$primary: $primary-color;
+$link:    $link-color;
+$info:    $info-color;
+$success: $success-color;
+$warning: $warning-color;
+$danger:  $danger-color;
+
+// --- Text ---
+$body-size: $size-6;
+$body-line-height: 1.5;
+$body-color: $white; // White text on dark background
+$text: $body-color;
+$text-light: $light-gray; // Lighter gray for secondary text
+$text-strong: $white;    // Strong text is still white
+
+// --- Links ---
+$link-hover: $link-color-hover;
+$link-hover-border: transparent;
+$link-focus: $link-color-hover;
+$link-focus-border: $border-focus;
+$link-active: $link-color-active;
+$link-active-border: $border-focus;
+$link-visited: $link;
+
+// --- Backgrounds & Borders ---
+$body-background-color: $near-black; // Dark background
+$background: $near-black;
+$border: $border-color;
+$border-hover: $border-hover;
+$hr-background-color: $border-color; // Use border color for hr
+$hr-height: $border-width;
+
+// --- Light/Dark Theme Elements ---
+$light: $light-color; // Dark gray for "light" elements
+$dark: $dark-color;   // Very dark gray for "dark" elements
+
+// --- Code Blocks ---
+$code-family: $family-monospace;
+$code: $off-white; // Off-white code text
+$code-background: $dark-gray-2; // Dark gray code background
+$code-weight: $weight-normal;
+$pre: $off-white;
+$pre-background: $dark-gray-2;
+$pre-padding: 1rem 1.25rem;
+$pre-border: 1px solid $dark-gray-3; // Add subtle border to pre
+
+// --- Aggregate Color Maps (Using ONLY defined variables) ---
+$colors: (
+  "white": ($white, $near-black), // Text color on white bg is dark
+  "black": ($black, $white),       // Use true black if needed, text white
+  "light": ($light, $light-invert),
+  "dark": ($dark, $dark-invert),
+  "primary": ($primary, $primary-invert, $primary-light, $primary-dark),
+  "link": ($link, $link-invert), // Link invert might need explicit setting
+  "info": ($info, $info-invert, $info-light, $info-dark),
+  "success": ($success, $success-invert, $success-light, $success-dark),
+  "warning": ($warning, $warning-invert, $warning-light, $warning-dark),
+  "danger": ($danger, $danger-invert, $danger-light, $danger-dark),
+);
+$shades: ( // Less important, but define reasonably for dark theme
+  "black-bis": #0A0A0A, "black-ter": #101010, "grey-darker": $dark-gray-1, "grey-dark": $dark-gray-2, "grey": $dark-gray-3, "grey-light": $medium-gray, "grey-lighter": $light-gray, "white-ter": $off-white, "white-bis": #f0f0f0
+);
+
+// --- Typography Details ---
+$title-color: $white; // White titles
+$title-weight: $weight-medium; // Medium weight titles often
+$subtitle-color: $light-gray; // Light gray subtitles
+$subtitle-weight: $weight-normal;
+$strong-weight: $weight-bold;
+
+// --- Borders & Radius ---
+$input-radius: $radius;
+$button-radius: $radius;
+$box-radius: $radius;
+$card-radius: $radius;
+$tag-radius: $radius; // Consistent radius for tags too
+$tabs-link-active-border-bottom-color: $primary; // Red underline for active tab
+
+// --- Shadows ---
+$box-shadow: $shadow; // none
+$card-shadow: $shadow; // none
+
+// --- Focus States ---
+$input-focus-border-color: $border-focus; // White border
+$input-focus-box-shadow-size: none; // No focus shadow
+$input-focus-box-shadow-color: none;
+$input-box-shadow: none;
+$textarea-focus-border-color: $border-focus;
+$textarea-focus-box-shadow-size: none;
+$textarea-focus-box-shadow-color: none;
+$button-focus-border-color: $border-focus; // Use white outline for buttons
+$button-focus-box-shadow-size: 0 0 0 1px; // Use shadow as outline hack if border looks bad
+$button-focus-box-shadow-color: $white;
+$button-focus-color: inherit; // Text color doesn't change
+
+// --- Component Specific Adjustments ---
+// Button
+$button-color: $white; // White text on dark buttons by default? No, needs context.
+$button-background-color: $dark-gray-2; // Default button is dark gray
+$button-border-color: $dark-gray-3;
+$button-border-width: $border-width;
+$button-hover-color: $white;
+$button-hover-border-color: $medium-gray;
+$button-hover-background-color: $dark-gray-3;
+$button-active-color: $white;
+$button-active-border-color: $medium-gray;
+$button-active-background-color: $dark-gray-3;
+// Primary button (Red) - Bulma will handle using $primary
+$button-text-color: $link; // Text button is light gray/white
+$button-text-hover-background-color: rgba(255, 255, 255, 0.1); // Subtle hover for text button
+$button-text-hover-color: $link-hover;
+$button-disabled-background-color: $dark-gray-2;
+$button-disabled-border-color: $dark-gray-3;
+$button-disabled-shadow: none;
+$button-disabled-opacity: 0.4; // More noticeable disabled state
+
+// Navbar (Netflix top bar is often dark)
+$navbar-background-color: $near-black;
+$navbar-height: 4rem; // Slightly taller? ~64px
+$navbar-padding-vertical: 0;
+$navbar-padding-horizontal: 1.5rem; // More padding
+$navbar-box-shadow-size: none; // No shadow usually
+$navbar-item-color: $light-gray; // Light gray nav links
+$navbar-item-hover-color: $white; // White on hover
+$navbar-item-hover-background-color: transparent; // No background change
+$navbar-item-active-color: $white; // Active is white
+$navbar-item-active-background-color: transparent;
+$navbar-tab-active-border-bottom-color: $primary; // Red underline for tabs if used
+$navbar-tab-active-color: $primary;
+$navbar-dropdown-background-color: $dark-gray-1; // Dark dropdown
+$navbar-dropdown-border-top: 1px solid $dark-gray-3;
+$navbar-dropdown-radius: $radius;
+$navbar-dropdown-shadow: 0 8px 16px rgba(0,0,0,0.3); // Dark theme shadow
+$navbar-divider-background-color: $dark-gray-3;
+$navbar-item-img-max-height: 2rem; // Adjust logo size
+
+// Card
+$card-background-color: $dark-gray-1; // Darker card bg
+$card-color: $white; // White text in card
+$card-header-background-color: transparent;
+$card-header-color: $white;
+$card-header-weight: $weight-medium;
+$card-header-shadow: none;
+$card-footer-border-top: 1px solid $dark-gray-3;
+$card-footer-color: $light-gray; // Lighter text in footer
+// Footer items (links/buttons)
+$card-footer-item-color: $light-gray;
+$card-footer-item-hover-color: $white;
+$card-footer-item-active-color: $white;
+
+// Tag / Chip
+$tag-background-color: $dark-gray-2; // Dark gray chip
+$tag-color: $light-gray; // Light gray text
+$tag-border: 1px solid $dark-gray-3; // Add border maybe? Or remove? Let's try none.
+$tag-border-color: transparent;
+// Colored tags (use primary for accent)
+$tag-primary-background-color: $primary; $tag-primary-color: $primary-invert;
+// Make other semantic tags subtle dark gray
+$tag-link-background-color: $dark-gray-3; $tag-link-color: $light-gray;
+$tag-info-background-color: $dark-gray-3; $tag-info-color: $light-gray;
+$tag-success-background-color: $dark-gray-3; $tag-success-color: $light-gray;
+$tag-warning-background-color: $dark-gray-3; $tag-warning-color: $light-gray;
+$tag-danger-background-color: $primary; $tag-danger-color: $primary-invert; // Danger also red
+
+// Notification / Alert (Snackbar style)
+$notification-background-color: #333333; // Snackbar dark gray
+$notification-radius: $radius;
+$notification-color: $white;
+$notification-padding: 0.875rem 1.5rem; // 14px 24px
+// Colored notifications less common, but make them use the accent
+$notification-primary-background-color: $primary; $notification-primary-color: $primary-invert;
+$notification-danger-background-color: $primary; $notification-danger-color: $primary-invert;
+// Other colors could be subtle gray or the primary red
+$notification-info-background-color: #333333; $notification-info-color: $white;
+$notification-success-background-color: #333333; $notification-success-color: $white;
+$notification-warning-background-color: #333333; $notification-warning-color: $white;
+// Link color inside notification
+$notification-link-color: #ff8a80; // Accent color for action? Or white?
+
+// Input / Textarea
+$input-color: $white;
+$input-background-color: $dark-gray-2; // Dark input background
+$input-border-color: $dark-gray-3;
+$input-placeholder-color: $medium-gray;
+$input-hover-border-color: $light-gray;
+$input-focus-border-color: $focus-border-color; // White focus border
+$input-disabled-background-color: $dark-gray-1;
+$input-disabled-border-color: $dark-gray-2;
+$input-disabled-color: $medium-gray;
+
+$control-border-width: $border-width;
+$control-height: auto; // Let padding dictate height
+$control-line-height: 1.5;
+$label-color: $light-gray; // Lighter label text
+$label-weight: $weight-normal;
+$help-color: $medium-gray; // Medium gray help text
+$help-size: $size-small;
+
+// Tabs (Netflix uses simple text usually, maybe underline)
+$tabs-border-bottom-color: $dark-gray-3; // Bottom border for container
+$tabs-border-bottom-style: solid;
+$tabs-border-bottom-width: 1px;
+$tabs-link-color: $light-gray; // Inactive tab color
+$tabs-link-hover-border-bottom-color: $medium-gray; // Subtle hover indicator
+$tabs-link-hover-color: $white;
+$tabs-link-active-border-bottom-color: $primary; // Red active indicator
+$tabs-link-active-border-bottom-width: 2px; // Thicker active indicator
+$tabs-link-active-color: $white; // Active tab text is white
+$tabs-link-padding: 1em 1em; // Adjust padding
+
+// Other defaults
+$box-color: $white;
+$box-background-color: $dark-gray-1;
+$box-radius: $radius;
+$box-shadow: $shadow; // None
+
 
 // ==========================================================
 // STEP 3: Import Bulma & Custom Theme
 // ==========================================================
 @import "../node_modules/bulma/sass/index";
 @import "./theme/index";
-
-// ==========================================================
-// STEP 1: Define Design Tokens (Netflix Inspired)
-// Using PX for core layout, Hex codes for colors
-// ==========================================================
