@@ -1,3 +1,4 @@
+@import "../node_modules/bulma/sass/index";
 // --- Base User Settings, Raw Colors, Fundamental Values (No Dependencies) ---
 $primary: #e53935;
 $link: $primary;
@@ -229,5 +230,5 @@ $breadcrumb-item-color: $primary; $breadcrumb-item-hover-color: darken($primary,
 $footer-background-color: $gray-100; $footer-color: inherit; $footer-padding: 3rem 1.5rem 3rem;
 
 // --- Import Bulma & Custom Code ---
-@import "../node_modules/bulma/sass/index";
+
 @import "./theme/index";
