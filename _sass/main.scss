@@ -1,299 +1,701 @@
 // ==========================================================
-// STEP 1: Define Design Tokens (Tailwind/Shadcn Inspired)
+// STEP 1: Initial SCSS Variable Setup (Optional, but recommended)
+// These influence Bulma's initial compile but overrides below take visual precedence.
 // ==========================================================
-
-// --- Fonts ---
+$primary: #2563eb; // Example blue primary (Tailwind blue-600) - Change if needed
+$link: $primary;
 $family-sans-serif: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
 $family-monospace: "Roboto Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
-$family-primary: $family-sans-serif;
-$family-code: $family-monospace;
+$gap: 1rem; // Tighter base spacing for Bulma's grid/elements if used
 
-// --- Colors (Tailwind-like Palette) ---
-$white:    #ffffff;
-$black:    #000000;
-$gray-50:  #f9fafb;
-$gray-100: #f3f4f6;
-$gray-200: #e5e7eb;
-$gray-300: #d1d5db;
-$gray-400: #9ca3af;
-$gray-500: #6b7280;
-$gray-600: #4b5563;
-$gray-700: #374151;
-$gray-800: #1f2937;
-$gray-900: #11182c;
-
-$primary-color: #2563eb; // blue-600 (Example: Change to #e53935 for your red)
-$primary-color-hover: darken($primary-color, 5%);
-$primary-color-active: darken($primary-color, 10%);
-$primary-color-focus-ring: rgba($primary-color, 0.25);
-
-$info-color:    #0ea5e9; // sky-500
-$success-color: #16a34a; // green-600
-$warning-color: #f59e0b; // amber-500
-$danger-color:  #dc2626; // red-600
-
-// Calculate Inverts
-$primary-invert: findColorInvert($primary-color);
-$info-invert:    findColorInvert($info-color);
-$success-invert: findColorInvert($success-color);
-$warning-invert: $gray-900;
-$danger-invert:  findColorInvert($danger-color);
-$link-invert:    $primary-invert;
-$light-invert:   $gray-900;
-$dark-invert:    $white;
-$text-invert:    $white;
-
-// --- Typography Sizes (rem units, Tailwind scale) ---
-$size-1: 2.25rem;  // 36px
-$size-2: 1.875rem; // 30px
-$size-3: 1.5rem;   // 24px
-$size-4: 1.25rem;  // 20px
-$size-5: 1.125rem; // 18px
-$size-6: 1rem;     // 16px - Default body size
-$size-7: 0.875rem; // 14px
-$size-normal: $size-6;
-$size-small: $size-7;
-$size-medium: $size-4;
-$size-large: $size-2;
-
-// --- Font Weights ---
-$weight-light: 300;
-$weight-normal: 400;
-$weight-medium: 500;
-$weight-semibold: 600;
-$weight-bold: 700;
-
-// --- Spacing ---
-$gap: 1rem; // Use a rem based gap (e.g., 16px)
-$block-spacing: 1rem;
-
-// Component Paddings
-$button-padding-vertical:   0.5rem;
-$button-padding-horizontal: 1rem;
-$input-padding-vertical:    0.5rem;
-$input-padding-horizontal:  0.75rem;
-$textarea-padding:          0.75rem;
-$control-padding-vertical: $input-padding-vertical;
-$control-padding-horizontal: $input-padding-horizontal;
-$notification-padding: 1rem 1.25rem;
-$section-padding: 3rem 1rem;
-$section-padding-medium: 4rem 1.5rem;
-$section-padding-large: 6rem 2rem;
-$box-padding: 1.25rem;
-$card-content-padding: 1rem;
-$card-header-padding: 0.75rem 1rem;
-$card-footer-padding: 0.75rem 1rem;
-
-// --- Borders & Radius ---
-$border-width: 1px;
-$border-color: $gray-200;
-$border-hover: $gray-300;
-$border-focus: $primary-color;
-
-$radius-small:  0.125rem;
-$radius:        0.375rem;
-$radius-medium: 0.5rem;
-$radius-large:  0.75rem;
-$radius-rounded: 9999px;
-
-// --- Shadows ---
-$shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-
-// --- Breakpoints (FIX: Define Explicitly with px) ---
-// Override Bulma's defaults to prevent calculation error with rem $gap
-// Using Bulma's default values here explicitly. Adjust if needed.
+// Explicit breakpoints to avoid calculation errors with $gap
 $tablet: 769px;
-$desktop: 1024px; // Overrides 960px + 2 * $gap calculation
-$widescreen: 1216px; // Overrides $desktop + 2 * $gap calculation
-$fullhd: 1408px; // Overrides $widescreen + 2 * $gap calculation
-// Define mobile explicitly too if needed, though less common to override
-// $mobile: 768px; // Defined as $tablet - 1px usually
+$desktop: 1024px;
+$widescreen: 1216px;
+$fullhd: 1408px;
+
+// Define basic radius used often
+$radius: 0.375rem; // 6px (like rounded-md)
 
 // ==========================================================
-// STEP 2: Map Tokens to Bulma Variables
+// STEP 2: Import Bulma Core
 // ==========================================================
-
-// --- Core Semantic Colors ---
-$primary: $primary-color;
-$link:    $primary-color;
-$info:    $info-color;
-$success: $success-color;
-$warning: $warning-color;
-$danger:  $danger-color;
-
-// --- Text ---
-$body-size: $size-6;
-$body-line-height: 1.5;
-$body-color: $gray-700;
-$text: $body-color;
-$text-light: $gray-500;
-$text-strong: $gray-900;
-
-// --- Links ---
-$link-hover: $primary-color-hover;
-$link-hover-border: transparent;
-$link-focus: $primary-color-hover;
-$link-focus-border: $border-focus;
-$link-active: $primary-color-active;
-$link-active-border: $border-focus;
-$link-visited: $link;
-
-// --- Backgrounds & Borders ---
-$body-background-color: $white;
-$background: $gray-50;
-$border: $border-color;
-$border-hover: $border-hover;
-$hr-background-color: $border-color;
-$hr-height: $border-width;
-
-// --- Light/Dark Theme Elements ---
-$light: $gray-100;
-$dark: $gray-800;
-
-// --- Code Blocks ---
-$code-family: $family-monospace;
-$code: $danger-color;
-$code-background: $gray-100;
-$code-weight: $weight-normal;
-$pre: $gray-800;
-$pre-background: $gray-100;
-$pre-padding: 1rem 1.25rem;
-
-// --- Aggregate Color Maps ---
-$colors: (
-  "white": ($white, $black),
-  "black": ($black, $white),
-  "light": ($light, $light-invert),
-  "dark": ($dark, $dark-invert),
-  "primary": ($primary, $primary-invert),
-  "link": ($link, $link-invert),
-  "info": ($info, $info-invert),
-  "success": ($success, $success-invert),
-  "warning": ($warning, $warning-invert),
-  "danger": ($danger, $danger-invert),
-  "grey-darker": ($gray-900, $white),
-  "grey-dark": ($gray-800, $white),
-  "grey": ($gray-600, $white),
-  "grey-light": ($gray-400, $gray-900),
-  "grey-lighter": ($gray-200, $gray-900),
-  "grey-lightest": ($gray-100, $gray-900)
-);
-$shades: (
-  "black-bis": darken($black, 5%),
-  "black-ter": darken($black, 10%),
-  "grey-darker": $gray-900,
-  "grey-dark": $gray-800,
-  "grey": $gray-600,
-  "grey-light": $gray-400,
-  "grey-lighter": $gray-200,
-  "white-ter": darken($white, 2%),
-  "white-bis": darken($white, 4%)
-);
-
-// --- Typography Details ---
-$title-color: $gray-900;
-$title-weight: $weight-bold;
-$subtitle-color: $gray-600;
-$subtitle-weight: $weight-normal;
-$strong-weight: $weight-bold;
-
-// --- Borders & Radius ---
-$input-radius: $radius;
-$button-radius: $radius;
-$box-radius: $radius-medium;
-$card-radius: $radius-medium;
-$tag-radius: $radius-small;
-$tabs-link-active-border-bottom-color: $primary;
-
-// --- Shadows ---
-$box-shadow: $shadow;
-$card-shadow: $shadow;
-
-// --- Focus States ---
-$input-focus-border-color: $border-focus;
-$input-focus-box-shadow-size: 0 0 0 3px;
-$input-focus-box-shadow-color: $primary-color-focus-ring;
-$input-box-shadow: none;
-$textarea-focus-border-color: $border-focus;
-$textarea-focus-box-shadow-size: $input-focus-box-shadow-size;
-$textarea-focus-box-shadow-color: $primary-color-focus-ring;
-$button-focus-border-color: $border-focus;
-$button-focus-box-shadow-size: $input-focus-box-shadow-size;
-$button-focus-box-shadow-color: $primary-color-focus-ring;
-$button-focus-color: inherit;
-
-// --- Component Specific Adjustments ---
-$button-color: $gray-700;
-$button-background-color: $white;
-$button-border-color: $gray-300;
-$button-border-width: $border-width;
-$button-hover-color: $gray-800;
-$button-hover-border-color: $gray-400;
-$button-hover-background-color: $gray-50;
-$button-active-color: $gray-900;
-$button-active-border-color: $gray-400;
-$button-active-background-color: $gray-100;
-$button-text-color: $link;
-$button-text-hover-background-color: $gray-100;
-$button-text-hover-color: $link-hover;
-$button-disabled-background-color: $white;
-$button-disabled-border-color: $gray-200;
-$button-disabled-shadow: none;
-$button-disabled-opacity: 0.5;
-
-$navbar-background-color: $white;
-$navbar-height: 3.5rem;
-$navbar-padding-vertical: 0;
-$navbar-padding-horizontal: 1rem;
-$navbar-box-shadow-size: 0 1px 2px 0;
-$navbar-box-shadow-color: rgba($black, 0.05);
-$navbar-item-color: $gray-600;
-$navbar-item-hover-color: $gray-900;
-$navbar-item-hover-background-color: $gray-50;
-$navbar-item-active-color: $primary;
-$navbar-item-active-background-color: $gray-50;
-$navbar-tab-active-border-bottom-color: $primary;
-$navbar-tab-active-color: $primary;
-$navbar-dropdown-background-color: $white;
-$navbar-dropdown-border-top: 1px solid $gray-100;
-$navbar-dropdown-radius: $radius;
-$navbar-dropdown-shadow: $shadow;
-$navbar-divider-background-color: $gray-100;
-
-$card-background-color: $white;
-$card-header-background-color: transparent;
-$card-header-color: $gray-900;
-$card-header-weight: $weight-semibold;
-$card-header-shadow: none;
-$card-footer-border-top: 1px solid $gray-100;
-
-$tag-background-color: $gray-100;
-$tag-color: $gray-700;
-$tag-primary-background-color: lighten($primary, 40%);
-$tag-primary-color: $primary;
-$tag-info-background-color: lighten($info, 40%);
-$tag-info-color: $info;
-// Add other tag colors if needed
-
-$notification-background-color: $gray-50;
-$notification-radius: $radius;
-$notification-code-background-color: $white;
-$notification-primary-background-color: lighten($primary, 40%);
-$notification-primary-color: $primary;
-$notification-info-background-color: lighten($info, 40%);
-$notification-info-color: $info;
-// Add other notification colors if needed
-
-$control-border-width: $border-width;
-$control-height: 2.5em;
-$control-line-height: 1.5;
-$label-color: $gray-700;
-$label-weight: $weight-medium;
-$help-color: $gray-500;
-$help-size: $size-small;
+@import "../node_modules/bulma/sass/index";
 
 // ==========================================================
-// STEP 3: Import Bulma & Custom Theme
+// STEP 3: PURE CSS Overrides - Tailwind/Shadcn Inspired
+// (Plain CSS targeting Bulma classes - NO SCSS syntax here)
 // ==========================================================
-@import "../node_modules/bulma/sass/index"; // Bulma uses all variables defined above
-@import "./theme/index";                 // Your custom utilities/styles (if any) go here
+
+/* --- Base Styles --- */
+html {
+  background-color: #ffffff; /* White or #f9fafb (gray-50) */
+  font-size: 16px;
+}
+
+body {
+  font-family: "Inter", system-ui, sans-serif; /* Use the defined font stack */
+  color: #374151; /* gray-700 */
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  background-color: #ffffff; /* White */
+  padding-top: 3.5rem; /* If using fixed navbar */
+}
+
+a {
+  color: #2563eb; /* Primary blue for links */
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+a:hover {
+  color: #1d4ed8; /* Darker blue */
+  /* text-decoration: underline; */ /* Optional */
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+strong, b {
+  font-weight: 600; /* semibold */
+  color: #11182c; /* gray-900 */
+}
+
+hr {
+  background-color: #e5e7eb; /* gray-200 */
+  border: none;
+  height: 1px;
+  margin: 1.5rem 0;
+}
+
+/* --- Selection --- */
+::selection {
+  background-color: rgba(37, 99, 235, 0.2); /* Lighter primary */
+  color: #11182c;
+}
+
+/* --- Headings & Titles --- */
+h1, .title.is-1,
+h2, .title.is-2,
+h3, .title.is-3,
+h4, .title.is-4,
+h5, .title.is-5,
+h6, .title.is-6 {
+  font-family: "Inter", system-ui, sans-serif;
+  color: #11182c; /* gray-900 */
+  font-weight: 700; /* bold */
+  line-height: 1.25;
+  margin: 1.5rem 0 0.75rem 0;
+}
+h1, .title.is-1 { font-size: 2.25rem; } /* 36px */
+h2, .title.is-2 { font-size: 1.875rem; } /* 30px */
+h3, .title.is-3 { font-size: 1.5rem; } /* 24px */
+h4, .title.is-4 { font-size: 1.25rem; } /* 20px */
+h5, .title.is-5 { font-size: 1.125rem; } /* 18px */
+h6, .title.is-6 { font-size: 1rem; } /* 16px */
+
+.subtitle {
+  color: #4b5563; /* gray-600 */
+  font-weight: 400; /* normal */
+  line-height: 1.5;
+  margin-top: -0.5rem;
+}
+.subtitle.is-1 { font-size: 1.5rem; }
+.subtitle.is-2 { font-size: 1.25rem; }
+.subtitle.is-3 { font-size: 1.125rem; }
+.subtitle.is-4 { font-size: 1rem; }
+.subtitle.is-5 { font-size: 0.875rem; }
+.subtitle.is-6 { font-size: 0.75rem; }
+
+/* --- Content Class --- */
+.content {
+  line-height: 1.6;
+  font-size: 1rem;
+}
+.content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
+    margin-bottom: 1em;
+}
+.content ul { list-style: disc outside; margin-left: 1.5em; margin-top: 1em; margin-bottom: 1em; }
+.content ol { list-style: decimal outside; margin-left: 1.5em; margin-top: 1em; margin-bottom: 1em; }
+.content li { margin-top: 0.5em; }
+.content blockquote { background-color: #f9fafb; border-left: 3px solid #d1d5db; padding: 0.75em 1.25em; margin-bottom: 1em; }
+.content table { width: 100%; margin-bottom: 1.5em; border-collapse: collapse; }
+.content table td, .content table th { border: 1px solid #e5e7eb; padding: 0.75em 1em; vertical-align: top; font-size: 0.875rem; }
+.content table th { color: #11182c; font-weight: 600; text-align: left; background-color: #f9fafb; }
+.content table thead td, .content table thead th { border-bottom-width: 2px; border-color: #e5e7eb; }
+.content code { background-color: #f3f4f6; color: #dc2626; font-family: "Roboto Mono", monospace; font-size: 0.875em; padding: 0.125rem 0.375rem; border-radius: 0.25rem; }
+.content pre { background-color: #f3f4f6; color: #1f2937; font-family: "Roboto Mono", monospace; padding: 1rem 1.25rem; border-radius: 0.375rem; border: 1px solid #e5e7eb; overflow-x: auto; white-space: pre; word-wrap: normal; }
+.content pre code { background-color: transparent; color: inherit; padding: 0; font-size: inherit; border: none; }
+
+/* --- Layout --- */
+.section {
+  padding: 3rem 1rem; /* Default section padding */
+}
+@media screen and (min-width: 769px) {
+  .section { padding: 4rem 1.5rem; }
+}
+@media screen and (min-width: 1024px) {
+  .section { padding: 6rem 2rem; }
+}
+
+.container {
+  /* Bulma handles max-width */
+}
+
+.hero {
+  background-color: #f9fafb; /* Default light gray */
+  color: #1f2937;
+  padding: 3rem 1.5rem;
+  border-radius: 0; /* Ensure no radius */
+}
+.hero .title { color: #11182c; }
+.hero .subtitle { color: #4b5563; }
+.hero.is-primary { background-color: #2563eb; color: #ffffff; }
+.hero.is-primary .title, .hero.is-primary .subtitle { color: #ffffff; }
+.hero.is-link { background-color: #2563eb; color: #ffffff; } /* Use primary as link */
+.hero.is-info { background-color: #0ea5e9; color: #ffffff; }
+.hero.is-success { background-color: #16a34a; color: #ffffff; }
+.hero.is-warning { background-color: #f59e0b; color: #1f2937; } /* Dark text */
+.hero.is-danger { background-color: #dc2626; color: #ffffff; }
+.hero.is-light { background-color: #f3f4f6; color: #374151; }
+.hero.is-dark { background-color: #1f2937; color: #f3f4f6; }
+
+.footer {
+    background-color: #ffffff;
+    color: #6b7280; /* gray-500 */
+    padding: 3rem 1.5rem;
+    border-top: 1px solid #e5e7eb; /* gray-200 */
+    font-size: 0.875rem;
+}
+.footer a:not(.button) { color: #4b5563; }
+.footer a:not(.button):hover { color: #1f2937; }
+.footer strong { color: #374151; }
+
+/* --- Form Controls --- */
+.input,
+.textarea,
+.select select {
+  background-color: #ffffff;
+  border: 1px solid #d1d5db; /* gray-300 */
+  border-radius: 0.375rem; /* 6px */
+  color: #11182c; /* gray-900 */
+  padding: 0.5rem 0.75rem; /* py-2 px-3 */
+  box-shadow: none;
+  font-size: 1rem;
+  font-family: "Inter", system-ui, sans-serif;
+  line-height: 1.5;
+  height: auto; /* Allow padding to define height */
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  appearance: none; /* Remove default OS styling */
+}
+.input:hover,
+.textarea:hover,
+.select:hover select { /* Hover the wrapper for select */
+  border-color: #9ca3af; /* gray-400 */
+}
+.input:focus, .input.is-focused,
+.textarea:focus, .textarea.is-focused,
+.select select:focus, .select.is-focused select { /* Target select inside focused wrapper */
+  border-color: #2563eb; /* primary */
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25); /* primary focus ring */
+  outline: none;
+}
+.input::placeholder,
+.textarea::placeholder {
+  color: #9ca3af; /* gray-400 */
+  opacity: 1;
+}
+.input[disabled], .textarea[disabled], .select[disabled]::after, .select select[disabled] {
+  background-color: #f3f4f6; /* gray-100 */
+  border-color: #e5e7eb; /* gray-200 */
+  color: #9ca3af; /* gray-400 */
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+.input.is-danger, .textarea.is-danger, .select.is-danger select {
+  border-color: #dc2626 !important; /* Danger red */
+}
+.input.is-danger:focus, .textarea.is-danger:focus, .select.is-danger.is-focused select {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.25) !important;
+}
+
+.textarea {
+  min-height: 80px;
+  line-height: 1.5;
+  padding: 0.75rem;
+}
+
+.select {
+  height: auto;
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+  border-radius: 0.375rem; /* Apply radius to wrapper */
+}
+.select:not(.is-multiple) {
+  height: auto; /* Override Bulma fixed height */
+}
+.select::after { /* Arrow */
+  border: none;
+  content: '\25BC'; /* Unicode downward triangle */
+  color: #6b7280; /* gray-500 */
+  font-size: 0.7em;
+  height: auto;
+  right: 0.875em; /* Adjust position */
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  position: absolute;
+  z-index: 4;
+  margin-top: 0;
+  width: auto;
+  transition: transform 0.2s ease;
+}
+.select:hover::after { color: #374151; }
+.select select {
+  padding-right: 2.5em !important; /* Ensure space */
+  border: none !important; /* Border is on wrapper */
+  background-color: transparent !important; /* BG is on wrapper */
+  height: auto !important;
+  min-height: calc(1.5em + 1rem + 2px); /* Calculate min height based on padding/line-height */
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+  outline: none;
+}
+.select:focus-within { /* Style wrapper on focus */
+   border-color: #2563eb;
+   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+}
+
+.checkbox, .radio {
+  cursor: pointer;
+  line-height: 1.25;
+  margin-right: 0.5em;
+  display: inline-block;
+  vertical-align: middle;
+}
+.checkbox input, .radio input {
+  margin-right: 0.25em;
+  vertical-align: middle;
+  /* Use browser defaults for Tailwind/Shadcn appearance */
+}
+.checkbox[disabled], .radio[disabled] {
+  color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.label {
+  color: #374151; /* gray-700 */
+  font-weight: 500; /* medium */
+  font-size: 0.875rem; /* text-sm label */
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.help {
+  color: #6b7280; /* gray-500 */
+  font-size: 0.875rem; /* text-sm */
+  display: block;
+  margin-top: 0.25rem;
+}
+.help.is-danger { color: #dc2626 !important; }
+
+.field:not(:last-child) { margin-bottom: 1rem; }
+
+// --- Buttons ---
+.button {
+  border-radius: 0.375rem; /* 6px */
+  padding: 0.5rem 1rem; /* py-2 px-4 */
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500; /* medium */
+  line-height: 1.5;
+  min-height: auto; /* Let padding define height */
+  text-transform: none; /* Normal case */
+  letter-spacing: normal;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+  border-width: 1px;
+  border-style: solid;
+  cursor: pointer;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  box-shadow: none; /* No default shadow */
+  /* Default Style */
+  background-color: #ffffff;
+  border-color: #d1d5db; /* gray-300 */
+  color: #374151; /* gray-700 */
+}
+.button:hover {
+  background-color: #f9fafb; /* gray-50 */
+  border-color: #9ca3af; /* gray-400 */
+  color: #1f2937; /* gray-800 */
+}
+.button:focus {
+  outline: none;
+  border-color: #2563eb; /* primary */
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25); /* primary ring */
+}
+.button:active {
+  background-color: #f3f4f6; /* gray-100 */
+  border-color: #9ca3af; /* gray-400 */
+  color: #1f2937; /* gray-800 */
+}
+
+/* Primary Button */
+.button.is-primary {
+  background-color: #2563eb; /* blue-600 */
+  border-color: #2563eb;
+  color: #ffffff;
+}
+.button.is-primary:hover { background-color: #1d4ed8; border-color: #1d4ed8; }
+.button.is-primary:active { background-color: #1e40af; border-color: #1e40af; }
+.button.is-primary:focus { border-color: #1d4ed8; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3); }
+
+/* Link Button (same as primary in this theme) */
+.button.is-link { background-color: #2563eb; border-color: #2563eb; color: #ffffff; }
+.button.is-link:hover { background-color: #1d4ed8; border-color: #1d4ed8; }
+.button.is-link:active { background-color: #1e40af; border-color: #1e40af; }
+.button.is-link:focus { border-color: #1d4ed8; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3); }
+
+/* Info Button */
+.button.is-info { background-color: #0ea5e9; border-color: #0ea5e9; color: #ffffff; }
+.button.is-info:hover { background-color: #0284c7; border-color: #0284c7; }
+.button.is-info:active { background-color: #0369a1; border-color: #0369a1; }
+.button.is-info:focus { border-color: #0284c7; box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.3); }
+
+/* Success Button */
+.button.is-success { background-color: #16a34a; border-color: #16a34a; color: #ffffff; }
+.button.is-success:hover { background-color: #15803d; border-color: #15803d; }
+.button.is-success:active { background-color: #166534; border-color: #166534; }
+.button.is-success:focus { border-color: #15803d; box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.3); }
+
+/* Warning Button */
+.button.is-warning { background-color: #f59e0b; border-color: #f59e0b; color: #1f2937; } /* Dark text */
+.button.is-warning:hover { background-color: #d97706; border-color: #d97706; }
+.button.is-warning:active { background-color: #b45309; border-color: #b45309; }
+.button.is-warning:focus { border-color: #d97706; box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3); }
+
+/* Danger Button */
+.button.is-danger { background-color: #dc2626; border-color: #dc2626; color: #ffffff; }
+.button.is-danger:hover { background-color: #b91c1c; border-color: #b91c1c; }
+.button.is-danger:active { background-color: #991b1b; border-color: #991b1b; }
+.button.is-danger:focus { border-color: #b91c1c; box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.3); }
+
+/* Light Button (Subtle secondary) */
+.button.is-light {
+  background-color: #f3f4f6; /* gray-100 */
+  border-color: #f3f4f6;
+  color: #374151; /* gray-700 */
+}
+.button.is-light:hover { background-color: #e5e7eb; border-color: #e5e7eb; color: #1f2937; }
+.button.is-light:active { background-color: #d1d5db; border-color: #d1d5db; color: #1f2937; }
+.button.is-light:focus { border-color: #d1d5db; box-shadow: 0 0 0 3px rgba(229, 231, 235, 0.5); }
+
+/* Dark Button */
+.button.is-dark {
+  background-color: #1f2937; /* gray-800 */
+  border-color: #1f2937;
+  color: #f9fafb; /* gray-50 */
+}
+.button.is-dark:hover { background-color: #11182c; border-color: #11182c; }
+.button.is-dark:active { background-color: #000000; border-color: #000000; }
+.button.is-dark:focus { border-color: #11182c; box-shadow: 0 0 0 3px rgba(31, 41, 55, 0.3); }
+
+/* Outlined Button Styles */
+.button.is-outlined {
+  background-color: transparent;
+  border-color: #d1d5db; /* gray-300 default outline */
+  color: #374151; /* gray-700 default text */
+  box-shadow: none;
+}
+.button.is-outlined:hover { background-color: #f9fafb; /* gray-50 */ border-color: #9ca3af; color: #1f2937; }
+.button.is-outlined:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25); background-color: #f9fafb;}
+.button.is-outlined:active { background-color: #f3f4f6; border-color: #9ca3af; color: #1f2937; }
+
+.button.is-outlined.is-primary { border-color: #2563eb; color: #2563eb; &:hover { background-color: rgba(37, 99, 235, 0.05); } &:active { background-color: rgba(37, 99, 235, 0.1); } }
+.button.is-outlined.is-danger { border-color: #dc2626; color: #dc2626; &:hover { background-color: rgba(220, 38, 38, 0.05); } &:active { background-color: rgba(220, 38, 38, 0.1); } }
+/* Add other outlined colors if needed */
+
+/* Disabled Buttons */
+.button[disabled] {
+  background-color: #f3f4f6; /* gray-100 */
+  border-color: #e5e7eb; /* gray-200 */
+  color: #9ca3af; /* gray-400 */
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+.button.is-outlined[disabled] {
+  background-color: transparent;
+  border-color: #e5e7eb;
+  color: #9ca3af;
+}
+
+/* Text Button */
+.button.is-text {
+    background-color: transparent;
+    border-color: transparent;
+    color: #2563eb; /* primary */
+    text-decoration: none;
+    box-shadow: none;
+    padding-left: 0.5rem; padding-right: 0.5rem; /* Less padding */
+}
+.button.is-text:hover { background-color: rgba(37, 99, 235, 0.05); color: #1d4ed8; }
+.button.is-text:active { background-color: rgba(37, 99, 235, 0.1); }
+.button.is-text:focus { background-color: rgba(37, 99, 235, 0.1); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25); }
+
+
+/* Button Sizes */
+.button.is-small { font-size: 0.75rem; padding: 0.375rem 0.75rem; } /* text-xs, py-1.5 px-3 */
+.button.is-large { font-size: 1rem; padding: 0.625rem 1.25rem; } /* text-base, py-2.5 px-5 */
+
+/* Other Button Modifiers */
+.button.is-loading::after { /* Style spinner */ }
+.button.is-rounded { border-radius: 9999px; } /* Full round */
+.button.is-fullwidth { display: flex; width: 100%; }
+
+/* Button Groups */
+.buttons .button { margin-right: 0.5rem; margin-bottom: 0.5rem; }
+.buttons:last-child { margin-bottom: -0.5rem; }
+.buttons:not(:last-child) { margin-bottom: 0.5rem; } /* Less space after group */
+.buttons.has-addons .button { margin-right: 0; border-radius: 0 !important; }
+.buttons.has-addons .button:first-child { border-top-left-radius: 0.375rem !important; border-bottom-left-radius: 0.375rem !important; }
+.buttons.has-addons .button:last-child { border-top-right-radius: 0.375rem !important; border-bottom-right-radius: 0.375rem !important; }
+.buttons.has-addons .button:not(:first-child) { margin-left: -1px; }
+
+// --- Icon Component ---
+.icon {
+  align-items: center; display: inline-flex; justify-content: center; height: 1.5rem; width: 1.5rem; font-size: 1.25rem; /* Default icon size */ vertical-align: middle;
+}
+.icon.is-small { height: 1rem; width: 1rem; font-size: 1rem; }
+.icon.is-medium { height: 2rem; width: 2rem; font-size: 1.75rem; }
+.icon.is-large { height: 3rem; width: 3rem; font-size: 2.5rem; }
+
+// --- Image Component ---
+.image { display: block; position: relative; }
+.image img { display: block; height: auto; width: 100%; border-radius: 0; }
+.image.is-rounded img { border-radius: 9999px; }
+.image.is-16x16 { height: 16px; width: 16px; }
+.image.is-24x24 { height: 24px; width: 24px; }
+.image.is-32x32 { height: 32px; width: 32px; }
+.image.is-48x48 { height: 48px; width: 48px; }
+.image.is-64x64 { height: 64px; width: 64px; }
+.image.is-96x96 { height: 96px; width: 96px; }
+.image.is-128x128 { height: 128px; width: 128px; }
+
+// --- Tag / Chip Component ---
+.tag:not(body) {
+  align-items: center; background-color: #f3f4f6; /* gray-100 */ border-radius: 0.25rem; /* rounded-sm */ color: #4b5563; /* gray-600 */ display: inline-flex; font-size: 0.75rem; /* text-xs */ font-weight: 500; /* medium */ height: auto; justify-content: center; line-height: 1.5; padding: 0.125rem 0.5rem; /* py-0.5 px-2 */ white-space: nowrap; margin: 2px; border: 1px solid #e5e7eb; /* gray-200 border */
+}
+/* Colored Tags (Subtle) */
+.tag.is-primary { background-color: #dbeafe; color: #1e40af; border-color: #bfdbfe; } /* blue-100 bg, blue-800 text */
+.tag.is-link { background-color: #dbeafe; color: #1e40af; border-color: #bfdbfe; }
+.tag.is-info { background-color: #cffafe; color: #0e7490; border-color: #a5f3fc; } /* cyan */
+.tag.is-success { background-color: #dcfce7; color: #166534; border-color: #bbf7d0; } /* green */
+.tag.is-warning { background-color: #fef3c7; color: #b45309; border-color: #fde68a; } /* amber */
+.tag.is-danger { background-color: #fee2e2; color: #991b1b; border-color: #fecaca; } /* red */
+.tag.is-dark { background-color: #d1d5db; color: #1f2937; border-color: #9ca3af; } /* gray */
+.tag.is-light { background-color: #f3f4f6; color: #4b5563; border-color: #e5e7eb; } /* already default */
+/* Tag delete button */
+.tag .delete { background-color: rgba(0,0,0,0.2); border-radius: 50%; height: 16px; width: 16px; margin-left: 0.25rem; margin-right: -0.375rem; }
+.tag .delete::before, .tag .delete::after { background-color: #ffffff; height: 1px; width: 60%; }
+.tag .delete:hover { background-color: rgba(0,0,0,0.3); }
+/* Tag Sizes */
+.tag.is-medium { font-size: 0.875rem; padding: 0.25rem 0.75rem; }
+.tag.is-large { font-size: 1rem; padding: 0.375rem 1rem; }
+/* Tags container */
+.tags .tag { margin-right: 0.5rem; margin-bottom: 0.5rem; }
+.tags:last-child { margin-bottom: -0.5rem; }
+.tags:not(:last-child) { margin-bottom: 0.5rem; }
+.tags.has-addons .tag { margin-right: 0; border-radius: 0 !important; border-left-width: 0; }
+.tags.has-addons .tag:first-child { border-top-left-radius: 0.25rem !important; border-bottom-left-radius: 0.25rem !important; border-left-width: 1px; }
+.tags.has-addons .tag:last-child { border-top-right-radius: 0.25rem !important; border-bottom-right-radius: 0.25rem !important; }
+
+// --- Notification / Alert ---
+.notification {
+  background-color: #f9fafb; /* gray-50 default */
+  border-radius: 0.375rem; /* 6px */
+  border: 1px solid #e5e7eb; /* gray-200 */
+  color: #374151; /* gray-700 */
+  padding: 1rem 1.25rem; /* p-4 / p-5 */
+  position: relative;
+}
+.notification:not(:last-child) { margin-bottom: 1.5rem; }
+.notification strong { color: inherit; font-weight: 600; }
+.notification a:not(.button) { color: #2563eb; text-decoration: underline; } /* primary link */
+.notification code, .notification pre { background-color: #e5e7eb; border-color: #d1d5db; color: #4b5563; }
+/* Color variants (Subtle border/background) */
+.notification.is-primary { background-color: #eff6ff; border-color: #bfdbfe; color: #1e40af; } /* blue */
+.notification.is-link { background-color: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+.notification.is-info { background-color: #ecfeff; border-color: #a5f3fc; color: #0e7490; } /* cyan */
+.notification.is-success { background-color: #f0fdf4; border-color: #bbf7d0; color: #166534; } /* green */
+.notification.is-warning { background-color: #fffbeb; border-color: #fde68a; color: #b45309; } /* amber */
+.notification.is-danger { background-color: #fef2f2; border-color: #fecaca; color: #991b1b; } /* red */
+.notification.is-light { background-color: #f9fafb; border-color: #e5e7eb; color: #374151; } /* default */
+.notification.is-dark { background-color: #e5e7eb; border-color: #9ca3af; color: #1f2937; } /* gray */
+/* Delete button */
+.notification .delete {
+  position: absolute; right: 0.75rem; top: 0.75rem; background: none;
+  &::before, &::after { background-color: #9ca3af; } /* gray-400 cross */
+  &:hover { background-color: rgba(0,0,0,0.05); &::before, &::after { background-color: #4b5563; } }
+}
+
+// --- Progress Bar ---
+.progress {
+  background-color: #e5e7eb; /* gray-200 track */
+  border-radius: 9999px; height: 0.5rem; /* 8px default height */ overflow: hidden; display: block; padding: 0;
+}
+.progress::-webkit-progress-value { background-color: #2563eb; border-radius: 9999px;} /* primary */
+.progress::-moz-progress-bar { background-color: #2563eb; border-radius: 9999px;}
+.progress::-ms-fill { background-color: #2563eb; border: none; border-radius: 9999px;}
+.progress.is-primary::-webkit-progress-value, .progress.is-primary::-moz-progress-bar, .progress.is-primary::-ms-fill { background-color: #2563eb; }
+.progress.is-info::-webkit-progress-value, .progress.is-info::-moz-progress-bar, .progress.is-info::-ms-fill { background-color: #0ea5e9; }
+.progress.is-success::-webkit-progress-value, .progress.is-success::-moz-progress-bar, .progress.is-success::-ms-fill { background-color: #16a34a; }
+.progress.is-warning::-webkit-progress-value, .progress.is-warning::-moz-progress-bar, .progress.is-warning::-ms-fill { background-color: #f59e0b; }
+.progress.is-danger::-webkit-progress-value, .progress.is-danger::-moz-progress-bar, .progress.is-danger::-ms-fill { background-color: #dc2626; }
+/* Sizes */
+.progress.is-small { height: 0.25rem; }
+.progress.is-medium { height: 1rem; }
+.progress.is-large { height: 1.5rem; }
+
+// --- Table ---
+.table {
+  background-color: #ffffff; color: #374151; width: 100%; border-collapse: collapse; border-spacing: 0; font-size: 0.875rem; /* text-sm */
+}
+.table td, .table th {
+  border-bottom: 1px solid #e5e7eb; /* gray-200 bottom border only */
+  padding: 0.75rem 1rem; /* py-3 px-4 */
+  vertical-align: top; text-align: left;
+}
+.table th { font-weight: 500; color: #6b7280; /* gray-500 header */ text-transform: uppercase; letter-spacing: 0.05em; }
+.table thead td, .table thead th { border-bottom-width: 2px; border-color: #e5e7eb; color: #6b7280; }
+.table tfoot td, .table tfoot th { border-top: 2px solid #e5e7eb; color: #6b7280; }
+.table tbody tr:last-child td, .table tbody tr:last-child th { border-bottom: none; } /* No border on last row */
+.table.is-striped tbody tr:nth-child(even) { background-color: #f9fafb; } /* gray-50 stripe */
+.table.is-hoverable tbody tr:hover { background-color: #f3f4f6; } /* gray-100 hover */
+.table.is-bordered td, .table.is-bordered th { border: 1px solid #e5e7eb; } /* Add all borders */
+.table.is-fullwidth { width: 100%; }
+
+// --- Modal ---
+.modal { /* Bulma handles positioning */ }
+.modal-background { background-color: rgba(17, 24, 39, 0.5); } /* gray-900 with 50% opacity */
+.modal-content, .modal-card {
+  background-color: #ffffff; border-radius: 0.5rem; /* 8px */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+  max-height: calc(100vh - 40px); overflow: auto; /* Allow scroll */
+}
+.modal-content { padding: 1.5rem; } /* Padding for simple modal */
+.modal-close {
+  background-color: rgba(107, 114, 128, 0.5); /* gray-500 opacity */
+  border-radius: 9999px; height: 32px; width: 32px; position: absolute; right: 1rem; top: 1rem;
+  &::before, &::after { background-color: white; }
+  &:hover { background-color: rgba(107, 114, 128, 0.7); }
+}
+.modal-card { display: flex; flex-direction: column; overflow: hidden; max-width: 640px; }
+.modal-card-head {
+  align-items: center; background-color: #ffffff; border-bottom: 1px solid #e5e7eb; border-radius: 0; /* Let card handle radius */
+  display: flex; flex-shrink: 0; justify-content: space-between; /* Space title and delete */
+  padding: 1rem 1.5rem; position: relative;
+  .modal-card-title { color: #11182c; flex-grow: 1; font-size: 1.25rem; font-weight: 600; line-height: 1.5; margin-bottom: 0; }
+  .delete { position: static; margin-left: 1rem; background: none; &::before, &::after { background-color: #9ca3af; } &:hover { background: none; &::before, &::after { background-color: #4b5563; } } }
+}
+.modal-card-body { background-color: #ffffff; flex-grow: 1; flex-shrink: 1; overflow: auto; padding: 1.5rem; }
+.modal-card-foot {
+  align-items: center; background-color: #f9fafb; /* gray-50 */ border-radius: 0; border-top: 1px solid #e5e7eb; display: flex; flex-shrink: 0; justify-content: flex-end; padding: 0.75rem 1.5rem;
+  .button:not(:last-child) { margin-right: 0.5rem; }
+  /* Style buttons like default/primary */
+}
+
+// --- Navbar ---
+.navbar {
+  background-color: #ffffff;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+  min-height: 3.5rem; /* 56px */
+  height: 3.5rem;
+  z-index: 30;
+  border-bottom: 1px solid #e5e7eb; /* gray-200 border */
+}
+.navbar-brand .navbar-item img { max-height: 1.75rem; /* 28px */ }
+.navbar-brand .navbar-item { font-weight: 600; color: #11182c; padding-left: 1rem; }
+.navbar-burger { color: #6b7280; height: 3.5rem; width: 3.5rem; }
+
+@media screen and (max-width: 1023px) {
+  .navbar-menu { background-color: #ffffff; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); padding: 0.5rem 0; border-top: 1px solid #e5e7eb; }
+}
+.navbar-item, .navbar-link {
+  color: #4b5563; /* gray-600 */
+  font-weight: 500; /* medium */
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  min-height: 3.5rem;
+  border-bottom: 2px solid transparent; /* For active indicator */
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.navbar-item:hover, .navbar-link:hover {
+  background-color: #f9fafb; /* gray-50 */
+  color: #1f2937; /* gray-800 */
+}
+.navbar-item.is-active, .navbar-link.is-active { /* Can target is-active */
+  background-color: transparent;
+  color: #2563eb; /* primary */
+  font-weight: 600; /* semibold active */
+  border-bottom-color: #2563eb;
+}
+.navbar-link::after { border-color: #9ca3af; /* gray-400 arrow */ }
+.navbar-link:hover::after { border-color: #4b5563; }
+
+.navbar-dropdown {
+  background-color: #ffffff; border-radius: 0.375rem; border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+  padding: 0.5rem 0; font-size: 0.875rem; /* text-sm dropdown items */
+}
+.navbar-dropdown .navbar-item {
+  color: #4b5563; font-weight: 400; min-height: auto; padding: 0.5rem 1rem; border: none;
+}
+.navbar-dropdown .navbar-item:hover { background-color: #f3f4f6; color: #1f2937; }
+.navbar-dropdown .navbar-item.is-active { background-color: #eff6ff; color: #1d4ed8; } /* blue active */
+
+.navbar-divider { background-color: #e5e7eb; height: 1px; margin: 0.5rem 0; }
+
+// --- Other Components (Tabs, Pagination, Panel, Breadcrumb) ---
+// Add styles similar to previous attempts, using the Tailwind/Shadcn palette and values
+
+// --- Bulma Helper Class Overrides ---
+/* Use the gray/primary colors defined at the start */
+.has-text-primary { color: #2563eb !important; }
+.has-text-link { color: #2563eb !important; }
+.has-text-info { color: #0ea5e9 !important; }
+.has-text-success { color: #16a34a !important; }
+.has-text-warning { color: #f59e0b !important; }
+.has-text-danger { color: #dc2626 !important; }
+.has-text-black { color: #11182c !important; } /* Use near black */
+.has-text-white { color: #ffffff !important; }
+.has-text-light { color: #6b7280 !important; } /* gray-500 */
+.has-text-dark { color: #1f2937 !important; } /* gray-800 */
+.has-text-grey-darker { color: #11182c !important; }
+.has-text-grey-dark { color: #1f2937 !important; }
+.has-text-grey { color: #6b7280 !important; }
+.has-text-grey-light { color: #9ca3af !important; }
+.has-text-grey-lighter { color: #d1d5db !important; }
+
+.has-background-primary { background-color: #2563eb !important; color: #ffffff !important; }
+.has-background-link { background-color: #2563eb !important; color: #ffffff !important; }
+.has-background-info { background-color: #0ea5e9 !important; color: #ffffff !important; }
+.has-background-success { background-color: #16a34a !important; color: #ffffff !important; }
+.has-background-warning { background-color: #f59e0b !important; color: #1f2937 !important; }
+.has-background-danger { background-color: #dc2626 !important; color: #ffffff !important; }
+.has-background-black { background-color: #11182c !important; color: #ffffff !important; }
+.has-background-white { background-color: #ffffff !important; color: #1f2937 !important; }
+.has-background-light { background-color: #f3f4f6 !important; color: #374151 !important; }
+.has-background-dark { background-color: #1f2937 !important; color: #f3f4f6 !important; }
+
+/* Override spacing/typography helpers only if absolutely needed */
+/* .m-4 { margin: 1rem !important; } .p-4 { padding: 1rem !important; } etc. */
+/* .is-size-4 { font-size: 1.25rem !important; } etc. */
+@import "../node_modules/bulma/sass/index";
+@import "./theme/index";
+
