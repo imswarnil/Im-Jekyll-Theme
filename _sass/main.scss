@@ -6,6 +6,8 @@ $link: #065fd4;    // Material Link Blue (Override link color directly below)
 $family-sans-serif: "Roboto", "Arial", sans-serif !default;
 $family-monospace: "Roboto Mono", monospace !default;
 
+
+@import "../node_modules/bulma/sass/index";
 // ==========================================================
 // STEP 2: Import Bulma Core
 // ==========================================================
@@ -824,6 +826,5 @@ figure { margin: 0; }
 }
 /* ... Add styles for ALL other 'im-' prefixed classes used in your HTML ... */
 
-@import "../node_modules/bulma/sass/index";
 @import "./theme/index";
 
