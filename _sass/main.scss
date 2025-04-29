@@ -1,14 +1,8 @@
-// ==========================================================
-// STEP 1: Define Design Tokens (Netflix Inspired)
-// Using PX for core layout, Hex codes for colors
-// ==========================================================
 
-// --- Fonts ---
-$family-sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif !default; // Common fallback for Netflix Sans
-$family-monospace: "Courier New", monospace !default; // Standard monospace
-$family-primary: $family-sans-serif;
-$family-code: $family-monospace;
-
+$primary: #e53935;
+$link : $primary;
+$family-sans-serif: "Outfit", "Arial", sans-serif !default;
+$family-monospace: "Roboto Mono", monospace !default;
 
 // ==========================================================
 // STEP 3: Import Bulma & Custom Theme
