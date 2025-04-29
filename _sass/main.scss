@@ -1,9 +1,9 @@
 // ==========================================================
 // STEP 1: Initial Bulma Variable Setup (Optional)
 // ==========================================================
-$primary: #e53935; // You can keep this, overrides below take precedence visually
-$link: $primary;
-$family-sans-serif: "Outfit", "Arial", sans-serif !default;
+$primary: #FF0000; // YouTube Red
+$link: #065fd4;    // Material Link Blue (Override link color directly below)
+$family-sans-serif: "Roboto", "Arial", sans-serif !default;
 $family-monospace: "Roboto Mono", monospace !default;
 
 // ==========================================================
@@ -12,571 +12,818 @@ $family-monospace: "Roboto Mono", monospace !default;
 @import "../node_modules/bulma/sass/index";
 
 // ==========================================================
-// STEP 3: EXPANDED PURE CSS Overrides (No SCSS variables/logic here)
+// STEP 3: PURE CSS Overrides - Material Design / YouTube Inspired
+// (NO SCSS variables/logic used below this line)
 // ==========================================================
 
-// --- Base & Content ---
-body {
-  font-family: "Outfit", "Arial", sans-serif;
+// --- Reset & Base Styles ---
+html {
+  background-color: #f9f9f9; // Material background gray
   font-size: 16px;
-  line-height: 1.6;
-  color: #374151; // gray-700
-  background-color: #ffffff; // white
-  // Bulma adds padding-top for fixed navbars, leave that logic to Bulma
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
-.content {
-  // General content styling
-  line-height: 1.6;
+body {
+  font-family: "Roboto", "Arial", sans-serif;
+  color: #0f0f0f; // Material primary text (near black)
+  font-size: 1rem;
+  font-weight: 400; // Regular
+  line-height: 1.5;
+  background-color: #f9f9f9;
+  padding-top: 56px; // Approx height for fixed Material top app bar/navbar
+}
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: "Outfit", "Arial", sans-serif;
-    color: #11182c; // gray-900
-    font-weight: 600; // semibold
-    line-height: 1.2;
-    margin-bottom: 0.75em; // Relative spacing
+// --- Links ---
+a {
+  color: #065fd4; // Material Link Blue
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.15s ease-in-out;
+  &:hover {
+    color: #054cb3; // Darker blue
   }
-  h1 { font-size: 2rem; }    // Bulma default sizes, override if needed
-  h2 { font-size: 1.75rem; }
-  h3 { font-size: 1.5rem; }
-  h4 { font-size: 1.25rem; }
-  h5 { font-size: 1.125rem; }
-  h6 { font-size: 1rem; }
+}
 
-  p { margin-bottom: 1rem; } // Space between paragraphs
+// --- Selection ---
+::selection {
+  background-color: #cce0ff;
+  color: #0f0f0f;
+}
 
-  a {
-    color: #e53935; // primary
-    text-decoration: none;
-    &:hover { color: #c62828; text-decoration: underline; }
-  }
+// --- Basic Elements ---
+p {
+  margin: 0 0 1em 0;
+}
 
-  strong, b { font-weight: 700; color: #11182c; } // bold gray-900
+strong, b {
+  color: #0f0f0f;
+  font-weight: 500; // Medium weight
+}
 
-  ul, ol { margin-left: 2em; margin-bottom: 1rem; }
-  li { margin-bottom: 0.5em; }
+em, i {
+  font-style: italic;
+}
 
-  code {
-    background-color: #f3f4f6; // gray-100
-    color: #db2777; // pink-600
-    font-family: "Roboto Mono", monospace;
-    font-size: 0.875em;
-    padding: 0.125rem 0.375rem;
-    border-radius: 0.25rem;
-  }
-  pre {
-    background-color: #f3f4f6; // gray-100
-    color: #1f2937; // gray-800
-    font-family: "Roboto Mono", monospace;
-    padding: 1rem 1.25rem;
-    border-radius: 0.375rem;
-    overflow-x: auto;
-    white-space: pre;
-    word-wrap: normal; // Prevent wrapping inside pre
-    code {
-      background-color: transparent; color: inherit; padding: 0; font-size: inherit;
-    }
-  }
-
-  table { width: 100%; margin-bottom: 1rem; }
-  table td, table th {
-    border: 1px solid #e5e7eb; // gray-200
-    padding: 0.5em 0.75em;
-    vertical-align: top;
-  }
-  table th {
-    color: #1f2937; // gray-800
-    font-weight: 600;
-    text-align: left;
-  }
-  table thead td, table thead th {
-    border-width: 0 0 2px;
-    color: #1f2937;
-  }
-  table tfoot td, table tfoot th {
-    border-width: 2px 0 0;
-    color: #1f2937;
-  }
-  table tbody tr:last-child td, table tbody tr:last-child th {
-    border-bottom-width: 0;
-  }
-  // Striped tables
-  table.is-striped tbody tr:nth-child(odd) {
-    background-color: #f9fafb; // gray-50
-  }
-  // Hoverable tables
-  table.is-hoverable tbody tr:hover {
-    background-color: #f3f4f6; // gray-100
-  }
-  // Narrow cells
-  table.is-narrow td, table.is-narrow th {
-    padding: 0.25em 0.5em;
-  }
-  // Bordered table
-  table.is-bordered td, table.is-bordered th {
-    border-width: 1px;
-  }
-  table.is-bordered thead td, table.is-bordered thead th {
-    border-width: 1px;
-  }
-  table.is-bordered tbody tr:last-child td, table.is-bordered tbody tr:last-child th {
-     border-bottom-width: 1px;
-  }
+small {
+  font-size: 0.875em;
 }
 
 hr {
-  background-color: #e5e7eb; // gray-200
+  background-color: #e0e0e0; // Divider color
   border: none;
-  display: block;
   height: 1px;
   margin: 1.5rem 0;
 }
 
-// --- Layout Overrides ---
-.section {
-  padding: 3rem 1.5rem;
-  // background-color: inherit; // Bulma default is transparent
+// --- Headings & Titles ---
+h1, h2, h3, h4, h5, h6,
+.title, .subtitle {
+  font-family: "Roboto", "Arial", sans-serif;
+  font-weight: 400; // Regular default
+  line-height: 1.25;
+  color: #0f0f0f;
+  word-break: break-word;
+  margin: 0.5em 0 0.75em 0; // Basic margins
 }
 
-.container {
-  // Bulma handles max-width and margins based on breakpoints.
-  // You can override max-width here if desired:
-  // max-width: 1152px; // Example override
-}
+h1, .title.is-1 { font-size: 1.75rem; font-weight: 500; } // ~Material H5/H6 Medium
+h2, .title.is-2 { font-size: 1.5rem; font-weight: 500; } // ~Material H6 Medium
+h3, .title.is-3 { font-size: 1.25rem; font-weight: 400; } // ~Material Subtitle 1 Regular
+h4, .title.is-4 { font-size: 1rem; font-weight: 500; } // ~Material Body 1 Medium
+h5, .title.is-5 { font-size: 0.875rem; font-weight: 500; } // ~Material Body 2 Medium
+h6, .title.is-6 { font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; } // ~Material Caption Medium
 
-.hero {
-  // Default Hero
-  background-color: #f9fafb; // gray-50 example default
-  color: #374151; // gray-700 text
-  padding: 3rem 1.5rem; // Same as section default
-
-  .title { color: #11182c; } // gray-900
-  .subtitle { color: #4b5563; } // gray-600
-
-  // Color variants
-  &.is-primary { background-color: #e53935; color: #ffffff; .title, .subtitle { color: #ffffff; } }
-  &.is-link    { background-color: #3b82f6; color: #ffffff; .title, .subtitle { color: #ffffff; } }
-  &.is-info    { background-color: #0ea5e9; color: #ffffff; .title, .subtitle { color: #ffffff; } }
-  &.is-success { background-color: #10b981; color: #ffffff; .title, .subtitle { color: #ffffff; } }
-  &.is-warning { background-color: #f59e0b; color: #1f2937; .title, .subtitle { color: #1f2937; } }
-  &.is-danger  { background-color: #e11d48; color: #ffffff; .title, .subtitle { color: #ffffff; } }
-  &.is-light   { background-color: #f3f4f6; color: #4b5563; .title { color: #1f2937;} .subtitle { color: #4b5563;} }
-  &.is-dark    { background-color: #1f2937; color: #f3f4f6; .title, .subtitle { color: #f3f4f6; } }
+.subtitle {
+  color: #606060; // Secondary text
+  font-weight: 400;
+  line-height: 1.5;
+  margin-top: -0.5em; // Pull subtitle closer to title
   // Sizes
-  &.is-medium { padding-top: 9rem; padding-bottom: 9rem; }
-  &.is-large { padding-top: 18rem; padding-bottom: 18rem; }
-  &.is-fullheight, &.is-fullheight-with-navbar {
-    // Bulma handles height, ensure background covers
-    background-size: cover;
-    background-position: center center;
+  &.is-1 { font-size: 1.5rem; }
+  &.is-2 { font-size: 1.25rem; }
+  &.is-3 { font-size: 1.125rem; }
+  &.is-4 { font-size: 1rem; }
+  &.is-5 { font-size: 0.875rem; }
+  &.is-6 { font-size: 0.75rem; }
+}
+
+// --- Content Class ---
+.content {
+  font-size: 1rem;
+  line-height: 1.6;
+  h1, h2, h3, h4, h5, h6 { margin-bottom: 1em; }
+  ul { list-style: disc outside; margin-left: 2em; margin-top: 1em; margin-bottom: 1em; }
+  ol { list-style: decimal outside; margin-left: 2em; margin-top: 1em; margin-bottom: 1em; }
+  li { margin-top: 0.5em; }
+  ul ul, ol ol, ul ol, ol ul { margin-left: 1.5em; margin-top: 0.5em; }
+  blockquote { background-color: #f1f1f1; border-left: 4px solid #cccccc; padding: 0.75em 1.25em; margin-bottom: 1em; }
+  table { width: 100%; margin-bottom: 1.5em; border-collapse: collapse; }
+  table td, table th { border: 1px solid #e0e0e0; padding: 0.75em 1em; vertical-align: top; font-size: 0.875rem; } // Slightly smaller table text
+  table th { color: #0f0f0f; font-weight: 500; text-align: left; background-color: #f5f5f5; }
+  table thead td, table thead th { border-bottom-width: 2px; border-bottom-color: #cccccc; }
+  table tbody tr:nth-child(odd) { background-color: #fafafa; } // Subtle striping if needed
+  table.is-hoverable tbody tr:hover { background-color: #f0f0f0; } // Subtle hover
+}
+
+// --- Layout ---
+.section {
+  padding: 24px; // Material standard padding? Or 16px? Adjust.
+  @media screen and (min-width: 769px) {
+    padding: 32px; // Larger padding on tablet+
+  }
+  @media screen and (min-width: 1024px) {
+    padding: 48px; // Larger padding on desktop+
   }
 }
 
-.footer {
-    background-color: #ffffff; // white
-    color: #6b7280; // gray-500
-    padding: 3rem 1.5rem;
-    border-top: 1px solid #e5e7eb; // gray-200
-    font-size: 0.875rem;
-    // Style inner elements like titles, links as shown previously
+.container {
+  // Bulma handles max-width based on breakpoints, usually fine.
+  // Can override: max-width: 1280px;
 }
 
-// --- Form Control Overrides ---
+.hero {
+  background-color: #ffffff; // Often white background in Material
+  color: #0f0f0f;
+  padding: 2rem 1.5rem; // Base padding
+
+  .title { color: #0f0f0f; }
+  .subtitle { color: #606060; }
+
+  // Color variants
+  &.is-primary { background-color: #FF0000; color: #ffffff; .title, .subtitle { color: #ffffff; } }
+  &.is-link    { background-color: #065fd4; color: #ffffff; .title, .subtitle { color: #ffffff; } }
+  &.is-dark    { background-color: #212121; color: #ffffff; .title, .subtitle { color: #ffffff; } } // Material dark bg
+  &.is-light   { background-color: #f1f1f1; color: #0f0f0f; .title { color: #0f0f0f;} .subtitle { color: #606060;} }
+  // Add other colors if needed (info, success, warning, danger - less common for Material heroes)
+
+  // Sizes
+  &.is-medium { padding-top: 6rem; padding-bottom: 6rem; }
+  &.is-large { padding-top: 12rem; padding-bottom: 12rem; }
+}
+
+.footer {
+    background-color: #ffffff;
+    color: #606060; // Secondary text
+    padding: 2rem 1.5rem;
+    border-top: 1px solid #e0e0e0;
+    font-size: 0.875rem;
+}
+
+.level { // Horizontal level container
+  align-items: center;
+  justify-content: space-between;
+  .level-item { // Item in a level
+    align-items: center;
+    display: flex;
+    flex-basis: auto;
+    flex-grow: 0;
+    flex-shrink: 0;
+    justify-content: center;
+  }
+  .level-left, .level-right { // Groupings
+    flex-basis: auto;
+    flex-grow: 0;
+    flex-shrink: 0;
+    .level-item:not(:last-child) { margin-right: 0.75rem; } // Spacing within group
+  }
+  .level-left { justify-content: flex-start; }
+  .level-right { justify-content: flex-end; }
+  &:not(:last-child) { margin-bottom: 1.5rem; }
+}
+
+.media { // Media object
+  align-items: flex-start;
+  display: flex;
+  text-align: left;
+  .media-left, .media-right { flex-basis: auto; flex-grow: 0; flex-shrink: 0; }
+  .media-left { margin-right: 1rem; }
+  .media-right { margin-left: 1rem; }
+  .media-content { flex-basis: auto; flex-grow: 1; flex-shrink: 1; text-align: left; }
+  &:not(:last-child) { margin-bottom: 1rem; }
+}
+
+// --- Form Controls ---
 .input,
 .textarea,
 .select select {
   background-color: #ffffff;
-  border: 1px solid #d1d5db; // gray-300
-  border-radius: 0.375rem; // 6px
-  color: #1f2937; // gray-800
-  padding: 0.5rem 0.75rem; // 8px 12px
+  border: 1px solid #cccccc; // Lighter border
+  border-radius: 4px; // Material standard radius
+  color: #0f0f0f;
+  padding: 0.75rem 1rem; // 12px 16px padding
   box-shadow: none;
   font-size: 1rem;
   line-height: 1.5;
-  height: 2.5em; // Bulma standard height
+  height: auto; // Let padding determine height
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 
-  &:hover { border-color: #9ca3af; } // gray-400
+  &:hover {
+    border-color: #888888; // Darker gray on hover
+  }
+
   &:focus, &.is-focused, &:active, &.is-active {
-    border-color: #e53935; // primary focus color
-    box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.2); // primary focus ring
+    border-color: #065fd4; // Material blue focus border
+    box-shadow: none; // No extra shadow, border indicates focus
     outline: none;
   }
-  &::placeholder { color: #9ca3af; } // gray-400
-  &[disabled] { background-color: #f3f4f6; border-color: #e5e7eb; color: #9ca3af; cursor: not-allowed; }
 
-  // Sizes
-  &.is-small { border-radius: 0.25rem; font-size: 0.75rem; height: 2em; padding: 0.25rem 0.5rem; }
-  &.is-medium { font-size: 1.25rem; height: 3em; padding: 0.75rem 1rem; }
-  &.is-large { font-size: 1.5rem; height: 3.5em; padding: 1rem 1.25rem; }
+  &::placeholder {
+    color: #888888; // Medium gray placeholder
+    opacity: 1;
+  }
 
-  // Colors (Border color primarily)
-  &.is-primary { border-color: #e53935; }
-  &.is-info { border-color: #0ea5e9; }
-  &.is-success { border-color: #10b981; }
-  &.is-warning { border-color: #f59e0b; }
-  &.is-danger { border-color: #e11d48; }
+  &[disabled],
+  fieldset[disabled] & {
+    background-color: #f1f1f1; // Disabled background
+    border-color: #e0e0e0;
+    color: #aaaaaa; // Disabled text color
+    cursor: not-allowed;
+  }
+}
+// Material filled variant (requires structure change or complex overrides)
+// .input.is-filled { background-color: #f5f5f5; border: none; border-bottom: 1px solid #cccccc; border-radius: 4px 4px 0 0; &:focus { border-bottom-width: 2px; border-bottom-color: #065fd4; background-color: #eeeeee;} }
 
-  // States
-  &.is-hovered { border-color: #9ca3af; }
-  &.is-focused { /* Already handled above */ }
-  &.is-loading::after { /* Bulma handles spinner */ }
+.textarea {
+  min-height: 80px; // Material default approx
+  padding: 0.75rem; // Consistent padding
 }
 
-.textarea { height: auto; min-height: 120px; line-height: 1.5; padding: 0.75rem; } // Adjust padding/height for textarea
+.select {
+  height: auto; // Match input
+  &::after { // Material dropdown arrow (downward caret)
+    border: none;
+    content: '\25BC'; // Unicode downward triangle
+    color: #606060; // Secondary text color
+    font-size: 0.8em;
+    right: 12px; // Position arrow
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; // Click through arrow
+    z-index: 4;
+  }
+  &:not(.is-multiple):not(.is-loading):hover::after {
+     color: #0f0f0f; // Darker arrow on hover
+  }
+}
+.select select {
+  padding-right: 2.5em; // Ensure space for arrow
+}
 
-.select { height: 2.5em; } // Match input height
-.select:not(.is-multiple) { padding-right: 2.5em; } // Space for arrow
-.select select { padding-right: 2.5em !important; } // Ensure select text doesn't overlap arrow
-.select::after { border-color: #4b5563; right: 1.125em; top: 50%; margin-top: -0.375em; } // Style arrow
-.select:not(.is-multiple):not(.is-loading):hover::after { border-color: #1f2937; }
-// Select sizes
-.select.is-small { height: 2em; font-size: 0.75rem; }
-.select.is-medium { height: 3em; font-size: 1.25rem; }
-.select.is-large { height: 3.5em; font-size: 1.5rem; }
-// Select colors (wrapper border)
-.select.is-primary select { border-color: #e53935; }
-.select.is-info select { border-color: #0ea5e9; }
-.select.is-success select { border-color: #10b981; }
-.select.is-warning select { border-color: #f59e0b; }
-.select.is-danger select { border-color: #e11d48; }
-.select.is-primary::after { border-color: #e53935; } // Match arrow to border
-.select.is-info::after { border-color: #0ea5e9; }
-.select.is-success::after { border-color: #10b981; }
-.select.is-warning::after { border-color: #f59e0b; }
-.select.is-danger::after { border-color: #e11d48; }
-
-
-.checkbox, .radio { // Basic alignment - custom appearance requires more complex overrides
+.checkbox, .radio { // Very basic - Material checkboxes/radios require significant custom styling/structure
   cursor: pointer;
   line-height: 1.25;
-  position: relative;
-  margin-right: 0.5em;
-  input { margin-right: 0.25em; }
+  margin-right: 8px;
+  input { margin-right: 4px; transform: scale(1.2); vertical-align: middle; } // Slightly larger default input
+  // Add Material ripple effect via JS if desired
 }
-.checkbox[disabled], .radio[disabled] { color: #9ca3af; cursor: not-allowed; }
+.checkbox[disabled], .radio[disabled] { color: #aaaaaa; cursor: not-allowed; }
 
-.label { color: #374151; font-weight: 600; font-size: 1rem; display: block; margin-bottom: 0.5em; }
-.label:not(:last-child) { margin-bottom: 0.5em; }
-.label.is-small { font-size: 0.75rem; }
-.label.is-medium { font-size: 1.25rem; }
-.label.is-large { font-size: 1.5rem; }
+.label {
+  color: #606060; // Secondary text for labels
+  font-weight: 400; // Regular weight
+  font-size: 0.75rem; // Small label like Material floating label (needs JS to float)
+  display: block;
+  margin-bottom: 0.25rem; // Less space below label
+}
 
-.help { color: #6b7280; font-size: 0.75rem; display: block; margin-top: 0.25rem; }
-.help.is-primary { color: #e53935; }
-.help.is-info { color: #0ea5e9; }
-.help.is-success { color: #10b981; }
-.help.is-warning { color: #f59e0b; }
-.help.is-danger { color: #e11d48; }
+.help {
+  color: #606060; // Secondary text
+  font-size: 0.75rem; // Small help text
+  display: block;
+  margin-top: 0.25rem;
+}
+// Error state
+.input.is-danger, .textarea.is-danger, .select.is-danger select, .select.is-danger:not(:hover)::after { border-color: #d32f2f; color: #d32f2f; } // Material error red
+.help.is-danger { color: #d32f2f; }
 
-.field { margin-bottom: 0.75rem; }
-.field:not(:last-child) { margin-bottom: 0.75rem; }
-.field.has-addons { display: flex; justify-content: flex-start; } // Bulma handles addons styling well
-.field.is-grouped { display: flex; justify-content: flex-start; }
-.field.is-grouped > .control:not(:last-child) { margin-right: 0.75rem; }
-.field.is-grouped.is-grouped-multiline { flex-wrap: wrap; }
+.field:not(:last-child) { margin-bottom: 1rem; } // Default field spacing
 
-
-// --- Button Overrides ---
+// --- Buttons ---
 .button {
-  // Base styles defined previously
-  // Color variants defined previously
-  // Size variants defined previously
-  // State variants (hover, focus, active, disabled) defined previously
+  border-radius: 4px; // Material radius
+  padding: 6px 16px; // Material standard button padding
+  font-size: 0.875rem; // Material button font size
+  font-weight: 500; // Medium weight
+  line-height: 1.75; // Material button line height
+  min-height: 36px; // Material button min height
+  text-transform: uppercase; // Material buttons are uppercase
+  letter-spacing: 0.05em; // Slight letter spacing
+  transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  border: none; // Material buttons often have no border by default
+  cursor: pointer;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); // Material elevation 2dp
+  // Default style (like Material text button or subtle outlined)
+  background-color: transparent;
+  color: #065fd4; // Link blue (for text buttons)
+  box-shadow: none; // Text buttons have no shadow
 
-  // Other Bulma Button Modifiers
-  &.is-text { // Underlined text button
+  &:hover {
+    background-color: rgba(6, 95, 212, 0.08); // Faint blue background
+    box-shadow: none;
+  }
+  &:focus {
+    outline: none;
+    background-color: rgba(6, 95, 212, 0.12); // Slightly darker focus background
+    box-shadow: none;
+  }
+  &:active {
+    background-color: rgba(6, 95, 212, 0.16); // Even darker active background
+    box-shadow: none;
+  }
+
+  // Contained Button Style (Bulma's .is-primary etc.)
+  &.is-primary { // YouTube Red
+    background-color: #FF0000;
+    border-color: #FF0000;
+    color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    &:hover { background-color: #E60000; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); } // Darker red, more shadow
+    &:focus { background-color: #E60000; box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.3); } // Focus ring + hover shadow
+    &:active { background-color: #CC0000; box-shadow: 0 1px 2px rgba(0,0,0,0.2); } // Darkest red, less shadow
+  }
+  // Link/Blue contained button
+  &.is-link {
+    background-color: #065fd4; border-color: #065fd4; color: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    &:hover { background-color: #054cb3; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); }
+    &:focus { background-color: #054cb3; box-shadow: 0 0 0 3px rgba(6, 95, 212, 0.3); }
+    &:active { background-color: #043a92; box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+  }
+  // Standard Contained (Uses Material Secondary - e.g., dark gray/white text)
+  &.is-dark { // Example using dark gray
+    background-color: #616161; border-color: #616161; color: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    &:hover { background-color: #424242; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); }
+    &:focus { background-color: #424242; box-shadow: 0 0 0 3px rgba(97, 97, 97, 0.3); }
+    &:active { background-color: #212121; box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+  }
+  &.is-light { // Example using light gray (like outlined)
+    background-color: #ffffff; color: #0f0f0f; border: 1px solid #cccccc; box-shadow: none; text-transform: uppercase;
+    &:hover { background-color: #f5f5f5; border-color: #b3b3b3; }
+    &:focus { background-color: #f5f5f5; border-color: #065fd4; box-shadow: 0 0 0 3px rgba(6, 95, 212, 0.2); }
+    &:active { background-color: #e0e0e0; border-color: #b3b3b3; }
+  }
+  // Add success, info, warning, danger if needed, map to Material colors
+
+  // Outlined Button Style
+  &.is-outlined {
     background-color: transparent;
-    border-color: transparent;
-    color: #e53935; // Use link color
-    text-decoration: underline;
+    border: 1px solid #cccccc; // Default outline border
+    color: #065fd4; // Default outline text color (link blue)
     box-shadow: none;
-    padding-left: 0.5em; padding-right: 0.5em;
-    &:hover, &:focus { background-color: #f9fafb; color: #c62828; text-decoration: underline;}
-    &:active { background-color: #f3f4f6; color: #b71c1c; text-decoration: underline; }
+    padding: 5px 15px; // Adjust padding slightly
+
+    &:hover { background-color: rgba(6, 95, 212, 0.08); border-color: #065fd4; }
+    &:focus { background-color: rgba(6, 95, 212, 0.12); border-color: #065fd4; box-shadow: 0 0 0 3px rgba(6, 95, 212, 0.2); }
+    &:active { background-color: rgba(6, 95, 212, 0.16); border-color: #065fd4; }
+
+    &.is-primary { border-color: #FF0000; color: #FF0000; &:hover { background-color: rgba(255, 0, 0, 0.08); } &:focus { background-color: rgba(255, 0, 0, 0.12); box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.2); } &:active { background-color: rgba(255, 0, 0, 0.16); } }
+    // Add other outlined colors if needed
   }
-  &.is-loading::after { /* Bulma handles spinner */ }
-  &.is-static { /* Non-interactive button styles */
-    background-color: #f3f4f6; // gray-100
-    border-color: #e5e7eb; // gray-200
-    color: #6b7280; // gray-500
+
+  // Disabled State
+  &[disabled] {
+    background-color: transparent; // Disabled text/outlined often transparent bg
+    border-color: transparent; // Or faint border for outlined disabled
+    color: rgba(0, 0, 0, 0.26); // Material disabled text color
     box-shadow: none;
-    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 1; // Don't use opacity, use color
+    // Contained disabled
+    &.is-primary, &.is-link, &.is-dark, &.is-info, &.is-success, &.is-warning, &.is-danger {
+      background-color: rgba(0, 0, 0, 0.12); // Material disabled contained bg
+      color: rgba(0, 0, 0, 0.26);
+    }
   }
-  &.is-rounded { border-radius: 9999px; } // Full round
+
+  // Sizes (Material doesn't vary padding/font size much, maybe just small/large icons)
+  &.is-small { min-height: 32px; font-size: 0.8125rem; padding: 4px 8px; }
+  // &.is-medium {} // Standard size
+  &.is-large { min-height: 40px; font-size: 0.9375rem; padding: 8px 22px; }
+
+  // Other states
+  &.is-loading::after { /* Bulma spinner, maybe style to match Material spinner */ }
+  &.is-rounded { border-radius: 18px; } // Slightly less than full round for Material-like pill
   &.is-fullwidth { display: flex; width: 100%; }
 }
-.buttons { // Container for buttons
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-start;
-  .button { margin-right: 0.5rem; margin-bottom: 0.5rem; }
-  &:last-child { margin-bottom: -0.5rem; }
-  &:not(:last-child) { margin-bottom: 1rem; } // Space below button group
-  &.has-addons { display: inline-flex; .button:not(:last-child) { margin-right: -1px; } .button:hover, .button.is-hovered { z-index: 2; } .button:focus, .button.is-focused { z-index: 3; } .button:active, .button.is-active { z-index: 4; } }
-  &.is-centered { justify-content: center; .button:last-child { margin-right: 0; }}
-  &.is-right { justify-content: flex-end; .button:last-child { margin-right: 0; } .button:first-child { margin-left: 0.5rem; } }
-}
+// Button group spacing
+.buttons .button { margin-right: 8px; margin-bottom: 8px; }
+.buttons:last-child { margin-bottom: -8px; }
+.buttons:not(:last-child) { margin-bottom: 8px; }
+
 
 // --- Component Overrides ---
 .box {
-  // Defined previously
+  background-color: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); // Elevation 2dp
+  color: #0f0f0f;
+  padding: 16px; // Material padding
 }
 
-.card {
-  // Defined previously
+.card { // Cards often have slightly more elevation
+  background-color: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); // Elevation 6dp
+  color: #0f0f0f;
+  overflow: hidden; // Ensure radius applies
+
+  .card-header {
+    padding: 16px;
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: none;
+    .card-header-title {
+      color: #0f0f0f; font-weight: 500; font-size: 1.25rem; padding: 0; // Remove Bulma padding
+    }
+    .card-header-icon { padding: 0 0 0 16px; } // Icon padding
+  }
+  .card-image img { display: block; width: 100%; }
+  .card-content { padding: 16px; line-height: 1.5; }
+  .card-footer {
+    padding: 8px 16px; // Less padding in footer
+    border-top: 1px solid #e0e0e0;
+    // Style .card-footer-item
+    a.card-footer-item {
+      color: #065fd4; padding: 8px 0; font-weight: 500; text-transform: uppercase; font-size: 0.875rem;
+      &:hover { background-color: rgba(6, 95, 212, 0.08); }
+    }
+  }
 }
 
-.notification {
-  // Defined previously
-}
-
-.tag {
-  // Defined previously
-  // Add sizes if needed
-  &.is-medium { font-size: 1rem; padding: 0.25rem 0.75rem;}
-  &.is-large { font-size: 1.25rem; padding: 0.375rem 1rem;}
-  // Delete button inside tag
-  .delete { margin-left: 0.25rem; vertical-align: top; }
-}
-.tags { // Container for tags
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start;
-  .tag { margin-right: 0.25rem; margin-bottom: 0.25rem; }
-  &:last-child { margin-bottom: -0.25rem; }
-  &:not(:last-child) { margin-bottom: 0.75rem; }
-  &.has-addons .tag { margin-right: 0; &:not(:first-child){ border-bottom-left-radius: 0; border-top-left-radius: 0; } &:not(:last-child){ border-bottom-right-radius: 0; border-top-right-radius: 0; }}
-}
-
-.image { // Image container
-  display: block; position: relative;
-  img { display: block; height: auto; width: 100%; }
-  // Aspect ratios (Bulma handles these well)
-  // &.is-1by1, &.is-5by4, etc.
-  // Rounded images
-  &.is-rounded img { border-radius: 9999px; }
-}
-figure { margin: 0; padding: 0; } // Reset figure margin/padding
-
-.progress { // Progress bar container
-  background-color: #e5e7eb; // gray-200 track
-  border-radius: 9999px;
-  display: block;
-  height: 1rem;
-  overflow: hidden;
-  padding: 0;
+.dropdown { // Dropdown container
+  display: inline-flex;
   position: relative;
-  // Value bar
-  &::-webkit-progress-value { background-color: #4b5563; } // gray-600 default bar
-  &::-moz-progress-bar { background-color: #4b5563; }
-  &::-ms-fill { background-color: #4b5563; border: none; }
-  // Specific color overrides
-  &.is-primary::-webkit-progress-value, &.is-primary::-moz-progress-bar, &.is-primary::-ms-fill { background-color: #e53935; }
-  &.is-link::-webkit-progress-value, &.is-link::-moz-progress-bar, &.is-link::-ms-fill { background-color: #3b82f6; }
-  &.is-info::-webkit-progress-value, &.is-info::-moz-progress-bar, &.is-info::-ms-fill { background-color: #0ea5e9; }
-  &.is-success::-webkit-progress-value, &.is-success::-moz-progress-bar, &.is-success::-ms-fill { background-color: #10b981; }
-  &.is-warning::-webkit-progress-value, &.is-warning::-moz-progress-bar, &.is-warning::-ms-fill { background-color: #f59e0b; }
-  &.is-danger::-webkit-progress-value, &.is-danger::-moz-progress-bar, &.is-danger::-ms-fill { background-color: #e11d48; }
-  // Sizes
-  &.is-small { height: 0.5rem; }
-  &.is-medium { height: 1.5rem; }
-  &.is-large { height: 2rem; }
-  // Indeterminate state relies on ::before pseudo-element animation from Bulma
+  vertical-align: top;
+  .dropdown-trigger .button .icon { margin-left: 4px; margin-right: -4px; } // Adjust icon spacing in button
+  .dropdown-menu { // The menu itself
+    display: none; // Hidden by default
+    left: 0;
+    min-width: 180px; // Material typical min width
+    padding-top: 8px; // Padding for shadow/animation space
+    padding-bottom: 8px;
+    position: absolute;
+    top: 100%;
+    z-index: 20; // Material dropdown z-index
+  }
+  .dropdown-content { // Inner content wrapper
+    background-color: #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 5px 5px -3px rgba(0,0,0,0.2), 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12); // Material elevation 8dp
+    padding-bottom: 0; // Let items define padding
+    padding-top: 0;
+    overflow-y: auto; // Scroll if needed
+    max-height: 300px; // Limit height
+  }
+  .dropdown-item { // Each item in the dropdown
+    color: #0f0f0f;
+    display: block;
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: 8px 16px; // Material list item padding
+    position: relative;
+    white-space: nowrap;
+    cursor: pointer;
+    &:hover { background-color: #f5f5f5; } // Hover background
+    &.is-active { background-color: #eeeeee; color: #0f0f0f; } // Active item
+  }
+  .dropdown-divider {
+    background-color: #e0e0e0; height: 1px; margin: 8px 0; padding: 0;
+  }
+  &.is-active .dropdown-menu { display: block; } // Show menu when active
+  &.is-right .dropdown-menu { left: auto; right: 0; }
+  &.is-up .dropdown-menu { bottom: 100%; padding-bottom: 4px; padding-top: 4px; top: auto; }
 }
 
-.table { // Table base defined in .content already, these are modifiers
-  // Modifiers like .is-bordered, .is-striped, .is-narrow, .is-hoverable handled in .content section
-  &.is-fullwidth { width: 100%; }
-}
-
-.title { // Defined in .content already
-  // Sizes .is-1 to .is-6 defined via h1-h6 overrides or directly
-  &.is-spaced { margin-bottom: 1.5rem !important; } // More space below title
-}
-.subtitle { // Defined in .content already
-  color: #6b7280; // gray-500
-  font-weight: 400;
-  line-height: 1.5;
-  // Sizes .is-1 to .is-6 - override Bulma defaults if needed
-  // &.is-1 { font-size: 2.5rem; } ... &.is-6 { font-size: 1rem; }
-  &.is-spaced { margin-bottom: 1.5rem !important; }
-}
-
-.message { // Message box component
-  background-color: #f3f4f6; // light gray default
-  border-radius: 0.375rem; // 6px
+.menu { // Vertical menu
   font-size: 1rem;
-  overflow: hidden; // Ensure radius applies to header/body
+  .menu-label { // Section label
+    color: #606060; // Secondary text
+    font-size: 0.75rem; // Caption size
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin: 1em 0 0.5em 0.75em;
+  }
+  .menu-list { // List of menu items
+    line-height: 1.5;
+    list-style: none; margin: 0; padding: 0;
+    a { // Menu item link
+      border-radius: 4px;
+      color: #0f0f0f; // Primary text
+      display: block;
+      padding: 8px 12px; // Padding
+      margin: 0 4px; // Horizontal margin to allow hover bg full bleed slightly less
+      transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+      &:hover { background-color: #f5f5f5; color: #0f0f0f; } // Hover state
+      &.is-active { background-color: rgba(6, 95, 212, 0.1); color: #065fd4; font-weight: 500; } // Active state (blue accent)
+      // Icon spacing
+      .icon { margin-right: 8px; vertical-align: middle; }
+    }
+    // Nested lists
+    li ul { margin: 0.5em 0 0.5em 0; padding-left: 1em; border-left: 1px solid #e0e0e0; }
+  }
+}
+
+.message { // Message box
+  background-color: #f1f1f1; // Light gray default
+  border-radius: 4px;
+  font-size: 1rem;
+  border-left: 4px solid #616161; // Default border color (dark gray)
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1); // Subtle shadow
+
   .message-header {
     align-items: center;
-    background-color: #4b5563; // gray-600 default header
-    color: #ffffff;
+    background-color: transparent; // Material messages often don't have distinct header bg
+    color: #0f0f0f; // Dark text for header
     display: flex;
-    font-weight: 600;
+    font-weight: 500; // Medium weight
     justify-content: space-between;
     padding: 0.75em 1em;
-    border-radius: 0.375rem 0.375rem 0 0;
-    .delete { // Close button
-      margin-left: 0.5em;
-    }
+    border-bottom: 1px solid #e0e0e0; // Divider below header
+    border-radius: 0; // No specific header radius needed
+    + .message-body { border-width: 0; border-radius: 0; } // Remove body border if header exists
   }
   .message-body {
-    border-color: #e5e7eb; // gray-200
-    border-radius: 0 0 0.375rem 0.375rem;
-    border-style: solid;
-    border-width: 0 0 0 4px; // Default left border
-    color: #374151; // gray-700
-    padding: 1.25em 1.5em;
+    color: #0f0f0f;
+    padding: 0.75em 1em;
+    border-radius: 0 4px 4px 0; // Match outer radius only on right/bottom if no header
   }
-  // Colors
-  &.is-primary { .message-header { background-color: #e53935; color: #ffffff; } .message-body { border-color: #e53935; color: #3a0c0b; } } // Adjust body text color for contrast
-  &.is-info { .message-header { background-color: #0ea5e9; color: #ffffff; } .message-body { border-color: #0ea5e9; color: #05445c; } }
-  &.is-success { .message-header { background-color: #10b981; color: #ffffff; } .message-body { border-color: #10b981; color: #064e3b; } }
-  &.is-warning { .message-header { background-color: #f59e0b; color: #1f2937; } .message-body { border-color: #f59e0b; color: #78350f; } }
-  &.is-danger { .message-header { background-color: #e11d48; color: #ffffff; } .message-body { border-color: #e11d48; color: #881337; } }
-  &.is-light { .message-header { background-color: #f3f4f6; color: #4b5563; } .message-body { border-color: #d1d5db; color: #4b5563; } }
-  &.is-dark { .message-header { background-color: #1f2937; color: #f3f4f6; } .message-body { border-color: #1f2937; color: #1f2937; } } // Body text might need to be lighter on dark border?
-  // Sizes
-  &.is-small { font-size: 0.75rem; }
-  &.is-medium { font-size: 1.25rem; }
-  &.is-large { font-size: 1.5rem; }
+  // Colors (mainly change left border and maybe header text color)
+  &.is-primary { border-left-color: #FF0000; .message-header { color: #FF0000; } }
+  &.is-info { border-left-color: #065fd4; .message-header { color: #065fd4; } }
+  &.is-success { border-left-color: #2e7d32; .message-header { color: #2e7d32; } } // Material Green
+  &.is-warning { border-left-color: #ff8f00; .message-header { color: #ff8f00; } } // Material Amber
+  &.is-danger { border-left-color: #d32f2f; .message-header { color: #d32f2f; } } // Material Red Error
 }
 
-.delete { // Standalone delete button
-  // Bulma handles size/appearance well, just override colors if needed
-  background-color: rgba(10, 10, 10, 0.2);
-  &:hover, &:focus { background-color: rgba(10, 10, 10, 0.3); }
-  &:active { background-color: rgba(10, 10, 10, 0.4); }
-}
-
-.modal { // Modal container and background
-  // Bulma handles positioning, overlay, z-index
-  .modal-background { background-color: rgba(10, 10, 10, 0.86); } // Dark overlay
-  .modal-content, .modal-card { // Modal content area
-    // Bulma handles max-height, width, margin
-    background-color: #ffffff;
-    border-radius: 0.5rem; // 8px
-    box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1);
+.modal {
+  .modal-background { background-color: rgba(0, 0, 0, 0.5); } // Material overlay dimness
+  .modal-content { // For simple content modals
+    background-color: #ffffff; border-radius: 4px; box-shadow: 0 11px 15px -7px rgba(0,0,0,0.2), 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12); // Elevation 24dp (Dialogs)
+    padding: 24px; // Material dialog padding
   }
-  .modal-close { // Close button
-    // Bulma handles positioning, size
-    background-color: rgba(10, 10, 10, 0.2);
-    border-radius: 9999px;
-    &:hover, &:focus { background-color: rgba(10, 10, 10, 0.3); }
-    &::before, &::after { background-color: white; } // Cross lines
+  .modal-card { // For card-style modals
+    background-color: #ffffff; border-radius: 4px; box-shadow: 0 11px 15px -7px rgba(0,0,0,0.2), 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12); max-width: 600px; // Typical max width
   }
-  // Modal Card structure
-  .modal-card { display: flex; flex-direction: column; max-height: calc(100vh - 40px); overflow: hidden; }
   .modal-card-head {
-    align-items: center; background-color: #f3f4f6; border-bottom: 1px solid #e5e7eb; border-radius: 0.5rem 0.5rem 0 0; display: flex; flex-shrink: 0; justify-content: flex-start; padding: 1.25rem; position: relative;
-    .modal-card-title { color: #1f2937; flex-grow: 1; font-size: 1.5rem; line-height: 1; margin-bottom: 0; }
+    background-color: #ffffff; border-bottom: 1px solid #e0e0e0; border-radius: 4px 4px 0 0; padding: 16px 24px; // Less vertical padding
+    .modal-card-title { color: #0f0f0f; font-size: 1.25rem; font-weight: 500; line-height: 1.5; } // ~Material Dialog Title
   }
-  .modal-card-body { background-color: white; flex-grow: 1; flex-shrink: 1; overflow: auto; padding: 1.25rem; }
+  .modal-card-body { background-color: #ffffff; padding: 24px; line-height: 1.5; color: #606060; } // Secondary text for body
   .modal-card-foot {
-    align-items: center; background-color: #f3f4f6; border-radius: 0 0 0.5rem 0.5rem; border-top: 1px solid #e5e7eb; display: flex; flex-shrink: 0; justify-content: flex-end; padding: 0.75rem;
-    .button:not(:last-child) { margin-right: 0.5rem; }
-  }
-}
-
-.pagination { // Pagination container
-  font-size: 1rem; margin: 1rem 0;
-  .pagination-link, .pagination-previous, .pagination-next, .pagination-ellipsis {
-    align-items: center; border: 1px solid #d1d5db; border-radius: 0.25rem; color: #374151; display: inline-flex; justify-content: center; min-width: 2.5em; padding: 0.5em 0.75em; text-align: center;
-    &:hover { border-color: #9ca3af; color: #1f2937; z-index: 2; }
-    &:focus { border-color: #e53935; outline: none; z-index: 3; }
-    &:active { box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2); z-index: 4; }
-    &[disabled] { background-color: #f3f4f6; border-color: #e5e7eb; color: #9ca3af; cursor: not-allowed; opacity: 0.7; }
-  }
-  .pagination-link.is-current { background-color: #e53935; border-color: #e53935; color: #ffffff; z-index: 3; }
-  .pagination-ellipsis { color: #d1d5db; border-color: transparent; background-color: transparent; pointer-events: none; }
-  .pagination-list { display: inline-flex; }
-  // Alignment
-  &.is-centered .pagination-list { justify-content: center; }
-  &.is-right { justify-content: flex-end; .pagination-list { order: 1; } }
-  // Rounded
-  &.is-rounded .pagination-link, &.is-rounded .pagination-previous, &.is-rounded .pagination-next { border-radius: 9999px; padding-left: 1em; padding-right: 1em; }
-  // Sizes
-  &.is-small { font-size: 0.75rem; }
-  &.is-medium { font-size: 1.25rem; }
-  &.is-large { font-size: 1.5rem; }
-}
-
-.tabs { // Tabs container
-  align-items: stretch; display: flex; font-size: 1rem; justify-content: space-between; overflow: hidden; overflow-x: auto; white-space: nowrap;
-  a { align-items: center; border-bottom: 1px solid #d1d5db; color: #4b5563; display: flex; justify-content: center; margin-bottom: -1px; padding: 0.5em 1em; vertical-align: top; &:hover { border-bottom-color: #374151; color: #374151; } }
-  li { display: block; &.is-active a { border-bottom-color: #e53935; color: #e53935; } }
-  ul { align-items: center; border-bottom: 1px solid #d1d5db; display: flex; flex-grow: 1; flex-shrink: 0; justify-content: flex-start; list-style: none; padding: 0; margin: 0; }
-  // Alignment
-  &.is-centered ul { justify-content: center; }
-  &.is-right ul { justify-content: flex-end; }
-  // Styles
-  &.is-boxed {
-    a { border: 1px solid transparent; border-radius: 0.25rem 0.25rem 0 0; &:hover { background-color: #f3f4f6; border-bottom-color: #d1d5db; } }
-    li.is-active a { background-color: white; border-color: #d1d5db; border-bottom-color: transparent !important; }
-  }
-  &.is-toggle {
-    a { border: 1px solid #d1d5db; margin-bottom: 0; position: relative; &:hover { background-color: #f3f4f6; border-color: #b5b5b5; z-index: 2; } }
-    li + li { margin-left: -1px; }
-    li:first-child a { border-radius: 0.25rem 0 0 0.25rem; }
-    li:last-child a { border-radius: 0 0.25rem 0.25rem 0; }
-    li.is-active a { background-color: #e53935; border-color: #e53935; color: #ffffff; z-index: 1; }
-    &.is-toggle-rounded {
-        a { border-radius: 9999px; border-width: 1px; }
-        li + li { margin-left: 0.25em; }
-        li:first-child a, li:last-child a { border-radius: 9999px; }
+    background-color: #ffffff; border-radius: 0 0 4px 4px; border-top: 1px solid #e0e0e0; padding: 8px 24px; justify-content: flex-end; // Align buttons right
+    .button { // Style buttons like text buttons typically
+      background-color: transparent; box-shadow: none; text-transform: uppercase; font-weight: 500; color: #065fd4; padding: 8px; margin-left: 8px;
+      &:hover { background-color: rgba(6, 95, 212, 0.08); }
+      &.is-primary { color: #FF0000; &:hover { background-color: rgba(255, 0, 0, 0.08); } } // Example primary action color
     }
   }
-  &.is-fullwidth ul { flex-grow: 1; justify-content: space-evenly; li { flex-grow: 1; } }
-  // Sizes
-  &.is-small { font-size: 0.75rem; }
-  &.is-medium { font-size: 1.25rem; }
-  &.is-large { font-size: 1.5rem; }
+  .modal-close { // Material uses icon buttons, this is Bulma's X
+    background-color: transparent; width: 40px; height: 40px;
+    &::before, &::after { background-color: #606060; } // Gray X
+    &:hover { background-color: rgba(0, 0, 0, 0.1); }
+  }
 }
 
-// --- Bulma Helper Class Overrides (Example) ---
-.has-text-primary { color: #e53935 !important; }
-.has-text-link { color: #3b82f6 !important; } // Example link color
-.has-text-info { color: #0ea5e9 !important; }
-.has-text-success { color: #10b981 !important; }
-.has-text-warning { color: #f59e0b !important; } // Text color might need adjustment depending on background
-.has-text-danger { color: #e11d48 !important; }
-.has-text-black { color: #000000 !important; }
+.navbar { // Material App Bar Style
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); // Subtle shadow below navbar
+  min-height: 56px; // Material standard height
+  height: 56px;
+  z-index: 30;
+
+  .navbar-brand .navbar-item img.image { max-height: 32px; } // Adjust logo size
+  .navbar-brand .navbar-item { font-size: 1.25rem; font-weight: 500; color: #0f0f0f; padding-left: 16px; }
+  .navbar-burger { color: #606060; height: 56px; width: 56px; } // Burger matches height
+
+  .navbar-menu { background-color: #ffffff; } // Ensure background on mobile/desktop
+
+  .navbar-item, .navbar-link {
+    color: #0f0f0f; // Primary text color for items
+    font-weight: 400; // Regular weight
+    font-size: 1rem;
+    padding: 0 16px; // Vertical padding is handled by navbar height centering
+    display: flex; // Center vertically
+    align-items: center;
+    min-height: 56px;
+    border-bottom: 3px solid transparent; // For active state indicator
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      background-color: #f1f1f1; // Light gray hover
+      color: #0f0f0f;
+      border-bottom-color: transparent; // No border change on hover
+    }
+    // Active state (e.g., current page)
+    &.is-active {
+      background-color: transparent; // No background change
+      color: #FF0000; // YouTube red for active item text/icon
+      font-weight: 500; // Medium weight for active
+      border-bottom-color: #FF0000; // Red underline for active
+    }
+  }
+  .navbar-link { padding-right: 2.5em; // Keep space for Bulma arrow }
+  .navbar-link::after { border-color: #606060; } // Arrow color
+
+  .navbar-dropdown {
+    background-color: #ffffff;
+    border-radius: 4px;
+    border: none; // Remove Bulma border
+    box-shadow: 0 5px 5px -3px rgba(0,0,0,0.2), 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12); // Elevation 8dp
+    padding: 8px 0; // Vertical padding for menu
+    .navbar-item {
+      color: #0f0f0f; font-size: 1rem; font-weight: 400; min-height: 48px; padding: 0 16px; border-bottom: none; // Reset border
+      &:hover { background-color: #f1f1f1; }
+      &.is-active { background-color: rgba(255, 0, 0, 0.1); color: #FF0000; font-weight: 400; } // Lighter active bg in dropdown
+    }
+  }
+  .navbar-divider { background-color: #e0e0e0; height: 1px; margin: 8px 0; }
+
+  // Right aligned items / Icons
+  .navbar-end .navbar-item { padding: 0 8px; } // Less padding for icon buttons
+  .navbar-end .navbar-item .icon { color: #606060; font-size: 1.5rem; } // YouTube icon size
+  .navbar-end .navbar-item:hover .icon { color: #0f0f0f; }
+}
+
+.pagination { /* Material pagination is quite different, often simpler prev/next */
+  font-size: 1rem; margin: 1.5rem 0; text-align: center;
+  .pagination-previous, .pagination-next { // Style like outlined/text buttons
+    background-color: transparent; border: 1px solid #cccccc; color: #065fd4; border-radius: 4px; padding: 6px 16px; margin: 0 4px; font-size: 0.875rem; font-weight: 500; text-transform: uppercase;
+    &:hover { background-color: rgba(6, 95, 212, 0.08); border-color: #065fd4; }
+    &[disabled] { color: rgba(0, 0, 0, 0.26); border-color: #e0e0e0; cursor: not-allowed; background-color: transparent; }
+  }
+  .pagination-list { display: none; } // Hide Bulma number list by default
+  .pagination-ellipsis { display: none; }
+}
+
+.panel { // Material Lists are often used instead of Panels
+  font-size: 1rem; border: 1px solid #e0e0e0; border-radius: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  .panel-heading { // Like a card header
+    background-color: #f5f5f5; // Light gray heading
+    color: #0f0f0f; font-weight: 500; padding: 12px 16px; border-bottom: 1px solid #e0e0e0; border-radius: 4px 4px 0 0;
+  }
+  .panel-tabs { // Tabs within panel
+    border-bottom: 1px solid #e0e0e0;
+    a { padding: 0.75em 1em; color: #606060; border-bottom: 2px solid transparent; margin-bottom: -1px; &:hover { color: #0f0f0f; border-bottom-color: #cccccc; } }
+    li.is-active a { color: #065fd4; border-bottom-color: #065fd4; }
+  }
+  .panel-block { // List item / block
+    align-items: center; color: #0f0f0f; display: flex; justify-content: flex-start; padding: 12px 16px; border-bottom: 1px solid #f1f1f1; // Very light divider
+    &:last-child { border-bottom: none; }
+    &:hover { background-color: #f9f9f9; } // Subtle hover
+    > .control { flex-grow: 1; } // Allow controls to expand
+    .panel-icon { margin-right: 12px; color: #606060; }
+  }
+  a.panel-block { // Link item
+    color: #0f0f0f; &:hover { color: #065fd4; background-color: #f5f5f5; }
+    &.is-active { color: #065fd4; font-weight: 500; background-color: rgba(6, 95, 212, 0.1); }
+  }
+}
+
+.tabs { // Material Tabs
+  align-items: stretch; display: flex; font-size: 0.875rem; // Smaller font for tabs
+  overflow-x: auto; white-space: nowrap; border-bottom: 1px solid #e0e0e0;
+  ul { align-items: stretch; border-bottom: none; display: flex; flex-grow: 1; justify-content: flex-start; margin: 0; padding: 0; }
+  li { display: block; margin: 0;
+    a {
+      align-items: center; border-bottom: 2px solid transparent; color: #606060; // Secondary text inactive
+      display: flex; justify-content: center; margin-bottom: -1px; // Overlap border
+      padding: 12px 16px; // Vertical padding defines height
+      vertical-align: top; text-transform: uppercase; font-weight: 500;
+      transition: color 0.2s ease, border-color 0.2s ease;
+      &:hover { color: #0f0f0f; border-bottom-color: transparent; } // Hover just changes text color
+    }
+    &.is-active a { color: #FF0000; border-bottom-color: #FF0000; } // YouTube red active indicator
+  }
+  &.is-centered ul { justify-content: center; }
+  &.is-right ul { justify-content: flex-end; }
+  &.is-fullwidth ul { justify-content: space-evenly; li { flex-grow: 1; } }
+  // Toggle and Boxed styles less common in Material, remove overrides or adapt carefully
+}
+
+.tag { // Material Chips
+  align-items: center; background-color: #e0e0e0; // Default chip background
+  border-radius: 16px; // Fully rounded chip
+  color: #0f0f0f; display: inline-flex; font-size: 0.8125rem; // 13px
+  height: 32px; // Fixed height
+  justify-content: center; line-height: 32px; padding: 0 12px; // Horizontal padding
+  white-space: nowrap;
+  // Colored Chips (Subtler than buttons)
+  &.is-primary { background-color: rgba(255, 0, 0, 0.1); color: #CC0000; } // Light red bg, dark red text
+  &.is-info { background-color: rgba(6, 95, 212, 0.1); color: #054cb3; }
+  &.is-success { background-color: rgba(46, 125, 50, 0.1); color: #1b5e20; }
+  &.is-warning { background-color: rgba(255, 143, 0, 0.1); color: #e65100; }
+  &.is-danger { background-color: rgba(211, 47, 47, 0.1); color: #b71c1c; }
+  // Delete button within chip
+  .delete {
+    background-color: rgba(0,0,0,0.26); // Darker circle for delete
+    border-radius: 50%; height: 18px; width: 18px; max-height: 18px; max-width: 18px; min-height: 18px; min-width: 18px; margin-left: 4px; margin-right: -8px; // Adjust position
+    &::before, &::after { background-color: #e0e0e0; height: 1px; width: 50%; } // Thinner cross
+    &:hover { background-color: rgba(0,0,0,0.4); }
+  }
+}
+.tags .tag { margin-right: 8px; margin-bottom: 8px; } // Spacing between chips
+
+.image { /* Base image wrapper */ }
+figure { margin: 0; }
+
+.progress { /* Material uses circular or linear indeterminate often */
+  background-color: #cce0ff; // Light blue track
+  border-radius: 4px; height: 4px; // Thin linear progress bar
+  overflow: hidden; display: block;
+  &::-webkit-progress-value { background-color: #065fd4; } // Blue progress
+  &::-moz-progress-bar { background-color: #065fd4; }
+  &::-ms-fill { background-color: #065fd4; border: none; }
+  // Color variants
+  &.is-primary::-webkit-progress-value, &.is-primary::-moz-progress-bar, &.is-primary::-ms-fill { background-color: #FF0000; }
+  // Add other colors if needed
+  // Sizes (just make thicker)
+  &.is-small { height: 2px; }
+  &.is-medium { height: 8px; }
+  &.is-large { height: 12px; }
+}
+
+.breadcrumb { // Material Steppers or simple text path
+  font-size: 0.875rem;
+  ul { list-style: none; padding: 0; margin: 0; display: flex; align-items: center; }
+  li { align-items: center; display: flex;
+    & + li::before { // Separator
+      content: "/"; color: #aaaaaa; margin: 0 0.5em; // Gray slash separator
+    }
+    a { color: #606060; &:hover { color: #0f0f0f; } } // Secondary text, primary on hover
+    &.is-active a { color: #0f0f0f; font-weight: 500; pointer-events: none; } // Active step is darker/bolder
+  }
+}
+
+.delete { // Standalone delete/close icon button
+  background-color: transparent; border: none; cursor: pointer; padding: 0; height: 24px; width: 24px;
+  position: relative; // For pseudo-elements
+  &::before, &::after {
+    background-color: #606060; // Secondary text color for cross
+    content: ""; display: block; left: 50%; position: absolute; top: 50%; transform: translateX(-50%) translateY(-50%) rotate(45deg); transform-origin: center center; width: 75%; height: 2px;
+  }
+  &::after { transform: translateX(-50%) translateY(-50%) rotate(-45deg); }
+  &:hover { &::before, &::after { background-color: #0f0f0f; } }
+}
+
+// --- Bulma Helper Class Overrides ---
+// Use Material colors. Use !important sparingly if needed due to Bulma specificity.
+.has-text-primary { color: #FF0000 !important; }
+.has-text-link { color: #065fd4 !important; }
+.has-text-info { color: #039be5 !important; } // Material Light Blue
+.has-text-success { color: #2e7d32 !important; } // Material Green
+.has-text-warning { color: #ff8f00 !important; } // Material Amber
+.has-text-danger { color: #d32f2f !important; } // Material Red Error
+.has-text-black { color: #0f0f0f !important; } // Material primary text
 .has-text-white { color: #ffffff !important; }
-.has-text-light { color: #f3f4f6 !important; } // Light gray text
-.has-text-dark { color: #1f2937 !important; } // Dark gray text
-.has-text-grey, .has-text-grey-dark, .has-text-grey-darker, .has-text-grey-light, .has-text-grey-lighter { /* Use specific grays */ }
-.has-text-grey-darker { color: #11182c !important; }
-.has-text-grey-dark { color: #1f2937 !important; }
-.has-text-grey { color: #4b5563 !important; }
-.has-text-grey-light { color: #9ca3af !important; }
-.has-text-grey-lighter { color: #d1d5db !important; }
+.has-text-light { color: #606060 !important; } // Material secondary text
+.has-text-dark { color: #212121 !important; } // Material dark bg text
+.has-text-grey, .has-text-grey-dark, .has-text-grey-darker, .has-text-grey-light, .has-text-grey-lighter { /* Map to Material grays */ }
+.has-text-grey-darker { color: #212121 !important; }
+.has-text-grey-dark { color: #424242 !important; }
+.has-text-grey { color: #616161 !important; }
+.has-text-grey-light { color: #bdbdbd !important; }
+.has-text-grey-lighter { color: #eeeeee !important; }
 
-.has-background-primary { background-color: #e53935 !important; color: #ffffff !important; } // Ensure contrast
-.has-background-link { background-color: #3b82f6 !important; color: #ffffff !important; }
-.has-background-info { background-color: #0ea5e9 !important; color: #ffffff !important; }
-.has-background-success { background-color: #10b981 !important; color: #ffffff !important; }
-.has-background-warning { background-color: #f59e0b !important; color: #1f2937 !important; } // Contrast
-.has-background-danger { background-color: #e11d48 !important; color: #ffffff !important; }
-.has-background-black { background-color: #000000 !important; color: #ffffff !important; }
-.has-background-white { background-color: #ffffff !important; color: #1f2937 !important; } // Contrast
-.has-background-light { background-color: #f3f4f6 !important; color: #374151 !important; } // Contrast
-.has-background-dark { background-color: #1f2937 !important; color: #f3f4f6 !important; }
+.has-background-primary { background-color: #FF0000 !important; color: #ffffff !important; }
+.has-background-link { background-color: #065fd4 !important; color: #ffffff !important; }
+.has-background-info { background-color: #039be5 !important; color: #ffffff !important; }
+.has-background-success { background-color: #2e7d32 !important; color: #ffffff !important; }
+.has-background-warning { background-color: #ff8f00 !important; color: #0f0f0f !important; } // Dark text on amber
+.has-background-danger { background-color: #d32f2f !important; color: #ffffff !important; }
+.has-background-black { background-color: #0f0f0f !important; color: #ffffff !important; }
+.has-background-white { background-color: #ffffff !important; color: #0f0f0f !important; }
+.has-background-light { background-color: #f1f1f1 !important; color: #0f0f0f !important; } // Off-white bg
+.has-background-dark { background-color: #212121 !important; color: #ffffff !important; } // Dark bg
 
-// --- Custom `im-` Class Styles (From your HTML Example) ---
-/* Add the specific styles for .im-hero, .im-card, .im-section-title, etc. here using hardcoded values */
-/* These were provided in the previous example and can be copied here */
+// Spacing helpers - override if Bulma's defaults aren't suitable (e.g., use 8px grid)
+// .mt-1 { margin-top: 0.25rem !important; } // Bulma default
+// .mt-1 { margin-top: 8px !important; } // Example override
+// ... override p-*, m-*, is-size-* etc. if needed ...
+
+// --- Custom `im-` Class Styles (From previous HTML Examples, if still used) ---
+/* If you still have classes like im-hero, im-card, etc., add their specific */
+/* Material/YouTube inspired styles here using hardcoded values. */
 /* Example: */
 .im-hero {
-  position: relative;
-  background-color: #f9fafb;
-  overflow: hidden;
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+  /* Styles from previous attempts using Material colors/spacing */
+  background-color: #ffffff; /* Often white in Material */
+  padding: 32px 24px;
+  /* ... other hero styles ... */
 }
-/* ... etc ... */
+.im-card {
+  /* Styles from previous attempts using Material colors/spacing/shadows */
+  background-color: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  /* ... other card styles ... */
+}
+/* ... Add styles for ALL other 'im-' prefixed classes used in your HTML ... */
 
-
-// --- Custom Theme File Import (Optional LAST step) ---
-// @import "./theme/index";
 @import "../node_modules/bulma/sass/index";
 @import "./theme/index";
 
