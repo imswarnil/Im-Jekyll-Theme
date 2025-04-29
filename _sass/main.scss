@@ -2,12 +2,10 @@
 // STEP 1: Initial Bulma Variable Setup (Optional)
 // ==========================================================
 $primary: #FF0000; // YouTube Red
-$link: #065fd4;    // Material Link Blue (Override link color directly below)
+$link: #065fd4;    // Material Link Blue
 $family-sans-serif: "Roboto", "Arial", sans-serif !default;
 $family-monospace: "Roboto Mono", monospace !default;
 
-
-@import "../node_modules/bulma/sass/index";
 // ==========================================================
 // STEP 2: Import Bulma Core
 // ==========================================================
@@ -15,12 +13,12 @@ $family-monospace: "Roboto Mono", monospace !default;
 
 // ==========================================================
 // STEP 3: PURE CSS Overrides - Material Design / YouTube Inspired
-// (NO SCSS variables/logic used below this line)
+// (Targeting ONLY Bulma classes - NO 'im-' classes)
 // ==========================================================
 
 // --- Reset & Base Styles ---
 html {
-  background-color: #f9f9f9; // Material background gray
+  background-color: #f9f9f9; /* Material background gray */
   font-size: 16px;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -30,28 +28,28 @@ html {
 
 body {
   font-family: "Roboto", "Arial", sans-serif;
-  color: #0f0f0f; // Material primary text (near black)
+  color: #0f0f0f; /* Material primary text (near black) */
   font-size: 1rem;
-  font-weight: 400; // Regular
+  font-weight: 400; /* Regular */
   line-height: 1.5;
   background-color: #f9f9f9;
-  padding-top: 56px; // Approx height for fixed Material top app bar/navbar
+  padding-top: 56px; /* Approx height for fixed Material top app bar/navbar */
 }
 
 // --- Links ---
 a {
-  color: #065fd4; // Material Link Blue
+  color: #065fd4; /* Material Link Blue */
   cursor: pointer;
   text-decoration: none;
   transition: color 0.15s ease-in-out;
-  &:hover {
-    color: #054cb3; // Darker blue
-  }
+}
+a:hover {
+  color: #054cb3; /* Darker blue */
 }
 
 // --- Selection ---
 ::selection {
-  background-color: #cce0ff;
+  background-color: #cce0ff; /* Light blue selection */
   color: #0f0f0f;
 }
 
@@ -62,7 +60,7 @@ p {
 
 strong, b {
   color: #0f0f0f;
-  font-weight: 500; // Medium weight
+  font-weight: 500; /* Medium weight */
 }
 
 em, i {
@@ -74,7 +72,7 @@ small {
 }
 
 hr {
-  background-color: #e0e0e0; // Divider color
+  background-color: #e0e0e0; /* Divider color */
   border: none;
   height: 1px;
   margin: 1.5rem 0;
@@ -84,707 +82,576 @@ hr {
 h1, h2, h3, h4, h5, h6,
 .title, .subtitle {
   font-family: "Roboto", "Arial", sans-serif;
-  font-weight: 400; // Regular default
+  font-weight: 400; /* Regular default */
   line-height: 1.25;
   color: #0f0f0f;
   word-break: break-word;
-  margin: 0.5em 0 0.75em 0; // Basic margins
+  margin: 0.5em 0 0.75em 0;
 }
 
-h1, .title.is-1 { font-size: 1.75rem; font-weight: 500; } // ~Material H5/H6 Medium
-h2, .title.is-2 { font-size: 1.5rem; font-weight: 500; } // ~Material H6 Medium
-h3, .title.is-3 { font-size: 1.25rem; font-weight: 400; } // ~Material Subtitle 1 Regular
-h4, .title.is-4 { font-size: 1rem; font-weight: 500; } // ~Material Body 1 Medium
-h5, .title.is-5 { font-size: 0.875rem; font-weight: 500; } // ~Material Body 2 Medium
-h6, .title.is-6 { font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; } // ~Material Caption Medium
+h1, .title.is-1 { font-size: 1.75rem; font-weight: 500; } /* ~Material H5/H6 Medium */
+h2, .title.is-2 { font-size: 1.5rem; font-weight: 500; } /* ~Material H6 Medium */
+h3, .title.is-3 { font-size: 1.25rem; font-weight: 400; } /* ~Material Subtitle 1 Regular */
+h4, .title.is-4 { font-size: 1rem; font-weight: 500; } /* ~Material Body 1 Medium */
+h5, .title.is-5 { font-size: 0.875rem; font-weight: 500; } /* ~Material Body 2 Medium */
+h6, .title.is-6 { font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; } /* ~Material Caption Medium */
 
 .subtitle {
-  color: #606060; // Secondary text
+  color: #606060; /* Secondary text */
   font-weight: 400;
   line-height: 1.5;
-  margin-top: -0.5em; // Pull subtitle closer to title
-  // Sizes
-  &.is-1 { font-size: 1.5rem; }
-  &.is-2 { font-size: 1.25rem; }
-  &.is-3 { font-size: 1.125rem; }
-  &.is-4 { font-size: 1rem; }
-  &.is-5 { font-size: 0.875rem; }
-  &.is-6 { font-size: 0.75rem; }
+  margin-top: -0.5em;
 }
+.subtitle.is-1 { font-size: 1.5rem; }
+.subtitle.is-2 { font-size: 1.25rem; }
+.subtitle.is-3 { font-size: 1.125rem; }
+.subtitle.is-4 { font-size: 1rem; }
+.subtitle.is-5 { font-size: 0.875rem; }
+.subtitle.is-6 { font-size: 0.75rem; }
+
+.title + .subtitle { margin-top: -0.75rem; margin-bottom: 1.5rem; }
 
 // --- Content Class ---
 .content {
   font-size: 1rem;
   line-height: 1.6;
-  h1, h2, h3, h4, h5, h6 { margin-bottom: 1em; }
-  ul { list-style: disc outside; margin-left: 2em; margin-top: 1em; margin-bottom: 1em; }
-  ol { list-style: decimal outside; margin-left: 2em; margin-top: 1em; margin-bottom: 1em; }
-  li { margin-top: 0.5em; }
-  ul ul, ol ol, ul ol, ol ul { margin-left: 1.5em; margin-top: 0.5em; }
-  blockquote { background-color: #f1f1f1; border-left: 4px solid #cccccc; padding: 0.75em 1.25em; margin-bottom: 1em; }
-  table { width: 100%; margin-bottom: 1.5em; border-collapse: collapse; }
-  table td, table th { border: 1px solid #e0e0e0; padding: 0.75em 1em; vertical-align: top; font-size: 0.875rem; } // Slightly smaller table text
-  table th { color: #0f0f0f; font-weight: 500; text-align: left; background-color: #f5f5f5; }
-  table thead td, table thead th { border-bottom-width: 2px; border-bottom-color: #cccccc; }
-  table tbody tr:nth-child(odd) { background-color: #fafafa; } // Subtle striping if needed
-  table.is-hoverable tbody tr:hover { background-color: #f0f0f0; } // Subtle hover
 }
+.content h1, .content h2, .content h3, .content h4, .content h5, .content h6 { margin-bottom: 1em; line-height: 1.2; }
+.content ul { list-style: disc outside; margin-left: 2em; margin-top: 1em; margin-bottom: 1em; }
+.content ol { list-style: decimal outside; margin-left: 2em; margin-top: 1em; margin-bottom: 1em; }
+.content li { margin-top: 0.5em; }
+.content ul ul, .content ol ol, .content ul ol, .content ol ul { margin-left: 1.5em; margin-top: 0.5em; }
+.content blockquote { background-color: #f1f1f1; border-left: 4px solid #cccccc; padding: 0.75em 1.25em; margin-bottom: 1em; }
+.content table { width: 100%; margin-bottom: 1.5em; border-collapse: collapse; }
+.content table td, .content table th { border: 1px solid #e0e0e0; padding: 0.75em 1em; vertical-align: top; font-size: 0.875rem; }
+.content table th { color: #0f0f0f; font-weight: 500; text-align: left; background-color: #f5f5f5; }
+.content table thead td, .content table thead th { border-bottom-width: 2px; border-bottom-color: #cccccc; }
+.content table tfoot td, .content table tfoot th { border-top-width: 2px; border-top-color: #cccccc; }
+.content table tbody tr:last-child td, .content table tbody tr:last-child th { border-bottom-width: 1px; }
 
 // --- Layout ---
 .section {
-  padding: 24px; // Material standard padding? Or 16px? Adjust.
-  @media screen and (min-width: 769px) {
-    padding: 32px; // Larger padding on tablet+
-  }
-  @media screen and (min-width: 1024px) {
-    padding: 48px; // Larger padding on desktop+
-  }
+  padding: 24px;
+}
+@media screen and (min-width: 769px) {
+  .section { padding: 32px; }
+}
+@media screen and (min-width: 1024px) {
+  .section { padding: 48px; }
 }
 
 .container {
-  // Bulma handles max-width based on breakpoints, usually fine.
-  // Can override: max-width: 1280px;
+  /* Bulma handles max-width */
 }
 
 .hero {
-  background-color: #ffffff; // Often white background in Material
+  background-color: #ffffff;
   color: #0f0f0f;
-  padding: 2rem 1.5rem; // Base padding
-
-  .title { color: #0f0f0f; }
-  .subtitle { color: #606060; }
-
-  // Color variants
-  &.is-primary { background-color: #FF0000; color: #ffffff; .title, .subtitle { color: #ffffff; } }
-  &.is-link    { background-color: #065fd4; color: #ffffff; .title, .subtitle { color: #ffffff; } }
-  &.is-dark    { background-color: #212121; color: #ffffff; .title, .subtitle { color: #ffffff; } } // Material dark bg
-  &.is-light   { background-color: #f1f1f1; color: #0f0f0f; .title { color: #0f0f0f;} .subtitle { color: #606060;} }
-  // Add other colors if needed (info, success, warning, danger - less common for Material heroes)
-
-  // Sizes
-  &.is-medium { padding-top: 6rem; padding-bottom: 6rem; }
-  &.is-large { padding-top: 12rem; padding-bottom: 12rem; }
+  padding: 2rem 1.5rem;
 }
+.hero .title { color: #0f0f0f; }
+.hero .subtitle { color: #606060; }
+.hero.is-primary { background-color: #FF0000; color: #ffffff; }
+.hero.is-primary .title, .hero.is-primary .subtitle { color: #ffffff; }
+.hero.is-link { background-color: #065fd4; color: #ffffff; }
+.hero.is-link .title, .hero.is-link .subtitle { color: #ffffff; }
+.hero.is-dark { background-color: #212121; color: #ffffff; }
+.hero.is-dark .title, .hero.is-dark .subtitle { color: #ffffff; }
+.hero.is-light { background-color: #f1f1f1; color: #0f0f0f; }
+.hero.is-light .title { color: #0f0f0f;}
+.hero.is-light .subtitle { color: #606060;}
+.hero.is-medium { padding-top: 6rem; padding-bottom: 6rem; }
+.hero.is-large { padding-top: 12rem; padding-bottom: 12rem; }
 
 .footer {
     background-color: #ffffff;
-    color: #606060; // Secondary text
+    color: #606060;
     padding: 2rem 1.5rem;
     border-top: 1px solid #e0e0e0;
     font-size: 0.875rem;
 }
+/* Style footer inner elements as needed, targeting .footer .title, .footer a etc. */
 
-.level { // Horizontal level container
+.level {
   align-items: center;
   justify-content: space-between;
-  .level-item { // Item in a level
-    align-items: center;
-    display: flex;
-    flex-basis: auto;
-    flex-grow: 0;
-    flex-shrink: 0;
-    justify-content: center;
-  }
-  .level-left, .level-right { // Groupings
-    flex-basis: auto;
-    flex-grow: 0;
-    flex-shrink: 0;
-    .level-item:not(:last-child) { margin-right: 0.75rem; } // Spacing within group
-  }
-  .level-left { justify-content: flex-start; }
-  .level-right { justify-content: flex-end; }
-  &:not(:last-child) { margin-bottom: 1.5rem; }
+}
+.level:not(:last-child) { margin-bottom: 1.5rem; }
+.level-item { align-items: center; display: flex; flex-basis: auto; flex-grow: 0; flex-shrink: 0; justify-content: center; }
+.level-left, .level-right { flex-basis: auto; flex-grow: 0; flex-shrink: 0; }
+.level-left .level-item:not(:last-child), .level-right .level-item:not(:last-child) { margin-right: 0.75rem; }
+.level-left { justify-content: flex-start; }
+.level-right { justify-content: flex-end; }
+@media screen and (max-width: 768px) {
+  .level-item:not(:last-child) { margin-bottom: 0.75rem; }
 }
 
-.media { // Media object
+.media {
   align-items: flex-start;
   display: flex;
   text-align: left;
-  .media-left, .media-right { flex-basis: auto; flex-grow: 0; flex-shrink: 0; }
-  .media-left { margin-right: 1rem; }
-  .media-right { margin-left: 1rem; }
-  .media-content { flex-basis: auto; flex-grow: 1; flex-shrink: 1; text-align: left; }
-  &:not(:last-child) { margin-bottom: 1rem; }
 }
+.media:not(:last-child) { margin-bottom: 1rem; }
+.media-left, .media-right { flex-basis: auto; flex-grow: 0; flex-shrink: 0; }
+.media-left { margin-right: 1rem; }
+.media-right { margin-left: 1rem; }
+.media-content { flex-basis: auto; flex-grow: 1; flex-shrink: 1; text-align: left; }
 
 // --- Form Controls ---
 .input,
 .textarea,
 .select select {
   background-color: #ffffff;
-  border: 1px solid #cccccc; // Lighter border
-  border-radius: 4px; // Material standard radius
+  border: 1px solid #cccccc;
+  border-radius: 4px;
   color: #0f0f0f;
-  padding: 0.75rem 1rem; // 12px 16px padding
+  padding: 0.75rem 1rem;
   box-shadow: none;
   font-size: 1rem;
+  font-family: "Roboto", "Arial", sans-serif;
   line-height: 1.5;
-  height: auto; // Let padding determine height
+  height: auto;
   transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-
-  &:hover {
-    border-color: #888888; // Darker gray on hover
-  }
-
-  &:focus, &.is-focused, &:active, &.is-active {
-    border-color: #065fd4; // Material blue focus border
-    box-shadow: none; // No extra shadow, border indicates focus
-    outline: none;
-  }
-
-  &::placeholder {
-    color: #888888; // Medium gray placeholder
-    opacity: 1;
-  }
-
-  &[disabled],
-  fieldset[disabled] & {
-    background-color: #f1f1f1; // Disabled background
-    border-color: #e0e0e0;
-    color: #aaaaaa; // Disabled text color
-    cursor: not-allowed;
-  }
 }
-// Material filled variant (requires structure change or complex overrides)
-// .input.is-filled { background-color: #f5f5f5; border: none; border-bottom: 1px solid #cccccc; border-radius: 4px 4px 0 0; &:focus { border-bottom-width: 2px; border-bottom-color: #065fd4; background-color: #eeeeee;} }
+.input:hover,
+.textarea:hover,
+.select select:hover {
+  border-color: #888888;
+}
+.input:focus, .input.is-focused, .input:active, .input.is-active,
+.textarea:focus, .textarea.is-focused, .textarea:active, .textarea.is-active,
+.select select:focus, .select select.is-focused, .select select:active, .select select.is-active {
+  border-color: #065fd4;
+  box-shadow: none;
+  outline: none;
+}
+.input::placeholder,
+.textarea::placeholder {
+  color: #888888;
+  opacity: 1;
+}
+.input[disabled], .textarea[disabled], .select[disabled]::after, .select select[disabled] {
+  background-color: #f1f1f1;
+  border-color: #e0e0e0;
+  color: #aaaaaa;
+  cursor: not-allowed;
+}
 
 .textarea {
-  min-height: 80px; // Material default approx
-  padding: 0.75rem; // Consistent padding
+  min-height: 80px;
+  padding: 0.75rem;
+  line-height: 1.5;
 }
 
 .select {
-  height: auto; // Match input
-  &::after { // Material dropdown arrow (downward caret)
-    border: none;
-    content: '\25BC'; // Unicode downward triangle
-    color: #606060; // Secondary text color
-    font-size: 0.8em;
-    right: 12px; // Position arrow
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none; // Click through arrow
-    z-index: 4;
-  }
-  &:not(.is-multiple):not(.is-loading):hover::after {
-     color: #0f0f0f; // Darker arrow on hover
-  }
+  height: auto;
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+}
+.select:not(.is-multiple) {
+  height: auto;
+}
+.select::after {
+  border: none;
+  content: '\25BC';
+  color: #606060;
+  font-size: 0.8em;
+  height: auto;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  position: absolute;
+  z-index: 4;
+  margin-top: 0;
+  width: auto;
+}
+.select:not(.is-multiple):not(.is-loading):hover::after {
+   color: #0f0f0f;
 }
 .select select {
-  padding-right: 2.5em; // Ensure space for arrow
+  padding-right: 2.5em !important;
+  height: auto !important;
+  padding-top: 0.75rem !important;
+  padding-bottom: 0.75rem !important;
 }
 
-.checkbox, .radio { // Very basic - Material checkboxes/radios require significant custom styling/structure
+.checkbox, .radio {
   cursor: pointer;
   line-height: 1.25;
   margin-right: 8px;
-  input { margin-right: 4px; transform: scale(1.2); vertical-align: middle; } // Slightly larger default input
-  // Add Material ripple effect via JS if desired
+  display: inline-block;
+  vertical-align: middle;
 }
-.checkbox[disabled], .radio[disabled] { color: #aaaaaa; cursor: not-allowed; }
+.checkbox input, .radio input {
+  margin-right: 4px;
+  vertical-align: middle;
+}
+.checkbox[disabled], .radio[disabled] {
+  color: #aaaaaa;
+  cursor: not-allowed;
+}
 
 .label {
-  color: #606060; // Secondary text for labels
-  font-weight: 400; // Regular weight
-  font-size: 0.75rem; // Small label like Material floating label (needs JS to float)
+  color: #606060;
+  font-weight: 400;
+  font-size: 1rem;
   display: block;
-  margin-bottom: 0.25rem; // Less space below label
+  margin-bottom: 0.5rem;
 }
 
 .help {
-  color: #606060; // Secondary text
-  font-size: 0.75rem; // Small help text
+  color: #606060;
+  font-size: 0.75rem;
   display: block;
   margin-top: 0.25rem;
 }
-// Error state
-.input.is-danger, .textarea.is-danger, .select.is-danger select, .select.is-danger:not(:hover)::after { border-color: #d32f2f; color: #d32f2f; } // Material error red
-.help.is-danger { color: #d32f2f; }
+.input.is-danger, .textarea.is-danger, .select.is-danger select, .select.is-danger:not(:hover)::after {
+  border-color: #d32f2f !important;
+  color: #d32f2f !important;
+}
+.help.is-danger { color: #d32f2f !important; }
 
-.field:not(:last-child) { margin-bottom: 1rem; } // Default field spacing
+.field:not(:last-child) { margin-bottom: 1rem; }
 
 // --- Buttons ---
 .button {
-  border-radius: 4px; // Material radius
-  padding: 6px 16px; // Material standard button padding
-  font-size: 0.875rem; // Material button font size
-  font-weight: 500; // Medium weight
-  line-height: 1.75; // Material button line height
-  min-height: 36px; // Material button min height
-  text-transform: uppercase; // Material buttons are uppercase
-  letter-spacing: 0.05em; // Slight letter spacing
+  border-radius: 4px;
+  padding: 6px 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.75;
+  min-height: 36px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-color 0.15s ease-in-out;
-  border: none; // Material buttons often have no border by default
+  border: none;
   cursor: pointer;
   justify-content: center;
   text-align: center;
   white-space: nowrap;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); // Material elevation 2dp
-  // Default style (like Material text button or subtle outlined)
+  vertical-align: middle;
   background-color: transparent;
-  color: #065fd4; // Link blue (for text buttons)
-  box-shadow: none; // Text buttons have no shadow
-
-  &:hover {
-    background-color: rgba(6, 95, 212, 0.08); // Faint blue background
-    box-shadow: none;
-  }
-  &:focus {
-    outline: none;
-    background-color: rgba(6, 95, 212, 0.12); // Slightly darker focus background
-    box-shadow: none;
-  }
-  &:active {
-    background-color: rgba(6, 95, 212, 0.16); // Even darker active background
-    box-shadow: none;
-  }
-
-  // Contained Button Style (Bulma's .is-primary etc.)
-  &.is-primary { // YouTube Red
-    background-color: #FF0000;
-    border-color: #FF0000;
-    color: #ffffff;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    &:hover { background-color: #E60000; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); } // Darker red, more shadow
-    &:focus { background-color: #E60000; box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.3); } // Focus ring + hover shadow
-    &:active { background-color: #CC0000; box-shadow: 0 1px 2px rgba(0,0,0,0.2); } // Darkest red, less shadow
-  }
-  // Link/Blue contained button
-  &.is-link {
-    background-color: #065fd4; border-color: #065fd4; color: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    &:hover { background-color: #054cb3; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); }
-    &:focus { background-color: #054cb3; box-shadow: 0 0 0 3px rgba(6, 95, 212, 0.3); }
-    &:active { background-color: #043a92; box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
-  }
-  // Standard Contained (Uses Material Secondary - e.g., dark gray/white text)
-  &.is-dark { // Example using dark gray
-    background-color: #616161; border-color: #616161; color: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    &:hover { background-color: #424242; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); }
-    &:focus { background-color: #424242; box-shadow: 0 0 0 3px rgba(97, 97, 97, 0.3); }
-    &:active { background-color: #212121; box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
-  }
-  &.is-light { // Example using light gray (like outlined)
-    background-color: #ffffff; color: #0f0f0f; border: 1px solid #cccccc; box-shadow: none; text-transform: uppercase;
-    &:hover { background-color: #f5f5f5; border-color: #b3b3b3; }
-    &:focus { background-color: #f5f5f5; border-color: #065fd4; box-shadow: 0 0 0 3px rgba(6, 95, 212, 0.2); }
-    &:active { background-color: #e0e0e0; border-color: #b3b3b3; }
-  }
-  // Add success, info, warning, danger if needed, map to Material colors
-
-  // Outlined Button Style
-  &.is-outlined {
-    background-color: transparent;
-    border: 1px solid #cccccc; // Default outline border
-    color: #065fd4; // Default outline text color (link blue)
-    box-shadow: none;
-    padding: 5px 15px; // Adjust padding slightly
-
-    &:hover { background-color: rgba(6, 95, 212, 0.08); border-color: #065fd4; }
-    &:focus { background-color: rgba(6, 95, 212, 0.12); border-color: #065fd4; box-shadow: 0 0 0 3px rgba(6, 95, 212, 0.2); }
-    &:active { background-color: rgba(6, 95, 212, 0.16); border-color: #065fd4; }
-
-    &.is-primary { border-color: #FF0000; color: #FF0000; &:hover { background-color: rgba(255, 0, 0, 0.08); } &:focus { background-color: rgba(255, 0, 0, 0.12); box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.2); } &:active { background-color: rgba(255, 0, 0, 0.16); } }
-    // Add other outlined colors if needed
-  }
-
-  // Disabled State
-  &[disabled] {
-    background-color: transparent; // Disabled text/outlined often transparent bg
-    border-color: transparent; // Or faint border for outlined disabled
-    color: rgba(0, 0, 0, 0.26); // Material disabled text color
-    box-shadow: none;
-    cursor: not-allowed;
-    opacity: 1; // Don't use opacity, use color
-    // Contained disabled
-    &.is-primary, &.is-link, &.is-dark, &.is-info, &.is-success, &.is-warning, &.is-danger {
-      background-color: rgba(0, 0, 0, 0.12); // Material disabled contained bg
-      color: rgba(0, 0, 0, 0.26);
-    }
-  }
-
-  // Sizes (Material doesn't vary padding/font size much, maybe just small/large icons)
-  &.is-small { min-height: 32px; font-size: 0.8125rem; padding: 4px 8px; }
-  // &.is-medium {} // Standard size
-  &.is-large { min-height: 40px; font-size: 0.9375rem; padding: 8px 22px; }
-
-  // Other states
-  &.is-loading::after { /* Bulma spinner, maybe style to match Material spinner */ }
-  &.is-rounded { border-radius: 18px; } // Slightly less than full round for Material-like pill
-  &.is-fullwidth { display: flex; width: 100%; }
+  color: #065fd4; /* Default is Text Button */
+  box-shadow: none;
 }
-// Button group spacing
+.button:hover {
+  background-color: rgba(6, 95, 212, 0.08);
+}
+.button:focus {
+  outline: none;
+  background-color: rgba(6, 95, 212, 0.12);
+}
+.button:active {
+  background-color: rgba(6, 95, 212, 0.16);
+}
+
+/* Contained Button Styles */
+.button.is-primary, .button.is-link, .button.is-info,
+.button.is-success, .button.is-warning, .button.is-danger,
+.button.is-dark, .button.is-light:not(.is-outlined) { /* Include non-outlined light */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  border: none;
+}
+.button.is-primary:hover, .button.is-link:hover, .button.is-info:hover,
+.button.is-success:hover, .button.is-warning:hover, .button.is-danger:hover,
+.button.is-dark:hover, .button.is-light:not(.is-outlined):hover {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+.button.is-primary:active, .button.is-link:active, .button.is-info:active,
+.button.is-success:active, .button.is-warning:active, .button.is-danger:active,
+.button.is-dark:active, .button.is-light:not(.is-outlined):active {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.button.is-primary { background-color: #FF0000; color: #ffffff; }
+.button.is-primary:hover { background-color: #E60000; }
+.button.is-primary:active { background-color: #CC0000; }
+.button.is-primary:focus { background-color: #E60000; box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.3); }
+
+.button.is-link { background-color: #065fd4; color: #ffffff; }
+.button.is-link:hover { background-color: #054cb3; }
+.button.is-link:active { background-color: #043a92; }
+.button.is-link:focus { background-color: #054cb3; box-shadow: 0 0 0 3px rgba(6, 95, 212, 0.3); }
+
+.button.is-info { background-color: #039be5; color: #ffffff; }
+.button.is-info:hover { background-color: #0288d1; }
+.button.is-info:active { background-color: #0277bd; }
+.button.is-info:focus { background-color: #0288d1; box-shadow: 0 0 0 3px rgba(3, 155, 229, 0.3); }
+
+.button.is-success { background-color: #2e7d32; color: #ffffff; }
+.button.is-success:hover { background-color: #1b5e20; }
+.button.is-success:active { background-color: #0d47a1; }
+.button.is-success:focus { background-color: #1b5e20; box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.3); }
+
+.button.is-warning { background-color: #ff8f00; color: #0f0f0f; }
+.button.is-warning:hover { background-color: #e65100; }
+.button.is-warning:active { background-color: #bf360c; }
+.button.is-warning:focus { background-color: #e65100; box-shadow: 0 0 0 3px rgba(255, 143, 0, 0.3); }
+
+.button.is-danger { background-color: #d32f2f; color: #ffffff; }
+.button.is-danger:hover { background-color: #c62828; }
+.button.is-danger:active { background-color: #b71c1c; }
+.button.is-danger:focus { background-color: #c62828; box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.3); }
+
+.button.is-dark { background-color: #616161; color: #ffffff; }
+.button.is-dark:hover { background-color: #424242; }
+.button.is-dark:active { background-color: #212121; }
+.button.is-dark:focus { background-color: #424242; box-shadow: 0 0 0 3px rgba(97, 97, 97, 0.3); }
+
+.button.is-light { /* Contained light button */
+    background-color: #f5f5f5; color: #0f0f0f; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); border: none; text-transform: uppercase;
+    &:hover { background-color: #eeeeee; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); }
+    &:focus { background-color: #eeeeee; box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1); }
+    &:active { background-color: #e0e0e0; box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+}
+
+/* Outlined Button Styles */
+.button.is-outlined {
+  background-color: transparent;
+  border: 1px solid #cccccc;
+  color: #065fd4;
+  box-shadow: none;
+  padding: 5px 15px;
+}
+.button.is-outlined:hover { background-color: rgba(6, 95, 212, 0.08); border-color: #065fd4; }
+.button.is-outlined:focus { background-color: rgba(6, 95, 212, 0.12); border-color: #065fd4; box-shadow: 0 0 0 3px rgba(6, 95, 212, 0.2); }
+.button.is-outlined:active { background-color: rgba(6, 95, 212, 0.16); border-color: #065fd4; }
+
+.button.is-outlined.is-primary { border-color: #FF0000; color: #FF0000; &:hover { background-color: rgba(255, 0, 0, 0.08); } &:focus { background-color: rgba(255, 0, 0, 0.12); box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.2); } &:active { background-color: rgba(255, 0, 0, 0.16); } }
+.button.is-outlined.is-danger { border-color: #d32f2f; color: #d32f2f; &:hover { background-color: rgba(211, 47, 47, 0.08); } &:focus { background-color: rgba(211, 47, 47, 0.12); box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.2); } &:active { background-color: rgba(211, 47, 47, 0.16); } }
+.button.is-outlined.is-light { border-color: #cccccc; color: #0f0f0f; &:hover { background-color: #f5f5f5; } &:focus { background-color: #f5f5f5; box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1); } &:active { background-color: #e0e0e0; } }
+
+/* Disabled Buttons */
+.button[disabled] {
+  background-color: transparent;
+  border-color: transparent;
+  color: rgba(0, 0, 0, 0.26);
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 1;
+}
+.button[disabled].is-primary, .button[disabled].is-link, .button[disabled].is-info,
+.button[disabled].is-success, .button[disabled].is-warning, .button[disabled].is-danger,
+.button[disabled].is-dark, .button.is-light[disabled]:not(.is-outlined) {
+  background-color: rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.26);
+}
+.button.is-outlined[disabled] {
+  border-color: rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.26);
+  background-color: transparent;
+}
+
+/* Button Sizes */
+.button.is-small { min-height: 32px; font-size: 0.8125rem; padding: 4px 8px; }
+.button.is-large { min-height: 40px; font-size: 0.9375rem; padding: 8px 22px; }
+
+/* Other Button Modifiers */
+.button.is-loading::after { /* Style spinner */ }
+.button.is-rounded { border-radius: 18px; }
+.button.is-fullwidth { display: flex; width: 100%; }
+
+/* Button Groups */
 .buttons .button { margin-right: 8px; margin-bottom: 8px; }
 .buttons:last-child { margin-bottom: -8px; }
 .buttons:not(:last-child) { margin-bottom: 8px; }
+.buttons.has-addons .button { margin-right: 0; border-radius: 0; }
+.buttons.has-addons .button:first-child { border-top-left-radius: 4px; border-bottom-left-radius: 4px; }
+.buttons.has-addons .button:last-child { border-top-right-radius: 4px; border-bottom-right-radius: 4px; }
+.buttons.has-addons .button:not(:first-child) { margin-left: -1px; }
 
-
-// --- Component Overrides ---
-.box {
-  background-color: #ffffff;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); // Elevation 2dp
-  color: #0f0f0f;
-  padding: 16px; // Material padding
+// --- Icon Component ---
+.icon {
+  align-items: center; display: inline-flex; justify-content: center; height: 24px; width: 24px; font-size: 24px; /* Material default icon size */ vertical-align: middle;
 }
+.icon.is-small { height: 20px; width: 20px; font-size: 20px; }
+.icon.is-medium { height: 36px; width: 36px; font-size: 36px; }
+.icon.is-large { height: 48px; width: 48px; font-size: 48px; }
+/* Color helpers .has-text-* should style the icon */
 
-.card { // Cards often have slightly more elevation
-  background-color: #ffffff;
-  border-radius: 4px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); // Elevation 6dp
-  color: #0f0f0f;
-  overflow: hidden; // Ensure radius applies
+// --- Image Component ---
+.image { display: block; position: relative; }
+.image img { display: block; height: auto; width: 100%; }
+.image.is-rounded img { border-radius: 9999px; }
+/* Bulma sizes .is-16x16 etc */
+.image.is-16x16 { height: 16px; width: 16px; }
+.image.is-24x24 { height: 24px; width: 24px; }
+.image.is-32x32 { height: 32px; width: 32px; }
+.image.is-48x48 { height: 48px; width: 48px; }
+.image.is-64x64 { height: 64px; width: 64px; }
+.image.is-96x96 { height: 96px; width: 96px; }
+.image.is-128x128 { height: 128px; width: 128px; }
+/* Bulma aspect ratios .is-1by1 etc. */
 
-  .card-header {
-    padding: 16px;
-    border-bottom: 1px solid #e0e0e0;
-    box-shadow: none;
-    .card-header-title {
-      color: #0f0f0f; font-weight: 500; font-size: 1.25rem; padding: 0; // Remove Bulma padding
-    }
-    .card-header-icon { padding: 0 0 0 16px; } // Icon padding
-  }
-  .card-image img { display: block; width: 100%; }
-  .card-content { padding: 16px; line-height: 1.5; }
-  .card-footer {
-    padding: 8px 16px; // Less padding in footer
-    border-top: 1px solid #e0e0e0;
-    // Style .card-footer-item
-    a.card-footer-item {
-      color: #065fd4; padding: 8px 0; font-weight: 500; text-transform: uppercase; font-size: 0.875rem;
-      &:hover { background-color: rgba(6, 95, 212, 0.08); }
-    }
-  }
+// --- Tag / Chip Component ---
+.tag:not(body) {
+  align-items: center; background-color: #e0e0e0; border-radius: 16px; color: #0f0f0f; display: inline-flex; font-size: 0.8125rem; height: 32px; justify-content: center; line-height: 32px; padding: 0 12px; white-space: nowrap; margin: 2px;
 }
+/* Colored Tags (Subtle background, darker text) */
+.tag.is-primary { background-color: rgba(255, 0, 0, 0.1); color: #CC0000; }
+.tag.is-link { background-color: rgba(6, 95, 212, 0.1); color: #054cb3; }
+.tag.is-info { background-color: rgba(3, 155, 229, 0.1); color: #0277bd; }
+.tag.is-success { background-color: rgba(46, 125, 50, 0.1); color: #1b5e20; }
+.tag.is-warning { background-color: rgba(255, 143, 0, 0.1); color: #e65100; }
+.tag.is-danger { background-color: rgba(211, 47, 47, 0.1); color: #b71c1c; }
+.tag.is-dark { background-color: rgba(0, 0, 0, 0.12); color: #212121; }
+.tag.is-light { background-color: #eeeeee; color: #616161; }
+/* Tag delete button */
+.tag .delete { background-color: rgba(0,0,0,0.26); border-radius: 50%; height: 18px; width: 18px; margin-left: 4px; margin-right: -8px; }
+.tag .delete::before, .tag .delete::after { background-color: #e0e0e0; }
+.tag .delete:hover { background-color: rgba(0,0,0,0.4); }
+/* Tag Sizes */
+.tag.is-medium { height: 40px; line-height: 40px; font-size: 0.875rem; padding: 0 16px; border-radius: 20px; }
+.tag.is-large { height: 48px; line-height: 48px; font-size: 1rem; padding: 0 20px; border-radius: 24px; }
+/* Tags container */
+.tags .tag { margin-right: 8px; margin-bottom: 8px; }
+.tags:last-child { margin-bottom: -8px; }
+.tags:not(:last-child) { margin-bottom: 8px; }
+.tags.has-addons .tag { margin-right: 0; border-radius: 0; }
+.tags.has-addons .tag:first-child { border-top-left-radius: 16px; border-bottom-left-radius: 16px; }
+.tags.has-addons .tag:last-child { border-top-right-radius: 16px; border-bottom-right-radius: 16px; }
 
-.dropdown { // Dropdown container
-  display: inline-flex;
+// --- Notification / Snackbar ---
+.notification {
+  background-color: #323232; /* Dark background like Snackbar */
+  border-radius: 4px;
+  color: #ffffff; /* White text */
+  padding: 14px 16px;
   position: relative;
-  vertical-align: top;
-  .dropdown-trigger .button .icon { margin-left: 4px; margin-right: -4px; } // Adjust icon spacing in button
-  .dropdown-menu { // The menu itself
-    display: none; // Hidden by default
-    left: 0;
-    min-width: 180px; // Material typical min width
-    padding-top: 8px; // Padding for shadow/animation space
-    padding-bottom: 8px;
-    position: absolute;
-    top: 100%;
-    z-index: 20; // Material dropdown z-index
-  }
-  .dropdown-content { // Inner content wrapper
-    background-color: #ffffff;
-    border-radius: 4px;
-    box-shadow: 0 5px 5px -3px rgba(0,0,0,0.2), 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12); // Material elevation 8dp
-    padding-bottom: 0; // Let items define padding
-    padding-top: 0;
-    overflow-y: auto; // Scroll if needed
-    max-height: 300px; // Limit height
-  }
-  .dropdown-item { // Each item in the dropdown
-    color: #0f0f0f;
-    display: block;
-    font-size: 1rem;
-    line-height: 1.5;
-    padding: 8px 16px; // Material list item padding
-    position: relative;
-    white-space: nowrap;
-    cursor: pointer;
-    &:hover { background-color: #f5f5f5; } // Hover background
-    &.is-active { background-color: #eeeeee; color: #0f0f0f; } // Active item
-  }
-  .dropdown-divider {
-    background-color: #e0e0e0; height: 1px; margin: 8px 0; padding: 0;
-  }
-  &.is-active .dropdown-menu { display: block; } // Show menu when active
-  &.is-right .dropdown-menu { left: auto; right: 0; }
-  &.is-up .dropdown-menu { bottom: 100%; padding-bottom: 4px; padding-top: 4px; top: auto; }
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12); /* Elevation 6dp */
+  min-height: 48px; /* Min height */
+  display: flex; /* Align items */
+  align-items: center;
+  justify-content: space-between; /* Space text and action */
 }
-
-.menu { // Vertical menu
-  font-size: 1rem;
-  .menu-label { // Section label
-    color: #606060; // Secondary text
-    font-size: 0.75rem; // Caption size
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    margin: 1em 0 0.5em 0.75em;
-  }
-  .menu-list { // List of menu items
-    line-height: 1.5;
-    list-style: none; margin: 0; padding: 0;
-    a { // Menu item link
-      border-radius: 4px;
-      color: #0f0f0f; // Primary text
-      display: block;
-      padding: 8px 12px; // Padding
-      margin: 0 4px; // Horizontal margin to allow hover bg full bleed slightly less
-      transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
-      &:hover { background-color: #f5f5f5; color: #0f0f0f; } // Hover state
-      &.is-active { background-color: rgba(6, 95, 212, 0.1); color: #065fd4; font-weight: 500; } // Active state (blue accent)
-      // Icon spacing
-      .icon { margin-right: 8px; vertical-align: middle; }
-    }
-    // Nested lists
-    li ul { margin: 0.5em 0 0.5em 0; padding-left: 1em; border-left: 1px solid #e0e0e0; }
-  }
-}
-
-.message { // Message box
-  background-color: #f1f1f1; // Light gray default
+.notification:not(:last-child) { margin-bottom: 1rem; }
+.notification strong { color: inherit; font-weight: 500; }
+.notification a:not(.button) { /* Action Button */
+  color: #ff8a80; /* Pink/Red accent for action */
+  text-decoration: none;
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-left: 16px;
+  padding: 4px 8px;
   border-radius: 4px;
-  font-size: 1rem;
-  border-left: 4px solid #616161; // Default border color (dark gray)
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1); // Subtle shadow
-
-  .message-header {
-    align-items: center;
-    background-color: transparent; // Material messages often don't have distinct header bg
-    color: #0f0f0f; // Dark text for header
-    display: flex;
-    font-weight: 500; // Medium weight
-    justify-content: space-between;
-    padding: 0.75em 1em;
-    border-bottom: 1px solid #e0e0e0; // Divider below header
-    border-radius: 0; // No specific header radius needed
-    + .message-body { border-width: 0; border-radius: 0; } // Remove body border if header exists
-  }
-  .message-body {
-    color: #0f0f0f;
-    padding: 0.75em 1em;
-    border-radius: 0 4px 4px 0; // Match outer radius only on right/bottom if no header
-  }
-  // Colors (mainly change left border and maybe header text color)
-  &.is-primary { border-left-color: #FF0000; .message-header { color: #FF0000; } }
-  &.is-info { border-left-color: #065fd4; .message-header { color: #065fd4; } }
-  &.is-success { border-left-color: #2e7d32; .message-header { color: #2e7d32; } } // Material Green
-  &.is-warning { border-left-color: #ff8f00; .message-header { color: #ff8f00; } } // Material Amber
-  &.is-danger { border-left-color: #d32f2f; .message-header { color: #d32f2f; } } // Material Red Error
+  &:hover { background-color: rgba(255, 138, 128, 0.1); }
+}
+/* Color variants not typical for snackbars, usually just default dark */
+.notification.is-light { background-color: #eeeeee; color: #0f0f0f; a:not(.button) { color: #065fd4; } }
+/* Delete button */
+.notification .delete {
+  color: #ffffff; opacity: 0.7; position: static; /* Reset absolute */ margin-left: 16px; background: none;
+  &::before, &::after { background-color: currentColor; }
+  &:hover { opacity: 1; background: none; }
 }
 
-.modal {
-  .modal-background { background-color: rgba(0, 0, 0, 0.5); } // Material overlay dimness
-  .modal-content { // For simple content modals
-    background-color: #ffffff; border-radius: 4px; box-shadow: 0 11px 15px -7px rgba(0,0,0,0.2), 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12); // Elevation 24dp (Dialogs)
-    padding: 24px; // Material dialog padding
-  }
-  .modal-card { // For card-style modals
-    background-color: #ffffff; border-radius: 4px; box-shadow: 0 11px 15px -7px rgba(0,0,0,0.2), 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12); max-width: 600px; // Typical max width
-  }
-  .modal-card-head {
-    background-color: #ffffff; border-bottom: 1px solid #e0e0e0; border-radius: 4px 4px 0 0; padding: 16px 24px; // Less vertical padding
-    .modal-card-title { color: #0f0f0f; font-size: 1.25rem; font-weight: 500; line-height: 1.5; } // ~Material Dialog Title
-  }
-  .modal-card-body { background-color: #ffffff; padding: 24px; line-height: 1.5; color: #606060; } // Secondary text for body
-  .modal-card-foot {
-    background-color: #ffffff; border-radius: 0 0 4px 4px; border-top: 1px solid #e0e0e0; padding: 8px 24px; justify-content: flex-end; // Align buttons right
-    .button { // Style buttons like text buttons typically
-      background-color: transparent; box-shadow: none; text-transform: uppercase; font-weight: 500; color: #065fd4; padding: 8px; margin-left: 8px;
-      &:hover { background-color: rgba(6, 95, 212, 0.08); }
-      &.is-primary { color: #FF0000; &:hover { background-color: rgba(255, 0, 0, 0.08); } } // Example primary action color
-    }
-  }
-  .modal-close { // Material uses icon buttons, this is Bulma's X
-    background-color: transparent; width: 40px; height: 40px;
-    &::before, &::after { background-color: #606060; } // Gray X
-    &:hover { background-color: rgba(0, 0, 0, 0.1); }
-  }
+// --- Progress Bar ---
+.progress {
+  background-color: #cce0ff; /* Light blue track */
+  border-radius: 4px; height: 4px; overflow: hidden; display: block; padding: 0;
 }
+.progress::-webkit-progress-value { background-color: #065fd4; border-radius: 4px; }
+.progress::-moz-progress-bar { background-color: #065fd4; border-radius: 4px; }
+.progress::-ms-fill { background-color: #065fd4; border: none; border-radius: 4px; }
+.progress.is-primary::-webkit-progress-value, .progress.is-primary::-moz-progress-bar, .progress.is-primary::-ms-fill { background-color: #FF0000; }
+.progress.is-danger::-webkit-progress-value, .progress.is-danger::-moz-progress-bar, .progress.is-danger::-ms-fill { background-color: #d32f2f; }
+.progress.is-success::-webkit-progress-value, .progress.is-success::-moz-progress-bar, .progress.is-success::-ms-fill { background-color: #2e7d32; }
+/* Sizes */
+.progress.is-small { height: 2px; }
+.progress.is-medium { height: 8px; }
+.progress.is-large { height: 12px; }
+/* Indeterminate state needs complex animation */
 
-.navbar { // Material App Bar Style
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1); // Subtle shadow below navbar
-  min-height: 56px; // Material standard height
-  height: 56px;
-  z-index: 30;
-
-  .navbar-brand .navbar-item img.image { max-height: 32px; } // Adjust logo size
-  .navbar-brand .navbar-item { font-size: 1.25rem; font-weight: 500; color: #0f0f0f; padding-left: 16px; }
-  .navbar-burger { color: #606060; height: 56px; width: 56px; } // Burger matches height
-
-  .navbar-menu { background-color: #ffffff; } // Ensure background on mobile/desktop
-
-  .navbar-item, .navbar-link {
-    color: #0f0f0f; // Primary text color for items
-    font-weight: 400; // Regular weight
-    font-size: 1rem;
-    padding: 0 16px; // Vertical padding is handled by navbar height centering
-    display: flex; // Center vertically
-    align-items: center;
-    min-height: 56px;
-    border-bottom: 3px solid transparent; // For active state indicator
-    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-
-    &:hover {
-      background-color: #f1f1f1; // Light gray hover
-      color: #0f0f0f;
-      border-bottom-color: transparent; // No border change on hover
-    }
-    // Active state (e.g., current page)
-    &.is-active {
-      background-color: transparent; // No background change
-      color: #FF0000; // YouTube red for active item text/icon
-      font-weight: 500; // Medium weight for active
-      border-bottom-color: #FF0000; // Red underline for active
-    }
-  }
-  .navbar-link { padding-right: 2.5em; // Keep space for Bulma arrow }
-  .navbar-link::after { border-color: #606060; } // Arrow color
-
-  .navbar-dropdown {
-    background-color: #ffffff;
-    border-radius: 4px;
-    border: none; // Remove Bulma border
-    box-shadow: 0 5px 5px -3px rgba(0,0,0,0.2), 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12); // Elevation 8dp
-    padding: 8px 0; // Vertical padding for menu
-    .navbar-item {
-      color: #0f0f0f; font-size: 1rem; font-weight: 400; min-height: 48px; padding: 0 16px; border-bottom: none; // Reset border
-      &:hover { background-color: #f1f1f1; }
-      &.is-active { background-color: rgba(255, 0, 0, 0.1); color: #FF0000; font-weight: 400; } // Lighter active bg in dropdown
-    }
-  }
-  .navbar-divider { background-color: #e0e0e0; height: 1px; margin: 8px 0; }
-
-  // Right aligned items / Icons
-  .navbar-end .navbar-item { padding: 0 8px; } // Less padding for icon buttons
-  .navbar-end .navbar-item .icon { color: #606060; font-size: 1.5rem; } // YouTube icon size
-  .navbar-end .navbar-item:hover .icon { color: #0f0f0f; }
+// --- Table ---
+.table {
+  background-color: #ffffff; color: #0f0f0f; width: 100%; border-collapse: collapse; border-spacing: 0;
 }
-
-.pagination { /* Material pagination is quite different, often simpler prev/next */
-  font-size: 1rem; margin: 1.5rem 0; text-align: center;
-  .pagination-previous, .pagination-next { // Style like outlined/text buttons
-    background-color: transparent; border: 1px solid #cccccc; color: #065fd4; border-radius: 4px; padding: 6px 16px; margin: 0 4px; font-size: 0.875rem; font-weight: 500; text-transform: uppercase;
-    &:hover { background-color: rgba(6, 95, 212, 0.08); border-color: #065fd4; }
-    &[disabled] { color: rgba(0, 0, 0, 0.26); border-color: #e0e0e0; cursor: not-allowed; background-color: transparent; }
-  }
-  .pagination-list { display: none; } // Hide Bulma number list by default
-  .pagination-ellipsis { display: none; }
+.table td, .table th {
+  border-bottom: 1px solid #e0e0e0; /* Bottom border only */
+  padding: 12px 16px;
+  vertical-align: middle; text-align: left;
 }
+.table th { font-weight: 500; color: #606060; border-bottom-width: 2px; } /* Medium weight gray header text, thicker border */
+.table thead td, .table thead th { } /* Header specific styles */
+.table tfoot td, .table tfoot th { color: #606060; border-top: 2px solid #e0e0e0; } /* Footer styles */
+.table tbody tr:last-child td, .table tbody tr:last-child th { border-bottom: none; } /* No border on last row */
+.table.is-striped tbody tr:nth-child(even) { background-color: #fafafa; }
+.table.is-hoverable tbody tr:hover { background-color: #f5f5f5; }
+.table.is-narrow td, .table.is-narrow th { padding: 8px 12px; }
+.table.is-bordered td, .table.is-bordered th { border: 1px solid #e0e0e0; } /* Add all borders back */
+.table.is-fullwidth { width: 100%; }
 
-.panel { // Material Lists are often used instead of Panels
-  font-size: 1rem; border: 1px solid #e0e0e0; border-radius: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-  .panel-heading { // Like a card header
-    background-color: #f5f5f5; // Light gray heading
-    color: #0f0f0f; font-weight: 500; padding: 12px 16px; border-bottom: 1px solid #e0e0e0; border-radius: 4px 4px 0 0;
-  }
-  .panel-tabs { // Tabs within panel
-    border-bottom: 1px solid #e0e0e0;
-    a { padding: 0.75em 1em; color: #606060; border-bottom: 2px solid transparent; margin-bottom: -1px; &:hover { color: #0f0f0f; border-bottom-color: #cccccc; } }
-    li.is-active a { color: #065fd4; border-bottom-color: #065fd4; }
-  }
-  .panel-block { // List item / block
-    align-items: center; color: #0f0f0f; display: flex; justify-content: flex-start; padding: 12px 16px; border-bottom: 1px solid #f1f1f1; // Very light divider
-    &:last-child { border-bottom: none; }
-    &:hover { background-color: #f9f9f9; } // Subtle hover
-    > .control { flex-grow: 1; } // Allow controls to expand
-    .panel-icon { margin-right: 12px; color: #606060; }
-  }
-  a.panel-block { // Link item
-    color: #0f0f0f; &:hover { color: #065fd4; background-color: #f5f5f5; }
-    &.is-active { color: #065fd4; font-weight: 500; background-color: rgba(6, 95, 212, 0.1); }
-  }
+// --- Breadcrumb ---
+.breadcrumb {
+  font-size: 0.875rem; white-space: nowrap; padding: 8px 0; /* Add some padding */
 }
+.breadcrumb ul { list-style: none; padding: 0; margin: 0; display: flex; align-items: center; }
+.breadcrumb li { align-items: center; display: flex; }
+.breadcrumb li + li::before { content: "/"; color: #aaaaaa; margin: 0 0.75em; } /* Slightly more space */
+.breadcrumb a { color: #606060; &:hover { color: #0f0f0f; } }
+.breadcrumb li.is-active a { color: #0f0f0f; font-weight: 500; pointer-events: none; }
 
-.tabs { // Material Tabs
-  align-items: stretch; display: flex; font-size: 0.875rem; // Smaller font for tabs
-  overflow-x: auto; white-space: nowrap; border-bottom: 1px solid #e0e0e0;
-  ul { align-items: stretch; border-bottom: none; display: flex; flex-grow: 1; justify-content: flex-start; margin: 0; padding: 0; }
-  li { display: block; margin: 0;
-    a {
-      align-items: center; border-bottom: 2px solid transparent; color: #606060; // Secondary text inactive
-      display: flex; justify-content: center; margin-bottom: -1px; // Overlap border
-      padding: 12px 16px; // Vertical padding defines height
-      vertical-align: top; text-transform: uppercase; font-weight: 500;
-      transition: color 0.2s ease, border-color 0.2s ease;
-      &:hover { color: #0f0f0f; border-bottom-color: transparent; } // Hover just changes text color
-    }
-    &.is-active a { color: #FF0000; border-bottom-color: #FF0000; } // YouTube red active indicator
-  }
-  &.is-centered ul { justify-content: center; }
-  &.is-right ul { justify-content: flex-end; }
-  &.is-fullwidth ul { justify-content: space-evenly; li { flex-grow: 1; } }
-  // Toggle and Boxed styles less common in Material, remove overrides or adapt carefully
+// --- Panel (List) ---
+.panel {
+  font-size: 1rem; border: none; border-radius: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); background-color: #ffffff; overflow: hidden;
 }
-
-.tag { // Material Chips
-  align-items: center; background-color: #e0e0e0; // Default chip background
-  border-radius: 16px; // Fully rounded chip
-  color: #0f0f0f; display: inline-flex; font-size: 0.8125rem; // 13px
-  height: 32px; // Fixed height
-  justify-content: center; line-height: 32px; padding: 0 12px; // Horizontal padding
-  white-space: nowrap;
-  // Colored Chips (Subtler than buttons)
-  &.is-primary { background-color: rgba(255, 0, 0, 0.1); color: #CC0000; } // Light red bg, dark red text
-  &.is-info { background-color: rgba(6, 95, 212, 0.1); color: #054cb3; }
-  &.is-success { background-color: rgba(46, 125, 50, 0.1); color: #1b5e20; }
-  &.is-warning { background-color: rgba(255, 143, 0, 0.1); color: #e65100; }
-  &.is-danger { background-color: rgba(211, 47, 47, 0.1); color: #b71c1c; }
-  // Delete button within chip
-  .delete {
-    background-color: rgba(0,0,0,0.26); // Darker circle for delete
-    border-radius: 50%; height: 18px; width: 18px; max-height: 18px; max-width: 18px; min-height: 18px; min-width: 18px; margin-left: 4px; margin-right: -8px; // Adjust position
-    &::before, &::after { background-color: #e0e0e0; height: 1px; width: 50%; } // Thinner cross
-    &:hover { background-color: rgba(0,0,0,0.4); }
-  }
+.panel-heading { background-color: #ffffff; color: #0f0f0f; font-weight: 500; padding: 12px 16px; border-bottom: 1px solid #e0e0e0; border-radius: 0; }
+.panel-tabs { border-bottom: 1px solid #e0e0e0; background-color: #f5f5f5; padding: 0 8px; }
+.panel-tabs a { padding: 0.75em 1em; color: #606060; border-bottom: 2px solid transparent; margin-bottom: -1px; &:hover { color: #0f0f0f; } }
+.panel-tabs li.is-active a { color: #065fd4; border-bottom-color: #065fd4; }
+.panel-block {
+  align-items: center; color: #0f0f0f; display: flex; justify-content: flex-start; padding: 12px 16px; border: none; /* Remove internal borders */ min-height: 48px; /* Material list item height */
 }
-.tags .tag { margin-right: 8px; margin-bottom: 8px; } // Spacing between chips
+.panel-block:not(:last-child) { border-bottom: 1px solid #f1f1f1; } /* Subtle divider */
+.panel-block:hover { background-color: #f5f5f5; }
+.panel-icon { margin-right: 16px; color: #606060; width: 24px; height: 24px; }
+a.panel-block { color: #0f0f0f; &:hover { color: #065fd4; background-color: #f5f5f5; } }
+a.panel-block.is-active { color: #065fd4; font-weight: 500; background-color: rgba(6, 95, 212, 0.08); }
 
-.image { /* Base image wrapper */ }
-figure { margin: 0; }
-
-.progress { /* Material uses circular or linear indeterminate often */
-  background-color: #cce0ff; // Light blue track
-  border-radius: 4px; height: 4px; // Thin linear progress bar
-  overflow: hidden; display: block;
-  &::-webkit-progress-value { background-color: #065fd4; } // Blue progress
-  &::-moz-progress-bar { background-color: #065fd4; }
-  &::-ms-fill { background-color: #065fd4; border: none; }
-  // Color variants
-  &.is-primary::-webkit-progress-value, &.is-primary::-moz-progress-bar, &.is-primary::-ms-fill { background-color: #FF0000; }
-  // Add other colors if needed
-  // Sizes (just make thicker)
-  &.is-small { height: 2px; }
-  &.is-medium { height: 8px; }
-  &.is-large { height: 12px; }
+// --- Tabs ---
+.tabs {
+  align-items: stretch; display: flex; font-size: 0.875rem; overflow: hidden; overflow-x: auto; white-space: nowrap; border-bottom: 1px solid #e0e0e0; background-color: #ffffff; /* Tabs often on white bg */ box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Subtle shadow below tabs */
 }
-
-.breadcrumb { // Material Steppers or simple text path
-  font-size: 0.875rem;
-  ul { list-style: none; padding: 0; margin: 0; display: flex; align-items: center; }
-  li { align-items: center; display: flex;
-    & + li::before { // Separator
-      content: "/"; color: #aaaaaa; margin: 0 0.5em; // Gray slash separator
-    }
-    a { color: #606060; &:hover { color: #0f0f0f; } } // Secondary text, primary on hover
-    &.is-active a { color: #0f0f0f; font-weight: 500; pointer-events: none; } // Active step is darker/bolder
-  }
+.tabs ul { align-items: stretch; border-bottom: none; display: flex; flex-grow: 1; justify-content: flex-start; margin: 0; padding: 0; }
+.tabs li { display: block; margin: 0; }
+.tabs li a {
+  align-items: center; border-bottom: 2px solid transparent; color: #606060; display: flex; justify-content: center; margin-bottom: -1px; padding: 12px 24px; /* Wider padding */ min-height: 48px; /* Fixed height */ vertical-align: top; text-transform: uppercase; font-weight: 500; transition: color 0.2s ease, border-color 0.2s ease;
 }
+.tabs li a:hover { color: #0f0f0f; border-bottom-color: transparent; }
+.tabs li.is-active a { color: #FF0000; border-bottom-color: #FF0000; }
+.tabs.is-centered ul { justify-content: center; }
+.tabs.is-right ul { justify-content: flex-end; }
+.tabs.is-fullwidth ul { justify-content: space-evenly; li { flex-grow: 1; } }
+.tabs.is-toggle, .tabs.is-boxed { /* Deprecated in Material */ display: none; }
 
-.delete { // Standalone delete/close icon button
-  background-color: transparent; border: none; cursor: pointer; padding: 0; height: 24px; width: 24px;
-  position: relative; // For pseudo-elements
-  &::before, &::after {
-    background-color: #606060; // Secondary text color for cross
-    content: ""; display: block; left: 50%; position: absolute; top: 50%; transform: translateX(-50%) translateY(-50%) rotate(45deg); transform-origin: center center; width: 75%; height: 2px;
-  }
-  &::after { transform: translateX(-50%) translateY(-50%) rotate(-45deg); }
-  &:hover { &::before, &::after { background-color: #0f0f0f; } }
+// --- Delete ---
+.delete {
+  background-color: transparent; border: none; cursor: pointer; padding: 0; height: 24px; width: 24px; position: relative; outline: none; vertical-align: middle;
 }
+.delete::before, .delete::after {
+  background-color: #606060; content: ""; display: block; left: 50%; position: absolute; top: 50%; transform: translateX(-50%) translateY(-50%) rotate(45deg); transform-origin: center center; width: 80%; /* Make cross slightly bolder */ height: 2px;
+}
+.delete::after { transform: translateX(-50%) translateY(-50%) rotate(-45deg); }
+.delete:hover { &::before, &::after { background-color: #0f0f0f; } }
+/* Sizes */
+.delete.is-small { height: 16px; width: 16px; }
+.delete.is-medium { height: 32px; width: 32px; }
+.delete.is-large { height: 40px; width: 40px; }
 
 // --- Bulma Helper Class Overrides ---
-// Use Material colors. Use !important sparingly if needed due to Bulma specificity.
+/* Colors */
 .has-text-primary { color: #FF0000 !important; }
 .has-text-link { color: #065fd4 !important; }
-.has-text-info { color: #039be5 !important; } // Material Light Blue
-.has-text-success { color: #2e7d32 !important; } // Material Green
-.has-text-warning { color: #ff8f00 !important; } // Material Amber
-.has-text-danger { color: #d32f2f !important; } // Material Red Error
-.has-text-black { color: #0f0f0f !important; } // Material primary text
+.has-text-info { color: #039be5 !important; }
+.has-text-success { color: #2e7d32 !important; }
+.has-text-warning { color: #ff8f00 !important; }
+.has-text-danger { color: #d32f2f !important; }
+.has-text-black { color: #0f0f0f !important; }
 .has-text-white { color: #ffffff !important; }
-.has-text-light { color: #606060 !important; } // Material secondary text
-.has-text-dark { color: #212121 !important; } // Material dark bg text
-.has-text-grey, .has-text-grey-dark, .has-text-grey-darker, .has-text-grey-light, .has-text-grey-lighter { /* Map to Material grays */ }
+.has-text-light { color: #606060 !important; }
+.has-text-dark { color: #212121 !important; }
 .has-text-grey-darker { color: #212121 !important; }
 .has-text-grey-dark { color: #424242 !important; }
 .has-text-grey { color: #616161 !important; }
@@ -795,36 +662,58 @@ figure { margin: 0; }
 .has-background-link { background-color: #065fd4 !important; color: #ffffff !important; }
 .has-background-info { background-color: #039be5 !important; color: #ffffff !important; }
 .has-background-success { background-color: #2e7d32 !important; color: #ffffff !important; }
-.has-background-warning { background-color: #ff8f00 !important; color: #0f0f0f !important; } // Dark text on amber
+.has-background-warning { background-color: #ff8f00 !important; color: #0f0f0f !important; }
 .has-background-danger { background-color: #d32f2f !important; color: #ffffff !important; }
 .has-background-black { background-color: #0f0f0f !important; color: #ffffff !important; }
 .has-background-white { background-color: #ffffff !important; color: #0f0f0f !important; }
-.has-background-light { background-color: #f1f1f1 !important; color: #0f0f0f !important; } // Off-white bg
-.has-background-dark { background-color: #212121 !important; color: #ffffff !important; } // Dark bg
+.has-background-light { background-color: #f1f1f1 !important; color: #0f0f0f !important; }
+.has-background-dark { background-color: #212121 !important; color: #ffffff !important; }
 
-// Spacing helpers - override if Bulma's defaults aren't suitable (e.g., use 8px grid)
-// .mt-1 { margin-top: 0.25rem !important; } // Bulma default
-// .mt-1 { margin-top: 8px !important; } // Example override
-// ... override p-*, m-*, is-size-* etc. if needed ...
+/* Typography Helpers */
+.has-text-weight-light { font-weight: 300 !important; }
+.has-text-weight-normal { font-weight: 400 !important; }
+.has-text-weight-medium { font-weight: 500 !important; }
+.has-text-weight-semibold { font-weight: 500 !important; } /* Map semibold to medium */
+.has-text-weight-bold { font-weight: 700 !important; } /* Material bold is 700 */
 
-// --- Custom `im-` Class Styles (From previous HTML Examples, if still used) ---
-/* If you still have classes like im-hero, im-card, etc., add their specific */
-/* Material/YouTube inspired styles here using hardcoded values. */
-/* Example: */
-.im-hero {
-  /* Styles from previous attempts using Material colors/spacing */
-  background-color: #ffffff; /* Often white in Material */
-  padding: 32px 24px;
-  /* ... other hero styles ... */
-}
-.im-card {
-  /* Styles from previous attempts using Material colors/spacing/shadows */
-  background-color: #ffffff;
-  border-radius: 4px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  /* ... other card styles ... */
-}
-/* ... Add styles for ALL other 'im-' prefixed classes used in your HTML ... */
+.is-size-1 { font-size: 1.75rem !important; }
+.is-size-2 { font-size: 1.5rem !important; }
+.is-size-3 { font-size: 1.25rem !important; }
+.is-size-4 { font-size: 1rem !important; }
+.is-size-5 { font-size: 0.875rem !important; }
+.is-size-6 { font-size: 0.75rem !important; }
+.is-size-7 { font-size: 0.625rem !important; } /* Extra small */
 
+.is-family-sans-serif { font-family: "Roboto", "Arial", sans-serif !important; }
+.is-family-monospace { font-family: "Roboto Mono", monospace !important; }
+
+.is-italic { font-style: italic !important; }
+.is-capitalized { text-transform: capitalize !important; }
+.is-uppercase { text-transform: uppercase !important; letter-spacing: 0.05em !important; } /* Add spacing for Material uppercase */
+.is-lowercase { text-transform: lowercase !important; }
+
+.has-text-centered { text-align: center !important; }
+.has-text-justified { text-align: justify !important; }
+.has-text-left { text-align: left !important; }
+.has-text-right { text-align: right !important; }
+
+/* Spacing Helpers - Use Material-like increments (e.g., 8px) */
+/* This is VERY tedious to override fully */
+.m-0 { margin: 0 !important; } .p-0 { padding: 0 !important; }
+.m-1 { margin: 4px !important; } .p-1 { padding: 4px !important; } /* ~0.25rem */
+.m-2 { margin: 8px !important; } .p-2 { padding: 8px !important; } /* ~0.5rem */
+.m-3 { margin: 12px !important; } .p-3 { padding: 12px !important; } /* ~0.75rem */
+.m-4 { margin: 16px !important; } .p-4 { padding: 16px !important; } /* ~1rem */
+.m-5 { margin: 24px !important; } .p-5 { padding: 24px !important; } /* ~1.5rem */
+.m-6 { margin: 32px !important; } .p-6 { padding: 32px !important; } /* ~2rem */
+/* Override mt-*, mb-*, ml-*, mr-*, mx-*, my-*, pt-*, etc. similarly */
+
+/* Visibility Helpers */
+.is-hidden { display: none !important; }
+/* Bulma breakpoint visibility (.is-hidden-mobile etc) - usually okay unless breakpoints change drastically */
+
+/* Flexbox Helpers */
+/* Bulma's flex helpers (.is-flex, .is-justify-content-*, .is-align-items-*) are generally fine */
+@import "../node_modules/bulma/sass/index";
 @import "./theme/index";
 
