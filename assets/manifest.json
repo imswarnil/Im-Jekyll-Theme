@@ -5,9 +5,7 @@ sitemap: false
 ---
 {
   "lang": "{{ site.lang | default: "en-US" }}",
-  "id": "{{ site.manifest.id | default: "111" }}",
   "name": "{{ site.title }}",
-  "description": "{{ site.description | default: 'Add your site description in _config.yml' }}", 
   "short_name": "{{ site.short_name | default: site.title | replace: ' ', '' }}",
   "theme_color": "{{ site.manifest.theme_color | default: '#e53935' }}",
   "background_color": "{{ site.manifest.background_color | default: '#ffffff' }}",
@@ -23,5 +21,4 @@ sitemap: false
   {% endif -%}
   "start_url": "/",
   "display": "standalone"
-  "orientation": "{{ site.manifest.orientation | default: "" }}",
 }
