@@ -8,7 +8,7 @@ sidebar : true
 category: blog
 tags: [jekyll, static site, themes]
 author: Eleanor Pena
-image: https://placehold.co/600x300/000000/FFFFFF/png
+image: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZUEAM950Don9xbuafcmCoP8DdW61tCE93rA&s
 TLTR: "Jekyll themes simplify the process of creating static websites by providing pre-designed templates."
 ---
 

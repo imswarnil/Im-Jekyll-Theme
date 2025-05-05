@@ -2,31 +2,35 @@
 layout: null
 sitemap: false
 ---
-
-{% capture json %}
+{% assign first_item = true %}
 [
-  {% assign collections = site.collections | where_exp:'collection','collection.output != false' %}
-  {% for collection in collections %}
-    {% assign docs = collection.docs | where_exp:'doc','doc.sitemap != false' %}
-    {% for doc in docs %}
-      {
-        "title": {{ doc.title | jsonify }},
-        "description": {{ doc.description | markdownify | strip_html | jsonify }},
-        "content": {{ doc.content | markdownify | strip_html | jsonify }},
-        "url": {{ site.baseurl | append: doc.url | jsonify }}
-      },
-    {% endfor %}
+{% assign collections_to_index = site.collections | where_exp:'collection','collection.output != false' %}
+{% for collection in collections_to_index %}
+  {% assign docs_in_collection = collection.docs | where_exp:'doc','doc.sitemap != false' %}
+  {% for doc in docs_in_collection %}
+    {% unless first_item %},{% endunless %}
+    {
+      "title": {{ doc.title | default: doc.name | jsonify }},
+      "description": {{ doc.description | default: "" | markdownify | strip_html | strip_newlines | normalize_whitespace | replace: '\', '\\\\' | replace: '"', '\\"' | jsonify }},
+      "content": {{ doc.content | default: "" | markdownify | strip_html | strip_newlines | normalize_whitespace | replace: '\', '\\\\' | replace: '"', '\\"' | jsonify }},
+      "url": {{ site.baseurl | append: doc.url | jsonify }},
+      "image": {{ doc.image | jsonify }}
+    }
+    {% assign first_item = false %}
   {% endfor %}
-  {% assign pages = site.html_pages | where_exp:'doc','doc.sitemap != false' | where_exp:'doc','doc.title != null' %}
-  {% for page in pages %}
-  {
-    "title": {{ page.title | jsonify }},
-    "description": {{ page.description | markdownify | strip_html | jsonify }},
-    "content": {{ page.content | markdownify | strip_html | jsonify }},
-    "url": {{ site.baseurl | append: page.url | jsonify }}
-  }{% unless forloop.last %},{% endunless %}
-  {% endfor %}
-]
-{% endcapture %}
+{% endfor %}
 
-{{ json | lstrip }}
+{% assign pages_to_index = site.html_pages | where_exp:'page','page.sitemap != false' | where_exp:'page','page.title != null' | where:'layout','page' %}
+{% for page in pages_to_index %}
+   {% if page.url == "/search/" or page.url == "/search.html" %}{% continue %}{% endif %}
+   {% unless first_item %},{% endunless %}
+    {
+      "title": {{ page.title | jsonify }},
+      "description": {{ page.description | default: "" | markdownify | strip_html | strip_newlines | normalize_whitespace | replace: '\', '\\\\' | replace: '"', '\\"' | jsonify }},
+      "content": {{ page.content | default: "" | markdownify | strip_html | strip_newlines | normalize_whitespace | replace: '\', '\\\\' | replace: '"', '\\"' | jsonify }},
+      "url": {{ site.baseurl | append: page.url | jsonify }},
+      "image": {{ page.image | jsonify }}
+    }
+    {% assign first_item = false %}
+{% endfor %}
+]

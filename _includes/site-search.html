@@ -1,389 +1,395 @@
+<!-- HTML structure remains the same as the previous full example -->
 <section class="section">
   <div class="container">
-    <!-- Enhanced Search Form -->
+    <!-- Search Form -->
     <div class="columns is-centered">
       <div class="column is-half">
-        <form id="search-form" class="field has-addons">
+        <form id="search-form" class="field has-addons" onsubmit="return false;">
           <div class="control is-expanded has-icons-left">
-            <input class="input is-medium" type="text" placeholder="Search articles, guides, and more..." name="q" id="search-input" autocomplete="off">
-            <span class="icon is-left">
-              <i class="fas fa-search"></i>
-            </span>
-            <!-- Smart Suggestions Dropdown -->
+            <input class="input is-medium" type="text" placeholder="Search..." name="q" id="search-input" autocomplete="off">
+            <span class="icon is-left"><i class="fas fa-search"></i></span>
             <div class="dropdown" id="search-suggestions" style="display: none;">
-              <div class="dropdown-menu" style="width: 100%;">
-                <div class="dropdown-content" id="suggestions-content">
-                  <!-- Suggestions will be injected here -->
-                </div>
-              </div>
+              <div class="dropdown-menu" style="width: 100%;"><div class="dropdown-content" id="suggestions-content"></div></div>
             </div>
           </div>
           <div class="control">
-            <button type="submit" class="button is-primary is-medium">
-              <span class="icon">
-                <i class="fas fa-search"></i>
-              </span>
-              <span>Search</span>
+            <button type="button" id="search-submit-button" class="button is-primary is-medium">
+              <span class="search-button-icon"><i class="fas fa-search"></i></span>
+              <span class="search-button-text">Search</span>
+              <span class="search-button-loading" style="display: none;"><span class="icon"><i class="fas fa-spinner fa-pulse"></i></span></span>
             </button>
           </div>
         </form>
-        <p class="help is-size-7 has-text-centered mt-2">Type to see instant results or press Enter for full search</p>
+        <p class="help is-size-7 has-text-centered mt-2">Type for instant results or press Enter</p>
       </div>
     </div>
 
     <!-- Search Results Section -->
     <div id="search-results" class="mt-5" style="display: none;">
-      <div class="level">
-        <div class="level-left">
-          <h2 class="title is-4">Search Results</h2>
+       <div class="level">
+         <div class="level-left"><h2 class="title is-4">Search Results</h2></div>
+         <div class="level-right"><p class="has-text-grey" id="results-count"></p></div>
+       </div>
+       <div class="columns is-multiline" id="results-container"></div>
+       <div id="search-loading-spinner" class="has-text-centered mt-5 py-6" style="display: none;">
+         <div class="loading-spinner"></div><p class="has-text-grey mt-3">Searching...</p>
+       </div>
+       <div id="no-results" class="has-text-centered mt-5" style="display: none;">
+          <div class="box"><span class="icon is-large has-text-grey-light"><i class="fas fa-search fa-2x"></i></span><h3 class="title is-5 mt-3">No results found</h3><p class="subtitle is-6">Try different keywords</p></div>
         </div>
-        <div class="level-right">
-          <p class="has-text-grey" id="results-count"></p>
-        </div>
-      </div>
-      <div class="columns is-multiline" id="results-container">
-        <!-- Results will be injected here -->
-      </div>
-      <div class="has-text-centered mt-5" id="no-results" style="display: none;">
-        <div class="box">
-          <span class="icon is-large has-text-grey-light">
-            <i class="fas fa-search fa-2x"></i>
-          </span>
-          <h3 class="title is-5 mt-3">No results found</h3>
-          <p class="subtitle is-6">Try different keywords or check your spelling</p>
-        </div>
-      </div>
-      <div class="has-text-centered mt-5" id="search-loading" style="display: none;">
-        <div class="box">
-          <span class="icon is-large has-text-grey-light">
-            <i class="fas fa-spinner fa-pulse fa-2x"></i>
-          </span>
-          <h3 class="title is-5 mt-3">Searching...</h3>
-        </div>
-      </div>
-    </div>
+       <div id="search-error" class="mt-5" style="display: none;"></div>
+     </div>
   </div>
 </section>
 
+<!-- CSS -->
+<style>
+  /* --- Loading --- */
+  .loading-spinner { border: 4px solid rgba(0, 0, 0, 0.1); width: 40px; height: 40px; border-radius: 50%; border-left-color: #00d1b2; animation: spin 1s ease infinite; display: inline-block; }
+  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  #search-submit-button.is-loading .search-button-text, #search-submit-button.is-loading .search-button-icon { display: none; }
+  #search-submit-button.is-loading .search-button-loading { display: inline-block !important; }
+
+  /* --- Card Basics & Height --- */
+  .search-result-card.has-equal-height, .search-ad-placeholder.has-equal-height { display: flex; flex-direction: column; height: 100%; }
+  .search-result-card.has-equal-height .card-content { flex-grow: 1; }
+  .search-result-card.has-equal-height .card-footer { margin-top: auto; }
+  .card-image .image img { object-fit: cover; width: 100%; height: 100%; }
+  .card-image .image.is-16by9 { padding-top: 56.25%; position: relative; }
+  .card-image .image.is-16by9 img { position: absolute; top: 0; left: 0; }
+
+  /* --- Ad Placeholder Styling --- */
+  .search-ad-placeholder { display: flex; align-items: center; justify-content: center; background-color: #fafafa; border: 1px dashed #dbdbdb; min-height: 250px; /* Adjusted min-height slightly */ text-align: center; color: #7a7a7a; font-size: 0.9em; box-shadow: 0 2px 3px rgba(10,10,10,0.1); border-radius: 4px; padding: 1rem; }
+  .search-ad-placeholder > div { width: 100%; }
+  .search-ad-placeholder .icon { margin-bottom: 0.5em; }
+
+  /* --- Base Search Result Card --- */
+   .search-result-card {
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 3px 5px rgba(10,10,10,0.1), 0 0 0 1px rgba(10,10,10,0.05);
+      overflow: hidden;
+      border-left: 5px solid #dbdbdb; /* Default border */
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+  .search-result-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(10,10,10,0.15), 0 0 0 1px rgba(10,10,10,0.07);
+  }
+
+  /* --- Collection Specific Styles (MORE DISTINCT) --- */
+
+  /* Post Card */
+  .search-result-card.card-collection-posts { border-left-color: hsl(171, 100%, 41%); }
+  .search-result-card.card-collection-posts .card-content .title a { color: hsl(171, 100%, 29%); }
+  .search-result-card.card-collection-posts .card-footer a { color: hsl(171, 100%, 35%); font-weight: 600; }
+
+  /* Video Card */
+  .search-result-card.card-collection-videos {
+      border-left-color: hsl(217, 71%, 53%);
+      background-color: hsl(217, 71%, 97%); /* Light blue background */
+  }
+  /* Styles targeting the specific video layout generated by JS */
+  .video-card-layout .card-image { max-height: 180px; overflow: hidden; border-bottom: 1px solid #eee; }
+  .video-card-layout .card-content { padding: 0.75rem 1rem; }
+  .video-card-layout .video-title a { font-size: 1.05rem; line-height: 1.3; font-weight: 600; margin-bottom: 0.25rem; display: block; color: hsl(217, 71%, 45%); }
+  .video-card-layout .video-description { font-size: 0.85rem; color: #555; margin-bottom: 0.5rem; }
+  .video-card-layout .card-footer { background-color: transparent; border-top: none; padding: 0.25rem 1rem 0.75rem; }
+  .video-card-layout .card-footer-item { color: hsl(217, 71%, 53%); font-weight: bold; }
+
+  /* Guide Card */
+  .search-result-card.card-collection-guides {
+      border-left-color: hsl(48, 100%, 67%);
+      background-color: hsl(48, 100%, 98%); /* Light yellow background */
+  }
+   .search-result-card.card-collection-guides .card-content .title a { color: hsl(36, 86%, 54%); }
+
+  /* Page Card */
+  .search-result-card.card-collection-page {
+      border-left-color: hsl(0, 0%, 71%);
+      background-color: #f9f9f9; /* Very light grey */
+   }
+   .search-result-card.card-collection-page .card-footer a { color: #555; }
+
+  /* Fallback Icon Styling */
+  .search-result-card .card-image[data-fallback-for] {
+      min-height: 120px;
+      background-color: #f5f5f5;
+      border-bottom: 1px solid #eee;
+  }
+
+</style>
+
+<!-- JavaScript -->
 <script>
-// Configuration
-const endpoint = '{{ "/assets/search.json" | relative_url }}';
-const iconMap = {
-  'post': 'fa-file-alt',
-  'article': 'fa-newspaper',
-  'guide': 'fa-book',
-  'tutorial': 'fa-graduation-cap',
-  'video': 'fa-video',
-  'default': 'fa-file'
-};
-const defaultImage = '/assets/images/default-search-image.jpg'; // Fallback image
+  // Make fallbackImageHtml globally accessible
+  var fallbackImageHtml;
 
-// State
-let pages = [];
-let currentSearchTerm = '';
-let debounceTimer;
+  document.addEventListener('DOMContentLoaded', function() {
 
-// DOM Elements
-const searchInput = document.getElementById('search-input');
-const searchForm = document.getElementById('search-form');
-const suggestionsContent = document.getElementById('suggestions-content');
-const resultsContainer = document.getElementById('results-container');
-const searchResults = document.getElementById('search-results');
-const searchSuggestions = document.getElementById('search-suggestions');
-const noResults = document.getElementById('no-results');
-const resultsCount = document.getElementById('results-count');
-const searchLoading = document.getElementById('search-loading');
+    // --- Configuration ---
+    const siteBaseUrl = '{{ site.baseurl | default: "" }}';
+    const endpoint = '{{ "/assets/search.json" | relative_url }}';
+    const iconMap = { 'post': 'fa-file-alt', 'posts': 'fa-file-alt', 'page': 'fa-file', 'article': 'fa-newspaper', 'guide': 'fa-book', 'tutorial': 'fa-graduation-cap', 'video': 'fa-video', 'default': 'fa-file' };
+    const FIBONACCI_AD_POSITIONS = [1, 2, 3, 5, 8, 13, 21];
 
-// Initialize search
-function initSearch() {
-  showLoading(true);
-  
-  fetch(endpoint)
-    .then(response => {
-      if (!response.ok) throw new Error('Network response was not ok');
-      return response.json();
-    })
-    .then(data => {
-      pages = data;
-      setupEventListeners();
-    })
-    .catch(error => {
-      console.error('Error loading search index:', error);
-      showError('Failed to load search index. Please try again later.');
-    })
-    .finally(() => {
-      showLoading(false);
-    });
-}
+    // --- State ---
+    let pages = [];
+    let currentSearchTerm = '';
+    let searchInputDebounceTimer; // Timer for input updates
+    let fullSearchDebounceTimer; // Timer for full results update on typing
+    let isSearchLoading = false;
 
-// Setup event listeners
-function setupEventListeners() {
-  searchInput.addEventListener('input', handleSearchInput);
-  searchInput.addEventListener('focus', handleSearchFocus);
-  searchForm.addEventListener('submit', handleFormSubmit);
-  
-  // Close suggestions when clicking outside
-  document.addEventListener('click', function(event) {
-    if (!event.target.closest('#search-form')) {
-      hideSuggestions();
-    }
-  });
-}
+    // --- DOM Elements ---
+    const searchInput = document.getElementById('search-input');
+    const searchSubmitButton = document.getElementById('search-submit-button');
+    const suggestionsContent = document.getElementById('suggestions-content');
+    const resultsContainer = document.getElementById('results-container');
+    const searchResults = document.getElementById('search-results');
+    const searchSuggestions = document.getElementById('search-suggestions');
+    const noResults = document.getElementById('no-results');
+    const resultsCount = document.getElementById('results-count');
+    const searchLoadingSpinner = document.getElementById('search-loading-spinner');
+    const searchError = document.getElementById('search-error');
 
-// Search functions
-function findResults(termToMatch, pages) {
-  if (!termToMatch) return [];
-  
-  const terms = termToMatch.toLowerCase().split(' ').filter(term => term.length > 0);
-  
-  return pages.map(item => {
-    let score = 0;
-    let titleMatches = 0;
-    let contentMatches = 0;
-    let tagMatches = 0;
-    let exactMatch = false;
-    
-    terms.forEach(term => {
-      // Check for exact match in title
-      if (item.title.toLowerCase() === term.toLowerCase()) {
-        score += 10;
-        exactMatch = true;
-      }
-      
-      // Partial matches
-      const titleRegex = new RegExp(term, 'gi');
-      const contentRegex = new RegExp(term, 'gi');
-      const tagRegex = new RegExp(term, 'gi');
-      
-      // Title matches
-      const titleMatch = item.title.match(titleRegex);
-      if (titleMatch) {
-        score += 5 * titleMatch.length;
-        titleMatches += titleMatch.length;
-      }
-      
-      // Description matches
-      const descMatch = item.description && item.description.toLowerCase().includes(term);
-      if (descMatch) score += 3;
-      
-      // Content matches
-      const contentMatch = item.content.match(contentRegex);
-      if (contentMatch) {
-        score += contentMatch.length;
-        contentMatches += contentMatch.length;
-      }
-      
-      // Tag matches
-      if (item.tags) {
-        const tagMatch = item.tags.join(' ').match(tagRegex);
-        if (tagMatch) {
-          score += 2 * tagMatch.length;
-          tagMatches += tagMatch.length;
-        }
-      }
-    });
-    
-    return { 
-      ...item, 
-      score, 
-      titleMatches, 
-      contentMatches, 
-      tagMatches,
-      exactMatch
+    // --- Fallback Image HTML Function ---
+    fallbackImageHtml = function(collectionName, itemTitle) { /* ... same as before ... */
+        const collectionKey = (collectionName || 'page').toLowerCase(); const iconClass = iconMap[collectionKey] || iconMap.default; const safeTitle = (itemTitle || '').replace(/'/g, "\\'").replace(/"/g, '"');
+        return `<div class="card-image has-background-light has-text-centered py-5" data-fallback-for="${safeTitle}"><span class="icon is-large has-text-grey"><i class="fas ${iconClass} fa-3x"></i></span>${collectionName ? `<p class="has-text-grey is-size-7 mt-2 is-capitalized">${collectionName}</p>` : ''}</div>`;
     };
-  })
-  .filter(item => item.score > 0)
-  .sort((a, b) => {
-    // Exact matches first, then by score
-    if (a.exactMatch && !b.exactMatch) return -1;
-    if (!a.exactMatch && b.exactMatch) return 1;
-    return b.score - a.score;
-  });
-}
 
-// UI Helpers
-function getItemIcon(item) {
-  if (item.collection) {
-    return iconMap[item.collection.toLowerCase()] || iconMap.default;
-  }
-  return iconMap.default;
-}
+    // --- UI Helper Functions ---
+    function getItemIcon(item) { /* ... same as before ... */
+        const collectionKey = (item.collection || 'page').toLowerCase(); return iconMap[collectionKey] || iconMap.default;
+     }
+    function getItemImage(item) { /* ... same as before ... */
+        let imageUrl = null; if (item.image && typeof item.image === 'string' && item.image.trim() !== '') { imageUrl = item.image.trim(); if (!imageUrl.startsWith('http://') && !imageUrl.startsWith('https://')) { let imagePath = imageUrl.startsWith('/') ? imageUrl : '/' + imageUrl; imageUrl = siteBaseUrl + imagePath; } } if (imageUrl) { const collectionForFallback = item.collection || 'page'; const safeTitle = (item.title || '').replace(/'/g, "\\'").replace(/"/g, '"'); return `<div class="card-image"><figure class="image is-16by9"><img src="${imageUrl}" alt="${safeTitle}" loading="lazy" onerror="this.onerror=null; console.error('Image failed to load:', this.src); this.closest('.card-image').innerHTML = fallbackImageHtml('${collectionForFallback}', '${safeTitle}');"></figure></div>`; } return fallbackImageHtml(item.collection || 'page', item.title);
+     }
+    function highlightText(text, terms) { /* ... same as before ... */
+        if (!text || !terms || terms.length === 0) return text; let escapedText = String(text).replace(/</g, "<").replace(/>/g, ">"); let highlighted = escapedText; terms.sort((a, b) => b.length - a.length).forEach(term => { const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); try { const regex = new RegExp(`(${escapedTerm})`, 'gi'); highlighted = highlighted.replace(regex, '<span class="has-background-warning">$1</span>'); } catch (e) { console.warn(`Regex error for term "${term}": ${e}`); } }); return highlighted;
+     }
+    function showLoading(show) { /* ... same as before ... */
+        if (show) { resultsContainer.innerHTML = ''; resultsContainer.style.display = 'none'; noResults.style.display = 'none'; searchError.style.display = 'none'; searchLoadingSpinner.style.display = 'block'; searchResults.style.display = 'block'; } else { searchLoadingSpinner.style.display = 'none'; resultsContainer.style.display = 'flex'; }
+    }
+    function showError(message) { /* ... same as before ... */
+        showLoading(false); resultsContainer.innerHTML = ''; resultsContainer.style.display = 'none'; resultsCount.textContent = ''; noResults.style.display = 'none'; searchError.innerHTML = `<div class="notification is-danger"><button class="delete" onclick="this.parentElement.parentElement.style.display='none';"></button><span class="icon"><i class="fas fa-exclamation-triangle"></i></span> <strong>Error:</strong> ${message}</div>`; searchError.style.display = 'block'; searchResults.style.display = 'block';
+     }
+    function hideSuggestions() { searchSuggestions.style.display = 'none'; }
 
-function getItemImage(item) {
-  if (item.image) {
-    return `<img src="${item.image}" alt="${item.title}" class="card-image" loading="lazy">`;
-  }
-  return `
-    <div class="card-image has-background-light has-text-centered py-5">
-      <span class="icon is-large has-text-grey">
-        <i class="fas ${getItemIcon(item)} fa-3x"></i>
-      </span>
-      ${item.collection ? `<p class="has-text-grey is-size-7 mt-2">${item.collection}</p>` : ''}
-    </div>
-  `;
-}
+    // --- Search Logic ---
+    function findResults(termToMatch, pages) { /* ... same as before ... */
+        if (!termToMatch) return []; const terms = termToMatch.toLowerCase().split(' ').filter(term => term.length > 1); if (terms.length === 0) return [];
+        return pages.map(item => {
+            let score = 0; const itemTitle = item.title || ''; const itemContent = item.content || ''; const itemDesc = item.description || ''; const itemTags = item.tags || []; const itemCollection = item.collection || 'page'; const itemTitleLower = itemTitle.toLowerCase(); const itemContentLower = itemContent.toLowerCase(); const itemDescLower = itemDesc.toLowerCase(); const itemTagsString = Array.isArray(itemTags) ? itemTags.join(' ').toLowerCase() : ''; let exactMatch = false;
+            terms.forEach(term => { const termRegex = new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'); if (itemTitleLower === term) { score += 60; exactMatch = true; } const titleMatch = itemTitleLower.match(termRegex); if (titleMatch) { score += 12 * titleMatch.length; if (itemTitleLower.startsWith(term)) { score += 20; } } const descMatch = itemDescLower.match(termRegex); if (descMatch) { score += 4 * descMatch.length; } const tagMatch = itemTagsString.match(termRegex); if (tagMatch) { score += 6 * tagMatch.length; } const contentMatch = itemContentLower.match(termRegex); if (contentMatch) { score += 1 * contentMatch.length; } });
+            return { ...item, title: itemTitle, collection: itemCollection, tags: itemTags, score, exactMatch };
+        }).filter(item => item.score > 0).sort((a, b) => { if (a.exactMatch !== b.exactMatch) return a.exactMatch ? -1 : 1; return b.score - a.score; });
+     }
 
-function highlightText(text, terms) {
-  if (!text || !terms.length) return text;
-  
-  let highlighted = text;
-  terms.forEach(term => {
-    const regex = new RegExp(`(${term})`, 'gi');
-    highlighted = highlighted.replace(regex, '<span class="has-background-warning">$1</span>');
-  });
-  return highlighted;
-}
+    // --- Generate Result Stats ---
+    function generateStatsHtml(results) { /* ... same as before ... */
+        if (!results || results.length === 0) { return 'No results found'; } const total = results.length; const stats = results.reduce((acc, item) => { const collectionName = item.collection || 'page'; acc[collectionName] = (acc[collectionName] || 0) + 1; return acc; }, {}); const statsString = Object.entries(stats).map(([collection, count]) => `${count} ${collection}${count > 1 ? 's' : ''}`).join(', '); return `${total} ${total === 1 ? 'result' : 'results'} found (${statsString})`;
+     }
 
-function showLoading(show) {
-  if (show) {
-    searchLoading.style.display = 'block';
-    searchResults.style.display = 'none';
-  } else {
-    searchLoading.style.display = 'none';
-  }
-}
-
-function showError(message) {
-  noResults.innerHTML = `
-    <div class="box">
-      <span class="icon is-large has-text-danger">
-        <i class="fas fa-exclamation-triangle fa-2x"></i>
-      </span>
-      <h3 class="title is-5 mt-3">Error</h3>
-      <p class="subtitle is-6">${message}</p>
-    </div>
-  `;
-  noResults.style.display = 'block';
-  searchResults.style.display = 'block';
-}
-
-function hideSuggestions() {
-  searchSuggestions.style.display = 'none';
-}
-
-// Event Handlers
-function handleSearchInput() {
-  clearTimeout(debounceTimer);
-  currentSearchTerm = this.value.trim();
-  
-  if (currentSearchTerm === '') {
-    hideSuggestions();
-    searchResults.style.display = 'none';
-    return;
-  }
-  
-  debounceTimer = setTimeout(() => {
-    showLoading(true);
-    
-    // Small delay to prevent UI flicker for fast searches
-    setTimeout(() => {
-      const resultsArray = findResults(currentSearchTerm, pages);
-      displayResults(resultsArray, currentSearchTerm);
-      showLoading(false);
-    }, 100);
-  }, 300);
-}
-
-function handleSearchFocus() {
-  if (currentSearchTerm && currentSearchTerm === this.value.trim()) {
-    const resultsArray = findResults(currentSearchTerm, pages);
-    displaySuggestions(resultsArray.slice(0, 5), currentSearchTerm);
-  }
-}
-
-function handleFormSubmit(event) {
-  event.preventDefault();
-  const term = searchInput.value.trim();
-  
-  if (term) {
-    // Scroll to results
-    const resultsElement = document.getElementById('search-results');
-    resultsElement.style.display = 'block';
-    resultsElement.scrollIntoView({ behavior: 'smooth' });
-    
-    // Focus on search input for better UX
-    searchInput.focus();
-  }
-}
-
-// Display Functions
-function displaySuggestions(results, searchTerm) {
-  if (!searchTerm || results.length === 0) {
-    hideSuggestions();
-    return;
-  }
-  
-  const terms = searchTerm.toLowerCase().split(' ').filter(term => term.length > 0);
-  
-  suggestionsContent.innerHTML = results.map(item => `
-    <a href="${item.url}" class="dropdown-item">
-      <span class="icon is-small">
-        <i class="fas ${getItemIcon(item)}"></i>
-      </span>
-      ${highlightText(item.title, terms)}
-      ${item.collection ? `<span class="tag is-light is-small ml-2">${item.collection}</span>` : ''}
-    </a>
-  `).join('');
-  
-  searchSuggestions.style.display = 'block';
-}
-
-function displayResults(results, searchTerm) {
-  if (!searchTerm) {
-    searchResults.style.display = 'none';
-    return;
-  }
-  
-  const terms = searchTerm.toLowerCase().split(' ').filter(term => term.length > 0);
-  
-  // Update suggestions
-  displaySuggestions(results.slice(0, 5), searchTerm);
-  
-  // Update results count
-  resultsCount.textContent = results.length > 0 
-    ? `${results.length} ${results.length === 1 ? 'result' : 'results'} found` 
-    : '';
-  
-  // Update main results
-  resultsContainer.innerHTML = results.length > 0
-    ? results.map(item => `
-        <div class="column is-4">
-          <div class="card">
-            ${getItemImage(item)}
-            <div class="card-content">
-              <h3 class="title is-5">${highlightText(item.title, terms)}</h3>
-              <div class="content">
-                ${item.description ? `<p>${highlightText(item.description, terms)}</p>` : ''}
-                <div class="tags">
-                  ${item.tags ? item.tags.slice(0, 3).map(tag => 
-                    `<span class="tag is-light">${highlightText(tag, terms)}</span>`
-                  ).join('') : ''}
-                  ${item.collection ? `<span class="tag is-info is-light">${item.collection}</span>` : ''}
-                </div>
-              </div>
-              <a href="${item.url}" class="button is-small is-link is-outlined">
-                Read more
-              </a>
-            </div>
+    // --- Ad Placeholder HTML ---
+    const adPlaceholderHtml = `
+        <div class="column is-4-desktop is-6-tablet">
+          <div class="search-ad-placeholder has-equal-height">
+             <div><span class="icon is-medium"><i class="fas fa-ad"></i></span><p>Advertisement</p></div>
           </div>
-        </div>
-      `).join('')
-    : '';
-  
-  // Show/hide no results message
-  noResults.style.display = results.length === 0 ? 'block' : 'none';
-  searchResults.style.display = 'block';
-}
+        </div>`;
 
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', initSearch);
+    // --- Display Functions ---
+    function displaySuggestions(results, searchTerm) { /* ... same as before ... */
+        if (!searchTerm || results.length === 0) { hideSuggestions(); return; } const terms = searchTerm.toLowerCase().split(' ').filter(term => term.length > 0); suggestionsContent.innerHTML = results.map(item => { const itemUrl = (item.url && item.url.startsWith('/')) ? siteBaseUrl + item.url : item.url || '#'; const displayTitle = item.title || 'Untitled'; const collectionClass = (item.collection || 'page').toLowerCase(); return `<a href="${itemUrl}" class="dropdown-item"><span class="icon is-small mr-1"><i class="fas ${iconMap[collectionClass] || iconMap.default}"></i></span> ${highlightText(displayTitle, terms)}${item.collection ? `<span class="tag is-info is-light is-small ml-2 is-capitalized">${item.collection}</span>` : ''}</a>`; }).join(''); searchSuggestions.style.display = 'block';
+     }
+
+    // --- UPDATED: Display Results with Different Card Structures ---
+    function displayResults(results, searchTerm) {
+        searchError.style.display = 'none';
+        if (!searchTerm) { searchResults.style.display = 'none'; /* ... */ return; }
+
+        const terms = searchTerm.toLowerCase().split(' ').filter(term => term.length > 0);
+        // Update suggestions even when showing full results
+        displaySuggestions(results.slice(0, 5), searchTerm);
+        resultsCount.innerHTML = generateStatsHtml(results);
+
+        if (results.length > 0) {
+            let resultsHtml = '';
+            let displayPosition = 1;
+
+            results.forEach(item => {
+                let cardHtml = '';
+                const itemUrl = (item.url && item.url.startsWith('/')) ? siteBaseUrl + item.url : item.url || '#';
+                const displayTitle = item.title || 'Untitled';
+                const collectionClass = (item.collection || 'page').toLowerCase();
+                // Adjust description length based on type?
+                const descMaxLength = (collectionClass === 'videos') ? 80 : 120;
+                const descriptionSnippet = item.description ? highlightText(String(item.description).substring(0, descMaxLength) + (String(item.description).length > descMaxLength ? '...' : ''), terms) : '';
+                const tagsHtml = Array.isArray(item.tags) ? item.tags.slice(0, 3).map(tag => `<span class="tag is-light">${highlightText(tag, terms)}</span>`).join(' ') : '';
+
+                // --- Generate Card HTML based on Collection ---
+                if (collectionClass === 'videos') {
+                    cardHtml = `
+                        <div class="column is-4-desktop is-6-tablet">
+                          <div class="card search-result-card video-card-layout has-equal-height card-collection-videos">
+                             <div class="card-image">${getItemImage(item)}</div>
+                             <div class="card-content">
+                                 <h4 class="title is-6 video-title mb-1"><a href="${itemUrl}">${highlightText(displayTitle, terms)}</a></h4>
+                                 ${descriptionSnippet ? `<p class="video-description">${descriptionSnippet}</p>` : ''}
+                                 <div class="tags are-tiny">${tagsHtml}</div>
+                             </div>
+                             <footer class="card-footer">
+                                 <a href="${itemUrl}" class="card-footer-item is-size-7">Watch Video →</a>
+                             </footer>
+                          </div>
+                        </div>`;
+                } else if (collectionClass === 'posts') {
+                     cardHtml = `
+                        <div class="column is-4-desktop is-6-tablet">
+                          <div class="card search-result-card has-equal-height card-collection-posts">
+                            ${getItemImage(item)}
+                            <div class="card-content">
+                              <div class="content">
+                                <h3 class="title is-5 mb-2"><a href="${itemUrl}">${highlightText(displayTitle, terms)}</a></h3>
+                                ${descriptionSnippet ? `<p class="is-size-6 mb-3">${descriptionSnippet}</p>` : ''}
+                                <div class="tags are-small">
+                                  ${item.collection ? `<span class="tag is-info is-light is-capitalized">${item.collection}</span>` : ''}
+                                  ${tagsHtml}
+                                </div>
+                              </div>
+                            </div>
+                            <footer class="card-footer">
+                              <a href="${itemUrl}" class="card-footer-item is-size-7">Read Post →</a>
+                            </footer>
+                          </div>
+                        </div>`;
+                } else { // Default structure (pages, guides etc.)
+                     cardHtml = `
+                        <div class="column is-4-desktop is-6-tablet">
+                          <div class="card search-result-card has-equal-height card-collection-${collectionClass}">
+                             ${getItemImage(item)}
+                             <div class="card-content">
+                                <div class="content">
+                                    <h3 class="title is-5 mb-2"><a href="${itemUrl}">${highlightText(displayTitle, terms)}</a></h3>
+                                    ${descriptionSnippet ? `<p class="is-size-6 mb-3">${descriptionSnippet}</p>` : ''}
+                                     <div class="tags are-small">
+                                      ${item.collection ? `<span class="tag is-info is-light is-capitalized">${item.collection}</span>` : ''}
+                                      ${tagsHtml}
+                                    </div>
+                                </div>
+                             </div>
+                             <footer class="card-footer">
+                                <a href="${itemUrl}" class="card-footer-item is-size-7">View Page →</a>
+                             </footer>
+                          </div>
+                        </div>`;
+                }
+
+                resultsHtml += cardHtml;
+                displayPosition++;
+
+                // Insert ad placeholder
+                if (FIBONACCI_AD_POSITIONS.includes(displayPosition - 1)) {
+                   resultsHtml += adPlaceholderHtml;
+                   displayPosition++;
+                }
+            });
+
+            resultsContainer.innerHTML = resultsHtml;
+            noResults.style.display = 'none';
+
+        } else { // No results
+            resultsContainer.innerHTML = '';
+            /* ... display no results message ... */
+            const safeSearchTerm = searchTerm.replace(/</g, "<").replace(/>/g, ">");
+            noResults.innerHTML = `<div class="box"><span class="icon is-large has-text-grey-light"><i class="fas fa-search fa-2x"></i></span><h3 class="title is-5 mt-3">No results found for "${safeSearchTerm}"</h3><p class="subtitle is-6">Try different keywords</p></div>`;
+            noResults.style.display = 'block';
+        }
+        searchResults.style.display = 'block';
+    } // End displayResults
+
+    // --- Button Loading State ---
+    function setButtonLoading(isLoading) { /* ... same as before ... */
+        if (!searchSubmitButton) return; isSearchLoading = isLoading; if (isLoading) { searchSubmitButton.classList.add('is-loading'); searchSubmitButton.disabled = true; } else { searchSubmitButton.classList.remove('is-loading'); searchSubmitButton.disabled = false; }
+    }
+
+    // --- Event Handlers ---
+
+    // UPDATED handleSearchInput to show full results after debounce
+    function handleSearchInput() {
+        clearTimeout(searchInputDebounceTimer);
+        clearTimeout(fullSearchDebounceTimer); // Clear both timers
+        const searchTerm = searchInput.value.trim();
+
+        if (searchTerm === '') {
+            currentSearchTerm = '';
+            hideSuggestions();
+            searchResults.style.display = 'none'; // Hide section if input empty
+            return;
+        }
+
+        if (searchTerm !== currentSearchTerm && searchTerm.length > 1) {
+            currentSearchTerm = searchTerm;
+
+            // Update suggestions quickly
+            searchInputDebounceTimer = setTimeout(() => {
+                if (currentSearchTerm === searchTerm) { // Check if term hasn't changed again
+                     const resultsArray = findResults(currentSearchTerm, pages);
+                     displaySuggestions(resultsArray.slice(0, 5), currentSearchTerm);
+                }
+            }, 250); // Quick debounce for suggestions
+
+            // Update full results after a longer delay
+            fullSearchDebounceTimer = setTimeout(() => {
+                 if (currentSearchTerm === searchTerm && !isSearchLoading) { // Check term and loading state
+                    console.log("Updating full results from input...");
+                    showLoading(true); // Show main spinner
+                    try {
+                        const resultsArray = findResults(currentSearchTerm, pages);
+                        displayResults(resultsArray, currentSearchTerm);
+                    } catch (error) {
+                        console.error("Error during debounced search:", error);
+                        showError("An error occurred while searching.");
+                    } finally {
+                        showLoading(false); // Hide main spinner
+                    }
+                 }
+            }, 600); // Longer debounce for full results while typing
+        } else if (searchTerm.length <= 1) {
+            hideSuggestions();
+            // Optionally hide full results too if input becomes too short
+            // searchResults.style.display = 'none';
+        }
+     }
+
+    function handleSearchFocus() { /* ... same as before ... */
+        if (currentSearchTerm && searchResults.style.display === 'block' && !isSearchLoading) { const resultsArray = findResults(currentSearchTerm, pages); if (resultsArray.length > 0) { displaySuggestions(resultsArray.slice(0, 5), currentSearchTerm); } else { hideSuggestions(); } } else { hideSuggestions(); }
+     }
+
+    function performFullSearch() { /* ... same as before ... */
+        if (isSearchLoading) return; clearTimeout(searchInputDebounceTimer); clearTimeout(fullSearchDebounceTimer); // Clear pending timers
+        const term = searchInput.value.trim(); currentSearchTerm = term;
+        if (term.length > 1) { setButtonLoading(true); showLoading(true); hideSuggestions();
+            setTimeout(() => { try { const resultsArray = findResults(term, pages); displayResults(resultsArray, term); } catch (error) { console.error("Error during search execution:", error); showError("An error occurred while performing the search."); } finally { showLoading(false); setButtonLoading(false); const resultsElement = document.getElementById('search-results'); if (resultsElement.style.display === 'block') { resultsElement.scrollIntoView({ behavior: 'smooth', block: 'start' }); } } }, 150);
+        } else if (term === '') { hideSuggestions(); searchResults.style.display = 'none'; resultsContainer.innerHTML = ''; resultsCount.textContent = ''; noResults.style.display = 'none'; searchError.style.display = 'none'; }
+    }
+
+    // --- Initialization & Setup ---
+    function initSearch() { /* ... same as before ... */
+        if (!searchInput || !resultsContainer || !searchError || !searchSubmitButton) { console.error("Search elements not found!"); return; }
+        fetch(endpoint).then(response => { if (!response.ok) { throw new Error(`HTTP error! Status: ${response.status} fetching ${endpoint}`); } return response.json(); }).then(data => { if (!Array.isArray(data)) { throw new Error("Search index is not a valid JSON array."); } pages = data; console.log(`Search index loaded: ${pages.length} items.`); setupEventListeners(); }).catch(error => { console.error('Search Init Error:', error); showError(`Failed to load search data. Check console & ${endpoint}. Error: ${error.message}`); })
+     }
+    function setupEventListeners() { /* ... same as before ... */
+        searchInput.addEventListener('input', handleSearchInput); searchInput.addEventListener('focus', handleSearchFocus); searchInput.addEventListener('keypress', (event) => { if (event.key === 'Enter') { event.preventDefault(); performFullSearch(); } }); searchSubmitButton.addEventListener('click', performFullSearch); document.addEventListener('click', (event) => { if (!event.target.closest('#search-form')) { hideSuggestions(); } });
+     }
+
+    // --- Start Search Init ---
+    initSearch();
+
+}); // End DOMContentLoaded
 </script>
 
 <noscript>
-  <div class="notification is-warning">
-    <span class="icon">
-      <i class="fas fa-exclamation-triangle"></i>
-    </span>
-    Please enable JavaScript to use the search functionality.
-  </div>
+  <div class="container"><div class="notification is-warning mt-4"><span class="icon"><i class="fas fa-exclamation-triangle"></i></span> Please enable JavaScript for search.</div></div>
 </noscript>
