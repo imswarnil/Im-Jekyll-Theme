@@ -4,87 +4,21 @@ layout: null
 sitemap: false
 ---
 {
-  "lang": "{{ site.lang | default: "en-US" }}", // Existing
-  "dir": "{{ site.manifest.dir | default: 'auto' }}", // ADDED: Text direction (Optional)
-  "name": "{{ site.title | default: 'Your Site Name' }}", // Existing (added default)
-  "short_name": "{{ site.short_name | default: site.title | default: 'SiteName' | replace: ' ', '' }}", // Existing (added default)
-  "description": "{{ site.description | default: 'A description of your awesome website.' }}", // ADDED: Description (Recommended)
-  "scope": "{{ site.manifest.scope | default: '/' }}", // ADDED: Scope (Optional, defaults to '/')
-  "id": "{{ site.manifest.id | default: site.url | default: '/' }}", // ADDED: Unique ID (Recommended)
-  "start_url": "{{ site.manifest.start_url | default: '/' }}", // Existing (added default config option)
-  "display": "{{ site.manifest.display | default: 'standalone' }}", // Existing (added default config option)
-  "orientation": "{{ site.manifest.orientation | default: 'any' }}", // ADDED: Orientation (Recommended)
-  "theme_color": "{{ site.manifest.theme_color | default: '#e53935' }}", // Existing
-  "background_color": "{{ site.manifest.background_color | default: '#ffffff' }}", // Existing
-
-  {% comment %} --- Icons --- {% endcomment %}
-  {% if site.favicons and site.favicons.size > 0 -%}
+  "lang": "{{ site.lang | default: "en-US" }}",
+  "name": "{{ site.title }}",
+  "short_name": "{{ site.short_name | default: site.title | replace: ' ', '' }}",
+  "theme_color": "{{ site.manifest.theme_color | default: '#e53935' }}",
+  "background_color": "{{ site.manifest.background_color | default: '#ffffff' }}",
+  {% if site.favicons -%}
     "icons": [
-      {% for icon_data in site.favicons -%}
-        {% assign icon_src = icon_data[1] | default: null %}
-        {% assign icon_size_str = icon_data[0] | default: "192" | append: "x" | append: icon_data[0] %}
-        {% assign icon_type = icon_data[2] | default: "image/png" %}
-        {% assign icon_purpose = icon_data[3] | default: null %}
+      {% for icon in site.favicons -%}
       {
-        "src": "{{ icon_src | relative_url }}", // Existing (from icon_data[1])
-        "sizes": "{{ icon_size_str }}" // Existing (from icon_data[0])
-        {%- if icon_type %},"type": "{{ icon_type }}"{% endif %} // ADDED: Icon type (Recommended)
-        {%- if icon_purpose %},"purpose": "{{ icon_purpose }}"{% endif %} // ADDED: Icon purpose (Recommended for maskable)
-      }{% unless forloop.last %},{% endunless %}
+        "src": "{{ icon[1] | relative_url }}",
+        "sizes": "{{ icon[0] }}x{{ icon[0] }}"
+      }{% if forloop.last != true %},{% endif %}
       {% endfor %}
     ],
-  {% else %}
-    {% comment %} Provide default icons if none are in _config.yml {% endcomment %}
-   "icons": [
-     { "src": "/assets/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" }, // Default Icon 1
-     { "src": "/assets/icons/icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" } // Default Icon 2
-   ], // ADDED: Default fallback icons
   {% endif -%}
-
-  {% comment %} --- Screenshots (Recommended) --- {% endcomment %}
-  {% if site.manifest.screenshots and site.manifest.screenshots.size > 0 -%}
-  "screenshots": [ // ADDED: Screenshots array
-    {% for shot in site.manifest.screenshots -%}
-    {
-      "src": "{{ shot.src | relative_url }}",
-      "sizes": "{{ shot.sizes }}",
-      "type": "{{ shot.type }}"
-      {%- if shot.platform %},"platform": "{{ shot.platform }}"{% endif %}
-      {%- if shot.form_factor %},"form_factor": "{{ shot.form_factor }}"{% endif %}
-      {%- if shot.label %},"label": "{{ shot.label }}"{% endif %}
-    }{% unless forloop.last %},{% endunless %}
-    {% endfor %}
-  ],
-  {% endif -%}
-
-  {% comment %} --- Categories (Optional) --- {% endcomment %}
-  {% if site.manifest.categories and site.manifest.categories.size > 0 -%}
-  "categories": {{ site.manifest.categories | jsonify }}, // ADDED: Categories array
-  {% endif -%}
-
-  {% comment %} --- IARC Rating ID (Optional) --- {% endcomment %}
-  {% if site.manifest.iarc_rating_id -%}
-  "iarc_rating_id": "{{ site.manifest.iarc_rating_id }}", // ADDED: IARC Rating
-  {% endif -%}
-
-  {% comment %} --- Launch Handler (Recommended) --- {% endcomment %}
-  "launch_handler": { // ADDED: Launch Handler object
-     "client_mode": "{{ site.manifest.launch_handler.client_mode | default: 'focus-existing' }}"
-  },
-
-  {% comment %} --- Related Applications (Optional) --- {% endcomment %}
-  {% if site.manifest.related_applications and site.manifest.related_applications.size > 0 -%}
-  "related_applications": {{ site.manifest.related_applications | jsonify }}, // ADDED: Related Apps
-  "prefer_related_applications": {{ site.manifest.prefer_related_applications | default: false }}, // ADDED: Prefer Related Apps flag
-  {% endif -%}
-
-  {% comment %} --- Scope Extensions (Optional) --- {% endcomment %}
-  {% if site.manifest.scope_extensions and site.manifest.scope_extensions.size > 0 -%}
-   "scope_extensions": [ // ADDED: Scope Extensions array
-    {% for ext in site.manifest.scope_extensions -%}
-     {"origin": "{{ ext.origin }}"}
-     {% unless forloop.last %},{% endunless %}
-    {% endfor %}
-   ],
-  {% endif -%}
+  "start_url": "/",
+  "display": "standalone"
 }
