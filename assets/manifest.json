@@ -4,21 +4,95 @@ layout: null
 sitemap: false
 ---
 {
+  // --- Basic Info (Existing + Defaults) ---
   "lang": "{{ site.lang | default: "en-US" }}",
-  "name": "{{ site.title }}",
-  "short_name": "{{ site.short_name | default: site.title | replace: ' ', '' }}",
-  "theme_color": "{{ site.manifest.theme_color | default: '#e53935' }}",
-  "background_color": "{{ site.manifest.background_color | default: '#ffffff' }}",
-  {% if site.favicons -%}
+  "name": "{{ site.title | default: 'Your Site Name' }}",
+  "short_name": "{{ site.short_name | default: site.title | default: 'SiteName' | replace: ' ', '' }}",
+  "description": "{{ site.description | default: 'Add your site description in _config.yml' }}", // ADDED: Pulls from site.description
+
+  // --- Display & Appearance (Existing + Configurable Defaults) ---
+  "start_url": "{{ site.manifest.start_url | default: '/' }}", // Uses manifest.start_url or defaults to /
+  "display": "{{ site.manifest.display | default: 'standalone' }}", // Uses manifest.display or defaults to standalone
+  "orientation": "{{ site.manifest.orientation | default: 'any' }}", // ADDED: Pulls from manifest.orientation
+  "dir": "{{ site.manifest.dir | default: 'auto' }}", // ADDED: Pulls from manifest.dir
+  "theme_color": "{{ site.manifest.theme_color | default: '#e53935' }}", // Existing: Pulls from manifest.theme_color
+  "background_color": "{{ site.manifest.background_color | default: '#ffffff' }}", // Existing: Pulls from manifest.background_color
+
+  // --- Scope & ID (Added) ---
+  "scope": "{{ site.manifest.scope | default: '/' }}", // ADDED: Pulls from manifest.scope
+  "id": "{{ site.manifest.id | default: site.url | default: '/' }}", // ADDED: Pulls from manifest.id
+
+  // --- Icons (Enhanced Existing Logic) ---
+  {%- if site.favicons and site.favicons.size > 0 -%}
     "icons": [
-      {% for icon in site.favicons -%}
+      {% for icon_data in site.favicons -%}
+        {% assign icon_src = icon_data[1] | default: null %}
+        {% assign icon_size_str = icon_data[0] | default: "192" | append: "x" | append: icon_data[0] %}
+        {% assign icon_type = icon_data[2] | default: "image/png" %}
+        {% assign icon_purpose = icon_data[3] | default: null %}
       {
-        "src": "{{ icon[1] | relative_url }}",
-        "sizes": "{{ icon[0] }}x{{ icon[0] }}"
-      }{% if forloop.last != true %},{% endif %}
+        "src": "{{ icon_src | relative_url }}", // Existing path
+        "sizes": "{{ icon_size_str }}" // Existing size
+        {%- if icon_type %},"type": "{{ icon_type }}"{% endif %} // ADDED: Icon type support
+        {%- if icon_purpose %},"purpose": "{{ icon_purpose }}"{% endif %} // ADDED: Icon purpose support
+      }{% unless forloop.last %},{% endunless %}
       {% endfor %}
     ],
-  {% endif -%}
-  "start_url": "/",
-  "display": "standalone"
+  {%- else -%}
+    "icons": [ // ADDED: Default icons if site.favicons is empty/missing
+      { "src": "/assets/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+      { "src": "/assets/icons/icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    ],
+  {%- endif -%}
+
+  // --- Screenshots (Added - Pulls from manifest.screenshots) ---
+  {%- if site.manifest.screenshots and site.manifest.screenshots.size > 0 -%}
+  "screenshots": [
+    {% for shot in site.manifest.screenshots -%}
+    {
+      "src": "{{ shot.src | relative_url }}",
+      "sizes": "{{ shot.sizes }}",
+      "type": "{{ shot.type }}"
+      {%- if shot.platform %},"platform": "{{ shot.platform }}"{% endif %}
+      {%- if shot.form_factor %},"form_factor": "{{ shot.form_factor }}"{% endif %}
+      {%- if shot.label %},"label": "{{ shot.label }}"{% endif %}
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ],
+  {%- endif -%}
+
+  // --- Categories (Added - Pulls from manifest.categories) ---
+  {%- if site.manifest.categories and site.manifest.categories.size > 0 -%}
+  "categories": {{ site.manifest.categories | jsonify }},
+  {%- endif -%}
+
+  // --- IARC Rating (Added - Pulls from manifest.iarc_rating_id) ---
+  {%- if site.manifest.iarc_rating_id -%}
+  "iarc_rating_id": "{{ site.manifest.iarc_rating_id }}",
+  {%- endif -%}
+
+  // --- Launch Handler (Added - Pulls from manifest.launch_handler) ---
+  {%- if site.manifest.launch_handler -%}
+  "launch_handler": {
+     "client_mode": "{{ site.manifest.launch_handler.client_mode | default: 'focus-existing' }}"
+  },
+  {%- endif -%}
+
+  // --- Related Apps (Added - Pulls from manifest.related_applications) ---
+  {%- if site.manifest.related_applications and site.manifest.related_applications.size > 0 -%}
+  "related_applications": {{ site.manifest.related_applications | jsonify }},
+  "prefer_related_applications": {{ site.manifest.prefer_related_applications | default: false }},
+  {%- endif -%}
+
+  // --- Scope Extensions (Added - Pulls from manifest.scope_extensions) ---
+  {%- if site.manifest.scope_extensions and site.manifest.scope_extensions.size > 0 -%}
+   "scope_extensions": [
+    {% for ext in site.manifest.scope_extensions -%}
+     {"origin": "{{ ext.origin }}"}
+     {% unless forloop.last %},{% endunless %}
+    {% endfor %}
+   ]
+  {%- endif -%}
+
+  // Note: No comma after the last valid field. The conditional logic handles this.
 }
