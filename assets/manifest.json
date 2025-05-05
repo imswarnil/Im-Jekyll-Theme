@@ -4,56 +4,46 @@ layout: null
 sitemap: false
 ---
 {
-  "lang": "{{ site.lang | default: "en-US" }}",
-  "dir": "{{ site.manifest.dir | default: 'auto' }}", // OPTIONAL: Text direction (ltr, rtl, auto)
-  "name": "{{ site.title | default: 'Your Site Name' }}", // REQUIRED: Uses site.title, provides fallback
-  "short_name": "{{ site.short_name | default: site.title | default: 'SiteName' | replace: ' ', '' }}", // REQUIRED: Uses site.short_name or site.title, provides fallback
-  "description": "{{ site.description | default: 'A description of your awesome website.' }}", // RECOMMENDED: Uses site.description, provides fallback
-  "scope": "{{ site.manifest.scope | default: '/' }}", // OPTIONAL: Default is '/', defines navigation scope
-  "id": "{{ site.manifest.id | default: site.url | default: '/' }}", // RECOMMENDED: Unique ID. Defaults to site.url or /, consider setting explicitly.
-  "start_url": "{{ site.manifest.start_url | default: '/' }}", // REQUIRED: Defaults to '/'
-  "display": "{{ site.manifest.display | default: 'standalone' }}", // REQUIRED: Defaults to 'standalone'
-  "orientation": "{{ site.manifest.orientation | default: 'any' }}", // RECOMMENDED: Default orientation. Defaults to 'any'
-  "theme_color": "{{ site.manifest.theme_color | default: '#e53935' }}", // REQUIRED: Defaults to a red color
-  "background_color": "{{ site.manifest.background_color | default: '#ffffff' }}", // REQUIRED: Defaults to white
+  "lang": "{{ site.lang | default: "en-US" }}", // Existing
+  "dir": "{{ site.manifest.dir | default: 'auto' }}", // ADDED: Text direction (Optional)
+  "name": "{{ site.title | default: 'Your Site Name' }}", // Existing (added default)
+  "short_name": "{{ site.short_name | default: site.title | default: 'SiteName' | replace: ' ', '' }}", // Existing (added default)
+  "description": "{{ site.description | default: 'A description of your awesome website.' }}", // ADDED: Description (Recommended)
+  "scope": "{{ site.manifest.scope | default: '/' }}", // ADDED: Scope (Optional, defaults to '/')
+  "id": "{{ site.manifest.id | default: site.url | default: '/' }}", // ADDED: Unique ID (Recommended)
+  "start_url": "{{ site.manifest.start_url | default: '/' }}", // Existing (added default config option)
+  "display": "{{ site.manifest.display | default: 'standalone' }}", // Existing (added default config option)
+  "orientation": "{{ site.manifest.orientation | default: 'any' }}", // ADDED: Orientation (Recommended)
+  "theme_color": "{{ site.manifest.theme_color | default: '#e53935' }}", // Existing
+  "background_color": "{{ site.manifest.background_color | default: '#ffffff' }}", // Existing
 
   {% comment %} --- Icons --- {% endcomment %}
   {% if site.favicons and site.favicons.size > 0 -%}
-  "icons": [
-    {% for icon_data in site.favicons -%}
-      {% assign icon_src = icon_data[1] | default: null %}
-      {% assign icon_size_str = icon_data[0] | default: "192" | append: "x" | append: icon_data[0] %}
-      {% assign icon_type = icon_data[2] | default: "image/png" %}
-      {% assign icon_purpose = icon_data[3] | default: null %}
-    {
-      "src": "{{ icon_src | relative_url }}",
-      "sizes": "{{ icon_size_str }}"
-      {%- if icon_type %},"type": "{{ icon_type }}"{% endif %}
-      {%- if icon_purpose %},"purpose": "{{ icon_purpose }}"{% endif %} {# Corrected syntax #}
-    }{% unless forloop.last %},{% endunless %}
-    {% endfor %}
-  ],
+    "icons": [
+      {% for icon_data in site.favicons -%}
+        {% assign icon_src = icon_data[1] | default: null %}
+        {% assign icon_size_str = icon_data[0] | default: "192" | append: "x" | append: icon_data[0] %}
+        {% assign icon_type = icon_data[2] | default: "image/png" %}
+        {% assign icon_purpose = icon_data[3] | default: null %}
+      {
+        "src": "{{ icon_src | relative_url }}", // Existing (from icon_data[1])
+        "sizes": "{{ icon_size_str }}" // Existing (from icon_data[0])
+        {%- if icon_type %},"type": "{{ icon_type }}"{% endif %} // ADDED: Icon type (Recommended)
+        {%- if icon_purpose %},"purpose": "{{ icon_purpose }}"{% endif %} // ADDED: Icon purpose (Recommended for maskable)
+      }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ],
   {% else %}
-    {% comment %} Provide a minimal default icon if none are specified in _config.yml {% endcomment %}
+    {% comment %} Provide default icons if none are in _config.yml {% endcomment %}
    "icons": [
-     {
-       "src": "/assets/icons/icon-192x192.png", // IMPORTANT: Make sure this default icon exists!
-       "sizes": "192x192",
-       "type": "image/png",
-       "purpose": "any"
-     },
-     {
-       "src": "/assets/icons/icon-512x512.png", // IMPORTANT: Make sure this default icon exists!
-       "sizes": "512x512",
-       "type": "image/png",
-       "purpose": "any maskable" // Example including maskable
-     }
-   ],
+     { "src": "/assets/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" }, // Default Icon 1
+     { "src": "/assets/icons/icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" } // Default Icon 2
+   ], // ADDED: Default fallback icons
   {% endif -%}
 
-  {% comment %} --- Screenshots (Recommended but no sensible default) --- {% endcomment %}
+  {% comment %} --- Screenshots (Recommended) --- {% endcomment %}
   {% if site.manifest.screenshots and site.manifest.screenshots.size > 0 -%}
-  "screenshots": [
+  "screenshots": [ // ADDED: Screenshots array
     {% for shot in site.manifest.screenshots -%}
     {
       "src": "{{ shot.src | relative_url }}",
@@ -67,36 +57,34 @@ sitemap: false
   ],
   {% endif -%}
 
-  {% comment %} --- Categories (Optional, no default) --- {% endcomment %}
+  {% comment %} --- Categories (Optional) --- {% endcomment %}
   {% if site.manifest.categories and site.manifest.categories.size > 0 -%}
-  "categories": {{ site.manifest.categories | jsonify }},
+  "categories": {{ site.manifest.categories | jsonify }}, // ADDED: Categories array
   {% endif -%}
 
-  {% comment %} --- IARC Rating ID (Optional, no default) --- {% endcomment %}
+  {% comment %} --- IARC Rating ID (Optional) --- {% endcomment %}
   {% if site.manifest.iarc_rating_id -%}
-  "iarc_rating_id": "{{ site.manifest.iarc_rating_id }}",
+  "iarc_rating_id": "{{ site.manifest.iarc_rating_id }}", // ADDED: IARC Rating
   {% endif -%}
 
-  {% comment %} --- Launch Handler (Recommended, provides default) --- {% endcomment %}
-  "launch_handler": {
-     "client_mode": "{{ site.manifest.launch_handler.client_mode | default: 'focus-existing' }}" // Defaults to 'focus-existing'
+  {% comment %} --- Launch Handler (Recommended) --- {% endcomment %}
+  "launch_handler": { // ADDED: Launch Handler object
+     "client_mode": "{{ site.manifest.launch_handler.client_mode | default: 'focus-existing' }}"
   },
 
-  {% comment %} --- Related Applications (Optional, provides default for 'prefer') --- {% endcomment %}
+  {% comment %} --- Related Applications (Optional) --- {% endcomment %}
   {% if site.manifest.related_applications and site.manifest.related_applications.size > 0 -%}
-  "related_applications": {{ site.manifest.related_applications | jsonify }},
-  "prefer_related_applications": {{ site.manifest.prefer_related_applications | default: false }}, // Defaults to false
+  "related_applications": {{ site.manifest.related_applications | jsonify }}, // ADDED: Related Apps
+  "prefer_related_applications": {{ site.manifest.prefer_related_applications | default: false }}, // ADDED: Prefer Related Apps flag
   {% endif -%}
 
-  {% comment %} --- Scope Extensions (Optional, no default) --- {% endcomment %}
+  {% comment %} --- Scope Extensions (Optional) --- {% endcomment %}
   {% if site.manifest.scope_extensions and site.manifest.scope_extensions.size > 0 -%}
-   "scope_extensions": [
+   "scope_extensions": [ // ADDED: Scope Extensions array
     {% for ext in site.manifest.scope_extensions -%}
      {"origin": "{{ ext.origin }}"}
      {% unless forloop.last %},{% endunless %}
     {% endfor %}
    ],
   {% endif -%}
-
-  "_" : "_" // Dummy entry to prevent trailing comma issues
 }

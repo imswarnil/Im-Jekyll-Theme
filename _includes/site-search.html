@@ -1,12 +1,12 @@
 <!-- HTML structure remains the same as the previous full example -->
-<section class="section">
+<section class="section search-section"> {/* Added class for targeting */}
   <div class="container">
     <!-- Search Form -->
     <div class="columns is-centered">
       <div class="column is-half">
         <form id="search-form" class="field has-addons" onsubmit="return false;">
           <div class="control is-expanded has-icons-left">
-            <input class="input is-medium" type="text" placeholder="Search..." name="q" id="search-input" autocomplete="off">
+            <input class="input is-medium" type="text" placeholder="Search posts, videos, pages..." name="q" id="search-input" autocomplete="off">
             <span class="icon is-left"><i class="fas fa-search"></i></span>
             <div class="dropdown" id="search-suggestions" style="display: none;">
               <div class="dropdown-menu" style="width: 100%;"><div class="dropdown-content" id="suggestions-content"></div></div>
@@ -28,9 +28,14 @@
     <div id="search-results" class="mt-5" style="display: none;">
        <div class="level">
          <div class="level-left"><h2 class="title is-4">Search Results</h2></div>
-         <div class="level-right"><p class="has-text-grey" id="results-count"></p></div>
+         <div class="level-right"><p class="has-text-grey is-size-7" id="results-count"></p></div> {/* Smaller count text */}
        </div>
-       <div class="columns is-multiline" id="results-container"></div>
+       {/* This container gets the grid background */}
+       <div class="search-results-grid-background">
+           <div class="columns is-multiline" id="results-container">
+               {/* Results Cards & Ads Injected Here */}
+           </div>
+       </div>
        <div id="search-loading-spinner" class="has-text-centered mt-5 py-6" style="display: none;">
          <div class="loading-spinner"></div><p class="has-text-grey mt-3">Searching...</p>
        </div>
@@ -44,8 +49,20 @@
 
 <!-- CSS -->
 <style>
+  /* --- Subtle Grid Background --- */
+  .search-results-grid-background {
+    padding: 1.5rem 0.5rem; /* Add some padding around the grid */
+    background-color: #fdfdfd; /* Very light off-white */
+    background-image:
+      linear-gradient(to right, rgba(219, 219, 219, 0.3) 1px, transparent 1px), /* Vertical lines */
+      linear-gradient(to bottom, rgba(219, 219, 219, 0.3) 1px, transparent 1px); /* Horizontal lines */
+    background-size: 20px 20px; /* Size of the grid squares */
+    border-radius: 6px;
+    margin-top: 1rem; /* Space below results title */
+  }
+
   /* --- Loading --- */
-  .loading-spinner { border: 4px solid rgba(0, 0, 0, 0.1); width: 40px; height: 40px; border-radius: 50%; border-left-color: #00d1b2; animation: spin 1s ease infinite; display: inline-block; }
+  .loading-spinner { border: 4px solid rgba(0, 0, 0, 0.1); width: 40px; height: 40px; border-radius: 50%; border-left-color: #7957d5; /* Bulma primary variant */ animation: spin 1s ease infinite; display: inline-block; }
   @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
   #search-submit-button.is-loading .search-button-text, #search-submit-button.is-loading .search-button-icon { display: none; }
   #search-submit-button.is-loading .search-button-loading { display: inline-block !important; }
@@ -53,70 +70,91 @@
   /* --- Card Basics & Height --- */
   .search-result-card.has-equal-height, .search-ad-placeholder.has-equal-height { display: flex; flex-direction: column; height: 100%; }
   .search-result-card.has-equal-height .card-content { flex-grow: 1; }
-  .search-result-card.has-equal-height .card-footer { margin-top: auto; }
+  .search-result-card.has-equal-height .card-footer { margin-top: auto; background-color: transparent; border-top: 1px solid #eee; }
   .card-image .image img { object-fit: cover; width: 100%; height: 100%; }
-  .card-image .image.is-16by9 { padding-top: 56.25%; position: relative; }
+  .card-image .image.is-16by9 { padding-top: 56.25%; position: relative; background-color: #f0f0f0; /* BG for loading images */ }
   .card-image .image.is-16by9 img { position: absolute; top: 0; left: 0; }
+  .card-image[data-fallback-for] { min-height: 150px; /* Give fallback more space */ display: flex; align-items: center; justify-content: center; }
 
   /* --- Ad Placeholder Styling --- */
-  .search-ad-placeholder { display: flex; align-items: center; justify-content: center; background-color: #fafafa; border: 1px dashed #dbdbdb; min-height: 250px; /* Adjusted min-height slightly */ text-align: center; color: #7a7a7a; font-size: 0.9em; box-shadow: 0 2px 3px rgba(10,10,10,0.1); border-radius: 4px; padding: 1rem; }
+  .search-ad-placeholder { display: flex; align-items: center; justify-content: center; background-color: rgba(250, 250, 250, 0.8); /* Slightly transparent */ border: 1px dashed #ccc; min-height: 250px; text-align: center; color: #999; font-size: 0.9em; border-radius: 6px; padding: 1rem; }
   .search-ad-placeholder > div { width: 100%; }
-  .search-ad-placeholder .icon { margin-bottom: 0.5em; }
+  .search-ad-placeholder .icon { margin-bottom: 0.5em; color: #ccc; }
 
   /* --- Base Search Result Card --- */
    .search-result-card {
       background-color: #fff;
-      border-radius: 5px;
-      box-shadow: 0 3px 5px rgba(10,10,10,0.1), 0 0 0 1px rgba(10,10,10,0.05);
+      border-radius: 6px;
+      box-shadow: 0 4px 8px rgba(30,30,30,0.08), 0 0 1px rgba(30,30,30,0.1);
       overflow: hidden;
-      border-left: 5px solid #dbdbdb; /* Default border */
-      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+      border: 1px solid #eee; /* Base border */
+      position: relative; /* Needed for badge positioning */
   }
-  .search-result-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 12px rgba(10,10,10,0.15), 0 0 0 1px rgba(10,10,10,0.07);
-  }
+  .search-result-card:hover { transform: translateY(-4px); box-shadow: 0 8px 16px rgba(30,30,30,0.12), 0 0 1px rgba(30,30,30,0.1); }
+  .search-result-card .card-content { padding: 1rem 1.25rem; }
+  .search-result-card .title a { color: #363636; font-weight: 600; }
+  .search-result-card .title a:hover { color: #7957d5; }
+  .search-result-card .content p { font-size: 0.9rem; color: #555; line-height: 1.5; }
+  .search-result-card .tags { margin-top: 0.75rem !important; } /* Ensure space above tags */
+  .search-result-card .card-footer a { font-size: 0.75rem; color: #7a7a7a; text-transform: uppercase; letter-spacing: 0.5px; }
+  .search-result-card .card-footer a:hover { color: #7957d5; background-color: #f9f9f9; }
 
-  /* --- Collection Specific Styles (MORE DISTINCT) --- */
+  /* --- Card Type Badge/Pill --- */
+  .card-type-badge {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      padding: 0.2em 0.6em;
+      font-size: 0.7rem !important; /* is-size-7 equivalent */
+      font-weight: bold;
+      text-transform: uppercase;
+      border-radius: 4px;
+      color: #fff !important; /* White text */
+      z-index: 10;
+      letter-spacing: 0.5px;
+  }
+  .card-type-badge .icon { font-size: 0.8em; margin-right: 0.3em; }
+
+  /* Badge colors based on collection */
+  .card-collection-posts .card-type-badge { background-color: hsl(171, 100%, 41%); } /* Bulma primary */
+  .card-collection-videos .card-type-badge { background-color: hsl(217, 71%, 53%); } /* Bulma info */
+  .card-collection-guides .card-type-badge { background-color: hsl(48, 100%, 67%); color: rgba(0,0,0,0.7) !important; } /* Bulma warning - dark text */
+  .card-collection-tutorials .card-type-badge { background-color: hsl(348, 100%, 61%); } /* Bulma danger */
+  .card-collection-page .card-type-badge { background-color: hsl(0, 0%, 48%); } /* Bulma grey */
+  /* Default badge */
+  .card-collection-default .card-type-badge { background-color: hsl(0, 0%, 71%); }
+
+  /* --- Collection Specific Styles --- */
 
   /* Post Card */
-  .search-result-card.card-collection-posts { border-left-color: hsl(171, 100%, 41%); }
-  .search-result-card.card-collection-posts .card-content .title a { color: hsl(171, 100%, 29%); }
-  .search-result-card.card-collection-posts .card-footer a { color: hsl(171, 100%, 35%); font-weight: 600; }
+  .search-result-card.card-collection-posts { border-top: 4px solid hsl(171, 100%, 41%); border-left: none; }
 
   /* Video Card */
   .search-result-card.card-collection-videos {
-      border-left-color: hsl(217, 71%, 53%);
-      background-color: hsl(217, 71%, 97%); /* Light blue background */
+      border-top: 4px solid hsl(217, 71%, 53%); border-left: none;
+      background-color: #f8fbff; /* Lighter blue */
   }
-  /* Styles targeting the specific video layout generated by JS */
-  .video-card-layout .card-image { max-height: 180px; overflow: hidden; border-bottom: 1px solid #eee; }
+  .video-card-layout .card-image { /* Image takes up more space */
+      border-bottom: 1px solid #eaf2fa;
+  }
   .video-card-layout .card-content { padding: 0.75rem 1rem; }
-  .video-card-layout .video-title a { font-size: 1.05rem; line-height: 1.3; font-weight: 600; margin-bottom: 0.25rem; display: block; color: hsl(217, 71%, 45%); }
-  .video-card-layout .video-description { font-size: 0.85rem; color: #555; margin-bottom: 0.5rem; }
-  .video-card-layout .card-footer { background-color: transparent; border-top: none; padding: 0.25rem 1rem 0.75rem; }
-  .video-card-layout .card-footer-item { color: hsl(217, 71%, 53%); font-weight: bold; }
+  .video-card-layout .video-title a { font-size: 1rem; line-height: 1.3; font-weight: 600; margin-bottom: 0.25rem; display: block; color: hsl(217, 71%, 40%); }
+  .video-card-layout .video-description { font-size: 0.8rem; color: #667; margin-bottom: 0.5rem; }
+  .video-card-layout .card-footer { border-top: none; padding: 0.5rem 1rem 0.75rem; }
+  .video-card-layout .card-footer-item { color: hsl(217, 71%, 53%); font-weight: 600; justify-content: flex-end; } /* Align right */
 
   /* Guide Card */
   .search-result-card.card-collection-guides {
-      border-left-color: hsl(48, 100%, 67%);
-      background-color: hsl(48, 100%, 98%); /* Light yellow background */
+      border-top: 4px solid hsl(48, 100%, 67%); border-left: none;
+      background-color: #fffefa; /* Lighter yellow */
   }
-   .search-result-card.card-collection-guides .card-content .title a { color: hsl(36, 86%, 54%); }
+   .search-result-card.card-collection-guides .card-content .title a { color: hsl(36, 86%, 50%); }
 
   /* Page Card */
   .search-result-card.card-collection-page {
-      border-left-color: hsl(0, 0%, 71%);
-      background-color: #f9f9f9; /* Very light grey */
+      border-top: 4px solid hsl(0, 0%, 71%); border-left: none;
    }
-   .search-result-card.card-collection-page .card-footer a { color: #555; }
-
-  /* Fallback Icon Styling */
-  .search-result-card .card-image[data-fallback-for] {
-      min-height: 120px;
-      background-color: #f5f5f5;
-      border-bottom: 1px solid #eee;
-  }
 
 </style>
 
@@ -131,13 +169,13 @@
     const siteBaseUrl = '{{ site.baseurl | default: "" }}';
     const endpoint = '{{ "/assets/search.json" | relative_url }}';
     const iconMap = { 'post': 'fa-file-alt', 'posts': 'fa-file-alt', 'page': 'fa-file', 'article': 'fa-newspaper', 'guide': 'fa-book', 'tutorial': 'fa-graduation-cap', 'video': 'fa-video', 'default': 'fa-file' };
-    const FIBONACCI_AD_POSITIONS = [1, 2, 3, 5, 8, 13, 21];
+    const FIBONACCI_AD_POSITIONS = [2, 4, 7, 12]; // Adjusted positions slightly (1-based index)
 
     // --- State ---
     let pages = [];
     let currentSearchTerm = '';
-    let searchInputDebounceTimer; // Timer for input updates
-    let fullSearchDebounceTimer; // Timer for full results update on typing
+    let searchInputDebounceTimer;
+    let fullSearchDebounceTimer;
     let isSearchLoading = false;
 
     // --- DOM Elements ---
@@ -188,29 +226,28 @@
 
     // --- Generate Result Stats ---
     function generateStatsHtml(results) { /* ... same as before ... */
-        if (!results || results.length === 0) { return 'No results found'; } const total = results.length; const stats = results.reduce((acc, item) => { const collectionName = item.collection || 'page'; acc[collectionName] = (acc[collectionName] || 0) + 1; return acc; }, {}); const statsString = Object.entries(stats).map(([collection, count]) => `${count} ${collection}${count > 1 ? 's' : ''}`).join(', '); return `${total} ${total === 1 ? 'result' : 'results'} found (${statsString})`;
+        if (!results || results.length === 0) { return 'No results found'; } const total = results.length; const stats = results.reduce((acc, item) => { const collectionName = item.collection || 'page'; acc[collectionName] = (acc[collectionName] || 0) + 1; return acc; }, {}); const statsString = Object.entries(stats).map(([collection, count]) => `${count} ${collection}${count > 1 ? 's' : ''}`).join(', '); return `${total} ${total === 1 ? 'result' : 'results'} found <span class="is-hidden-mobile">(${statsString})</span>`; // Hide stats breakdown on mobile
      }
 
     // --- Ad Placeholder HTML ---
     const adPlaceholderHtml = `
         <div class="column is-4-desktop is-6-tablet">
           <div class="search-ad-placeholder has-equal-height">
-             <div><span class="icon is-medium"><i class="fas fa-ad"></i></span><p>Advertisement</p></div>
+             <div><span class="icon is-large has-text-grey-lighter"><i class="fas fa-ad fa-2x"></i></span><p class="has-text-grey-light is-size-7 mt-2">Advertisement</p></div>
           </div>
-        </div>`;
+        </div>`; // Subtle ad placeholder
 
     // --- Display Functions ---
     function displaySuggestions(results, searchTerm) { /* ... same as before ... */
         if (!searchTerm || results.length === 0) { hideSuggestions(); return; } const terms = searchTerm.toLowerCase().split(' ').filter(term => term.length > 0); suggestionsContent.innerHTML = results.map(item => { const itemUrl = (item.url && item.url.startsWith('/')) ? siteBaseUrl + item.url : item.url || '#'; const displayTitle = item.title || 'Untitled'; const collectionClass = (item.collection || 'page').toLowerCase(); return `<a href="${itemUrl}" class="dropdown-item"><span class="icon is-small mr-1"><i class="fas ${iconMap[collectionClass] || iconMap.default}"></i></span> ${highlightText(displayTitle, terms)}${item.collection ? `<span class="tag is-info is-light is-small ml-2 is-capitalized">${item.collection}</span>` : ''}</a>`; }).join(''); searchSuggestions.style.display = 'block';
      }
 
-    // --- UPDATED: Display Results with Different Card Structures ---
+    // --- UPDATED: Display Results with Badges and Distinct Structures ---
     function displayResults(results, searchTerm) {
         searchError.style.display = 'none';
         if (!searchTerm) { searchResults.style.display = 'none'; /* ... */ return; }
 
         const terms = searchTerm.toLowerCase().split(' ').filter(term => term.length > 0);
-        // Update suggestions even when showing full results
         displaySuggestions(results.slice(0, 5), searchTerm);
         resultsCount.innerHTML = generateStatsHtml(results);
 
@@ -222,22 +259,27 @@
                 let cardHtml = '';
                 const itemUrl = (item.url && item.url.startsWith('/')) ? siteBaseUrl + item.url : item.url || '#';
                 const displayTitle = item.title || 'Untitled';
-                const collectionClass = (item.collection || 'page').toLowerCase();
-                // Adjust description length based on type?
+                const collectionName = item.collection || 'page'; // Get collection name
+                const collectionClass = collectionName.toLowerCase();
                 const descMaxLength = (collectionClass === 'videos') ? 80 : 120;
                 const descriptionSnippet = item.description ? highlightText(String(item.description).substring(0, descMaxLength) + (String(item.description).length > descMaxLength ? '...' : ''), terms) : '';
                 const tagsHtml = Array.isArray(item.tags) ? item.tags.slice(0, 3).map(tag => `<span class="tag is-light">${highlightText(tag, terms)}</span>`).join(' ') : '';
+
+                // --- Create Badge HTML ---
+                const badgeIconClass = iconMap[collectionClass] || iconMap.default;
+                const badgeHtml = `<span class="card-type-badge"><span class="icon is-small"><i class="fas ${badgeIconClass}"></i></span> ${collectionName}</span>`;
 
                 // --- Generate Card HTML based on Collection ---
                 if (collectionClass === 'videos') {
                     cardHtml = `
                         <div class="column is-4-desktop is-6-tablet">
                           <div class="card search-result-card video-card-layout has-equal-height card-collection-videos">
+                             ${badgeHtml} {/* Add badge */}
                              <div class="card-image">${getItemImage(item)}</div>
                              <div class="card-content">
                                  <h4 class="title is-6 video-title mb-1"><a href="${itemUrl}">${highlightText(displayTitle, terms)}</a></h4>
                                  ${descriptionSnippet ? `<p class="video-description">${descriptionSnippet}</p>` : ''}
-                                 <div class="tags are-tiny">${tagsHtml}</div>
+                                 <div class="tags are-tiny mt-2">${tagsHtml}</div>
                              </div>
                              <footer class="card-footer">
                                  <a href="${itemUrl}" class="card-footer-item is-size-7">Watch Video →</a>
@@ -248,13 +290,13 @@
                      cardHtml = `
                         <div class="column is-4-desktop is-6-tablet">
                           <div class="card search-result-card has-equal-height card-collection-posts">
+                            ${badgeHtml} {/* Add badge */}
                             ${getItemImage(item)}
                             <div class="card-content">
                               <div class="content">
                                 <h3 class="title is-5 mb-2"><a href="${itemUrl}">${highlightText(displayTitle, terms)}</a></h3>
                                 ${descriptionSnippet ? `<p class="is-size-6 mb-3">${descriptionSnippet}</p>` : ''}
                                 <div class="tags are-small">
-                                  ${item.collection ? `<span class="tag is-info is-light is-capitalized">${item.collection}</span>` : ''}
                                   ${tagsHtml}
                                 </div>
                               </div>
@@ -268,13 +310,13 @@
                      cardHtml = `
                         <div class="column is-4-desktop is-6-tablet">
                           <div class="card search-result-card has-equal-height card-collection-${collectionClass}">
+                             ${badgeHtml} {/* Add badge */}
                              ${getItemImage(item)}
                              <div class="card-content">
                                 <div class="content">
                                     <h3 class="title is-5 mb-2"><a href="${itemUrl}">${highlightText(displayTitle, terms)}</a></h3>
                                     ${descriptionSnippet ? `<p class="is-size-6 mb-3">${descriptionSnippet}</p>` : ''}
                                      <div class="tags are-small">
-                                      ${item.collection ? `<span class="tag is-info is-light is-capitalized">${item.collection}</span>` : ''}
                                       ${tagsHtml}
                                     </div>
                                 </div>
@@ -288,12 +330,7 @@
 
                 resultsHtml += cardHtml;
                 displayPosition++;
-
-                // Insert ad placeholder
-                if (FIBONACCI_AD_POSITIONS.includes(displayPosition - 1)) {
-                   resultsHtml += adPlaceholderHtml;
-                   displayPosition++;
-                }
+                if (FIBONACCI_AD_POSITIONS.includes(displayPosition - 1)) { resultsHtml += adPlaceholderHtml; displayPosition++; }
             });
 
             resultsContainer.innerHTML = resultsHtml;
@@ -302,87 +339,31 @@
         } else { // No results
             resultsContainer.innerHTML = '';
             /* ... display no results message ... */
-            const safeSearchTerm = searchTerm.replace(/</g, "<").replace(/>/g, ">");
-            noResults.innerHTML = `<div class="box"><span class="icon is-large has-text-grey-light"><i class="fas fa-search fa-2x"></i></span><h3 class="title is-5 mt-3">No results found for "${safeSearchTerm}"</h3><p class="subtitle is-6">Try different keywords</p></div>`;
-            noResults.style.display = 'block';
+            const safeSearchTerm = searchTerm.replace(/</g, "<").replace(/>/g, ">"); noResults.innerHTML = `<div class="box"><span class="icon is-large has-text-grey-light"><i class="fas fa-search fa-2x"></i></span><h3 class="title is-5 mt-3">No results found for "${safeSearchTerm}"</h3><p class="subtitle is-6">Try different keywords</p></div>`; noResults.style.display = 'block';
         }
         searchResults.style.display = 'block';
     } // End displayResults
 
     // --- Button Loading State ---
-    function setButtonLoading(isLoading) { /* ... same as before ... */
-        if (!searchSubmitButton) return; isSearchLoading = isLoading; if (isLoading) { searchSubmitButton.classList.add('is-loading'); searchSubmitButton.disabled = true; } else { searchSubmitButton.classList.remove('is-loading'); searchSubmitButton.disabled = false; }
-    }
+    function setButtonLoading(isLoading) { /* ... same as before ... */ if (!searchSubmitButton) return; isSearchLoading = isLoading; if (isLoading) { searchSubmitButton.classList.add('is-loading'); searchSubmitButton.disabled = true; } else { searchSubmitButton.classList.remove('is-loading'); searchSubmitButton.disabled = false; } }
 
-    // --- Event Handlers ---
-
-    // UPDATED handleSearchInput to show full results after debounce
-    function handleSearchInput() {
-        clearTimeout(searchInputDebounceTimer);
-        clearTimeout(fullSearchDebounceTimer); // Clear both timers
+    // --- Event Handlers (Using previous version with results on type) ---
+     function handleSearchInput() {
+        clearTimeout(searchInputDebounceTimer); clearTimeout(fullSearchDebounceTimer);
         const searchTerm = searchInput.value.trim();
-
-        if (searchTerm === '') {
-            currentSearchTerm = '';
-            hideSuggestions();
-            searchResults.style.display = 'none'; // Hide section if input empty
-            return;
-        }
-
+        if (searchTerm === '') { currentSearchTerm = ''; hideSuggestions(); searchResults.style.display = 'none'; return; }
         if (searchTerm !== currentSearchTerm && searchTerm.length > 1) {
             currentSearchTerm = searchTerm;
-
-            // Update suggestions quickly
-            searchInputDebounceTimer = setTimeout(() => {
-                if (currentSearchTerm === searchTerm) { // Check if term hasn't changed again
-                     const resultsArray = findResults(currentSearchTerm, pages);
-                     displaySuggestions(resultsArray.slice(0, 5), currentSearchTerm);
-                }
-            }, 250); // Quick debounce for suggestions
-
-            // Update full results after a longer delay
-            fullSearchDebounceTimer = setTimeout(() => {
-                 if (currentSearchTerm === searchTerm && !isSearchLoading) { // Check term and loading state
-                    console.log("Updating full results from input...");
-                    showLoading(true); // Show main spinner
-                    try {
-                        const resultsArray = findResults(currentSearchTerm, pages);
-                        displayResults(resultsArray, currentSearchTerm);
-                    } catch (error) {
-                        console.error("Error during debounced search:", error);
-                        showError("An error occurred while searching.");
-                    } finally {
-                        showLoading(false); // Hide main spinner
-                    }
-                 }
-            }, 600); // Longer debounce for full results while typing
-        } else if (searchTerm.length <= 1) {
-            hideSuggestions();
-            // Optionally hide full results too if input becomes too short
-            // searchResults.style.display = 'none';
-        }
+            searchInputDebounceTimer = setTimeout(() => { if (currentSearchTerm === searchTerm) { const r = findResults(currentSearchTerm, pages); displaySuggestions(r.slice(0, 5), currentSearchTerm); } }, 250);
+            fullSearchDebounceTimer = setTimeout(() => { if (currentSearchTerm === searchTerm && !isSearchLoading) { console.log("Updating full results from input..."); showLoading(true); try { const r = findResults(currentSearchTerm, pages); displayResults(r, currentSearchTerm); } catch (e) { console.error("Error during debounced search:", e); showError("An error occurred while searching."); } finally { showLoading(false); } } }, 600);
+        } else if (searchTerm.length <= 1) { hideSuggestions(); }
      }
-
-    function handleSearchFocus() { /* ... same as before ... */
-        if (currentSearchTerm && searchResults.style.display === 'block' && !isSearchLoading) { const resultsArray = findResults(currentSearchTerm, pages); if (resultsArray.length > 0) { displaySuggestions(resultsArray.slice(0, 5), currentSearchTerm); } else { hideSuggestions(); } } else { hideSuggestions(); }
-     }
-
-    function performFullSearch() { /* ... same as before ... */
-        if (isSearchLoading) return; clearTimeout(searchInputDebounceTimer); clearTimeout(fullSearchDebounceTimer); // Clear pending timers
-        const term = searchInput.value.trim(); currentSearchTerm = term;
-        if (term.length > 1) { setButtonLoading(true); showLoading(true); hideSuggestions();
-            setTimeout(() => { try { const resultsArray = findResults(term, pages); displayResults(resultsArray, term); } catch (error) { console.error("Error during search execution:", error); showError("An error occurred while performing the search."); } finally { showLoading(false); setButtonLoading(false); const resultsElement = document.getElementById('search-results'); if (resultsElement.style.display === 'block') { resultsElement.scrollIntoView({ behavior: 'smooth', block: 'start' }); } } }, 150);
-        } else if (term === '') { hideSuggestions(); searchResults.style.display = 'none'; resultsContainer.innerHTML = ''; resultsCount.textContent = ''; noResults.style.display = 'none'; searchError.style.display = 'none'; }
-    }
+    function handleSearchFocus() { /* ... same as before ... */ if (currentSearchTerm && searchResults.style.display === 'block' && !isSearchLoading) { const r = findResults(currentSearchTerm, pages); if (r.length > 0) { displaySuggestions(r.slice(0, 5), currentSearchTerm); } else { hideSuggestions(); } } else { hideSuggestions(); } }
+    function performFullSearch() { /* ... same as before ... */ if (isSearchLoading) return; clearTimeout(searchInputDebounceTimer); clearTimeout(fullSearchDebounceTimer); const term = searchInput.value.trim(); currentSearchTerm = term; if (term.length > 1) { setButtonLoading(true); showLoading(true); hideSuggestions(); setTimeout(() => { try { const r = findResults(term, pages); displayResults(r, term); } catch (e) { console.error("Error during search execution:", e); showError("An error occurred while performing the search."); } finally { showLoading(false); setButtonLoading(false); const el = document.getElementById('search-results'); if (el.style.display === 'block') { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); } } }, 150); } else if (term === '') { hideSuggestions(); searchResults.style.display = 'none'; /* clear rest */ } }
 
     // --- Initialization & Setup ---
-    function initSearch() { /* ... same as before ... */
-        if (!searchInput || !resultsContainer || !searchError || !searchSubmitButton) { console.error("Search elements not found!"); return; }
-        fetch(endpoint).then(response => { if (!response.ok) { throw new Error(`HTTP error! Status: ${response.status} fetching ${endpoint}`); } return response.json(); }).then(data => { if (!Array.isArray(data)) { throw new Error("Search index is not a valid JSON array."); } pages = data; console.log(`Search index loaded: ${pages.length} items.`); setupEventListeners(); }).catch(error => { console.error('Search Init Error:', error); showError(`Failed to load search data. Check console & ${endpoint}. Error: ${error.message}`); })
-     }
-    function setupEventListeners() { /* ... same as before ... */
-        searchInput.addEventListener('input', handleSearchInput); searchInput.addEventListener('focus', handleSearchFocus); searchInput.addEventListener('keypress', (event) => { if (event.key === 'Enter') { event.preventDefault(); performFullSearch(); } }); searchSubmitButton.addEventListener('click', performFullSearch); document.addEventListener('click', (event) => { if (!event.target.closest('#search-form')) { hideSuggestions(); } });
-     }
+    function initSearch() { /* ... same as before ... */ if (!searchInput || !resultsContainer || !searchError || !searchSubmitButton) { console.error("Search elements not found!"); return; } fetch(endpoint).then(r => { if (!r.ok) throw Error(r.statusText); return r.json(); }).then(d => { if (!Array.isArray(d)) throw Error("Invalid JSON"); pages = d; console.log(`Search index loaded: ${pages.length} items.`); setupEventListeners(); }).catch(e => { console.error('Search Init Error:', e); showError(`Failed to load search data. Check console & ${endpoint}. Error: ${e.message}`); }) }
+    function setupEventListeners() { /* ... same as before ... */ searchInput.addEventListener('input', handleSearchInput); searchInput.addEventListener('focus', handleSearchFocus); searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); performFullSearch(); } }); searchSubmitButton.addEventListener('click', performFullSearch); document.addEventListener('click', (e) => { if (!e.target.closest('#search-form')) { hideSuggestions(); } }); }
 
     // --- Start Search Init ---
     initSearch();
