@@ -4,3 +4,119 @@ $link : $primary;
 $family-sans-serif: "Outfit", "Arial", sans-serif !default;
 $family-monospace: "Roboto Mono", monospace !default;
 @import "../node_modules/bulma/sass/index";
+
+/*
+==========================================================================
+  Bulma Hero Grid Line Enhancement
+==========================================================================
+  Adds a subtle grid/dotted line background pattern to Bulma hero sections.
+  Colors adapt based on hero's background color.
+--------------------------------------------------------------------------
+*/
+
+.hero {
+    position: relative; /* Needed for the ::before pseudo-element to be positioned correctly */
+    overflow: hidden;   /* Ensures the pseudo-element doesn't overflow if there's a slight miscalculation */
+}
+
+/* --- Default Grid Line (for light/unspecified background heroes) --- */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(rgba(0, 0, 0, 0.06) 0.5px, transparent 0.5px); /* Default dark dots */
+    background-size: 20px 20px; /* Adjust dot spacing */
+    opacity: 0.7; /* Adjust opacity of the grid */
+    z-index: 0; /* Ensure it's behind hero content */
+    pointer-events: none; /* So it doesn't interfere with clicks */
+}
+
+/* --- Grid Lines for Primary Hero --- */
+.hero.is-primary::before {
+    /*
+      For primary color, we need to determine a contrasting dot color.
+      If your primary color is dark, use light dots. If light, use dark dots.
+      Let's assume your primary is the red #e53935, which is relatively dark.
+      So, we'll use light dots.
+    */
+    background-image: radial-gradient(rgba(255, 255, 255, 0.12) 0.5px, transparent 0.5px); /* Light dots */
+}
+
+/* --- Grid Lines for Link Hero --- */
+.hero.is-link::before {
+    /* Bulma's default link color is often a blue. Assume it's dark enough for light dots. */
+    background-image: radial-gradient(rgba(255, 255, 255, 0.12) 0.5px, transparent 0.5px);
+}
+
+/* --- Grid Lines for Info Hero --- */
+.hero.is-info::before {
+    /* Bulma's default info color is blue. */
+    background-image: radial-gradient(rgba(255, 255, 255, 0.12) 0.5px, transparent 0.5px);
+}
+
+/* --- Grid Lines for Success Hero --- */
+.hero.is-success::before {
+    /* Bulma's default success color is green. */
+    background-image: radial-gradient(rgba(255, 255, 255, 0.15) 0.5px, transparent 0.5px); /* Slightly more opaque if green is lighter */
+}
+
+/* --- Grid Lines for Warning Hero --- */
+.hero.is-warning::before {
+    /* Bulma's default warning color is yellow/orange, which is light. Use dark dots. */
+    background-image: radial-gradient(rgba(0, 0, 0, 0.08) 0.5px, transparent 0.5px); /* Dark dots */
+}
+
+/* --- Grid Lines for Danger Hero --- */
+.hero.is-danger::before {
+    /* Bulma's default danger color is red (similar to your primary). */
+    background-image: radial-gradient(rgba(255, 255, 255, 0.12) 0.5px, transparent 0.5px); /* Light dots */
+}
+
+/* --- Grid Lines for Light Hero --- */
+.hero.is-light::before {
+    /* Bulma's .is-light hero has a light background. Use dark dots. */
+    background-image: radial-gradient(rgba(0, 0, 0, 0.06) 0.5px, transparent 0.5px);
+}
+
+/* --- Grid Lines for Dark Hero --- */
+.hero.is-dark::before {
+    /* Bulma's .is-dark hero has a dark background. Use light dots. */
+    background-image: radial-gradient(rgba(255, 255, 255, 0.08) 0.5px, transparent 0.5px); /* Very subtle light dots */
+}
+
+/* --- Grid Lines for Black Hero --- */
+.hero.is-black::before {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.08) 0.5px, transparent 0.5px);
+}
+
+/* --- Grid Lines for White Hero --- */
+.hero.is-white::before {
+    /* Same as default, or could be slightly different if you want a specific effect on pure white */
+    background-image: radial-gradient(rgba(0, 0, 0, 0.05) 0.5px, transparent 0.5px);
+}
+
+
+/*
+  Ensure hero content (hero-head, hero-body, hero-foot) is displayed
+  above the ::before pseudo-element grid.
+*/
+.hero .hero-head,
+.hero .hero-body,
+.hero .hero-foot {
+    position: relative; /* Create a new stacking context */
+    z-index: 1;         /* Ensure content is above the pseudo-element */
+}
+
+/*
+  If you have other custom background classes for heroes,
+  you'll need to add ::before styles for them too.
+  Example:
+*/
+/*
+.hero.im-hero-custom-bg-slate::before {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.1) 0.5px, transparent 0.5px);
+}
+*/
