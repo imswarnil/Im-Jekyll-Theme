@@ -1,6 +1,180 @@
+// main.scss
 
-$primary: #e53935;
-$link : $primary;
-$family-sans-serif: "Outfit", "Arial", sans-serif !default;
+// 1. Import any functions or mixins if you have them (optional)
+// @import "utils/functions";
+// @import "utils/mixins";
+
+// 2. Define your custom brand colors and font families
+// These will override Bulma's defaults BEFORE Bulma is imported.
+$im-brand-purple: #7B68EE; // Enji purple for accents, logo
+$im-brand-blue-active: #2072FF; // Enji blue for active nav link
+$im-brand-primary: $im-brand-purple; // Let's make the site's primary color the purple
+$im-brand-link: $im-brand-purple;   // Default link color (can be overridden by nav styles)
+
+$im-text-dark: #2c3e50;    // For main text, headings
+$im-text-light: #555;     // For secondary text, inactive nav links
+$im-navbar-background: #ffffff;
+$im-navbar-border-color: #f0f0f0;
+$im-button-quick-access-bg: #f5f5f5;
+$im-button-quick-access-hover-bg: #e9e9e9;
+
+// Override Bulma's global variables
+$primary: $im-brand-primary;
+$link: $im-brand-link; // General link color
+// $info: $im-brand-blue-active; // If you want info color to be the active blue
+// $text: $im-text-dark; // Default text color
+// $text-light: $im-text-light; // Lighter text color
+
+$family-sans-serif: "Outfit", "Arial", sans-serif !default; // Assuming "Outfit" is the desired font
 $family-monospace: "Roboto Mono", monospace !default;
-@import "../node_modules/bulma/sass/index";
+
+// You can override other Bulma variables here too if needed
+// For example, $body-background-color, $border, etc.
+$navbar-background-color: $im-navbar-background;
+$navbar-item-color: $im-text-light;
+$navbar-item-hover-color: $im-brand-purple;
+$navbar-item-hover-background-color: transparent; // Remove Bulma's default hover background
+$navbar-item-active-color: $im-brand-blue-active; // For Bulma's .is-active, not our custom one
+$navbar-item-active-background-color: transparent;
+$navbar-dropdown-border-top: 1px solid $im-brand-purple; // Example for dropdown accent
+
+// 3. Import Bulma
+// The @import directive will import all of Bulma and apply your variable overrides.
+@import "../node_modules/bulma/sass/index"; // Adjust path if your node_modules is elsewhere
+
+// 4. Your Custom SCSS Overrides and New Styles (prefixed with im-)
+
+// Navbar specific styling
+.navbar.im-navbar-style { // Renamed from is-enjidev-style
+    // Bulma variables like $navbar-background-color are already applied.
+    // We only need to add styles not covered by variable overrides or for more specificity.
+    border-bottom: 1px solid $im-navbar-border-color;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    min-height: 4.25rem;
+}
+
+.navbar-brand .navbar-item.im-site-logo { // Renamed
+    color: $im-brand-purple; // Using our SCSS variable
+    font-weight: 700;
+    font-size: 1.6rem;
+    padding-left: 0;
+    &:hover { // SCSS nesting
+        background-color: transparent !important; // Still need important if Bulma is too specific
+    }
+}
+
+.navbar-menu.is-active { // For mobile, ensure background matches
+    background-color: $im-navbar-background;
+}
+
+.navbar-start {
+    align-items: center;
+}
+
+// General nav link styling
+.navbar-item.im-nav-link,
+.navbar-item.has-dropdown.im-nav-link-item > .navbar-link.im-nav-link {
+    color: $im-text-light; // Use our SCSS variable
+    font-weight: 500;
+    padding: 0.75rem 1rem;
+    transition: color 0.2s ease-in-out;
+    border-radius: 4px;
+
+    &:hover,
+    &:focus {
+        background-color: transparent; // Already set by Bulma variable override
+        color: $im-brand-purple;    // Already set by Bulma variable override
+    }
+}
+
+// Custom active state for specific nav links (like "Work")
+.navbar-item.im-nav-link.im-is-active-custom,
+.navbar-item.has-dropdown.im-nav-link-item > .navbar-link.im-nav-link.im-is-active-custom {
+    color: $im-brand-blue-active; // Use our SCSS variable
+    font-weight: 600;
+
+    .icon.im-play-icon i { // Renamed
+        font-size: 0.7em;
+        vertical-align: middle;
+        margin-left: 0.25rem;
+        position: relative;
+        top: -1px;
+    }
+}
+
+// Bulma's standard dropdowns will inherit some styling from variable overrides
+// You can add more specific styling if needed:
+.navbar-item.has-dropdown.is-hoverable .navbar-dropdown {
+    // border-top-color is already set via $navbar-dropdown-border-top
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 8px 8px rgba(10, 10, 10, 0.1);
+
+    .navbar-item:hover {
+        background-color: lighten($im-navbar-border-color, 5%); // Example: slightly lighter than border
+        color: $im-brand-purple;
+    }
+}
+
+.navbar-end {
+    align-items: center;
+}
+
+.navbar-end .navbar-item.im-social-icon-link .icon { // Renamed
+    color: $im-text-light;
+    transition: color 0.2s ease-in-out;
+    font-size: 1.1rem;
+
+    &:hover,
+    &:focus {
+        color: $im-brand-purple;
+    }
+}
+
+.button.im-quick-access-button { // Renamed
+    background-color: $im-button-quick-access-bg;
+    border-color: transparent;
+    color: $im-text-dark;
+    font-weight: 500;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    border-radius: 6px;
+
+    &:hover {
+        background-color: $im-button-quick-access-hover-bg;
+        color: $im-text-dark;
+    }
+
+    .icon {
+        color: $im-text-dark !important; // Important might still be needed depending on specificity
+        margin-right: 0.35em !important;
+    }
+}
+
+.navbar-burger span {
+    background-color: $im-text-dark;
+}
+.navbar-burger.is-active span {
+     background-color: $im-text-dark;
+}
+
+.navbar-item.is-hidden-desktop.im-mobile-search-icon .icon { // Renamed
+    color: $im-brand-purple;
+}
+
+// Media query for centering (same as before)
+@media screen and (min-width: 1024px) {
+  .navbar-menu {
+    // flex-grow: 1;
+  }
+  .navbar-start {
+    // margin-right: auto;
+    // margin-left: auto;
+    // justify-content: center;
+  }
+}
+
+// Other global overrides if needed
+// For example, if you want all buttons to have a certain default style:
+// .button {
+//   // Your global button styles
+// }
