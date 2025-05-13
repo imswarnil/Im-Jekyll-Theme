@@ -4,6 +4,9 @@
 <body class="layout-{{ page.layout | default: 'default'}}">
     {% include im-navbar.html %}
     <div class="content is-medium ">
+      <div class="top-leaderboard-ad">
+  {% include adsense.html format="leaderboard-large" slot="8539588233" lazy="false" %}
+</div>
         {{ content }} <!-- This is where your markdown gets rendered -->
       </div>
    {% include site-before-end.html %}
