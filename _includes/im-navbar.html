@@ -1,62 +1,40 @@
-<nav class="navbar {% if site.fixed_navbar %} is-fixed-top {% endif %} is-enjidev-style" x-data="{ openNav: false }">
+<nav class="navbar {% if site.fixed_navbar %} is-fixed-top {% endif %}" x-data="{ openNav: false }">
     <div class="container">
         <div class="navbar-brand">
-            {% include navbar/logo.html %} {# This will now show "enjidev" #}
-
-            <!-- Mobile Search Icon (as in your original code, hidden on desktop) -->
-            <a href="/search" class="navbar-item is-hidden-desktop mobile-search-icon">
-                <span class="icon is-medium"><i class="fas fa-search"></i></span>
-            </a>
-
+            {% include navbar/logo.html %}
             <a
                 role="button"
                 class="navbar-burger burger"
                 aria-label="menu"
                 aria-expanded="false"
-                data-target="navMenuEnji" {# Changed data-target for clarity #}
+                data-target="navMenu"
                 :class="{ 'is-active': openNav }"
                 x-on:click="openNav = !openNav"
             >
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+             <!-- Search Icon -->
+             <a href="/search" class="navbar-item is-hidden-desktop">
+                <span class="icon is-medium has-text-primary"><i class="fas fa-search"></i></span>
             </a>
         </div>
-        <div class="navbar-menu" id="navMenuEnji" :class="{ 'is-active': openNav }">
-            {% comment %}
-            The div with "margin: 0 auto;" in your original code for centering the navigation
-            is unusual for Bulma's navbar-start/navbar-end structure.
-            Typically, navbar-start aligns left, navbar-end aligns right.
-            To truly center, you'd often put all items in navbar-start and then use
-            flex properties on the navbar-menu or have an empty navbar-end.
-            For the "enjidev" look, the links are mostly left/center.
-            We'll let navbar-start handle the main navigation items.
-            {% endcomment %}
-            {% include navbar/navigation.html %} {# This now renders the flat-style links #}
-
-            <div class="navbar-end">
-                {% if site.social_media_simple %} {# Assuming a new config for simpler social links #}
-                    {% for item in site.social_media_simple %}
-                        <a class="navbar-item social-icon-link" href="{{ item.url }}" target="_blank" title="{{ item.title }}">
-                            <span class="icon"><i class="fab fa-{{ item.icon_name }}"></i></span>
+        <div class="navbar-menu" id="navMenu" :class="{ 'is-active': openNav }">
+            <div style="margin: 0 auto;">
+            {% include navbar/navigation.html %}
+        </div>
+            <div class="navbar-end is-justify-content-center is-inline-flex is-vcentered">
+                {% if site.social_media %}
+                    {% for item in site.social_media %}
+                        <a class="navbar-item" href="{{ item.url }}" target="_blank" title="{{ item.cta }}">
+                            <span class="icon"><i class="fab fa-{{ item.name | downcase }}"></i></span>
                         </a>
                     {% endfor %}
                 {% endif %}
-
-                {% comment %} Find the search item from site.navbar to create the Quick Access button {% endcomment %}
-                {% for item in site.navbar %}
-                    {% if item.name == nil and item.icon == 'fa-search' and item.link == '/search' %}
-                        <div class="navbar-item">
-                            <a href="{{ item.link | relative_url }}" class="button is-small quick-access-button">
-                                <span class="icon is-small">
-                                    <i class="fas {{ item.icon }}"></i>
-                                </span>
-                                <span>Quick Access</span>
-                            </a>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
+            </div>        
         </div>
     </div>
-</nav>
+  </nav>
+  
