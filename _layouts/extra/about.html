@@ -1,175 +1,203 @@
 ---
 layout: page
-title: About Me # Added title for better SEO and browser tab
-description: "Learn more about Swarnil Singhai, a Software Engineer & Content Creator specializing in frontend development, React, Next.js, and sharing knowledge through videos and blogs." # Added meta description
+title: About ImSwarnil
+description: "Discover the story, skills, and journey of Swarnil Singhai – a passionate Software Engineer and Content Creator from Bangalore."
 ---
 
 <main class="main-content">
-    <section class="section">
+    <section class="section im-has-grid-background-subtle">
         <div class="container">
-            <a href="/" class="button is-link is-light is-small mb-6">
+            <a href="{{ '/' | relative_url }}" class="button is-link is-light is-small mb-6">
                 <span class="icon is-small mr-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
                 </span>
                 <span>Back to Home</span>
             </a>
 
             <div class="has-text-centered mb-6">
-                <h1 class="title is-1 is-spaced">About Me</h1>
-                <p class="subtitle is-4">Software Engineer & Content Creator</p>
+                <h1 class="title is-1 is-spaced has-text-weight-bold">About Swarnil</h1>
+                <p class="subtitle is-4 has-text-grey">Software Engineer & Content Creator on a Mission</p>
             </div>
 
             <div class="columns is-variable is-6-tablet is-8-desktop">
-                <div class="column is-5-desktop is-6-tablet">
-                    <figure class="image mb-5 box p-2">
-                        <img alt="Swarnil Singhai" loading="lazy" width="600" height="600" decoding="async"
-                             src="{{ 'assets/logos/logo.svg' | relative_url }}" 
-                             style="object-fit: cover; aspect-ratio: 1/1; border-radius: 6px;"
-                        >
-                    </figure>
-
-                    <div class="box mb-5">
-                        <h3 class="title is-4 mb-4 has-text-weight-semibold">Contact</h3>
-                        <ul>
-                            <li class="media mb-3">
-                                <div class="media-left">
-                                    <span class="icon is-medium has-text-primary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
-                                    </span>
-                                </div>
-                                <div class="media-content is-clipped"> <!-- is-clipped to prevent long emails from breaking layout -->
-                                    <p class="is-size-6"><a href="mailto:swarnil@example.com">swarnil@example.com</a></p>
-                                </div>
-                            </li>
-                            <li class="media mb-3">
-                                <div class="media-left">
-                                    <span class="icon is-medium has-text-primary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                                    </span>
-                                </div>
-                                <div class="media-content">
-                                    <p class="is-size-6">+1 (123) 456-7890</p>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <div class="media-left">
-                                    <span class="icon is-medium has-text-primary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                                    </span>
-                                </div>
-                                <div class="media-content">
-                                    <p class="is-size-6">Bangalore, India</p> <!-- Updated location based on previous examples -->
-                                </div>
-                            </li>
-                        </ul>
+                <div class="column is-4-desktop is-5-tablet">
+                    <div class="box p-0 mb-5" style="overflow: hidden;"> <!-- p-0 to make image flush -->
+                        <figure class="image is-4by3"> <!-- Or is-1by1 for square, is-3by4 for portrait -->
+                            <img alt="Swarnil Singhai" loading="lazy"
+                                 src="{{ '/assets/images/your-profile-picture.jpg' | relative_url }}"
+                                 style="object-fit: cover;"
+                            >
+                        </figure>
                     </div>
 
-                    <div class="box">
-                        <h3 class="title is-4 mb-4 has-text-weight-semibold">Connect With Me</h3>
-                        <div class="buttons">
-                            <a href="https://youtube.com/yourchannel" target="_blank" rel="noopener noreferrer" class="button is-danger is-light" aria-label="YouTube">
-                                <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-youtube"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path><path d="m10 15 5-3-5-3z"></path></svg></span>
+                    <div class="box mb-5">
+                        <h3 class="title is-4 mb-4 has-text-weight-semibold">Quick Facts</h3>
+                        <ul class="mb-4">
+                            <li class="media mb-2">
+                                <div class="media-left"><span class="icon has-text-info"><i class="fas fa-birthday-cake"></i></span></div>
+                                <div class="media-content"><strong>Born:</strong> January 1, 1990</div> <!-- Replace with actual -->
+                            </li>
+                            <li class="media mb-2">
+                                <div class="media-left"><span class="icon has-text-success"><i class="fas fa-map-marker-alt"></i></span></div>
+                                <div class="media-content"><strong>Based In:</strong> Bangalore, India</div>
+                            </li>
+                            <li class="media mb-2">
+                                <div class="media-left"><span class="icon has-text-warning"><i class="fas fa-ruler-vertical"></i></span></div>
+                                <div class="media-content"><strong>Height:</strong> 5' 10" (178 cm)</div> <!-- Optional -->
+                            </li>
+                             <li class="media mb-2">
+                                <div class="media-left"><span class="icon has-text-danger"><i class="fas fa-weight"></i></span></div>
+                                <div class="media-content"><strong>Interests:</strong> Tech, Travel, Photography</div> <!-- Example of other facts -->
+                            </li>
+                            <li class="media">
+                                <div class="media-left"><span class="icon has-text-primary"><i class="fas fa-mug-hot"></i></span></div>
+                                <div class="media-content"><strong>Fueled By:</strong> Coffee & Curiosity</div>
+                            </li>
+                        </ul>
+                        <!-- <p class="is-size-7 has-text-grey">*(Some facts are just for fun!)*</p> -->
+                    </div>
+
+                    <div class="box mb-5">
+                        <h3 class="title is-4 mb-4 has-text-weight-semibold">Let's Connect</h3>
+                        <div class="buttons are-medium"> <!-- `are-medium` for slightly larger buttons -->
+                            <a href="mailto:swarnil@example.com" class="button is-fullwidth is-primary mb-2">
+                                <span class="icon"><i class="fas fa-envelope"></i></span>
+                                <span>Email Me</span>
                             </a>
-                            <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" class="button is-dark is-light" aria-label="GitHub">
-                                <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg></span>
+                             <a href="https://youtube.com/yourchannel" target="_blank" rel="noopener noreferrer" class="button is-fullwidth is-danger is-light mb-2" aria-label="YouTube">
+                                <span class="icon"><i class="fab fa-youtube"></i></span><span>YouTube</span>
                             </a>
-                            <a href="https://twitter.com/yourusername" target="_blank" rel="noopener noreferrer" class="button is-info is-light" aria-label="Twitter">
-                                <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg></span>
+                            <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" class="button is-fullwidth is-dark is-light mb-2" aria-label="GitHub">
+                                <span class="icon"><i class="fab fa-github"></i></span><span>GitHub</span>
                             </a>
-                            <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer" class="button is-link is-light" aria-label="LinkedIn">
-                                <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg></span>
+                            <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer" class="button is-fullwidth is-info is-light" aria-label="LinkedIn">
+                                <span class="icon"><i class="fab fa-linkedin"></i></span><span>LinkedIn</span>
                             </a>
-                            <a href="https://instagram.com/yourusername" target="_blank" rel="noopener noreferrer" class="button is-warning is-light" aria-label="Instagram"> <!-- Using warning for Instagram's orange/pink vibe -->
-                                <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg></span>
-                            </a>
+                            <!-- Add other relevant social links -->
                         </div>
                     </div>
                 </div>
 
-                <div class="column is-7-desktop is-6-tablet">
-                    <div class="content mb-6"> <!-- `content` class for styling paragraphs, lists, etc. -->
+                <div class="column is-8-desktop is-7-tablet">
+                    <div class="box content mb-6">
                         <h2 class="title is-3 mb-4 has-text-weight-semibold">My Story</h2>
-                        <p>Hello! I'm Swarnil Singhai, a software engineer and content creator based in Bangalore, India. I specialize in frontend development with a focus on React and Next.js, but I'm also experienced in full-stack development.</p>
-                        <p>My journey in tech began during my university years, where I discovered my passion for web development. After graduating with a degree in Computer Science, I started my career as a Junior Developer at a startup, where I honed my skills in JavaScript and frontend development.</p>
-                        <p>In 2016, I launched my YouTube channel to share my knowledge and experiences with the developer community. What started as a hobby quickly grew into a platform with over 500,000 subscribers. I create tutorials, project walkthroughs, and tech reviews to help developers at all stages of their careers.</p>
-                        <p>Currently, I work as a Senior Software Engineer at TechCorp Inc., where I lead frontend development for enterprise applications. I'm also dedicated to creating comprehensive online courses and producing high-quality content for my YouTube channel.</p>
-                        <p>When I'm not coding or creating content, you can find me exploring new technologies, contributing to open-source projects, or enjoying outdoor activities like hiking and photography.</p>
+                        <p>Hello! I'm Swarnil Singhai, a software engineer and content creator based in Bangalore, India. My world revolves around crafting elegant solutions with code and sharing the journey with a global community. I specialize in frontend development, particularly with React and Next.js, but my curiosity often leads me down the full-stack path.</p>
+                        <p>My fascination with technology sparked during my university days. The power to build something from nothing, to solve real-world problems with logic and creativity, was captivating. After earning my Computer Science degree, I dived into the startup scene as a Junior Developer, cutting my teeth on JavaScript and the rapidly evolving frontend landscape.</p>
+                        <p>In 2016, a new adventure began: my YouTube channel. It started as a way to document my learnings and help others navigate the complexities of web development. To my amazement, it blossomed into a vibrant community of over 500,000 aspiring and seasoned developers. Through tutorials, project deep-dives, and honest tech reviews, I aim to empower and inspire.</p>
+                        <p>Professionally, I'm a Senior Software Engineer at TechCorp Inc., where I contribute to building scalable and user-centric enterprise applications. Beyond my day job, I'm passionate about creating comprehensive online courses and high-quality content that makes learning accessible and enjoyable.</p>
+                        <p>When the screen is off, you'll find me exploring new tech horizons, contributing to open-source, capturing moments through my camera lens, or planning my next travel escapade. Life, for me, is a continuous loop of learning, creating, and sharing.</p>
                     </div>
 
-                    <div class="skills-section">
+                    <div class="box mb-6">
+                        <h2 class="title is-3 mb-4 has-text-weight-semibold">My Journey: Timeline</h2>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-marker is-icon">
+                                    <span class="icon"><i class="fas fa-baby"></i></span>
+                                </div>
+                                <div class="timeline-content">
+                                    <p class="heading">JAN 1, 1990</p> <!-- Replace -->
+                                    <p class="title is-5">Born to Code (Almost!)</p>
+                                    <div class="content is-small">
+                                        <p>The journey began. Little did I know what bytes and pixels lay ahead!</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker is-icon">
+                                     <span class="icon"><i class="fas fa-graduation-cap"></i></span>
+                                </div>
+                                <div class="timeline-content">
+                                    <p class="heading">JUNE 2012</p> <!-- Replace -->
+                                    <p class="title is-5">Graduated: B.Tech Computer Science</p>
+                                    <div class="content is-small">
+                                        <p>Degree in hand, ready to take on the tech world.</p>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="timeline-item">
+                                <div class="timeline-marker is-icon">
+                                     <span class="icon"><i class="fas fa-rocket"></i></span>
+                                </div>
+                                <div class="timeline-content">
+                                    <p class="heading">AUGUST 2012</p> <!-- Replace -->
+                                    <p class="title is-5">First Role: Junior Developer</p>
+                                    <div class="content is-small">
+                                        <p>Joined a dynamic startup, learning the ropes of professional development.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker is-icon">
+                                    <span class="icon"><i class="fab fa-youtube has-text-danger"></i></span> <!-- Specific icon for YouTube -->
+                                </div>
+                                <div class="timeline-content">
+                                    <p class="heading">MAY 2016</p> <!-- Replace -->
+                                    <p class="title is-5">Launched YouTube Channel</p>
+                                    <div class="content is-small">
+                                        <p>Started sharing knowledge and experiences, which grew into a large community.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker is-icon is-hollow"> <!-- Hollow marker for current/ongoing -->
+                                     <span class="icon"><i class="fas fa-briefcase"></i></span>
+                                </div>
+                                <div class="timeline-content">
+                                    <p class="heading">MARCH 2019 - PRESENT</p> <!-- Replace -->
+                                    <p class="title is-5">Senior Software Engineer at TechCorp Inc.</p>
+                                     <div class="content is-small">
+                                        <p>Leading frontend initiatives and building cool stuff!</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker is-icon is-hollow">
+                                     <span class="icon"><i class="fas fa-lightbulb"></i></span>
+                                </div>
+                                <div class="timeline-content">
+                                    <p class="heading">ONGOING</p>
+                                    <p class="title is-5">Always Learning & Creating</p>
+                                    <div class="content is-small">
+                                        <p>Exploring new technologies, producing content, and enjoying the journey.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box skills-section">
                         <h2 class="title is-3 mb-4 has-text-weight-semibold">Skills & Expertise</h2>
                         <div class="columns is-multiline">
-                            <div class="column is-half-desktop is-full-tablet">
-                                <h3 class="title is-4 is-size-5-mobile mb-3 has-text-weight-medium">Technical Skills</h3>
-                                <div class="skill-item mb-3">
-                                    <div class="level is-mobile mb-0">
-                                        <div class="level-left"><span class="has-text-weight-semibold">JavaScript</span></div>
-                                        <div class="level-right"><span class="tag is-light is-rounded">95%</span></div>
-                                    </div>
-                                    <progress class="progress is-primary is-small" value="95" max="100">95%</progress>
+                            <div class="column is-half">
+                                <h3 class="title is-4 is-size-5-mobile mb-3 has-text-weight-medium">Core Technologies</h3>
+                                <div class="mb-3">
+                                    <span class="has-text-weight-semibold">JavaScript (ES6+) & TypeScript</span>
+                                    <progress class="progress is-primary is-small mt-1" value="95" max="100"></progress>
                                 </div>
-                                <div class="skill-item mb-3">
-                                    <div class="level is-mobile mb-0">
-                                        <div class="level-left"><span class="has-text-weight-semibold">TypeScript</span></div>
-                                        <div class="level-right"><span class="tag is-light is-rounded">90%</span></div>
-                                    </div>
-                                    <progress class="progress is-primary is-small" value="90" max="100">90%</progress>
+                                <div class="mb-3">
+                                    <span class="has-text-weight-semibold">React & Next.js</span>
+                                    <progress class="progress is-primary is-small mt-1" value="95" max="100"></progress>
                                 </div>
-                                <div class="skill-item mb-3">
-                                     <div class="level is-mobile mb-0">
-                                        <div class="level-left"><span class="has-text-weight-semibold">React</span></div>
-                                        <div class="level-right"><span class="tag is-light is-rounded">95%</span></div>
-                                    </div>
-                                    <progress class="progress is-primary is-small" value="95" max="100">95%</progress>
+                                <div class="mb-3">
+                                    <span class="has-text-weight-semibold">Node.js & Express</span>
+                                    <progress class="progress is-info is-small mt-1" value="85" max="100"></progress>
                                 </div>
-                                <div class="skill-item mb-3">
-                                    <div class="level is-mobile mb-0">
-                                        <div class="level-left"><span class="has-text-weight-semibold">Next.js</span></div>
-                                        <div class="level-right"><span class="tag is-light is-rounded">90%</span></div>
-                                    </div>
-                                    <progress class="progress is-primary is-small" value="90" max="100">90%</progress>
+                                <div class="mb-3">
+                                    <span class="has-text-weight-semibold">HTML5 & CSS3/SCSS</span>
+                                    <progress class="progress is-success is-small mt-1" value="90" max="100"></progress>
                                 </div>
-                                <div class="skill-item mb-3">
-                                    <div class="level is-mobile mb-0">
-                                        <div class="level-left"><span class="has-text-weight-semibold">Node.js</span></div>
-                                        <div class="level-right"><span class="tag is-light is-rounded">85%</span></div>
-                                    </div>
-                                    <progress class="progress is-info is-small" value="85" max="100">85%</progress>
-                                </div>
-                                <!-- Add more technical skills similarly -->
+                                <!-- Add more -->
                             </div>
+                            <div class="column is-half">
+                                <h3 class="title is-4 is-size-5-mobile mb-3 has-text-weight-medium">Tools & Practices</h3>
+                                <p class="mb-1"><span class="tag is-light mr-1 mb-1">Git & GitHub</span> <span class="tag is-light mr-1 mb-1">REST APIs</span> <span class="tag is-light mr-1 mb-1">GraphQL (Basic)</span></p>
+                                <p class="mb-1"><span class="tag is-light mr-1 mb-1">Figma</span> <span class="tag is-light mr-1 mb-1">Responsive Design</span> <span class="tag is-light mr-1 mb-1">Agile/Scrum</span></p>
+                                <p class="mb-1"><span class="tag is-light mr-1 mb-1">CI/CD</span> <span class="tag is-light mr-1 mb-1">Performance Optimization</span></p>
 
-                            <div class="column is-half-desktop is-full-tablet">
-                                <h3 class="title is-4 is-size-5-mobile mb-3 has-text-weight-medium">Design & Soft Skills</h3>
-                                 <div class="skill-item mb-3">
-                                    <div class="level is-mobile mb-0">
-                                        <div class="level-left"><span class="has-text-weight-semibold">UI/UX Design</span></div>
-                                        <div class="level-right"><span class="tag is-light is-rounded">80%</span></div>
-                                    </div>
-                                    <progress class="progress is-success is-small" value="80" max="100">80%</progress>
-                                </div>
-                                <div class="skill-item mb-3">
-                                    <div class="level is-mobile mb-0">
-                                        <div class="level-left"><span class="has-text-weight-semibold">Figma</span></div>
-                                        <div class="level-right"><span class="tag is-light is-rounded">85%</span></div>
-                                    </div>
-                                    <progress class="progress is-success is-small" value="85" max="100">85%</progress>
-                                </div>
-                                 <div class="skill-item mb-3">
-                                    <div class="level is-mobile mb-0">
-                                        <div class="level-left"><span class="has-text-weight-semibold">Communication</span></div>
-                                        <div class="level-right"><span class="tag is-light is-rounded">90%</span></div>
-                                    </div>
-                                    <progress class="progress is-warning is-small" value="90" max="100">90%</progress>
-                                </div>
-                                <div class="skill-item mb-3">
-                                    <div class="level is-mobile mb-0">
-                                        <div class="level-left"><span class="has-text-weight-semibold">Problem Solving</span></div>
-                                        <div class="level-right"><span class="tag is-light is-rounded">95%</span></div>
-                                    </div>
-                                    <progress class="progress is-warning is-small" value="95" max="100">95%</progress>
-                                </div>
-                                <!-- Add more design/soft skills similarly -->
+                                <h3 class="title is-4 is-size-5-mobile mb-3 mt-4 has-text-weight-medium">Soft Skills</h3>
+                                <p><span class="tag is-light mr-1 mb-1">Content Creation</span> <span class="tag is-light mr-1 mb-1">Communication</span> <span class="tag is-light mr-1 mb-1">Problem Solving</span></p>
+                                <p><span class="tag is-light mr-1 mb-1">Team Leadership</span> <span class="tag is-light mr-1 mb-1">Mentorship</span></p>
                             </div>
                         </div>
                     </div>
