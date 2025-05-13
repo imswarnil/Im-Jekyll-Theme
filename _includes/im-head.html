@@ -10,13 +10,10 @@
     <link rel="sitemap" type="application/xml" title="Sitemap" href="{{ site.url }}/sitemap.xml">
     <link rel="manifest" href="{{ "/manifest.json" | relative_url }}">
     <link rel="canonical" href="{{ site.url }}{{ page.url | replace:'index.html','' }}">
+    <link rel="stylesheet" href="{{ "/assets/icon.css" | relative_url }}">
+{% endif %}
     {% include head/favicons.html %}
     {% include head/google-analytics.html %}
     {% include head/adsense.html %}
     {% include head/scripts.html %} 
-    <link
-  rel="stylesheet"
-  type="text/css"
-  href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/duotone/style.css"
-/>
     </head>
