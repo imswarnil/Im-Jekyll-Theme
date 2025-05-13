@@ -167,6 +167,15 @@ adsense:
       ad_id: "5678901234"
       type: "auto"
 
+compress_html:
+  clippings: all
+  comments: ["<!-- ", " -->"]
+  endings: all
+  ignore:
+    envs: [local]
+  blanklines: false
+  profile: true
+  startings: [html, head, body]
 
 # disqus: "alembic-1" # Blog post comments, uncomment the option and set the site ID from your Disqus account
 
