@@ -2,40 +2,23 @@
 layout: default
 title: All Videos
 collection : videos
-permalink: /videos/
+permalink: /videos
 ---
-<!-- Hero Section with Split Layout -->
-<section class="hero is-primary is-small">
+<!-- Hero Section with Video Background -->
+<section class="hero is-primary is-small hero-video-section">
+    <video autoplay muted loop playsinline class="hero-video-bg">
+        <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="hero-video-grid-overlay"></div>
     <div class="hero-body">
-        <div class="container">
-            <div class="columns is-vcentered">
-                <!-- Left Side - Title/Description -->
-                <div class="column is-auto">
-                    <h1 class="title is-1">
-                        My Video Library
-                    </h1>
-                    <h2 class="subtitle is-4">
-                        Learn, create and grow your YouTube channel with my tutorials
-                    </h2>
-                </div>
-                <!-- Right Side - Leaderboard Ad -->
-                <div class="column is-auto">
-                    <div class="ad-container leaderboard-ad">
-                        <div class="ad-placeholder">
-                            <span class="ad-label">Advertisement</span>
-                            <div class="ad-content">
-                            <ins class="adsbygoogle"
-     style="display:inline-block;width:980px;height:90px"
-     data-ad-client="ca-pub-1291242080282540"
-     data-ad-slot="8539588233"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="container has-text-centered">
+            <h1 class="title is-1 has-text-white has-text-shadow-strong">
+                My Video Library
+            </h1>
+            <h2 class="subtitle is-4 has-text-white has-text-shadow">
+                Learn, create and grow your YouTube channel with my tutorials
+            </h2>
         </div>
     </div>
 </section>
@@ -68,17 +51,17 @@ permalink: /videos/
         <div class="columns">
             <!-- Main Video Listing (9 columns) -->
             <div class="column is-9">
-                <!-- Search Box -->
+                <!-- Search Box (Visual Only) -->
                 <div class="field">
                     <div class="control has-icons-left">
-                        <input class="input is-medium" type="text" placeholder="Search videos..." id="videoSearch">
+                        <input class="input is-medium" type="text" placeholder="Search videos... (visual only)" id="videoSearch" disabled>
                         <span class="icon is-left">
                             <i class="fas fa-search"></i>
                         </span>
                     </div>
                 </div>
                 
-                <!-- Tag Filters -->
+                <!-- Tag Filters (Visual Only) -->
                 {% assign all_tags = "" | split: "," %}
                 {% for video in site.videos %}
                     {% for tag in video.tags %}
@@ -91,16 +74,16 @@ permalink: /videos/
                 <div class="field is-grouped is-grouped-multiline tag-filter mb-5">
                     <div class="control">
                         <div class="tags has-addons">
-                            <span class="tag is-medium is-active filter-tag" data-filter="all">All</span>
-                            <span class="tag is-medium">{{ site.videos.size }}</span>
+                            <span class="tag is-medium is-static">All</span>
+                            <span class="tag is-medium is-static">{{ site.videos.size }}</span>
                         </div>
                     </div>
                     {% for tag in all_tags %}
                     {% assign tag_videos = site.videos | where_exp: "video", "video.tags contains tag" %}
                     <div class="control">
                         <div class="tags has-addons">
-                            <span class="tag is-medium filter-tag" data-filter="{{ tag | slugify }}">{{ tag }}</span>
-                            <span class="tag is-medium">{{ tag_videos.size }}</span>
+                            <span class="tag is-medium is-static">{{ tag }}</span>
+                            <span class="tag is-medium is-static">{{ tag_videos.size }}</span>
                         </div>
                     </div>
                     {% endfor %}
@@ -109,15 +92,12 @@ permalink: /videos/
                 <!-- Video Grid -->
                 <div class="columns is-multiline" id="videoContainer">
                     {% for video in site.videos %}
-                    <div class="column is-one-third video-column video-card" 
-                         data-tags="{% for tag in video.tags %}{{ tag | slugify }} {% endfor %}"
-                         data-title="{{ video.title | downcase }}"
-                         data-description="{{ video.description | downcase }}">
+                    <div class="column is-one-third-desktop is-half-tablet video-column video-card">
                         <a href="{{ video.url | relative_url }}" class="video-card-link">
                             <div class="card">
                                 <div class="card-image">
                                     <div class="video-thumbnail">
-                                            <img src="https://img.youtube.com/vi/{{ video.VideoId }}/maxresdefault.jpg" alt="{{ video.title }}">
+                                        <img src="https://img.youtube.com/vi/{{ video.VideoId }}/maxresdefault.jpg" alt="{{ video.title }}">
                                         <span class="video-duration">{{ video.duration }}</span>
                                         <div class="video-hover-overlay">
                                             <i class="fas fa-play"></i>
@@ -165,10 +145,10 @@ permalink: /videos/
                     </div>
                 </div>
                 
-                <!-- Pagination -->
+                <!-- Pagination (Visual Only) -->
                 <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-                    <a class="pagination-previous">Previous</a>
-                    <a class="pagination-next">Next page</a>
+                    <a class="pagination-previous" disabled>Previous</a>
+                    <a class="pagination-next" disabled>Next page</a>
                     <ul class="pagination-list">
                         <li><a class="pagination-link is-current" aria-label="Page 1" aria-current="page">1</a></li>
                         <li><a class="pagination-link" aria-label="Goto page 2">2</a></li>
@@ -191,8 +171,8 @@ permalink: /videos/
                         <h2 class="title is-4">Request a Video</h2>
                         <p>Have a topic you'd like me to cover? Let me know!</p>
                         <iframe data-tally-src="https://tally.so/embed/w2o9Dj?alignLeft=1&transparentBackground=1" loading="lazy" width="100%" height="300" frameborder="0" marginheight="0" marginwidth="0" title="Video Request"></iframe>
-<script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
-                        <button class="button is-info">Submit Request</button>
+                        <script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
+                        <!-- Removed redundant button: <button class="button is-info">Submit Request</button> -->
                     </div>
                 </section>
                 
@@ -201,7 +181,7 @@ permalink: /videos/
                     <h2 class="title is-3">My Video Production Gear</h2>
                     <div class="columns is-multiline">
                         <!-- Product 1 -->
-                        <div class="column is-one-third">
+                        <div class="column is-one-third-desktop is-half-tablet">
                             <div class="card product-card">
                                 <div class="card-image">
                                     <figure class="image is-4by3">
@@ -220,7 +200,7 @@ permalink: /videos/
                         </div>
                         
                         <!-- Product 2 -->
-                        <div class="column is-one-third">
+                        <div class="column is-one-third-desktop is-half-tablet">
                             <div class="card product-card">
                                 <div class="card-image">
                                     <figure class="image is-4by3">
@@ -239,7 +219,7 @@ permalink: /videos/
                         </div>
                         
                         <!-- Product 3 -->
-                        <div class="column is-one-third">
+                        <div class="column is-one-third-desktop is-half-tablet">
                             <div class="card product-card">
                                 <div class="card-image">
                                     <figure class="image is-4by3">
@@ -283,16 +263,16 @@ permalink: /videos/
                         <button class="button is-primary is-fullwidth mt-3">Get Free Access</button>
                     </div>
                     
-                    <!-- Request Video -->
+                    <!-- Request Video (Visual Only - Tally form is primary) -->
                     <div class="box mb-5">
                         <h3 class="title is-5">Video Requests</h3>
-                        <p>What should I make next?</p>
+                        <p>What should I make next? (Use form above)</p>
                         <div class="field">
                             <div class="control">
-                                <input class="input" type="text" placeholder="Your video idea">
+                                <input class="input" type="text" placeholder="Your video idea" disabled>
                             </div>
                         </div>
-                        <button class="button is-info is-fullwidth">Submit</button>
+                        <button class="button is-info is-fullwidth" disabled>Submit</button>
                     </div>
                     
                     <!-- Popular Videos -->
@@ -336,6 +316,52 @@ permalink: /videos/
 </section>
 
 <style>
+/* Hero Video Background Styles */
+.hero-video-section {
+    position: relative;
+    overflow: hidden; /* Ensures video doesn't spill out */
+    background-color: #363636; /* Fallback color */
+}
+
+.hero-video-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+    z-index: 0; /* Behind content and overlay */
+}
+
+.hero-video-grid-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+    background-size: 30px 30px; /* Size of the grid cells */
+    z-index: 1; /* On top of video, below content */
+    pointer-events: none; /* Allows clicks to pass through to video if needed */
+}
+
+.hero-video-section .hero-body {
+    position: relative; /* To ensure it's above the video and overlay */
+    z-index: 2;
+    background-color: rgba(0,0,0,0.3); /* Optional: darkens video slightly for text contrast */
+}
+
+.has-text-shadow {
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+}
+.has-text-shadow-strong {
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
+}
+
+
 /* Video Thumbnail Styles */
 .video-thumbnail {
     position: relative;
@@ -404,42 +430,35 @@ permalink: /videos/
 
 .video-card-link .card {
     transition: all 0.3s ease;
+    height: 100%; /* Makes cards in a row equal height */
 }
 
 /* Author Avatar */
 .author-avatar {
-    width: 24px;
+    width: 24px; /* Bulma's media-left usually handles image child fine, but explicit can help */
     height: 24px;
     border-radius: 50%;
-    margin-right: 5px;
+    /* margin-right: 5px; Removed, Bulma media object spacing is usually good */
 }
 
 /* Sticky Sidebar */
 .sticky-sidebar {
+    position: -webkit-sticky; /* Safari */
     position: sticky;
-    top: 20px;
+    top: 20px; /* Adjust as needed based on your navbar height if any */
 }
 
-/* Tag Filter Styles */
-.tag-filter .tag {
-    cursor: pointer;
+/* Tag Filter Styles (Now Visual Only) */
+.tag-filter .tag.is-static { /* Using is-static to show they are not interactive */
     margin-bottom: 5px;
-    transition: all 0.2s ease;
 }
-
-.tag-filter .tag:hover {
-    transform: translateY(-2px);
-}
-
-.tag-filter .tag.is-active {
-    background-color: #3273dc;
-    color: white;
-}
+/* Removed hover/active as they are non-functional */
 
 /* Product Card Styles */
 .product-card {
     margin-bottom: 1rem;
     transition: all 0.3s ease;
+    height: 100%; /* Makes cards in a row equal height */
 }
 
 .product-card:hover {
@@ -452,7 +471,7 @@ permalink: /videos/
     background: #f5f5f5;
     border-radius: 4px;
     overflow: hidden;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.5rem; /* Bulma mb-5 is 1.5rem, so this is consistent */
 }
 
 .ad-placeholder {
@@ -464,6 +483,7 @@ permalink: /videos/
     color: #999;
     font-weight: bold;
     text-align: center;
+    min-height: 90px; /* Minimum height for all ads */
 }
 
 .ad-label {
@@ -477,33 +497,37 @@ permalink: /videos/
     border-radius: 3px;
 }
 
-.leaderboard-ad .ad-placeholder {
+.leaderboard-ad .ad-placeholder { /* This was in hero, now removed, but kept style for other potential uses */
     height: 90px;
-    width: 728px;
-    max-width: 100%;
+    width: 100%; /* Made responsive by default */
+    max-width: 728px; /* Common leaderboard size */
+    margin: 0 auto;
 }
 
 .rectangle-ad .ad-placeholder {
     height: 250px;
-    width: 300px;
+    width: 100%;
+    max-width: 300px;
     margin: 0 auto;
 }
 
 .banner-ad .ad-placeholder {
     height: 250px;
-    width: 970px;
-    max-width: 100%;
+    width: 100%;
+    max-width: 970px;
     margin: 0 auto;
 }
 
 .square-ad .ad-placeholder {
     height: 250px;
-    width: 300px;
+    width: 100%;
+    max-width: 300px; /* Sidebar context */
 }
 
 .skyscraper-ad .ad-placeholder {
     height: 600px;
-    width: 160px;
+    width: 100%;
+    max-width: 160px; /* Sidebar context */
     margin: 0 auto;
 }
 
@@ -511,83 +535,51 @@ permalink: /videos/
 .video-sidebar-link {
     display: block;
     transition: all 0.2s ease;
+    border-radius: 4px; /* Slight rounding for hover */
 }
 
 .video-sidebar-link:hover {
     background: #f5f5f5;
-    transform: translateX(5px);
+    transform: translateX(3px); /* Subtle shift */
+}
+.video-sidebar-link .media {
+    align-items: center; /* Vertically align image and text */
 }
 
-/* Responsive Styles */
-@media screen and (max-width: 768px) {
-    .video-column {
+
+/* Responsive Styles (Bulma handles a lot, these are additions/overrides) */
+@media screen and (max-width: 1023px) { /* Bulma's 'desktop' breakpoint */
+    .sticky-sidebar {
+        position: static; /* Disable sticky sidebar on tablet and mobile */
+    }
+}
+
+@media screen and (max-width: 768px) { /* Bulma's 'tablet' breakpoint */
+    /* video-column is already is-half-tablet. For mobile, Bulma columns stack by default. */
+    /* If you want two per row on mobile for videos:
+    .video-column.is-half-tablet {
         flex: none;
         width: 50%;
     }
-    
-    .hero-body .columns {
-        flex-direction: column;
+    */
+    .hero-body .title.is-1 {
+        font-size: 2.5rem; /* Adjust hero title for smaller screens */
     }
-    
-    .hero-body .column.is-8,
-    .hero-body .column.is-4 {
-        width: 100%;
+    .hero-body .subtitle.is-4 {
+        font-size: 1.1rem; /* Adjust hero subtitle */
     }
-    
-    .leaderboard-ad .ad-placeholder {
-        height: 90px;
-        width: 100%;
+    .ad-placeholder {
+        font-size: 0.9em; /* Smaller text for ad placeholders */
     }
 }
+
+/* Remove JavaScript section as per request */
 </style>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Search functionality
-    const searchInput = document.getElementById('videoSearch');
-    const videoCards = document.querySelectorAll('.video-card');
-    
-    searchInput.addEventListener('input', function(e) {
-        const searchTerm = e.target.value.toLowerCase();
-        
-        videoCards.forEach(card => {
-            const title = card.dataset.title;
-            const description = card.dataset.description;
-            const tags = card.dataset.tags;
-            
-            if (searchTerm === '' || 
-                title.includes(searchTerm) || 
-                description.includes(searchTerm) || 
-                tags.includes(searchTerm)) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    });
-    
-    // Tag filtering
-    const filterTags = document.querySelectorAll('.filter-tag');
-    
-    filterTags.forEach(tag => {
-        tag.addEventListener('click', function() {
-            const filterValue = this.dataset.filter;
-            
-            // Update active tag
-            filterTags.forEach(t => t.classList.remove('is-active'));
-            this.classList.add('is-active');
-            
-            // Filter videos
-            videoCards.forEach(card => {
-                const tags = card.dataset.tags;
-                
-                if (filterValue === 'all' || tags.includes(filterValue)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-    });
-});
-</script>
+<!-- 
+    Removed JavaScript:
+    The search functionality, tag filtering, and dynamic pagination previously handled by JavaScript
+    have been removed. The corresponding UI elements (search input, tag buttons, pagination controls)
+    are now visual placeholders and will not perform any actions.
+    The Tally embed script is kept as it's a third-party embed.
+-->
