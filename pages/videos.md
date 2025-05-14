@@ -2,7 +2,7 @@
 layout: default
 title: All Videos
 collection : videos
-permalink: /videos
+permalink: /videos/
 ---
 <!-- Hero Section with Split Layout -->
 <section class="hero is-primary is-small">
