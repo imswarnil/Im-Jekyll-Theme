@@ -209,17 +209,8 @@ collections:
     output: true # Creates individual pages for each project
     permalink: /projects/:path/ # Defines the URL structure (e.g., /projects/my-cool-project/)
 
+  
 
-# _config.yml
-multi_collection_paginator: # <--- Lowercase 'p' here
-  collections: ['posts', 'projects', 'notes']
-  per_page: 9
-  layout: 'archive_paginated.html'
-  base_path: 'archive'
-  sort_field: 'date'
-  sort_reverse: true
-  title_prefix: "Site Archive"
-  exclude_hidden: true  
 
 # 6. Jekyll collections settings
 defaults:

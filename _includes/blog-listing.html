@@ -1,89 +1,281 @@
-{% assign paginator = page.paginator %} 
+<!-- Blog Listing Component -->
 <section class="section">
     <div class="container">
-        <h1 class="title">{{ page.title }}</h1>
-        <hr>
-
-        <!-- Search and Filter Section -->
-        <div class="box">
-            <!-- ... (rest of your filter HTML) ... -->
-            <!-- Make sure to use `paginator.docs` instead of `Paginator.docs` inside this box too -->
-            <div class="column">
-                <div class="field">
-                    <label class="label">Filter by Author</label>
-                    <div class="control">
-                        <div class="select is-fullwidth">
-                            <select id="author-filter">
-                                <option value="all">All Authors</option>
-                                {% assign authors = paginator.docs | map: 'author' | compact | uniq | sort %} {# <-- paginator.docs #}
-                                {% for author in authors %}
-                                <option value="{{ author | slugify }}">{{ author }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                </div>
+      <!-- Search and Filter Section -->
+      <div class="box">
+        <div class="columns is-vcentered">
+          <!-- Search Box -->
+          <div class="column is-half">
+            <div class="field has-addons">
+              <div class="control is-expanded">
+                <input class="input" type="text" id="search-input" placeholder="Search posts...">
+              </div>
+              <div class="control">
+                <button class="button is-info" id="search-button">
+                  <span class="icon">
+                    <i class="fas fa-search"></i>
+                  </span>
+                </button>
+              </div>
             </div>
-            <!-- ... and for categories and tags ... -->
+          </div>
+          
+          <!-- Author Filter -->
+          <div class="column">
             <div class="field">
-                <label class="label">Filter by Tags</label>
-                <div class="tags" id="tag-cloud">
-                    {% assign all_tags_list = paginator.docs | map: 'tags' | compact | join: ',' | split: ',' | uniq | sort %} {# <-- paginator.docs #}
-                    {% for tag in all_tags_list %}{% assign tag_clean = tag | strip %}{% if tag_clean != "" %}
-                    <span class="tag is-rounded is-medium tag-filter" data-tag="{{ tag_clean | slugify }}">
-                        {{ tag_clean }} <span class="tag-count">({{ paginator.docs | where_exp: "doc", "doc.tags contains tag_clean" | size }})</span> {# <-- paginator.docs #}
-                    </span>
-                    {% endif %}{% endfor %}
+              <label class="label">Filter by Author</label>
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select id="author-filter">
+                    <option value="all">All Authors</option>
+                    {% assign authors = site.posts | map: 'author' | uniq %}
+                    {% for author in authors %}
+                      <option value="{{ author | slugify }}">{{ author }}</option>
+                    {% endfor %}
+                  </select>
                 </div>
+              </div>
             </div>
+          </div>
+          
+          <!-- Category Filter -->
+          <div class="column">
+            <div class="field">
+              <label class="label">Filter by Category</label>
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select id="category-filter">
+                    <option value="all">All Categories</option>
+                    {% assign categories = site.posts | map: 'category' | join: ',' | split: ',' | uniq %}
+                    {% for category in categories %}
+                      <option value="{{ category | slugify }}">{{ category }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-
-
-        <!-- Item List -->
-        <div id="item-list" class="columns is-multiline">
-            {% if paginator.docs.size > 0 %} {# <-- paginator.docs #}
-            {% for item in paginator.docs %} {# <-- paginator.docs #}
-            {# ... rest of your item card HTML ... #}
+        
+        <!-- Tag Cloud -->
+        <div class="field">
+          <label class="label">Filter by Tags</label>
+          <div class="tags" id="tag-cloud">
+            {% assign all_tags = site.posts | map: 'tags' | join: ',' | split: ',' | uniq %}
+            {% for tag in all_tags %}
+              <span class="tag is-rounded is-medium tag-filter" data-tag="{{ tag | slugify }}">
+                {{ tag }} <span class="tag-count">({{ site.posts | where_exp: "post", "post.tags contains tag" | size }})</span>
+              </span>
             {% endfor %}
-            {% else %}
-            <div class="column">
-                <p class="has-text-centered">No items found for this page.</p>
-            </div>
-            {% endif %}
+          </div>
         </div>
-
-        <!-- Pagination Navigation -->
-        {% if paginator.total_pages > 1 %} {# <-- paginator.total_pages #}
-        <nav class="pagination is-centered" role="navigation" aria-label="pagination" style="margin-top: 2rem;">
-            {% if paginator.previous_page %} {# <-- paginator.previous_page #}
-            <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination-previous">Previous</a> {# <-- paginator.previous_page_path #}
-            {% else %}
-            <a class="pagination-previous" disabled>Previous</a>
-            {% endif %}
-
-            {% if paginator.next_page %} {# <-- paginator.next_page #}
-            <a href="{{ paginator.next_page_path | relative_url }}" class="pagination-next">Next page</a> {# <-- paginator.next_page_path #}
-            {% else %}
-            <a class="pagination-next" disabled>Next page</a>
-            {% endif %}
-
-            <ul class="pagination-list">
-                {% for paginator_page_item in paginator.page_trail %} {# <-- paginator.page_trail, changed loop var name #}
-                <li>
-                    <a href="{{ paginator_page_item.path | relative_url }}"
-                       class="pagination-link {% if paginator_page_item.is_current %}is-current{% endif %}"
-                       aria-label="Goto page {{ paginator_page_item.num }}"
-                       {% if paginator_page_item.is_current %}aria-current="page"{% endif %}>
-                        {{ paginator_page_item.num }}
+      </div>
+      
+      <!-- Blog Post List -->
+      <div id="post-list" class="columns is-multiline">
+        {% for post in paginator.posts %}
+          <div class="column is-4 post-item" 
+               data-author="{{ post.author | slugify }}"
+               data-category="{% for cat in post.category %}{{ cat | slugify }} {% endfor %}"
+               data-tags="{% for tag in post.tags %}{{ tag | slugify }} {% endfor %}"
+               data-search="{{ post.title | downcase }} {{ post.description | downcase }} {{ post.content | strip_html | downcase }}">
+            <div class="card">
+              {% if post.image %}
+              <div class="card-image">
+                <figure class="image is-4by3">
+                  <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                </figure>
+              </div>
+              {% endif %}
+              <div class="card-content">
+                <div class="media">
+                  <div class="media-content">
+                    <p class="title is-4">{{ post.title }}</p>
+                    <p class="subtitle is-6">
+                      By {{ post.author }} · 
+                      <time datetime="{{ post.date | date_to_xmlschema }}">
+                        {{ post.date | date: "%b %-d, %Y" }}
+                      </time>
+                    </p>
+                  </div>
+                </div>
+                
+                <div class="content">
+                  {% if post.TLTR %}
+                  <div class="notification is-light is-info">
+                    <strong>TL;DR:</strong> {{ post.TLTR }}
+                  </div>
+                  {% endif %}
+                  
+                  {{ post.excerpt | truncate: 150 }}
+                  
+                  <div class="tags">
+                    {% for tag in post.tags %}
+                      <span class="tag is-light">{{ tag }}</span>
+                    {% endfor %}
+                  </div>
+                  
+                  <div class="buttons is-right">
+                    <a href="{{ post.url | relative_url }}" class="button is-link is-outlined">
+                      <span>Read More</span>
+                      <span class="icon is-small">
+                        <i class="fas fa-arrow-right"></i>
+                      </span>
                     </a>
-                </li>
-                {% endfor %}
-            </ul>
-        </nav>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      
+      <!-- Pagination -->
+      {% if paginator.total_pages > 1 %}
+      <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        {% if paginator.previous_page %}
+          <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination-previous">Previous</a>
+        {% else %}
+          <a class="pagination-previous" disabled>Previous</a>
         {% endif %}
-
-        <div id="no-results" class="notification is-warning is-light" style="display: none; margin-top: 2rem;">
-            No items match your search criteria on this page.
-        </div>
+        
+        {% if paginator.next_page %}
+          <a href="{{ paginator.next_page_path | relative_url }}" class="pagination-next">Next</a>
+        {% else %}
+          <a class="pagination-next" disabled>Next</a>
+        {% endif %}
+        
+        <ul class="pagination-list">
+          {% for page in (1..paginator.total_pages) %}
+            {% if page == paginator.page %}
+              <li><a class="pagination-link is-current" aria-label="Page {{ page }}" aria-current="page">{{ page }}</a></li>
+            {% elsif page == 1 %}
+              <li><a href="{{ '/blog/' | relative_url }}" class="pagination-link" aria-label="Goto page 1">{{ page }}</a></li>
+            {% else %}
+              <li><a href="{{ site.paginate_path | relative_url | replace: ':num', page }}" class="pagination-link" aria-label="Goto page {{ page }}">{{ page }}</a></li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </nav>
+      {% endif %}
+      
+      <!-- No Results Message (hidden by default) -->
+      <div id="no-results" class="notification is-warning is-light" style="display: none;">
+        No posts match your search criteria. Try adjusting your filters.
+      </div>
     </div>
-</section>
+  </section>
+
+  
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Elements
+    const authorFilter = document.getElementById('author-filter');
+    const categoryFilter = document.getElementById('category-filter');
+    const tagFilters = document.querySelectorAll('.tag-filter');
+    const searchInput = document.getElementById('search-input');
+    const searchButton = document.getElementById('search-button');
+    const posts = document.querySelectorAll('.post-item');
+    const noResults = document.getElementById('no-results');
+    
+    // Filter function
+    function filterPosts() {
+      const authorValue = authorFilter.value;
+      const categoryValue = categoryFilter.value;
+      const searchValue = searchInput.value.toLowerCase();
+      const activeTags = Array.from(document.querySelectorAll('.tag-filter.is-active'))
+                            .map(tag => tag.dataset.tag);
+      
+      let visibleCount = 0;
+      
+      posts.forEach(post => {
+        const postAuthor = post.dataset.author;
+        const postCategories = post.dataset.category.split(' ');
+        const postTags = post.dataset.tags.split(' ');
+        const postSearch = post.dataset.search;
+        
+        // Check filters
+        const authorMatch = authorValue === 'all' || postAuthor.includes(authorValue);
+        const categoryMatch = categoryValue === 'all' || postCategories.includes(categoryValue);
+        const tagMatch = activeTags.length === 0 || activeTags.some(tag => postTags.includes(tag));
+        const searchMatch = searchValue === '' || postSearch.includes(searchValue);
+        
+        if (authorMatch && categoryMatch && tagMatch && searchMatch) {
+          post.style.display = 'block';
+          visibleCount++;
+        } else {
+          post.style.display = 'none';
+        }
+      });
+      
+      // Show/hide no results message
+      if (visibleCount === 0) {
+        noResults.style.display = 'block';
+      } else {
+        noResults.style.display = 'none';
+      }
+    }
+    
+    // Event listeners
+    authorFilter.addEventListener('change', filterPosts);
+    categoryFilter.addEventListener('change', filterPosts);
+    searchInput.addEventListener('keyup', filterPosts);
+    searchButton.addEventListener('click', filterPosts);
+    
+    tagFilters.forEach(tag => {
+      tag.addEventListener('click', function() {
+        this.classList.toggle('is-active');
+        this.classList.toggle('is-info');
+        filterPosts();
+      });
+    });
+  });
+  </script>
+  
+  <style>
+  .tag-filter {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 0.5rem;
+  }
+  
+  .tag-filter:hover {
+    transform: scale(1.05);
+  }
+  
+  .tag-filter.is-active {
+    background-color: #3273dc;
+    color: white;
+  }
+  
+  .card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+  
+  .card-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card-content .content {
+    flex-grow: 1;
+  }
+  
+  .pagination-link.is-current {
+    background-color: #3273dc;
+    border-color: #3273dc;
+  }
+  
+  #no-results {
+    margin-top: 2rem;
+  }
+  </style>
