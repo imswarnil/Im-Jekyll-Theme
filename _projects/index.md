@@ -16,9 +16,7 @@ permalink: /projects # Explicitly set the URL
       {% assign sorted_projects = site.projects | sort: 'date' | reverse %}
       {% for p in sorted_projects %}
       <div class="column is-6-tablet is-4-desktop project-column">
-        {% comment %} --- Start Reusable Project Card --- {% endcomment %}
         {% include card/project.html project=p %}
-        {% comment %} --- End Reusable Project Card --- {% endcomment %}
       </div>
       {% endfor %}
     </div>
