@@ -1,12 +1,10 @@
 ---
 layout: default
 title: All Videos
-# collection: videos # Not strictly needed here if we iterate site.videos directly
-permalink: /videos/
-# Add a variable for items per page, configurable here
-items_per_page: 2
+collection : videos
+permalink: /videos
 ---
-<!-- Hero Section ... (KEEP AS IS) ... -->
+<!-- Hero Section with Split Layout -->
 <section class="hero is-primary is-small">
     <div class="hero-body">
         <div class="container">
@@ -27,12 +25,12 @@ items_per_page: 2
                             <span class="ad-label">Advertisement</span>
                             <div class="ad-content">
                             <ins class="adsbygoogle"
-                                 style="display:inline-block;width:980px;height:90px"
-                                 data-ad-client="ca-pub-1291242080282540"
-                                 data-ad-slot="8539588233"></ins>
-                            <script>
-                                 (adsbygoogle = window.adsbygoogle || []).push({});
-                            </script>
+     style="display:inline-block;width:980px;height:90px"
+     data-ad-client="ca-pub-1291242080282540"
+     data-ad-slot="8539588233"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
                             </div>
                         </div>
                     </div>
@@ -42,13 +40,13 @@ items_per_page: 2
     </div>
 </section>
 
-<!-- Breadcrumb ... (KEEP AS IS) ... -->
+<!-- Breadcrumb -->
 <section class="section pt-4 pb-2">
     <div class="container">
         <nav class="breadcrumb" aria-label="breadcrumbs">
             <ul>
-                <li><a href="{{ '/' | relative_url }}"><i class="fas fa-arrow-left mr-2"></i> Back to Home</a></li>
-                <li class="is-active"><a href="{{ page.url | relative_url }}" aria-current="page">All Videos</a></li>
+                <li><a href="/"><i class="fas fa-arrow-left mr-2"></i> Back to Home</a></li>
+                <li class="is-active"><a href="#" aria-current="page">All Videos</a></li>
             </ul>
         </nav>
     </div>
@@ -57,7 +55,7 @@ items_per_page: 2
 <!-- Main Content -->
 <section class="section pt-2">
     <div class="container">
-        <!-- Top Ad Banner ... (KEEP AS IS) ... -->
+        <!-- Top Ad Banner -->
         <div class="mb-5">
             <div class="ad-container rectangle-ad">
                 <div class="ad-placeholder">
@@ -66,7 +64,7 @@ items_per_page: 2
                 </div>
             </div>
         </div>
-
+        
         <div class="columns">
             <!-- Main Video Listing (9 columns) -->
             <div class="column is-9">
@@ -79,18 +77,17 @@ items_per_page: 2
                         </span>
                     </div>
                 </div>
-
+                
                 <!-- Tag Filters -->
-                {% assign all_video_tags = "" | split: "" %}
+                {% assign all_tags = "" | split: "," %}
                 {% for video in site.videos %}
                     {% for tag in video.tags %}
-                        {% unless all_video_tags contains tag %}
-                            {% assign all_video_tags = all_video_tags | push: tag %}
+                        {% unless all_tags contains tag %}
+                            {% assign all_tags = all_tags | push: tag %}
                         {% endunless %}
                     {% endfor %}
                 {% endfor %}
-                {% assign all_video_tags = all_video_tags | uniq | sort %}
-
+                
                 <div class="field is-grouped is-grouped-multiline tag-filter mb-5">
                     <div class="control">
                         <div class="tags has-addons">
@@ -98,32 +95,29 @@ items_per_page: 2
                             <span class="tag is-medium">{{ site.videos.size }}</span>
                         </div>
                     </div>
-                    {% for tag in all_video_tags %}
-                    {% assign tag_videos_count = site.videos | where_exp: "video", "video.tags contains tag" | size %}
-                    {% if tag_videos_count > 0 %}
+                    {% for tag in all_tags %}
+                    {% assign tag_videos = site.videos | where_exp: "video", "video.tags contains tag" %}
                     <div class="control">
                         <div class="tags has-addons">
                             <span class="tag is-medium filter-tag" data-filter="{{ tag | slugify }}">{{ tag }}</span>
-                            <span class="tag is-medium">{{ tag_videos_count }}</span>
+                            <span class="tag is-medium">{{ tag_videos.size }}</span>
                         </div>
                     </div>
-                    {% endif %}
                     {% endfor %}
                 </div>
-
+                
                 <!-- Video Grid -->
                 <div class="columns is-multiline" id="videoContainer">
                     {% for video in site.videos %}
-                    <div class="column is-one-third video-column video-card"
+                    <div class="column is-one-third video-column video-card" 
                          data-tags="{% for tag in video.tags %}{{ tag | slugify }} {% endfor %}"
-                         data-title="{{ video.title | downcase | escape }}"
-                         data-description="{{ video.description | downcase | escape }}"
-                         style="display: none;" {% comment %}Initially hidden by JS for pagination {% endcomment %}>
+                         data-title="{{ video.title | downcase }}"
+                         data-description="{{ video.description | downcase }}">
                         <a href="{{ video.url | relative_url }}" class="video-card-link">
                             <div class="card">
                                 <div class="card-image">
                                     <div class="video-thumbnail">
-                                        <img src="https://img.youtube.com/vi/{{ video.VideoId }}/maxresdefault.jpg" alt="{{ video.title | escape }}">
+                                            <img src="https://img.youtube.com/vi/{{ video.VideoId }}/maxresdefault.jpg" alt="{{ video.title }}">
                                         <span class="video-duration">{{ video.duration }}</span>
                                         <div class="video-hover-overlay">
                                             <i class="fas fa-play"></i>
@@ -134,9 +128,9 @@ items_per_page: 2
                                     <div class="media">
                                         <div class="media-left">
                                             {% if video.author_image %}
-                                                <img class="author-avatar" src="{{ video.author_image | relative_url }}" alt="{{ video.author | escape }}">
+                                                <img class="author-avatar" src="{{ video.author_image | relative_url }}" alt="{{ video.author }}">
                                             {% else %}
-                                                <img class="author-avatar" src="https://via.placeholder.com/48?text={{ video.author | slice: 0 | upcase }}" alt="{{ video.author | escape }}">
+                                                <img class="author-avatar" src="https://via.placeholder.com/48" alt="{{ video.author }}">
                                             {% endif %}
                                         </div>
                                         <div class="media-content">
@@ -160,12 +154,8 @@ items_per_page: 2
                     </div>
                     {% endfor %}
                 </div>
-                 <div id="no-videos-found" class="has-text-centered" style="display: none; margin: 2rem 0;">
-                    <p class="is-size-5">No videos match your current filters.</p>
-                </div>
-
-
-                <!-- Middle Ad Banner ... (KEEP AS IS) ... -->
+                
+                <!-- Middle Ad Banner -->
                 <div class="my-5">
                     <div class="ad-container banner-ad">
                         <div class="ad-placeholder">
@@ -174,182 +164,430 @@ items_per_page: 2
                         </div>
                     </div>
                 </div>
-
-                <!-- Pagination (JS will manage this) -->
-                <nav id="video-pagination" class="pagination is-centered" role="navigation" aria-label="pagination" style="display: none;">
-                    <a class="pagination-previous" disabled>Previous</a>
-                    <a class="pagination-next" disabled>Next page</a>
+                
+                <!-- Pagination -->
+                <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                    <a class="pagination-previous">Previous</a>
+                    <a class="pagination-next">Next page</a>
                     <ul class="pagination-list">
-                        <!-- JS will populate this -->
+                        <li><a class="pagination-link is-current" aria-label="Page 1" aria-current="page">1</a></li>
+                        <li><a class="pagination-link" aria-label="Goto page 2">2</a></li>
+                        <li><a class="pagination-link" aria-label="Goto page 3">3</a></li>
                     </ul>
                 </nav>
-
-                <!-- Masterclass Section ... (KEEP AS IS) ... -->
-                <!-- Request Video Section ... (KEEP AS IS) ... -->
-                <!-- My Gear Section ... (KEEP AS IS) ... -->
+                
+                <!-- Masterclass Section -->
+                <section class="section">
+                    <div class="content has-text-centered">
+                        <h2 class="title is-3">YouTube Masterclass</h2>
+                        <p>Join my comprehensive course where I teach everything I know about growing a successful YouTube channel from scratch. Covers content creation, editing, SEO, monetization, and more.</p>
+                        <button class="button is-primary is-medium mt-4">Enroll Now</button>
+                    </div>
+                </section>
+                
+                <!-- Request Video Section -->
+                <section class="section">
+                    <div class="box">
+                        <h2 class="title is-4">Request a Video</h2>
+                        <p>Have a topic you'd like me to cover? Let me know!</p>
+                        <iframe data-tally-src="https://tally.so/embed/w2o9Dj?alignLeft=1&transparentBackground=1" loading="lazy" width="100%" height="300" frameborder="0" marginheight="0" marginwidth="0" title="Video Request"></iframe>
+<script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
+                        <button class="button is-info">Submit Request</button>
+                    </div>
+                </section>
+                
+                <!-- My Gear Section -->
+                <section class="section">
+                    <h2 class="title is-3">My Video Production Gear</h2>
+                    <div class="columns is-multiline">
+                        <!-- Product 1 -->
+                        <div class="column is-one-third">
+                            <div class="card product-card">
+                                <div class="card-image">
+                                    <figure class="image is-4by3">
+                                        <img src="https://via.placeholder.com/300x225" alt="Camera gear">
+                                    </figure>
+                                </div>
+                                <div class="card-content">
+                                    <p class="title is-5">Primary Camera</p>
+                                    <p class="subtitle is-6">For all my video work</p>
+                                    <div class="content">
+                                        <p>The camera I use for most of my YouTube videos and tutorials.</p>
+                                        <a href="#" class="button is-small is-link">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 2 -->
+                        <div class="column is-one-third">
+                            <div class="card product-card">
+                                <div class="card-image">
+                                    <figure class="image is-4by3">
+                                        <img src="https://via.placeholder.com/300x225" alt="Microphone">
+                                    </figure>
+                                </div>
+                                <div class="card-content">
+                                    <p class="title is-5">Main Microphone</p>
+                                    <p class="subtitle is-6">For crystal clear audio</p>
+                                    <div class="content">
+                                        <p>Professional microphone that ensures great sound quality.</p>
+                                        <a href="#" class="button is-small is-link">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 3 -->
+                        <div class="column is-one-third">
+                            <div class="card product-card">
+                                <div class="card-image">
+                                    <figure class="image is-4by3">
+                                        <img src="https://via.placeholder.com/300x225" alt="Lighting">
+                                    </figure>
+                                </div>
+                                <div class="card-content">
+                                    <p class="title is-5">Lighting Setup</p>
+                                    <p class="subtitle is-6">For perfect illumination</p>
+                                    <div class="content">
+                                        <p>Lighting kit that makes every video look professional.</p>
+                                        <a href="#" class="button is-small is-link">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
-
-            <!-- Sidebar (3 columns) ... (KEEP AS IS) ... -->
+            
+            <!-- Sidebar (3 columns) -->
             <div class="column is-3">
-              <!-- ... your existing sidebar content ... -->
+                <div class="sticky-sidebar">
+                    <!-- Sidebar Ad -->
+                    <div class="mb-5">
+                        <div class="ad-container square-ad">
+                            <div class="ad-placeholder">
+                                <span class="ad-label">Advertisement</span>
+                                <div class="ad-content">300x250 Square</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Masterclass Promotion -->
+                    <div class="box mb-5">
+                        <h3 class="title is-5">Free Masterclass</h3>
+                        <figure class="image is-16by9 mb-3">
+                            <img src="https://via.placeholder.com/320x180" alt="Masterclass thumbnail">
+                        </figure>
+                        <p>Get started with my free YouTube masterclass covering the basics of content creation.</p>
+                        <button class="button is-primary is-fullwidth mt-3">Get Free Access</button>
+                    </div>
+                    
+                    <!-- Request Video -->
+                    <div class="box mb-5">
+                        <h3 class="title is-5">Video Requests</h3>
+                        <p>What should I make next?</p>
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" placeholder="Your video idea">
+                            </div>
+                        </div>
+                        <button class="button is-info is-fullwidth">Submit</button>
+                    </div>
+                    
+                    <!-- Popular Videos -->
+                    <div class="box">
+                        <h3 class="title is-5">Most Popular</h3>
+                        {% assign popular_videos = site.videos | sort: 'views' | reverse | slice: 0, 5 %}
+                        {% for video in popular_videos %}
+                        <a href="{{ video.url | relative_url }}" class="video-sidebar-link">
+                            <article class="media mb-4">
+                                <figure class="media-left">
+                                    <p class="image is-64x64">
+                                        {% if video.image %}
+                                            <img src="{{ video.image | relative_url }}" alt="{{ video.title }}">
+                                        {% else %}
+                                            <img src="https://img.youtube.com/vi/{{ video.VideoId }}/default.jpg" alt="{{ video.title }}">
+                                        {% endif %}
+                                    </p>
+                                </figure>
+                                <div class="media-content">
+                                    <p class="is-size-6 has-text-weight-semibold">{{ video.title | truncate: 40 }}</p>
+                                    <small>{{ video.views | default: "0" }} views</small>
+                                </div>
+                            </article>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    
+                    <!-- Sidebar Bottom Ad -->
+                    <div class="mt-5">
+                        <div class="ad-container skyscraper-ad">
+                            <div class="ad-placeholder">
+                                <span class="ad-label">Advertisement</span>
+                                <div class="ad-content">160x600 Skyscraper</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Style section ... (KEEP AS IS, or add minor tweaks if needed) ... -->
 <style>
-/* ... your existing styles ... */
-.video-card[style*="display: none"] { /* Ensures it's truly hidden if column has padding */
-    padding: 0 !important;
-    margin: 0 !important;
-    height: 0 !important;
-    overflow: hidden !important;
-    visibility: hidden !important; /* Stronger hiding */
+/* Video Thumbnail Styles */
+.video-thumbnail {
+    position: relative;
+    padding-top: 56.25%; /* 16:9 aspect ratio */
+    background-color: #f5f5f5;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.video-thumbnail img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.video-duration {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    z-index: 2;
+}
+
+.video-hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.video-hover-overlay i {
+    color: white;
+    font-size: 2rem;
+}
+
+/* Video Card Hover Effects */
+.video-card-link:hover .video-thumbnail img {
+    transform: scale(1.05);
+}
+
+.video-card-link:hover .video-hover-overlay {
+    opacity: 1;
+}
+
+.video-card-link:hover .card {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+}
+
+.video-card-link .card {
+    transition: all 0.3s ease;
+}
+
+/* Author Avatar */
+.author-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+/* Sticky Sidebar */
+.sticky-sidebar {
+    position: sticky;
+    top: 20px;
+}
+
+/* Tag Filter Styles */
+.tag-filter .tag {
+    cursor: pointer;
+    margin-bottom: 5px;
+    transition: all 0.2s ease;
+}
+
+.tag-filter .tag:hover {
+    transform: translateY(-2px);
+}
+
+.tag-filter .tag.is-active {
+    background-color: #3273dc;
+    color: white;
+}
+
+/* Product Card Styles */
+.product-card {
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.product-card:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+}
+
+/* Advertisement Styles */
+.ad-container {
+    background: #f5f5f5;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.ad-placeholder {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eaeaea;
+    color: #999;
+    font-weight: bold;
+    text-align: center;
+}
+
+.ad-label {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 0.7rem;
+    color: #999;
+    background: white;
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+.leaderboard-ad .ad-placeholder {
+    height: 90px;
+    width: 728px;
+    max-width: 100%;
+}
+
+.rectangle-ad .ad-placeholder {
+    height: 250px;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.banner-ad .ad-placeholder {
+    height: 250px;
+    width: 970px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.square-ad .ad-placeholder {
+    height: 250px;
+    width: 300px;
+}
+
+.skyscraper-ad .ad-placeholder {
+    height: 600px;
+    width: 160px;
+    margin: 0 auto;
+}
+
+/* Sidebar Video Links */
+.video-sidebar-link {
+    display: block;
+    transition: all 0.2s ease;
+}
+
+.video-sidebar-link:hover {
+    background: #f5f5f5;
+    transform: translateX(5px);
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+    .video-column {
+        flex: none;
+        width: 50%;
+    }
+    
+    .hero-body .columns {
+        flex-direction: column;
+    }
+    
+    .hero-body .column.is-8,
+    .hero-body .column.is-4 {
+        width: 100%;
+    }
+    
+    .leaderboard-ad .ad-placeholder {
+        height: 90px;
+        width: 100%;
+    }
 }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const ITEMS_PER_PAGE = {{ page.items_per_page | default: 6 }}; // Use frontmatter or default
-    let currentPage = 1;
-    const videoSearchInput = document.getElementById('videoSearch');
-    const allVideoCards = Array.from(document.querySelectorAll('#videoContainer .video-card'));
-    const tagFilterElements = document.querySelectorAll('.filter-tag');
-    const videoContainer = document.getElementById('videoContainer');
-    const noVideosFoundMessage = document.getElementById('no-videos-found');
-
-    // Pagination elements
-    const paginationNav = document.getElementById('video-pagination');
-    const paginationList = paginationNav.querySelector('.pagination-list');
-    const prevButton = paginationNav.querySelector('.pagination-previous');
-    const nextButton = paginationNav.querySelector('.pagination-next');
-
-    let currentFilteredVideos = [];
-
-    function applyFiltersAndPaginate() {
-        const searchTerm = videoSearchInput.value.toLowerCase().trim();
-        const activeTagFilter = document.querySelector('.filter-tag.is-active').dataset.filter;
-
-        currentFilteredVideos = allVideoCards.filter(card => {
+    // Search functionality
+    const searchInput = document.getElementById('videoSearch');
+    const videoCards = document.querySelectorAll('.video-card');
+    
+    searchInput.addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        
+        videoCards.forEach(card => {
             const title = card.dataset.title;
             const description = card.dataset.description;
-            const cardTags = card.dataset.tags;
-
-            const searchMatch = searchTerm === '' ||
-                                title.includes(searchTerm) ||
-                                description.includes(searchTerm) ||
-                                cardTags.includes(searchTerm);
-
-            const tagMatch = activeTagFilter === 'all' || cardTags.includes(activeTagFilter);
-
-            return searchMatch && tagMatch;
-        });
-
-        if (currentFilteredVideos.length === 0) {
-            noVideosFoundMessage.style.display = 'block';
-            videoContainer.style.display = 'none'; // Hide container if no videos
-        } else {
-            noVideosFoundMessage.style.display = 'none';
-            videoContainer.style.display = 'flex'; // Bulma columns is-multiline uses flex
-        }
-        
-        renderPaginationControls();
-        showPage(1); // Go to first page of new filtered results
-    }
-
-    function showPage(pageNumber) {
-        currentPage = pageNumber;
-        const totalPages = Math.ceil(currentFilteredVideos.length / ITEMS_PER_PAGE);
-
-        // Hide all video cards first
-        allVideoCards.forEach(card => card.style.display = 'none');
-
-        const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-        const endIndex = startIndex + ITEMS_PER_PAGE;
-        const pageVideos = currentFilteredVideos.slice(startIndex, endIndex);
-
-        pageVideos.forEach(card => card.style.display = 'block'); // Or 'flex' if your column needs it
-
-        // Update pagination link states
-        Array.from(paginationList.querySelectorAll('.pagination-link')).forEach(link => {
-            link.classList.remove('is-current');
-            if (parseInt(link.textContent) === currentPage) {
-                link.classList.add('is-current');
-                link.setAttribute('aria-current', 'page');
+            const tags = card.dataset.tags;
+            
+            if (searchTerm === '' || 
+                title.includes(searchTerm) || 
+                description.includes(searchTerm) || 
+                tags.includes(searchTerm)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
             }
         });
-
-        prevButton.disabled = currentPage === 1;
-        nextButton.disabled = currentPage === totalPages || totalPages === 0;
-    }
-
-    function renderPaginationControls() {
-        paginationList.innerHTML = ''; // Clear existing page numbers
-        const totalPages = Math.ceil(currentFilteredVideos.length / ITEMS_PER_PAGE);
-
-        if (totalPages <= 1) {
-            paginationNav.style.display = 'none';
-            return;
-        }
-        paginationNav.style.display = 'flex'; // Or 'block' or 'table' as per Bulma's pagination
-
-        // Simplified: Show all page numbers. For many pages, you might want ellipsis.
-        for (let i = 1; i <= totalPages; i++) {
-            const pageLinkLi = document.createElement('li');
-            const pageLinkA = document.createElement('a');
-            pageLinkA.classList.add('pagination-link');
-            pageLinkA.textContent = i;
-            pageLinkA.setAttribute('aria-label', `Goto page ${i}`);
-            if (i === currentPage) { // currentPage should be 1 initially here
-                pageLinkA.classList.add('is-current');
-                pageLinkA.setAttribute('aria-current', 'page');
-            }
-            pageLinkA.addEventListener('click', (e) => {
-                e.preventDefault();
-                showPage(i);
-            });
-            pageLinkLi.appendChild(pageLinkA);
-            paginationList.appendChild(pageLinkLi);
-        }
-    }
-
-    // Event Listeners
-    if (videoSearchInput) {
-        videoSearchInput.addEventListener('input', applyFiltersAndPaginate);
-    }
-
-    tagFilterElements.forEach(tag => {
+    });
+    
+    // Tag filtering
+    const filterTags = document.querySelectorAll('.filter-tag');
+    
+    filterTags.forEach(tag => {
         tag.addEventListener('click', function() {
-            tagFilterElements.forEach(t => t.classList.remove('is-active'));
+            const filterValue = this.dataset.filter;
+            
+            // Update active tag
+            filterTags.forEach(t => t.classList.remove('is-active'));
             this.classList.add('is-active');
-            applyFiltersAndPaginate();
+            
+            // Filter videos
+            videoCards.forEach(card => {
+                const tags = card.dataset.tags;
+                
+                if (filterValue === 'all' || tags.includes(filterValue)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         });
     });
-
-    prevButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (currentPage > 1) {
-            showPage(currentPage - 1);
-        }
-    });
-
-    nextButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        const totalPages = Math.ceil(currentFilteredVideos.length / ITEMS_PER_PAGE);
-        if (currentPage < totalPages) {
-            showPage(currentPage + 1);
-        }
-    });
-
-    // Initial setup
-    if (allVideoCards.length > 0) {
-        applyFiltersAndPaginate(); // This will also call showPage(1)
-    } else {
-        paginationNav.style.display = 'none';
-        noVideosFoundMessage.textContent = 'No videos available at the moment.';
-        noVideosFoundMessage.style.display = 'block';
-        videoContainer.style.display = 'none';
-    }
 });
 </script>
