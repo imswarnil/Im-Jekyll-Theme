@@ -209,8 +209,6 @@ collections:
     output: true # Creates individual pages for each project
     permalink: /projects/:path/ # Defines the URL structure (e.g., /projects/my-cool-project/)
 
-  
-
 
 # 6. Jekyll collections settings
 defaults:
