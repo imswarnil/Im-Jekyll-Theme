@@ -1,6 +1,6 @@
 ---
 layout: post
-id: 3
+
 title: "Building My Own Website with a Custom Jekyll Theme"
 description: "A detailed account of building my own website, imswarnil.com, using a custom Jekyll theme."
 date: 2016-10-05 14:00:00 +0000
