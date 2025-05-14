@@ -23,7 +23,6 @@ permalink: /videos
         </div>
     </div>
 </section>
-
 <!-- Breadcrumb -->
 <section class="section pt-4 pb-2">
     <div class="container">
@@ -35,7 +34,6 @@ permalink: /videos
         </nav>
     </div>
 </section>
-
 <!-- Main Content -->
 <section class="section pt-2">
     <div class="container">

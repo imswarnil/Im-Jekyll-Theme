@@ -10,6 +10,7 @@ author: Jane Smith
 image: /assets/images/post-three.jpg
 excerpt: "This post details the process of building my personal website, imswarnil.com, using a custom Jekyll theme."
 TLTR: "Learn how I built my personal website, imswarnil.com, using a custom Jekyll theme and the challenges faced during development."
+comments : true
 ---
 
 Creating a personal website is an exciting project that allows you to showcase your skills, portfolio, and interests. For my website, imswarnil.com, I decided to use a custom Jekyll theme to leverage the power of static site generation.
