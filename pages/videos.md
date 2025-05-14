@@ -47,7 +47,6 @@ permalink: /videos
                 </div>
             </div>
         </div>
-        
         <div class="columns">
             <!-- Main Video Listing (9 columns) -->
             <div class="column is-9">
@@ -110,7 +109,7 @@ permalink: /videos
                                             {% if video.author_image %}
                                                 <img class="author-avatar" src="{{ video.author_image | relative_url }}" alt="{{ video.author }}">
                                             {% else %}
-                                                <img class="author-avatar" src="https://via.placeholder.com/48" alt="{{ video.author }}">
+                                                <img class="author-avatar" src="/assets/logos/logo.svg" alt="{{ video.author }}">
                                             {% endif %}
                                         </div>
                                         <div class="media-content">
