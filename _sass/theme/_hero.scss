@@ -1,0 +1,187 @@
+// scss/theme/_hero.scss
+
+// --- Main Hero Wrapper (.im-hero-wrapper) ---
+// This class will be applied to the <section> tag by the main hero.html include
+.im-hero-wrapper {
+  position: relative; // For pseudo-element grid and absolute positioned elements
+  overflow: hidden;   // Keep grid lines and other effects contained
+  background-color: $im-body-background; // Default background, can be overridden by Bulma classes
+
+  // Default grid lines for light backgrounds
+  --im-current-hero-grid-color: #{$im-grid-line-color-light-bg};
+
+  &::before { // The decorative grid lines
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0; // Behind actual hero content
+
+    background-image:
+      repeating-linear-gradient(var(--im-current-hero-grid-color) 0 1px, transparent 1px 100%),
+      repeating-linear-gradient(90deg, var(--im-current-hero-grid-color) 0 1px, transparent 1px 100%);
+    background-size: 35px 35px; // Adjust grid cell size as per Enji's style
+
+    // Fading effect (radial gradient mask) - more pronounced than body grid
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+    opacity: 0.6; // Adjust opacity of the hero grid lines
+  }
+
+  // Adjust grid line color for dark backgrounds on the hero
+  // This targets Bulma's color modifier classes.
+  &.is-primary, // Assumes $primary (your $im-primary purple) is dark enough for light lines
+  &.is-link,    // Assumes $link (your $im-primary purple) is dark enough
+  &.is-info,    // Assumes $info is dark enough
+  &.is-success, // Assumes $success is dark enough
+  &.is-warning, // Warning might be light, consider this carefully
+  &.is-danger,  // Assumes $danger is dark enough
+  &.is-dark,    // Bulma's .is-dark
+  &.is-black,   // Bulma's .is-black
+  &.has-background-primary, // Covers Bulma helper classes
+  &.has-background-link,
+  &.has-background-info,
+  &.has-background-success,
+  &.has-background-warning,
+  &.has-background-danger,
+  &.has-background-dark,
+  &.has-background-black {
+    --im-current-hero-grid-color: #{$im-grid-line-color-dark-bg};
+    // Ensure text within these dark heroes is light
+    .title, .subtitle, .im-hero-pretitle, .im-hero-breadcrumb a, .im-hero-back-button a {
+      color: $im-text-invert; // Use your inverted text color
+    }
+    .im-hero-breadcrumb .breadcrumb-separator {
+      color: rgba($im-text-invert, 0.7);
+    }
+    .im-hero-breadcrumb a:hover {
+      color: lighten($im-text-invert, 15%);
+    }
+     .im-hero-back-button a {
+        border-color: rgba($im-text-invert, 0.5);
+        &:hover {
+            background-color: rgba($im-text-invert, 0.1);
+            border-color: $im-text-invert;
+        }
+    }
+  }
+  // If .is-light or .is-white is explicitly set, ensure dark grid lines
+  &.is-light, &.is-white, &.has-background-light, &.has-background-white {
+    --im-current-hero-grid-color: #{$im-grid-line-color-light-bg};
+     // Ensure text is dark for explicitly light heroes
+    .title, .subtitle, .im-hero-pretitle, .im-hero-breadcrumb a, .im-hero-back-button a {
+      color: $im-text; // Reset to default text color
+    }
+     .im-hero-breadcrumb a { color: $link; } // Use link color for breadcrumbs on light bg
+     .im-hero-breadcrumb a:hover { color: $link-hover; }
+     .im-hero-breadcrumb .breadcrumb-separator { color: $grey-light; } // Bulma default
+     .im-hero-back-button a {
+        color: $link;
+        border-color: $link;
+        &:hover {
+            background-color: lighten($link, 40%);
+            color: $link-hover;
+            border-color: $link-hover;
+        }
+    }
+  }
+
+
+  // Ensure hero content (from Bulma's .hero-body) is above the grid
+  .hero-body {
+    position: relative;
+    z-index: 1;
+    padding-top: 3rem; // Default padding, can be overridden by .is-medium, .is-large
+    padding-bottom: 3rem;
+  }
+
+  // --- Common Hero Elements Styling ---
+  .im-hero-pretitle {
+    display: block;
+    color: $primary; // Default to primary, overridden for dark heroes
+    font-size: $size-6; // Bulma size-6
+    font-weight: $im-font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.075em;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-body .title { // Titles within hero
+    font-weight: $im-font-weight-extrabold; // Enji's hero titles are very bold
+    margin-bottom: 1rem; // Default spacing after title
+    // Color is handled by dark/light mode detection above
+  }
+  .hero-body .subtitle {
+    font-weight: $im-font-weight-light; // Enji's hero subtitles are often lighter
+    line-height: 1.7; // More spacious line height for hero subtitles
+    // Color is handled by dark/light mode detection above
+  }
+
+  // --- Breadcrumbs & Back Button specific to Page/Post Heroes ---
+  .im-hero-navigation-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem; // Space below this navigation bar
+    flex-wrap: wrap; // Allow wrapping on small screens
+    gap: 0.5rem; // Gap between breadcrumb and back button if they wrap
+  }
+
+  .im-hero-breadcrumb {
+    .breadcrumb {
+      font-size: $size-7; // Smaller font for breadcrumbs
+      margin-bottom: 0; // Remove default breadcrumb margin
+      li + li::before { // Separator style
+        color: $grey-light; // Default separator color
+      }
+      a {
+        color: $link; // Default link color for breadcrumbs
+        font-weight: $im-font-weight-normal;
+        &:hover {
+          color: $link-hover;
+        }
+      }
+      li.is-active a { // Active (current page) breadcrumb
+        color: $text; // Default text color for active breadcrumb
+        font-weight: $im-font-weight-medium;
+        pointer-events: none; // Not clickable
+      }
+    }
+  }
+
+  .im-hero-back-button {
+    a.button.is-small.is-outlined { // Specific styling for the back button
+      font-weight: $im-font-weight-medium;
+      border-radius: $im-radius-rounded; // Fully rounded like a pill
+      padding-left: 1em;
+      padding-right: 1em;
+      // Colors handled by dark/light mode detection
+      .icon { // Icon within the back button
+        margin-right: 0.35em;
+        font-size: 0.9em; // Slightly smaller icon
+      }
+    }
+  }
+
+  // Adjustments for different hero sizes (Bulma classes)
+  &.is-medium .hero-body {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+  &.is-large .hero-body {
+    padding-top: 9rem;
+    padding-bottom: 9rem;
+  }
+  // Page/Post hero is typically smaller
+  &.im-hero-page .hero-body,
+  &.im-hero-post .hero-body,
+  &.im-hero-collection .hero-body {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+}
