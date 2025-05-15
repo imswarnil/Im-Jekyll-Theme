@@ -1,0 +1,21 @@
+
+$primary: #e53935;
+$link : $primary;
+$family-sans-serif: "Outfit", "Arial", sans-serif !default;
+$family-monospace: "Roboto Mono", monospace !default;
+
+// 2. Your custom theme variables (these will override Bulma's defaults)
+@import "theme/variables";
+
+// 3. Import Bulma
+@import "../node_modules/bulma/sass/index"; 
+
+// 4. Your custom theme styles (these come AFTER Bulma to override or add)
+@import "theme/base";
+@import "theme/typography";
+@import "theme/layout";
+@import "theme/components";
+@import "theme/navbar";
+@import "theme/syntax-highlighting";
+
+@import "theme/custom";

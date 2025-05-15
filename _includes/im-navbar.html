@@ -1,72 +1,72 @@
-    <nav class="navbar {% if site.fixed_navbar %} is-fixed-top {% endif %}" x-data="{ openNav: false }">
-        <div class="container">
-            <div class="navbar-brand">
-                <a href="{{ site.baseurl }}/" class="navbar-item">
-        <img class="image mr-2" src="{{ site.baseurl }}{{ site.logo}}" alt="{{ site.title }}Logo">
-        {{ site.title }}
-    </a>
-                <!-- Search Icon before Burger for mobile -->
-                <a href="/search" class="navbar-item is-hidden-desktop im-navbar-mobile-search" aria-label="Search">
-                    <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
-                </a>
-                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navMenu" :class="{ 'is-active': openNav }" x-on:click="openNav = !openNav">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <!-- <span aria-hidden="true"></span> Only 3 spans for standard burger -->
-                </a>
-            </div>
-            <div class="navbar-menu" id="navMenu" :class="{ 'is-active': openNav }">
-                <div class="navbar-start"> <!-- Changed to navbar-start for main navigation -->
-                <div class="navbar">
-        {% for item in site.navbar %}
-        {% if item.dropdown %}
-            <div class="navbar-item has-dropdown is-hoverable">
-            <a href="{{ item.link | relative_url }}" class="navbar-link">
-                {% if item.image %}
-                <img src="{{ item.image }}" alt="{{ item.name }}" class="navbar-icon mr-2">
-                {% elsif item.icon %}
-                <i class="fas {{ item.icon }} navbar-icon mr-2"></i>
-                {% endif %}
-                {{ item.name }}
+<nav class="navbar {% if site.fixed_navbar %} is-fixed-top {% endif %}" x-data="{ openNav: false }">
+    <div class="container">
+        <div class="navbar-brand">
+            <a href="{{ site.baseurl }}/" class="navbar-item">
+    <img class="image mr-2" src="{{ site.baseurl }}{{ site.logo}}" alt="{{ site.title }}Logo">
+    {{ site.title }}
+</a>
+            <!-- Search Icon before Burger for mobile -->
+            <a href="/search" class="navbar-item is-hidden-desktop im-navbar-mobile-search" aria-label="Search">
+                <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
             </a>
-            <div class="navbar-dropdown">
-                {% for subitem in item.dropdown %}
-                <a href="{{ subitem.link | relative_url }}" class="navbar-item">
-                    {% if subitem.image %}
-                    <img src="{{ subitem.image }}" alt="{{ subitem.name }}" class="navbar-icon mr-2">
-                    {% elsif subitem.icon %}
-                    <i class="fas {{ subitem.icon }} navbar-icon mr-2"></i>
-                    {% endif %}
-                    {{ subitem.name }}
-                </a>
-                {% endfor %}
-            </div>
-            </div>
-        {% else %}
-            <a href="{{ item.link | relative_url }}" class="navbar-item {% if page.url == item.link %}has-text-primary{% endif %}">
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navMenu" :class="{ 'is-active': openNav }" x-on:click="openNav = !openNav">
+             <span aria-hidden="true"></span>
+             <span aria-hidden="true"></span>
+             <span aria-hidden="true"></span>
+             <!-- <span aria-hidden="true"></span> Only 3 spans for standard burger -->
+            </a>
+        </div>
+        <div class="navbar-menu" id="navMenu" :class="{ 'is-active': openNav }">
+            <div class="navbar-start"> <!-- Changed to navbar-start for main navigation -->
+              <div class="navbar">
+    {% for item in site.navbar %}
+      {% if item.dropdown %}
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a href="{{ item.link | relative_url }}" class="navbar-link">
             {% if item.image %}
-                <img src="{{ item.image }}" alt="{{ item.name }}" class="navbar-icon mr-2">
+              <img src="{{ item.image }}" alt="{{ item.name }}" class="navbar-icon mr-2">
             {% elsif item.icon %}
-                <i class="fas {{ item.icon }} navbar-icon mr-2"></i>
+              <i class="fas {{ item.icon }} navbar-icon mr-2"></i>
             {% endif %}
             {{ item.name }}
-            </a>
-        {% endif %}
-        {% endfor %}
-    </div>
-                </div>
-                <div class="navbar-end"> <!-- Social icons and potentially a search icon for desktop -->
-                    {% for item in site.social_media %}
-                        <a class="navbar-item im-social-icon" href="{{ item.url }}" target="_blank" title="{{ item.cta }}">
-                            <span class="icon"><i class="ph ph-{{ item.name | downcase }}"></i></span> <!-- Assuming Phosphor icons for social too -->
-                        </a>
-                    {% endfor %}
-                    <!-- Desktop Search Icon (optional, similar to Enji) -->
-                    <a href="/search" class="navbar-item is-hidden-touch" aria-label="Search">
-                        <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
+          </a>
+          <div class="navbar-dropdown">
+            {% for subitem in item.dropdown %}
+              <a href="{{ subitem.link | relative_url }}" class="navbar-item">
+                {% if subitem.image %}
+                  <img src="{{ subitem.image }}" alt="{{ subitem.name }}" class="navbar-icon mr-2">
+                {% elsif subitem.icon %}
+                  <i class="fas {{ subitem.icon }} navbar-icon mr-2"></i>
+                {% endif %}
+                {{ subitem.name }}
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      {% else %}
+        <a href="{{ item.link | relative_url }}" class="navbar-item {% if page.url == item.link %}has-text-primary{% endif %}">
+          {% if item.image %}
+            <img src="{{ item.image }}" alt="{{ item.name }}" class="navbar-icon mr-2">
+          {% elsif item.icon %}
+            <i class="fas {{ item.icon }} navbar-icon mr-2"></i>
+          {% endif %}
+          {{ item.name }}
+        </a>
+      {% endif %}
+    {% endfor %}
+</div>
+            </div>
+            <div class="navbar-end"> <!-- Social icons and potentially a search icon for desktop -->
+                {% for item in site.social_media %}
+                    <a class="navbar-item im-social-icon" href="{{ item.url }}" target="_blank" title="{{ item.cta }}">
+                        <span class="icon"><i class="ph ph-{{ item.name | downcase }}"></i></span> <!-- Assuming Phosphor icons for social too -->
                     </a>
-                </div>
+                {% endfor %}
+                <!-- Desktop Search Icon (optional, similar to Enji) -->
+                <a href="/search" class="navbar-item is-hidden-touch" aria-label="Search">
+                    <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
+                </a>
             </div>
         </div>
-    </nav>
+    </div>
+  </nav>
