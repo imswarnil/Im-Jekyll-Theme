@@ -521,8 +521,8 @@ $pagination-offset: 0;
 $pagination-padding-left: 0.5em;
 $pagination-padding-right: 0.5em;
 $pagination-radius: $im-radius-small;
-$pagination-hover-color: $link-hover; // Uses derived link color
-$pagination-hover-border-color: $link-hover;
+$pagination-hover-color: $im-link-color-hover:; // Uses derived link color
+$pagination-hover-border-color: $im-link-color-hover:;
 $pagination-focus-color: $link;
 $pagination-focus-border-color: $link-focus-border;
 $pagination-active-color: $link-invert;
