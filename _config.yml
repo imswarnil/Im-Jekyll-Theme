@@ -52,9 +52,11 @@ author:
     - "Traveling"
 social_media:
   - name: "twitter"
+    icon : x-logo
     url: "https://twitter.com/johndoe"
     cta: "Tweet"
   - name: "linkedin"
+    icon : linkedin-logo
     url: "https://linkedin.com/in/johndoe"
     cta: "Connect on LinkedIn"
   - name: "github"

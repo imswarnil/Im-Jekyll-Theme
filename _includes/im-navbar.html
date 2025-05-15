@@ -77,7 +77,7 @@
             <div class="navbar-end">
                 {% for item in site.social_media %}
                     <a class="navbar-item im-social-icon" href="{{ item.url }}" target="_blank" rel="noopener noreferrer" title="{{ item.cta }}">
-                        <span class="icon"><i class="ph ph-{{ item.name | downcase }}"></i></span>
+                        <span class="icon"><i class="ph-duotone ph-{{ item.icon | downcase }}"></i></span>
                     </a>
                 {% endfor %}
                 <a href="{{ '/search' | relative_url }}" class="navbar-item is-hidden-touch im-navbar-desktop-search" aria-label="Search">
