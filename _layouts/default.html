@@ -3,12 +3,12 @@
 {% include im-head.html %}
 <body class="layout-{{ page.layout | default: 'default'}}">
     {% include im-navbar.html %}
-    <div class="content is-medium ">
+    <div class="content is-medium ">  <!-- Key area for integration -->
       <div class="top-leaderboard-ad">
-  {% include adsense.html format="leaderboard-large" slot="8539588233" lazy="false" %}
-</div>
-        {{ content }} <!-- This is where your markdown gets rendered -->
+        {% include adsense.html format="leaderboard-large" slot="8539588233" lazy="false" %}
       </div>
+        {{ content }} <!-- This is where your markdown gets rendered -->
+    </div>
    {% include site-before-end.html %}
    {% include head/sw.html %}
    <script src="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2"></script>

@@ -19,5 +19,7 @@ $family-monospace: "Roboto Mono", monospace !default;
 @import "theme/typography";
 @import "theme/layout";
 @import "theme/components";
+@import "theme/navbar";
 @import "theme/syntax-highlighting";
+
 @import "theme/custom";

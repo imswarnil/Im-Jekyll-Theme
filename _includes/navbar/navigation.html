@@ -1,37 +1,33 @@
-<div class="navbar">
-    {% for item in site.navbar %}
-      {% if item.dropdown %}
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a href="{{ item.link | relative_url }}" class="navbar-link">
-            {% if item.image %}
-              <img src="{{ item.image }}" alt="{{ item.name }}" class="navbar-icon mr-2">
-            {% elsif item.icon %}
-              <i class="fas {{ item.icon }} navbar-icon mr-2"></i>
-            {% endif %}
-            {{ item.name }}
+{% comment %} Example navbar/navigation.html {% endcomment %}
+{% assign navigation_items = site.data.navigation.main | default: site.navigation_main %}
+
+{% for item in navigation_items %}
+  {% if item.sublinks %}
+    <div class="navbar-item has-dropdown is-hoverable">
+      <a class="navbar-link {% if page.url contains item.url_base %}is-active router-link-active{% endif %}" href="{{ item.url | relative_url }}">
+        {% if item.icon %}
+        <span class="icon im-nav-icon">
+          <i class="ph-duotone ph-{{ item.icon }}"></i>
+        </span>
+        {% endif %}
+        {{ item.title }}
+      </a>
+      <div class="navbar-dropdown">
+        {% for sublink in item.sublinks %}
+          <a class="navbar-item {% if page.url == sublink.url %}is-active router-link-active{% endif %}" href="{{ sublink.url | relative_url }}">
+            {{ sublink.title }}
           </a>
-          <div class="navbar-dropdown">
-            {% for subitem in item.dropdown %}
-              <a href="{{ subitem.link | relative_url }}" class="navbar-item">
-                {% if subitem.image %}
-                  <img src="{{ subitem.image }}" alt="{{ subitem.name }}" class="navbar-icon mr-2">
-                {% elsif subitem.icon %}
-                  <i class="fas {{ subitem.icon }} navbar-icon mr-2"></i>
-                {% endif %}
-                {{ subitem.name }}
-              </a>
-            {% endfor %}
-          </div>
-        </div>
-      {% else %}
-        <a href="{{ item.link | relative_url }}" class="navbar-item {% if page.url == item.link %}has-text-primary{% endif %}">
-          {% if item.image %}
-            <img src="{{ item.image }}" alt="{{ item.name }}" class="navbar-icon mr-2">
-          {% elsif item.icon %}
-            <i class="fas {{ item.icon }} navbar-icon mr-2"></i>
-          {% endif %}
-          {{ item.name }}
-        </a>
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+    <a class="navbar-item {% if page.url == item.url or (page.url == '/' and item.url == '/') %}is-active router-link-active{% endif %}" href="{{ item.url | relative_url }}">
+      {% if item.icon %}
+      <span class="icon im-nav-icon">
+        <i class="ph-duotone ph-{{ item.icon }}"></i>
+      </span>
       {% endif %}
-    {% endfor %}
-</div>
+      {{ item.title }}
+    </a>
+  {% endif %}
+{% endfor %}

@@ -1,0 +1,201 @@
+.navbar-brand {
+  .navbar-item {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    font-weight: 600;
+    color: $text-strong; // Using Bulma's derived variable, assumes $im-text-strong is similar
+
+    img {
+      max-height: $navbar-item-img-max-height;
+    }
+
+    &:hover {
+      color: $primary;
+    }
+  }
+}
+
+.navbar {
+  box-shadow: $navbar-box-shadow-size $navbar-box-shadow-color;
+  background-color: $navbar-background-color;
+  z-index: 30;
+
+  .navbar-burger {
+    color: $navbar-burger-color;
+    margin-left: auto;
+    order: 2;
+
+    span {
+      height: 2px;
+      background-color: currentColor;
+    }
+  }
+
+  .im-navbar-mobile-search {
+    order: 1;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    color: $text; // Using Bulma's derived variable
+    &:hover {
+      color: $primary; // Using Bulma's derived variable
+      background-color: transparent !important;
+    }
+  }
+
+  .navbar-start,
+  .navbar-end {
+    align-items: stretch;
+  }
+
+  .navbar-menu {
+    &.is-active {
+      background-color: $navbar-background-color;
+      box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1);
+      border-radius: 0 0 $radius $radius; // Using Bulma's derived $radius
+      padding-bottom: 0.5rem;
+      padding-top: 0.5rem;
+      position: absolute;
+      width: 100%;
+      left: 0;
+      top: 100%;
+      .navbar-start {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .navbar-item {
+            justify-content: center;
+            width: 100%;
+        }
+      }
+      .navbar-end {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        padding-top: 0.5rem;
+        border-top: 1px solid $divider; // Using Bulma's $divider
+        margin-top: 0.5rem;
+        .navbar-item {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+      }
+    }
+  }
+
+  .navbar-item {
+    font-weight: $navbar-item-font-weight;
+    color: $navbar-item-color;
+    padding: 0.5rem 1rem;
+    position: relative;
+
+    .icon:not(:last-child) {
+      margin-right: 0.5rem;
+    }
+    .icon:not(:first-child) {
+      margin-left: 0.5rem;
+    }
+
+    &:hover, &:focus {
+      background-color: $navbar-item-hover-background-color;
+      color: $navbar-item-hover-color;
+    }
+
+    &.is-active,
+    &.router-link-active {
+      color: $navbar-item-active-color;
+      font-weight: 600;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0px;
+        left: 1rem;
+        right: 1rem;
+        height: 3px;
+        background-color: $primary; // Using Bulma's derived variable
+        border-radius: $radius-small $radius-small 0 0; // Using Bulma's derived variable
+      }
+    }
+
+    &.has-dropdown {
+      .navbar-link {
+        padding-right: 2.5em;
+        &::after {
+          border-color: $navbar-dropdown-arrow;
+          right: 1.125em;
+        }
+      }
+      .navbar-dropdown {
+        background-color: $navbar-dropdown-background-color;
+        border: 1px solid $border; // Using Bulma's derived variable
+        border-top: 1px solid $navbar-dropdown-border-top;
+        border-radius: 0 0 $radius $radius; // Using Bulma's derived variable
+        box-shadow: 0 8px 8px rgba(10, 10, 10, 0.05);
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+
+        .navbar-item {
+          padding-left: 1rem;
+          padding-right: 1rem;
+          font-weight: 400;
+          &::after { display: none; }
+          &:hover, &:focus {
+            color: $navbar-dropdown-item-hover-color;
+            background-color: $navbar-dropdown-item-hover-background-color;
+          }
+          &.is-active {
+             color: $navbar-dropdown-item-active-color;
+             background-color: $navbar-dropdown-item-active-background-color;
+          }
+        }
+      }
+    }
+  }
+
+  .im-social-icon {
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+    color: $text-light; // Using Bulma's derived variable
+    .icon {
+      font-size: 1.1rem;
+    }
+    &:hover {
+      color: $primary; // Using Bulma's derived variable
+      background-color: transparent !important;
+    }
+  }
+
+  .navbar-item {
+    .im-nav-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 0.5em;
+
+      i.ph-duotone {
+        font-size: 1.3rem;
+        --ph-secondary-color: #{rgba($text, 0.4)}; // Using Bulma's derived variable
+        --ph-primary-color: #{$text};              // Using Bulma's derived variable
+        transition: color 0.2s ease-in-out, --ph-primary-color 0.2s ease-in-out, --ph-secondary-color 0.2s ease-in-out;
+      }
+    }
+
+    &:hover, &:focus, &.is-active, &.router-link-active {
+      .im-nav-icon i.ph-duotone {
+        --ph-secondary-color: #{rgba($primary, 0.5)}; // Using Bulma's derived variable
+        --ph-primary-color: #{$primary};              // Using Bulma's derived variable
+      }
+    }
+
+    &.has-icon-only {
+      .im-nav-icon {
+        margin-right: 0;
+        i.ph-duotone {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+}
+
+[x-cloak] { display: none !important; }
