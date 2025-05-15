@@ -248,7 +248,7 @@ defaults:
 navbar:
   - name: Home
     link: /
-    icon: fa-home
+    icon: house
     dropdown:
       - name: Personal
         link: /personal
