@@ -414,3 +414,92 @@ $table-head-cell-color: $im-text-strong;
 $table-row-hover-background-color: $im-body-background;
 // ... etc.
 
+// scss/theme/_variables.scss
+
+// ... (previous parts of _variables.scss) ...
+
+// =============================================================================
+// 3. DARK MODE THEME VARIABLES (IM-prefixed)
+//    These will be applied when a .is-dark-mode class is on the html/body
+// =============================================================================
+
+$im-dark-primary: $im-primary;
+$im-dark-primary-light: lighten($im-dark-primary, 10%);
+$im-dark-primary-dark: darken($im-dark-primary, 5%);
+$im-dark-primary-invert: $im-text-strong;
+
+$im-dark-link-color: $im-primary-light;
+$im-dark-link-color-hover: $im-primary;
+$im-dark-link-color-active: $im-primary;
+$im-dark-link-color-focus: $im-primary;
+$im-dark-link-color-invert: $im-text-strong;
+
+$im-dark-text: #c9d1d9;
+$im-dark-text-light: #8b949e;
+$im-dark-text-strong: #f0f6fc;
+$im-dark-text-headings: $im-dark-text-strong;
+$im-dark-text-invert: $im-text;
+$im-dark-text-placeholder: $im-dark-text-light;
+
+$im-dark-body-background: #0d1117;
+$im-dark-content-background: #161b22;
+$im-dark-code-block-background: #010409;
+$im-dark-code-block-text: #c9d1d9;
+$im-dark-inline-code-background: darken($im-dark-content-background, 5%);
+$im-dark-inline-code-text: $im-primary-light;
+
+$im-dark-border-color: #30363d;
+$im-dark-border-color-strong: #8b949e;
+$im-dark-divider-color: #21262d;
+
+$im-dark-input-background: $im-dark-content-background;
+$im-dark-input-text: $im-dark-text;
+$im-dark-input-border: $im-dark-border-color;
+$im-dark-input-border-hover: $im-primary-light;
+$im-dark-input-border-focus: $im-primary-light;
+$im-dark-input-shadow-focus: rgba($im-primary-light, 0.25);
+
+$im-dark-button-text: $im-dark-primary-invert;
+$im-dark-button-background: $im-dark-primary;
+$im-dark-button-border: $im-dark-primary;
+$im-dark-button-hover-background: $im-dark-primary-dark;
+$im-dark-button-hover-border: $im-dark-primary-dark;
+$im-dark-button-active-background: darken($im-dark-primary-dark, 5%);
+$im-dark-button-active-border: darken($im-dark-primary-dark, 5%);
+$im-dark-button-focus-shadow: rgba($im-dark-primary, 0.25);
+
+$im-dark-button-text-style-color: $im-dark-text;
+$im-dark-button-text-style-hover-background: $im-dark-divider-color;
+$im-dark-button-text-style-hover-color: $im-dark-text-strong;
+
+$im-dark-navbar-background: $im-dark-content-background;
+$im-dark-navbar-text: $im-dark-text;
+$im-dark-navbar-text-hover: $im-dark-primary;
+$im-dark-navbar-text-active: $im-dark-primary;
+$im-dark-navbar-shadow-color: rgba(black, 0.2);
+// --- ADDED THESE LINES FOR THE FIX ---
+$im-dark-navbar-dropdown-background: darken($im-dark-content-background, 3%);
+$im-dark-navbar-dropdown-border: $im-dark-border-color;
+$im-dark-navbar-dropdown-item-hover-background: lighten($im-dark-primary, 10%);
+$im-dark-navbar-dropdown-item-active-background: $im-dark-primary;
+$im-dark-navbar-dropdown-item-active-text: $im-dark-primary-invert;
+// --- END OF ADDED LINES ---
+
+$im-dark-card-background: $im-dark-content-background;
+$im-dark-card-text: $im-dark-text;
+$im-dark-card-border: $im-dark-border-color;
+$im-dark-card-header-text: $im-dark-text-headings;
+$im-dark-card-footer-border: $im-dark-border-color;
+$im-dark-card-footer-text: $im-dark-text-light;
+
+$im-dark-box-background: $im-dark-content-background;
+$im-dark-box-text: $im-dark-text;
+
+$im-dark-footer-background: $im-dark-body-background;
+$im-dark-footer-text: $im-dark-text-light;
+$im-dark-footer-border: $im-dark-border-color;
+
+$im-dark-grid-line-body: $im-grid-line-dark-bg;
+$im-dark-grid-line-hero: $im-grid-line-dark-bg;
+
+// ... (rest of your _variables.scss file, including the Bulma-equivalent section)

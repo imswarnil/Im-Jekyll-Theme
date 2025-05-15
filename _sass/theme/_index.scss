@@ -1532,3 +1532,439 @@ html { scroll-padding-top: $im-navbar-height + 1rem; }
 // Add any remaining component styles here, e.g., for specific card types or layouts
 // Always using your $im- prefixed variables.
 
+// In scss/theme/_index.scss (append this section)
+
+// =============================================================================
+// DARK MODE STYLES
+// =============================================================================
+
+html.is-dark-mode {
+  // --- Dark Mode Base & Typography Overrides ---
+  background-color: $im-dark-body-background; // Ensures no flash of light bg on html
+
+  body {
+    background-color: $im-dark-body-background;
+    color: $im-dark-text;
+    --im-current-body-grid-color: #{$im-dark-grid-line-body}; // Update body grid color for dark mode
+
+    &::before { // Re-apply background image with new variable
+        background-image:
+        repeating-linear-gradient(var(--im-current-body-grid-color) 0 1px, transparent 1px 100%),
+        repeating-linear-gradient(90deg, var(--im-current-body-grid-color) 0 1px, transparent 1px 100%);
+    }
+  }
+
+  a {
+    color: $im-dark-link-color;
+    &:hover, &:focus {
+      color: $im-dark-link-color-hover;
+      text-decoration-color: rgba($im-dark-link-color-hover, 0.5);
+    }
+    &:active { color: $im-dark-link-color-active; }
+  }
+
+  h1, h2, h3, h4, h5, h6 { color: $im-dark-text-headings; }
+  .title { color: $im-dark-text-headings; }
+  .subtitle { color: $im-dark-text-light; }
+  p { color: $im-dark-text; }
+  strong, b { color: $im-dark-text-strong; }
+  hr { background-color: $im-dark-divider-color; }
+
+  blockquote {
+    background-color: $im-dark-inline-code-background; // Or a slightly different dark bg
+    border-left-color: $im-dark-primary; // Use dark mode primary
+    color: $im-dark-text-light;
+  }
+
+  code:not(pre > code) {
+    background-color: $im-dark-inline-code-background;
+    color: $im-dark-inline-code-text;
+  }
+  pre {
+    background-color: $im-dark-code-block-background;
+    color: $im-dark-code-block-text;
+    border-color: darken($im-dark-code-block-background, 5%);
+  }
+
+  .content {
+    color: $im-dark-text;
+    h1,h2,h3,h4,h5,h6 { color: $im-dark-text-headings; }
+    a { color: $im-dark-link-color; &:hover { color: $im-dark-link-color-hover; text-decoration-color: $im-dark-link-color-hover;} }
+    strong { color: $im-dark-text-strong; }
+    blockquote { background-color: $im-dark-inline-code-background; border-left-color: $im-dark-primary; color: $im-dark-text-light;}
+    table th { color: $im-dark-text-strong; }
+    table td, table th { border-color: $im-dark-divider-color; }
+  }
+
+  // --- Dark Mode Component Overrides ---
+
+  // Hero
+  .hero {
+    &.im-hero-styled {
+      // Default grid for dark mode hero should be light lines
+      --im-current-hero-grid-color: #{$im-dark-grid-line-hero};
+
+      // If hero has a light background modifier in dark mode, switch grid to dark lines
+      &.is-light, &.is-white, &.has-background-light, &.has-background-white {
+        --im-current-hero-grid-color: #{$im-grid-line-light-bg}; // Dark lines on light bg
+        .title, .subtitle, .im-hero-pretitle { color: $im-text-headings; } // Dark text on light bg
+        .subtitle { color: $im-text; }
+        .im-hero-breadcrumb .breadcrumb a { color: $im-link-color !important; } // Default link color
+        .im-hero-breadcrumb .breadcrumb a:hover { color: $im-link-color-hover !important; }
+        .im-hero-breadcrumb .breadcrumb-separator { color: $im-text-light !important; }
+        .im-hero-back-button .button {
+            color: $im-link-color !important; border-color: $im-link-color !important;
+            &:hover { background-color: lighten($im-link-color, 40%) !important; color: $im-link-color-hover !important; border-color: $im-link-color-hover !important; }
+        }
+      }
+      // If hero has a dark background modifier (is-primary, is-dark etc.) in dark mode, text is already inverted
+      // by the general .im-hero-styled .is-primary selector.
+      // The --im-current-hero-grid-color is already set to light lines by default for dark mode heroes.
+    }
+    .im-hero-pretitle { color: $im-dark-primary; } // Pretitle in dark mode
+  }
+
+
+  // Buttons
+  .button {
+    color: $im-dark-button-text;
+    background-color: $im-dark-button-background;
+    border-color: $im-dark-button-border;
+    &:hover { background-color: $im-dark-button-hover-background; border-color: $im-dark-button-hover-border; color: $im-dark-button-text; }
+    &:focus { border-color: $im-dark-button-hover-border; box-shadow: 0 0 0 0.125em $im-dark-button-focus-shadow; }
+    &:active { background-color: $im-dark-button-active-background; border-color: $im-dark-button-active-border; }
+
+    &.is-success { background-color: $im-success; border-color: $im-success; color: $im-success-invert; /* Success colors usually stay same */ }
+    &.is-warning { background-color: $im-warning; border-color: $im-warning; color: $im-warning-invert; /* Warning colors usually stay same */ }
+    &.is-danger { background-color: $im-danger; border-color: $im-danger; color: $im-danger-invert; /* Danger colors usually stay same */ }
+    &.is-info { background-color: $im-info; border-color: $im-info; color: $im-info-invert; /* Info colors usually stay same */ }
+
+    &.is-light { background-color: $im-dark-divider-color; border-color: $im-dark-divider-color; color: $im-dark-text-strong;
+      &:hover { background-color: darken($im-dark-divider-color, 5%); border-color: darken($im-dark-divider-color, 5%); }
+      &:focus { box-shadow: 0 0 0 0.125em rgba(darken($im-dark-divider-color,10%), 0.25); }
+    }
+
+    &.is-outlined {
+      background-color: transparent;
+      border-color: $im-dark-button-border;
+      color: $im-dark-button-background; // Use button bg as text color
+      &:hover, &:focus { background-color: $im-dark-button-background; color: $im-dark-button-text; }
+      &.is-primary { border-color: $im-dark-primary; color: $im-dark-primary; &:hover, &:focus { background-color: $im-dark-primary; color: $im-dark-button-text; } }
+      // Add other outlined state colors if needed
+    }
+    &.is-text {
+      color: $im-dark-button-text-style-color;
+      &:hover, &:focus { background-color: $im-dark-button-text-style-hover-background; color: $im-dark-button-text-style-hover-color; }
+    }
+    &.is-loading::after { border-color: $im-dark-border-color; border-right-color: transparent; border-top-color: transparent; }
+    &[disabled], &.is-disabled {
+      background-color: $im-dark-button-background; opacity: 0.5; border-color: $im-dark-button-border;
+    }
+  }
+
+  // Cards
+  .card {
+    background-color: $im-dark-card-background;
+    color: $im-dark-card-text;
+    border-color: $im-dark-card-border;
+    &:hover { border-color: $im-dark-border-color-strong; }
+    .card-header { border-bottom-color: $im-dark-card-footer-border;
+      .card-header-title { color: $im-dark-card-header-text; }
+      .card-header-icon { color: $im-dark-text-light; &:hover { color: $im-dark-primary; } }
+    }
+    .card-footer { border-top-color: $im-dark-card-footer-border;
+      .card-footer-item { color: $im-dark-card-footer-text;
+        &:not(:last-child) { border-right-color: $im-dark-card-footer-border; }
+        &:hover { color: $im-dark-link-color; background-color: $im-dark-divider-color; }
+      }
+    }
+  }
+
+  // Box
+  .box {
+    background-color: $im-dark-box-background;
+    color: $im-dark-box-text;
+    box-shadow: $im-shadow-md; // Dark mode might need adjusted shadows if they rely on light scattering
+  }
+
+  // Forms
+  .input, .textarea, .select select {
+    background-color: $im-dark-input-background;
+    border-color: $im-dark-input-border;
+    color: $im-dark-input-text;
+    &::placeholder { color: $im-dark-text-placeholder; }
+    &:hover { border-color: $im-dark-input-border-hover; }
+    &:focus, &.is-focused, &:active, &.is-active {
+      border-color: $im-dark-input-border-focus;
+      box-shadow: $im-shadow-inner, 0 0 0 0.125em $im-dark-input-shadow-focus;
+    }
+    &[disabled], fieldset[disabled] & {
+      background-color: darken($im-dark-input-background, 3%);
+      border-color: darken($im-dark-input-border, 5%);
+      color: $im-dark-text-light;
+    }
+  }
+  .select::after { border-color: $im-dark-primary; }
+  .select:hover::after { border-color: $im-dark-primary-dark; }
+
+  .checkbox, .radio {
+    color: $im-dark-text;
+    &::before { border-color: $im-dark-input-border; background-color: $im-dark-input-background; }
+    &:hover::before { border-color: $im-dark-input-border-hover; }
+    input:checked + &::before { background-color: $im-dark-primary; border-color: $im-dark-primary; }
+    input:checked + &::after { /* Checkmark color is SVG fill - needs different approach if not using primary-invert */ }
+    input:focus + &::before { border-color: $im-dark-input-border-focus; box-shadow: 0 0 0 0.125em $im-dark-input-shadow-focus; }
+    &[disabled], input:disabled + & {
+      color: $im-dark-text-light;
+      &::before { background-color: darken($im-dark-input-background, 3%); border-color: darken($im-dark-input-border, 5%);}
+      input:checked + &::before { background-color: lighten($im-dark-primary, 20%); border-color: lighten($im-dark-primary, 20%); }
+    }
+  }
+  .checkbox::after { /* Update SVG fill for dark mode if needed */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23#{str-slice(inspect($im-dark-button-text), 2)}'%3E%3Cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");
+  }
+  .radio::after { background-color: $im-dark-button-text; } // Dot color
+
+  .label { color: $im-dark-text-strong; }
+  .help { color: $im-dark-text-light;
+    &.is-danger { color: $im-danger-light; } // Brighter danger text for dark mode
+    &.is-success { color: $im-success-light; } // Brighter success text
+  }
+
+  // Tags
+  .tag {
+    background-color: $im-dark-divider-color;
+    color: $im-dark-text;
+    // Colored tags
+    &.is-primary { background-color: $im-dark-primary; color: $im-dark-primary-invert; }
+    &.is-link { background-color: $im-dark-link-color; color: $im-dark-link-color-invert; }
+    &.is-info { background-color: $im-info; color: $im-info-invert; } // Keep state colors vibrant
+    &.is-success { background-color: $im-success; color: $im-success-invert; }
+    &.is-warning { background-color: $im-warning; color: $im-warning-invert; }
+    &.is-danger { background-color: $im-danger; color: $im-danger-invert; }
+    &.is-light { background-color: $im-dark-divider-color; color: $im-dark-text-strong; }
+    &.is-dark { background-color: $im-dark-text-strong; color: $im-dark-body-background; } // High contrast
+  }
+
+  // Notifications
+  .notification {
+    background-color: $im-dark-body-background;
+    color: $im-dark-text;
+    border-left-color: $im-dark-divider-color;
+    a:not(.button) { color: $im-dark-link-color; &:hover { color: $im-dark-link-color-hover; } }
+    strong { color: $im-dark-text-strong; }
+    code, pre { background: $im-dark-content-background; }
+
+    &.is-primary { background-color: lighten($im-dark-primary, 10%); color: $im-dark-primary-invert; border-left-color: $im-dark-primary; a:not(.button), strong {color: $im-dark-primary-invert;} }
+    &.is-link { background-color: lighten($im-dark-link-color, 10%); color: $im-dark-link-color-invert; border-left-color: $im-dark-link-color; a:not(.button), strong {color: $im-dark-link-color-invert;} }
+    // Other notification state colors would need dark mode variants
+    &.is-light { background-color: $im-dark-divider-color; color: $im-dark-text-strong; border-left-color: $im-dark-border-color-strong; }
+    .delete { // Assuming .delete is styled to be visible on its background
+        // Might need specific color if its default is hard to see
+    }
+  }
+
+  // Table
+  .table {
+    background-color: $im-dark-content-background;
+    color: $im-dark-text;
+    th, td { border-color: $im-dark-divider-color; }
+    thead th, tfoot th { background-color: $im-dark-body-background; color: $im-dark-text-strong; }
+    tbody tr:nth-child(even) { background-color: $im-dark-body-background; }
+    tbody tr:hover { background-color: lighten($im-dark-body-background, 5%); }
+  }
+
+  // Pagination
+  .pagination {
+    .pagination-link, .pagination-previous, .pagination-next {
+      border-color: $im-dark-border-color;
+      color: $im-dark-link-color;
+      background-color: $im-dark-content-background;
+      &:hover { border-color: $im-dark-link-color-hover; background-color: lighten($im-dark-link-color, 10%); color: $im-dark-link-color-hover; }
+      &:focus { border-color: $im-dark-link-color-focus; box-shadow: 0 0 0 0.125em rgba($im-dark-link-color-focus, 0.25); }
+      &:active { background-color: lighten($im-dark-link-color, 5%); border-color: $im-dark-link-color-active; color: $im-dark-link-color-active; }
+    }
+    .pagination-link.is-current { background-color: $im-dark-link-color; border-color: $im-dark-link-color; color: $im-dark-link-color-invert; }
+    .pagination-ellipsis { color: $im-dark-text-light; }
+    &[disabled], .pagination-previous[disabled], .pagination-next[disabled] {
+      background-color: $im-dark-divider-color; border-color: $im-dark-divider-color; color: $im-dark-text-light;
+    }
+  }
+
+  // Tabs
+  .tabs {
+    ul { border-bottom-color: $im-dark-divider-color; }
+    li a {
+      border-bottom-color: $im-dark-divider-color; color: $im-dark-text-light;
+      &:hover { color: $im-dark-text; border-bottom-color: $im-dark-text; }
+    }
+    li.is-active a { border-bottom-color: $im-dark-primary; color: $im-dark-primary; }
+    &.is-boxed {
+      li a { border-color: $im-dark-divider-color; &:hover { background-color: $im-dark-body-background; border-bottom-color: $im-dark-divider-color; } }
+      li.is-active a { background-color: $im-dark-content-background; border-color: $im-dark-divider-color; border-bottom-color: transparent !important; }
+    }
+    &.is-toggle {
+      li a { border-color: $im-dark-border-color; &:hover { background-color: $im-dark-body-background; border-color: $im-dark-border-color-strong; } }
+      li.is-active a { background-color: $im-dark-primary; border-color: $im-dark-primary; color: $im-dark-primary-invert; }
+    }
+  }
+
+  // Panel
+  .panel {
+    border-color: $im-dark-border-color; background-color: $im-dark-content-background;
+    .panel-heading { background-color: $im-dark-body-background; border-bottom-color: $im-dark-divider-color; color: $im-dark-text-strong; }
+    .panel-tabs { border-bottom-color: $im-dark-divider-color;
+      a { color: $im-dark-text-light; &:hover { color: $im-dark-text; } &.is-active { color: $im-dark-primary; border-bottom-color: $im-dark-primary;} }
+    }
+    .panel-block {
+      color: $im-dark-text; border-bottom-color: $im-dark-divider-color;
+      .panel-icon { color: $im-dark-text-light; }
+      &:hover { background-color: $im-dark-body-background; color: $im-dark-text-strong; .panel-icon { color: $im-dark-primary; } }
+      &.is-active { border-left-color: $im-dark-primary; color: $im-dark-primary; .panel-icon { color: $im-dark-primary; } }
+    }
+  }
+
+  // Modal
+  .modal-background { background-color: rgba($im-dark-body-background, 0.9); } // Darker overlay, less black
+  .modal-card {
+    background-color: $im-dark-content-background; box-shadow: $im-shadow-xl; // May need adjusted shadow for dark
+    .modal-card-head { background-color: $im-dark-body-background; border-bottom-color: $im-dark-divider-color; .modal-card-title { color: $im-dark-text-headings; } }
+    .modal-card-body { background-color: $im-dark-content-background; }
+    .modal-card-foot { background-color: $im-dark-body-background; border-top-color: $im-dark-divider-color; }
+  }
+  .modal-close::before, .modal-close::after { background-color: $im-dark-text-strong; } // Brighter X
+
+  // Breadcrumb
+  .breadcrumb {
+    li + li::before { color: $im-dark-text-light; }
+    a { color: $im-dark-link-color; &:hover { color: $im-dark-link-color-hover; background-color: $im-dark-divider-color; } }
+    li.is-active a { color: $im-dark-text; }
+  }
+
+  // Menu
+  .menu {
+    .menu-label { color: $im-dark-text-light; }
+    .menu-list a {
+      color: $im-dark-text;
+      .icon, .icon i.ph-duotone {
+        color: $im-dark-text-light;
+        --ph-primary-color: #{$im-dark-text-light};
+        --ph-secondary-color: #{rgba($im-dark-text-light, 0.4)};
+      }
+      &:hover {
+        background-color: $im-dark-body-background; color: $im-dark-text-strong;
+        .icon, .icon i.ph-duotone { color: $im-dark-primary; --ph-primary-color: #{$im-dark-primary}; --ph-secondary-color: #{rgba($im-dark-primary, 0.4)};}
+      }
+      &.is-active {
+        background-color: $im-dark-primary; color: $im-dark-primary-invert;
+        .icon, .icon i.ph-duotone { color: $im-dark-primary-invert; --ph-primary-color: #{$im-dark-primary-invert}; --ph-secondary-color: #{rgba($im-dark-primary-invert, 0.5)};}
+      }
+    }
+    .menu-list ul { border-left-color: $im-dark-divider-color; }
+  }
+
+  // Footer
+  .footer {
+    background-color: $im-dark-footer-background;
+    color: $im-dark-footer-text;
+    border-top-color: $im-dark-footer-border;
+    a:not(.button) { color: $im-dark-link-color; &:hover { color: $im-dark-link-color-hover; } }
+    .icon { color: $im-dark-text-light; &:hover { color: $im-dark-primary; } }
+  }
+
+  // Navbar dark mode (add to your _navbar.scss or here if navbar is part of _index.scss)
+  .navbar {
+    background-color: $im-dark-navbar-background;
+    box-shadow: $navbar-box-shadow-size $im-dark-navbar-shadow-color; // Use specific dark shadow
+
+    .navbar-brand .im-logo-link.navbar-item { color: $im-dark-text-strong; &:hover {color: $im-dark-primary;} }
+    .navbar-burger { color: $im-dark-navbar-text; }
+    .im-navbar-mobile-search.navbar-item { color: $im-dark-navbar-text; .icon i.ph {color: $im-dark-navbar-text;} &:hover { .icon i.ph {color: $im-dark-primary;}}}
+
+    .navbar-menu.is-active {
+      background-color: $im-dark-navbar-background;
+      box-shadow: 0 8px 16px rgba(black, 0.2);
+      .navbar-start .navbar-item, .navbar-start .has-dropdown > .navbar-link {
+        color: $im-dark-navbar-text;
+        &:hover, &.is-active-nav-item { background-color: lighten($im-dark-primary, 10%); color: $im-dark-primary-invert; }
+      }
+      .navbar-end { border-top-color: $im-dark-divider-color; }
+    }
+
+    .navbar-item, .navbar-link {
+      color: $im-dark-navbar-text;
+      &:hover, &:focus { color: $im-dark-navbar-text-hover; }
+      &.is-active-nav-item {
+        color: $im-dark-navbar-text-active;
+        &::after { background-color: $im-dark-navbar-text-active; }
+      }
+      .im-nav-icon i.ph-duotone {
+        --ph-secondary-color: #{rgba($im-dark-navbar-text, 0.4)};
+        --ph-primary-color: #{$im-dark-navbar-text};
+      }
+       &:hover .im-nav-icon i.ph-duotone, &.is-active-nav-item .im-nav-icon i.ph-duotone {
+        --ph-secondary-color: #{rgba($im-dark-navbar-text-hover, 0.5)};
+        --ph-primary-color: #{$im-dark-navbar-text-hover};
+      }
+    }
+    .navbar-dropdown {
+      background-color: $im-dark-navbar-dropdown-background;
+      border-color: $im-dark-navbar-dropdown-border;
+      .navbar-item {
+        color: $im-dark-navbar-text;
+        &:hover { background-color: $im-dark-navbar-dropdown-item-hover-background; color: $im-dark-navbar-text-hover; }
+        &.is-active-nav-item { background-color: $im-dark-navbar-dropdown-item-active-background; color: $im-dark-navbar-dropdown-item-active-text; }
+      }
+    }
+    .im-social-icon.navbar-item { color: $im-dark-text-light; .icon i.ph {color: $im-dark-text-light;} &:hover { .icon i.ph {color: $im-dark-primary;}}}
+    .im-navbar-desktop-search.navbar-item { color: $im-dark-navbar-text; .icon i.ph {color: $im-dark-navbar-text;} &:hover { .icon i.ph {color: $im-dark-primary;}}}
+  }
+
+  // Dark mode for custom components from _custom.scss
+  .im-section-title {
+    &::after { background-color: $im-dark-primary; } // Use dark mode primary if different
+  }
+  .im-tech-stack .im-tech-icon {
+    color: $im-dark-text-light;
+    img, svg { filter: grayscale(30%) opacity(0.8); } // Adjust for dark bg
+    &:hover { color: $im-dark-primary; img, svg { filter: grayscale(0%) opacity(1);}}
+  }
+  .im-big-quote {
+    color: $im-dark-text-strong;
+    &::before, &::after { background-color: $im-dark-divider-color; }
+  }
+  .im-numbered-list .im-list-item {
+    background-color: $im-dark-content-background;
+    border-color: $im-dark-divider-color;
+    &::before { background-color: $im-dark-primary; color: $im-dark-primary-invert; box-shadow: 0 2px 4px rgba(darken($im-dark-primary,10%),0.3);}
+    .im-item-title { color: $im-dark-text-strong; }
+    .im-item-description { color: $im-dark-text; }
+  }
+  .im-feature-box { // If not using .box as base
+    // background-color: $im-dark-content-background;
+    // border-color: $im-dark-divider-color; etc.
+    .im-feature-icon { color: $im-dark-primary; }
+    .im-feature-title { color: $im-dark-text-strong; }
+    .im-feature-description { color: $im-dark-text-light; }
+  }
+
+  // Syntax Highlighting in Dark Mode (adjust token colors if needed for better contrast)
+  pre[class*="language-"] {
+    background: $im-dark-code-block-background; // Already dark, but confirm
+    color: $im-dark-code-block-text;
+    border-color: darken($im-dark-code-block-background, 3%);
+  }
+  // Example: Make comments slightly brighter in dark mode if default is too dim
+  // .token.comment { color: lighten(#5c6370, 10%); }
+
+  // Selection highlight in dark mode
+  ::selection {
+    background-color: rgba($im-dark-primary, 0.8); // Use dark mode primary for selection
+    color: $im-dark-primary-invert;
+  }
+  ::-moz-selection {
+    background-color: rgba($im-dark-primary, 0.8);
+    color: $im-dark-primary-invert;
+  }
+
+} // End html.is-dark-mode
