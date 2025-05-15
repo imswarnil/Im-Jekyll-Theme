@@ -54,9 +54,9 @@ a {
 
   &:hover,
   &:focus {
-    color: $link-hover; // Uses $im-primary-dark
+    color: $im-link-color-hover; // Uses $im-primary-dark
     text-decoration: underline;
-    text-decoration-color: rgba($link-hover, 0.5); // Subtle underline color
+    text-decoration-color: rgba($im-link-color-hover, 0.5); // Subtle underline color
   }
 }
 
