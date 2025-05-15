@@ -252,7 +252,7 @@ navbar:
     dropdown:
       - name: Personal
         link: /personal
-        icon: fa-user
+        icon: user
   - name: About
     link: /about
     icon: fa-user
