@@ -80,7 +80,7 @@
             {% if page == paginator.page %}
               <li><a class="pagination-link is-current" aria-label="Page {{ page }}" aria-current="page">{{ page }}</a></li>
             {% elsif page == 1 %}
-              <li><a href="{{ '/blog/' | relative_url }}" class="pagination-link" aria-label="Goto page 1">{{ page }}</a></li>
+              <li><a href="{{ '/' | relative_url }}" class="pagination-link" aria-label="Goto page 1">{{ page }}</a></li>
             {% else %}
               <li><a href="{{ site.paginate_path | relative_url | replace: ':num', page }}" class="pagination-link" aria-label="Goto page {{ page }}">{{ page }}</a></li>
             {% endif %}

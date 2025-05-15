@@ -3,7 +3,7 @@ id: p-alpha
 title: "Project Alpha - Web App Modernization"
 description: "Led the modernization of a legacy web application using React, Node.js, and Bulma, improving performance and user experience significantly."
 date: 2023-08-15
-category: ["Web Development", "Case Study"]
+category: project
 tags: [react, nodejs, bulma, javascript, modernization, ui-ux]
 image: /assets/images/projects/project-alpha-cover.jpg
 status: "Completed"
