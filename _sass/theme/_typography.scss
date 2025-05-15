@@ -37,7 +37,7 @@ hr.is-divider { // Bulma's divider
 
 blockquote {
   background-color: $im-body-background; // Lighter than box/card
-  border-left: 4px solid $im-accent; // Use accent for blockquote border
+  border-left: 4px solid $im-primary-light; // Use accent for blockquote border
   padding: 1.25em 1.5em;
   margin: 1.5rem 0;
   border-radius: $im-radius-small;
