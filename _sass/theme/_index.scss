@@ -1,3 +1,510 @@
 
 @import "./variables";
 
+// scss/theme/_index.scss
+// This file combines base, typography, and hero styling,
+// using only $im- prefixed variables from _variables.scss.
+
+// =============================================================================
+// BASE STYLES (Equivalent to _base.scss)
+// =============================================================================
+
+html {
+  background-color: $im-body-background;
+  font-size: $im-font-size-base;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility; // Good practice, not directly from $im- vars but a standard setting
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $im-family-sans-serif;
+  color: $im-text;
+  font-weight: $im-font-weight-normal;
+  line-height: $im-line-height-base;
+  position: relative;
+  overflow-x: hidden; // Good practice
+  min-width: 320px;  // Good practice
+
+  // Subtle background grid lines for the entire body
+  &::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    --im-current-body-grid-color: #{$im-grid-line-light-bg}; // Uses $im- grid variable
+    background-image:
+      repeating-linear-gradient(var(--im-current-body-grid-color) 0 1px, transparent 1px 100%),
+      repeating-linear-gradient(90deg, var(--im-current-body-grid-color) 0 1px, transparent 1px 100%);
+    background-size: 40px 40px;
+    opacity: 0.5;
+  }
+}
+
+a {
+  color: $im-link-color;
+  font-weight: $im-font-weight-medium;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out, text-decoration-color 0.2s ease-in-out;
+
+  &:hover,
+  &:focus {
+    color: $im-link-color-hover;
+    text-decoration: underline;
+    text-decoration-color: rgba($im-link-color-hover, 0.5);
+  }
+}
+
+img,
+svg,
+video,
+iframe,
+embed,
+object {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+figure {
+  margin: 0 0 $im-block-spacing 0; // Uses $im-block-spacing
+  img {
+    border-radius: $im-radius; // Uses $im-radius for generic images in figures
+  }
+  figcaption {
+    color: $im-text-light;
+    font-size: $im-font-size-small;
+    font-style: italic;
+    margin-top: 0.5em;
+    text-align: center;
+  }
+}
+
+hr {
+  background-color: $im-divider-color;
+  border: none;
+  display: block;
+  height: $im-hr-height;
+  margin: $im-hr-margin;
+}
+
+// Selection Highlight
+::selection {
+  background-color: rgba($im-primary, 0.8);
+  color: $im-primary-invert;
+  text-shadow: none;
+}
+::-moz-selection { // Firefox
+  background-color: rgba($im-primary, 0.8);
+  color: $im-primary-invert;
+  text-shadow: none;
+}
+
+// =============================================================================
+// TYPOGRAPHY STYLES (Equivalent to _typography.scss)
+// =============================================================================
+
+// --- Headings (General H1-H6 styling for raw HTML tags) ---
+h1, h2, h3, h4, h5, h6 {
+  font-family: $im-family-sans-serif;
+  color: $im-text-headings;
+  font-weight: $im-heading-default-weight; // Use specific $im- var
+  line-height: $im-line-height-heading;   // Use specific $im- var
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+// Using Bulma's $size- prefixed variables which were set from $im- variables
+h1 { font-size: $size-2; font-weight: $im-font-weight-extrabold; }
+h2 { font-size: $size-3; font-weight: $im-font-weight-bold; }
+h3 { font-size: $size-4; font-weight: $im-font-weight-semibold; }
+h4 { font-size: $size-5; font-weight: $im-font-weight-semibold; }
+h5 { font-size: $size-6; font-weight: $im-font-weight-medium; }
+h6 { font-size: $im-font-size-small; font-weight: $im-font-weight-medium; text-transform: uppercase; letter-spacing: 0.05em; } // Used $im-font-size-small here directly
+
+// --- Styling for Bulma's .title and .subtitle classes ---
+.title {
+  font-family: $im-family-sans-serif; // Though $family-primary (from Bulma vars) would also work
+  color: $im-text-headings;
+  font-weight: $im-title-default-weight;
+  line-height: $im-line-height-heading;
+  word-break: break-word; // Bulma default
+  // Default size for .title is $title-size ($size-3 typically)
+  // Specific sizes .is-1, .is-2 etc. are handled by Bulma, using our $size- variables
+
+  strong {
+    color: inherit;
+    font-weight: inherit;
+  }
+  // Enji.dev specific title styles if needed beyond Bulma's .is-size-*
+  &.is-1 { font-weight: $im-font-weight-extrabold; letter-spacing: -0.02em; }
+  &.is-2 { font-weight: $im-font-weight-bold; letter-spacing: -0.015em; }
+  // &.is-3 uses $im-title-default-weight or can be $im-font-weight-semibold
+}
+
+.subtitle {
+  font-family: $im-family-sans-serif;
+  color: $im-subtitle-default-color;
+  font-weight: $im-subtitle-default-weight;
+  line-height: $im-line-height-base; // Subtitles can have more spacious line height
+  // Default size for .subtitle is $subtitle-size ($size-5 typically)
+}
+
+// --- Paragraphs & Text Elements ---
+p {
+  margin-bottom: $im-block-spacing;
+  // Font size and line height inherited from body or .content class
+}
+
+strong, b {
+  font-weight: $im-strong-weight;
+  color: $im-strong-color;
+}
+
+em, i {
+  font-style: italic;
+}
+
+small {
+  font-size: $im-font-size-small;
+}
+
+blockquote {
+  background-color: $im-inline-code-background; // Use a very light grey, like inline code bg
+  border-left: 4px solid $im-primary;
+  padding: 1.25em 1.5em;
+  margin: $im-block-spacing 0;
+  border-radius: $im-radius-small;
+  color: $im-text-light;
+  font-style: italic;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// --- Lists (ul, ol, dl) ---
+ul, ol, dl {
+  margin-bottom: $im-block-spacing;
+  padding-left: 1.75em;
+}
+
+li {
+  margin-bottom: 0.5em;
+}
+
+dt {
+  font-weight: $im-font-weight-semibold;
+}
+
+dd {
+  margin-left: 1.5em;
+  margin-bottom: 0.75em;
+}
+
+// --- Code & Preformatted Text (already styled in base, reinforcing here) ---
+// Inline code
+code:not(pre > code) { // Be specific for inline code
+  background-color: $im-inline-code-background;
+  color: $im-inline-code-text;
+  font-family: $im-family-monospace;
+  font-size: 0.875em; // Relative to parent
+  font-weight: $im-font-weight-normal;
+  padding: 0.25em 0.5em 0.2em; // Using $code-padding values
+  border-radius: $im-radius-small;
+}
+
+// Preformatted text blocks
+pre {
+  font-family: $im-family-monospace;
+  background-color: $im-code-block-background;
+  color: $im-code-block-text;
+  font-size: 0.9em; // Relative to parent
+  line-height: 1.5;
+  overflow-x: auto;
+  padding: 1.25em 1.5em; // Using $pre-padding values
+  white-space: pre;
+  word-wrap: normal;
+  border-radius: $im-radius;
+  margin-bottom: $im-block-spacing;
+
+  code { // Reset inline code styling if it's inside a pre block
+    background-color: transparent;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    padding: 0;
+    border-radius: 0;
+  }
+}
+
+// --- Styling for Bulma's .content class (if you use it for articles) ---
+// This ensures that elements within .content also adhere to your $im- theme.
+.content {
+  font-family: $im-family-sans-serif;
+  color: $im-text;
+  font-size: $im-font-size-base; // Ensure base font size unless overridden by .is-medium etc.
+  line-height: $im-line-height-base;
+
+  h1, h2, h3, h4, h5, h6 {
+    color: $im-text-headings;
+    font-weight: $im-heading-default-weight; // Consistent with raw h tags
+    line-height: $im-line-height-heading;
+    // Sizes are typically handled by Bulma's .content h1, .content h2, etc. which use $size-* variables
+  }
+  // Bulma .content h1-h6 sizes are fine as they use $size-* vars derived from $im-*
+
+  p, ul, ol, dl, blockquote, pre, table {
+    margin-bottom: $im-block-spacing;
+  }
+
+  a {
+    color: $im-link-color;
+    font-weight: $im-font-weight-medium;
+    text-decoration: underline;
+    text-decoration-color: rgba($im-link-color, 0.4);
+    &:hover {
+      color: $im-link-color-hover;
+      text-decoration-color: $im-link-color-hover;
+    }
+  }
+
+  strong {
+    color: $im-strong-color;
+    font-weight: $im-strong-weight;
+  }
+
+  blockquote { // Ensure blockquote inside .content also gets themed
+    background-color: $im-inline-code-background;
+    border-left-color: $im-primary;
+    color: $im-text-light;
+  }
+
+  table {
+    th {
+      color: $im-text-strong;
+      font-weight: $im-font-weight-semibold;
+    }
+    td, th {
+      border-color: $im-divider-color; // For table cell borders inside .content
+    }
+  }
+  // Add other .content specific overrides if needed
+}
+
+
+// =============================================================================
+// HERO STYLES (Equivalent to _hero.scss)
+// =============================================================================
+
+// --- Main Hero Wrapper (Applied to Bulma's .hero or a custom .im-hero-wrapper) ---
+// We will style Bulma's .hero class directly to apply these effects
+.hero {
+  &.im-hero-styled { // Add this class to heroes you want to have the Enji.dev grid effect
+    position: relative;
+    overflow: hidden;
+    // background-color: $im-body-background; // Default, can be overridden by .is-primary etc.
+
+    --im-current-hero-grid-color: #{$im-grid-line-light-bg}; // Default grid color
+
+    &::before { // The decorative grid lines
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+
+      background-image:
+        repeating-linear-gradient(var(--im-current-hero-grid-color) 0 1px, transparent 1px 100%),
+        repeating-linear-gradient(90deg, var(--im-current-hero-grid-color) 0 1px, transparent 1px 100%);
+      background-size: 35px 35px;
+
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+      opacity: 0.6;
+    }
+
+    // --- Dark/Light Mode Grid & Text Color Adjustments for .im-hero-styled ---
+    &.is-primary, // Your $im-primary
+    &.is-dark,    // Bulma's dark, which uses $im-text-strong basically
+    &.is-black,   // Bulma's black, uses $im-text-strong
+    // Add custom dark background classes if you have them e.g. &.has-im-dark-bg
+    &.has-background-primary, // For Bulma helper classes
+    &.has-background-dark,
+    &.has-background-black {
+      --im-current-hero-grid-color: #{$im-grid-line-dark-bg};
+      // Text colors within these dark heroes
+      .title, .subtitle, .im-hero-pretitle, .im-hero-breadcrumb .breadcrumb a, .im-hero-back-button .button {
+        color: $im-text-invert !important; // Important to override potential specificity
+      }
+      .im-hero-breadcrumb .breadcrumb-separator {
+        color: rgba($im-text-invert, 0.7) !important;
+      }
+      .im-hero-breadcrumb .breadcrumb a:hover {
+        color: lighten($im-text-invert, 15%) !important;
+      }
+       .im-hero-back-button .button {
+          border-color: rgba($im-text-invert, 0.5) !important;
+          &:hover {
+              background-color: rgba($im-text-invert, 0.1) !important;
+              border-color: $im-text-invert !important;
+          }
+      }
+    }
+    // Explicitly light backgrounds
+    &.is-light, &.is-white, &.has-background-light, &.has-background-white {
+      --im-current-hero-grid-color: #{$im-grid-line-light-bg};
+      // Reset text to default for light heroes
+      .title, .subtitle, .im-hero-pretitle {
+        color: $im-text-headings; // Or $im-text if subtitle should be regular text color
+      }
+      .subtitle { color: $im-text; } // Make subtitle normal text on light bg
+       .im-hero-breadcrumb .breadcrumb a { color: $im-link-color !important; }
+       .im-hero-breadcrumb .breadcrumb a:hover { color: $im-link-color-hover !important; }
+       .im-hero-breadcrumb .breadcrumb-separator { color: $im-text-light !important; } // Use a light text for separator
+       .im-hero-back-button .button {
+          color: $im-link-color !important;
+          border-color: $im-link-color !important;
+          &:hover {
+              background-color: lighten($im-link-color, 40%) !important;
+              color: $im-link-color-hover !important;
+              border-color: $im-link-color-hover !important;
+          }
+      }
+    }
+  } // End of .im-hero-styled
+
+  // Ensure hero content is above the grid if .im-hero-styled is used
+  &.im-hero-styled .hero-body,
+  &.im-hero-styled .hero-head, // If you use hero-head/foot
+  &.im-hero-styled .hero-foot {
+    position: relative;
+    z-index: 1;
+  }
+
+  // General Bulma .hero-body padding (can be adjusted by .is-medium, .is-large)
+  .hero-body {
+    padding: 3rem 1.5rem; // Default Bulma hero-body padding
+  }
+  // Sizes from _variables.scss like $navbar-height influence these
+  // &.is-medium .hero-body { padding: 9rem 1.5rem; } Bulma defaults
+  // &.is-large .hero-body { padding: 18rem 1.5rem; } Bulma defaults
+
+  // --- Common Hero Elements Styling (used by the generic hero.html include) ---
+  .im-hero-pretitle {
+    display: block;
+    color: $im-primary; // Default pretitle color, overridden by dark hero logic if applicable
+    font-size: $im-font-size-small; // Use defined small size
+    font-weight: $im-font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.075em;
+    margin-bottom: 0.75rem;
+  }
+
+  // Titles and subtitles within any hero section
+  // These selectors target .title/.subtitle when they are direct children of .hero-body
+  // or within a .container that is a direct child of .hero-body.
+  .hero-body > .title, .hero-body > .container > .title {
+    font-weight: $im-title-default-weight; // Uses $im-font-weight-extrabold
+    // Color is handled by .im-hero-styled dark/light mode logic if that class is present
+    // Sizes like .is-1, .is-2 are handled by Bulma class definitions.
+    margin-bottom: 1rem;
+  }
+  .hero-body > .subtitle, .hero-body > .container > .subtitle {
+    font-weight: $im-subtitle-default-weight; // Uses $im-font-weight-normal
+    line-height: 1.7; // More spacious for hero subtitles
+    // Color is handled by .im-hero-styled dark/light mode logic if that class is present
+  }
+
+  // --- Breadcrumbs & Back Button specific to Page/Post Heroes ---
+  .im-hero-navigation-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    &.is-centered-breadcrumb { // For centering breadcrumb if no back button
+        justify-content: center;
+        .im-hero-breadcrumb {
+            flex-grow: 0;
+        }
+    }
+  }
+
+  .im-hero-breadcrumb {
+    .breadcrumb { // Styling Bulma's breadcrumb within our hero context
+      font-size: $im-font-size-smaller; // Use very small font for breadcrumbs
+      margin-bottom: 0;
+      ul { margin-left: 0; margin-top:0; } // Reset Bulma ul margins for breadcrumb
+      li + li::before {
+        color: $im-text-light; // Default separator color
+      }
+      a {
+        color: $im-link-color;
+        font-weight: $im-font-weight-normal;
+        &:hover {
+          color: $im-link-color-hover;
+        }
+      }
+      li.is-active a { // Active (current page) breadcrumb
+        color: $im-text; // Default text color for active breadcrumb
+        font-weight: $im-font-weight-medium;
+        pointer-events: none;
+      }
+    }
+  }
+
+  .im-hero-back-button {
+    .button.is-small.is-outlined { // Targets a specific button style for "back"
+      font-weight: $im-font-weight-medium;
+      border-radius: $im-radius-rounded;
+      padding-left: 1em;
+      padding-right: 1em;
+      color: $im-link-color; // Default colors, overridden by dark hero logic
+      border-color: $im-link-color;
+      .icon {
+        margin-right: 0.35em;
+        font-size: 0.9em;
+        i.ph { line-height: 1; } // Ensure phosphor icon aligns well
+      }
+      &:hover {
+        background-color: lighten($im-link-color, 40%);
+        color: $im-link-color-hover;
+        border-color: $im-link-color-hover;
+      }
+    }
+  }
+
+  // --- Specific Hero Type Sizes (using custom classes on .hero element) ---
+  // These provide default padding for different hero types if .is-medium, .is-large aren't used
+  &.im-hero-home .hero-body { // For hero_type: home
+    padding-top: 6rem;    // Example large padding for home
+    padding-bottom: 6rem;
+  }
+  &.im-hero-page .hero-body,
+  &.im-hero-collection .hero-body {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+  &.im-hero-post .hero-body { // Potentially more compact for posts
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
