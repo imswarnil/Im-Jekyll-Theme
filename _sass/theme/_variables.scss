@@ -7,57 +7,65 @@
 // -----------------------------------------------------------------------------
 // Primary & Accent Colors
 // -----------------------------------------------------------------------------
-$im-primary: #e53935; // Enji's primary purple accent (was your #e53935 red, changed to match Enji)
+$im-primary: #7952B3; // Enji's primary purple accent
 $im-primary-light: lighten($im-primary, 15%);
 $im-primary-dark: darken($im-primary, 10%);
-$im-primary-invert: #ffffff; // Text color on primary background
+$im-primary-invert: #ffffff;
 
-// If you still want a distinct accent different from primary:
-// $im-accent: #YOUR_ACCENT_COLOR;
-// $im-accent-light: lighten($im-accent, 15%);
-// $im-accent-dark: darken($im-accent, 10%);
-// $im-accent-invert: #ffffff;
-// For now, we'll assume primary is the main accent.
+// Using primary as the main accent color for links as per Enji's style
+$im-link-color: $im-primary;
+$im-link-color-hover: $im-primary-dark;
+$im-link-color-invert: $im-primary-invert;
+
 
 // -----------------------------------------------------------------------------
 // Text & Typography Colors
 // -----------------------------------------------------------------------------
-$im-text: #383A42;          // Main body text (e.g., Atom One Dark text)
-$im-text-light: #6A737D;    // Lighter text for subtitles, meta, placeholders
-$im-text-strong: #24292E;   // Darker text for strong emphasis, headings
-$im-text-headings: $im-text-strong; // Specific variable for headings if needed
-$im-text-invert: #ffffff;   // For text on dark backgrounds
+$im-text: #383A42;
+$im-text-light: #6A737D;
+$im-text-strong: #24292E;
+$im-text-headings: $im-text-strong;
+$im-text-invert: #ffffff;
 
 // -----------------------------------------------------------------------------
 // Background Colors
 // -----------------------------------------------------------------------------
-$im-body-background: #F9FAFB;         // Very light grey, almost white (Enji's overall bg)
-$im-content-background: #ffffff;      // Background for cards, boxes, navbar
-$im-code-background: #282c34;         // Dark background for code blocks (Atom One Dark editor bg)
-$im-code-text: #abb2bf;              // Text color for code blocks
+$im-body-background: #F9FAFB;
+$im-content-background: #ffffff;
+$im-code-background: #282c34;
+$im-code-text: #abb2bf;
+$im-inline-code-background: darken($im-body-background, 4%);
+$im-inline-code-text: $im-primary-dark; // Or another distinct color for inline code
 
 // -----------------------------------------------------------------------------
 // Border, Divider & Line Colors
 // -----------------------------------------------------------------------------
-$im-border-color: #E1E4E8;         // Light grey border (e.g., GitHub's primer borders)
-$im-border-color-strong: #D1D5DA;    // Slightly stronger border for hover/focus
-$im-divider-color: #F1F2F6;        // Very subtle dividers, hr lines
+$im-border-color: #E1E4E8;
+$im-border-color-strong: #D1D5DA;
+$im-divider-color: #F1F2F6;
 $im-input-border: $im-border-color;
-$im-input-border-hover: $im-primary; // Change to primary on hover/focus for inputs
+$im-input-border-hover: $im-primary;
+$im-input-border-focus: $im-primary; // Using primary for focus as well
 
 // -----------------------------------------------------------------------------
 // UI Element States (Success, Warning, Danger, Info) - IM Prefixed
 // -----------------------------------------------------------------------------
-$im-success: #28A745; // Green
-$im-warning: #FFC107; // Yellow
-$im-danger: #DC3545;  // Red (distinct from primary if primary isn't red)
-$im-info: #17A2B8;    // Teal/Blue
+$im-success: #28A745;
+$im-warning: #FFC107;
+$im-danger: #DC3545;
+$im-info: #17A2B8;
+// Invert colors for states
+$im-success-invert: $im-text-invert;
+$im-warning-invert: $im-text-strong; // Dark text on yellow
+$im-danger-invert: $im-text-invert;
+$im-info-invert: $im-text-invert;
+
 
 // -----------------------------------------------------------------------------
 // Grid Lines (for Hero and other decorative grids)
 // -----------------------------------------------------------------------------
-$im-grid-line-color-light-bg: rgba(desaturate(darken($im-primary, 15%), 25%), 0.07); // Subtle dark lines for light backgrounds
-$im-grid-line-color-dark-bg: rgba(lighten($im-primary, 45%), 0.1);   // Subtle light lines for dark backgrounds
+$im-grid-line-color-light-bg: rgba(desaturate(darken($im-primary, 15%), 25%), 0.07);
+$im-grid-line-color-dark-bg: rgba(lighten($im-primary, 45%), 0.1);
 
 // -----------------------------------------------------------------------------
 // Font Families
@@ -69,38 +77,39 @@ $im-family-monospace: "Roboto Mono", "SFMono-Regular", Consolas, "Liberation Mon
 // Sizing, Radius & Spacing (Base values for IM theme)
 // -----------------------------------------------------------------------------
 $im-font-size-base: 16px;
-$im-line-height-base: 1.65; // Slightly more spacious than Enji's 1.6 for readability
+$im-font-size-small: 0.875em; // Equivalent to Bulma's $size-7
+$im-line-height-base: 1.65;
+$im-font-weight-light: 300;
 $im-font-weight-normal: 400;
 $im-font-weight-medium: 500;
 $im-font-weight-semibold: 600;
 $im-font-weight-bold: 700;
-$im-font-weight-extrabold: 800; // For hero titles etc.
+$im-font-weight-extrabold: 800;
 
 $im-radius-small: 4px;
-$im-radius: 6px;        // Standard radius for buttons, inputs, cards
-$im-radius-large: 8px;    // Larger radius for containers like boxes
-$im-radius-xlarge: 12px;  // For elements like Enji's numbered list items
+$im-radius: 6px;
+$im-radius-large: 8px;
+$im-radius-xlarge: 12px;
 $im-radius-rounded: 9999px;
 
-$im-spacing-unit: 1rem; // Base spacing unit
+$im-spacing-unit: 1rem; // Base spacing unit for margins/paddings if creating custom utilities
 
 // -----------------------------------------------------------------------------
-// Shadows (Inspired by modern UI, similar to Tailwind/Chakra)
+// Shadows
 // -----------------------------------------------------------------------------
 $im-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
-$im-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.07), 0 1px 2px 0 rgba(0, 0, 0, 0.04); // Default shadow for cards
+$im-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.07), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
 $im-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
-$im-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.03); // Hover shadow for cards
+$im-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
 $im-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.07), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
 $im-shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.04);
 
 // =============================================================================
 // 2. BULMA VARIABLE OVERRIDES (Using IM-prefixed variables above)
-//    These MUST be defined BEFORE importing Bulma's main SASS file.
 // =============================================================================
 
 // -----------------------------------------------------------------------------
-// Generic Variables (Bulma's initial variables)
+// Generic Variables
 // -----------------------------------------------------------------------------
 $body-background-color: $im-body-background;
 $body-size: $im-font-size-base;
@@ -115,18 +124,18 @@ $body-line-height: $im-line-height-base;
 
 $code-family: $im-family-monospace;
 $code-padding: 0.25em 0.5em 0.2em;
-$code-weight: $im-font-weight-normal; // Bulma default is normal
-$code-background: darken($im-body-background, 4%); // Slightly darker than body for inline code
-$code: $im-primary-dark; // Make inline code stand out using primary dark
+$code-weight: $im-font-weight-normal;
+$code-background: $im-inline-code-background;
+$code: $im-inline-code-text;
 
-$small-font-size: 0.875em; // Standard Bulma
+$small-font-size: $im-font-size-small;
 
 $hr-background-color: $im-divider-color;
 $hr-height: 1px;
 $hr-margin: 1.5rem 0;
 
 $strong-color: $im-text-strong;
-$strong-weight: $im-font-weight-semibold; // Make strong slightly less than bold for nuance
+$strong-weight: $im-font-weight-semibold;
 
 $pre-family: $im-family-monospace;
 $pre-padding: 1.25em 1.5em;
@@ -136,151 +145,140 @@ $pre-color: $im-code-text;
 // -----------------------------------------------------------------------------
 // Colors (Bulma's color palette)
 // -----------------------------------------------------------------------------
-$black: $im-text-strong;
+$black: $im-text-strong; // Using $im-text-strong for Bulma's $black
 $black-bis: darken($im-text-strong, 5%);
 $black-ter: darken($im-text-strong, 10%);
 
-$grey-darker: $im-text;
-$grey-dark: lighten($im-text, 15%);
-$grey: lighten($im-text, 35%);
+$grey-darker: $im-text; // Using $im-text for Bulma's $grey-darker
+$grey-dark: lighten($im-text, 20%); // Adjusted lightness for $grey-dark
+$grey: lighten($im-text, 40%);      // Adjusted lightness for $grey
 $grey-light: $im-border-color;
 $grey-lighter: $im-divider-color;
-$grey-lightest: lighten($im-divider-color, 2%); // Even lighter for subtle backgrounds
+$grey-lightest: lighten($im-divider-color, 2%);
 
-$white-ter: $im-body-background;
-$white-bis: lighten($im-body-background, 1%);
-$white: $im-content-background;
+$white-ter: $im-body-background; // $white-ter is often used for subtle backgrounds
+$white-bis: lighten($im-body-background, 1%); // If $im-body-background is already very light, this might be pure white
+$white: $im-content-background; // Pure white for main content areas
 
-$orange: #ff9f43; // Standard orange, can be $im-warning if preferred
+// Standard color names mapped to IM state colors
+$orange: darken($im-warning, 5%); // Derive from $im-warning if no specific $im-orange
 $yellow: $im-warning;
 $green: $im-success;
-$turquoise: #00d1b2; // Standard Bulma turquoise, can be $im-info
-$cyan: #3298dc;   // Standard Bulma cyan
-$blue: $im-info;    // Use $im-info for Bulma's blue
-$purple: $im-primary; // Use $im-primary if it's purple
+$turquoise: lighten($im-info, 5%); // Derive from $im-info if no specific $im-turquoise
+$cyan: $im-info; // Use $im-info for $cyan
+$blue: $im-info;
+$purple: $im-primary; // Using $im-primary for Bulma's $purple
 $red: $im-danger;
 
-// Primary, Link, Info, Success, Warning, Danger
+// Main semantic colors
 $primary: $im-primary;
 $primary-light: $im-primary-light;
 $primary-dark: $im-primary-dark;
 $primary-invert: $im-primary-invert;
 
-// Enji uses primary for links essentially, not a distinct link color
-$link: $im-primary;
-$link-light: $im-primary-light;
-$link-dark: $im-primary-dark;
-$link-invert: $im-primary-invert;
-$link-focus-border: $im-primary-dark; // Border color on focus for links (e.g., on buttons)
+$link: $im-link-color;
+$link-light: lighten($im-link-color, 15%);
+$link-dark: $im-link-color-hover;
+$link-invert: $im-link-color-invert;
+$link-focus-border: $im-link-color-hover;
 
 $info: $im-info;
 $info-light: lighten($im-info, 25%);
 $info-dark: darken($im-info, 10%);
-$info-invert: $im-text-invert;
+$info-invert: $im-info-invert;
 
 $success: $im-success;
 $success-light: lighten($im-success, 30%);
 $success-dark: darken($im-success, 10%);
-$success-invert: $im-text-invert;
+$success-invert: $im-success-invert;
 
 $warning: $im-warning;
 $warning-light: lighten($im-warning, 25%);
 $warning-dark: darken($im-warning, 10%);
-$warning-invert: $im-text-strong; // Dark text on yellow often more readable
+$warning-invert: $im-warning-invert;
 
 $danger: $im-danger;
 $danger-light: lighten($im-danger, 25%);
 $danger-dark: darken($im-danger, 10%);
-$danger-invert: $im-text-invert;
+$danger-invert: $im-danger-invert;
 
 // -----------------------------------------------------------------------------
-// Typography (Bulma's typography variables)
+// Typography
 // -----------------------------------------------------------------------------
 $family-primary: $im-family-sans-serif;
-$family-secondary: $im-family-sans-serif; // Can be different if you have a distinct secondary font
+$family-secondary: $im-family-sans-serif;
 $family-sans-serif: $im-family-sans-serif;
 $family-monospace: $im-family-monospace;
-$family-code: $family-monospace; // Already set earlier, but good for completeness
+$family-code: $im-family-monospace;
 
-$size-1: 3rem;    // h1
-$size-2: 2.5rem;  // h2 (Enji's titles are large)
-$size-3: 2rem;    // h3
-$size-4: 1.5rem;  // h4
-$size-5: 1.25rem; // h5
-$size-6: 1rem;    // h6
-$size-7: 0.875rem; // small text
+// Bulma sizes. You defined $im-font-size-base as 16px.
+// These are relative, so they'll scale based on that.
+$size-1: 3rem;
+$size-2: 2.5rem;
+$size-3: 2rem;
+$size-4: 1.5rem;
+$size-5: 1.25rem;
+$size-6: 1rem;
+$size-7: $im-font-size-small; // Use our $im- prefixed small size
 
-$weight-light: 300;
+$weight-light: $im-font-weight-light;
 $weight-normal: $im-font-weight-normal;
 $weight-medium: $im-font-weight-medium;
 $weight-semibold: $im-font-weight-semibold;
 $weight-bold: $im-font-weight-bold;
 
-// Block Eements
-$block-spacing: 1.5rem; // Spacing below p, ul, ol, etc.
+$block-spacing: 1.5rem;
 
-// Content specific
 $content-heading-color: $im-text-headings;
 $content-heading-weight: $im-font-weight-bold;
 $content-heading-line-height: 1.125;
 
-// Title & Subtitle
 $title-color: $im-text-headings;
-$title-family: $family-primary;
-$title-size: $size-2; // Default .title size
-$title-weight: $im-font-weight-extrabold; // Enji uses very bold titles
+$title-family: $family-primary; // Uses $im-family-sans-serif
+$title-size: $size-2;
+$title-weight: $im-font-weight-extrabold;
 $title-line-height: 1.15;
-$title-strong-color: inherit;
-$title-strong-weight: inherit;
+$title-strong-color: inherit; // Will inherit $im-text-headings
+$title-strong-weight: inherit; // Will inherit $im-font-weight-extrabold
 $title-sub-size: 0.75em;
 $title-sup-size: 0.75em;
 
-$subtitle-color: $im-text-light; // Subtitles are lighter
+$subtitle-color: $im-text-light;
 $subtitle-family: $family-primary;
-$subtitle-size: $size-4; // Default .subtitle size
-$subtitle-weight: $im-font-weight-normal; // Lighter weight for subtitles
+$subtitle-size: $size-4;
+$subtitle-weight: $im-font-weight-normal;
 $subtitle-line-height: 1.3;
-$subtitle-strong-color: $im-text; // Strong within subtitle
+$subtitle-strong-color: $im-text; // Strong within subtitle can be main text color
 $subtitle-strong-weight: $im-font-weight-semibold;
 
 // -----------------------------------------------------------------------------
-// Layout (Bulma's general layout variables)
+// Layout
 // -----------------------------------------------------------------------------
-$gap: 64px; // Default gap for columns on desktop (can be overridden by column gap classes)
+$gap: 64px;
 $tablet: 769px;
-$desktop: 1024px; // Bulma's default, Enji.dev seems to use a slightly wider container
-$widescreen: 1216px; // Enji's main content often fits within this
+$desktop: 1024px;
+$widescreen: 1216px;
 $fullhd: 1408px;
 
-// Container
-$container-offset: (2 * $gap); // Bulma default for fullhd
-$container-max-width: $fullhd; // Allow content to go wider if needed by default
-
-// Spacing helpers (m-*, p-*)
-// $custom-spacers: (); // You can add custom spacers if needed
-
-// Responsiveness
-// $breakpoints: (...); // Keep Bulma defaults unless specific need
+$container-offset: ($gap * 2);
+$container-max-width: $fullhd; // Can adjust this if needed for a narrower main content
 
 // -----------------------------------------------------------------------------
-// Elements (Bulma specific components)
+// Elements
 // -----------------------------------------------------------------------------
-
-// Box
 $box-background-color: $im-content-background;
-$box-border-radius: $im-radius-large; // Enji's boxes/cards have a generous radius
-$box-color: inherit; // Inherit text color
-$box-padding: 1.5rem; // Default padding for boxes
-$box-shadow: $im-shadow-md; // A bit more pronounced shadow for boxes
+$box-border-radius: $im-radius-large;
+$box-color: $im-text; // Text color inside box
+$box-padding: 1.5rem;
+$box-shadow: $im-shadow-md;
 
-// Button
-$button-color: $primary-invert;
-$button-background-color: $primary;
+$button-color: $primary-invert; // Uses $im-primary-invert
+$button-background-color: $primary; // Uses $im-primary
 $button-border-color: $primary;
 $button-border-width: 1px;
-$button-padding-vertical: calc(0.6em - #{$button-border-width});   // Enji's buttons are a bit less tall
-$button-padding-horizontal: 1.25em; // Good horizontal padding
-$button-radius: $im-radius; // Standard radius for buttons
+$button-padding-vertical: calc(0.6em - #{$button-border-width});
+$button-padding-horizontal: 1.25em;
+$button-radius: $im-radius;
 
 $button-hover-color: $primary-invert;
 $button-hover-background-color: $primary-dark;
@@ -290,132 +288,119 @@ $button-focus-color: $primary-invert;
 $button-focus-background-color: $primary-dark;
 $button-focus-border-color: $primary-dark;
 $button-focus-box-shadow-size: 0 0 0 0.125em;
-$button-focus-box-shadow-color: rgba($primary, 0.25);
+$button-focus-box-shadow-color: rgba($primary, 0.25); // Uses $im-primary
 
 $button-active-color: $primary-invert;
 $button-active-background-color: darken($primary-dark, 5%);
 $button-active-border-color: darken($primary-dark, 5%);
 
-$button-text-color: $text;
-$button-text-hover-background-color: $grey-lighter; // For text buttons
-$button-text-hover-color: $text-strong;
+$button-text-color: $im-text; // For .is-text buttons
+$button-text-hover-background-color: $grey-lighter; // Uses derived grey
+$button-text-hover-color: $im-text-strong;
 
 $button-disabled-background-color: $primary;
 $button-disabled-border-color: $primary;
 $button-disabled-shadow: none;
 $button-disabled-opacity: 0.5;
 
-$button-static-color: $grey-dark;
-$button-static-background-color: $white-bis;
-$button-static-border-color: $grey-lighter;
+$button-static-color: $grey-dark; // Uses derived grey
+$button-static-background-color: $white-bis; // Uses derived white
+$button-static-border-color: $grey-lighter; // Uses derived grey
 
-// Outlined Buttons
 $button-outlined-border-width: $button-border-width;
-$button-outlined-padding-vertical: calc(0.6em - #{$button-outlined-border-width});
-$button-outlined-padding-horizontal: 1.25em;
+$button-outlined-padding-vertical: $button-padding-vertical; // Keep consistent
+$button-outlined-padding-horizontal: $button-padding-horizontal;
 
-
-// --- Input controls (Input, Textarea, Select) ---
 $input-color: $im-text;
 $input-background-color: $im-content-background;
 $input-border-color: $im-input-border;
 $input-border-width: 1px;
-$input-height: 2.75em; // Slightly taller inputs
+$input-height: 2.75em;
 $input-padding-vertical: calc(0.6em - #{$input-border-width});
 $input-padding-horizontal: 0.85em;
 $input-radius: $im-radius;
-$input-shadow: $im-shadow-inner; // Subtle inner shadow
+$input-shadow: $im-shadow-inner;
 
 $input-hover-color: $im-text-strong;
 $input-hover-border-color: $im-input-border-hover;
 
 $input-focus-color: $im-text-strong;
-$input-focus-border-color: $primary; // Focus with primary color
+$input-focus-border-color: $im-input-border-focus;
 $input-focus-box-shadow-size: 0 0 0 0.125em;
-$input-focus-box-shadow-color: rgba($primary, 0.2);
+$input-focus-box-shadow-color: rgba($im-input-border-focus, 0.2); // Use focus border color for shadow
 
-$input-disabled-color: $grey;
+$input-disabled-color: $grey; // Uses derived grey
 $input-disabled-background-color: $grey-lighter;
 $input-disabled-border-color: $grey-lighter;
 
 $input-placeholder-color: $im-text-light;
 
-// Select specific
-$select-arrow: $primary; // Arrow color for select dropdowns
+$select-arrow: $primary; // Uses $im-primary
 
-// Textarea
 $textarea-padding: 0.85em;
 
-// --- Tag ---
-$tag-background-color: $grey-lighter;
-$tag-color: $text;
+$tag-background-color: $grey-lighter; // Uses derived grey
+$tag-color: $im-text;
 $tag-radius: $im-radius-small;
 $tag-weight: $im-font-weight-normal;
 $tag-delete-margin: 1px;
 
-// --- Image ---
-$image-radius: $im-radius; // Default radius for .image elements
-$image-shadow: none; // No default shadow on images
+$image-radius: $im-radius;
+$image-shadow: none;
 
-// --- Progress ---
 $progress-bar-background-color: $grey-lighter;
-$progress-value-background-color: $text; // Default progress bar color
+$progress-value-background-color: $im-text; // Default progress value color
 $progress-border-radius: $im-radius-rounded;
 $progress-indeterminate-duration: 1.5s;
 
-// --- Table ---
 $table-color: $im-text;
 $table-background-color: $im-content-background;
 $table-cell-border: 1px solid $im-divider-color;
-$table-cell-border-width: 0 0 1px; // Bottom border only for cells
-$table-cell-padding: 0.75em 1em; // More padding for table cells
+$table-cell-border-width: 0 0 1px;
+$table-cell-padding: 0.75em 1em;
 $table-cell-heading-color: $im-text-strong;
-$table-head-cell-border-width: 0 0 2px; // Thicker bottom border for head
+$table-head-cell-border-width: 0 0 2px;
 $table-head-cell-color: $im-text-strong;
-$table-foot-cell-border-width: 2px 0 0; // Thicker top border for foot
+$table-foot-cell-border-width: 2px 0 0;
 $table-foot-cell-color: $im-text-strong;
-$table-row-hover-background-color: $im-body-background; // Subtle hover for rows
+$table-row-hover-background-color: $im-body-background;
 $table-striped-row-even-background-color: $im-body-background;
 $table-striped-row-even-hover-background-color: lighten($im-body-background, 2%);
 
 // -----------------------------------------------------------------------------
-// Components (Bulma's pre-styled components)
+// Components
 // -----------------------------------------------------------------------------
-
-// --- Breadcrumb ---
 $breadcrumb-item-color: $primary;
 $breadcrumb-item-hover-color: $primary-dark;
-$breadcrumb-item-active-color: $text;
+$breadcrumb-item-active-color: $im-text;
 $breadcrumb-item-padding-vertical: 0;
 $breadcrumb-item-padding-horizontal: 0.75em;
 $breadcrumb-item-separator-color: $grey-light;
 
-// --- Card ---
 $card-background-color: $im-content-background;
 $card-color: $im-text;
-$card-radius: $im-radius-large; // Generous radius for cards like Enji
-$card-shadow: $im-shadow; // Default card shadow
+$card-radius: $im-radius-large;
+$card-shadow: $im-shadow;
 
-$card-header-background-color: transparent; // No distinct background for header
+$card-header-background-color: transparent;
 $card-header-color: $im-text-headings;
-$card-header-padding: 1.25rem 1.5rem; // More padding in header
+$card-header-padding: 1.25rem 1.5rem;
 $card-header-shadow: none;
 $card-header-weight: $im-font-weight-semibold;
 
 $card-content-background-color: transparent;
-$card-content-padding: 1.5rem; // Consistent padding
+$card-content-padding: 1.5rem;
 
 $card-footer-background-color: transparent;
 $card-footer-border-top: 1px solid $im-divider-color;
 $card-footer-color: $im-text-light;
 $card-footer-padding: 1.25rem 1.5rem;
 
-$card-media-margin: 1.5rem; // If using media within card
+$card-media-margin: 1.5rem;
 
-// --- Dropdown (used by Navbar and custom dropdowns) ---
 $dropdown-menu-background-color: $im-content-background;
 $dropdown-content-radius: $im-radius;
-$dropdown-content-shadow: $im-shadow-lg; // More pronounced shadow for dropdowns
+$dropdown-content-shadow: $im-shadow-lg;
 $dropdown-content-offset: 4px;
 $dropdown-content-padding-bottom: 0.5rem;
 $dropdown-content-padding-top: 0.5rem;
@@ -423,27 +408,24 @@ $dropdown-content-z: 20;
 
 $dropdown-item-color: $im-text;
 $dropdown-item-hover-color: $primary;
-$dropdown-item-hover-background-color: lighten($primary, 42%); // Very light primary hover
+$dropdown-item-hover-background-color: lighten($primary, 42%);
 $dropdown-item-active-color: $primary-invert;
 $dropdown-item-active-background-color: $primary;
 $dropdown-item-disabled-color: $grey-light;
 
 $dropdown-divider-background-color: $im-divider-color;
 
-// --- Level ---
-$level-item-spacing: 0.75rem; // Default Bulma
+$level-item-spacing: 0.75rem;
 
-// --- Media Object ---
-$media-border-color: $im-border-color; // If using borders on media objects
-$media-spacing: 1rem; // Default Bulma
+$media-border-color: $im-border-color;
+$media-spacing: 1rem;
 
-// --- Menu ---
 $menu-label-color: $im-text-light;
 $menu-label-font-size: 0.9em;
 $menu-label-letter-spacing: 0.1em;
 $menu-label-spacing: 0.75em;
 
-$menu-list-border-left: none; // No left border for menu list
+$menu-list-border-left: none;
 $menu-list-line-height: 1.5;
 $menu-list-link-color: $im-text;
 $menu-list-link-padding: 0.6em 1em;
@@ -455,25 +437,23 @@ $menu-list-link-active-color: $primary-invert;
 $menu-nested-list-margin: 0.75em;
 $menu-nested-list-padding-left: 0.75em;
 
-// --- Message ---
 $message-background-color: $grey-lightest;
 $message-radius: $im-radius;
 $message-shadow: $im-shadow-sm;
-$message-header-background-color: transparent; // No distinct header bg
-$message-header-color: $text-strong;
+$message-header-background-color: transparent;
+$message-header-color: $im-text-strong;
 $message-header-weight: $im-font-weight-semibold;
 $message-header-padding: 0.75em 1.25em;
 $message-header-radius: $im-radius $im-radius 0 0;
-$message-body-border-color: $im-divider-color;
-$message-body-border-width: 0; // No default border on message body
+$message-body-border-color: $im-divider-color; // Not typically used if border-width is 0
+$message-body-border-width: 0;
 $message-body-color: $im-text;
 $message-body-padding: 1.25em 1.5em;
 $message-body-radius: 0 0 $im-radius $im-radius;
-$message-body-pre-code-background-color: $white; // If code inside message
+$message-body-pre-code-background-color: $white; // Uses derived $im-content-background
 
-// --- Modal ---
 $modal-z: 40;
-$modal-background-background-color: rgba($black, 0.8); // Darker overlay
+$modal-background-background-color: rgba($black, 0.8); // Uses derived $im-text-strong
 $modal-content-width: 640px;
 $modal-content-margin-mobile: 20px;
 $modal-content-spacing-mobile: 160px;
@@ -484,7 +464,7 @@ $modal-card-head-border-bottom: 1px solid $im-divider-color;
 $modal-card-head-padding: 1.25rem 1.5rem;
 $modal-card-head-radius: $im-radius-large $im-radius-large 0 0;
 $modal-card-title-color: $im-text-headings;
-$modal-card-title-font-size: $size-4;
+$modal-card-title-font-size: $size-4; // Uses derived $im size
 $modal-card-title-line-height: 1.25;
 $modal-card-body-background-color: $im-content-background;
 $modal-card-body-padding: 1.5rem;
@@ -493,24 +473,22 @@ $modal-card-foot-border-top: 1px solid $im-divider-color;
 $modal-card-foot-radius: 0 0 $im-radius-large $im-radius-large;
 $modal-card-foot-padding: 1.25rem 1.5rem;
 
-
-// --- Navbar ---
 $navbar-background-color: $im-content-background;
-$navbar-box-shadow-size: 0 2px 4px 0; // Subtle shadow below navbar
-$navbar-box-shadow-color: rgba(desaturate(darken($im-primary, 20%), 30%), 0.06); // Shadow derived from primary
-$navbar-height: 4.5rem; // Enji's navbar is a bit taller
+$navbar-box-shadow-size: 0 2px 4px 0;
+$navbar-box-shadow-color: rgba(desaturate(darken($im-primary, 20%), 30%), 0.06);
+$navbar-height: 4.5rem;
 $navbar-padding-vertical: 0.75rem;
-$navbar-padding-horizontal: 1rem; // Main container padding for navbar items
+$navbar-padding-horizontal: 1rem;
 
 $navbar-item-color: $im-text;
 $navbar-item-hover-color: $primary;
-$navbar-item-hover-background-color: transparent; // No background on hover for items
+$navbar-item-hover-background-color: transparent;
 $navbar-item-active-color: $primary;
 $navbar-item-active-background-color: transparent;
 $navbar-item-font-weight: $im-font-weight-medium;
-$navbar-item-img-max-height: 2.25rem; // Control logo size
+$navbar-item-img-max-height: 2.25rem;
 
-$navbar-burger-color: $im-text; // Burger icon color
+$navbar-burger-color: $im-text;
 
 $navbar-tab-hover-background-color: transparent;
 $navbar-tab-hover-border-bottom-color: $primary;
@@ -522,8 +500,8 @@ $navbar-tab-active-border-bottom-width: 3px;
 
 $navbar-dropdown-background-color: $im-content-background;
 $navbar-dropdown-border-top: 1px solid $im-divider-color;
-$navbar-dropdown-offset: -4px; // Align better with navbar bottom
-$navbar-dropdown-arrow: $primary; // Arrow color for dropdowns
+$navbar-dropdown-offset: -4px;
+$navbar-dropdown-arrow: $primary;
 $navbar-dropdown-radius: $im-radius;
 $navbar-dropdown-shadow: $im-shadow-md;
 $navbar-dropdown-z: 20;
@@ -536,15 +514,14 @@ $navbar-dropdown-item-active-background-color: $primary;
 $navbar-divider-background-color: $im-divider-color;
 $navbar-divider-height: 1px;
 
-// --- Pagination ---
-$pagination-color: $text;
+$pagination-color: $im-text; // Default pagination text color
 $pagination-border-color: $im-border-color;
-$pagination-margin: -0.25rem; // Default Bulma
-$pagination-offset: 0; // Default Bulma
+$pagination-margin: -0.25rem;
+$pagination-offset: 0;
 $pagination-padding-left: 0.5em;
 $pagination-padding-right: 0.5em;
 $pagination-radius: $im-radius-small;
-$pagination-hover-color: $link-hover;
+$pagination-hover-color: $link-hover; // Uses derived link color
 $pagination-hover-border-color: $link-hover;
 $pagination-focus-color: $link;
 $pagination-focus-border-color: $link-focus-border;
@@ -554,13 +531,12 @@ $pagination-active-border-color: $link;
 $pagination-disabled-color: $grey;
 $pagination-disabled-background-color: $grey-lighter;
 $pagination-disabled-border-color: $grey-lighter;
-$pagination-current-color: $link-invert;
+$pagination-current-color: $link-invert; // Current page same as active
 $pagination-current-background-color: $link;
 $pagination-current-border-color: $link;
 $pagination-ellipsis-color: $grey;
 
-// --- Panel ---
-$panel-border-color: $im-border-color; // If using borders
+$panel-border-color: $im-border-color;
 $panel-border-radius: $im-radius;
 $panel-shadow: $im-shadow-sm;
 $panel-heading-background-color: $im-body-background;
@@ -588,14 +564,13 @@ $panel-block-active-color: $primary;
 $panel-block-active-icon-color: $primary;
 $panel-block-padding: 0.75em 1em;
 
-// --- Tabs ---
 $tabs-border-bottom-color: $im-divider-color;
 $tabs-border-bottom-style: solid;
 $tabs-border-bottom-width: 1px;
-$tabs-link-color: $text-light;
-$tabs-link-hover-border-bottom-color: $text;
-$tabs-link-hover-color: $text;
-$tabs-link-padding: 0.7em 1.25em; // More padding for tabs
+$tabs-link-color: $im-text-light; // Tabs are less prominent by default
+$tabs-link-hover-border-bottom-color: $im-text;
+$tabs-link-hover-color: $im-text;
+$tabs-link-padding: 0.7em 1.25em;
 $tabs-link-active-border-bottom-color: $primary;
 $tabs-link-active-color: $primary;
 $tabs-link-active-font-weight: $im-font-weight-semibold;
@@ -618,9 +593,10 @@ $tabs-toggle-link-active-border-color: $primary;
 $tabs-toggle-link-active-color: $primary-invert;
 
 // -----------------------------------------------------------------------------
-// Footer (Not a Bulma component, but often styled globally)
+// Footer (Custom, not a direct Bulma component but good to theme)
 // -----------------------------------------------------------------------------
-$footer-background-color: $im-body-background; // Enji's footer is light
-$footer-color: $im-text-light;
-$footer-padding: 3rem 1.5rem 3rem; // Default Bulma footer padding
-$footer-border-top: 1px solid $im-divider-color; // Subtle top border
+// These are $im- prefixed and would be used in a custom _footer.scss, not directly by Bulma.
+// $im-footer-background-color: $im-body-background;
+// $im-footer-color: $im-text-light;
+// $im-footer-padding: 3rem 1.5rem;
+// $im-footer-border-top: 1px solid $im-divider-color;
