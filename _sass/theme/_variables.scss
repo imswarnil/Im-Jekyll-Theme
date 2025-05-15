@@ -7,7 +7,7 @@
 // -----------------------------------------------------------------------------
 // Primary & Accent Colors
 // -----------------------------------------------------------------------------
-$im-primary: #7952B3; // Enji's primary purple accent (was your #e53935 red, changed to match Enji)
+$im-primary: #e53935; // Enji's primary purple accent (was your #e53935 red, changed to match Enji)
 $im-primary-light: lighten($im-primary, 15%);
 $im-primary-dark: darken($im-primary, 10%);
 $im-primary-invert: #ffffff; // Text color on primary background
