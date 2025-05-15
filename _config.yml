@@ -193,25 +193,12 @@ twitter:
 # 5. Collections
 collections:
   posts:
-    title: Posts # Needed for Siteleaf
+    title: Posts 
     output: true
-    description: "My thoughts and ideas" # The post list page content
-    feature_text: Welcome to the blog
-    feature_image: "https://picsum.photos/2560/600?image=866"
+    description: "My thoughts and ideas"
+    image: "https://picsum.photos/2560/600?image=866"
     permalink: /blog/:title
-  videos:
-    output: true
-    permalink: /videos/:title/
-  docs:
-    output: true
-  webseries:
-    output: true
-    permalink: /webseries/:path/
-  projects:
-    output: true # Creates individual pages for each project
-    permalink: /projects/:path/ # Defines the URL structure (e.g., /projects/my-cool-project/)
-
-
+    
 # 6. Jekyll collections settings
 defaults:
   -
@@ -237,11 +224,7 @@ defaults:
    values:
       layout: "video"
       author: "Swarnil" 
-  -
-    scope:
-      path: "_docs"
-    values:
-      layout: docs
+
   - scope:
       path: "_webseries"
       type: "webseries"
@@ -284,9 +267,6 @@ navbar:
       - name: Video Layout
         link: /videos
         icon: fa-play
-      - name: Docs Layout
-        link: /docs
-        icon: fa-dochub
     icon: fa-app
   - name: Categories 
     link: /categories/
