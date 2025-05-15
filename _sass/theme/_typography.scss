@@ -1,0 +1,67 @@
+.title, .subtitle {
+  font-family: $family-primary;
+  font-weight: 700; // Bolder titles by default
+}
+
+.title {
+  color: $text-strong;
+  &.is-1 { font-weight: 900; } // Extra bold for h1
+}
+
+.subtitle {
+  color: $text-light;
+  font-weight: 400;
+}
+
+// Custom heading styles if needed beyond Bulma's .title
+h1, h2, h3, h4, h5, h6 {
+  font-family: $family-primary;
+  color: $text-strong;
+  font-weight: 700;
+}
+
+h1 { font-size: 2.5rem; margin-bottom: 1rem; } // Example
+h2 { font-size: 2rem; margin-bottom: 0.875rem; }
+// ... and so on
+
+p {
+  margin-bottom: 1.25rem;
+  font-size: 1rem; // Or $body-size
+  line-height: $body-line-height;
+}
+
+strong, b {
+  font-weight: 700;
+  color: $text-strong;
+}
+
+blockquote {
+  background-color: $im-grey-lighter;
+  border-left: 5px solid $im-primary;
+  padding: 1.25em 1.5em;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// For content areas like blog posts
+.im-content {
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 1.5em;
+    margin-bottom: 0.75em;
+  }
+  h1:first-child, h2:first-child { // etc.
+    margin-top: 0;
+  }
+  p, ul, ol, blockquote {
+    margin-bottom: 1.25rem;
+  }
+  ul, ol {
+    padding-left: 1.5em;
+  }
+  li {
+    margin-bottom: 0.5em;
+  }
+}

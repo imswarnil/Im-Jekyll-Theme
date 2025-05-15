@@ -1,0 +1,106 @@
+// --- IM Theme Variables ---
+$im-primary: #e53935; // Your specified primary color
+$im-primary-light: lighten($im-primary, 15%);
+$im-primary-dark: darken($im-primary, 10%);
+$im-primary-invert: #ffffff; // Text color on primary background
+
+$im-link: $im-primary;
+$im-link-hover: $im-primary-dark;
+$im-link-focus: $im-primary-dark;
+$im-link-active: $im-primary-dark;
+
+$im-text: #363636; // Default text color
+$im-text-light: #7a7a7a;
+$im-text-strong: #222222;
+$im-background: #fdfdfd; // Slightly off-white for page background
+
+$im-border: #dbdbdb;
+$im-border-light: #efefef;
+$im-border-hover: #b5b5b5;
+
+$im-grey-lighter: #f5f5f5;
+$im-grey-light: #e0e0e0;
+$im-grey: #cccccc;
+$im-grey-dark: #888888;
+$im-grey-darker: #4a4a4a;
+
+$im-code-background: #282c34; // A common dark background for code
+$im-code-text: #abb2bf;
+
+// Grid line colors
+$im-grid-line-light-bg: rgba(desaturate(darken($im-primary, 30%), 50%), 0.1); // Darker, subtle lines for light backgrounds
+$im-grid-line-dark-bg: rgba(lighten($im-primary, 40%), 0.15); // Lighter, subtle lines for dark backgrounds
+
+// Font Families
+$im-family-sans-serif: "Outfit", "Arial", sans-serif;
+$im-family-monospace: "Roboto Mono", monospace;
+
+// --- Bulma Variable Overrides ---
+// These variables MUST be defined BEFORE importing Bulma in main.scss
+
+// Colors
+$primary: $im-primary;
+$primary-light: $im-primary-light;
+$primary-dark: $im-primary-dark;
+$primary-invert: $im-primary-invert;
+
+$link: $im-link;
+$link-hover: $im-link-hover;
+$link-focus: $im-link-focus;
+$link-active: $im-link-active;
+$link-invert: $im-primary-invert; // Text color for links on primary background
+
+$info: #209cee; // Default Bulma info, you can customize
+$success: #23d160;
+$warning: #ffdd57;
+$danger: #ff3860; // Can be same as primary if desired, or a different red
+
+// Typography
+$family-sans-serif: $im-family-sans-serif;
+$family-monospace: $im-family-monospace;
+$family-primary: $family-sans-serif;
+$family-secondary: $family-sans-serif; // Usually same as primary
+$family-code: $family-monospace;
+
+$text: $im-text;
+$text-light: $im-text-light;
+$text-strong: $im-text-strong;
+
+$body-background-color: $im-background;
+$body-size: 16px; // Base font size
+$body-line-height: 1.6;
+
+// Borders and Shadows
+$border: $im-border;
+$border-light: $im-border-light;
+$border-hover: $im-border-hover;
+
+$radius-small: 3px;
+$radius: 5px;
+$radius-large: 8px;
+$radius-rounded: 9999px;
+
+$box-shadow: 0 0.5em 1em -0.125em rgba($im-grey-darker, 0.1), 0 0px 0 1px rgba($im-grey-darker, 0.02);
+$card-shadow: $box-shadow; // Use the same shadow for cards or define a new one
+
+// Spacing (you can adjust Bulma's global spacing if needed)
+// $gap: 32px;
+
+// --- Component Specific Bulma Overrides ---
+$button-text-hover-background-color: $im-primary-dark;
+$button-text-hover-color: $im-primary-invert;
+
+$navbar-background-color: #ffffff;
+$navbar-item-color: $im-text-strong;
+$navbar-item-hover-color: $im-primary;
+$navbar-item-hover-background-color: transparent;
+$navbar-item-active-color: $im-primary;
+$navbar-item-active-background-color: transparent;
+$navbar-dropdown-border-top: 1px solid $im-border-light;
+
+$footer-background-color: $im-grey-lighter;
+$footer-color: $im-text-light;
+$footer-padding: 3rem 1.5rem 3rem; // Reduced bottom padding from Bulma's default 6rem
+
+// Other variables you might want to override:
+// $input-*-color, $table-*-color, $message-*-color etc.

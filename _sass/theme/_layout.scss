@@ -1,0 +1,68 @@
+.section {
+  // padding-top: 3rem;
+  // padding-bottom: 3rem;
+  // You can adjust default section padding if Bulma's default is too much/little
+}
+
+.container {
+  // max-width: 1152px; // Bulma default for .is-fluid on desktop is 960px + gaps. Adjust as needed
+}
+
+// --- Hero with Fading Grid Lines ---
+.im-hero-grid {
+  position: relative;
+  overflow: hidden; // Important for pseudo-element clipping
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0; // Behind hero content
+
+    // Default: For light backgrounds
+    --im-grid-color: #{$im-grid-line-light-bg};
+    background-image:
+      repeating-linear-gradient(var(--im-grid-color) 0 1px, transparent 1px 100%),
+      repeating-linear-gradient(90deg, var(--im-grid-color) 0 1px, transparent 1px 100%);
+    background-size: 30px 30px; // Adjust grid cell size
+
+    // Fading effect (radial gradient mask)
+    mask-image: radial-gradient(ellipse at center, black 20%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 80%);
+  }
+
+  // Modifier for dark backgrounds
+  &.is-dark, &.has-background-dark { // You can add more selectors for dark backgrounds
+    --im-grid-color: #{$im-grid-line-dark-bg};
+  }
+
+  // Ensure hero content is above the grid
+  .hero-head,
+  .hero-body,
+  .hero-foot {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+// Example usage in HTML for the hero grid:
+// <section class="hero is-primary is-large im-hero-grid">...</section>
+// <section class="hero is-dark is-medium im-hero-grid">...</section>
+// <section class="hero im-hero-grid" style="background-color: #f0f0f0;">...</section>
+
+
+// Footer customization (if needed beyond Bulma's)
+.footer {
+  a {
+    color: $link; // Make footer links use the theme link color
+    &:hover {
+      color: $link-hover;
+    }
+  }
+}

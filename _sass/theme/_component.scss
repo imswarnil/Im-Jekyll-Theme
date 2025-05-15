@@ -1,0 +1,142 @@
+// --- Cards ---
+.im-card {
+  @extend .card; // Inherit Bulma's card styles
+  background-color: #ffffff; // Ensure it's white or slightly off-white
+  border: 1px solid $im-border-light;
+  box-shadow: $box-shadow; // Use the theme's box-shadow
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+
+  &:hover {
+    box-shadow: 0 1em 2em -0.25em rgba($im-grey-darker, 0.15), 0 0 0 1px rgba($im-grey-darker, 0.03);
+    transform: translateY(-2px);
+  }
+
+  .card-header-title {
+    font-weight: 500;
+  }
+}
+
+// Specific card types
+.im-card-post {
+  @extend .im-card;
+  // Add specific styles for post cards if any
+}
+
+.im-card-video {
+  @extend .im-card;
+  .card-image {
+    position: relative;
+    // For a play button overlay on video card images
+    &::after {
+      content: '\\25B6'; // Play symbol (or use an SVG icon)
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3rem;
+      color: rgba(255, 255, 255, 0.8);
+      text-shadow: 0 0 10px rgba(0,0,0,0.5);
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+    }
+    &:hover::after {
+      opacity: 1;
+    }
+  }
+}
+
+.im-card-web-series {
+  @extend .im-card;
+  // Specific styles for web series cards
+}
+
+// --- Buttons ---
+// Bulma buttons will inherit primary color from _variables.scss
+// Add custom button styles if needed:
+.im-button-outline {
+  @extend .button;
+  @extend .is-outlined;
+  border-color: $im-primary;
+  color: $im-primary;
+
+  &:hover, &:focus {
+    background-color: $im-primary;
+    border-color: $im-primary;
+    color: $im-primary-invert;
+  }
+}
+
+// --- Navbar ---
+// Navbar styles are largely controlled by variables.
+// Add custom classes if you need more specific navbar styling.
+// For example, a slightly different style for the active link:
+.navbar-item.is-active {
+  // font-weight: bold; // Already done by Bulma
+  // border-bottom: 2px solid $im-primary; // Example custom active indicator
+}
+
+// --- Feature Box (from your screenshot) ---
+.im-feature-box {
+  text-align: center;
+  padding: 1.5rem;
+  .im-feature-icon {
+    font-size: 2.5rem; // Assuming you use an icon font or SVG
+    color: $im-primary;
+    margin-bottom: 1rem;
+    display: inline-block; // Or block if you want it on its own line
+  }
+  .im-feature-title {
+    @extend .title;
+    @extend .is-5;
+    margin-bottom: 0.5rem;
+  }
+  .im-feature-description {
+    font-size: 0.9rem;
+    color: $text-light;
+  }
+}
+
+// --- Numbered List (from your screenshot) ---
+.im-numbered-list {
+  list-style: none;
+  padding-left: 0;
+  counter-reset: im-list-counter;
+
+  .im-numbered-list-item {
+    position: relative;
+    padding: 1rem 1rem 1rem 3.5rem; // Space for the number
+    margin-bottom: 1rem;
+    background-color: $im-grey-lighter;
+    border-radius: $radius;
+    border: 1px solid $im-border-light;
+
+    &::before {
+      counter-increment: im-list-counter;
+      content: counter(im-list-counter);
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: $im-primary;
+      color: $im-primary-invert;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+    .im-item-title {
+      font-weight: bold;
+      color: $text-strong;
+      display: block; // Or inline-block
+      margin-bottom: 0.25rem;
+    }
+    .im-item-description {
+      font-size: 0.9rem;
+      color: $text;
+    }
+  }
+}

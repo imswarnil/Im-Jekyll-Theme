@@ -3,5 +3,21 @@ $primary: #e53935;
 $link : $primary;
 $family-sans-serif: "Outfit", "Arial", sans-serif !default;
 $family-monospace: "Roboto Mono", monospace !default;
-@import "../node_modules/bulma/sass/index";
 
+
+// 1. Import Google Fonts (ensure these are linked in your HTML or imported here)
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&family=Roboto+Mono:wght@400;700&display=swap');
+
+// 2. Your custom theme variables (these will override Bulma's defaults)
+@import "theme/variables";
+
+// 3. Import Bulma
+@import "../node_modules/bulma/sass/index"; 
+
+// 4. Your custom theme styles (these come AFTER Bulma to override or add)
+@import "theme/base";
+@import "theme/typography";
+@import "theme/layout";
+@import "theme/components";
+@import "theme/syntax-highlighting";
+@import "theme/custom";
