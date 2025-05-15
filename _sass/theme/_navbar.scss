@@ -1,0 +1,317 @@
+// scss/theme/_navbar.scss
+
+.navbar { // Main <nav> element
+  min-height: $navbar-height;
+  background-color: $navbar-background-color;
+  box-shadow: $navbar-box-shadow-size $navbar-box-shadow-color;
+  z-index: 30; // Ensure it's above other content
+
+  &.is-fixed-top {
+    // Bulma handles body padding, this is just for visual consistency if needed
+  }
+
+  .container {
+    // The default Bulma container behavior is usually fine.
+    // If you need the navbar container to be wider than other page containers:
+    // max-width: 1344px; // Example: $fullhd + (2 * $gap / 2)
+  }
+}
+
+.navbar-brand {
+  align-items: stretch; // Ensure brand items can fill height
+
+  .im-logo-link.navbar-item { // Logo link
+    padding-left: 0.75rem; // Match Bulma's default start for items in container
+    padding-right: 0.5rem;
+    font-weight: $im-font-weight-semibold;
+    color: $im-text-strong;
+    display: inline-flex;
+    align-items: center;
+
+    .im-logo-image {
+      max-height: $navbar-item-img-max-height;
+      margin-right: 0.6em; // Space between logo and text
+    }
+    .im-logo-text {
+      // Styles for logo text if needed
+    }
+
+    &:hover {
+      color: $primary;
+      background-color: transparent !important;
+    }
+  }
+}
+
+.navbar-burger { // Burger styling
+  color: $navbar-burger-color;
+  margin-left: 0.5rem; // Space from mobile search
+  order: 2; // Burger after mobile search
+
+  span {
+    height: 2px;
+    background-color: currentColor;
+    width: 20px;
+    left: calc(50% - 10px); // Center the shorter lines
+    &:nth-child(1) { top: calc(50% - 7px); } // Adjusted for 2px height
+    &:nth-child(2) { top: calc(50% - 1px); }
+    &:nth-child(3) { top: calc(50% + 5px); }
+  }
+  // Active state (Alpine.js handles the class, Bulma handles the transform)
+}
+
+.im-navbar-mobile-search.navbar-item { // Mobile search icon in .navbar-brand
+  order: 1;
+  padding: 0.5rem 0.75rem; // Standard item padding
+  color: $im-text;
+  .icon i.ph {
+      font-size: 1.4rem; // Match desktop search size
+      color: $im-text;
+  }
+  &:hover {
+    .icon i.ph { color: $primary; }
+    background-color: transparent !important;
+  }
+}
+
+.navbar-menu {
+  // Desktop: Center .navbar-start content
+  @media screen and (min-width: $desktop) {
+    flex-grow: 1; // Allow menu to take space to enable centering of start
+    .navbar-start {
+      flex-grow: 1;
+      justify-content: center;
+      margin-right: auto; // Push end to the right
+      margin-left: auto;  // Center the start block itself if end is empty
+      // The inner .navbar div needs to allow centering too
+      & > .navbar {
+        display: flex;
+        justify-content: center; // Center items within the inner navbar div
+      }
+    }
+  }
+
+  // Mobile active menu styling
+  &.is-active {
+    background-color: $navbar-background-color;
+    box-shadow: 0 8px 16px rgba(darken($im-body-background, 70%), 0.12);
+    border-radius: 0 0 $im-radius $im-radius;
+    padding: 0.75rem 0; // Vertical padding for the opened menu
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 100%; // Position below the navbar
+
+    .navbar-start {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      & > .navbar { // Target the inner .navbar div
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+      }
+
+      // Styling for each item in the mobile dropdown
+      .navbar-item, .has-dropdown > .navbar-link {
+          justify-content: center;
+          text-align: center;
+          margin: 0.2rem 1rem; // Margin around items for spacing
+          border-radius: $im-radius-small;
+          padding-top: 0.85rem;
+          padding-bottom: 0.85rem;
+          color: $navbar-item-color; // Default text color
+
+          .im-nav-text { display: block; } // Ensure text takes full width for centering
+
+          &:hover, &.is-active-nav-item {
+              background-color: lighten($primary, 43%);
+              color: $primary; // Ensure text color is primary
+              &::after { display: none; } // No bottom bar in mobile menu
+
+              .im-nav-icon i.ph-duotone { // Icon color on hover/active
+                  --ph-secondary-color: #{rgba($primary, 0.5)};
+                  --ph-primary-color: #{$primary};
+              }
+          }
+      }
+      // Mobile dropdown sub-menu
+      .has-dropdown > .navbar-dropdown {
+          background-color: transparent;
+          box-shadow: none;
+          border: none;
+          padding-left: 1.5rem; // Indent sub-items further
+          margin-top: 0.25rem;
+          margin-bottom: 0.25rem;
+          .navbar-item {
+              justify-content: center;
+              font-size: 0.9em;
+              padding-top: 0.6rem;
+              padding-bottom: 0.6rem;
+              margin-left: 0.5rem; margin-right: 0.5rem; // Reduce side margin for subitems
+              &:hover, &.is-active-nav-item { background-color: lighten($primary, 45%); }
+          }
+      }
+    } // End .navbar-start in mobile active
+
+    .navbar-end { // Mobile social icons
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      padding-top: 1rem;
+      border-top: 1px solid $im-divider-color;
+      margin-top: 0.75rem;
+      .navbar-item { padding: 0.5rem; }
+    }
+  } // End .navbar-menu.is-active
+} // End .navbar-menu
+
+// Styling for individual navbar items (links, dropdown toggles)
+// Targets items within the inner .navbar div in .navbar-start, and items in .navbar-end
+.navbar-start > .navbar > .navbar-item,
+.navbar-start > .navbar > .has-dropdown > .navbar-link,
+.navbar-end > .navbar-item {
+  font-weight: $navbar-item-font-weight;
+  color: $navbar-item-color;
+  padding: 0.5rem 1.1rem; // Consistent padding
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.2s ease-in-out;
+
+  .im-nav-image-icon { // For images used as icons
+    max-height: 1.25rem;
+    width: auto;
+    margin-right: 0.6em;
+    &.is-small { max-height: 1rem; } // Smaller image icons for dropdowns
+  }
+
+  // Phosphor Duotone Icon styling
+  .im-nav-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.6em;
+    vertical-align: middle;
+
+    i.ph-duotone {
+      font-size: 1.4rem;
+      line-height: 1;
+      --ph-secondary-color: #{rgba($im-text, 0.4)};
+      --ph-primary-color: #{$im-text};
+      transition: --ph-primary-color 0.2s ease-in-out, --ph-secondary-color 0.2s ease-in-out;
+    }
+    &.is-small i.ph-duotone { // For icons in dropdowns
+        font-size: 1.15rem; // Slightly smaller
+        --ph-secondary-color: #{rgba($im-text, 0.5)}; // Default a bit more visible in dropdown
+    }
+  }
+
+  &:hover, &:focus {
+    background-color: $navbar-item-hover-background-color; // transparent
+    color: $navbar-item-hover-color; // $primary
+
+    .im-nav-icon i.ph-duotone {
+      --ph-secondary-color: #{rgba($primary, 0.5)};
+      --ph-primary-color: #{$primary};
+    }
+  }
+
+  // Active state (underline indicator)
+  &.is-active-nav-item {
+    color: $primary !important;
+    font-weight: $im-font-weight-semibold;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0.25rem;
+      left: 1rem;
+      right: 1rem;
+      height: 3px;
+      background-color: $primary;
+      border-radius: $im-radius-small $im-radius-small 0 0;
+    }
+    .im-nav-icon i.ph-duotone { // Active icon color
+        --ph-secondary-color: #{rgba($primary, 0.5)};
+        --ph-primary-color: #{$primary};
+    }
+  }
+} // End .navbar-item general styling
+
+// Desktop Dropdown specific styling
+.navbar-start > .navbar > .navbar-item.has-dropdown {
+  .navbar-link { // The dropdown toggle
+    // Base styling inherited from general .navbar-item
+    &::after { // Bulma's arrow
+      border-color: $navbar-dropdown-arrow; // $primary
+      right: 1.125em;
+      margin-top: -0.3em; // Fine-tune vertical alignment
+    }
+  }
+  .navbar-dropdown {
+    background-color: $navbar-dropdown-background-color;
+    border: 1px solid $im-divider-color;
+    border-top-width: 0; // Remove top border
+    border-radius: 0 0 $im-radius $im-radius;
+    box-shadow: $im-shadow-md;
+    padding: 0.5rem 0; // Vertical padding for the dropdown box
+    min-width: 14rem; // Ensure dropdown has decent width
+    margin-top: -1px; // Slight overlap for seamless look
+
+    .navbar-item { // Items within the dropdown
+      padding: 0.7rem 1.35rem; // More padding
+      font-weight: $im-font-weight-normal;
+      white-space: nowrap;
+      color: $im-text;
+      display: flex; // Align icon and text within dropdown item
+      align-items: center;
+
+      &::after { display: none; } // No active bar for dropdown items
+
+      &:hover, &:focus, &.is-active-nav-item {
+        color: $navbar-dropdown-item-hover-color; // $primary
+        background-color: $navbar-dropdown-item-hover-background-color; // light primary
+
+        .im-nav-icon i.ph-duotone { // Active/hover icon color in dropdown
+            --ph-secondary-color: #{rgba($primary, 0.5)};
+            --ph-primary-color: #{$primary};
+        }
+      }
+    }
+  }
+} // End Desktop Dropdown styling
+
+// Social Icons & Desktop Search in .navbar-end
+.navbar-end {
+  align-items: stretch;
+  .im-social-icon.navbar-item {
+    padding: 0.5rem 0.7rem;
+    color: $im-text-light;
+    .icon i.ph {
+      font-size: 1.25rem;
+      color: $im-text-light; // Ensure icon color matches
+      transition: color 0.2s ease-in-out;
+    }
+    &:hover {
+      background-color: transparent !important;
+      .icon i.ph { color: $primary; }
+    }
+  }
+
+  .im-navbar-desktop-search.navbar-item {
+    padding: 0.5rem 0.75rem;
+    color: $im-text;
+    .icon i.ph {
+        font-size: 1.4rem;
+        color: $im-text;
+        transition: color 0.2s ease-in-out;
+    }
+    &:hover {
+        background-color: transparent !important;
+        .icon i.ph { color: $primary; }
+    }
+  }
+}
+
+[x-cloak] { display: none !important; } // For Alpine.js, hides element until Alpine is initialized
