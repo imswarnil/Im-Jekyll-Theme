@@ -1,352 +1,97 @@
 <!-- Blog Listing Component -->
 <section class="section">
-  <div class="container">
-    <!-- Prepare combined list for filter population -->
-    {% assign all_docs_for_filters = "" | split: "" %}
-    {% assign all_docs_for_filters = all_docs_for_filters | concat: site.posts %}
-    {% if site.videos %}
-      {% assign all_docs_for_filters = all_docs_for_filters | concat: site.videos %}
-    {% endif %}
-    {% if site.projects %}
-      {% assign all_docs_for_filters = all_docs_for_filters | concat: site.projects %}
-    {% endif %}
-
-    <!-- Search and Filter Section -->
-    <div class="box">
-      <div class="columns is-vcentered">
-        <!-- Search Box -->
-        <div class="column is-half">
-          <div class="field has-addons">
-            <div class="control is-expanded">
-              <input class="input" type="text" id="search-input" placeholder="Search content...">
-            </div>
-            <div class="control">
-              <button class="button is-info" id="search-button">
-                <span class="icon">
-                  <i class="fas fa-search"></i>
-                </span>
-              </button>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Author Filter -->
-        <div class="column">
-          <div class="field">
-            <label class="label">Filter by Author</label>
-            <div class="control">
-              <div class="select is-fullwidth">
-                <select id="author-filter">
-                  <option value="all">All Authors</option>
-                  {% assign authors = all_docs_for_filters | map: 'author' | compact | uniq | sort_natural %}
-                  {% for author in authors %}
-                    <option value="{{ author | slugify }}">{{ author }}</option>
-                  {% endfor %}
-                </select>
+    <div class="container">  
+      <!-- Blog Post List -->
+      <div id="post-list" class="columns is-multiline">
+        {% for post in paginator.posts %}
+          <div class="column is-4 post-item" 
+               data-author="{{ post.author | slugify }}"
+               data-category="{% for cat in post.category %}{{ cat | slugify }} {% endfor %}"
+               data-tags="{% for tag in post.tags %}{{ tag | slugify }} {% endfor %}"
+               data-search="{{ post.title | downcase }} {{ post.description | downcase }} {{ post.content | strip_html | downcase }}">
+            <div class="card">
+              {% if post.image %}
+              <div class="card-image">
+                <figure class="image is-4by3">
+                  <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                </figure>
               </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Category Filter -->
-        <div class="column">
-          <div class="field">
-            <label class="label">Filter by Category</label>
-            <div class="control">
-              <div class="select is-fullwidth">
-                <select id="category-filter">
-                  <option value="all">All Categories</option>
-                  {% assign categories_nested = all_docs_for_filters | map: 'category' | compact %}
-                  {% assign categories_flat = "" | split: "" %}
-                  {% for cat_item in categories_nested %}
-                    {% if cat_item %}
-                      {% if cat_item contains "," and cat_item is_a: "string" %} <!-- Comma-separated string -->
-                        {% assign cats_from_string = cat_item | split: ',' %}
-                        {% for c in cats_from_string %}
-                          {% assign c_stripped = c | strip %}
-                          {% if c_stripped != "" %}
-                            {% assign categories_flat = categories_flat | push: c_stripped %}
-                          {% endif %}
-                        {% endfor %}
-                      {% elsif cat_item is_a: "string" %} <!-- Single string -->
-                        {% assign cat_item_stripped = cat_item | strip %}
-                        {% if cat_item_stripped != "" %}
-                           {% assign categories_flat = categories_flat | push: cat_item_stripped %}
-                        {% endif %}
-                      {% else %} <!-- Assume array -->
-                        {% for c_array_item in cat_item %}
-                           {% assign c_array_item_stripped = c_array_item | strip %}
-                           {% if c_array_item_stripped != "" %}
-                              {% assign categories_flat = categories_flat | push: c_array_item_stripped %}
-                           {% endif %}
-                        {% endfor %}
-                      {% endif %}
-                    {% endif %}
-                  {% endfor %}
-                  {% assign unique_categories = categories_flat | uniq | sort_natural %}
-                  {% for category in unique_categories %}
-                    <option value="{{ category | slugify }}">{{ category }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Tag Cloud -->
-      <div class="field">
-        <label class="label">Filter by Tags</label>
-        <div class="tags" id="tag-cloud">
-          {% assign all_tags_nested = all_docs_for_filters | map: 'tags' | compact %}
-          {% assign all_tags_flat = "" | split: "" %}
-          {% for tag_array in all_tags_nested %}
-            {% for tag_item in tag_array %}
-              {% assign tag_item_stripped = tag_item | strip %}
-              {% if tag_item_stripped != "" %}
-                {% assign all_tags_flat = all_tags_flat | push: tag_item_stripped %}
               {% endif %}
-            {% endfor %}
-          {% endfor %}
-          {% assign unique_tags = all_tags_flat | uniq | sort_natural %}
-          {% for tag in unique_tags %}
-            {% assign tag_count = 0 %}
-            {% for doc in all_docs_for_filters %}
-              {% if doc.tags contains tag %}
-                {% assign tag_count = tag_count | plus: 1 %}
-              {% endif %}
-            {% endfor %}
-            <span class="tag is-rounded is-medium tag-filter" data-tag="{{ tag | slugify }}">
-              {{ tag }} <span class="tag-count">({{ tag_count }})</span>
-            </span>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-    
-    <!-- Item List -->
-    <div id="post-list" class="columns is-multiline">
-      {% for item in paginator.posts %} {# paginator.posts is provided by jekyll-paginate-v2 #}
-        <div class="column is-4 post-item" 
-             data-author="{{ item.author | default: '' | slugify }}"
-             data-category="{% assign item_categories_slugified = '' | split: '' %}{% if item.category %}{% if item.category contains ',' and item.category is_a: 'string' %}{% assign cats_from_string = item.category | split: ',' %}{% for c in cats_from_string %}{% assign c_stripped = c | strip | slugify %}{% if c_stripped != '' %}{% assign item_categories_slugified = item_categories_slugified | push: c_stripped %}{% endif %}{% endfor %}{% elsif item.category is_a: 'string' %}{% assign c_stripped = item.category | strip | slugify %}{% if c_stripped != '' %}{% assign item_categories_slugified = item_categories_slugified | push: c_stripped %}{% endif %}{% else %}{% for c_array_item in item.category %}{% assign c_stripped = c_array_item | strip | slugify %}{% if c_stripped != '' %}{% assign item_categories_slugified = item_categories_slugified | push: c_stripped %}{% endif %}{% endfor %}{% endif %}{% endif %}{{ item_categories_slugified | join: ' ' }}"
-             data-tags="{% for tag in item.tags %}{{ tag | slugify }} {% endfor %}"
-             data-search="{{ item.title | default: '' | downcase }} {{ item.description | default: '' | downcase }} {{ item.content | default: '' | strip_html | downcase }}">
-          <div class="card">
-            {% if item.image %}
-            <div class="card-image">
-              <figure class="image is-4by3">
-                <img src="{{ item.image | relative_url }}" alt="{{ item.title | default: 'Item image' }}">
-              </figure>
-            </div>
-            {% endif %}
-            <div class="card-content">
-              <div class="media">
-                <div class="media-content">
-                  <p class="title is-4">{{ item.title | default: "Untitled" }}</p>
-                  <p class="subtitle is-6">
-                    {% if item.author %}By {{ item.author }} · {% endif %}
-                    <time datetime="{{ item.date | date_to_xmlschema }}">
-                      {{ item.date | date: "%b %-d, %Y" }}
-                    </time>
-                  </p>
+              <div class="card-content">
+                <div class="media">
+                  <div class="media-content">
+                    <p class="title is-4">{{ post.title }}</p>
+                    <p class="subtitle is-6">
+                      By {{ post.author }} · 
+                      <time datetime="{{ post.date | date_to_xmlschema }}">
+                        {{ post.date | date: "%b %-d, %Y" }}
+                      </time>
+                    </p>
+                  </div>
                 </div>
-              </div>
-              
-              <div class="content">
-                {% if item.TLTR %}
-                <div class="notification is-light is-info">
-                  <strong>TL;DR:</strong> {{ item.TLTR }}
-                </div>
-                {% endif %}
                 
-                {% assign item_excerpt = item.excerpt | default: item.description %}
-                {{ item_excerpt | default: (item.content | strip_html) | truncate: 150 }}
-                
-                {% if item.tags and item.tags.size > 0 %}
-                <div class="tags">
-                  {% for tag in item.tags %}
-                    <span class="tag is-light">{{ tag }}</span>
-                  {% endfor %}
-                </div>
-                {% endif %}
-                
-                <div class="buttons is-right">
-                  <a href="{{ item.url | relative_url }}" class="button is-link is-outlined">
-                    <span>Read More</span>
-                    <span class="icon is-small">
-                      <i class="fas fa-arrow-right"></i>
-                    </span>
-                  </a>
+                <div class="content">
+                  {% if post.TLTR %}
+                  <div class="notification is-light is-info">
+                    <strong>TL;DR:</strong> {{ post.TLTR }}
+                  </div>
+                  {% endif %}
+                  
+                  {{ post.excerpt | truncate: 150 }}
+                  
+                  <div class="tags">
+                    {% for tag in post.tags %}
+                      <span class="tag is-light">{{ tag }}</span>
+                    {% endfor %}
+                  </div>
+                  
+                  <div class="buttons is-right">
+                    <a href="{{ post.url | relative_url }}" class="button is-link is-outlined">
+                      <span>Read More</span>
+                      <span class="icon is-small">
+                        <i class="fas fa-arrow-right"></i>
+                      </span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      {% endfor %}
-    </div>
-    
-    <!-- Pagination -->
-    {% if paginator.total_pages > 1 %}
-    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-      {% if paginator.previous_page %}
-        <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination-previous">Previous</a>
-      {% else %}
-        <a class="pagination-previous" disabled>Previous</a>
-      {% endif %}
-      
-      {% if paginator.next_page %}
-        <a href="{{ paginator.next_page_path | relative_url }}" class="pagination-next">Next</a>
-      {% else %}
-        <a class="pagination-next" disabled>Next</a>
-      {% endif %}
-      
-      <ul class="pagination-list">
-        {% for page_num in (1..paginator.total_pages) %}
-          {% if page_num == paginator.page %}
-            <li><a class="pagination-link is-current" aria-label="Page {{ page_num }}" aria-current="page">{{ page_num }}</a></li>
-          {% elsif page_num == 1 %}
-            <li><a href="{{ paginator.first_page_path | relative_url }}" class="pagination-link" aria-label="Goto page 1">{{ page_num }}</a></li>
-          {% else %}
-            <li><a href="{{ paginator.page_path | replace: ':num', page_num | relative_url }}" class="pagination-link" aria-label="Goto page {{ page_num }}">{{ page_num }}</a></li>
-          {% endif %}
         {% endfor %}
-      </ul>
-    </nav>
-    {% endif %}
-    
-    <!-- No Results Message (hidden by default, handled by JS) -->
-    <div id="no-results" class="notification is-warning is-light" style="display: none;">
-      No items match your search criteria on this page. Try adjusting your filters or checking other pages.
+      </div>
+      
+      <!-- Pagination -->
+      {% if paginator.total_pages > 1 %}
+      <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        {% if paginator.previous_page %}
+          <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination-previous">Previous</a>
+        {% else %}
+          <a class="pagination-previous" disabled>Previous</a>
+        {% endif %}
+        
+        {% if paginator.next_page %}
+          <a href="{{ paginator.next_page_path | relative_url }}" class="pagination-next">Next</a>
+        {% else %}
+          <a class="pagination-next" disabled>Next</a>
+        {% endif %}
+        
+        <ul class="pagination-list">
+          {% for page in (1..paginator.total_pages) %}
+            {% if page == paginator.page %}
+              <li><a class="pagination-link is-current" aria-label="Page {{ page }}" aria-current="page">{{ page }}</a></li>
+            {% elsif page == 1 %}
+              <li><a href="{{ '/blog/' | relative_url }}" class="pagination-link" aria-label="Goto page 1">{{ page }}</a></li>
+            {% else %}
+              <li><a href="{{ site.paginate_path | relative_url | replace: ':num', page }}" class="pagination-link" aria-label="Goto page {{ page }}">{{ page }}</a></li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </nav>
+      {% endif %}
+      
+      <!-- No Results Message (hidden by default) -->
+      <div id="no-results" class="notification is-warning is-light" style="display: none;">
+        No posts match your search criteria. Try adjusting your filters.
+      </div>
     </div>
-  </div>
-</section>
-
-<!-- JavaScript and CSS remain the same as your original -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  // Elements
-  const authorFilter = document.getElementById('author-filter');
-  const categoryFilter = document.getElementById('category-filter');
-  const tagFilters = document.querySelectorAll('.tag-filter');
-  const searchInput = document.getElementById('search-input');
-  const searchButton = document.getElementById('search-button');
-  const itemsOnPage = document.querySelectorAll('.post-item'); // Renamed from 'posts' for clarity
-  const noResults = document.getElementById('no-results');
-  
-  // Filter function
-  function filterItems() {
-    const authorValue = authorFilter.value;
-    const categoryValue = categoryFilter.value;
-    const searchValue = searchInput.value.toLowerCase();
-    const activeTags = Array.from(document.querySelectorAll('.tag-filter.is-active'))
-                          .map(tag => tag.dataset.tag);
-    
-    let visibleCount = 0;
-    
-    itemsOnPage.forEach(item => { // Renamed from 'post'
-      const itemAuthor = item.dataset.author;
-      const itemCategories = item.dataset.category.split(' ').filter(c => c); // filter empty strings
-      const itemTags = item.dataset.tags.split(' ').filter(t => t); // filter empty strings
-      const itemSearch = item.dataset.search;
-      
-      // Check filters
-      const authorMatch = authorValue === 'all' || (itemAuthor && itemAuthor.includes(authorValue));
-      const categoryMatch = categoryValue === 'all' || (itemCategories.length > 0 && itemCategories.includes(categoryValue));
-      const tagMatch = activeTags.length === 0 || (itemTags.length > 0 && activeTags.every(tag => itemTags.includes(tag)));
-      // For tagMatch, if you want "ANY of the active tags", use: activeTags.some(tag => itemTags.includes(tag))
-      // The current one is "ALL of the active tags" must be present. Let's change to "ANY" for typical tag filtering.
-      // const tagMatch = activeTags.length === 0 || (itemTags.length > 0 && activeTags.some(tag => itemTags.includes(tag)));
-      
-      // Let's refine tagMatch to be: "if any active tags, at least one must match"
-      // And if NO active tags, then it's a match regarding tags.
-      const tagMatchFinal = activeTags.length === 0 || (itemTags.length > 0 && activeTags.some(activeTag => itemTags.includes(activeTag)));
-
-
-      const searchMatch = searchValue === '' || (itemSearch && itemSearch.includes(searchValue));
-      
-      if (authorMatch && categoryMatch && tagMatchFinal && searchMatch) {
-        item.style.display = 'block';
-        visibleCount++;
-      } else {
-        item.style.display = 'none';
-      }
-    });
-    
-    // Show/hide no results message
-    if (visibleCount === 0 && itemsOnPage.length > 0) { // Only show if there were items to filter
-      noResults.style.display = 'block';
-    } else {
-      noResults.style.display = 'none';
-    }
-  }
-  
-  // Event listeners
-  if (authorFilter) authorFilter.addEventListener('change', filterItems);
-  if (categoryFilter) categoryFilter.addEventListener('change', filterItems);
-  if (searchInput) searchInput.addEventListener('input', filterItems); // 'input' is usually better than 'keyup'
-  if (searchButton) searchButton.addEventListener('click', filterItems);
-  
-  tagFilters.forEach(tag => {
-    tag.addEventListener('click', function() {
-      this.classList.toggle('is-active');
-      // this.classList.toggle('is-info'); // is-info is a color, is-active is semantic
-      if (this.classList.contains('is-active')) {
-        this.classList.add('is-info'); // Add a visual style for active
-      } else {
-        this.classList.remove('is-info');
-      }
-      filterItems();
-    });
-  });
-});
-</script>
-
-<style>
-.tag-filter {
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-bottom: 0.5rem;
-  margin-right: 0.25rem; /* Added for spacing */
-}
-
-.tag-filter:hover {
-  transform: scale(1.05);
-}
-
-.tag-filter.is-active.is-info { /* More specific for active state styling */
-  background-color: #3273dc; /* Bulma's info color */
-  color: white;
-}
-
-.card {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
-
-.card-content {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-content .content {
-  flex-grow: 1;
-}
-
-.pagination-link.is-current {
-  background-color: #3273dc;
-  border-color: #3273dc;
-}
-
-#no-results {
-  margin-top: 2rem;
-}
-</style>
+  </section>
