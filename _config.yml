@@ -260,58 +260,57 @@ defaults:
 
 
 # 9. Site navigation
-# _config.yml (navbar section)
 navbar:
   - name: Home
     link: /
-    icon: house # Phosphor: house
+    icon: fa-home
+    dropdown:
+      - name: Personal
+        link: /personal
+        icon: fa-user
   - name: About
     link: /about
-    icon: user # Phosphor: user
+    icon: fa-user
   - name: Elements
     link: /elements
-    # No icon specified, will render without one
   - name: Layouts
     link: /#
-    icon: "squares-four" # Phosphor: squares-four (example for 'app')
     dropdown:
       - name: Post Layouts
         link: /#
-        icon: "note-pencil" # Phosphor: note-pencil (example for 'pen')
+        icon: fa-pen
       - name: Video Layout
         link: /videos
-        icon: "play-circle" # Phosphor: play-circle
+        icon: fa-play
       - name: Docs Layout
         link: /docs
-        icon: "file-text" # Phosphor: file-text (example for 'dochub')
-  - name: Categories
+        icon: fa-dochub
+    icon: fa-app
+  - name: Categories 
     link: /categories/
-    icon: "tag" # Phosphor: tag (if you want an icon)
   - name: Example Pages
     link: /#
-    icon: "rocket-launch" # Phosphor: rocket-launch
     dropdown:
       - name: Landing Page With Callouts
         link: /landing/
-        icon: "megaphone" # Phosphor: megaphone (example for rocket)
+        icon: fa-rocket
       - name: Sponsors Page
         link: /sponsors/
-        icon: "heart" # Phosphor: heart
+        icon: fa-hand-holding-heart
       - name: Image Gallery
         link: /gallery/
-        icon: "images" # Phosphor: images
+        icon: fa-images
       - name: Products
         link: /products/
-        icon: "package" # Phosphor: package (example for box-open)
+        icon: fa-box-open
       - name: Recipe Page
         link: /example-recipe/
-        image : https://yt3.googleusercontent.com/bUPnDYABdzOveHZUSC-0745utTub-SQ76iuOjvYVUEeQrsA1fBMTgXbAsZ1SigmXd6BbtkqnwA=s900-c-k-c0x00ffffff-no-rj # Image will take precedence
+        image : https://yt3.googleusercontent.com/bUPnDYABdzOveHZUSC-0745utTub-SQ76iuOjvYVUEeQrsA1fBMTgXbAsZ1SigmXd6BbtkqnwA=s900-c-k-c0x00ffffff-no-rj
       - name: Showcase
         link: /showcase/
-        icon: "star" # Phosphor: star
-  - name: Search # This item might be handled differently if it's just an icon button
-    link: /search
-    icon: "magnifying-glass" # Phosphor: magnifying-glass
+        icon: fa-star
+  - link: /search
+    icon: fa-search
 
 
 # 8. Installed Gems
