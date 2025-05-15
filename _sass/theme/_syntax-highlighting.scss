@@ -1,55 +1,48 @@
-// Based on Atom One Dark theme for Prism.js
+// scss/theme/_syntax-highlighting.scss
+
 pre[class*="language-"],
 code[class*="language-"] {
-  color: #abb2bf; // Default text
-  background: none; // Handled by `pre` element
-  font-family: $family-code;
-  font-size: 0.9em; // Slightly smaller for code blocks
-  font-weight: 500;
+  color: $im-code-text; // Directly use IM var for code block text
+  background: none;
+  font-family: $family-code; // This is $im-family-monospace via Bulma vars
+  font-size: 0.9em;
+  font-weight: $im-font-weight-medium; // Use IM var
   text-align: left;
   white-space: pre;
   word-spacing: normal;
   word-break: normal;
   word-wrap: normal;
-  line-height: 1.6; // More readable line height
+  line-height: 1.6;
   tab-size: 4;
   hyphens: none;
 }
 
 pre[class*="language-"] {
-  padding: $pre-padding;
+  padding: $pre-padding; // $pre-padding is $im-code-padding via Bulma vars
   margin: 1.5em 0;
   overflow: auto;
-  border-radius: $im-radius; // Use theme radius
-  background: $pre-background; // Defined in variables
-  border: 1px solid darken($pre-background, 5%);
+  border-radius: $im-radius; // Use IM var
+  background: $pre-background-color; // $pre-background-color is $im-code-background via Bulma vars
+  border: 1px solid darken($pre-background-color, 5%); // Use the variable
 }
 
-:not(pre) > code[class*="language-"],
-pre[class*="language-"] {
-  // background: $pre-background; // Already on pre
-}
-
-// Inline code (Bulma's `code` tag styling is in variables)
-// If you need to override Bulma's inline code specifically:
-// code {
-//   font-size: 0.875em;
-//   background-color: $code-background;
-//   color: $code;
-//   padding: $code-padding;
-//   border-radius: $radius-small;
-// }
+// Inline code is styled by Bulma's 'code' element style, which uses:
+// $code-background -> $im-inline-code-background
+// $code -> $im-inline-code-text
+// $code-padding
+// $radius-small -> $im-radius-small
+// So, no specific override needed here unless you want to change that behavior.
 
 .token.comment,
 .token.prolog,
 .token.doctype,
 .token.cdata {
-  color: #5c6370; // Grey for comments
+  color: #5c6370;
   font-style: italic;
 }
 
 .token.punctuation {
-  color: #abb2bf; // Default text color
+  color: $im-code-text; // Match default text color in code blocks
 }
 
 .token.namespace {
@@ -63,7 +56,7 @@ pre[class*="language-"] {
 .token.constant,
 .token.symbol,
 .token.deleted {
-  color: #e06c75; // Red/coral for these
+  color: #e06c75;
 }
 
 .token.selector,
@@ -72,7 +65,7 @@ pre[class*="language-"] {
 .token.char,
 .token.builtin,
 .token.inserted {
-  color: #98c379; // Green for strings, selectors
+  color: #98c379;
 }
 
 .token.operator,
@@ -80,29 +73,29 @@ pre[class*="language-"] {
 .token.url,
 .language-css .token.string,
 .style .token.string {
-  color: #56b6c2; // Cyan for operators
+  color: #56b6c2;
 }
 
 .token.atrule,
 .token.attr-value,
 .token.keyword {
-  color: #c678dd; // Purple for keywords
+  color: #c678dd;
 }
 
 .token.function,
 .token.class-name {
-  color: #61afef; // Blue for functions
+  color: #61afef;
 }
 
 .token.regex,
 .token.important,
 .token.variable {
-  color: #d19a66; // Orange for variables
+  color: #d19a66;
 }
 
 .token.important,
 .token.bold {
-  font-weight: bold;
+  font-weight: $im-font-weight-bold; // Use IM var
 }
 .token.italic {
   font-style: italic;
@@ -112,7 +105,6 @@ pre[class*="language-"] {
   cursor: help;
 }
 
-// Line numbers (if your highlighter supports it)
 .line-numbers .line-numbers-rows > span:before {
-  color: #4a505c; // Darker grey for line numbers
+  color: #4a505c;
 }

@@ -1,43 +1,40 @@
-// Title and Subtitle styles are heavily influenced by Bulma variables.
-// Add specific overrides if needed.
+// scss/theme/_typography.scss
+
 .title, .subtitle {
-  // font-family: $family-primary; // Already set by Bulma vars
+  // font-family: $family-primary; // This is already set by Bulma variables
 }
 
 .title {
+  // color: $title-color; // This is already set by Bulma variables
+  // font-weight: $title-weight; // This is already set by Bulma variables
   strong {
-    color: inherit; // Ensure strong within title uses title color
-    font-weight: inherit; // And title weight
+    color: inherit;
+    font-weight: inherit;
   }
-  &.is-1 { font-weight: 800; letter-spacing: -0.02em;}
-  &.is-2 { font-weight: 700; letter-spacing: -0.015em;}
-  &.is-3 { font-weight: 600; }
+  &.is-1 { font-weight: $im-font-weight-extrabold; letter-spacing: -0.02em;} // Using im-var for consistency
+  &.is-2 { font-weight: $im-font-weight-bold; letter-spacing: -0.015em;} // Using im-var
+  &.is-3 { font-weight: $im-font-weight-semibold; } // Using im-var
 }
 
 .subtitle {
-  //
+  // color: $subtitle-color; // This is already set by Bulma variables
+  // font-weight: $subtitle-weight; // This is already set by Bulma variables
 }
 
 // General text elements if Bulma's .content isn't used
-p {
-  margin-bottom: 1.25rem;
-  font-size: 1rem; // or $body-size
-}
+// p styling is primarily in _base.scss or handled by .content
 
-strong, b {
-  font-weight: 600; // Slightly less heavy than default bold for better harmony
-  color: $text-strong;
-}
+// strong, b styling is in _base.scss
 
-hr.is-divider { // Bulma's divider
+hr.is-divider {
   background-color: $im-divider-color;
   height: 1px;
   margin: 2rem 0;
 }
 
-blockquote {
-  background-color: $im-body-background; // Lighter than box/card
-  border-left: 4px solid $im-primary-light; // Use accent for blockquote border
+blockquote { // This was in your typography snippet, also matches _base.scss
+  background-color: $im-primary-light; // Using your explicit color
+  border-left: 4px solid $im-primary;
   padding: 1.25em 1.5em;
   margin: 1.5rem 0;
   border-radius: $im-radius-small;
@@ -52,43 +49,43 @@ blockquote {
 // Styling within Bulma's .content class
 .content {
   h1, h2, h3, h4, h5, h6 {
-    // color: $title-color; // Inherited
-    font-weight: $title-weight;
-    line-height: $title-line-height;
+    color: $content-heading-color; // Uses $im-text-headings
+    font-weight: $content-heading-weight; // Uses $im-font-weight-bold
+    line-height: $content-heading-line-height;
   }
-  h1 { font-size: $size-1; font-weight: 800; }
-  h2 { font-size: $size-2; font-weight: 700; }
-  h3 { font-size: $size-3; font-weight: 600; }
+  h1 { font-size: $size-1; font-weight: $im-font-weight-extrabold; } // Uses Bulma $size vars which are fine
+  h2 { font-size: $size-2; font-weight: $im-font-weight-bold; }
+  h3 { font-size: $size-3; font-weight: $im-font-weight-semibold; }
   // etc.
 
   a {
-    // color: $link; // Inherited
+    color: $link; // Uses $im-link-color via Bulma vars
     text-decoration: underline;
-    text-decoration-color: rgba($link, 0.3);
+    text-decoration-color: rgba($link, 0.3); // Using $link directly
     &:hover {
-      text-decoration-color: $link-hover;
+      color: $link-hover; // Uses $im-link-color-hover via Bulma vars
+      text-decoration-color: $link-hover; // Using $link-hover directly
     }
   }
 
   p, ul, ol, dl {
-    line-height: $body-line-height;
+    line-height: $body-line-height; // Uses $im-line-height-base via Bulma vars
   }
 
   ul, ol {
-    padding-left: 1.5em; // Standard indent
+    padding-left: 1.5em;
   }
   li + li {
-    margin-top: 0.35em; // Spacing between list items
+    margin-top: 0.35em;
   }
 
-  // Tables within content
   table {
     td, th {
       border-color: $im-divider-color;
       padding: 0.75em 1em;
     }
     th {
-      color: $text-strong;
+      color: $im-text-strong;
       background-color: lighten($im-body-background, 2%);
     }
   }

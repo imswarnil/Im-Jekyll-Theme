@@ -1,12 +1,11 @@
 // scss/theme/_base.scss
 
-// --- Global HTML & Body Styling ---
 html {
-  background-color: $im-body-background; // Set on html to avoid flash of white
+  background-color: $im-body-background;
   font-size: $im-font-size-base;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  text-rendering: $body-rendering; // From Bulma vars, set to optimizeLegibility
+  text-rendering: $body-rendering;
   scroll-behavior: smooth;
 }
 
@@ -15,16 +14,13 @@ body {
   color: $im-text;
   font-weight: $im-font-weight-normal;
   line-height: $im-line-height-base;
-  position: relative; // For pseudo-element grid
-  overflow-x: $body-overflow-x; // From Bulma vars
-  min-width: $body-min-width; // From Bulma vars
+  position: relative;
+  overflow-x: $body-overflow-x;
+  min-width: $body-min-width;
 
-  // Subtle background grid lines for the entire body (light style)
-  // This will be behind all content.
-  // The hero grid can be a more prominent, fading one on top of this if needed.
   &::before {
     content: "";
-    position: fixed; // Fixed position to cover viewport
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -32,67 +28,57 @@ body {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: -1; // Ensure it's behind all page content
-
-    // Using the light background grid line color by default for the body
+    z-index: -1;
     --im-current-body-grid-color: #{$im-grid-line-color-light-bg};
-
     background-image:
       repeating-linear-gradient(var(--im-current-body-grid-color) 0 1px, transparent 1px 100%),
       repeating-linear-gradient(90deg, var(--im-current-body-grid-color) 0 1px, transparent 1px 100%);
-    background-size: 40px 40px; // Adjust grid cell size for body grid
-    opacity: 0.5; // Make body grid lines very subtle
+    background-size: 40px 40px;
+    opacity: 0.5;
   }
 }
 
-// --- Link Styling ---
 a {
-  color: $link; // Uses $im-primary via Bulma variables
-  font-weight: $im-font-weight-medium; // Slightly bolder links
+  color: $link; // This is $im-link-color via Bulma var override
+  font-weight: $im-font-weight-medium;
   text-decoration: none;
   transition: color 0.2s ease-in-out, text-decoration-color 0.2s ease-in-out;
 
   &:hover,
   &:focus {
-    color: $im-link-color-hover; // Uses $im-primary-dark
+    color: $link-hover; // This is $im-link-color-hover via Bulma var override
     text-decoration: underline;
-    text-decoration-color: rgba($im-link-color-hover, 0.5); // Subtle underline color
+    text-decoration-color: rgba($link-hover, 0.5);
   }
 }
 
-// --- Headings (General H1-H6 styling outside of Bulma's .title/.subtitle) ---
-// Bulma's .title and .subtitle classes will take precedence where used.
-// This provides defaults if raw h tags are used.
 h1, h2, h3, h4, h5, h6 {
   font-family: $im-family-sans-serif;
   color: $im-text-headings;
-  font-weight: $im-font-weight-bold; // Default bold for headings
-  line-height: $title-line-height; // Using the title line height
-  margin-top: 1.5em; // Default top margin
-  margin-bottom: 0.75em; // Default bottom margin
+  font-weight: $im-font-weight-bold;
+  line-height: $title-line-height; // $title-line-height is set in _variables.scss
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
 
   &:first-child {
-    margin-top: 0; // Remove top margin if it's the first element
+    margin-top: 0;
   }
 }
 
-h1 { font-size: $size-2; font-weight: $im-font-weight-extrabold; } // Large and very bold
+h1 { font-size: $size-2; font-weight: $im-font-weight-extrabold; }
 h2 { font-size: $size-3; font-weight: $im-font-weight-bold; }
 h3 { font-size: $size-4; font-weight: $im-font-weight-semibold; }
 h4 { font-size: $size-5; font-weight: $im-font-weight-semibold; }
 h5 { font-size: $size-6; font-weight: $im-font-weight-medium; }
 h6 { font-size: $size-7; font-weight: $im-font-weight-medium; text-transform: uppercase; letter-spacing: 0.05em; }
 
-
-// --- Paragraphs & Text Elements ---
 p {
-  margin-bottom: $block-spacing; // Using Bulma's block spacing
-  // Default font-size and line-height are inherited from body
+  margin-bottom: $block-spacing;
 }
 
 strong, b {
-  font-weight: $strong-weight; // From Bulma vars, derived from $im-font-weight-semibold
-  color: $strong-color;     // From Bulma vars, derived from $im-text-strong
+  font-weight: $strong-weight; // $strong-weight is set in _variables.scss
+  color: $strong-color;       // $strong-color is set in _variables.scss
 }
 
 em, i {
@@ -100,26 +86,24 @@ em, i {
 }
 
 small {
-  font-size: $small-font-size; // From Bulma vars
+  font-size: $small-font-size; // $small-font-size is set in _variables.scss
 }
 
-// --- Horizontal Rule ---
 hr {
-  background-color: $hr-background-color; // From Bulma vars, derived from $im-divider-color
+  background-color: $hr-background-color; // $hr-background-color is set in _variables.scss
   border: none;
   display: block;
   height: $hr-height;
   margin: $hr-margin;
 }
 
-// --- Blockquotes ---
 blockquote {
-  background-color: $im-primary-light; // Very light background for quotes
-  border-left: 4px solid $im-primary;   // Use primary color for border
+  background-color: $im-primary-light; // Using your specific $im-primary-light
+  border-left: 4px solid $im-primary;
   padding: 1.25em 1.5em;
   margin: $block-spacing 0;
   border-radius: $im-radius-small;
-  color: $im-text-light; // Slightly lighter text for quotes
+  color: $im-text-light;
   font-style: italic;
 
   p:last-child {
@@ -127,10 +111,9 @@ blockquote {
   }
 }
 
-// --- Lists (ul, ol, dl) ---
 ul, ol, dl {
   margin-bottom: $block-spacing;
-  padding-left: 1.75em; // Indentation for lists
+  padding-left: 1.75em;
 }
 
 li {
@@ -146,11 +129,9 @@ dd {
   margin-bottom: 0.75em;
 }
 
-// --- Code & Preformatted Text ---
-// Inline code
 code {
-  background-color: $code-background; // From Bulma vars
-  color: $code;                     // From Bulma vars
+  background-color: $code-background; // $code-background is set in _variables.scss
+  color: $code;                     // $code is set in _variables.scss
   font-family: $im-family-monospace;
   font-size: 0.875em;
   font-weight: $im-font-weight-normal;
@@ -158,21 +139,20 @@ code {
   border-radius: $im-radius-small;
 }
 
-// Preformatted text blocks
 pre {
   font-family: $im-family-monospace;
-  background-color: $pre-background-color; // From Bulma vars
-  color: $pre-color;                     // From Bulma vars
+  background-color: $pre-background-color; // $pre-background-color is set in _variables.scss
+  color: $pre-color;                     // $pre-color is set in _variables.scss
   font-size: 0.9em;
   line-height: 1.5;
   overflow-x: auto;
   padding: $pre-padding;
   white-space: pre;
-  word-wrap: normal; // Use normal to allow horizontal scrolling for long lines
+  word-wrap: normal;
   border-radius: $im-radius;
   margin-bottom: $block-spacing;
 
-  code { // Reset inline code styling if it's inside a pre block
+  code {
     background-color: transparent;
     color: inherit;
     font-size: inherit;
@@ -180,22 +160,21 @@ pre {
   }
 }
 
-// --- Images & Figures ---
 img,
 svg,
 video,
 iframe,
 embed,
 object {
-  max-width: 100%; // Responsive media by default
+  max-width: 100%;
   height: auto;
-  display: block; // Prevents extra space below images
+  display: block;
 }
 
 figure {
   margin: 0 0 $block-spacing 0;
   img {
-    border-radius: $image-radius; // From Bulma vars, derived from $im-radius
+    border-radius: $image-radius; // $image-radius is set in _variables.scss
   }
   figcaption {
     color: $im-text-light;
@@ -206,32 +185,30 @@ figure {
   }
 }
 
-// --- Tables (Basic styling, Bulma's .table class will provide more) ---
 table {
   width: 100%;
   margin-bottom: $block-spacing;
-  border-collapse: collapse; // Cleaner borders
+  border-collapse: collapse;
 }
 
 th, td {
-  padding: $table-cell-padding; // Using Bulma var
+  padding: $table-cell-padding;
   text-align: left;
-  border-bottom: $table-cell-border-width solid $table-cell-border; // Using Bulma vars
+  border-bottom: $table-cell-border-width solid $table-cell-border;
 }
 
 th {
-  color: $table-head-cell-color; // Using Bulma var
+  color: $table-head-cell-color;
   font-weight: $im-font-weight-semibold;
-  border-bottom-width: 2px; // Thicker border for table headers
+  border-bottom-width: 2px;
 }
 
-// --- Selection Highlight ---
 ::selection {
   background-color: rgba($im-primary, 0.8);
   color: $im-primary-invert;
   text-shadow: none;
 }
-::-moz-selection { // Firefox
+::-moz-selection {
   background-color: rgba($im-primary, 0.8);
   color: $im-primary-invert;
   text-shadow: none;

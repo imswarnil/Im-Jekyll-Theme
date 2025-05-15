@@ -1,34 +1,28 @@
-// --- Card Overrides ---
+// scss/theme/_components.scss
+
 .card {
-  // Most card styles are from variables.
-  // Add specific structural or behavioral overrides here.
-  border: 1px solid $im-divider-color; // Softer border than default $border
+  border: 1px solid $im-divider-color;
   transition: box-shadow 0.25s ease-in-out, transform 0.25s ease-in-out, border-color 0.25s ease-in-out;
+  // background-color, color, radius, shadow are set by Bulma vars in _variables.scss
 
   &:hover {
     box-shadow: $im-shadow-lg;
     transform: translateY(-3px);
-    border-color: $im-border-color-strong; // Slightly darker border on hover
+    border-color: $im-border-color-strong;
   }
 
-  .card-header {
-    // If you need a border below card-header
-    // border-bottom: 1px solid $im-divider-color;
-  }
+  // .card-header styling is via Bulma vars in _variables.scss
 
   .card-image {
     img {
-      border-radius: $im-radius-large $im-radius-large 0 0; // Match card radius top
+      border-radius: $card-radius $card-radius 0 0; // Use Bulma's $card-radius
     }
   }
 }
 
-// --- Button Overrides ---
-// Buttons are heavily styled by variables.
-// Add specific type overrides if needed.
 .button {
-  // letter-spacing: 0.025em; // Slight letter spacing for buttons
-  text-transform: none; // Default, but can be uppercase for some styles
+  // General button styling (font, padding, border-width, radius, main colors) is via Bulma vars
+  text-transform: none;
   transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out, transform 0.15s ease-out;
 
   &:hover {
@@ -38,90 +32,50 @@
     transform: translateY(0px);
   }
 
-  &.is-link { // Example: if you want link buttons to use the accent color
-    background-color: $im-accent;
-    border-color: $im-accent;
-    color: $im-accent-invert;
-    &:hover {
-      background-color: $im-accent-dark;
-      border-color: $im-accent-dark;
-    }
-    &.is-outlined {
-      border-color: $im-accent;
-      color: $im-accent;
-      &:hover, &:focus {
-        background-color: $im-accent;
-        color: $im-accent-invert;
-      }
-    }
-  }
+  // Example for .is-link buttons IF $im-accent is defined and different from $im-primary
+  // If $link is already $im-primary (as per current _variables.scss), this specific .is-link rule isn't strictly needed
+  // unless you want .is-link to use a *different* accent.
+  // Assuming $im-accent IS defined for this example:
+  // &.is-link {
+  //   background-color: $im-accent; // Uses your defined $im-accent
+  //   border-color: $im-accent;
+  //   color: $im-accent-invert; // Uses your defined $im-accent-invert
+  //   &:hover {
+  //     background-color: $im-accent-dark;
+  //     border-color: $im-accent-dark;
+  //   }
+  //   &.is-outlined {
+  //     border-color: $im-accent;
+  //     color: $im-accent;
+  //     &:hover, &:focus {
+  //       background-color: $im-accent;
+  //       color: $im-accent-invert;
+  //     }
+  //   }
+  // }
 }
 
-// --- Navbar Overrides ---
-.navbar {
-  // Navbar styles mostly from variables.
-  .navbar-brand {
-    .navbar-item {
-      font-weight: 600; // Brand item typically bolder
-      img {
-        max-height: 2.5rem; // Adjust logo size
-      }
-    }
-  }
-  .navbar-item {
-    &.has-dropdown {
-      .navbar-link::after { // Style the dropdown arrow
-        border-color: $im-accent;
-      }
-    }
-    // Active state indicator for navbar items
-    &.is-active:not(.has-dropdown) {
-      // color: $primary; // Already set
-      position: relative;
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: 0px; // Adjust based on navbar height and desired position
-        left: 0.75rem; // Match navbar-item padding
-        right: 0.75rem;
-        height: 3px;
-        background-color: $primary;
-        border-radius: $radius-small $radius-small 0 0;
-      }
-    }
-  }
-  // Burger menu
-  .navbar-burger {
-    span {
-      background-color: $im-text; // Ensure burger lines are visible
-      height: 2px; // Thinner burger lines
-    }
-    &:hover {
-      background-color: lighten($im-body-background, 2%);
-    }
-  }
-}
+// .navbar styling is now in _navbar.scss
 
-// --- Tabs Overrides ---
 .tabs {
   ul {
     border-bottom-color: $im-divider-color;
   }
   li {
     a {
-      color: $text-light;
+      color: $text-light; // $text-light is from Bulma vars, derived from $im-text-light
       border-bottom-color: $im-divider-color;
-      padding-bottom: calc(0.75em - 1px); // Default is calc(0.5em - 1px)
+      padding-bottom: calc(0.75em - 1px);
       padding-top: calc(0.75em - 1px);
       &:hover {
-        color: $text;
+        color: $text; // $text is from Bulma vars, derived from $im-text
         border-bottom-color: $im-border-color-strong;
       }
     }
     &.is-active a {
-      color: $primary;
+      color: $primary; // $primary is from Bulma vars, derived from $im-primary
       border-bottom-color: $primary;
-      font-weight: 500;
+      font-weight: $im-font-weight-medium; // Using direct IM var
     }
   }
   &.is-boxed, &.is-toggle {
@@ -135,7 +89,7 @@
     li.is-active a {
       background-color: $im-content-background;
       border-color: $im-divider-color;
-      border-bottom-color: transparent !important; // For boxed active tab
+      border-bottom-color: transparent !important;
       color: $primary;
     }
   }
@@ -155,36 +109,38 @@
   }
 }
 
-// --- Message Overrides ---
 .message {
   border-radius: $im-radius;
-  box-shadow: none; // Remove default message shadow if desired, or use $im-shadow
-  border-left: 4px solid; // Use left border for emphasis
-  background-color: $im-body-background; // Lighter background
+  box-shadow: $message-shadow; // Use Bulma var, derived from $im-shadow-sm
+  border-left: 4px solid;
+  background-color: $im-body-background;
 
   .message-header {
-    background-color: transparent;
-    color: $text-strong;
-    font-weight: 600;
-    border-radius: $im-radius $im-radius 0 0;
+    background-color: $message-header-background-color; // transparent from Bulma vars
+    color: $text-strong; // from Bulma vars
+    font-weight: $im-font-weight-semibold; // Direct IM var
+    border-radius: $im-radius $im-radius 0 0; // Using $message-header-radius would be better if set in Bulma vars
     border-bottom: 1px solid $im-divider-color;
-    padding: 0.75em 1em;
+    padding: $message-header-padding; // Use Bulma var
   }
   .message-body {
-    border-color: transparent; // Remove default message body border
-    color: $text;
-    padding: 1em 1.25em;
-    border-width: 0; // Remove default border
+    border-color: transparent;
+    color: $text; // from Bulma vars
+    padding: $message-body-padding; // Use Bulma var
+    border-width: 0;
   }
 
   &.is-primary { border-left-color: $primary; .message-header { color: $primary; } }
   &.is-link { border-left-color: $link; .message-header { color: $link; } }
-  // Add for other colors (info, success, warning, danger)
+  &.is-info { border-left-color: $info; .message-header { color: $info; } }
+  &.is-success { border-left-color: $success; .message-header { color: $success; } }
+  &.is-warning { border-left-color: $warning; .message-header { color: $warning; } }
+  &.is-danger { border-left-color: $danger; .message-header { color: $danger; } }
 }
 
-// --- Custom Components (Inspired by Enji Dev, prefixed with im-) ---
+// --- Custom Components (IM-prefixed) ---
+// These use your $im- variables directly or Bulma variables that are derived from them.
 
-// Numbered List (like Enji's screenshot)
 .im-numbered-list {
   list-style: none;
   padding-left: 0;
@@ -194,12 +150,12 @@
 
   .im-list-item {
     position: relative;
-    padding: 1.25rem 1.25rem 1.25rem 4.5rem; // Space for the number
+    padding: 1.25rem 1.25rem 1.25rem 4.5rem;
     margin-bottom: 1rem;
     background-color: $im-content-background;
-    border-radius: $im-radius;
+    border-radius: $im-radius; // Uses your themed radius
     border: 1px solid $im-divider-color;
-    box-shadow: $im-shadow;
+    box-shadow: $im-shadow; // Uses your themed shadow
     transition: box-shadow 0.2s ease, transform 0.2s ease;
 
     &:hover {
@@ -214,109 +170,53 @@
       left: 1.25rem;
       top: 50%;
       transform: translateY(-50%);
-      background-color: $im-accent; // Use accent for numbers
-      color: $im-accent-invert;
+      background-color: $primary; // Using themed primary
+      color: $primary-invert; // Using themed primary-invert
       width: 2.5rem;
       height: 2.5rem;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 600;
+      font-weight: $im-font-weight-semibold;
       font-size: 1.1rem;
-      box-shadow: 0 2px 4px rgba(darken($im-accent, 10%), 0.3);
+      box-shadow: 0 2px 4px rgba(darken($primary, 10%), 0.3);
     }
     .im-item-title {
-      font-weight: 600;
-      color: $text-strong;
+      font-weight: $im-font-weight-semibold;
+      color: $im-text-strong;
       display: block;
       margin-bottom: 0.35rem;
       font-size: 1.1rem;
     }
     .im-item-description {
       font-size: 0.95rem;
-      color: $text;
+      color: $im-text;
       line-height: 1.6;
     }
   }
 }
 
-// Feature Box (like Enji's screenshot - can be used with Bulma columns)
 .im-feature-box {
-  // Apply this class to a column or a box
   text-align: center;
-  padding: 2rem 1.5rem; // More padding for feature emphasis
+  padding: 2rem 1.5rem;
 
   .im-feature-icon {
-    font-size: 2.75rem; // Assuming icon font or SVG
+    font-size: 2.75rem;
     color: $im-primary;
     margin-bottom: 1.25rem;
     display: inline-block;
     line-height: 1;
-    // If using SVG:
-    // svg { width: 3rem; height: 3rem; fill: $im-primary; }
   }
-  .im-feature-title {
-    // Use Bulma's .title.is-5 or .is-4
+  .im-feature-title.title { // Be more specific if it's a .title
     margin-bottom: 0.75rem;
+    font-weight: $im-font-weight-semibold; // Ensure consistent weight
   }
   .im-feature-description {
     font-size: 0.95rem;
-    color: $text-light;
+    color: $im-text-light;
     line-height: 1.6;
   }
 }
 
-// Big quote style (like "Beautiful inside and out")
-.im-big-quote {
-  font-size: clamp(1.8rem, 4vw, 2.75rem); // Responsive font size
-  font-weight: 300;
-  text-align: center;
-  color: $text-strong;
-  max-width: 800px; // Adjust max-width
-  margin: 3rem auto;
-  line-height: 1.4;
-  font-style: normal; // Can be italic if preferred
-
-  &::before, &::after {
-    content: "";
-    display: block;
-    width: 100px;
-    height: 2px;
-    background-color: $im-divider-color;
-    margin: 1.5rem auto;
-  }
-}
-
-// Tech Stack Icons
-.im-tech-stack {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem 2.5rem; // Spacing between icons
-  margin: 2rem 0;
-
-  .im-tech-icon {
-    // For font icons
-    // font-size: 2.5rem;
-    // color: $text-light;
-    // transition: color 0.2s ease;
-
-    // For SVGs or images
-    img, svg {
-      height: 40px; // Adjust size
-      width: auto;
-      filter: grayscale(60%) opacity(0.7);
-      transition: filter 0.25s ease, transform 0.2s ease;
-    }
-
-    &:hover {
-      // color: $im-primary;
-      img, svg {
-        filter: grayscale(0%) opacity(1);
-        transform: scale(1.1);
-      }
-    }
-  }
-}
+// .im-big-quote and .im-tech-stack are in _custom.scss as per your snippets

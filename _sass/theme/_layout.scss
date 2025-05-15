@@ -1,5 +1,7 @@
+// scss/theme/_layout.scss
+
 .section {
-  padding-top: 4rem; // More vertical rhythm
+  padding-top: 4rem;
   padding-bottom: 4rem;
 
   &.is-medium {
@@ -12,13 +14,14 @@
   }
 }
 
-// --- Hero Overrides ---
+// --- Hero Overrides (This targets Bulma's .hero class directly) ---
+// If you use .im-hero-wrapper from _hero.scss, that file handles its own grid.
+// This section is if you are styling Bulma's default .hero.
 .hero {
-  position: relative; // For pseudo-element grid
-  overflow: hidden;   // Keep grid lines contained
+  position: relative;
+  overflow: hidden;
 
-  // Default grid lines for light backgrounds
-  --im-current-grid-color: #{$im-grid-line-color-light-bg};
+  --im-current-grid-color: #{$im-grid-line-color-light-bg}; // Default for .hero
 
   &::before {
     content: "";
@@ -30,45 +33,38 @@
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 0; // Behind hero content
+    z-index: 0;
 
     background-image:
       repeating-linear-gradient(var(--im-current-grid-color) 0 1px, transparent 1px 100%),
       repeating-linear-gradient(90deg, var(--im-current-grid-color) 0 1px, transparent 1px 100%);
-    background-size: 35px 35px; // Adjust grid cell size
+    background-size: 35px 35px;
 
-    // Fading effect (radial gradient mask)
     mask-image: radial-gradient(ellipse at center, black 25%, transparent 75%);
     -webkit-mask-image: radial-gradient(ellipse at center, black 25%, transparent 75%);
-    opacity: 0.7; // Make grid lines even more subtle
+    opacity: 0.7;
   }
 
-  // Adjust grid line color for dark backgrounds
   &.is-primary,
-  &.is-link, // If you use link color for hero bg
+  &.is-link,
   &.is-info,
   &.is-success,
-  &.is-warning,
+  // &.is-warning, // Warning might be light, depends on $im-warning
   &.is-danger,
   &.is-dark,
-  &.is-black, // Bulma's .is-black
-  // Add any custom classes that imply a dark background
-  &[style*="background-color:"], // More robust, but might be too broad
-  &[class*="has-background-"] { // Catches Bulma's has-background-* helpers
-    // This logic needs to be smarter if the background color is set via inline style or complex classes.
-    // For now, we'll cover common Bulma color modifiers.
-    // A more JS-dependent solution would be needed for arbitrary background colors.
-
-    // Default to dark grid if a color modifier is present
+  &.is-black,
+  &[class*="has-background-"] { // General catch for background helpers
     --im-current-grid-color: #{$im-grid-line-color-dark-bg};
   }
 
-  // Specific override if hero is explicitly light, even if it's also .is-primary (if primary is light)
-  // This depends on your $primary color. If $primary is dark, then is-primary should use light grid lines.
-  // Assuming $primary is a dark color like red #e53935
-  // If you have a light $primary, you'd flip the logic or add specific overrides
+  // Specific override for explicitly light backgrounds, even if a color modifier is present
+  // e.g. <section class="hero is-primary is-light">
+  &.is-light, &.has-background-light,
+  &.is-white, &.has-background-white {
+    --im-current-grid-color: #{$im-grid-line-color-light-bg};
+  }
 
-  // Ensure hero content is above the grid
+
   .hero-head,
   .hero-body,
   .hero-foot {
@@ -77,33 +73,37 @@
   }
 
   .hero-body {
-    padding-top: 4rem; // Adjust padding for hero body
+    padding-top: 4rem;
     padding-bottom: 4rem;
   }
 
   &.is-medium .hero-body {
-    padding-top: 6rem;
+    padding-top: 6rem; // Matches section.is-medium
     padding-bottom: 6rem;
   }
    &.is-fullheight .hero-body, &.is-fullheight-with-navbar .hero-body {
      align-items: center;
      display: flex;
-     > .container { // Center content vertically in fullheight hero
+     > .container {
        flex-grow: 1;
        flex-shrink: 1;
-       margin: auto; // For centering
+       margin: auto;
        width: 100%;
-       text-align: center; // Common for fullheight hero text
+       text-align: center;
      }
    }
 }
 
 .footer {
-  // Styles for footer are mostly from variables
+  background-color: $footer-background-color; // From _variables.scss
+  color: $footer-color;                     // From _variables.scss
+  padding: $footer-padding;                 // From _variables.scss
+  border-top: $footer-border-top;           // From _variables.scss
+
   a:not(.button) {
-    color: $text-light; // Make footer links less prominent
+    color: $link; // Use the themed link color
     &:hover {
-      color: $link;
+      color: $link-hover;
     }
   }
 }

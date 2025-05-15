@@ -1,11 +1,13 @@
-// Example: A custom section title style
+// scss/theme/_custom.scss
+
 .im-section-title {
-  @extend .title;
-  @extend .is-2; // Example size
+  @extend .title; // This will inherit font-family, color, weight from themed .title
+  // font-size: $size-2; // Example: Explicitly set size, or let .is-2 handle it
+  @extend .is-2; // Use Bulma's size class, which uses themed $size-2
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem !important; // Increased importance for more spacing
   position: relative;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.75rem;
 
   &::after {
     content: "";
@@ -15,62 +17,57 @@
     transform: translateX(-50%);
     width: 80px;
     height: 3px;
-    background-color: $im-primary;
-    border-radius: $radius-small;
+    background-color: $primary; // Uses themed primary
+    border-radius: $radius-small; // Uses themed radius-small
   }
 }
 
-// Example: Tech stack icons container (from your screenshot)
 .im-tech-stack {
   display: flex;
+  flex-wrap: wrap; // Added flex-wrap
   justify-content: center;
   align-items: center;
-  gap: 1.5rem; // Spacing between icons
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
+  gap: 2rem 2.5rem; // Uses values from your component snippet
+  margin: 2rem 0;  // Uses values from your component snippet
 
   .im-tech-icon {
-    font-size: 1.8rem; // Adjust if using icon font
-    color: $im-text-light; // Subtle color
+    // Assuming font icons primarily, adjust if mostly SVGs/images
+    font-size: 2.2rem; // Slightly larger than your example for better visibility
+    color: $im-text-light;
     transition: color 0.2s ease;
-    img, svg { // If using img or svg for icons
-      height: 30px; // Or your desired size
+    img, svg { // Styles for img/svg within if used
+      height: 35px; // Slightly larger
       width: auto;
-      filter: grayscale(50%);
-      opacity: 0.7;
-      transition: filter 0.2s ease, opacity 0.2s ease;
+      filter: grayscale(60%) opacity(0.75); // Values from your component snippet
+      transition: filter 0.25s ease, transform 0.2s ease, opacity 0.2s ease; // Added opacity
     }
-
 
     &:hover {
       color: $im-primary;
       img, svg {
-        filter: grayscale(0%);
-        opacity: 1;
+        filter: grayscale(0%) opacity(1);
+        transform: scale(1.1);
       }
     }
   }
 }
 
-// Big centered quote (from your screenshot)
 .im-big-quote {
-  font-size: 2rem; // Adjust as needed
-  font-weight: 300; // Lighter weight for emphasis
+  font-size: clamp(1.8rem, 4vw, 2.75rem); // From your component snippet
+  font-weight: $im-font-weight-light; // Use defined light weight
   text-align: center;
-  color: $text;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 2rem 0;
+  color: $im-text-strong; // Use strong text for better contrast than $im-text
+  max-width: 700px; // From your snippet, adjust as needed
+  margin: 3rem auto; // From your component snippet
   line-height: 1.4;
-  font-style: italic;
+  font-style: italic; // From your snippet
 
   &::before, &::after {
     content: "";
     display: block;
     width: 100px;
     height: 2px;
-    background-color: $im-grey-light;
-    margin: 1rem auto;
+    background-color: $im-divider-color; // Was $im-grey-light, changed to consistent $im-divider-color
+    margin: 1.5rem auto; // From your component snippet
   }
 }

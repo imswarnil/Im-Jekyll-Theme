@@ -1,27 +1,21 @@
 // scss/theme/_navbar.scss
 
-.navbar { // Main <nav> element
+.navbar {
   min-height: $navbar-height;
   background-color: $navbar-background-color;
   box-shadow: $navbar-box-shadow-size $navbar-box-shadow-color;
-  z-index: 30; // Ensure it's above other content
-
-  &.is-fixed-top {
-    // Bulma handles body padding, this is just for visual consistency if needed
-  }
+  z-index: 30;
 
   .container {
-    // The default Bulma container behavior is usually fine.
-    // If you need the navbar container to be wider than other page containers:
-    // max-width: 1344px; // Example: $fullhd + (2 * $gap / 2)
+    // Default Bulma container
   }
 }
 
 .navbar-brand {
-  align-items: stretch; // Ensure brand items can fill height
+  align-items: stretch;
 
-  .im-logo-link.navbar-item { // Logo link
-    padding-left: 0.75rem; // Match Bulma's default start for items in container
+  .im-logo-link.navbar-item {
+    padding-left: 0.75rem;
     padding-right: 0.5rem;
     font-weight: $im-font-weight-semibold;
     color: $im-text-strong;
@@ -30,43 +24,39 @@
 
     .im-logo-image {
       max-height: $navbar-item-img-max-height;
-      margin-right: 0.6em; // Space between logo and text
-    }
-    .im-logo-text {
-      // Styles for logo text if needed
+      margin-right: 0.6em;
     }
 
     &:hover {
-      color: $primary;
+      color: $primary; // $primary is themed $im-primary
       background-color: transparent !important;
     }
   }
 }
 
-.navbar-burger { // Burger styling
-  color: $navbar-burger-color;
-  margin-left: 0.5rem; // Space from mobile search
-  order: 2; // Burger after mobile search
+.navbar-burger {
+  color: $navbar-burger-color; // uses $im-text
+  margin-left: 0.5rem;
+  order: 2;
 
   span {
     height: 2px;
     background-color: currentColor;
     width: 20px;
-    left: calc(50% - 10px); // Center the shorter lines
-    &:nth-child(1) { top: calc(50% - 7px); } // Adjusted for 2px height
+    left: calc(50% - 10px);
+    &:nth-child(1) { top: calc(50% - 7px); }
     &:nth-child(2) { top: calc(50% - 1px); }
     &:nth-child(3) { top: calc(50% + 5px); }
   }
-  // Active state (Alpine.js handles the class, Bulma handles the transform)
 }
 
-.im-navbar-mobile-search.navbar-item { // Mobile search icon in .navbar-brand
+.im-navbar-mobile-search.navbar-item {
   order: 1;
-  padding: 0.5rem 0.75rem; // Standard item padding
+  padding: 0.5rem 0.75rem;
   color: $im-text;
   .icon i.ph {
-      font-size: 1.4rem; // Match desktop search size
-      color: $im-text;
+      font-size: 1.4rem;
+      color: $im-text; // Explicitly set for clarity
   }
   &:hover {
     .icon i.ph { color: $primary; }
@@ -75,72 +65,67 @@
 }
 
 .navbar-menu {
-  // Desktop: Center .navbar-start content
-  @media screen and (min-width: $desktop) {
-    flex-grow: 1; // Allow menu to take space to enable centering of start
+  @media screen and (min-width: $desktop) { // $desktop is themed
+    flex-grow: 1;
     .navbar-start {
       flex-grow: 1;
       justify-content: center;
-      margin-right: auto; // Push end to the right
-      margin-left: auto;  // Center the start block itself if end is empty
-      // The inner .navbar div needs to allow centering too
-      & > .navbar {
+      margin-right: auto;
+      margin-left: auto;
+      & > .navbar { // Inner div
         display: flex;
-        justify-content: center; // Center items within the inner navbar div
+        justify-content: center;
       }
     }
   }
 
-  // Mobile active menu styling
   &.is-active {
-    background-color: $navbar-background-color;
+    background-color: $navbar-background-color; // uses $im-content-background
     box-shadow: 0 8px 16px rgba(darken($im-body-background, 70%), 0.12);
-    border-radius: 0 0 $im-radius $im-radius;
-    padding: 0.75rem 0; // Vertical padding for the opened menu
+    border-radius: 0 0 $im-radius $im-radius; // uses themed radius
+    padding: 0.75rem 0;
     position: absolute;
     width: 100%;
     left: 0;
-    top: 100%; // Position below the navbar
+    top: 100%;
 
     .navbar-start {
       display: flex;
       flex-direction: column;
       align-items: stretch;
-      & > .navbar { // Target the inner .navbar div
+      & > .navbar {
           display: flex;
           flex-direction: column;
           align-items: stretch;
       }
 
-      // Styling for each item in the mobile dropdown
       .navbar-item, .has-dropdown > .navbar-link {
           justify-content: center;
           text-align: center;
-          margin: 0.2rem 1rem; // Margin around items for spacing
+          margin: 0.2rem 1rem;
           border-radius: $im-radius-small;
           padding-top: 0.85rem;
           padding-bottom: 0.85rem;
-          color: $navbar-item-color; // Default text color
+          color: $navbar-item-color; // uses $im-text
 
-          .im-nav-text { display: block; } // Ensure text takes full width for centering
+          .im-nav-text { display: block; }
 
           &:hover, &.is-active-nav-item {
-              background-color: lighten($primary, 43%);
-              color: $primary; // Ensure text color is primary
-              &::after { display: none; } // No bottom bar in mobile menu
+              background-color: lighten($primary, 43%); // uses themed primary
+              color: $primary;
+              &::after { display: none; }
 
-              .im-nav-icon i.ph-duotone { // Icon color on hover/active
+              .im-nav-icon i.ph-duotone {
                   --ph-secondary-color: #{rgba($primary, 0.5)};
                   --ph-primary-color: #{$primary};
               }
           }
       }
-      // Mobile dropdown sub-menu
       .has-dropdown > .navbar-dropdown {
           background-color: transparent;
           box-shadow: none;
           border: none;
-          padding-left: 1.5rem; // Indent sub-items further
+          padding-left: 1.5rem;
           margin-top: 0.25rem;
           margin-bottom: 0.25rem;
           .navbar-item {
@@ -148,13 +133,13 @@
               font-size: 0.9em;
               padding-top: 0.6rem;
               padding-bottom: 0.6rem;
-              margin-left: 0.5rem; margin-right: 0.5rem; // Reduce side margin for subitems
+              margin-left: 0.5rem; margin-right: 0.5rem;
               &:hover, &.is-active-nav-item { background-color: lighten($primary, 45%); }
           }
       }
-    } // End .navbar-start in mobile active
+    }
 
-    .navbar-end { // Mobile social icons
+    .navbar-end {
       display: flex;
       flex-direction: row;
       justify-content: center;
@@ -163,30 +148,27 @@
       margin-top: 0.75rem;
       .navbar-item { padding: 0.5rem; }
     }
-  } // End .navbar-menu.is-active
-} // End .navbar-menu
+  }
+}
 
-// Styling for individual navbar items (links, dropdown toggles)
-// Targets items within the inner .navbar div in .navbar-start, and items in .navbar-end
 .navbar-start > .navbar > .navbar-item,
 .navbar-start > .navbar > .has-dropdown > .navbar-link,
 .navbar-end > .navbar-item {
-  font-weight: $navbar-item-font-weight;
-  color: $navbar-item-color;
-  padding: 0.5rem 1.1rem; // Consistent padding
+  font-weight: $navbar-item-font-weight; // uses $im-font-weight-medium
+  color: $navbar-item-color; // uses $im-text
+  padding: 0.5rem 1.1rem;
   position: relative;
   display: inline-flex;
   align-items: center;
   transition: color 0.2s ease-in-out;
 
-  .im-nav-image-icon { // For images used as icons
+  .im-nav-image-icon {
     max-height: 1.25rem;
     width: auto;
     margin-right: 0.6em;
-    &.is-small { max-height: 1rem; } // Smaller image icons for dropdowns
+    &.is-small { max-height: 1rem; }
   }
 
-  // Phosphor Duotone Icon styling
   .im-nav-icon {
     display: inline-flex;
     align-items: center;
@@ -201,9 +183,9 @@
       --ph-primary-color: #{$im-text};
       transition: --ph-primary-color 0.2s ease-in-out, --ph-secondary-color 0.2s ease-in-out;
     }
-    &.is-small i.ph-duotone { // For icons in dropdowns
-        font-size: 1.15rem; // Slightly smaller
-        --ph-secondary-color: #{rgba($im-text, 0.5)}; // Default a bit more visible in dropdown
+    &.is-small i.ph-duotone {
+        font-size: 1.15rem;
+        --ph-secondary-color: #{rgba($im-text, 0.5)};
     }
   }
 
@@ -217,9 +199,8 @@
     }
   }
 
-  // Active state (underline indicator)
   &.is-active-nav-item {
-    color: $primary !important;
+    color: $primary !important; // $primary is themed
     font-weight: $im-font-weight-semibold;
 
     &::after {
@@ -230,59 +211,56 @@
       right: 1rem;
       height: 3px;
       background-color: $primary;
-      border-radius: $im-radius-small $im-radius-small 0 0;
+      border-radius: $im-radius-small $im-radius-small 0 0; // themed radius
     }
-    .im-nav-icon i.ph-duotone { // Active icon color
+    .im-nav-icon i.ph-duotone {
         --ph-secondary-color: #{rgba($primary, 0.5)};
         --ph-primary-color: #{$primary};
     }
   }
-} // End .navbar-item general styling
+}
 
-// Desktop Dropdown specific styling
 .navbar-start > .navbar > .navbar-item.has-dropdown {
-  .navbar-link { // The dropdown toggle
-    // Base styling inherited from general .navbar-item
-    &::after { // Bulma's arrow
+  .navbar-link {
+    &::after {
       border-color: $navbar-dropdown-arrow; // $primary
       right: 1.125em;
-      margin-top: -0.3em; // Fine-tune vertical alignment
+      margin-top: -0.3em;
     }
   }
   .navbar-dropdown {
-    background-color: $navbar-dropdown-background-color;
+    background-color: $navbar-dropdown-background-color; // $im-content-background
     border: 1px solid $im-divider-color;
-    border-top-width: 0; // Remove top border
+    border-top-width: 0;
     border-radius: 0 0 $im-radius $im-radius;
     box-shadow: $im-shadow-md;
-    padding: 0.5rem 0; // Vertical padding for the dropdown box
-    min-width: 14rem; // Ensure dropdown has decent width
-    margin-top: -1px; // Slight overlap for seamless look
+    padding: 0.5rem 0;
+    min-width: 14rem;
+    margin-top: -1px;
 
-    .navbar-item { // Items within the dropdown
-      padding: 0.7rem 1.35rem; // More padding
+    .navbar-item {
+      padding: 0.7rem 1.35rem;
       font-weight: $im-font-weight-normal;
       white-space: nowrap;
       color: $im-text;
-      display: flex; // Align icon and text within dropdown item
+      display: flex;
       align-items: center;
 
-      &::after { display: none; } // No active bar for dropdown items
+      &::after { display: none; }
 
       &:hover, &:focus, &.is-active-nav-item {
         color: $navbar-dropdown-item-hover-color; // $primary
-        background-color: $navbar-dropdown-item-hover-background-color; // light primary
+        background-color: $navbar-dropdown-item-hover-background-color; // lighten($primary, 43%)
 
-        .im-nav-icon i.ph-duotone { // Active/hover icon color in dropdown
+        .im-nav-icon i.ph-duotone {
             --ph-secondary-color: #{rgba($primary, 0.5)};
             --ph-primary-color: #{$primary};
         }
       }
     }
   }
-} // End Desktop Dropdown styling
+}
 
-// Social Icons & Desktop Search in .navbar-end
 .navbar-end {
   align-items: stretch;
   .im-social-icon.navbar-item {
@@ -290,7 +268,7 @@
     color: $im-text-light;
     .icon i.ph {
       font-size: 1.25rem;
-      color: $im-text-light; // Ensure icon color matches
+      color: $im-text-light;
       transition: color 0.2s ease-in-out;
     }
     &:hover {
@@ -314,4 +292,4 @@
   }
 }
 
-[x-cloak] { display: none !important; } // For Alpine.js, hides element until Alpine is initialized
+[x-cloak] { display: none !important; }
