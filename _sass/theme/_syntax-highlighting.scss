@@ -1,48 +1,59 @@
+// Based on Atom One Dark theme for Prism.js
 pre[class*="language-"],
 code[class*="language-"] {
+  color: #abb2bf; // Default text
+  background: none; // Handled by `pre` element
   font-family: $family-code;
-  color: $im-code-text; // Default text color in code blocks
-  background: $im-code-background;
-  text-shadow: none; // Remove Bulma's default text-shadow for code
-  font-size: 0.875em;
-  line-height: 1.5;
+  font-size: 0.9em; // Slightly smaller for code blocks
+  font-weight: 500;
   text-align: left;
   white-space: pre;
   word-spacing: normal;
   word-break: normal;
   word-wrap: normal;
+  line-height: 1.6; // More readable line height
   tab-size: 4;
   hyphens: none;
-  padding: 1em;
-  margin: .5em 0;
-  overflow: auto;
-  border-radius: $radius;
 }
 
-// Inline code
+pre[class*="language-"] {
+  padding: $pre-padding;
+  margin: 1.5em 0;
+  overflow: auto;
+  border-radius: $im-radius; // Use theme radius
+  background: $pre-background; // Defined in variables
+  border: 1px solid darken($pre-background, 5%);
+}
+
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
-  background: $im-code-background; // Match block background
-}
-:not(pre) > code {
-  font-family: $family-code;
-  background-color: $im-grey-lighter;
-  color: $im-primary-dark; // Make inline code stand out a bit
-  padding: 0.2em 0.4em;
-  border-radius: $radius-small;
-  font-size: 0.875em;
+  // background: $pre-background; // Already on pre
 }
 
-// Prism.js specific tokens (example)
+// Inline code (Bulma's `code` tag styling is in variables)
+// If you need to override Bulma's inline code specifically:
+// code {
+//   font-size: 0.875em;
+//   background-color: $code-background;
+//   color: $code;
+//   padding: $code-padding;
+//   border-radius: $radius-small;
+// }
+
 .token.comment,
 .token.prolog,
 .token.doctype,
 .token.cdata {
-  color: #6a9955; // Greenish for comments
+  color: #5c6370; // Grey for comments
+  font-style: italic;
 }
 
 .token.punctuation {
-  color: #d4d4d4; // Light grey for punctuation
+  color: #abb2bf; // Default text color
+}
+
+.token.namespace {
+  opacity: .7;
 }
 
 .token.property,
@@ -52,7 +63,7 @@ pre[class*="language-"] {
 .token.constant,
 .token.symbol,
 .token.deleted {
-  color: #c586c0; // Purple/pink
+  color: #e06c75; // Red/coral for these
 }
 
 .token.selector,
@@ -61,7 +72,7 @@ pre[class*="language-"] {
 .token.char,
 .token.builtin,
 .token.inserted {
-  color: #ce9178; // Orange/brown for strings
+  color: #98c379; // Green for strings, selectors
 }
 
 .token.operator,
@@ -69,25 +80,24 @@ pre[class*="language-"] {
 .token.url,
 .language-css .token.string,
 .style .token.string {
-  color: #569cd6; // Blue for operators, URLs
-  // background: hsla(0, 0%, 100%, 0.5);
+  color: #56b6c2; // Cyan for operators
 }
 
 .token.atrule,
 .token.attr-value,
 .token.keyword {
-  color: #569cd6; // Blue for keywords
+  color: #c678dd; // Purple for keywords
 }
 
 .token.function,
 .token.class-name {
-  color: #dcdcaa; // Yellowish for functions
+  color: #61afef; // Blue for functions
 }
 
 .token.regex,
 .token.important,
 .token.variable {
-  color: #9cdcfe; // Light blue
+  color: #d19a66; // Orange for variables
 }
 
 .token.important,
@@ -100,4 +110,9 @@ pre[class*="language-"] {
 
 .token.entity {
   cursor: help;
+}
+
+// Line numbers (if your highlighter supports it)
+.line-numbers .line-numbers-rows > span:before {
+  color: #4a505c; // Darker grey for line numbers
 }

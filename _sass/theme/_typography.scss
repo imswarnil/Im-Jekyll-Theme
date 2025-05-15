@@ -1,67 +1,95 @@
+// Title and Subtitle styles are heavily influenced by Bulma variables.
+// Add specific overrides if needed.
 .title, .subtitle {
-  font-family: $family-primary;
-  font-weight: 700; // Bolder titles by default
+  // font-family: $family-primary; // Already set by Bulma vars
 }
 
 .title {
-  color: $text-strong;
-  &.is-1 { font-weight: 900; } // Extra bold for h1
+  strong {
+    color: inherit; // Ensure strong within title uses title color
+    font-weight: inherit; // And title weight
+  }
+  &.is-1 { font-weight: 800; letter-spacing: -0.02em;}
+  &.is-2 { font-weight: 700; letter-spacing: -0.015em;}
+  &.is-3 { font-weight: 600; }
 }
 
 .subtitle {
-  color: $text-light;
-  font-weight: 400;
+  //
 }
 
-// Custom heading styles if needed beyond Bulma's .title
-h1, h2, h3, h4, h5, h6 {
-  font-family: $family-primary;
-  color: $text-strong;
-  font-weight: 700;
-}
-
-h1 { font-size: 2.5rem; margin-bottom: 1rem; } // Example
-h2 { font-size: 2rem; margin-bottom: 0.875rem; }
-// ... and so on
-
+// General text elements if Bulma's .content isn't used
 p {
   margin-bottom: 1.25rem;
-  font-size: 1rem; // Or $body-size
-  line-height: $body-line-height;
+  font-size: 1rem; // or $body-size
 }
 
 strong, b {
-  font-weight: 700;
+  font-weight: 600; // Slightly less heavy than default bold for better harmony
   color: $text-strong;
 }
 
+hr.is-divider { // Bulma's divider
+  background-color: $im-divider-color;
+  height: 1px;
+  margin: 2rem 0;
+}
+
 blockquote {
-  background-color: $im-grey-lighter;
-  border-left: 5px solid $im-primary;
+  background-color: $im-body-background; // Lighter than box/card
+  border-left: 4px solid $im-accent; // Use accent for blockquote border
   padding: 1.25em 1.5em;
-  margin-bottom: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: $im-radius-small;
   font-style: italic;
+  color: $text-light;
+
   p:last-child {
     margin-bottom: 0;
   }
 }
 
-// For content areas like blog posts
-.im-content {
+// Styling within Bulma's .content class
+.content {
   h1, h2, h3, h4, h5, h6 {
-    margin-top: 1.5em;
-    margin-bottom: 0.75em;
+    // color: $title-color; // Inherited
+    font-weight: $title-weight;
+    line-height: $title-line-height;
   }
-  h1:first-child, h2:first-child { // etc.
-    margin-top: 0;
+  h1 { font-size: $size-1; font-weight: 800; }
+  h2 { font-size: $size-2; font-weight: 700; }
+  h3 { font-size: $size-3; font-weight: 600; }
+  // etc.
+
+  a {
+    // color: $link; // Inherited
+    text-decoration: underline;
+    text-decoration-color: rgba($link, 0.3);
+    &:hover {
+      text-decoration-color: $link-hover;
+    }
   }
-  p, ul, ol, blockquote {
-    margin-bottom: 1.25rem;
+
+  p, ul, ol, dl {
+    line-height: $body-line-height;
   }
+
   ul, ol {
-    padding-left: 1.5em;
+    padding-left: 1.5em; // Standard indent
   }
-  li {
-    margin-bottom: 0.5em;
+  li + li {
+    margin-top: 0.35em; // Spacing between list items
+  }
+
+  // Tables within content
+  table {
+    td, th {
+      border-color: $im-divider-color;
+      padding: 0.75em 1em;
+    }
+    th {
+      color: $text-strong;
+      background-color: lighten($im-body-background, 2%);
+    }
   }
 }
