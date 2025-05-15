@@ -413,3 +413,85 @@ $table-head-cell-border-width: 0 0 2px; // For table head
 $table-head-cell-color: $im-text-strong;
 $table-row-hover-background-color: $im-body-background;
 // ... etc.
+
+// In scss/theme/_variables.scss
+
+// ... (all your existing $im- variables and Bulma-equivalent variables) ...
+
+// =============================================================================
+// 3. DARK MODE THEME VARIABLES (IM-prefixed)
+//    These will be applied when a .is-dark-mode class is on the html/body
+// =============================================================================
+
+$im-dark-primary: $im-primary; // Primary color might remain the same or be adjusted
+$im-dark-primary-light: lighten($im-dark-primary, 10%); // Adjust lightness for dark bg
+$im-dark-primary-dark: darken($im-dark-primary, 5%);   // Adjust darkness for dark bg
+$im-dark-primary-invert: $im-text-strong; // Text on primary in dark mode might need to be dark
+
+$im-dark-link-color: $im-primary-light; // Brighter links for dark mode
+$im-dark-link-color-hover: $im-primary;
+$im-dark-link-color-active: $im-primary;
+$im-dark-link-color-focus: $im-primary;
+$im-dark-link-color-invert: $im-text-strong;
+
+$im-dark-text: #c9d1d9; // Light grey text (GitHub dark mode text)
+$im-dark-text-light: #8b949e; // Lighter grey for less emphasis
+$im-dark-text-strong: #f0f6fc; // Almost white for strong text/headings
+$im-dark-text-headings: $im-dark-text-strong;
+$im-dark-text-invert: $im-text; // Text on light backgrounds in dark mode (e.g. on a primary button)
+$im-dark-text-placeholder: $im-dark-text-light;
+
+$im-dark-body-background: #0d1117; // Very dark (GitHub dark mode bg)
+$im-dark-content-background: #161b22; // Slightly lighter for cards, boxes (GitHub dark mode content bg)
+$im-dark-code-block-background: #010409; // Even darker for code blocks
+$im-dark-code-block-text: #c9d1d9;
+$im-dark-inline-code-background: darken($im-dark-content-background, 5%);
+$im-dark-inline-code-text: $im-primary-light; // Brighter inline code text
+
+$im-dark-border-color: #30363d; // Darker borders (GitHub dark mode border)
+$im-dark-border-color-strong: #8b949e;
+$im-dark-divider-color: #21262d;
+
+$im-dark-input-background: $im-dark-content-background;
+$im-dark-input-text: $im-dark-text;
+$im-dark-input-border: $im-dark-border-color;
+$im-dark-input-border-hover: $im-primary-light;
+$im-dark-input-border-focus: $im-primary-light;
+$im-dark-input-shadow-focus: rgba($im-primary-light, 0.25);
+
+$im-dark-button-text: $im-dark-primary-invert; // Could be $im-text-strong
+$im-dark-button-background: $im-dark-primary;
+$im-dark-button-border: $im-dark-primary;
+$im-dark-button-hover-background: $im-dark-primary-dark;
+$im-dark-button-hover-border: $im-dark-primary-dark;
+$im-dark-button-active-background: darken($im-dark-primary-dark, 5%);
+$im-dark-button-active-border: darken($im-dark-primary-dark, 5%);
+$im-dark-button-focus-shadow: rgba($im-dark-primary, 0.25);
+
+$im-dark-button-text-style-color: $im-dark-text;
+$im-dark-button-text-style-hover-background: $im-dark-divider-color;
+$im-dark-button-text-style-hover-color: $im-dark-text-strong;
+
+$im-dark-navbar-background: $im-dark-content-background; // Or $im-dark-body-background for more depth
+$im-dark-navbar-text: $im-dark-text;
+$im-dark-navbar-text-hover: $im-dark-primary;
+$im-dark-navbar-text-active: $im-dark-primary;
+$im-dark-navbar-shadow-color: rgba(black, 0.2); // More prominent shadow in dark mode
+
+$im-dark-card-background: $im-dark-content-background;
+$im-dark-card-text: $im-dark-text;
+$im-dark-card-border: $im-dark-border-color;
+$im-dark-card-header-text: $im-dark-text-headings;
+$im-dark-card-footer-border: $im-dark-border-color;
+$im-dark-card-footer-text: $im-dark-text-light;
+
+$im-dark-box-background: $im-dark-content-background;
+$im-dark-box-text: $im-dark-text;
+
+$im-dark-footer-background: $im-dark-body-background;
+$im-dark-footer-text: $im-dark-text-light;
+$im-dark-footer-border: $im-dark-border-color;
+
+// Dark mode grid lines (can be the same as light mode on dark bg, or new ones)
+$im-dark-grid-line-body: $im-grid-line-dark-bg; // Using existing dark bg grid for body in dark mode
+$im-dark-grid-line-hero: $im-grid-line-dark-bg; // Using existing dark bg grid for hero in dark mode
