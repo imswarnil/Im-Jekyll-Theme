@@ -11,10 +11,3 @@ $family-monospace: "Roboto Mono", monospace !default;
 @import "../node_modules/bulma/sass/index"; 
 
 // 4. Your custom theme styles (these come AFTER Bulma to override or add)
-@import "theme/base";
-@import "theme/typography";
-@import "theme/layout";
-@import "theme/components";
-@import "theme/navbar";
-@import "theme/syntax-highlighting";
-@import "theme/custom";
