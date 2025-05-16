@@ -1,341 +1,384 @@
 //------------------------------------------------------------------------------
-// 9. Markdown & Content Styling (for content generated from Markdown)
+// 10. Unique Reusable Components
 //------------------------------------------------------------------------------
 
-// Apply these styles generally to content areas.
-// If your markdown is always within a specific class like '.page-content',
-// you can scope these rules further e.g., .page-content { h1 {} ... }
-// For now, assuming it's within a .container or a .content div.
+// --- Callout / Alert Boxes ---
+.im-callout {
+  display: flex;
+  align-items: flex-start; // Align icon with the start of the text
+  padding: $im-content-padding;
+  margin: ($im-spacing-unit * 1.5) 0;
+  border-radius: $im-border-radius;
+  border-width: 1px;
+  border-style: solid;
+  border-left-width: 5px; // Prominent left border
 
-.container, // General container
-.content {  // Bulma's class for typographic content
-
-  hr {
-    background-color: var(--im-color-border) !important;
-    border: none !important;
-    height: 1px !important;
-    margin: ($im-spacing-unit * 2) 0 !important;
+  &__icon {
+    flex-shrink: 0;
+    margin-right: calc(#{$im-spacing-unit} * 0.75);
+    font-size: 1.5em; // Icon size
+    line-height: 1.2; // Adjust for vertical alignment with first line of text
+    display: flex;
+    align-items: center;
+    height: 1.2em; // Match line-height of first p
   }
 
-  // Headings are already styled globally, but ensure bottom margin consistency
-  h1, h2, h3, h4, h5, h6 {
-    &:not(:first-child) {
-      margin-top: ($im-spacing-unit * 2) !important;
-    }
-    &:not(:last-child) {
-      margin-bottom: $im-spacing-unit !important;
-    }
-  }
-  h1 { margin-bottom: ($im-spacing-unit * 1.5) !important; }
-  h2 { margin-bottom: ($im-spacing-unit * 1.25) !important; }
-
-
-  p {
-    // Global p styling should apply, this is for context
-    line-height: $im-line-height-base;
-    &:last-child {
-      margin-bottom: 0 !important; // Often useful within block elements
-    }
-  }
-
-  ul, ol {
-    margin-left: $im-spacing-unit * 1.5 !important;
-    margin-bottom: $im-spacing-unit !important;
-    padding-left: $im-spacing-unit !important; // Indentation for bullets/numbers
-
-    li {
-      margin-bottom: calc(#{$im-spacing-unit} / 2) !important;
-      padding-left: calc(#{$im-spacing-unit} / 2) !important; // Space after bullet/number
-      &::marker { // Style list bullets/numbers
-        color: var(--im-color-primary);
-        // font-weight: $im-font-weight-semibold; // Optional: bolder markers
-      }
-    }
-
-    // Nested lists
-    ul, ol {
-      margin-top: calc(#{$im-spacing-unit} / 2) !important;
-      margin-bottom: calc(#{$im-spacing-unit} / 2) !important;
-    }
-  }
-
-  dl { // Definition lists
-    margin-bottom: $im-spacing-unit !important;
-    dt {
-      font-weight: $im-font-weight-semibold !important;
-      color: var(--im-color-text-headings) !important;
-      margin-bottom: calc(#{$im-spacing-unit} / 4) !important;
-    }
-    dd {
-      margin-left: $im-spacing-unit * 1.5 !important;
-      margin-bottom: $im-spacing-unit !important;
-      color: var(--im-color-text) !important;
+  &__content {
+    flex-grow: 1;
+    p {
+      margin-bottom: calc(#{$im-spacing-unit} / 3) !important;
+      line-height: 1.5;
       &:last-child {
         margin-bottom: 0 !important;
       }
     }
   }
 
-  blockquote {
-    background-color: rgba(var(--im-color-primary-rgb), 0.03) !important;
-    border-left: 4px solid var(--im-color-primary) !important;
-    padding: $im-spacing-unit ($im-spacing-unit * 1.5) !important;
-    margin: ($im-spacing-unit * 1.5) 0 !important;
-    color: var(--im-color-text-muted) !important; // Slightly muted text for quotes
-    border-radius: 0 $im-border-radius $im-border-radius 0;
+  &__title {
+    font-weight: $im-font-weight-semibold !important;
+    margin-bottom: calc(#{$im-spacing-unit} / 2) !important;
+    // Color will be set by modifier
+  }
 
-    p {
-      color: inherit !important; // Ensure p inside blockquote inherits muted color
-      &:last-of-type {
+  // Modifiers for different types
+  &--info {
+    background-color: rgba(52, 152, 219, 0.07); // Light blueish
+    border-color: rgba(52, 152, 219, 0.3);
+    border-left-color: #3498db; // Blue
+    .im-callout__icon, .im-callout__title { color: #2980b9; }
+    color: darken(#3498db, 10%);
+  }
+  &--success {
+    background-color: rgba(46, 204, 113, 0.07); // Light greenish
+    border-color: rgba(46, 204, 113, 0.3);
+    border-left-color: #2ecc71; // Green
+    .im-callout__icon, .im-callout__title { color: #27ae60; }
+    color: darken(#2ecc71, 10%);
+  }
+  &--warning {
+    background-color: rgba(241, 196, 15, 0.07); // Light yellowish
+    border-color: rgba(241, 196, 15, 0.4);
+    border-left-color: #f1c40f; // Yellow
+    .im-callout__icon, .im-callout__title { color: #f39c12; }
+    color: darken(#f1c40f, 15%);
+  }
+  &--danger {
+    background-color: rgba(var(--im-color-primary-rgb), 0.07); // Use theme primary (red)
+    border-color: rgba(var(--im-color-primary-rgb), 0.3);
+    border-left-color: var(--im-color-primary);
+    .im-callout__icon, .im-callout__title { color: var(--im-color-primary-dark); }
+    color: var(--im-color-primary-dark);
+  }
+}
+html.im-is-dark-mode .im-callout {
+  &--info {
+    background-color: rgba(52, 152, 219, 0.15);
+    border-color: rgba(52, 152, 219, 0.5);
+    border-left-color: #5dade2;
+    .im-callout__icon, .im-callout__title { color: #5dade2; }
+    color: #aed6f1;
+  }
+  &--success {
+    background-color: rgba(46, 204, 113, 0.15);
+    border-color: rgba(46, 204, 113, 0.5);
+    border-left-color: #58d68d;
+    .im-callout__icon, .im-callout__title { color: #58d68d; }
+    color: #abebc6;
+  }
+  &--warning {
+    background-color: rgba(241, 196, 15, 0.15);
+    border-color: rgba(241, 196, 15, 0.6);
+    border-left-color: #f5c94c;
+    .im-callout__icon, .im-callout__title { color: #f5c94c; }
+    color: #fde3a7;
+  }
+  &--danger {
+    background-color: rgba(var(--im-color-primary-rgb), 0.15);
+    border-color: rgba(var(--im-color-primary-rgb), 0.5);
+    border-left-color: var(--im-color-primary-light);
+    .im-callout__icon, .im-callout__title { color: var(--im-color-primary-light); }
+    color: var(--im-color-text-on-primary); // Assuming primary-light is light enough for text on dark bg
+  }
+}
+
+
+// --- Responsive Video Embed ---
+.im-video-embed {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  margin: ($im-spacing-unit * 1.5) 0;
+  border-radius: $im-border-radius;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+  iframe, object, embed {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  // Aspect Ratios
+  &--16-9 {
+    padding-bottom: 56.25%; // 16:9
+  }
+  &--4-3 {
+    padding-bottom: 75%; // 4:3
+  }
+}
+
+
+// --- Ad Placeholder ---
+.im-ad-placeholder {
+  display: block;
+  text-align: center;
+  padding: ($im-spacing-unit * 2) $im-content-padding;
+  margin: ($im-spacing-unit * 2) auto; // Centered if in a wider container
+  max-width: 728px; // Common ad width, adjust as needed
+  border: 2px dashed var(--im-color-border);
+  background-color: var(--im-color-surface);
+  border-radius: $im-border-radius;
+  color: var(--im-color-text-muted);
+
+  &__label {
+    display: block;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: $im-spacing-unit;
+    color: var(--im-color-text-muted);
+  }
+  p {
+    font-size: 0.95em;
+    margin-bottom: $im-spacing-unit * 1.5 !important;
+    color: var(--im-color-text) !important;
+  }
+  &__link { // Use button styling for the link
+    @extend .button; // Inherit base button styles
+    @extend .is-light; // Inherit light button styles
+    // Or make it primary: @extend .is-primary;
+    font-size: 0.9em !important;
+  }
+}
+html.im-is-dark-mode .im-ad-placeholder {
+  border-color: var(--im-color-border); // Already uses CSS var
+  background-color: var(--im-color-surface); // Already uses CSS var
+  color: var(--im-color-text-muted);
+
+  &__label {
+    color: var(--im-color-text-muted);
+  }
+   p {
+    color: var(--im-color-text) !important;
+  }
+}
+
+
+// --- Key Takeaways / Summary Box ---
+.im-takeaways-box {
+  background-color: var(--im-color-surface);
+  border: 1px solid var(--im-color-border);
+  padding: $im-content-padding;
+  margin: ($im-spacing-unit * 2) 0;
+  border-radius: $im-border-radius;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+
+  &__title {
+    font-size: 1.25em; // Larger than h4 default
+    font-weight: $im-font-weight-semibold !important;
+    color: var(--im-color-primary) !important;
+    margin-bottom: $im-spacing-unit !important;
+    display: flex;
+    align-items: center;
+    i { // Phosphor icon
+      margin-right: calc(#{$im-spacing-unit} / 2);
+      font-size: 1.1em; // Slightly larger icon
+    }
+  }
+
+  &__list {
+    list-style: none !important;
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+    margin-bottom: 0 !important; // No margin if it's the last element
+
+    li {
+      padding-left: $im-spacing-unit * 1.75 !important; // Indent text
+      position: relative;
+      margin-bottom: calc(#{$im-spacing-unit} / 1.5) !important;
+      line-height: 1.6;
+      color: var(--im-color-text);
+
+      &:last-child {
         margin-bottom: 0 !important;
       }
-    }
 
-    // Nested blockquotes
-    blockquote {
-      margin-top: $im-spacing-unit !important;
-      margin-bottom: 0 !important;
-      margin-left: $im-spacing-unit !important;
-      padding: ($im-spacing-unit * 0.75) $im-spacing-unit !important;
-      font-size: 0.95em;
-      border-left-width: 3px !important;
-    }
-  }
-
-  // Code blocks and inline code
-  // Inline code (not inside <pre>)
-  *:not(pre) > code,
-  p > code, li > code, dd > code, th > code, td > code { // More specific for inline
-    background-color: var(--im-color-surface) !important;
-    border: 1px solid var(--im-color-border) !important;
-    color: var(--im-color-primary-dark) !important; // Or a dedicated code text color
-    padding: 0.15em 0.4em !important;
-    border-radius: calc(#{$im-border-radius} / 2) !important;
-    font-size: 0.9em !important;
-    font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace !important;
-    white-space: nowrap;
-  }
-
-  // Fenced code blocks (Jekyll adds .highlighter-rouge)
-  .highlighter-rouge {
-    margin-bottom: $im-spacing-unit * 1.5 !important;
-    position: relative; // For copy button positioning
-
-    .highlight { // This is the <pre> wrapper
-      background-color: var(--im-color-surface) !important;
-      border: 1px solid var(--im-color-border) !important;
-      border-radius: $im-border-radius !important;
-      padding: $im-spacing-unit !important;
-      overflow-x: auto !important;
-      font-size: 0.9em !important;
-      line-height: 1.5;
-
-      pre {
-        margin: 0 !important;
-        padding: 0 !important;
-        background-color: transparent !important;
-        border: none !important;
-        font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace !important;
-      }
-
-      code { // Code specifically inside pre
-        background-color: transparent !important;
-        border: none !important;
-        padding: 0 !important;
-        color: var(--im-color-text-on-surface) !important; // Ensure it matches surface text color
-        font-size: inherit !important; // Inherit from .highlight
-        white-space: pre; // Allow wrapping but preserve spaces
-      }
-    }
-
-    // Style for the copy button (it's already a .button .is-primary .is-small)
-    .copy-code-button {
-      position: absolute !important;
-      top: 0.5rem !important;
-      right: 0.5rem !important;
-      opacity: 0.7;
-      transition: opacity 0.2s ease;
-
-      &:hover {
-        opacity: 1;
-      }
-      // Ensure text and icon colors are appropriate if they don't inherit well
-      .icon {
-         color: var(--im-color-text-on-primary) !important; // If needed
-      }
-      .text {
-         color: var(--im-color-text-on-primary) !important; // If needed
-      }
-    }
-  }
-
-  // Tables
-  table {
-    width: 100% !important;
-    border-collapse: collapse !important;
-    margin-bottom: $im-spacing-unit * 1.5 !important;
-    font-size: 0.95em;
-    border: 1px solid var(--im-color-border) !important;
-    border-radius: $im-border-radius; // Apply to table itself if not to cells
-    overflow: hidden; // To make border-radius clip th/td backgrounds
-
-    th, td {
-      border: 1px solid var(--im-color-border) !important;
-      padding: 0.75em 1em !important;
-      text-align: left !important;
-      vertical-align: top; // Better for multi-line content
-    }
-
-    thead {
-      // background-color: var(--im-color-surface); // Or a slightly different shade
-      th {
-        font-weight: $im-font-weight-semibold !important;
-        color: var(--im-color-text-headings) !important;
-        background-color: rgba(var(--im-color-primary-rgb), 0.03) !important; // Subtle tint
-        // border-bottom-width: 2px !important; // Heavier bottom border for header
-      }
-    }
-
-    tbody {
-      tr {
-        &:nth-child(even) { // Zebra striping
-           background-color: rgba(var(--im-color-primary-rgb), 0.015) !important;
-        }
-        &:hover td {
-          // background-color: rgba(var(--im-color-primary-rgb), 0.04) !important; // Hover effect
-        }
-      }
-      td {
-        line-height: $im-line-height-base;
-      }
-    }
-  }
-
-  // Images
-  img {
-    max-width: 100% !important;
-    height: auto !important;
-    border-radius: $im-border-radius !important;
-    // margin-bottom: $im-spacing-unit !important; // If images are block elements
-    // box-shadow: 0 2px 8px rgba(0,0,0,0.08); // Optional subtle shadow
-  }
-
-  // Footnotes
-  .footnotes {
-    margin-top: ($im-spacing-unit * 3) !important;
-    padding-top: ($im-spacing-unit * 1.5) !important;
-    border-top: 1px solid var(--im-color-border) !important;
-    font-size: 0.9em !important;
-    color: var(--im-color-text-muted) !important;
-
-    ol {
-      padding-left: 0 !important; // Reset ol padding for custom layout
-      list-style: none;
-    }
-    li {
-      margin-bottom: $im-spacing-unit !important;
-      padding-left: $im-spacing-unit * 2 !important; // Indent text
-      position: relative;
-
-      &::marker { display: none; } // Hide default marker
-
-      // Custom marker for footnotes
-      &::before {
-        content: counter(list-item) "."; // Or just counter(list-item) if you use <sup id="fnref:..."> as the number
+      &::before { // Custom bullet - e.g., checkmark
+        content: "\eaチェック"; // Phosphor check icon (ph-check) - find actual unicode or use SVG/Font
+        font-family: "Phosphor" !important; // Ensure Phosphor font is used if using unicode
         position: absolute;
         left: 0;
-        top: 0; // Adjust as needed
-        font-weight: $im-font-weight-semibold;
+        top: 0.05em; // Fine-tune vertical alignment
         color: var(--im-color-primary);
+        font-weight: normal; // Phosphor icons often have their own weight
+        font-size: 1.2em;
       }
-
-      p:last-of-type {
-        margin-bottom: 0 !important;
-      }
-    }
-    .reversefootnote {
-      font-size: 0.9em;
-      margin-left: 0.25em;
+      // Fallback if Phosphor unicode doesn't work well or isn't available
+      // &::before {
+      //   content: "✔";
+      //   color: var(--im-color-primary);
+      //   position: absolute;
+      //   left: 0;
+      //   font-size: 1.2em;
+      // }
     }
   }
+}
+html.im-is-dark-mode .im-takeaways-box {
+  background-color: var(--im-color-surface); // Uses var
+  border-color: var(--im-color-border); // Uses var
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  &__title {
+    color: var(--im-color-primary-light) !important; // Lighter primary for dark mode title
+  }
+  &__list li {
+    color: var(--im-color-text); // Uses var
+    &::before {
+      color: var(--im-color-primary-light); // Lighter primary for icon
+    }
+  }
+}
 
-  // Markdown-it specific elements if needed
-  del { // Strikethrough
+// --- Pull Quote ---
+.im-pull-quote {
+  // Extends existing blockquote, but with more emphasis
+  // Your existing blockquote styles will apply as a base.
+  // These are overrides/additions.
+  margin: ($im-spacing-unit * 2.5) auto !important; // More vertical margin, auto for horizontal centering
+  padding: ($im-spacing-unit * 1.5) ($im-spacing-unit * 2) !important;
+  max-width: 75%; // Don't let it get too wide
+  text-align: center;
+  border-left-width: 0px !important; // Remove left border if base blockquote has it
+  border-top: 3px solid var(--im-color-primary);
+  border-bottom: 3px solid var(--im-color-primary);
+  background-color: transparent !important; // Ensure no background from base blockquote
+  box-shadow: none; // Remove any shadow from base blockquote if not desired
+
+  p {
+    font-size: 1.35em !important; // Larger text
+    line-height: 1.5 !important;
+    color: var(--im-color-text-headings) !important; // Use headings color for emphasis
+    font-style: italic;
+    margin-bottom: $im-spacing-unit !important;
+    &::before, &::after { // Optional curly quotes
+        // content: '"'; // You might prefer CSS quotes if your font supports them well
+        // color: var(--im-color-primary);
+        // font-size: 1.5em;
+        // line-height: 0;
+    }
+    &::before { margin-right: 0.1em; }
+    &::after { margin-left: 0.1em; }
+  }
+
+  &__cite {
+    display: block;
+    font-size: 0.95em !important;
     color: var(--im-color-text-muted) !important;
-    text-decoration-color: var(--im-color-text-muted) !important;
+    font-style: normal;
+    text-align: right;
+    margin-top: $im-spacing-unit;
   }
-
-  ins { // Inserted text ++inserted++
-    text-decoration: none !important;
-    background-color: rgba(var(--im-color-primary-rgb), 0.1) !important;
-    padding: 0.1em 0.2em;
-    border-radius: calc(#{$im-border-radius} / 3);
-  }
-
-  mark { // Marked text ==marked==
-    background-color: #fff1a7 !important; // A typical yellow highlight
-    color: #5c4800 !important;
-    padding: 0.1em 0.2em;
-    border-radius: calc(#{$im-border-radius} / 3);
-  }
-  html.im-is-dark-mode & mark { // Mark in dark mode
-    background-color: #a88c0c !important; // Darker yellow
-    color: #fffde7 !important;
-  }
-
-
-  abbr[title] {
-    text-decoration: none !important;
-    border-bottom: 1px dotted var(--im-color-text-muted) !important;
-    cursor: help !important;
-  }
-
-  // Emoji images (often class="emoji")
-  img.emoji {
-    height: 1.2em !important; // Adjust size to better fit text line
-    width: 1.2em !important;
-    margin: 0 0.05em 0 0.1em !important;
-    vertical-align: -0.2em !important; // Better alignment with text
-    border-radius: 0 !important; // Emojis usually don't have radius
-    box-shadow: none !important;
-  }
-
-  // Breadcrumbs are Bulma, but ensure link color is consistent
-  .breadcrumb ul li a {
-    color: var(--im-color-primary) !important;
-    &:hover {
-      color: var(--im-color-primary-dark) !important;
-    }
-  }
-  .breadcrumb li.is-active a {
-    color: var(--im-color-text) !important; // Active breadcrumb text
-    font-weight: $im-font-weight-semibold !important;
-  }
-
-  // Custom containers like ::: warning (if they render with a class)
-  // Assuming markdown-it-container renders ::: type as <div class="custom-container custom-container-type">
-  // Example: .custom-container-warning { styles... }
-  // Your HTML shows "::: warning *here be dragons* :::" becomes a <p> tag.
-  // If it was <div class="warning">...</div>, you'd style .warning.
-  // For now, this will just be a normal <p>. If you configure markdown-it-container
-  // to output specific classes, you can style them.
 }
-
-// Ensure that the breadcrumb is not affected by the generic .container > ul styling for lists
-.breadcrumb {
-  ul {
-    margin-left: 0 !important;
-    padding-left: 0 !important;
-    li::marker {
-      display: none !important;
+html.im-is-dark-mode .im-pull-quote {
+  border-top-color: var(--im-color-primary-light);
+  border-bottom-color: var(--im-color-primary-light);
+  p {
+    color: var(--im-color-text-headings) !important; // Uses var
+    &::before, &::after {
+      // color: var(--im-color-primary-light);
     }
+  }
+  &__cite {
+    color: var(--im-color-text-muted) !important; // Uses var
   }
 }
 
 
-// If your specific page layout has a main content area div, e.g.
-// <div class="page-content"> <!-- markdown output here --> </div>
-// Then you might prefer to scope all the above styles:
-// .page-content { hr {} table {} ... }
-// This prevents overly broad styling if .container is used elsewhere for non-markdown layout.
-// For now, .container and .content are used as per Bulma's common usage.
+// --- Enhanced Code Block (Optional Alternative) ---
+// This assumes you are NOT using the default .highlighter-rouge for these specific blocks
+// and want a more componentized structure.
+.im-code-block {
+  background-color: var(--im-color-surface);
+  border: 1px solid var(--im-color-border);
+  border-radius: $im-border-radius;
+  margin: ($im-spacing-unit * 1.5) 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  overflow: hidden; // To contain floated button and rounded corners for pre
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(var(--im-color-primary-rgb), 0.03); // Very subtle tint
+    padding: calc(#{$im-spacing-unit} / 2) $im-spacing-unit;
+    border-bottom: 1px solid var(--im-color-border);
+    font-size: 0.85em;
+  }
+
+  &__language {
+    color: var(--im-color-text-muted);
+    font-weight: $im-font-weight-medium;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  &__copy-btn {
+    // Uses Bulma .button.is-small, minimal extra styling needed
+    // Ensure it picks up primary color correctly
+    &.button.is-small { // More specificity if needed
+        padding-top: 0.3em !important;
+        padding-bottom: 0.3em !important;
+        font-size: 0.8em !important; // Make button text a bit smaller
+    }
+    // If using theme's primary for copy button:
+    // @extend .button.is-primary.is-small;
+  }
+
+  &__pre {
+    margin: 0 !important;
+    padding: $im-spacing-unit !important;
+    background-color: transparent !important; // Pre itself is transparent
+    border: none !important;
+    border-radius: 0 0 $im-border-radius $im-border-radius;
+    overflow-x: auto;
+    font-size: 0.9em; // Match previous code block font size
+    line-height: 1.5;
+    code {
+      background-color: transparent !important;
+      color: var(--im-color-text-on-surface) !important; // Ensure text color is right
+      padding: 0 !important;
+      font-size: inherit !important;
+      // Syntax highlighting styles from Prism/Rouge will apply here
+    }
+  }
+}
+html.im-is-dark-mode .im-code-block {
+  background-color: var(--im-color-surface);
+  border-color: var(--im-color-border);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  &__header {
+    background-color: rgba(var(--im-color-primary-rgb), 0.08); // Slightly more visible tint in dark
+    border-bottom-color: var(--im-color-border);
+  }
+  &__language {
+    color: var(--im-color-text-muted);
+  }
+  &__pre code {
+    color: var(--im-color-text-on-surface) !important;
+  }
+}
