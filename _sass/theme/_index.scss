@@ -1,3 +1,10 @@
+// index.scss - Single File SCSS for "IM" Themed Bulma Overrides
+
+//------------------------------------------------------------------------------
+// 1. SCSS Variables (im- prefix) - Static Color Definitions
+//------------------------------------------------------------------------------
+
+// Font
 $im-font-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 $im-font-weight-normal: 400;
 $im-font-weight-medium: 500;
@@ -6,20 +13,30 @@ $im-font-weight-bold: 700;
 $im-base-font-size: 16px;
 $im-line-height-base: 1.65;
 
+// Sizing & Spacing
 $im-border-radius: 6px;
-$im-spacing-unit: 1rem;
-$im-section-padding-vertical: calc(#{$im-spacing-unit} * 3.5);
-$im-content-padding: calc(#{$im-spacing-unit} * 1.5);
+$im-spacing-unit-value: 1; // Numeric value for rem
+$im-spacing-unit: #{$im-spacing-unit-value}rem; // Full unit for direct use
 
+$im-section-padding-vertical-multiplier: 3.5;
+$im-section-padding-vertical: calc(#{$im-spacing-unit} * #{$im-section-padding-vertical-multiplier});
+
+$im-content-padding-multiplier: 1.5; // Numeric multiplier
+$im-content-padding: calc(#{$im-spacing-unit} * #{$im-content-padding-multiplier});
+
+
+// Page Transition
 $im-page-transition-duration: 0.3s;
 $im-page-transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
 $im-page-transition-delay: 0.05s;
 $im-page-transition-translateY: 15px;
 
+// Grid Lines
 $im-grid-spacing: 28px;
 $im-grid-line-width: 1px;
 $im-grid-fade-extent: 70%;
 
+// --- Light Theme Static Colors ---
 $im-light-color-primary: #e53935;
 $im-light-color-primary-light: #ef5350;
 $im-light-color-primary-dark: #c62828;
@@ -73,6 +90,7 @@ $im-light-toggle-slider-color: white;
 $im-light-toggle-icon-sun-color: #f39c12;
 $im-light-toggle-icon-moon-color: white;
 
+// --- Dark Theme Static Colors ---
 $im-dark-color-primary: #f44336;
 $im-dark-color-primary-light: #ff7961;
 $im-dark-color-primary-dark: #ba000d;
@@ -126,6 +144,9 @@ $im-dark-toggle-slider-color: #e0e0e0;
 $im-dark-toggle-icon-sun-color: #f1c40f;
 $im-dark-toggle-icon-moon-color: #e0e0e0;
 
+//------------------------------------------------------------------------------
+// 2. CSS Custom Properties for Theming (:root for Light Mode Defaults)
+//------------------------------------------------------------------------------
 :root {
   --im-color-primary: #{$im-light-color-primary};
   --im-color-primary-light: #{$im-light-color-primary-light};
@@ -183,6 +204,9 @@ $im-dark-toggle-icon-moon-color: #e0e0e0;
   --im-toggle-icon-moon-color: #{$im-light-toggle-icon-moon-color};
 }
 
+//------------------------------------------------------------------------------
+// 3. Mixins
+//------------------------------------------------------------------------------
 @mixin im-apply-fading-grid($line-color-var-name) {
   &::before {
     content: "";
@@ -201,6 +225,9 @@ $im-dark-toggle-icon-moon-color: #e0e0e0;
   }
 }
 
+//------------------------------------------------------------------------------
+// 4. Animations (Page Transitions)
+//------------------------------------------------------------------------------
 @keyframes imPageFadeIn {
   from { opacity: 0; transform: translateY($im-page-transition-translateY); }
   to   { opacity: 1; transform: translateY(0); }
@@ -210,6 +237,9 @@ $im-dark-toggle-icon-moon-color: #e0e0e0;
   to   { opacity: 0; transform: translateY(-$im-page-transition-translateY); }
 }
 
+//------------------------------------------------------------------------------
+// 5. Base Styles (HTML, Body, Typography)
+//------------------------------------------------------------------------------
 html {
   background-color: var(--im-color-background) !important;
   scroll-behavior: smooth;
@@ -285,6 +315,9 @@ hr {
   transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function);
 }
 
+//------------------------------------------------------------------------------
+// 6. Component Overrides
+//------------------------------------------------------------------------------
 .hero {
   position: relative; overflow: hidden;
   transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function);
@@ -385,7 +418,7 @@ hr {
 .tags.has-addons .tag:not(:last-child) { margin-right: 0 !important; border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important; }
 .tags.has-addons .tag:not(:first-child){ margin-left: 0 !important; border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; }
 
-.notification, .message { border-radius: $im-border-radius !important; padding: $im-content-padding * 0.8 $im-content-padding $im-content-padding * 0.8 !important; transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function), color $im-page-transition-duration var(--im-page-transition-timing-function); strong { color: inherit !important; }}
+.notification, .message { border-radius: $im-border-radius !important; padding: calc(#{$im-content-padding-multiplier} * #{$im-spacing-unit-value}rem * 0.8) calc(#{$im-content-padding-multiplier} * #{$im-spacing-unit-value}rem) calc(#{$im-content-padding-multiplier} * #{$im-spacing-unit-value}rem * 0.8) !important; transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function), color $im-page-transition-duration var(--im-page-transition-timing-function); strong { color: inherit !important; }}
 .notification {
   background-color: var(--im-color-background) !important; color: var(--im-color-text) !important;
   &.is-primary { background-color:var(--im-color-primary)!important; color:var(--im-color-primary-inverted)!important;}
@@ -427,7 +460,6 @@ html.im-is-dark-mode {
   --im-color-primary-light: #{$im-dark-color-primary-light};
   --im-color-primary-dark: #{$im-dark-color-primary-dark};
   --im-color-primary-inverted: #{$im-dark-color-primary-inverted};
-
   --im-color-link: #{$im-dark-color-link};
   --im-color-link-hover: #{$im-dark-color-link-hover};
   --im-color-link-inverted: #{$im-dark-color-link-inverted};
@@ -439,38 +471,31 @@ html.im-is-dark-mode {
   --im-color-warning-inverted: #{$im-dark-color-warning-inverted};
   --im-color-danger: #{$im-dark-color-danger};
   --im-color-danger-inverted: #{$im-dark-color-danger-inverted};
-
   --im-color-text: #{$im-dark-color-text};
   --im-color-text-light: #{$im-dark-color-text-light};
   --im-color-text-strong: #{$im-dark-color-text-strong};
   --im-color-text-headings: #{$im-dark-color-text-headings};
   --im-color-text-muted: #{$im-dark-color-text-muted};
   --im-color-text-on-surface: var(--im-color-text);
-
   --im-color-background: #{$im-dark-color-background};
   --im-color-surface: #{$im-dark-color-surface};
   --im-color-border: #{$im-dark-color-border};
   --im-color-border-light: #{$im-dark-color-border-light};
   --im-color-border-hover: #{$im-dark-color-border-hover};
-
   --im-color-input-bg: #{$im-dark-color-input-bg};
   --im-color-input-border: var(--im-color-border);
   --im-color-input-shadow-focus: #{$im-dark-color-input-shadow-focus};
-
   --im-color-table-row-hover: #{$im-dark-color-table-row-hover};
   --im-color-code-background: #{$im-dark-color-code-background};
   --im-color-pre-background: var(--im-color-code-background);
   --im-color-pre-text: #{$im-dark-color-pre-text};
-
   --im-button-light-bg: #{$im-dark-button-light-bg};
   --im-button-light-border: #{$im-dark-button-light-border};
   --im-button-light-text: #{$im-dark-button-light-text};
   --im-button-light-hover-bg: #{$im-dark-button-light-hover-bg};
   --im-button-light-hover-border: #{$im-dark-button-light-hover-border};
-
   --im-grid-line-color-for-section: #{$im-dark-grid-line-color-for-section};
   --im-grid-line-color-for-hero: #{$im-dark-grid-line-color-for-hero};
-
   --im-dark-mode-toggle-icon-color: #{$im-dark-dark-mode-toggle-icon-color};
   --im-toggle-bg-off: #{$im-dark-toggle-bg-off};
   --im-toggle-slider-color: #{$im-dark-toggle-slider-color};
