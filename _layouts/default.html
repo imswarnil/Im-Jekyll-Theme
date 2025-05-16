@@ -4,118 +4,11 @@
 <body class="layout-{{ page.layout | default: 'default'}}">
     {% include im-navbar.html %}
     <div class="content"> 
-        {{ content }} <!-- This is where your markdown gets rendered -->
+        {{ content }} 
     </div>
    {% include site-before-end.html %}
    {% include head/sw.html %}
-   <script>
-   // assets/js/theme_script.js
-document.addEventListener('DOMContentLoaded', () => {
-    const htmlElement = document.documentElement;
-    const bodyElement = document.body;
 
-    // --- Navbar Burger Toggle ---
-    const burgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-    if (burgers.length > 0) {
-        burgers.forEach(el => {
-            el.addEventListener('click', () => {
-                const targetId = el.dataset.target;
-                const target = document.getElementById(targetId);
-                if (target) {
-                    el.classList.toggle('is-active');
-                    target.classList.toggle('is-active');
-                    // Optional: Toggle aria-expanded on the burger
-                    const isExpanded = el.classList.contains('is-active');
-                    el.setAttribute('aria-expanded', isExpanded);
-                }
-            });
-        });
-    }
-
-    // --- Theme Toggle Elements & Logic (Your existing code, works as is) ---
-    const themeToggleLink = document.getElementById('im-dark-mode-toggle');
-    const themeIcon = document.getElementById('im-theme-icon');
-
-    const applyTheme = (theme) => {
-        if (theme === 'dark') {
-            htmlElement.classList.add('im-is-dark-mode');
-            if (themeIcon) {
-                themeIcon.className = 'ph ph-sun'; // Ensure full class reset
-            }
-            if (themeToggleLink) themeToggleLink.setAttribute('aria-pressed', 'true');
-        } else {
-            htmlElement.classList.remove('im-is-dark-mode');
-            if (themeIcon) {
-                themeIcon.className = 'ph ph-moon'; // Ensure full class reset
-            }
-            if (themeToggleLink) themeToggleLink.setAttribute('aria-pressed', 'false');
-        }
-        localStorage.setItem('im-theme', theme);
-    };
-
-    const savedTheme = localStorage.getItem('im-theme');
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    let initialTheme = 'light';
-
-    if (savedTheme) {
-        initialTheme = savedTheme;
-    } else if (prefersDark) {
-        initialTheme = 'dark';
-    }
-    applyTheme(initialTheme);
-
-    if (themeToggleLink) {
-        themeToggleLink.addEventListener('click', (event) => {
-            event.preventDefault();
-            const isDarkMode = htmlElement.classList.contains('im-is-dark-mode');
-            const newTheme = isDarkMode ? 'light' : 'dark';
-            applyTheme(newTheme);
-        });
-    }
-
-    // --- Page Transition Logic (Your existing code) ---
-    if (bodyElement.classList.contains('im-page-is-loading')) {
-        bodyElement.classList.remove('im-page-is-loading');
-    }
-
-    if (performance.navigation && performance.navigation.type !== performance.navigation.TYPE_BACK_FORWARD) {
-        requestAnimationFrame(() => {
-             bodyElement.classList.add('im-page-is-entering');
-        });
-    } else if (!performance.navigation && performance.getEntriesByType("navigation")[0]?.type !== "back_forward") {
-         requestAnimationFrame(() => {
-             bodyElement.classList.add('im-page-is-entering');
-        });
-    }
-
-    const internalLinks = document.querySelectorAll('a[href]:not([href^="#"]):not([href^="mailto:"]):not([href^="tel:"]):not([target="_blank"]):not(.im-no-transition)');
-    const transitionDurationString = getComputedStyle(document.documentElement).getPropertyValue('--im-page-transition-duration-css').trim() || '0.2s';
-    const transitionDuration = parseFloat(transitionDurationString) * 1000;
-
-    internalLinks.forEach(link => {
-      link.addEventListener('click', function(event) {
-        const href = this.getAttribute('href');
-        if (href && (href.startsWith('/') || href.startsWith('.') || href.startsWith(window.location.origin) || !href.includes(':'))) {
-          event.preventDefault();
-          bodyElement.classList.remove('im-page-is-entering');
-          bodyElement.classList.add('im-page-is-exiting');
-          setTimeout(() => {
-            window.location.href = href;
-          }, transitionDuration);
-        }
-      });
-    });
-
-    window.addEventListener('pageshow', function(event) {
-      if (event.persisted) {
-        bodyElement.classList.remove('im-page-is-exiting', 'im-page-is-loading');
-        requestAnimationFrame(() => {
-             bodyElement.classList.add('im-page-is-entering');
-        });
-      }
-    });
-});
-   </script>
    <script src="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2"></script>
 </body>
 </html>
