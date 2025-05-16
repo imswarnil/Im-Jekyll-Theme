@@ -1,5 +1,4 @@
-{% comment %} _includes/im-navbar.html (Vanilla JS Version - Mobile Toggle Visible) {% endcomment %}
-<nav class="navbar {% if site.fixed_navbar %}is-fixed-top{% endif %}" role="navigation" aria-label="main navigation">
+<nav class="navbar im-navbar-custom is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="container">
         <div class="navbar-brand">
             <a href="{{ site.baseurl }}/" class="navbar-item im-logo-link">
@@ -9,14 +8,13 @@
                 <span class="im-logo-text has-text-weight-bold ml-2">{{ site.title }}</span>
             </a>
 
-            {# Mobile Icons Area #}
-            <div class="navbar-item is-hidden-desktop"> {# Wrapper for mobile icons #}
+            <div class="navbar-item is-hidden-desktop ml-auto"> {# Wrapper for mobile icons, ml-auto to push right #}
                 <a href="{{ '/search' | relative_url }}" class="im-navbar-mobile-action" aria-label="Search">
                     <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
                 </a>
                 <a href="#" class="im-navbar-mobile-action im-dark-mode-toggle" id="im-mobile-dark-mode-toggle" title="Toggle Dark Mode" role="button" aria-pressed="false">
                     <span class="icon is-medium">
-                        <i class="ph" id="im-mobile-theme-icon"></i> {# Separate ID for mobile icon if needed #}
+                        <i class="ph" id="im-mobile-theme-icon"></i>
                     </span>
                 </a>
             </div>
