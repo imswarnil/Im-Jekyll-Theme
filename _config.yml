@@ -9,8 +9,9 @@
 # 5. Collections
 # 6. Jekyll collections settings
 # 7. Site setting
-# 8. Installed Gems
-# 9. Files excluded from Jekyll builds
+# 8. Resume 
+# 9. Installed Gems
+# 10. Files excluded from Jekyll builds
 
 # 1. Site Settings
 #################################################################################################
@@ -20,12 +21,12 @@
 encoding: utf-8 # Make sure the encoding is right
 lang: en # Set the site language
 locale : en-IN
-title: "Swarnil Singhai | Software Engineer" # Site name or title, also used in jekyll-seo-tag
-description: "Personal website of Swarnil Singhai, a Software Engineer at Twilio specializing in CRM Analytics, Salesforce, and web technologies. Explore projects, articles, and insights." # Site description and default description, also used in seo
-keywords: ["Swarnil Singhai", "Salesforce", "CRM Analytics", "Tableau CRM", "Einstein Analytics", "Apex", "LWC", "Software Engineer", "Twilio", "Bangalore", "Jekyll"]
+title: "Swarnil Singhai | Software Engineer & CRM Analytics Specialist" # Site name or title
+description: "Personal website and portfolio of Swarnil Singhai, a Software Engineer at Twilio specializing in CRM Analytics, Salesforce, and web technologies. Based in Bangalore, India." # Site description
+keywords: ["Swarnil Singhai", "Salesforce", "CRM Analytics", "Tableau CRM", "Einstein Analytics", "Apex", "LWC", "Software Engineer", "Twilio", "Bangalore", "Resume", "Portfolio"]
 timezone: Asia/Kolkata # Timezone for blog posts and alike
-short_name: "Swarnil" # The web application short name, defaults to the site title
-logo: "/assets/logos/logo.svg" # Site logo, also used in jekyll-seo-tag
+short_name: "Swarnil" # The web application short name
+logo: "/assets/logos/logo.svg" # Site logo
 favicons: # Favicons are also used in the manifest file. Syntax is 'size: path'
   16: '/assets/logos/logo@16px.png'
   32: '/assets/logos/logo@32px.png'
@@ -36,127 +37,51 @@ favicons: # Favicons are also used in the manifest file. Syntax is 'size: path'
   512: '/assets/logos/logo@512px.png'
   1024: '/assets/logos/logo@1024px.png'
 
-# Author (Admin) Information
+# Author (Admin) Information - General site author
 author:
   name: "Swarnil Singhai"
-  short_name: "Swarnil" # Or "SS" if you prefer
-  image : "/assets/logos/logo.svg" # Consider using a personal photo here
-  description: "Passionate Software Engineer at Twilio with expertise in CRM Analytics (Tableau CRM/Einstein Analytics) and the Salesforce ecosystem. Based in Bangalore, India."
-  location: "Bangalore, India"
-  titles :
-    - "Software Engineer at Twilio"
-    - "CRM Analytics Specialist"
-    - "Salesforce Developer"
-    - "Content Creator"
-  hobbies:
-    - "Coding"
-    - "Blogging / Content Creation"
-    - "Exploring new technologies"
-    - "Traveling"
-  work_experience:
-    - company: "Kenscio"
-      role: "Web Developer"
-      start_date: "2018-01-15"
-      end_date: "2018-04-14" # Approx 3 months
-      duration: "3 Months"
-      details:
-        - "Developed and maintained web applications in a startup environment."
-        - "Gained experience with various web technologies."
-    - company: "Accenture"
-      role: "Software Engineer" # Last held role
-      start_date: "2018-03-23"
-      end_date: "2021-03-22" # Approx 3 years
-      duration: "3 Years"
-      details:
-        - "Joined as an Associate Software Engineer."
-        - "Trained extensively on the Salesforce platform (Apex, Lightning Components)."
-        - "Specialized in Einstein Analytics (now CRM Analytics), developing dashboards and dataflows."
-        - "Received a promotion to Software Engineer."
-    - company: "Cognizant"
-      role: "Project Associate"
-      start_date: "2021-03-23" # Assuming immediate start after Accenture
-      end_date: "2021-12-22" # Approx 9 months
-      duration: "9 Months"
-      details:
-        - "Focused on Tableau CRM (formerly Einstein Analytics, now CRM Analytics) projects."
-        - "Developed and implemented CRM Analytics solutions for clients."
-    - company: "Twilio"
-      role: "Tableau CRM Engineer" # Or "Software Engineer (CRM Analytics)"
-      start_date: "2021-12-23" # Assuming immediate start after Cognizant
-      current: true
-      details:
-        - "Currently working as a Tableau CRM Engineer, leveraging data to provide insights."
-        - "Building and enhancing CRM Analytics solutions within the Twilio ecosystem."
-
+  short_name: "Swarnil" # Or "SS"
+  image : "/assets/logos/logo.svg" # Consider a personal photo here for general author image
+  description: "Software Engineer at Twilio. Passionate about data, CRM, and building impactful solutions. This is my personal blog and portfolio."
+  # General social media links for the site author
 social_media:
   - name: "twitter"
-    icon : x-logo # (or fab fa-twitter if you are using Font Awesome v5/6, or fab fa-x-twitter for X logo)
+    icon : x-logo # (or fab fa-x-twitter)
     url: "https://twitter.com/imswarnil"
-    cta: "Tweet"
+    cta: "Follow me on X"
   - name: "linkedin"
     icon : linkedin-logo # (or fab fa-linkedin)
-    url: "https://linkedin.com/in/imswarnil" # Please verify this is your correct LinkedIn profile URL
+    url: "https://linkedin.com/in/imswarnil" # General LinkedIn profile
     cta: "Connect on LinkedIn"
   - name: "github"
-    icon: fab fa-github # Assuming Font Awesome for consistency
+    icon: fab fa-github # Assuming Font Awesome
     url: "https://github.com/imswarnil"
     cta: "Follow on GitHub"
   - name: "youtube"
     icon: fab fa-youtube # Assuming Font Awesome
-    url: "https://youtube.com/@imswarnil" # Or /imswarnil if it's a custom URL
+    url: "https://youtube.com/@imswarnil" # Or /imswarnil
     cta: "Subscribe on YouTube"
   - name: "instagram"
     icon: fab fa-instagram # Assuming Font Awesome
     url: "https://instagram.com/imswarnil"
     cta: "Follow on Instagram"
-  # - name: "facebook" # Uncomment if you use it
-  #   url: "https://facebook.com/imswarnil" # Update if needed
-  #   cta: "Like on Facebook"
-
-tech_stack: # Skills
-  - name: "Salesforce Platform"
-    icon: "fab fa-salesforce" # Font Awesome icon for Salesforce
-  - name: "CRM Analytics (Tableau CRM)"
-    icon: "fas fa-chart-line" # Example icon for analytics
-  - name: "Einstein Analytics"
-    icon: "fas fa-brain" # Example icon
-  - name: "Apex"
-    icon: "fas fa-code" # Generic code icon
-  - name: "LWC (Lightning Web Components)"
-    icon: "fas fa-bolt" # Lightning icon
-  - name: "SOQL & SOSL"
-    icon: "fas fa-database"
-  - name: "JavaScript"
-    icon: "fab fa-js-square"
-  - name: "HTML5"
-    icon: "fab fa-html5"
-  - name: "CSS3"
-    icon: "fab fa-css3-alt"
-  - name: "Jekyll"
-    icon: "fas fa-gem" # Example icon for Jekyll/Ruby gems
-  - name: "VS Code"
-    icon: "fas fa-code" # Already there, but good to keep
 
 # --------------------------------------------
  # 1.2. Site Url, Links & Github Repo
  #----------------------------------------------------------------------------------------------
 baseurl : ''
-url: 'https://jekyll.imswarnil.com' # Site URL, also used in jekyll-seo-tag
-permalink: /:title  # Permalink style /:categories/:title:output_ext
-repo: "https://github.com/imswarnil/" # Your main GitHub profile, or a specific repo for the site if preferred
-email: "contact@imswarnil.com"
-description_separator: <!-- more --> # Marks end of description in posts
-
-# date_format: "%-d %B %Y" # Blog post date formatting using placeholder formatting
-#------------------------------------------------------------------------------------------------
+url: 'https://jekyll.imswarnil.com' # Site URL
+permalink: /:title  # Permalink style
+repo: "https://github.com/imswarnil/" # Your main GitHub profile
+email: "contact@imswarnil.com" # General contact email for the site
+description_separator: <!-- more -->
 
 # 1.3. CSS, Site Colors & Typography
 #------------------------------------------------------------------------------------------------
-css_inline: false # Will insert all styles into a single <style> block in the <head> element and remove the style <link> reference
+css_inline: false
 sass:
-  style: compressed # Style compression
+  style: compressed
 theme_color : '#fff'
-# Typography
 fonts:
   preconnect_urls:
     - https://fonts.gstatic.com
@@ -164,18 +89,17 @@ fonts:
     - https://fonts.googleapis.com/css2?family=Geist:wght@100&display=swap
     - https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap
     - https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap
-# -------------------------------------------------
-# 1.2. Robots And Indexing Settings
+
+# Robots And Indexing Settings
 indexing: true
 robots:
   bots:
     "*":
       disallow:
         - /404
-# ========================================
 
 # Service Worker Configuration
-service_worker: true  # Master switch
+service_worker: true
 manifest:
   id: "/?utm_source=pwa"
   orientation: "portrait"
@@ -198,7 +122,8 @@ manifest:
     - "news"
     - "social"
     - "lifestyle"
-    - "technology" # Added category
+    - "technology"
+    - "portfolio" # Added
   iarc_rating_id: "dummy_iarc_rating_123abc"
   related_applications:
     - platform: "play"
@@ -210,7 +135,6 @@ manifest:
    - origin: "https://partner.example.com"
 
 google_analytics: "G-GGHMLZR4YQ"
-# google_analytics_anonymize_ip: ""
 adsense:
   enabled: true
   publisher:
@@ -234,32 +158,23 @@ adsense:
       ad_id: "5678901234"
       type: "auto"
 
-
-# disqus: "alembic-1" # Blog post comments, uncomment the option and set the site ID from your Disqus account
-
-# Include these directories and files in the `_site` output
 include:
   - _pages
 
 # 3. Gem settings
-paginate: 2 # jekyll-paginate > items per page
-paginate_path: /page:num # jekyll-paginate > blog page
-jekyll-mentions: https://twitter.com # jekyll-mentions > service used when @replying
+paginate: 2
+paginate_path: /page:num
+jekyll-mentions: https://twitter.com
 twitter:
-  username: imswarnil # jekyll-seo-tag > Owners twitter username
-# markdown: CommonMark # Markdown parse settings, CommonMark performs slightly better an others in build time
-# commonmark:
-  # options: ["SMART", "FOOTNOTES"]
-  # extensions: ["strikethrough", "autolink", "table"]
-
+  username: imswarnil # For jekyll-seo-tag
 
 # 5. Collections
 collections:
   posts:
     title: Posts
     output: true
-    description: "My thoughts, articles, and ideas on technology, Salesforce, and development." # Updated description
-    image: "https://picsum.photos/2560/600?image=866" # Consider a more personal or relevant banner
+    description: "My thoughts, articles, and ideas on technology, Salesforce, and development."
+    image: "https://picsum.photos/2560/600?image=866"
     permalink: /blog/:title
 
 # 6. Jekyll collections settings
@@ -268,103 +183,228 @@ defaults:
     scope:
       path: ""
     values:
-      image: "/assets/default-social-image.png" # Default image for sharing
-      author: "Swarnil Singhai" # Default author for all content
+      image: "/assets/default-social-image.png"
+      author: "Swarnil Singhai" # Default author for site content
   -
     scope:
       path: ""
       type: "posts"
     values:
-      layout: post # Set the default layout for posts
-      # author: "Swarnil Singhai" # Already set globally, but can be specific
+      layout: post
   -
     scope:
       path: ""
       type: "pages"
     values:
-      layout: page # Set the default layout for pages
-      # author: "Swarnil Singhai" # Already set globally
+      layout: page
   -
    scope:
       path: "_videos"
    values:
       layout: "video"
-      author: "Swarnil" # Kept as "Swarnil" as per original specific request
+      author: "Swarnil" # Keeping as is from your original
   - scope:
       path: "_webseries"
       type: "webseries"
     values:
       layout: "webseries"
-      author: "Swarnil Singhai" # Updated default author
-      # Default images if none provided
+      author: "Swarnil Singhai"
       thumbnail: "https://m.media-amazon.com/images/M/MV5BMjg2NmM0MTEtYWY2Yy00NmFlLTllNTMtMjVkZjEwMGVlNzdjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"
       banner: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0M0nOm5GHoz9vwFo093zwkz5zLFKPwx2e4Q&s"
       episode_thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXHiiP7LIFPf0-8QIEEFYXRh4w_zoViLHVpKJI1V7avZe-SkxGXw6gMeH-jT8wywMfbBo&usqp=CAU"
   - scope:
       path: ""
-      type: "projects" # Defaults specifically for the projects collection
+      type: "projects"
     values:
-      layout: project # We will create this layout soon
-      author: "Swarnil" # Kept as "Swarnil" as per original specific request
-      image: /assets/images/projects/placeholder.png # Default placeholder image
-      category: ["Project"] # Default category if none specified
+      layout: project
+      author: "Swarnil" # Keeping as is from your original
+      image: /assets/images/projects/placeholder.png
+      category: ["Project"]
 
-
-# 9. Site navigation
-fixed_navbar: true # CRUCIAL: Make sure this is true
+# 9. Site navigation (unchanged from your original for now, can be updated if needed)
+fixed_navbar: true
 navbar:
   - name: Home
     link: /
-    icon: house # ph-house
+    icon: house
     dropdown:
       - name: Personal
-        link: /personal/ # Added trailing slash
-        icon: user # ph-user
-  - name: About
+        link: /personal/
+        icon: user
+  - name: About # This could link to a page that uses resume data
     link: /about/
-    icon: identification-card # (was fa-user) e.g., ph-identification-card
+    icon: identification-card
+  - name: Resume # Example: Add a direct link to a resume page
+    link: /resume/ # You'll need to create a _pages/resume.md or .html for this
+    icon: "file-text" # e.g., ph-file-text or similar
   - name: Elements
     link: /elements/
-    icon: puzzle-piece # e.g., ph-puzzle-piece
+    icon: puzzle-piece
   - name: Layouts
     link: /#
-    icon: "layout" # e.g., ph-layout (was fa-app)
+    icon: "layout"
     dropdown:
       - name: Post Layouts
         link: /#
-        icon: article # e.g., ph-article (was fa-pen)
+        icon: article
       - name: Video Layout
         link: /videos/
-        icon: play-circle # ph-play-circle
+        icon: play-circle
   - name: Categories
     link: /categories/
-    icon: tag # ph-tag
+    icon: tag
   - name: Example Pages
     link: /#
-    icon: "sparkle" # e.g., ph-sparkle
+    icon: "sparkle"
     dropdown:
       - name: Landing Page
         link: /landing/
-        icon: rocket-launch # ph-rocket-launch
+        icon: rocket-launch
       - name: Sponsors Page
         link: /sponsors/
-        icon: handshake # e.g., ph-handshake (was fa-hand-holding-heart)
+        icon: handshake
       - name: Image Gallery
         link: /gallery/
-        icon: image # ph-image or ph-images
+        icon: image
       - name: Products
         link: /products/
-        icon: package # e.g., ph-package (was fa-box-open)
+        icon: package
       - name: Recipe Page
         link: /example-recipe/
         image : "https://yt3.googleusercontent.com/bUPnDYABdzOveHZUSC-0745utTub-SQ76iuOjvYVUEeQrsA1fBMTgXbAsZ1SigmXd6BbtkqnwA=s900-c-k-c0x00ffffff-no-rj"
-        # icon: "cooking-pot" # e.g., ph-cooking-pot
       - name: Showcase
         link: /showcase/
-        icon: star # ph-star
-  - name: Search # Changed from link to name for consistency if it's a page
+        icon: star
+  - name: Search
     link: /search/
-    icon: magnifying-glass # ph-magnifying-glass
+    icon: magnifying-glass
+
+
+# Resume Section - Detailed Professional Information
+#################################################################################################
+resume:
+  personal_details:
+    full_name: "Swarnil Singhai"
+    title: "Software Engineer (CRM Analytics)" # Your current primary title for resume
+    location: "Bangalore, India"
+    email: "contact@imswarnil.com" # Email for professional contact
+    # phone: "+91 XXXXX XXXXX" # Optional: Add your phone number if you want it on the resume
+    website: "https://jekyll.imswarnil.com" # Your portfolio website URL
+    linkedin: "https://linkedin.com/in/imswarnil" # LinkedIn profile URL
+    github: "https://github.com/imswarnil" # GitHub profile URL
+
+  summary: > # Using `>` for multi-line string
+    Results-driven Software Engineer with a strong background in Salesforce CRM Analytics (Tableau CRM/Einstein Analytics)
+    and full-stack web development. Proven expertise in designing, developing, and deploying data visualization solutions
+    and custom applications. Currently leveraging data to drive insights as a Tableau CRM Engineer at Twilio.
+    Seeking to apply analytical and technical skills to solve complex challenges.
+
+  work_experience:
+    - company: "Twilio"
+      role: "Tableau CRM Engineer"
+      location: "Bangalore, India"
+      start_date: "2021-12-23" # Please verify and use YYYY-MM-DD
+      current: true
+      description: # Use bullet points for responsibilities/achievements
+        - "Develop and maintain Tableau CRM (Einstein Analytics) dashboards, datasets, and dataflows to provide actionable insights for internal stakeholders."
+        - "Collaborate with business users to gather requirements and translate them into technical solutions."
+        - "Optimize and troubleshoot existing analytics assets for performance and accuracy."
+        - "Contribute to the overall data strategy and CRM analytics roadmap."
+    - company: "Cognizant"
+      role: "Project Associate (Tableau CRM)"
+      location: "Bangalore, India"
+      start_date: "2021-03-23" # Please verify
+      end_date: "2021-12-22" # Please verify
+      duration: "9 Months"
+      description:
+        - "Worked on client projects implementing Tableau CRM solutions, including data integration, dashboard development, and security setup."
+        - "Delivered analytics solutions that helped clients understand key business metrics and trends."
+        - "Gained hands-on experience with the full lifecycle of CRM Analytics projects."
+    - company: "Accenture"
+      role: "Software Engineer" # Last held role
+      location: "Bangalore, India"
+      start_date: "2018-03-23"
+      end_date: "2021-03-22" # Please verify
+      duration: "3 Years"
+      description:
+        - "Promoted from Associate Software Engineer to Software Engineer."
+        - "Specialized in Salesforce Einstein Analytics, developing complex dataflows and interactive dashboards."
+        - "Trained on various Salesforce technologies including Apex and Lightning Components."
+        - "Contributed to multiple Salesforce implementation and enhancement projects."
+    - company: "Kenscio"
+      role: "Web Developer"
+      location: "Bangalore, India" # Assuming
+      start_date: "2018-01-15"
+      end_date: "2018-04-14" # Approx 3 months, please verify
+      duration: "3 Months"
+      description:
+        - "Developed and maintained client websites using HTML, CSS, JavaScript, and PHP in a fast-paced startup environment."
+        - "Gained foundational experience in web development practices and version control."
+
+  education:
+    - degree: "Bachelor of Engineering in Computer Science" # PLEASE FILL: Your Degree
+      institution: "Your University Name" # PLEASE FILL: Your University
+      location: "City, State, India" # PLEASE FILL: University Location
+      graduation_year: "2017" # PLEASE FILL: Your Graduation Year
+      # details: # Optional, e.g., GPA, relevant coursework
+      #   - "GPA: X.X/Y.Y"
+      #   - "Relevant Coursework: Data Structures, Algorithms, Database Management, Web Technologies"
+
+  skills:
+    categories: # Grouping skills can be helpful for display
+      - name: "CRM & Salesforce"
+        items:
+          - "Tableau CRM (Einstein Analytics)"
+          - "Salesforce Platform"
+          - "Apex"
+          - "SOQL & SOSL"
+          - "Lightning Web Components (LWC)"
+          - "Salesforce Administration"
+      - name: "Data & Analytics"
+        items:
+          - "Data Visualization"
+          - "Data Modeling"
+          - "ETL Processes"
+          - "SQL"
+      - name: "Web Technologies"
+        items:
+          - "JavaScript (ES6+)"
+          - "HTML5"
+          - "CSS3 / SCSS"
+          - "REST APIs"
+      - name: "Tools & Platforms"
+        items:
+          - "Git & GitHub"
+          - "VS Code"
+          - "JIRA / Agile Methodologies"
+          - "Jekyll"
+      - name: "Other"
+        items:
+          - "Problem Solving"
+          - "Analytical Thinking"
+          - "Communication"
+    # You can also have a flat list if you prefer:
+    # items:
+    #   - name: "Salesforce Platform"
+    #     icon: "fab fa-salesforce" # Example icon
+    #   - name: "CRM Analytics (Tableau CRM)"
+    #     icon: "fas fa-chart-line"
+    #   - name: "Apex"
+    #     icon: "fas fa-code"
+    #   # ... and so on for all skills
+
+  certifications: # PLEASE FILL: Add your certifications
+    # - name: "Salesforce Certified Tableau CRM and Einstein Discovery Consultant"
+    #   issuer: "Salesforce"
+    #   date: "YYYY-MM" # Date obtained
+    #   # verify_url: "URL_to_verification_if_any"
+    # - name: "Salesforce Certified Platform Developer I"
+    #   issuer: "Salesforce"
+    #   date: "YYYY-MM"
+    # - name: "Salesforce Certified Administrator"
+    #   issuer: "Salesforce"
+    #   date: "YYYY-MM"
+
 
 
 # 8. Installed Gems
