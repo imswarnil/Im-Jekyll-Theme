@@ -1,109 +1,83 @@
-/* Enji Dev Style Overrides for Bulma */
+// index.scss - Single File SCSS for "IM" Themed Bulma Overrides
 
+//------------------------------------------------------------------------------
+// 1. SCSS Variables (im- prefix)
+//------------------------------------------------------------------------------
+
+// Font
+$im-font-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+$im-font-weight-normal: 400;
+$im-font-weight-medium: 500;
+$im-font-weight-semibold: 600;
+$im-font-weight-bold: 700;
+$im-base-font-size: 16px;
+$im-line-height-base: 1.65;
+
+// Sizing & Spacing
+$im-border-radius: 8px;
+$im-spacing-unit: 1rem;
+$im-section-padding-vertical: calc(#{$im-spacing-unit} * 4);
+$im-content-padding: calc(#{$im-spacing-unit} * 1.75); // For .box, .card, .panel content
+
+// Page Transition
+$im-page-transition-duration: 0.4s;
+$im-page-transition-delay: 0.1s; // Optional delay for entry animation
+$im-page-transition-translateY: 20px;
+
+// Grid Lines
+$im-grid-spacing: 30px;
+$im-grid-line-width: 1px;
+$im-grid-fade-extent: 65%;
+
+//------------------------------------------------------------------------------
+// 2. CSS Custom Properties for Theming (:root for Light Mode Defaults)
+//------------------------------------------------------------------------------
 :root {
-    /* Typography */
-    --enji-font-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    --enji-font-weight-normal: 400;
-    --enji-font-weight-medium: 500;
-    --enji-font-weight-semibold: 600;
-    --enji-font-weight-bold: 700;
+  // Primary Colors (Red Theme)
+  --im-color-primary-rgb: 229, 57, 53; // For rgba() usage, #e53935
+  --im-color-primary: rgb(var(--im-color-primary-rgb));
+  --im-color-primary-light: #ef5350;
+  --im-color-primary-dark: #c62828;
 
-    /* Colors - Inspired by Enji Dev Screenshot */
-    --enji-color-primary: #7B3FE8; /* The prominent purple */
-    --enji-color-primary-light: #9362F0;
-    --enji-color-primary-dark: #642CC7;
+  // Text Colors - Light Mode
+  --im-color-text: #2D3748;
+  --im-color-text-headings: #1A202C;
+  --im-color-text-muted: #718096;
+  --im-color-text-on-primary: #FFFFFF;
+  --im-color-text-on-surface: var(--im-color-text); // Text on cards/boxes
 
-    --enji-color-text: #2D3748; /* Dark gray for body text */
-    --enji-color-text-headings: #1A202C; /* Slightly darker for headings */
-    --enji-color-text-muted: #718096; /* Lighter gray for subtitles, meta */
-    --enji-color-text-on-primary: #FFFFFF; /* Text on primary background */
+  // Background & Surface Colors - Light Mode
+  --im-color-background: #F9FAFB;
+  --im-color-surface: #FFFFFF; // For cards, boxes, navbar, panel
+  --im-color-border: #E2E8F0;
+  --im-color-input-bg: var(--im-color-surface);
+  --im-color-input-border: var(--im-color-border);
 
-    --enji-color-background: #F9FAFB; /* Very light gray page background */
-    --enji-color-surface: #FFFFFF;    /* Background for cards, boxes */
-    --enji-color-border: #E2E8F0;     /* Subtle borders */
+  // Button Specifics - Light Mode
+  --im-button-light-bg: #FEEBEE; // Light red tint
+  --im-button-light-border: #FEEBEE;
+  --im-button-light-text: var(--im-color-primary-dark);
+  --im-button-light-hover-bg: #FFCDD2;
+  --im-button-light-hover-border: #FFCDD2;
 
-    /* Grid Lines */
-    --grid-line-color-light-bg: rgba(45, 55, 72, 0.06); /* Subtle dark lines on light bg */
-    --grid-line-color-dark-bg: rgba(255, 255, 255, 0.1); /* Subtle light lines on dark bg */
-    --grid-spacing: 30px;
-    --grid-line-width: 1px;
-    --grid-fade-extent: 65%; /* How far from center the grid is fully visible */
+  // Grid Line Colors - Light Mode
+  --im-grid-line-color-for-section: rgba(45, 55, 72, 0.06); // Dark lines on light bg for sections
+  --im-grid-line-color-for-hero: rgba(255, 255, 255, 0.12); // Light lines on primary bg for hero
 
-    /* Sizing & Spacing */
-    --enji-border-radius: 8px;
-    --enji-spacing-unit: 1rem; /* Base for margins/paddings */
-    --enji-section-padding-vertical: calc(var(--enji-spacing-unit) * 4);
-    --enji-box-padding: calc(var(--enji-spacing-unit) * 1.75);
+  // Theme Toggle
+  --im-toggle-bg-off: #ccc;
+  --im-toggle-bg-on: var(--im-color-primary);
+  --im-toggle-slider-color: white;
+  --im-toggle-icon-sun-color: #f39c12;
+  --im-toggle-icon-moon-color: white;
 }
 
-/* --- Global Styles & Typography --- */
-html {
-    background-color: var(--enji-color-background) !important;
-    scroll-behavior: smooth;
-}
+//------------------------------------------------------------------------------
+// 3. Mixins
+//------------------------------------------------------------------------------
 
-body {
-    font-family: var(--enji-font-primary) !important;
-    color: var(--enji-color-text) !important;
-    font-weight: var(--enji-font-weight-normal) !important;
-    line-height: 1.65 !important;
-    font-size: 16px; /* Base font size */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-h1, h2, h3, h4, h5, h6,
-.title,
-.subtitle {
-    font-family: var(--enji-font-primary) !important;
-    color: var(--enji-color-text-headings) !important;
-}
-
-.title {
-    font-weight: var(--enji-font-weight-bold) !important;
-    line-height: 1.2 !important;
-    margin-bottom: calc(var(--enji-spacing-unit) * 1) !important; /* Reduced from Bulma default */
-}
-.title.is-1 { font-size: 2.75rem !important; } /* Adjust as needed */
-.title.is-2 { font-size: 2rem !important; }
-.title.is-3 { font-size: 1.75rem !important; }
-
-
-.subtitle {
-    color: var(--enji-color-text-muted) !important;
-    font-weight: var(--enji-font-weight-normal) !important;
-    line-height: 1.5 !important;
-    margin-bottom: calc(var(--enji-spacing-unit) * 1.5) !important;
-}
-.subtitle.is-3 { font-size: 1.25rem !important; }
-.subtitle.is-4 { font-size: 1.1rem !important; }
-
-
-p {
-    margin-bottom: var(--enji-spacing-unit) !important;
-}
-
-a {
-    color: var(--enji-color-primary) !important;
-    text-decoration: none !important;
-    transition: color 0.2s ease-in-out, opacity 0.2s ease-in-out;
-}
-
-a:hover {
-    color: var(--enji-color-primary-dark) !important;
-    /* text-decoration: underline !important; */ /* Enji style seems to avoid underlines */
-}
-
-strong, b {
-    color: var(--enji-color-text-headings) !important;
-    font-weight: var(--enji-font-weight-semibold) !important;
-}
-
-
-/* --- Fading Grid Lines Mixin-like Structure --- */
-/* We'll apply this as a ::before pseudo-element to relevant sections */
-.has-enji-grid::before {
+@mixin im-apply-fading-grid($line-color-var-name) {
+  &::before {
     content: "";
     position: absolute;
     top: 0;
@@ -112,260 +86,567 @@ strong, b {
     bottom: 0;
     width: 100%;
     height: 100%;
-    z-index: 0; /* Behind content, above element's direct background */
-    background-size: var(--grid-spacing) var(--grid-spacing);
-    background-position: center center;
-    mask-image: radial-gradient(ellipse at center, black 0%, black var(--grid-fade-extent), transparent 100%);
-    -webkit-mask-image: radial-gradient(ellipse at center, black 0%, black var(--grid-fade-extent), transparent 100%);
-    pointer-events: none;
-}
+    z-index: 0; // Behind content, above element's direct background
 
-/* --- Component Overrides --- */
-
-/* Hero Section */
-.hero {
-    position: relative; /* For ::before pseudo-element */
-    overflow: hidden; /* Clip pseudo-element */
-}
-.hero.is-primary {
-    background-color: var(--enji-color-primary) !important;
-    color: var(--enji-color-text-on-primary) !important;
-}
-.hero.is-primary .title,
-.hero.is-primary .subtitle {
-    color: var(--enji-color-text-on-primary) !important;
-}
-.hero.is-primary strong { /* Make strong text pop more on primary bg */
-    color: var(--enji-color-text-on-primary) !important;
-    font-weight: var(--enji-font-weight-bold) !important; /* Or even more distinct if needed */
-}
-
-.hero.is-primary::before { /* Grid for primary hero */
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    width: 100%; height: 100%;
-    z-index: 0;
     background-image:
-        repeating-linear-gradient(to right, var(--grid-line-color-dark-bg) 0, var(--grid-line-color-dark-bg) var(--grid-line-width), transparent var(--grid-line-width), transparent var(--grid-spacing)),
-        repeating-linear-gradient(to bottom, var(--grid-line-color-dark-bg) 0, var(--grid-line-color-dark-bg) var(--grid-line-width), transparent var(--grid-line-width), transparent var(--grid-spacing));
-    background-size: var(--grid-spacing) var(--grid-spacing);
+      repeating-linear-gradient(
+        to right,
+        var(#{$line-color-var-name}) 0,
+        var(#{$line-color-var-name}) $im-grid-line-width,
+        transparent $im-grid-line-width,
+        transparent $im-grid-spacing
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        var(#{$line-color-var-name}) 0,
+        var(#{$line-color-var-name}) $im-grid-line-width,
+        transparent $im-grid-line-width,
+        transparent $im-grid-spacing
+      );
+    background-size: $im-grid-spacing $im-grid-spacing;
     background-position: center center;
-    mask-image: radial-gradient(ellipse at center, black 0%, black var(--grid-fade-extent), transparent 100%);
-    -webkit-mask-image: radial-gradient(ellipse at center, black 0%, black var(--grid-fade-extent), transparent 100%);
+
+    mask-image: radial-gradient(ellipse at center, black 0%, black $im-grid-fade-extent, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 0%, black $im-grid-fade-extent, transparent 100%);
     pointer-events: none;
+  }
 }
-/* Ensure hero content is above the grid */
-.hero .hero-head,
-.hero .hero-body,
-.hero .hero-foot {
+
+//------------------------------------------------------------------------------
+// 4. Animations (Page Transitions)
+//------------------------------------------------------------------------------
+
+@keyframes imPageFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY($im-page-transition-translateY);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes imPageFadeOutDown {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY($im-page-transition-translateY); // Or negative for slide up exit
+  }
+}
+
+//------------------------------------------------------------------------------
+// 5. Base Styles (HTML, Body, Typography)
+//------------------------------------------------------------------------------
+
+html {
+  background-color: var(--im-color-background) !important;
+  scroll-behavior: smooth;
+  font-size: $im-base-font-size;
+}
+
+body {
+  font-family: $im-font-primary !important;
+  color: var(--im-color-text) !important;
+  font-weight: $im-font-weight-normal !important;
+  line-height: $im-line-height-base !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--im-color-background) !important;
+  min-height: 100vh; // Ensure body takes full height for transitions
+  transition: background-color 0.3s ease, color 0.3s ease; // For dark mode theme switch
+
+  &.im-page-is-loading { // Applied by JS initially if using JS for entry
+    opacity: 0;
+  }
+  &.im-page-is-entering { // Applied by JS after DOMContentLoaded if using JS for entry
+    animation: imPageFadeInUp $im-page-transition-duration forwards ease-out;
+    animation-delay: $im-page-transition-delay;
+  }
+  &.im-page-is-exiting { // Applied by JS on link click
+    animation: imPageFadeOutDown $im-page-transition-duration forwards ease-in !important;
+  }
+}
+
+h1, h2, h3, h4, h5, h6,
+.title,
+.subtitle {
+  font-family: $im-font-primary !important;
+  color: var(--im-color-text-headings) !important;
+  transition: color 0.3s ease;
+}
+
+.title {
+  font-weight: $im-font-weight-bold !important;
+  line-height: 1.2 !important;
+  margin-bottom: calc(#{$im-spacing-unit} * 1) !important;
+  &.is-1 { font-size: 2.75rem !important; }
+  &.is-2 { font-size: 2rem !important; }
+  &.is-3 { font-size: 1.75rem !important; }
+}
+
+.subtitle {
+  color: var(--im-color-text-muted) !important;
+  font-weight: $im-font-weight-normal !important;
+  line-height: 1.5 !important;
+  margin-bottom: calc(#{$im-spacing-unit} * 1.5) !important;
+  &.is-3 { font-size: 1.25rem !important; }
+  &.is-4 { font-size: 1.1rem !important; }
+}
+
+p {
+  margin-bottom: $im-spacing-unit !important;
+}
+
+a {
+  color: var(--im-color-primary) !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  &:hover {
+    color: var(--im-color-primary-dark) !important;
+  }
+}
+
+strong, b {
+  color: var(--im-color-text-headings) !important;
+  font-weight: $im-font-weight-semibold !important;
+  transition: color 0.3s ease;
+}
+
+//------------------------------------------------------------------------------
+// 6. Component Overrides
+//------------------------------------------------------------------------------
+
+// --- Hero Section (WITH GRID LINES) ---
+.hero {
+  position: relative;
+  overflow: hidden; // Clip pseudo-element for grid
+  transition: background-color 0.3s ease;
+
+  &.is-primary {
+    background-color: var(--im-color-primary) !important;
+    color: var(--im-color-text-on-primary) !important;
+    @include im-apply-fading-grid('--im-grid-line-color-for-hero');
+
+    .title,
+    .subtitle,
+    strong {
+      color: var(--im-color-text-on-primary) !important;
+    }
+    strong {
+      font-weight: $im-font-weight-bold !important;
+    }
+
+    // Tech stack icons
+    .field.is-grouped .icon.is-large {
+      color: var(--im-color-text-on-primary) !important;
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  // Ensure hero content is above the grid
+  .hero-head,
+  .hero-body,
+  .hero-foot {
     position: relative;
     z-index: 1;
+  }
 }
 
-
-/* Buttons */
+// --- Buttons ---
 .button {
-    font-family: var(--enji-font-primary) !important;
-    font-weight: var(--enji-font-weight-semibold) !important;
-    border-radius: var(--enji-border-radius) !important;
-    padding: 0.7em 1.5em !important; /* Enji buttons look a bit more padded */
-    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease !important;
-    border-width: 1px !important; /* Ensure border width is consistent */
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
-.button:active {
+  font-family: $im-font-primary !important;
+  font-weight: $im-font-weight-semibold !important;
+  border-radius: $im-border-radius !important;
+  padding: 0.7em 1.5em !important;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease !important;
+  border-width: 1px !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+
+  &:active {
     transform: translateY(1px);
     box-shadow: none;
+  }
+
+  &.is-primary {
+    background-color: var(--im-color-primary) !important;
+    border-color: var(--im-color-primary) !important;
+    color: var(--im-color-text-on-primary) !important;
+    &:hover {
+      background-color: var(--im-color-primary-dark) !important;
+      border-color: var(--im-color-primary-dark) !important;
+    }
+    &:focus, &.is-focused {
+      box-shadow: 0 0 0 0.125em rgba(var(--im-color-primary-rgb), 0.25) !important;
+    }
+  }
+
+  // Buttons on primary hero background
+  .hero.is-primary & {
+    &.is-light {
+      &.is-outlined {
+        background-color: transparent !important;
+        border-color: var(--im-color-text-on-primary) !important;
+        color: var(--im-color-text-on-primary) !important;
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1) !important;
+        }
+      }
+      &:not(.is-outlined) { // Resume button style
+        background-color: var(--im-color-text-on-primary) !important;
+        border-color: var(--im-color-text-on-primary) !important;
+        color: var(--im-color-primary) !important; // Text on button is primary color
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.9) !important;
+          border-color: rgba(255, 255, 255, 0.9) !important;
+        }
+      }
+    }
+  }
+
+  // General .is-light button style (not on primary hero)
+  &:not(.hero.is-primary > .hero-body .buttons > &):not(.hero.is-primary > .hero-foot .buttons > &).is-light { // More specific selector
+    background-color: var(--im-button-light-bg) !important;
+    border-color: var(--im-button-light-border) !important;
+    color: var(--im-button-light-text) !important;
+    &:hover {
+      background-color: var(--im-button-light-hover-bg) !important;
+      border-color: var(--im-button-light-hover-border) !important;
+    }
+  }
 }
 
-.button.is-primary {
-    background-color: var(--enji-color-primary) !important;
-    border-color: var(--enji-color-primary) !important;
-    color: var(--enji-color-text-on-primary) !important;
-}
-.button.is-primary:hover {
-    background-color: var(--enji-color-primary-dark) !important;
-    border-color: var(--enji-color-primary-dark) !important;
-}
-
-/* For hero buttons (Get in Touch, Resume) */
-.hero.is-primary .button.is-light.is-outlined {
-    background-color: transparent !important;
-    border-color: var(--enji-color-text-on-primary) !important;
-    color: var(--enji-color-text-on-primary) !important;
-}
-.hero.is-primary .button.is-light.is-outlined:hover {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-.hero.is-primary .button.is-light:not(.is-outlined) { /* Resume button */
-    background-color: var(--enji-color-text-on-primary) !important;
-    border-color: var(--enji-color-text-on-primary) !important;
-    color: var(--enji-color-primary) !important;
-}
-.hero.is-primary .button.is-light:not(.is-outlined):hover {
-    background-color: rgba(255, 255, 255, 0.9) !important;
-    border-color: rgba(255, 255, 255, 0.9) !important;
-}
-
-/* General .is-light button style */
-.button.is-light {
-    background-color: #EDF2F7 !important; /* A light gray complementary to the theme */
-    border-color: #EDF2F7 !important;
-    color: var(--enji-color-text-headings) !important;
-}
-.button.is-light:hover {
-    background-color: #E2E8F0 !important;
-    border-color: #E2E8F0 !important;
-}
-
-
-/* Box & Card */
+// --- Box, Card, Panel (NO GRID LINES) ---
 .box,
+.card,
+.panel {
+  background-color: var(--im-color-surface) !important;
+  border-radius: $im-border-radius !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0,0,0,0.04) !important;
+  border: 1px solid var(--im-color-border) !important;
+  color: var(--im-color-text-on-surface) !important;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+
+.box {
+  padding: $im-content-padding !important;
+}
+
 .card {
-    background-color: var(--enji-color-surface) !important;
-    border-radius: var(--enji-border-radius) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0,0,0,0.04) !important; /* Softer, more modern shadow */
-    border: 1px solid var(--enji-color-border) !important;
-    padding: var(--enji-box-padding) !important;
-
-    position: relative; /* For ::before pseudo-element */
-    overflow: hidden; /* Clip pseudo-element */
+  padding: 0 !important; // Card itself has no padding, content areas do
+  .card-header {
+    box-shadow: none !important;
+    border-bottom: 1px solid var(--im-color-border);
+    padding: 0.75rem $im-content-padding;
+    background-color: transparent !important;
+    transition: border-color 0.3s ease;
+    .card-header-title {
+      color: var(--im-color-text-headings) !important;
+      font-weight: $im-font-weight-semibold !important;
+      transition: color 0.3s ease;
+    }
+  }
+  .card-content {
+    padding: $im-content-padding !important;
+    color: var(--im-color-text-on-surface) !important;
+    transition: color 0.3s ease;
+  }
+  .card-footer {
+    border-top: 1px solid var(--im-color-border);
+    padding: 0.75rem $im-content-padding;
+    transition: border-color 0.3s ease;
+    .card-footer-item {
+      // Style footer items if needed
+    }
+  }
 }
 
-.box::before,
-.card::before { /* Grid for boxes and cards */
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    width: 100%; height: 100%;
-    z-index: 0;
-    background-image:
-        repeating-linear-gradient(to right, var(--grid-line-color-light-bg) 0, var(--grid-line-color-light-bg) var(--grid-line-width), transparent var(--grid-line-width), transparent var(--grid-spacing)),
-        repeating-linear-gradient(to bottom, var(--grid-line-color-light-bg) 0, var(--grid-line-color-light-bg) var(--grid-line-width), transparent var(--grid-line-width), transparent var(--grid-spacing));
-    background-size: var(--grid-spacing) var(--grid-spacing);
-    background-position: center center;
-    mask-image: radial-gradient(ellipse at center, black 0%, black var(--grid-fade-extent), transparent 100%);
-    -webkit-mask-image: radial-gradient(ellipse at center, black 0%, black var(--grid-fade-extent), transparent 100%);
-    pointer-events: none;
-}
-
-/* Ensure box/card content is above the grid */
-.box > *,
-.card .card-header,
-.card .card-content,
-.card .card-image,
-.card .card-footer {
-    position: relative;
-    z-index: 1;
-}
-
-.card .card-header {
-    box-shadow: none !important; /* Remove Bulma's default card header shadow */
-    border-bottom: 1px solid var(--enji-color-border);
-    padding: 0.75rem var(--enji-box-padding);
-}
-.card .card-header-title {
-    color: var(--enji-color-text-headings) !important;
-    font-weight: var(--enji-font-weight-semibold) !important;
+.panel {
+  // Bulma panel uses .panel-heading, .panel-block etc.
+  .panel-heading {
+    background-color: var(--im-color-surface) !important; // Or a slightly different shade if desired
+    color: var(--im-color-text-headings) !important;
+    border-bottom: 1px solid var(--im-color-border) !important;
+    border-top-left-radius: $im-border-radius !important;
+    border-top-right-radius: $im-border-radius !important;
+    font-weight: $im-font-weight-semibold;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  .panel-block, .panel-tabs a {
+    border-color: var(--im-color-border) !important;
+    color: var(--im-color-text-on-surface) !important;
+    transition: border-color 0.3s ease, color 0.3s ease;
+    &:hover {
+        background-color: rgba(var(--im-color-primary-rgb), 0.05) !important;
+    }
+  }
+  .panel-tabs a.is-active {
+    color: var(--im-color-primary) !important;
+    border-bottom-color: var(--im-color-primary) !important;
+  }
+  .panel-icon {
+    color: var(--im-color-text-muted) !important;
+    transition: color 0.3s ease;
+  }
 }
 
 
-/* Section (for general content areas) */
+// --- Section (for general content areas, WITH GRID LINES) ---
 .section {
-    padding: var(--enji-section-padding-vertical) 1.5rem !important; /* Enji style looks like more vertical padding */
-    background-color: transparent !important; /* Sections are on the main page bg */
-    position: relative; /* For ::before pseudo-element */
-    overflow: hidden; /* Clip pseudo-element */
-}
+  padding: $im-section-padding-vertical 1.5rem !important;
+  background-color: transparent !important; // Sits on body background
+  position: relative;
+  overflow: hidden; // Clip pseudo-element
 
-/* Apply grid to sections that are not part of a hero (to avoid double grid) */
-.section:not(.hero-body):not(.hero > .section) {
-    /* Use the same ::before as .box and .card for light backgrounds */
-}
-.section:not(.hero-body):not(.hero > .section)::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    width: 100%; height: 100%;
-    z-index: 0;
-    background-image:
-        repeating-linear-gradient(to right, var(--grid-line-color-light-bg) 0, var(--grid-line-color-light-bg) var(--grid-line-width), transparent var(--grid-line-width), transparent var(--grid-spacing)),
-        repeating-linear-gradient(to bottom, var(--grid-line-color-light-bg) 0, var(--grid-line-color-light-bg) var(--grid-line-width), transparent var(--grid-line-width), transparent var(--grid-spacing));
-    background-size: var(--grid-spacing) var(--grid-spacing);
-    background-position: center center;
-    mask-image: radial-gradient(ellipse at center, black 0%, black var(--grid-fade-extent), transparent 100%);
-    -webkit-mask-image: radial-gradient(ellipse at center, black 0%, black var(--grid-fade-extent), transparent 100%);
-    pointer-events: none;
-}
+  // Apply grid to sections that are not part of a hero's body
+  &:not(.hero-body):not(.hero > .section) {
+    @include im-apply-fading-grid('--im-grid-line-color-for-section');
+  }
 
-/* Ensure section content (like .container) is above the grid */
-.section > .container {
+  // Ensure section content (like .container) is above the grid
+  > .container { // Direct child container
     position: relative;
     z-index: 1;
+  }
 }
 
-/* Navbar (if one exists outside hero) */
+// --- Navbar ---
 .navbar {
-    background-color: var(--enji-color-surface) !important; /* Or transparent if it's over a gridded section */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.03) !important; /* Subtle shadow */
-}
-.navbar-item, .navbar-link {
-    color: var(--enji-color-text) !important;
-    font-weight: var(--enji-font-weight-medium) !important;
-}
-.navbar-item:hover, .navbar-link:hover,
-.navbar-item.is-active, .navbar-link.is-active {
-    background-color: transparent !important; /* Or a very subtle hover */
-    color: var(--enji-color-primary) !important;
-}
-.navbar-brand .navbar-item { /* Logo area */
-    font-weight: var(--enji-font-weight-bold) !important;
-    color: var(--enji-color-text-headings) !important;
+  background-color: var(--im-color-surface) !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.03) !important;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+  .navbar-item, .navbar-link {
+    color: var(--im-color-text) !important;
+    font-weight: $im-font-weight-medium !important;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    &:hover, &.is-active {
+      background-color: transparent !important; // Or a very subtle hover bg
+      color: var(--im-color-primary) !important;
+    }
+  }
+  .navbar-brand .navbar-item {
+    font-weight: $im-font-weight-bold !important;
+    color: var(--im-color-text-headings) !important;
+  }
+
+  // Navbar in Hero Head (Primary Background)
+  &.is-primary, .hero-head &.is-transparent, .hero-head &.has-background-primary {
+    background-color: var(--im-color-primary) !important;
+    box-shadow: none !important;
+    .navbar-item, .navbar-link {
+        color: var(--im-color-text-on-primary) !important;
+        &:hover, &.is-active {
+            background-color: rgba(255,255,255,0.1) !important;
+            color: var(--im-color-text-on-primary) !important;
+        }
+    }
+     .navbar-brand .navbar-item {
+        color: var(--im-color-text-on-primary) !important;
+     }
+  }
 }
 
-
-/* Footer */
+// --- Footer ---
 .footer {
-    background-color: transparent !important; /* To show section grid or page background */
-    padding: calc(var(--enji-spacing-unit) * 2) 1.5rem calc(var(--enji-spacing-unit) * 2) !important;
-    color: var(--enji-color-text-muted) !important;
-    border-top: 1px solid var(--enji-color-border); /* Optional top border */
-    position: relative; /* For grid if needed, but usually footer is simpler */
-    z-index: 1; /* To be above any page-wide grid */
-}
-.footer a {
-    color: var(--enji-color-text) !important;
-    font-weight: var(--enji-font-weight-medium) !important;
-}
-.footer a:hover {
-    color: var(--enji-color-primary) !important;
+  background-color: transparent !important;
+  padding: calc(#{$im-spacing-unit} * 3) 1.5rem calc(#{$im-spacing-unit} * 3) !important; // Increased padding
+  color: var(--im-color-text-muted) !important;
+  border-top: 1px solid var(--im-color-border);
+  position: relative;
+  z-index: 1; // Above any page-wide grid if section grid extends
+  transition: color 0.3s ease, border-color 0.3s ease;
+
+  a {
+    color: var(--im-color-text) !important; // Or --im-color-text-muted for less emphasis
+    font-weight: $im-font-weight-medium !important;
+    &:hover {
+      color: var(--im-color-primary) !important;
+    }
+  }
 }
 
-/* Input Fields (Basic Styling) */
-.input, .textarea {
-    font-family: var(--enji-font-primary) !important;
-    border-radius: var(--enji-border-radius) !important;
-    border-color: var(--enji-color-border) !important;
-    box-shadow: none !important; /* Remove Bulma's default input shadow */
-    background-color: var(--enji-color-surface) !important;
-    color: var(--enji-color-text) !important;
+// --- Input Fields ---
+.input, .textarea, .select select {
+  font-family: $im-font-primary !important;
+  border-radius: $im-border-radius !important;
+  border: 1px solid var(--im-color-input-border) !important;
+  box-shadow: none !important;
+  background-color: var(--im-color-input-bg) !important;
+  color: var(--im-color-text) !important; // Text color inside input
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+
+  &::placeholder {
+    color: var(--im-color-text-muted) !important;
+    opacity: 0.7;
+    transition: color 0.3s ease;
+  }
+
+  &:focus, &.is-focused,
+  &:active, &.is-active {
+    border-color: var(--im-color-primary) !important;
+    box-shadow: 0 0 0 0.125em rgba(var(--im-color-primary-rgb), 0.25) !important;
+  }
 }
-.input:focus, .textarea:focus,
-.input.is-focused, .textarea.is-focused,
-.input:active, .textarea:active,
-.input.is-active, .textarea.is-active {
-    border-color: var(--enji-color-primary) !important;
-    box-shadow: 0 0 0 0.125em rgba(var(--enji-color-primary), 0.25) !important; /* Bulma like focus */
+.select:not(.is-multiple):not(.is-loading)::after { // Dropdown arrow
+  border-color: var(--im-color-primary) !important;
+  transition: border-color 0.3s ease;
 }
 
-/* Tech Stack Icons (from hero example) */
-.hero .field.is-grouped .icon.is-large {
-    color: var(--enji-color-text-on-primary) !important;
-    opacity: 0.8;
-    transition: opacity 0.2s ease;
+
+//------------------------------------------------------------------------------
+// 7. Dark Mode Styles
+//------------------------------------------------------------------------------
+html.im-is-dark-mode {
+  // Dark Mode Primary Colors
+  // --im-color-primary: #e53935; // Can stay same or be adjusted
+  // --im-color-primary-light: #ef5350;
+  // --im-color-primary-dark: #c62828;
+  // --im-color-primary-rgb: 229, 57, 53;
+
+  // Text Colors - Dark Mode
+  --im-color-text: #CBD5E0;
+  --im-color-text-headings: #E2E8F0;
+  --im-color-text-muted: #A0AEC0;
+  // --im-color-text-on-primary: #FFFFFF; // Stays same
+
+  // Background & Surface Colors - Dark Mode
+  --im-color-background: #1A202C;
+  --im-color-surface: #2D3748;
+  --im-color-border: #4A5568;
+  --im-color-input-bg: var(--im-color-surface);
+  --im-color-input-border: var(--im-color-border);
+  --im-color-text-on-surface: var(--im-color-text-headings); // Text on cards/boxes is lighter
+
+  // Button Specifics - Dark Mode
+  --im-button-light-bg: #4A5568;
+  --im-button-light-border: #4A5568;
+  --im-button-light-text: var(--im-color-text-headings);
+  --im-button-light-hover-bg: #718096;
+  --im-button-light-hover-border: #718096;
+
+  // Grid Line Colors - Dark Mode
+  --im-grid-line-color-for-section: rgba(255, 255, 255, 0.05); // Very subtle white lines
+  --im-grid-line-color-for-hero: rgba(255, 255, 255, 0.12); // Stays same or adjusted if primary changes
+
+  // Theme Toggle Dark Mode
+  --im-toggle-bg-off: #4A5568; // Darker off state for dark mode
+  --im-toggle-icon-sun-color: #f1c40f;
 }
-.hero .field.is-grouped .icon.is-large:hover {
-    opacity: 1;
+
+// Specific Dark Mode Overrides for components if CSS variables aren't enough
+// (Mostly covered by vars, but some shadows or complex states might need this)
+html.im-is-dark-mode {
+  .box, .card, .panel {
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2), 0 3px 6px rgba(0,0,0,0.15) !important;
+  }
+
+  .button.is-primary {
+    &:focus, &.is-focused { // Adjust focus shadow if primary color RGB changes for dark mode
+      // box-shadow: 0 0 0 0.125em rgba(var(--im-color-primary-rgb-dark-mode, var(--im-color-primary-rgb)), 0.25) !important;
+    }
+  }
+  .input:focus, .textarea:focus, .select select:focus,
+  .input.is-focused, .textarea.is-focused, .select select.is-focused,
+  .input:active, .textarea:active, .select select:active,
+  .input.is-active, .textarea.is-active, .select select.is-active {
+    // Adjust focus shadow if primary color RGB changes for dark mode
+    // box-shadow: 0 0 0 0.125em rgba(var(--im-color-primary-rgb-dark-mode, var(--im-color-primary-rgb)), 0.25) !important;
+  }
+}
+
+
+//------------------------------------------------------------------------------
+// 8. Theme Toggle Switch CSS
+//------------------------------------------------------------------------------
+.im-theme-toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  // Example placement if in navbar:
+  // margin-left: auto; // Pushes it to the right
+  // padding: 0 0.75rem;
+}
+
+.im-theme-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px; // Width of the switch
+  height: 26px; // Height of the switch
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+}
+
+.im-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--im-toggle-bg-off);
+  transition: .4s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; // For icons
+  padding: 0 4px; // Padding for icons
+
+  &.round {
+    border-radius: 26px;
+  }
+
+  &:before { // The toggle circle
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: var(--im-toggle-slider-color);
+    transition: .4s;
+    &.round {
+      border-radius: 50%;
+    }
+  }
+
+  .im-slider-icon {
+    font-size: 0.9em;
+    line-height: 1; // Ensure icons are vertically centered if they have weird line-height
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .im-sun-icon { color: var(--im-toggle-icon-sun-color); }
+  .im-moon-icon { color: var(--im-toggle-icon-moon-color); }
+}
+
+input:checked + .im-slider {
+  background-color: var(--im-toggle-bg-on);
+  .im-moon-icon { opacity: 1; }
+}
+input:not(:checked) + .im-slider {
+  .im-sun-icon { opacity: 1; }
+}
+
+input:focus + .im-slider {
+  box-shadow: 0 0 1px var(--im-color-primary);
+}
+
+input:checked + .im-slider:before {
+  transform: translateX(24px); // Move circle to the right
 }
