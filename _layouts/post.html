@@ -9,26 +9,6 @@ layout: default
       <!-- Main Content Column -->
       <div class="column {% if page.sidebar == true %}is-8{% else %}is-9 is-offset-1{% endif %}">
         <article class="article content">
-          <!-- TLTR Section -->
-          {% if page.TLTR %}
-          <div class="notification is-info is-light mb-6">
-            <div class="level is-mobile">
-              <div class="level-left">
-                <div class="level-item">
-                  <span class="icon has-text-info">
-                    <i class="fas fa-bolt"></i>
-                  </span>
-                </div>
-                <div class="level-item">
-                  <h3 class="title is-4 mb-0">Key Takeaways</h3>
-                </div>
-              </div>
-            </div>
-            <hr class="is-marginless mt-2 mb-3">
-            <p class="is-size-5">{{ page.TLTR }}</p>
-          </div>
-          {% endif %}
-
           <!-- Article Header -->
           <header class="article-header mb-6">
             <div class="mb-5">
