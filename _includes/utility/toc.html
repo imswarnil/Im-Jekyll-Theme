@@ -1,119 +1,351 @@
-{% capture tocWorkspace %}
-    {% comment %}
-        Version 1.0.8
-          https://github.com/allejo/jekyll-toc
-    {% endcomment %}
+{%- comment -%}
+    Table of Contents Generator - Version 1.1.0 (Improved)
+    Generates a TOC from headings in the provided HTML content.
+    Inspired by allejo/jekyll-toc.
+{%- endcomment -%}
 
-    {% capture my_toc %}{% endcapture %}
-    {% assign orderedList = include.ordered | default: false %}
-    {% assign minHeader = include.h_min | default: 1 %}
-    {% assign maxHeader = include.h_max | default: 6 %}
-    {% assign nodes = include.html | split: '<h' %}
-    {% assign firstHeader = true %}
+{%- capture toc_generator_workspace -%}
+    {%- assign toc_html_output = "" -%}
+    {%- assign ordered_list = include.ordered | default: false -%}
+    {%- assign min_header_level = include.h_min | default: 2 -%} {# Default to h2 for practical TOCs #}
+    {%- assign max_header_level = include.h_max | default: 4 -%} {# Default to h4 #}
+    {%- assign content_html = include.html | default: content -%} {# Use 'content' if 'include.html' is not passed #}
+    {%- assign heading_nodes = content_html | split: "<h" -%}
+    {%- assign first_valid_header = true -%}
+    {%- assign current_min_level_found = 7 -%} {# Initialize high to find the actual min level #}
 
-    {% capture listModifier %}{% if orderedList %}1.{% else %}-{% endif %}{% endcapture %}
+    {%- capture list_item_prefix -%}{% if ordered_list %}1.{% else %}-{% endif %}{%- endcapture -%}
 
-    {% for node in nodes %}
-        {% if node == "" %}
-            {% continue %}
-        {% endif %}
+    {%- for node in heading_nodes -%}
+        {%- if node == "" or node == nil -%}{% continue %}{%- endif -%}
 
-        {% assign headerLevel = node | replace: '"', '' | slice: 0, 1 | times: 1 %}
+        {%- assign header_level_char = node | slice: 0, 1 -%}
+        {%- assign is_valid_header_char = "123456" | contains: header_level_char -%}
 
-        {% if headerLevel < minHeader or headerLevel > maxHeader %}
-            {% continue %}
-        {% endif %}
+        {%- unless is_valid_header_char -%}{% continue %}{%- endunless -%}
+        {%- assign header_level = header_level_char | times: 1 -%}
 
-        {% if firstHeader %}
-            {% assign firstHeader = false %}
-            {% assign minHeader = headerLevel %}
-        {% endif %}
+        {%- if header_level < min_header_level or header_level > max_header_level -%}
+            {%- continue -%}
+        {%- endif -%}
 
-        {% assign indentAmount = headerLevel | minus: minHeader %}
-        {% assign _workspace = node | split: '</h' %}
+        {%- if first_valid_header -%}
+            {%- assign first_valid_header = false -%}
+            {%- assign current_min_level_found = header_level -%}
+        {%- else -%}
+            {%- if header_level < current_min_level_found -%}
+                {%- assign current_min_level_found = header_level -%}
+            {%- endif -%}
+        {%- endif -%}
 
-        {% assign _idWorkspace = _workspace[0] | split: 'id="' %}
-        {% assign _idWorkspace = _idWorkspace[1] | split: '"' %}
-        {% assign html_id = _idWorkspace[0] %}
+        {%- assign temp_split = node | split: "</h" -%}
+        {%- assign header_content_part = temp_split[0] -%}
 
-        {% assign _classWorkspace = _workspace[0] | split: 'class="' %}
-        {% assign _classWorkspace = _classWorkspace[1] | split: '"' %}
-        {% assign html_class = _classWorkspace[0] %}
+        {%- assign id_parts = header_content_part | split: 'id="' -%}
+        {%- if id_parts.size > 1 -%}
+            {%- assign html_id = id_parts[1] | split: '"' | first -%}
+        {%- else -%}
+            {%- comment -%} Skip header if it has no ID, or generate one (more complex) {%- endcomment -%}
+            {%- continue -%}
+        {%- endif -%}
 
-        {% if html_class contains "no_toc" %}
-            {% continue %}
-        {% endif %}
+        {%- assign class_parts = header_content_part | split: 'class="' -%}
+        {%- if class_parts.size > 1 -%}
+            {%- assign html_class = class_parts[1] | split: '"' | first -%}
+            {%- if html_class contains "no_toc" or html_class contains "no-toc" -%}
+                {%- continue -%}
+            {%- endif -%}
+        {%- endif -%}
 
-        {% capture _hAttrToStrip %}{{ _workspace[0] | split: '>' | first }}>{% endcapture %}
-        {% assign header = _workspace[0] | replace: _hAttrToStrip, '' %}
+        {%- capture attributes_to_strip -%}{{ header_content_part | split: ">" | first }}>{%- endcapture -%}
+        {%- assign header_text = header_content_part | remove: attributes_to_strip -%}
+        {%- assign sanitized_header_text = header_text | strip_html | strip -%}
+        {%- if sanitized_header_text == "" -%}{% continue %}{%- endif -%}
 
-        {% assign space = '' %}
-        {% for i in (1..indentAmount) %}
-            {% assign space = space | prepend: '    ' %}
-        {% endfor %}
+        {%- assign indent_amount = header_level | minus: current_min_level_found -%}
+        {%- assign indent_space = "" -%}
+        {%- for i in (1..indent_amount) -%}
+            {%- assign indent_space = indent_space | prepend: "  " -%} {# Two spaces for Markdown list indent #}
+        {%- endfor -%}
 
-        {% unless include.item_class == blank %}
-            {% capture listItemClass %}{:.{{ include.item_class | replace: '%level%', headerLevel }}}{% endcapture %}
-        {% endunless %}
+        {%- assign item_class_template = include.item_class | default: "toc-item-level-%level%" -%}
+        {%- assign item_class = item_class_template | replace: "%level%", header_level -%}
+        {%- capture list_item_class_markdown %}{:.{{ item_class }}}{%- endcapture -%}
 
-        {% capture heading_body %}{% if include.sanitize %}{{ header | strip_html }}{% else %}{{ header }}{% endif %}{% endcapture %}
-        {% capture my_toc %}{{ my_toc }}
-{{ space }}{{ listModifier }} {{ listItemClass }} [{{ heading_body | replace: "|", "\|" }}]({% if include.baseurl %}{{ include.baseurl }}{% endif %}#{{ html_id }}){% if include.anchor_class %}{:.{{ include.anchor_class }}}{% endif %}{% endcapture %}
-    {% endfor %}
+        {%- assign anchor_class_template = include.anchor_class | default: "toc-link" -%}
+        {%- assign anchor_class = anchor_class_template | replace: "%level%", header_level -%}
+        {%- capture anchor_class_markdown %}{:.{{ anchor_class }}}{%- endcapture -%}
 
-    {% if include.class %}
-        {% capture my_toc %}{:.{{ include.class }}}
-{{ my_toc | lstrip }}{% endcapture %}
-    {% endif %}
+        {%- capture toc_entry_text -%}
+            {%- if include.sanitize != false -%}{{ sanitized_header_text }}{%- else -%}{{ header_text }}{%- endif -%}
+        {%- endcapture -%}
 
-    {% if include.id %}
-        {% capture my_toc %}{: #{{ include.id }}}
-{{ my_toc | lstrip }}{% endcapture %}
-    {% endif %}
-{% endcapture -%}
-{%- assign tocWorkspace = '' %}
+        {%- capture toc_html_output -%}
+            {{ toc_html_output }}
+            {{ indent_space }}{{ list_item_prefix }} {{ list_item_class_markdown }} [{{ toc_entry_text | replace: "|", "\|" }}]({% if include.baseurl %}{{ include.baseurl }}{% endif %}#{{ html_id }}){{ anchor_class_markdown }}
+        {%- endcapture -%}
+    {%- endfor -%}
 
-<div class="contents">
-    <div class="menu">
-        <p class="menu-label">{{ include.contents_title }}</p>
-        {{ my_toc | markdownify | strip }}
+    {%- assign toc_wrapper_class = include.class | default: "toc-wrapper" -%}
+    {%- assign toc_wrapper_id = include.id | default: "page-toc" -%}
+
+    {%- if toc_html_output != "" -%}
+        {%- capture toc_html_output -%}
+            {: #{{ toc_wrapper_id }} .{{ toc_wrapper_class }} }
+            {{ toc_html_output | lstrip }}
+        {%- endcapture -%}
+    {%- endif -%}
+{%- endcapture -%}
+{%- assign toc_generator_workspace = "" -%} {# Clear workspace variable #}
+
+{%- if toc_html_output and toc_html_output != "" -%}
+<aside class="toc-container is-sticky-sidebar" aria-labelledby="toc-heading">
+    <div class="toc-header">
+        <h2 id="toc-heading" class="menu-label toc-title">{{ include.contents_title | default: "On this page" }}</h2>
+        <button class="button is-small is-outlined toc-toggle" aria-expanded="true" aria-controls="toc-menu-list">
+            <span class="icon is-small">
+                <i class="ph ph-list"></i>
+            </span>
+            <span>Toggle</span>
+        </button>
     </div>
-</div>
+    <nav class="menu toc-menu" id="toc-menu-list">
+        {{ toc_html_output | markdownify }}
+    </nav>
+</aside>
+{%- endif -%}
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-      // Function to add 'is-active' class to the current section link in the TOC
-      const spyScroll = () => {
-          const sections = document.querySelectorAll('h2[id], h3[id]');
-          const tocLinks = document.querySelectorAll('.menu-list a');
-  
-          let currentSection = "none";
-  
-          sections.forEach(section => {
-              const sectionTop = section.offsetTop;
-              if (scrollY >= sectionTop - 200) { // 200px offset for activation before reaching the section
-                  currentSection = section.getAttribute('id');
-              }
-          });
-  
-          tocLinks.forEach(link => {
-              link.classList.remove('is-active');
-              if (link.getAttribute('href').includes(currentSection)) {
-                  link.classList.add('is-active');
-              }
-          });
-      };
-  
-      // Initial call and event listener on scroll
-      spyScroll();
-      document.addEventListener('scroll', spyScroll);
-  
-      // Toggleable feature for TOC
-      const tocToggle = document.querySelector('.toc-toggle');
-      const tocMenu = document.querySelector('.contents');
-  
-      tocToggle.addEventListener('click', () => {
-          tocMenu.classList.toggle('is-hidden');
-      });
-  });
-  
-  </script>
+        const tocContainer = document.querySelector('.toc-container');
+        if (!tocContainer) return; // Exit if TOC is not on the page
+
+        const tocMenu = tocContainer.querySelector('.toc-menu .menu-list'); // Target the generated ul/ol
+        const tocLinks = tocMenu ? Array.from(tocMenu.querySelectorAll('a.toc-link')) : [];
+        const tocToggle = tocContainer.querySelector('.toc-toggle');
+        const mainContentHeadings = Array.from(document.querySelectorAll(
+            'main h{{ include.h_min | default: 2 }}[id],' +
+            'main h{{ include.h_min | default: 2 | plus: 1 }}[id],' +
+            'main h{{ include.h_min | default: 2 | plus: 2 }}[id]'
+            // Add more levels if your maxHeader is higher and you want to spy on them
+        ));
+
+        if (!tocLinks.length || !mainContentHeadings.length) {
+            // if (tocToggle) tocToggle.style.display = 'none'; // Hide toggle if no links/headings
+            // tocContainer.style.display = 'none'; // Hide whole TOC if no links/headings
+            return;
+        }
+
+        const scrollSpyOffset = parseInt(tocContainer.dataset.scrollSpyOffset, 10) || 150; // Configurable offset
+
+        const highlightTocLink = () => {
+            let currentSectionId = null;
+            const scrollYPosition = window.scrollY;
+
+            mainContentHeadings.forEach(heading => {
+                const headingTop = heading.offsetTop;
+                if (scrollYPosition >= headingTop - scrollSpyOffset) {
+                    currentSectionId = heading.getAttribute('id');
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('is-active');
+                const href = link.getAttribute('href');
+                if (href && currentSectionId && href.endsWith('#' + currentSectionId)) {
+                    link.classList.add('is-active');
+                    // Optional: Scroll active link into view within the TOC
+                    // link.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            });
+        };
+
+        let scrollTimeout;
+        const onScroll = () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(highlightTocLink, 50); // Debounce scroll event
+        };
+
+        highlightTocLink(); // Initial highlight
+        window.addEventListener('scroll', onScroll);
+        window.addEventListener('resize', onScroll); // Re-check on resize
+
+        // Toggle functionality
+        if (tocToggle && tocMenu) {
+            // Check initial state based on screen size (e.g., hidden on mobile)
+            const isMobile = window.innerWidth < 769; // Bulma's mobile breakpoint
+            if (isMobile) {
+                tocMenu.classList.add('is-hidden-mobile-initially'); // Custom class to hide on load for mobile
+                tocToggle.setAttribute('aria-expanded', 'false');
+            }
+
+            tocToggle.addEventListener('click', () => {
+                const isExpanded = tocMenu.classList.toggle('is-hidden-mobile-initially');
+                tocMenu.classList.toggle('is-fully-hidden', !isExpanded); // General hidden class
+                tocToggle.setAttribute('aria-expanded', isExpanded.toString());
+                tocToggle.classList.toggle('is-active', isExpanded);
+            });
+        }
+    });
+</script>
+
+<style>
+    // _sass/custom/_toc.scss
+
+// Variables (adjust as needed or use your global theme variables)
+$toc-width: 280px;
+$toc-padding: 1rem;
+$toc-background: var(--bulma-scheme-main-bis, #f5f5f5); // Light grey background
+$toc-border-color: var(--bulma-border, #dbdbdb);
+$toc-link-color: var(--bulma-text, #4a4a4a);
+$toc-link-hover-color: var(--bulma-link-hover, #3273dc);
+$toc-link-active-color: var(--bulma-link-active, #3273dc); // Or your primary theme color
+$toc-link-active-background: transparent; // Or a very subtle background
+$toc-link-active-border-left-color: $toc-link-active-color;
+$toc-title-color: var(--bulma-text-strong, #363636);
+$toc-title-font-size: 0.875rem; // Bulma's menu-label size
+$toc-item-font-size: 0.875rem;
+
+.toc-container {
+  width: $toc-width;
+  max-width: 100%; // Ensure it doesn't overflow on very small screens before hiding
+  padding: $toc-padding;
+  margin-left: 1.5rem; // Space from main content
+  align-self: flex-start; // For sticky positioning within a flex/grid parent
+
+  &.is-sticky-sidebar {
+    position: sticky;
+    top: 6rem; // Adjust based on your fixed navbar height + some spacing
+    max-height: calc(100vh - 7rem); // Prevent TOC from being taller than viewport
+    overflow-y: auto;
+     // Custom scrollbar for a cleaner look (Webkit)
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0,0,0,0.2);
+      border-radius: 3px;
+    }
+  }
+}
+
+.toc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.toc-title.menu-label { // Targeting the h2 via its Bulma class and custom class
+  color: $toc-title-color;
+  font-size: $toc-title-font-size;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0 !important; // Override Bulma's menu-label margin
+}
+
+.toc-toggle.button {
+  padding: 0.25rem 0.5rem; // Smaller padding for the toggle
+  font-size: 0.75rem;
+  // background-color: transparent;
+  // border-color: $toc-border-color;
+  // color: $toc-link-color;
+
+  // &:hover, &:focus {
+  //   border-color: $toc-link-hover-color;
+  //   color: $toc-link-hover-color;
+  // }
+  &.is-active { // When toggle shows the menu
+    // background-color: $toc-link-active-color;
+    // color: white;
+  }
+}
+
+.toc-menu {
+  // Styles for the overall menu wrapper, if any needed beyond Bulma's .menu
+  // The .menu-list (ul/ol) will be generated by markdownify
+
+  .menu-list {
+    line-height: 1.6;
+
+    li {
+      // Indentation for nested lists will be handled by Markdown output + margin on nested ul/ol
+      // Example: a.toc-item-level-3 might have more margin-left
+    }
+
+    a.toc-link {
+      display: block;
+      padding: 0.4em 0.75em;
+      font-size: $toc-item-font-size;
+      color: $toc-link-color;
+      border-left: 3px solid transparent; // For the active indicator
+      transition: all 0.2s ease-in-out;
+      border-radius: 0 4px 4px 0; // Slight rounding on the right
+
+      &:hover {
+        color: $toc-link-hover-color;
+        background-color: rgba(0,0,0,0.03);
+      }
+
+      &.is-active {
+        color: $toc-link-active-color;
+        font-weight: 600; // Make active link bolder
+        border-left-color: $toc-link-active-border-left-color;
+        background-color: $toc-link-active-background;
+      }
+    }
+
+    // Styling for different levels if needed (using classes from Liquid)
+    // Example: deeper levels might have smaller font or more padding
+    .toc-item-level-3 a.toc-link { // Generated by item_class: "toc-item-level-3"
+      padding-left: 1.5em; // Indent H3 links
+    }
+    .toc-item-level-4 a.toc-link {
+      padding-left: 2.25em; // Indent H4 links
+      font-size: calc(#{$toc-item-font-size} * 0.95); // Slightly smaller
+    }
+    // Add more for toc-item-level-5, toc-item-level-6 if you use them
+  }
+}
+
+// Responsive: Hide TOC by default on mobile, toggle shows it
+// The JS adds/removes 'is-hidden-mobile-initially' or 'is-fully-hidden'
+.toc-menu.is-hidden-mobile-initially,
+.toc-menu.is-fully-hidden {
+  display: none;
+}
+
+@media screen and (min-width: 769px) { // Bulma's tablet breakpoint + 1
+  .toc-menu.is-hidden-mobile-initially,
+  .toc-menu.is-fully-hidden {
+    display: block !important; // Ensure it's visible on desktop by default
+  }
+  .toc-toggle {
+    // display: none; // Optionally hide toggle button on desktop if TOC is always visible
+  }
+}
+
+// If you want to hide the whole TOC container on mobile and only show via toggle
+@media screen and (max-width: 768px) { // Bulma's mobile breakpoint
+  .toc-container {
+    width: 100%; // Full width on mobile when shown
+    margin-left: 0;
+    margin-bottom: 1rem;
+    // background-color: $toc-background; // Give it a background if it overlays content
+    // border: 1px solid $toc-border-color;
+    // border-radius: 6px;
+    // &.is-sticky-sidebar { // No sticky on mobile
+    //   position: static;
+    //   max-height: none;
+    //   overflow-y: visible;
+    // }
+  }
+  // .toc-menu:not(.is-hidden-mobile-initially):not(.is-fully-hidden) {
+  //   max-height: 300px; // Limit height on mobile if it becomes very long
+  //   overflow-y: auto;
+  // }
+}
+</style>
