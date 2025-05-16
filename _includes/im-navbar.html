@@ -1,4 +1,4 @@
-<nav class="navbar is-fixed-top im-navbar-custom" role="navigation" aria-label="main navigation">
+<nav class="navbar is-fixed-top im-navbar-custom im-navbar-themed" role="navigation" aria-label="main navigation">
     <div class="container">
         <div class="navbar-brand">
             <a href="{{ site.baseurl }}/" class="navbar-item im-navbar-logo-link">
@@ -19,12 +19,14 @@
                 </a>
             </div>
 
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="imVanillaNavMenu">
-             <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="imThemedNavMenu"> {/* Updated data-target */}
+             <span aria-hidden="true"></span>
+             <span aria-hidden="true"></span>
+             <span aria-hidden="true"></span>
             </a>
         </div>
 
-        <div class="navbar-menu" id="imVanillaNavMenu">
+        <div class="navbar-menu" id="imThemedNavMenu"> {/* Updated ID */}
             <div class="navbar-start">
                 {% for item in site.navbar %}
                   {% if item.name %}
@@ -38,13 +40,8 @@
                       {% for subitem in item.dropdown %}{% assign subitem_url_relative_cleaned = subitem.link | relative_url | remove: "index.html" | default: "/" %}{% if current_page_url == subitem_url_relative_cleaned %}{% assign is_active_parent = true %}{% break %}{% endif %}{% endfor %}
                     {% endif %}
 
-                    {% assign nav_item_base_style = "padding: 0.75rem 1.25rem; min-height: 4.5rem; font-weight: 500; font-size: 0.95rem; background-color: transparent !important;" %}
-                    {% assign nav_item_text_color = "color: #4A5568;" %} 
-                    {% assign nav_item_active_style = "color: #6D28D9 !important; background-color: rgba(109, 40, 217, 0.08) !important; border-radius: 6px;" %}
-
-
                     {% if item.dropdown %}
-                    <div class="navbar-item has-dropdown is-hoverable">
+                    <div class="navbar-item has-dropdown is-hoverable im-navbar-dropdown-container"> {/* Added container class */}
                       <a class="navbar-link im-navbar-link {% if is_active_parent %}is-active-nav-item{% endif %}" {% if item.link != "/#" %}href="{{ item_url_relative }}"{% else %}role="button" aria-haspopup="true" aria-expanded="false"{% endif %}>
                         {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="im-navbar-icon im-navbar-image-icon">
                         {% elsif item.icon %}<span class="icon im-navbar-icon"><i class="ph ph-{{ item.icon }} im-navbar-ph-icon"></i></span>{% endif %}
@@ -80,10 +77,11 @@
                     </a>
                   {% endfor %}
                 {% endif %}
-                <a href="{{ '/search' | relative_url }}" class="navbar-item im-navbar-end-item im-navbar-desktop-search is-hidden-touch" aria-label="Search">
-                    <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
+                <a href="{{ '/search' | relative_url }}" class="navbar-item im-navbar-end-item im-navbar-quick-access is-hidden-touch" aria-label="Search">
+                    <span class="icon is-small"><i class="ph ph-magnifying-glass"></i></span>
+                    <span>Quick Access</span>
                 </a>
-                <a href="#" class="navbar-item im-navbar-end-item im-dark-mode-toggle is-hidden-touch" id="im-desktop-dark-mode-toggle" title="Toggle Dark Mode" role="button" aria-pressed="false">
+                <a href="#" class="navbar-item im-navbar-end-item im-dark-mode-toggle-desktop is-hidden-touch" id="im-desktop-dark-mode-toggle" title="Toggle Dark Mode" role="button" aria-pressed="false">
                     <span class="icon is-medium"><i class="ph" id="im-desktop-theme-icon"></i></span>
                 </a>
             </div>
