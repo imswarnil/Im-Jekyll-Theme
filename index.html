@@ -5,22 +5,7 @@ image: /assets/logos/logo.svg
 layout: default
 ---
 
-
-
-{% comment %}
-  Self-Contained "Featured Videos" Section for Jekyll
-  - Finds posts with category: "video"
-  - Displays them as YouTube-like postcards (3 per row on desktop)
-  - Includes all necessary HTML and CSS directly.
-{% endcomment %}
-
 <style>
-    /*--------------------------------------------------------------------------
-     * CSS Custom Properties (IM Theme Variables)
-     * Define these once in your main layout or a global style sheet
-     * if not already present. For this self-contained example,
-     * they are included here.
-     *--------------------------------------------------------------------------*/
     :root {
         --im-color-primary-rgb: 229, 57, 53;
         --im-color-primary: rgb(var(--im-color-primary-rgb));
@@ -34,11 +19,14 @@ layout: default
         --im-color-background: #F9FAFB;
         --im-color-surface: #FFFFFF;
         --im-color-border: #E2E8F0;
-        --im-border-radius: 8px; /* from $im-border-radius */
-        --im-spacing-unit: 1rem;  /* from $im-spacing-unit */
+        --im-border-radius-value: 8px;
+        --im-spacing-unit-value: 1rem;
+        --im-grid-corner-color: rgba(255, 255, 255, 0.1);
+        --im-grid-corner-size: 10px;
+        --im-grid-corner-line-width: 1px;
     }
 
-    html.im-is-dark-mode { /* Assume you have a class on <html> for dark mode */
+    html.im-is-dark-mode {
         --im-color-text: #CBD5E0;
         --im-color-text-headings: #E2E8F0;
         --im-color-text-muted: #A0AEC0;
@@ -46,76 +34,110 @@ layout: default
         --im-color-surface: #2D3748;
         --im-color-border: #4A5568;
         --im-color-text-on-surface: var(--im-color-text-headings);
+        --im-grid-corner-color: rgba(255, 255, 255, 0.07);
     }
 
-    /*--------------------------------------------------------------------------
-     * Video Postcard Styles
-     *--------------------------------------------------------------------------*/
     .im-featured-videos-section .im-video-postcard {
         display: flex;
         flex-direction: column;
-        background-color: #000000; /* Base for the card */
-        border-radius: var(--im-border-radius);
-        overflow: hidden;
-        transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
+        background-color: #181818;
+        border-radius: var(--im-border-radius-value);
+        overflow: visible; /* Changed to visible for corner pseudo-elements */
+        transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
         height: 100%;
-        border: 1px solid #333;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        position: relative; /* For pseudo-elements */
+        border: 1px solid #303030; /* Slightly lighter border for definition */
     }
+
+    .im-featured-videos-section .im-video-postcard::before,
+    .im-featured-videos-section .im-video-postcard::after {
+        content: '';
+        position: absolute;
+        width: var(--im-grid-corner-size);
+        height: var(--im-grid-corner-size);
+        z-index: 1;
+        pointer-events: none;
+    }
+    .im-featured-videos-section .im-video-postcard::before { /* Top-left & Bottom-right corners */
+        top: calc(var(--im-grid-corner-line-width) * -1);
+        left: calc(var(--im-grid-corner-line-width) * -1);
+        border-top: var(--im-grid-corner-line-width) solid var(--im-grid-corner-color);
+        border-left: var(--im-grid-corner-line-width) solid var(--im-grid-corner-color);
+        border-top-left-radius: var(--im-border-radius-value);
+    }
+    .im-featured-videos-section .im-video-postcard::after { /* Top-right & Bottom-left corners (using one pseudo for two via border) */
+        bottom: calc(var(--im-grid-corner-line-width) * -1);
+        right: calc(var(--im-grid-corner-line-width) * -1);
+        border-bottom: var(--im-grid-corner-line-width) solid var(--im-grid-corner-color);
+        border-right: var(--im-grid-corner-line-width) solid var(--im-grid-corner-color);
+        border-bottom-right-radius: var(--im-border-radius-value);
+    }
+     /* Additional pseudo-elements for the other two corners */
+    .im-featured-videos-section .im-video-postcard > a::before, /* Top-right */
+    .im-featured-videos-section .im-video-postcard > a::after { /* Bottom-left */
+        content: '';
+        position: absolute;
+        width: var(--im-grid-corner-size);
+        height: var(--im-grid-corner-size);
+        z-index: 1; /* Ensure it's above the main card bg but can be below content */
+        pointer-events: none;
+    }
+    .im-featured-videos-section .im-video-postcard > a::before { /* Top-right */
+        top: calc(var(--im-grid-corner-line-width) * -1);
+        right: calc(var(--im-grid-corner-line-width) * -1);
+        border-top: var(--im-grid-corner-line-width) solid var(--im-grid-corner-color);
+        border-right: var(--im-grid-corner-line-width) solid var(--im-grid-corner-color);
+        border-top-right-radius: var(--im-border-radius-value);
+    }
+    .im-featured-videos-section .im-video-postcard > a::after { /* Bottom-left */
+        bottom: calc(var(--im-grid-corner-line-width) * -1);
+        left: calc(var(--im-grid-corner-line-width) * -1);
+        border-bottom: var(--im-grid-corner-line-width) solid var(--im-grid-corner-color);
+        border-left: var(--im-grid-corner-line-width) solid var(--im-grid-corner-color);
+        border-bottom-left-radius: var(--im-border-radius-value);
+    }
+
 
     .im-featured-videos-section .im-video-postcard:hover {
-        transform: translateY(-5px) scale(1.015);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.3);
     }
     .im-featured-videos-section .im-video-postcard:hover .im-postcard-thumbnail {
-        transform: scale(1.03);
+        transform: scale(1.02); /* Subtle scale */
     }
     .im-featured-videos-section .im-video-postcard:hover .im-postcard-overlay {
-        opacity: 1;
-        background-color: rgba(0,0,0, 0.45);
+        background-color: rgba(0,0,0, 0.3);
     }
 
-    .im-featured-videos-section .im-video-postcard a {
+    .im-featured-videos-section .im-video-postcard > a { /* The main clickable area */
         color: inherit;
         text-decoration: none;
-    }
-
-    .im-featured-videos-section .im-postcard-window-bar {
         display: flex;
-        align-items: center;
-        padding: 0.35rem 0.6rem;
-        background-color: #282c34;
-        border-bottom: 1px solid #1c1e22;
-    }
-    .im-featured-videos-section .im-postcard-window-bar .im-window-dot {
-        display: inline-block;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        margin-right: 0.4rem;
-    }
-    .im-featured-videos-section .im-postcard-window-bar .im-window-dot:nth-child(1) { background-color: #ff5f57; }
-    .im-featured-videos-section .im-postcard-window-bar .im-window-dot:nth-child(2) { background-color: #ffbd2e; }
-    .im-featured-videos-section .im-postcard-window-bar .im-window-dot:nth-child(3) { background-color: #28c940; }
-    .im-featured-videos-section .im-postcard-window-bar .im-window-title {
-        margin-left: auto;
-        font-size: 0.7rem; /* Bulma .is-size-7 */
-        color: #bbbbbb; /* Bulma .has-text-grey-lighter */
-        font-family: monospace; /* Bulma .is-family-monospace */
-        opacity: 0.7;
+        flex-direction: column;
+        height: 100%; /* Make <a> take full height of postcard */
+        border-radius: var(--im-border-radius-value); /* Clip children */
+        overflow: hidden; /* Important for clipping children and border-radius effect */
+        position:relative; /* For corner pseudo-elements on this <a> */
     }
 
-    .im-featured-videos-section .im-postcard-thumbnail-figure { /* Applied to Bulma figure.image.is-16by9 */
+    .im-featured-videos-section .im-postcard-thumbnail-figure {
         position: relative;
         overflow: hidden;
-        background-color: #111;
+        background-color: #101010;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio, moved from .image to here */
+        height: 0; /* Required for padding-bottom trick */
     }
-    .im-featured-videos-section .im-postcard-thumbnail { /* Applied to img tag */
-        display: block;
+    .im-featured-videos-section .im-postcard-thumbnail-figure .im-postcard-thumbnail { /* The <img> tag */
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
         transition: transform 0.3s ease-out;
+        border-top-left-radius: var(--im-border-radius-value); /* Smoother look */
+        border-top-right-radius: var(--im-border-radius-value);
     }
 
     .im-featured-videos-section .im-postcard-overlay {
@@ -127,45 +149,56 @@ layout: default
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: rgba(0,0,0, 0.1);
-        opacity: 0.8;
-        transition: opacity 0.25s ease-out, background-color 0.25s ease-out;
+        background-color: rgba(0,0,0, 0.0); /* Initially more transparent */
+        opacity: 1; /* Play icon always visible */
+        transition: background-color 0.25s ease-out;
         pointer-events: none;
     }
-    .im-featured-videos-section .im-postcard-overlay .icon i.ph { /* Targeting Phosphor icon directly */
-        font-size: 4rem !important; /* Ensure large play icon */
-        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-        color: white; /* Bulma .has-text-white */
+    .im-featured-videos-section .im-postcard-overlay .icon i.ph {
+        font-size: 3.5rem !important;
+        color: rgba(255,255,255,0.9);
+        filter: drop-shadow(0 1px 3px rgba(0,0,0,0.6));
+        transition: transform 0.2s ease-out;
+    }
+    .im-featured-videos-section .im-video-postcard:hover .im-postcard-overlay .icon i.ph {
+        transform: scale(1.1);
     }
 
-    .im-featured-videos-section .im-postcard-duration { /* Applied to Bulma .tag.is-dark */
+    .im-featured-videos-section .im-postcard-duration {
         position: absolute;
-        bottom: 0.5rem;
-        right: 0.5rem;
-        background-color: rgba(20,20,20, 0.85) !important;
-        color: var(--im-color-text-on-primary) !important;
-        border-radius: calc(var(--im-border-radius) * 0.5);
-        padding: 0.2em 0.5em;
-        font-size: 0.7rem; /* Bulma .is-size-7 */
+        bottom: 0.6rem;
+        right: 0.6rem;
+        background-color: rgba(0,0,0, 0.75) !important;
+        color: #f0f0f0 !important;
+        border-radius: calc(var(--im-border-radius-value) * 0.35);
+        padding: 0.15em 0.45em;
+        font-size: 0.65rem;
+        font-weight: 500; /* Bulma font-weight-medium */
+        line-height: 1.2;
     }
 
-    .im-featured-videos-section .im-postcard-content { /* Applied to a div with Bulma padding */
-        background-color: #1e1e1e;
+    .im-featured-videos-section .im-postcard-content {
+        background-color: #181818; /* Same as card base for seamless look */
         flex-grow: 1;
-        padding: calc(var(--im-spacing-unit) * 0.75); /* Bulma .p-3 */
+        padding: calc(var(--im-spacing-unit-value) * 0.65) calc(var(--im-spacing-unit-value) * 0.75); /* Slightly reduced padding */
+        border-top: 1px solid #303030; /* Separator if needed, or remove for flatter */
     }
-
-    .im-featured-videos-section .im-postcard-content .title.is-6 a { /* Applied to <h3><a> */
-        color: var(--im-color-text-on-primary) !important;
+    .im-featured-videos-section .im-postcard-content .title.is-6 {
+        margin-bottom: 0.25rem !important; /* Tighter spacing */
+    }
+    .im-featured-videos-section .im-postcard-content .title.is-6 a {
+        color: #f0f0f0 !important;
+        font-weight: 500; /* Bulma font-weight-medium */
+        line-height: 1.3;
     }
     .im-featured-videos-section .im-postcard-content .title.is-6 a:hover {
         color: var(--im-color-primary-light) !important;
     }
-    .im-featured-videos-section .im-postcard-content .subtitle.is-7 { /* Applied to <p> */
-        color: #aaaaaa !important; /* Lighter grey for author */
+    .im-featured-videos-section .im-postcard-content .subtitle.is-7 {
+        color: #888888 !important;
+        line-height: 1.3;
     }
 
-    /* Utility for text clipping */
     .im-featured-videos-section .is-clipped-1,
     .im-featured-videos-section .is-clipped-2 {
         display: -webkit-box;
@@ -173,26 +206,39 @@ layout: default
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    .im-featured-videos-section .is-clipped-1 { -webkit-line-clamp: 1; }
-    .im-featured-videos-section .is-clipped-2 { -webkit-line-clamp: 2; }
+    .im-featured-videos-section .is-clipped-1 { -webkit-line-clamp: 1; max-height: 1.3em; /* Approx for line-height 1.3 */ }
+    .im-featured-videos-section .is-clipped-2 { -webkit-line-clamp: 2; max-height: 2.6em; /* Approx for line-height 1.3 */ }
 
-    /*
-      Ensure Phosphor icon is available. If not, replace with an SVG or another icon method.
-      .ph-play-circle { ... }
-    */
+    .im-featured-videos-section .title .icon.is-large i.ph {
+        font-size: 2.5rem;
+    }
+    .im-featured-videos-section hr.im-title-hr {
+        background-color: var(--im-color-border);
+        height: 2px;
+        width: 80px;
+        margin-left:auto;
+        margin-right:auto;
+        border: none;
+        opacity: 0.5;
+    }
+    .im-featured-videos-section .im-no-videos-message .icon.is-large i.ph {
+        font-size: 3rem;
+    }
+    html.im-is-dark-mode .im-featured-videos-section hr.im-title-hr {
+         opacity: 0.2;
+    }
 </style>
 
 <section class="section im-featured-videos-section py-6">
   <div class="container">
     <h1 class="title is-2 has-text-centered has-text-weight-bold has-text-grey-darker">
       <span class="icon-text">
-        <span class="icon is-large has-text-primary"><i class="ph ph-video-camera" style="font-size: 2.5rem;"></i></span>
+        <span class="icon is-large has-text-primary"><i class="ph ph-youtube-logo"></i></span>
         <span>Featured Videos</span>
       </span>
     </h1>
-    <hr class="mb-6" style="background-color: var(--im-color-border); height: 2px; width: 100px; margin-left:auto; margin-right:auto;">
+    <hr class="mb-6 im-title-hr">
 
-    {% comment %} Liquid logic to find and sort video posts {% endcomment %}
     {% assign video_posts_all = "" | split: "" %}
     {% for post_item in site.posts %}
       {% if post_item.category == "video" or post_item.categories contains "video" %}
@@ -203,56 +249,47 @@ layout: default
 
     {% if sorted_video_posts.size > 0 %}
       <div class="columns is-multiline is-variable is-3-mobile is-3-tablet is-4-desktop">
-        {% for video in sorted_video_posts limit:6 %} {# Show up to 6 videos #}
+        {% for video_item in sorted_video_posts limit:6 %}
           <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-            {% comment %} --- Start Embedded Video Postcard HTML --- {% endcomment %}
-            <div class="im-video-postcard"> {# Removed Bulma .box and p-0, styling applied directly #}
-              <a href="{{ video.url | relative_url }}" aria-label="Watch video: {{ video.title | escape }}">
-                <div class="im-postcard-window-bar">
-                  <span class="im-window-dot"></span>
-                  <span class="im-window-dot"></span>
-                  <span class="im-window-dot"></span>
-                  <span class="im-window-title">youtube.com</span>
-                </div>
-
-                <figure class="image is-16by9 im-postcard-thumbnail-figure">
+            <div class="im-video-postcard">
+              <a href="{{ video_item.url | relative_url }}" aria-label="Watch video: {{ video_item.title | escape }}">
+                <div class="im-postcard-thumbnail-figure">
                   <img
                     class="im-postcard-thumbnail"
-                    src="https://img.youtube.com/vi/{{ video.VideoId }}/hqdefault.jpg"
-                    alt="Thumbnail for {{ video.title | escape }}"
+                    src="https://img.youtube.com/vi/{{ video_item.VideoId }}/hqdefault.jpg"
+                    alt="Thumbnail for {{ video_item.title | escape }}"
                     loading="lazy"
                   >
                   <div class="im-postcard-overlay">
-                    <span class="icon is-large"> {# Removed .has-text-white, styled directly #}
+                    <span class="icon is-large">
                       <i class="ph ph-play-circle"></i>
                     </span>
                   </div>
-                  {% if video.duration %}
-                    <span class="tag im-postcard-duration">{{ video.duration }}</span> {# Removed .is-dark and .is-size-7, styled directly #}
+                  {% if video_item.duration %}
+                    <span class="tag im-postcard-duration">{{ video_item.duration }}</span>
                   {% endif %}
-                </figure>
-              </a>
+                </div>
 
-              <div class="im-postcard-content"> {# Removed .p-3, styled directly #}
-                <h3 class="title is-6 mb-1 is-clipped-2">
-                  <a href="{{ video.url | relative_url }}">{{ video.title | escape }}</a> {# Removed .has-text-light #}
-                </h3>
-                {% if video.author %}
-                <p class="subtitle is-7 is-clipped-1">{{ video.author | escape }}</p> {# Removed .has-text-grey-light #}
-                {% endif %}
-              </div>
+                <div class="im-postcard-content">
+                  <h3 class="title is-6 mb-1 is-clipped-2">
+                    <a href="{{ video_item.url | relative_url }}">{{ video_item.title | escape }}</a>
+                  </h3>
+                  {% if video_item.author %}
+                  <p class="subtitle is-7 is-clipped-1">{{ video_item.author | escape }}</p>
+                  {% endif %}
+                </div>
+              </a>
             </div>
-            {% comment %} --- End Embedded Video Postcard HTML --- {% endcomment %}
           </div>
         {% endfor %}
       </div>
     {% else %}
       <div class="columns is-centered">
         <div class="column is-half has-text-centered">
-            <div class="content has-text-grey-light">
+            <div class="content has-text-grey-light im-no-videos-message">
                 <p class="is-size-4">
                     <span class="icon is-large">
-                        <i class="ph ph-video" style="font-size: 3rem;"></i>
+                        <i class="ph ph-video"></i>
                     </span>
                 </p>
                 <p>No videos found in this category yet. Please check back later!</p>
@@ -269,7 +306,6 @@ layout: default
         </a>
       </div>
     {% endif %}
-
   </div>
 </section>
 
