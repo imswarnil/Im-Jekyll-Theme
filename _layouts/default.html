@@ -14,7 +14,16 @@
     const htmlElement = document.documentElement;
     const bodyElement = document.body;
 
-    // --- Theme Toggle Logic ---
+    const mouseClickSound = document.getElementById('imMouseClickSound');
+    const swooshSound = document.getElementById('imSwooshSound');
+
+    const playSound = (audioElement) => {
+        if (audioElement) {
+            audioElement.currentTime = 0;
+            audioElement.play().catch(error => console.warn("Audio play failed:", error));
+        }
+    };
+
     const updateToggleIcon = (isDarkMode) => {
         if (themeToggle) {
             const iconElement = themeToggle.querySelector('i.ph');
@@ -35,24 +44,22 @@
         updateToggleIcon(isDarkMode);
     };
 
-    // Check localStorage for saved theme
     let currentTheme = localStorage.getItem('im-theme');
     if (!currentTheme) {
         currentTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
-    applyTheme(currentTheme); // Apply initial theme
+    applyTheme(currentTheme);
 
-    // Event listener for the toggle
     if (themeToggle) {
         themeToggle.addEventListener('click', (event) => {
             event.preventDefault();
+            playSound(mouseClickSound);
             const newTheme = htmlElement.classList.contains('im-is-dark-mode') ? 'light' : 'dark';
             applyTheme(newTheme);
             localStorage.setItem('im-theme', newTheme);
         });
     }
 
-    // --- Page Transition Logic ---
     if (bodyElement.classList.contains('im-page-is-loading')) {
         bodyElement.classList.remove('im-page-is-loading');
     }
@@ -68,11 +75,13 @@
 
     internalLinks.forEach(link => {
       link.addEventListener('click', function(event) {
+        playSound(mouseClickSound);
         const href = this.getAttribute('href');
         if (href && (href.startsWith('/') || href.startsWith('.') || href.startsWith(window.location.origin) || !href.includes(':'))) {
-          if (!event.metaKey && !event.ctrlKey) { // Allow opening in new tab
+          if (!event.metaKey && !event.ctrlKey) {
             event.preventDefault();
-            bodyElement.classList.remove('im-page-is-entering'); // Clear current animation
+            playSound(swooshSound);
+            bodyElement.classList.remove('im-page-is-entering');
             bodyElement.classList.add('im-page-is-exiting');
             setTimeout(() => {
               window.location.href = href;
