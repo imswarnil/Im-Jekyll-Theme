@@ -1,106 +1,58 @@
 
-// =============================================================================
-// MAIN.SCSS - "IM" THEME FOR BULMA (Enji.dev Inspired)
-// =============================================================================
-// This single file defines theme values, overrides Bulma variables,
-// imports Bulma, and then applies additional custom styling.
-//
-// TABLE OF CONTENTS:
-// -----------------------------------------------------------------------------
-// 1.  CORE THEME VALUES & CSS CUSTOM PROPERTIES (Light & Dark Mode)
-// 2.  BULMA GLOBAL VARIABLE OVERRIDES
-// 3.  IMPORT BULMA FRAMEWORK
-// 4.  BASE & HTML ELEMENT STYLES
-// 5.  LAYOUT COMPONENT STYLES (Section, Hero, Footer, Main Content Area)
-// 6.  ELEMENT STYLES (Button, Box, Content, Icon, Image, Tag, Table, etc.)
-// 7.  COMPONENT COLLECTION STYLES (Card, Dropdown, Navbar, Panel, etc.)
-// 8.  FORM ELEMENT STYLES
-// 9.  UTILITY STYLES (Background Grid)
-// 10. PAGE TRANSITION ANIMATIONS
-// 11. DARK MODE SPECIFIC COMPONENT ADJUSTMENTS (Minimal)
-// =============================================================================
-
-
-// =============================================================================
-// 1. CORE THEME VALUES & CSS CUSTOM PROPERTIES (Light & Dark Mode)
-// =============================================================================
-
-// --- SCSS Variables for setting Bulma vars & local calculations ---
-// These are distinct from the CSS Custom Properties used for runtime theming.
-$im-font-family-primary-stack: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-$im-font-family-monospace-stack: "Roboto Mono", Consolas, Monaco, monospace;
-
-$im-primary-value: #e53935; // Your core red
-$im-primary-light-value: #ef5350;
-$im-primary-dark-value: #c62828;
-$im-primary-inverse-value: #FFFFFF;
-
-$im-link-color: #e53935; // Your core red 
-$im-link-color-hover : #f7302c;
-
-$im-text-value : #2D3748;
-$im-text-headings-value: #1A202C; // Headings
-$im-text-muted-value: #718096;  // Muted text, subtitles
-
-$im-background-value: #f4f7f6; // Enji.dev often has very light/off-white bg
-$im-surface-value: #FFFFFF;   // Cards, boxes
-$im-surface-alt-value: #F0F2F5; // Subtle variations
-
-$im-border-value: #E2E8F0; // Default border
-$im-border-light-value: #EFF2F7; // Lighter borders
-$im-border-hover-value: #D1D9E6; // Input hover
-
-$im-radius-value: 4px; // Enji.dev subtle radius
-$im-radius-large-value: 6px;
-
-$im-navbar-height-value: 3.5rem;
-$im-navbar-item-padding-v-value: 0.75rem;
-$im-navbar-item-padding-h-value: 1rem;
-$im-navbar-shadow-value: 0 1px 3px rgba(0,0,0,0.04);
-$im-navbar-transition-duration-value: 0.3s;
-
-$im-grid-line-width-value: 1px;
-$im-grid-spacing-value: 40px; // For site-wide background grid
-$im-grid-line-color-value-light: rgba(0, 0, 0, 0.035); // Site-wide light mode grid
-$im-grid-line-color-value-dark: rgba(255, 255, 255, 0.035); // Site-wide dark mode grid
-
-// --- CSS Custom Properties ---
+$primary: #e53935;
+$link : $primary;
+$family-sans-serif: "Outfit", "Arial", sans-serif !default;
+$family-monospace: "Roboto Mono", monospace !default;
+@import "../node_modules/bulma/sass/index";
 :root {
-  // Colors
-  --im-color-primary-rgb: 229, 57, 53; // From $im-primary-value
+  /* --- Core Colors (Enji.dev often uses a dark base, but we start light) --- */
+  --im-color-primary-rgb: 229, 57, 53; /* Your Red */
   --im-color-primary: rgb(var(--im-color-primary-rgb));
-  --im-color-primary-light: #{$im-primary-light-value};
-  --im-color-primary-dark: #{$im-primary-dark-value};
-  --im-color-primary-inverse: #{$im-primary-inverse-value};
+  --im-color-primary-light: #ef5350;
+  --im-color-primary-dark: #c62828;
+  --im-color-primary-inverse: #FFFFFF;
 
-  --im-color-text: #{$im-text-value};
-  --im-color-text-headings: #{$im-text-headings-value};
-  --im-color-text-muted: #{$im-text-muted-value};
-  --im-color-text-on-primary: var(--im-color-primary-inverse);
+  /* Text Colors - Light Mode */
+  --im-color-text: #363636; /* Bulma's default text, slightly darker than your previous */
+  --im-color-text-headings: #1A202C; /* Darker for headings */
+  --im-color-text-muted: #7a7a7a; /* Bulma's grey-darker, or your #718096 */
+  --im-color-text-on-primary: #FFFFFF;
   --im-color-text-on-surface: var(--im-color-text);
 
-  --im-color-background: #{$im-background-value};
-  --im-color-surface: #{$im-surface-value};
-  --im-navbar-bg-transparent: rgba(244, 247, 246, 0.65); // From $im-background-value
-  --im-navbar-bg-scrolled: rgba(255, 255, 255, 0.92);  // From $im-surface-value
+  /* Backgrounds & Surfaces - Light Mode */
+  --im-color-background: #f4f7f6; /* Very light grey, clean */
+  --im-color-surface: #FFFFFF;   /* Cards, boxes */
+  --im-navbar-bg-transparent: rgba(244, 247, 246, 0.65); /* Corresponds to background + alpha */
+  --im-navbar-bg-scrolled: rgba(255, 255, 255, 0.92);
   --im-navbar-border-transparent: rgba(220, 220, 220, 0.0);
   --im-navbar-border-scrolled: rgba(220, 220, 220, 0.5);
-  --im-color-surface-alt: #{$im-surface-alt-value};
+  --im-color-surface-alt: #F0F2F5; /* Subtle variations */
 
-  --im-color-border-rgb: 226, 232, 240; // From $im-border-value
-  --im-color-border: #{$im-border-value};
-  --im-color-border-light: #{$im-border-light-value};
-  --im-color-border-hover: #{$im-border-hover-value};
+  /* Borders - Light Mode */
+  --im-color-border-rgb: 220, 220, 220; /* Lighter than default Bulma border */
+  --im-color-border: rgb(var(--im-color-border-rgb)); /* #dcdcdc */
+  --im-color-border-light: #e6e6e6;
+  --im-color-border-hover: #cccccc;
 
+  /* Links */
   --im-color-link: var(--im-color-primary);
   --im-color-link-hover: var(--im-color-primary-dark);
 
-  --im-button-light-bg: #{mix($im-primary-value, $im-surface-value, 10%)};
-  --im-button-light-border: var(--im-button-light-bg);
-  --im-button-light-text: #{$im-primary-dark-value};
-  --im-button-light-hover-bg: #{mix($im-primary-value, $im-surface-value, 20%)};
-  --im-button-light-hover-border: var(--im-button-light-hover-bg);
+  /* Buttons - Primary */
+  --im-button-primary-bg: var(--im-color-primary);
+  --im-button-primary-border: var(--im-color-primary);
+  --im-button-primary-text: var(--im-color-primary-inverse);
+  --im-button-primary-hover-bg: var(--im-color-primary-dark);
+  --im-button-primary-hover-border: var(--im-color-primary-dark);
 
+  /* Buttons - Light (Subtle, often used for secondary actions) */
+  --im-button-light-bg: #f5f5f5; /* Bulma's white-ter */
+  --im-button-light-border: #dbdbdb; /* Bulma's grey-lighter */
+  --im-button-light-text: #363636; /* Bulma's text */
+  --im-button-light-hover-bg: #eeeeee;
+  --im-button-light-hover-border: #d1d1d1;
+
+  /* Inputs */
   --im-input-bg: var(--im-color-surface);
   --im-input-border: var(--im-color-border);
   --im-input-text: var(--im-color-text);
@@ -108,241 +60,177 @@ $im-grid-line-color-value-dark: rgba(255, 255, 255, 0.035); // Site-wide dark mo
   --im-input-focus-border: var(--im-color-primary);
   --im-input-focus-shadow: rgba(var(--im-color-primary-rgb), 0.25);
 
-  // Sizing & Spacing
-  --im-border-radius: #{$im-radius-value};
-  --im-border-radius-large: #{$im-radius-large-value};
-  --im-spacing-unit: 1rem; // Base unit
-  --im-content-padding: calc(var(--im-spacing-unit) * 1.25);
-  --im-section-padding-vertical: calc(var(--im-spacing-unit) * 3);
-  --im-navbar-height: #{$im-navbar-height-value};
-  --im-navbar-scroll-transition-duration: #{$im-navbar-transition-duration-value};
+  /* --- Sizing & Spacing --- */
+  --im-border-radius: 4px; /* Enji.dev often has subtle radius */
+  --im-border-radius-large: 6px;
+  --im-spacing-unit: 1rem;
+  --im-content-padding: 1.25rem;
+  --im-section-padding-vertical: 3rem;
+  --im-navbar-height: 3.5rem;
+  --im-navbar-scroll-transition-duration: 0.3s;
   --im-base-transition-duration: 0.2s;
 
-  // Fonts
-  --im-font-family-sans-serif: #{$im-font-family-primary-stack};
-  --im-font-family-monospace: #{$im-font-family-monospace-stack};
+  /* --- Fonts --- */
+  --im-font-family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  --im-font-family-monospace: "Roboto Mono", Consolas, Monaco, monospace;
 
-  // Icons
+  /* --- Icons --- */
   --im-icon-color: var(--im-color-text-muted);
   --im-icon-color-hover: var(--im-color-primary);
 
-  // Site Background Grid
-  --im-site-grid-line-color: #{$im-grid-line-color-value-light};
-  --im-site-grid-spacing: #{$im-grid-spacing-value};
-  --im-site-grid-line-width: #{$im-grid-line-width-value};
-
-  // Component Grid Utilities Colors (can be different from site-wide grid)
-  --im-color-grid-lines-default: rgba(var(--im-color-border-rgb), 0.3);
-  --im-color-grid-lines-section: rgba(#{red($im-text-value)}, #{green($im-text-value)}, #{blue($im-text-value)}, 0.05);
-  --im-color-grid-lines-primary: rgba(var(--im-color-primary-rgb), 0.15);
-  // Add more as needed by .is-grid-* utility classes
+  /* --- Site Background Grid --- */
+  --im-site-grid-line-color: rgba(0, 0, 0, 0.035); /* Very subtle dark lines */
+  --im-site-grid-spacing: 40px;
+  --im-site-grid-line-width: 1px;
 }
 
+/* ==========================================================================
+   2. CSS CUSTOM PROPERTIES (html.im-is-dark-mode - Dark Mode Overrides)
+   ========================================================================== */
 html.im-is-dark-mode {
-  --im-color-primary-inverse: #121212;
+  --im-color-primary-inverse: #121212; /* Dark text on primary for dark mode */
+
   --im-color-text: #e0e0e0;
   --im-color-text-headings: #f5f5f5;
   --im-color-text-muted: #a0a0a0;
-  --im-color-background: #121212;
-  --im-color-surface: #1e1e1e;
+  --im-color-text-on-surface: var(--im-color-text);
+
+  --im-color-background: #121212; /* Classic dark theme background */
+  --im-color-surface: #1e1e1e;   /* Cards, boxes */
   --im-navbar-bg-transparent: rgba(18, 18, 18, 0.65);
   --im-navbar-bg-scrolled: rgba(30, 30, 30, 0.92);
   --im-navbar-border-transparent: rgba(50, 50, 50, 0.0);
   --im-navbar-border-scrolled: rgba(50, 50, 50, 0.7);
   --im-color-surface-alt: #282828;
-  --im-color-border-rgb: 50, 50, 50;
+
+  --im-color-border-rgb: 50, 50, 50; /* Darker border */
   --im-color-border: rgb(var(--im-color-border-rgb));
   --im-color-border-light: #3a3a3a;
   --im-color-border-hover: #484848;
-  --im-color-link: var(--im-color-primary-light);
+
+  --im-color-link: var(--im-color-primary-light); /* Brighter primary for links */
   --im-color-link-hover: var(--im-color-primary);
+
+  --im-button-primary-hover-bg: var(--im-color-primary-light);
+  --im-button-primary-hover-border: var(--im-color-primary-light);
   --im-button-light-bg: #333333;
   --im-button-light-border: #454545;
   --im-button-light-text: var(--im-color-text-headings);
   --im-button-light-hover-bg: #404040;
   --im-button-light-hover-border: #505050;
+
   --im-input-bg: var(--im-color-surface-alt);
   --im-input-border: var(--im-color-border);
-  --im-input-text: var(--im-color-text);
+  --im-input-text: var(--im-color-text-on-surface);
   --im-input-placeholder-text: var(--im-color-text-muted);
   --im-input-focus-shadow: rgba(var(--im-color-primary-rgb), 0.35);
+
   --im-icon-color: var(--im-color-text-muted);
   --im-icon-color-hover: var(--im-color-primary-light);
-  --im-site-grid-line-color: #{$im-grid-line-color-value-dark};
-  --im-color-grid-lines-default: rgba(var(--im-color-border-rgb), 0.3);
-  --im-color-grid-lines-section: rgba(255, 255, 255, 0.04);
-  --im-color-grid-lines-primary: rgba(var(--im-color-primary-rgb), 0.2);
+
+  --im-site-grid-line-color: rgba(255, 255, 255, 0.035); /* Very subtle light lines */
 }
 
 
-// =============================================================================
-// 2. BULMA GLOBAL VARIABLE OVERRIDES
-// =============================================================================
-// These $variables are used by Bulma during its SCSS compilation.
-
-// --- Initial variables ---
-$family-sans-serif: $im-font-family-primary-stack;
-$family-monospace: $im-font-family-monospace-stack;
-
-// --- Main theme colors ---
-$primary: $im-primary-value;
-$primary-invert: $im-primary-inverse-value;
-// Bulma calculates $primary-light and $primary-dark if not set.
-// If you want full control:
-// $primary-light: $im-primary-light-value;
-// $primary-dark: $im-primary-dark-value;
-
-$link: $im-link-color; // Uses CSS var, which is fine here as Bulma uses it for `color`
-$link-hover: $im-link-color-hover;
-// $link-focus, $link-active can be set if needed
-
-// --- Text colors ---
-$text: $im-text-value;
-$text-light: $im-text-muted-value; // Bulma's .has-text-grey-light etc. are derived
-$text-strong: $im-text-headings-value;
-
-// --- Backgrounds ---
-$body-background-color: $im-background-value;
-$background: $im-background-value; // Used by some components like .hero
-
-// --- General colors (used by many components if not specifically overridden) ---
-// $info: #3273dc; // Default Bulma info, redefine if needed
-// $success: #48c774;
-// $warning: #ffdd57;
-// $danger: #f14668; // Your primary is red, so this might be redundant or different
-
-// --- Borders and Radii ---
-$border: $im-border-value; // Default border color for many components
-$border-light: $im-border-light-value;
-$border-hover: $im-border-hover-value; // Used by inputs
-
-$radius: $im-radius-value;
-$radius-small: calc(#{$im-radius-value} * 0.75);
-$radius-large: $im-radius-large-value;
-$radius-rounded: 9999px; // Bulma default
-
-// --- Sizes & Spacing ---
-$size-normal: $im-base-font-size; // Bulma uses this for 1rem base
-// $gap: 32px; // Default gap for columns, adjust if needed
-
-// --- Component-specific variable overrides ---
-$box-background-color: $im-surface-value;
-$box-radius: $radius-large; // Slightly larger radius for boxes
-$box-shadow: 0 4px 12px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.04); // Custom shadow
-$box-padding: 1.25rem; // Default, use $im-content-padding directly in CSS for consistency
-
-$card-background-color: $im-surface-value;
-$card-radius: $radius-large;
-$card-shadow: 0 5px 15px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.05);
-$card-header-background-color: transparent;
-$card-footer-border-top: 1px solid $border-light;
-
-$input-background-color: $im-surface-value;
-$input-border-color: $border;
-$input-color: $text;
-$input-placeholder-color: $text-light;
-$input-hover-border-color: $border-hover;
-$input-focus-border-color: $primary;
-$input-focus-box-shadow-size: 0 0 0 0.125em;
-$input-focus-box-shadow-color: rgba($primary, 0.25);
-$input-radius: $radius;
-
-$navbar-background-color: transparent; // Will be controlled by CSS custom props
-$navbar-height: $im-navbar-height-value;
-$navbar-item-color: $text;
-$navbar-item-hover-color: $link;
-$navbar-item-hover-background-color: transparent; // Key for transparent navbar hover
-$navbar-item-active-color: $link;
-$navbar-item-active-background-color: transparent;
-$navbar-dropdown-background-color: $im-surface-value; // Solid dropdown
-$navbar-dropdown-border-top: 1px solid $border-light;
-$navbar-dropdown-item-hover-color: $link;
-$navbar-dropdown-item-hover-background-color: $im-surface-alt-value;
-$navbar-dropdown-radius: $radius;
-$navbar-dropdown-shadow: 0 6px 12px rgba(10,10,10,0.08);
-
-// Add more Bulma global variable overrides as needed.
-// Full list: https://bulma.io/documentation/customize/variables/
-
-
-// =============================================================================
-// 3. IMPORT BULMA FRAMEWORK
-// =============================================================================
-@import "../node_modules/bulma/sass/index"; // Adjust path if necessary
-
-
-// =============================================================================
-// 4. BASE & HTML ELEMENT STYLES (Additional IM Theming)
-// =============================================================================
-// These styles apply ON TOP of (or alongside) the themed Bulma.
+/* ==========================================================================
+   3. BASE & ELEMENT STYLES
+   ========================================================================== */
 html {
-  // background-color is already set by Bulma via $body-background-color
-  // font-size is set by Bulma via $size-normal
-  // scroll-behavior from CSS variables
+  background-color: var(--im-color-background);
+  font-size: var(--im-base-font-size, 16px); /* Fallback if var not set */
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   font-family: var(--im-font-family-sans-serif);
   color: var(--im-color-text);
-  line-height: 1.6; /* Ensure this matches $im-line-height-base */
-  // background-color from Bulma
+  font-weight: 400; /* Bulma default */
+  line-height: 1.6; /* Enji.dev often has generous line height */
+  background-color: transparent; /* Body itself is transparent, html has bg color */
   min-height: 100vh;
-  font-size: 1rem; // Explicitly set for consistency
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-size: 1rem;
   position: relative; /* For background grid pseudo-element */
-  overflow-x: hidden;
+  overflow-x: hidden; /* Prevent horizontal scroll from grid */
 }
 
 /* Fixed Background Grid for the entire site */
 body::before {
   content: '';
-  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  position: fixed; /* Fixed to viewport */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   background-image:
-    repeating-linear-gradient( to right, var(--im-site-grid-line-color) 0,
+    repeating-linear-gradient(
+      to right,
+      var(--im-site-grid-line-color) 0,
       var(--im-site-grid-line-color) var(--im-site-grid-line-width),
       transparent var(--im-site-grid-line-width),
-      transparent var(--im-site-grid-spacing) ),
-    repeating-linear-gradient( to bottom, var(--im-site-grid-line-color) 0,
+      transparent var(--im-site-grid-spacing)
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      var(--im-site-grid-line-color) 0,
       var(--im-site-grid-line-color) var(--im-site-grid-line-width),
       transparent var(--im-site-grid-line-width),
-      transparent var(--im-site-grid-spacing) );
+      transparent var(--im-site-grid-spacing)
+    );
   background-size: var(--im-site-grid-spacing) var(--im-site-grid-spacing);
-  background-position: center center;
-  z-index: -10; pointer-events: none; opacity: 0.7;
+  background-position: center center; /* Or 0 0 */
+  z-index: -10; /* Deepest background layer */
+  pointer-events: none;
+  opacity: 0.7; /* Make it even more subtle */
 }
 
-
-// Typography: Bulma's .title, .subtitle, p within .content are primary targets.
-// Global h1-h6 might need slight adjustments if used outside .content.
-h1, h2, h3, h4, h5, h6 {
+/* Typography - Overriding Bulma defaults with IM theme */
+.title {
   font-family: var(--im-font-family-sans-serif);
-  color: var(--im-color-text-headings);
-  font-weight: 600; // Default Bulma weight for these if not .title/.subtitle
-  word-break: break-word;
+  color: var(--im-color-text-headings) !important;
+  font-weight: 600 !important; /* Bulma default is 600, can make bolder if needed */
+  line-height: 1.125 !important; /* Bulma default */
 }
-// .title and .subtitle use Bulma's structure, themed by variables.
+.subtitle {
+  font-family: var(--im-font-family-sans-serif);
+  color: var(--im-color-text-muted) !important;
+  font-weight: 400 !important; /* Bulma default */
+  line-height: 1.25 !important; /* Bulma default */
+}
 
-// Links outside components
-a:not(.button):not(.navbar-item):not(.dropdown-item):not(.panel-block) { // More specific
+h1, .title.is-1 { font-size: 2.5rem; } /* Adjust sizes for Enji.dev feel */
+h2, .title.is-2 { font-size: 2rem; }
+h3, .title.is-3 { font-size: 1.75rem; }
+h4, .title.is-4 { font-size: 1.5rem; }
+h5, .title.is-5 { font-size: 1.25rem; }
+h6, .title.is-6 { font-size: 1rem; }
+
+p {
+  font-family: var(--im-font-family-sans-serif);
+  /* line-height from body */
+  /* margin-bottom from .content or direct styling */
+}
+
+a {
   color: var(--im-color-link);
   text-decoration: none;
-  font-weight: 500; // Make standalone links slightly more prominent
   transition: color var(--im-base-transition-duration) ease;
-  &:hover {
-    color: var(--im-color-link-hover);
-    // text-decoration: underline; // Optional
-  }
+}
+a:hover {
+  color: var(--im-color-link-hover);
+  /* text-decoration: underline; */ /* Enji.dev sometimes has subtle underlines */
 }
 
-strong { // Bulma's default strong is fine, ensure color
-  color: var(--im-color-text-headings);
+strong {
+  color: var(--im-color-text-headings); /* Make strong text stand out */
+  font-weight: 600; /* Bulma default */
 }
 
-hr { // Theming default <hr> if not .is-divider
-  background-color: var(--im-color-border);
-  border: none; height: 1px;
-  margin: 1.5rem 0; // Default Bulma margin
+hr {
+  background-color: var(--im-color-border-light);
+  height: 1px;
+  margin: 1.5rem 0; /* Bulma default */
 }
 
 .im-main-content-area {
@@ -350,378 +238,436 @@ hr { // Theming default <hr> if not .is-divider
     transition: padding-top var(--im-navbar-scroll-transition-duration) ease-out;
 }
 
+/* ==========================================================================
+   4. BULMA COMPONENT OVERRIDES (Theming Bulma with IM style)
+   ========================================================================== */
 
-// =============================================================================
-// 5. LAYOUT COMPONENT STYLES (Section, Hero, Footer)
-// =============================================================================
+/* --- Layout --- */
 .section {
   padding: var(--im-section-padding-vertical) 1.5rem;
-  position: relative; // For potential pseudo-elements or absolute children
-  // Specific section grid (if different from body grid or if body has no grid)
-  // &.im-has-grid { ... } // Use utility class if needed
+  /* Grid lines are on body, so sections are implicitly on top */
 }
 
-.hero {
-  &.is-primary {
-    // background-color via $primary variable
-    // color via $primary-invert variable
-    .title, .subtitle { color: var(--im-color-primary-inverse) !important; }
-    .button.is-light {
-      background-color: var(--im-color-primary-inverse) !important;
-      border-color: var(--im-color-primary-inverse) !important;
-      color: var(--im-color-primary) !important;
-      &:hover { background-color: rgba(255,255,255,0.92) !important; border-color: rgba(255,255,255,0.92) !important; }
-    }
-  }
-  .hero-body {
-    padding: var(--im-section-padding-vertical) 1.5rem; // Consistent padding
-  }
+.hero.is-primary {
+  background-color: var(--im-color-primary);
+  color: var(--im-color-primary-inverse);
 }
+.hero.is-primary .title,
+.hero.is-primary .subtitle {
+  color: var(--im-color-primary-inverse) !important;
+}
+.hero.is-primary .button.is-light {
+    background-color: var(--im-color-primary-inverse) !important;
+    border-color: var(--im-color-primary-inverse) !important;
+    color: var(--im-color-primary) !important;
+}
+.hero.is-primary .button.is-light:hover {
+    background-color: rgba(255,255,255,0.92) !important;
+    border-color: rgba(255,255,255,0.92) !important;
+}
+
 
 .footer {
   background-color: var(--im-color-surface-alt);
   color: var(--im-color-text-muted);
-  padding: 2rem 1.5rem;
+  padding: 2rem 1.5rem 2rem; /* Slightly reduced padding */
   border-top: 1px solid var(--im-color-border);
   font-size: 0.9rem;
-  a { color: var(--im-color-text); font-weight: 500;
-    &:hover { color: var(--im-color-link-hover); }
-  }
 }
-html.im-is-dark-mode .footer {
-    background-color: var(--im-color-surface-alt); /* Uses dark var */
-    border-top-color: var(--im-color-border); /* Uses dark var */
+.footer a {
+    color: var(--im-color-text);
+    font-weight: 500;
+}
+.footer a:hover {
+    color: var(--im-color-link-hover);
 }
 
 
-// =============================================================================
-// 6. ELEMENT STYLES (Button, Box, Content, Icon, Image, Tag, Table)
-// =============================================================================
-// .button is themed by Bulma variables ($primary, $radius, etc.)
-// Add specific overrides if variable mapping isn't enough:
+/* --- Elements --- */
 .button {
   font-family: var(--im-font-family-sans-serif);
-  font-weight: 500; // Default weight
+  font-weight: 500; /* Slightly less bold than default Bulma buttons */
   border-radius: var(--im-border-radius);
-  // padding is fine by Bulma or use $im-navbar-item-padding for consistency
-  // padding: $im-navbar-item-padding-v-value $im-navbar-item-padding-h-value;
+  border-width: 1px;
+  padding-left: 1.25em; /* Adjust padding for a modern feel */
+  padding-right: 1.25em;
   transition: all var(--im-base-transition-duration) ease;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
-  &:active { transform: translateY(1px); box-shadow: none; }
-  // .is-primary hover, focus already handled by Bulma using themed vars
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03); /* Softer shadow */
+}
+.button:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+.button.is-primary {
+  background-color: var(--im-button-primary-bg);
+  border-color: var(--im-button-primary-border);
+  color: var(--im-button-primary-text);
+}
+.button.is-primary:hover {
+  background-color: var(--im-button-primary-hover-bg);
+  border-color: var(--im-button-primary-hover-border);
+}
+.button.is-primary:focus, .button.is-primary.is-focused {
+  box-shadow: 0 0 0 0.125em var(--im-input-focus-shadow);
+}
+.button.is-light {
+  background-color: var(--im-button-light-bg);
+  border-color: var(--im-button-light-border);
+  color: var(--im-button-light-text);
+}
+.button.is-light:hover {
+  background-color: var(--im-button-light-hover-bg);
+  border-color: var(--im-button-light-hover-border);
 }
 
 .box {
-  // background-color, radius, shadow from Bulma variables
-  border: 1px solid var(--im-color-border-light); // Slightly lighter border for boxes
-  padding: var(--im-content-padding); // Use CSS var
+  background-color: var(--im-color-surface);
+  border-radius: var(--im-border-radius-large); /* Larger radius for boxes */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.04); /* Softer, more diffused shadow */
+  border: 1px solid var(--im-color-border-light);
+  padding: var(--im-content-padding);
   color: var(--im-color-text-on-surface);
 }
 html.im-is-dark-mode .box {
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15), 0 1px 5px rgba(0,0,0,0.1);
-  border-color: var(--im-color-border);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15), 0 1px 5px rgba(0,0,0,0.1);
 }
 
-.content { // Styles for content generated by Markdown, etc.
-  // Basic typography (p, a, strong) from section 4 applies.
-  // Specific overrides for elements within .content:
-  h1, h2, h3, h4, h5, h6 { margin-bottom: 0.75em; font-weight: 600; }
-  code {
-    background-color: var(--im-color-surface-alt);
-    border: 1px solid var(--im-color-border-light);
-    color: var(--im-color-primary-dark); // Or specific code color
-    padding: 0.2em 0.4em;
-    border-radius: var(--im-border-radius);
-    font-size: 0.875em;
-    font-family: var(--im-font-family-monospace);
-  }
-  pre {
-    background-color: var(--im-color-surface-alt);
-    border: 1px solid var(--im-color-border);
-    border-radius: var(--im-border-radius);
-    padding: 1em;
-    overflow-x: auto;
-    code { // Code inside pre
-      background-color: transparent; border: none; padding: 0;
-      color: inherit; font-size: inherit;
-    }
-  }
-  blockquote {
-    background-color: var(--im-color-surface-alt);
-    border-left: 3px solid var(--im-color-primary);
-    padding: 1em 1.25em;
-    color: var(--im-color-text-muted);
-  }
-  table {
-    // Bulma table defaults are good, ensure colors match
-    th { background-color: var(--im-color-surface-alt); border-color: var(--im-color-border-light); }
-    td { border-color: var(--im-color-border); }
-  }
+.content p:not(:last-child),
+.content ul:not(:last-child),
+.content ol:not(:last-child),
+.content blockquote:not(:last-child),
+.content pre:not(:last-child),
+.content table:not(:last-child) {
+  margin-bottom: 1.25em; /* Consistent spacing in .content */
 }
-html.im-is-dark-mode .content {
-  code { background-color: var(--im-color-surface-alt); border-color: var(--im-color-border); color: var(--im-color-primary-light); }
-  pre { background-color: var(--im-color-background); border-color: var(--im-color-border); }
-  blockquote { background-color: var(--im-color-surface); border-left-color: var(--im-color-primary-light); }
-  table th { background-color: var(--im-color-surface-alt); }
+.content code {
+  background-color: var(--im-color-surface-alt);
+  border: 1px solid var(--im-color-border-light);
+  color: var(--im-color-primary-dark);
+  padding: 0.2em 0.4em;
+  border-radius: var(--im-border-radius);
+  font-size: 0.875em;
+  font-family: var(--im-font-family-monospace);
 }
+.content pre {
+  background-color: var(--im-color-surface-alt);
+  border: 1px solid var(--im-color-border);
+  border-radius: var(--im-border-radius);
+  padding: 1em;
+  overflow-x: auto;
+  white-space: pre;
+}
+.content pre code {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  color: inherit; /* Inherit color from pre */
+}
+.content blockquote {
+  background-color: var(--im-color-surface-alt);
+  border-left: 3px solid var(--im-color-primary); /* Thinner border */
+  padding: 1em 1.25em;
+  color: var(--im-color-text-muted);
+}
+.content table {
+    /* Styles from previous response apply well */
+}
+html.im-is-dark-mode .content code {
+    background-color: var(--im-color-surface-alt);
+    border-color: var(--im-color-border);
+    color: var(--im-color-primary-light);
+}
+html.im-is-dark-mode .content pre {
+    background-color: var(--im-color-background); /* Darker for contrast */
+    border-color: var(--im-color-border);
+}
+html.im-is-dark-mode .content blockquote {
+    background-color: var(--im-color-surface);
+    border-left-color: var(--im-color-primary-light);
+}
+
 
 .icon {
-  color: var(--im-icon-color); // Default for icons
-  i.ph { vertical-align: -0.15em; font-size: 1.05em; }
-  a:hover > &.icon, button:hover > &.icon,
-  a:hover > .icon-text > &.icon, button:hover > .icon-text > &.icon {
-    color: var(--im-icon-color-hover);
-  }
+  color: var(--im-icon-color);
 }
-.icon-text { // Text part of an icon-text span
-    color: var(--im-color-text);
-    &:hover { color: var(--im-color-link-hover); }
+.icon i.ph { /* Phosphor icon specific adjustments */
+  vertical-align: -0.15em; /* Fine-tune vertical alignment */
+  font-size: 1.05em; /* Slightly larger if needed */
+}
+a:hover > .icon, button:hover > .icon,
+a:hover > .icon-text > .icon, button:hover > .icon-text > .icon {
+  color: var(--im-icon-color-hover);
 }
 
-
-figure.image img { // Images within Bulma's figure.image
+figure.image img {
   border-radius: var(--im-border-radius);
 }
 
 .tag {
-  border-radius: var(--im-border-radius);
+  border-radius: var(--im-border-radius); /* Consistent radius */
   font-weight: 500;
-  // &.is-primary uses $primary from Bulma vars
-  &.is-light { // Generic light tag (not color-specific light)
-    background-color: var(--im-button-light-bg); // Use button light style
-    color: var(--im-button-light-text);
-  }
+}
+.tag.is-primary {
+  background-color: var(--im-color-primary);
+  color: var(--im-color-primary-inverse);
+}
+.tag.is-light {
+  background-color: var(--im-button-light-bg);
+  color: var(--im-button-light-text);
 }
 
 
-// =============================================================================
-// 7. COMPONENT COLLECTION STYLES (Card, Dropdown, Navbar, Panel)
-// =============================================================================
+/* --- Components --- */
 .card {
-  // background-color, radius, shadow from Bulma vars
+  background-color: var(--im-color-surface);
+  border-radius: var(--im-border-radius-large); /* Slightly larger for cards */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.05);
   border: 1px solid var(--im-color-border);
-  .card-header {
-    border-bottom: 1px solid var(--im-color-border-light);
-    // padding from Bulma, title color from .title
-  }
-  .card-content { padding: var(--im-content-padding); }
-  .card-footer { border-top: 1px solid var(--im-color-border-light); }
+  color: var(--im-color-text-on-surface);
+}
+.card-header {
+  background-color: transparent;
+  border-bottom: 1px solid var(--im-color-border-light); /* Lighter separator */
+  box-shadow: none;
+  padding: 0.75rem 1.25rem; /* Use --im-content-padding */
+}
+.card-header-title {
+  color: var(--im-color-text-headings);
+  font-weight: 600;
+}
+.card-content {
+  padding: var(--im-content-padding);
+}
+.card-footer {
+  background-color: transparent;
+  border-top: 1px solid var(--im-color-border-light);
+  padding: 0.75rem var(--im-content-padding);
 }
 html.im-is-dark-mode .card {
-  box-shadow: 0 5px 20px rgba(0,0,0,0.2), 0 1px 6px rgba(0,0,0,0.15);
-  border-color: var(--im-color-border);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2), 0 1px 6px rgba(0,0,0,0.15);
 }
 
-.dropdown-menu { // Styles the dropdown box itself
-  background-color: var(--im-color-surface);
-  border: 1px solid var(--im-color-border);
-  border-radius: var(--im-border-radius);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-  padding-top: 0.25rem; padding-bottom: 0.25rem;
-}
-.dropdown-item, a.dropdown-item { // Bulma uses a.dropdown-item or button.dropdown-item
-  color: var(--im-color-text);
-  padding: 0.5rem 1rem;
-  font-size: 0.925em;
-  &:hover {
-    background-color: var(--im-color-surface-alt);
-    color: var(--im-color-primary);
-  }
-  &.is-active { // Active item in dropdown
-    background-color: var(--im-color-primary);
-    color: var(--im-color-primary-inverse);
-  }
-}
-.dropdown-divider { background-color: var(--im-color-border-light); }
-html.im-is-dark-mode .dropdown-menu {
-    box-shadow: 0 5px 20px rgba(0,0,0,0.25);
-}
-
-// --- NAVBAR ---
-// Placed here as it's a major component collection
-.navbar.im-navbar-custom { // Your custom class for specific targeting
+.navbar.im-navbar-custom {
   min-height: var(--im-navbar-height) !important;
-  background-color: var(--im-navbar-bg-transparent) !important; // Initial state
+  background-color: var(--im-navbar-bg-transparent) !important;
   backdrop-filter: blur(10px) saturate(180%);
   -webkit-backdrop-filter: blur(10px) saturate(180%);
-  border-bottom: 1px solid var(--im-navbar-border-transparent); // Initial state
+  border-bottom: 1px solid var(--im-navbar-border-transparent);
   transition: transform var(--im-navbar-scroll-transition-duration) ease-out,
               background-color var(--im-navbar-scroll-transition-duration) ease-out,
               border-color var(--im-navbar-scroll-transition-duration) ease-out,
               box-shadow var(--im-navbar-scroll-transition-duration) ease-out;
-  // .is-fixed-top from Bulma handles position:fixed, top, left, right, z-index
-
-  &.is-visible { // Added by JS on scroll up / at top
-    transform: translateY(0%);
-    background-color: var(--im-navbar-bg-scrolled) !important;
-    border-bottom-color: var(--im-navbar-border-scrolled);
-    box-shadow: $im-navbar-shadow-value; // Use SCSS var for shadow
-  }
-  &.is-hidden-scroll { // Added by JS on scroll down
-    transform: translateY(-100%);
-  }
-
-  .navbar-brand {
-    min-height: var(--im-navbar-height); // Match parent height
-    .navbar-item { // Logo and mobile icons in brand
-      padding-top: 0; padding-bottom: 0;
-      display: flex; align-items: center;
-    }
-  }
-
-  .navbar-menu {
-    @media screen and (max-width: 1023px) { // Bulma's $desktop - 1px
-      &.is-active { // When mobile menu is open
-        background-color: var(--im-color-surface);
-        box-shadow: 0 8px 16px rgba(10,10,10,0.12); // Slightly stronger shadow for open menu
-        padding: 0.5rem 0;
-        border-radius: 0 0 var(--im-border-radius) var(--im-border-radius);
-        border: 1px solid var(--im-color-border);
-        border-top: none; // Avoid double border
-        position: absolute; left: 0; right: 0; top: 100%;
-        z-index: 20; // Ensure above content but below navbar
-      }
-    }
-  }
-
-  .navbar-item, .navbar-link {
-    color: var(--im-color-text) !important;
-    font-weight: 500 !important; // Bulma $weight-medium
-    padding: $im-navbar-item-padding-v-value $im-navbar-item-padding-h-value !important; // Use SCSS vars
-    min-height: var(--im-navbar-height);
-    display: flex; align-items: center; position: relative;
-    transition: color var(--im-base-transition-duration) ease;
-    .icon i.ph { transition: color var(--im-base-transition-duration) ease; } // Ensure icon transitions color
-
-    &:hover, &.is-hovered { // is-hovered for dropdown parent
-      background-color: transparent !important; // Keep transparent navbar item bg on hover
-      color: var(--im-color-primary) !important;
-      .icon i.ph { color: var(--im-color-primary) !important; }
-    }
-
-    &.is-active-nav-item { // Your custom class for visually active nav items
-      color: var(--im-color-primary) !important;
-      font-weight: 600 !important; // Bulma $weight-semibold
-      background-color: transparent !important;
-      .icon i.ph { color: var(--im-color-primary) !important; }
-      // Triangle Indicator
-      &::after {
-        content: ''; position: absolute; bottom: 4px; /* Adjust vertical position */
-        left: 50%; transform: translateX(-50%);
-        width: 0; height: 0;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-bottom: 5px solid var(--im-color-primary); /* Triangle color */
-      }
-    }
-  }
-  .navbar-link { // For dropdown parent items
-    &::after { // Bulma's arrow for dropdowns
-      border-color: var(--im-color-text-muted) !important; // Muted arrow
-      right: $im-navbar-item-padding-h-value * 0.7; // Adjust based on padding
-    }
-    // When parent is hovered/active, arrow color matches text
-    &:hover::after, &.is-active-nav-item::after {
-        border-color: var(--im-color-primary) !important;
-    }
-  }
-
-  .navbar-dropdown {
-    background-color: var(--im-color-surface) !important;
-    border: 1px solid var(--im-color-border) !important;
-    border-top: none !important; // Connect seamlessly to navbar link
-    border-radius: 0 0 var(--im-border-radius) var(--im-border-radius) !important;
-    box-shadow: 0 6px 12px rgba(10,10,10,0.08) !important; // Softer shadow
-    padding-top: 0.25rem !important; padding-bottom: 0.25rem !important;
-    font-size: 0.9em; // Slightly smaller dropdown text
-    .navbar-item { // Items within the dropdown
-      padding: calc(#{$im-navbar-item-padding-v-value} * 0.85) calc(#{$im-navbar-item-padding-h-value} * 1.1) !important;
-      min-height: auto; // Reset min-height
-      color: var(--im-color-text) !important;
-      &:hover {
-        background-color: var(--im-color-surface-alt) !important;
-        color: var(--im-color-primary) !important;
-      }
-      &.is-active-nav-item { // Active item within dropdown
-        background-color: rgba(var(--im-color-primary-rgb), 0.08) !important;
-        color: var(--im-color-primary-dark) !important;
-        font-weight: 500 !important;
-        &::after { display: none; } // No triangle for dropdown items
-      }
-    }
-  }
-
-  // Your custom classes for logo and icons in navbar
-  .im-logo-link .im-logo-image { max-height: calc(var(--im-navbar-height) * 0.6); margin-right: 0.5rem; }
-  .im-logo-link .im-logo-text { font-size: 1.1rem; color: var(--im-color-text-headings); font-weight: 600; }
-  .im-nav-icon { margin-right: 0.5em; }
-  .im-nav-icon i.ph { font-size: 1.15em; }
-  .im-nav-image-icon { max-height: 1.2rem; margin-right: 0.5em; &.is-small { max-height: 1rem; } }
-
-  // Mobile action icons (Search, Theme toggle) in navbar-brand
-  .navbar-brand .navbar-item.is-hidden-desktop { margin-left:auto; } // Push to right
-  .im-navbar-mobile-action, .im-dark-mode-toggle { // General style for these icons
-    .icon i.ph { color: var(--im-icon-color); }
-    &:hover .icon i.ph { color: var(--im-icon-color-hover); }
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1030;
+}
+.navbar.im-navbar-custom.is-visible {
+  transform: translateY(0%);
+  background-color: var(--im-navbar-bg-scrolled) !important;
+  border-bottom-color: var(--im-navbar-border-scrolled);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.03); /* Subtle shadow when visible */
+}
+.navbar.im-navbar-custom.is-hidden-scroll {
+  transform: translateY(-100%);
+}
+.navbar-brand {
+  min-height: var(--im-navbar-height);
+}
+.navbar-brand .navbar-item { /* Logo and mobile icons */
+  padding-top: 0;
+  padding-bottom: 0;
+  display: flex;
+  align-items: center;
+}
+.navbar-menu {
+    /* Mobile menu background (when active) */
+}
+@media screen and (max-width: 1023px) {
+  .navbar-menu.is-active {
+    background-color: var(--im-color-surface);
+    box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1);
+    padding: 0.5rem 0;
+    border-radius: 0 0 var(--im-border-radius) var(--im-border-radius);
+    border: 1px solid var(--im-color-border);
+    border-top: none;
+    position: absolute; left: 0; right: 0; top: 100%; z-index: 20;
   }
 }
-// Dark mode for Navbar is handled by CSS vars and specific overrides in section 12
+.navbar-item, .navbar-link {
+  color: var(--im-color-text) !important;
+  font-weight: 500 !important;
+  padding: 0.75rem 1rem !important; /* Values from $im-navbar-item-padding-* */
+  min-height: var(--im-navbar-height);
+  display: flex; align-items: center; position: relative;
+  transition: color var(--im-base-transition-duration) ease;
+}
+.navbar-item .icon i.ph, .navbar-link .icon i.ph {
+    transition: color var(--im-base-transition-duration) ease;
+}
+.navbar-item:hover, .navbar-link:hover,
+.navbar-item.is-hovered, .navbar-link.is-hovered {
+  background-color: transparent !important;
+  color: var(--im-color-primary) !important;
+}
+.navbar-item:hover .icon i.ph, .navbar-link:hover .icon i.ph,
+.navbar-item.is-hovered .icon i.ph, .navbar-link.is-hovered .icon i.ph {
+    color: var(--im-color-primary) !important;
+}
+.navbar-item.is-active-nav-item, .navbar-link.is-active-nav-item {
+  color: var(--im-color-primary) !important;
+  font-weight: 600 !important;
+  background-color: transparent !important;
+}
+.navbar-item.is-active-nav-item .icon i.ph, .navbar-link.is-active-nav-item .icon i.ph {
+    color: var(--im-color-primary) !important;
+}
+.navbar-item.is-active-nav-item::after, .navbar-link.is-active-nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: 6px; /* Adjust for visual preference */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid var(--im-color-primary);
+}
+.navbar-link::after { /* Bulma's dropdown arrow */
+  border-color: var(--im-color-text-muted) !important;
+  /* right: 1rem; default from padding */
+}
+.navbar-link:hover::after, .navbar-link.is-active-nav-item::after { /* Arrow color on hover/active parent */
+    /* The main ::after is the triangle, Bulma's arrow is separate */
+}
+.navbar-dropdown {
+  background-color: var(--im-color-surface) !important;
+  border: 1px solid var(--im-color-border) !important;
+  border-top: none !important;
+  border-radius: 0 0 var(--im-border-radius) var(--im-border-radius) !important;
+  box-shadow: 0 6px 12px rgba(10,10,10,0.08) !important; /* Softer shadow */
+  padding-top: 0.25rem !important;
+  padding-bottom: 0.25rem !important;
+  font-size: 0.925em; /* Slightly smaller */
+}
+.navbar-dropdown .navbar-item {
+  padding: 0.6rem 1.2rem !important; /* Adjusted padding */
+  min-height: auto;
+  color: var(--im-color-text) !important;
+}
+.navbar-dropdown .navbar-item:hover {
+  background-color: var(--im-color-surface-alt) !important;
+  color: var(--im-color-primary) !important;
+}
+.navbar-dropdown .navbar-item.is-active-nav-item {
+  background-color: rgba(var(--im-color-primary-rgb), 0.08) !important;
+  color: var(--im-color-primary-dark) !important;
+  font-weight: 500 !important;
+}
+.navbar-dropdown .navbar-item.is-active-nav-item::after { display: none; } /* No triangle in dropdown */
 
-.panel { /* ... same as previous working version ... */ }
+.im-logo-link .im-logo-image { max-height: calc(var(--im-navbar-height) * 0.6); margin-right: 0.5rem;}
+.im-logo-link .im-logo-text { font-size: 1.1rem; color: var(--im-color-text-headings); font-weight: 600;}
+.im-nav-icon { margin-right: 0.5em; }
+.im-nav-icon i.ph { font-size: 1.15em; } /* Slightly larger icons in nav */
+.im-nav-image-icon { max-height: 1.2rem; margin-right: 0.5em; }
+.im-nav-image-icon.is-small { max-height: 1rem; }
+
+.navbar-brand .navbar-item.is-hidden-desktop { margin-left: auto; } /* Push mobile icons to right */
+.im-navbar-mobile-action .icon i.ph,
+.im-dark-mode-toggle .icon i.ph { /* Desktop and mobile toggles */
+    color: var(--im-icon-color);
+}
+.im-navbar-mobile-action:hover .icon i.ph,
+.im-dark-mode-toggle:hover .icon i.ph {
+    color: var(--im-icon-color-hover);
+}
+html.im-is-dark-mode .navbar.im-navbar-custom {
+    /* Styles from previous dark mode section apply well */
+}
 
 
-// =============================================================================
-// 8. BULMA FORM COMPONENT OVERRIDES
-// =============================================================================
+/* --- Forms --- */
 .input, .textarea, .select select {
   font-family: var(--im-font-family-sans-serif);
   border-radius: var(--im-border-radius);
   border: 1px solid var(--im-input-border);
-  box-shadow: none; // Flatter style
+  box-shadow: none; /* Flatter inputs */
   background-color: var(--im-input-bg);
   color: var(--im-input-text);
   transition: border-color var(--im-base-transition-duration) ease, box-shadow var(--im-base-transition-duration) ease;
-  padding: 0.65em 1em; // Consistent padding
-
-  &::placeholder { color: var(--im-input-placeholder-text); opacity: 0.8; }
-  &:hover { border-color: var(--im-color-border-hover); }
-  &:focus, &.is-focused, &:active, &.is-active {
-    border-color: var(--im-input-focus-border) !important;
-    box-shadow: 0 0 0 0.125em var(--im-input-focus-shadow) !important;
-  }
+  padding: 0.65em 1em; /* Adjusted padding */
 }
-.textarea { line-height: 1.6; } // Match base line height
-.select:not(.is-multiple):not(.is-loading)::after { border-color: var(--im-color-primary); right: 1.1em; }
-.label { color: var(--im-color-text-headings); font-weight: 500; margin-bottom: 0.5em; }
-.help { color: var(--im-color-text-muted); font-size: 0.9em; margin-top: 0.25em; }
+.input::placeholder, .textarea::placeholder {
+  color: var(--im-input-placeholder-text);
+  opacity: 0.8; /* Slightly more visible placeholder */
+}
+.input:hover, .textarea:hover, .select:hover select:hover {
+  border-color: var(--im-color-border-hover);
+}
+.input:focus, .textarea:focus, .select select:focus,
+.input.is-focused, .textarea.is-focused, .select select.is-focused,
+.input:active, .textarea:active, .select select:active,
+.input.is-active, .textarea.is-active, .select select.is-active {
+  border-color: var(--im-input-focus-border) !important;
+  box-shadow: 0 0 0 0.125em var(--im-input-focus-shadow) !important;
+}
+.textarea { line-height: 1.6; }
+.select:not(.is-multiple):not(.is-loading)::after { /* Dropdown arrow */
+  border-color: var(--im-color-primary);
+  right: 1.1em; /* Adjust arrow position */
+}
+.label {
+  color: var(--im-color-text-headings);
+  font-weight: 500; /* Slightly less bold than default Bulma label */
+  margin-bottom: 0.5em;
+}
+.help {
+  color: var(--im-color-text-muted);
+  font-size: 0.9em; /* Slightly larger help text */
+  margin-top: 0.25em;
+}
 
 
-// =============================================================================
-// 10. UTILITY CLASSES (Grid System from _grid.scss - now integrated)
-// =============================================================================
+/* ==========================================================================
+   5. UTILITY CLASSES (e.g., Grid System)
+   ========================================================================== */
 .im-has-grid {
   position: relative;
-  z-index: 0;
+  z-index: 0; /* For ::before stacking context */
 }
 .im-has-grid::before {
-  content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-  width: 100%; height: 100%; z-index: -1; pointer-events: none;
-  border-radius: inherit;
+  content: "";
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  width: 100%; height: 100%;
+  z-index: -1; /* Behind content */
+  pointer-events: none;
+  border-radius: inherit; /* Match parent's border-radius */
 
-  --current-grid-spacing: var(--im-grid-spacing-val, #{$im-grid-default-spacing});
-  --current-grid-line-width: #{$im-grid-line-width};
-  --current-grid-fade-extent: var(--im-grid-fade-val, #{$im-grid-default-fade-extent});
-  --current-grid-line-color: var(#{$im-grid-default-color-var});
+  /* Default grid parameters, can be overridden by modifier classes */
+  --current-grid-spacing: var(--im-grid-spacing-val, 30px); /* Fallback to 30px */
+  --current-grid-line-width: 1px; /* From $im-grid-line-width */
+  --current-grid-fade-extent: var(--im-grid-fade-val, 70%); /* Fallback to 70% */
+  --current-grid-line-color: var(--im-color-grid-lines-default); /* Use CSS var */
 
   background-image:
-    repeating-linear-gradient(to right, var(--current-grid-line-color) 0, var(--current-grid-line-color) var(--current-grid-line-width), transparent var(--current-grid-line-width), transparent var(--current-grid-spacing)),
-    repeating-linear-gradient(to bottom, var(--current-grid-line-color) 0, var(--current-grid-line-color) var(--current-grid-line-width), transparent var(--current-grid-line-width), transparent var(--current-grid-spacing));
+    repeating-linear-gradient(to right,
+      var(--current-grid-line-color) 0,
+      var(--current-grid-line-color) var(--current-grid-line-width),
+      transparent var(--current-grid-line-width),
+      transparent var(--current-grid-spacing)
+    ),
+    repeating-linear-gradient(to bottom,
+      var(--current-grid-line-color) 0,
+      var(--current-grid-line-color) var(--current-grid-line-width),
+      transparent var(--current-grid-line-width),
+      transparent var(--current-grid-spacing)
+    );
   background-size: var(--current-grid-spacing) var(--current-grid-spacing);
   background-position: center center;
   mask-image: radial-gradient(ellipse at center, black 0%, black var(--current-grid-fade-extent), transparent 100%);
   -webkit-mask-image: radial-gradient(ellipse at center, black 0%, black var(--current-grid-fade-extent), transparent 100%);
 }
 
+/* Grid Modifiers */
 .im-has-grid.is-grid-tiny::before    { --im-grid-spacing-val: 10px; }
 .im-has-grid.is-grid-small::before   { --im-grid-spacing-val: 15px; }
 .im-has-grid.is-grid-large::before   { --im-grid-spacing-val: 45px; }
@@ -735,43 +681,50 @@ html.im-is-dark-mode .dropdown-menu {
 .im-has-grid.is-grid-fade-tight::before  { --im-grid-fade-val: 45%; }
 
 
-// =============================================================================
-// 11. PAGE TRANSITION ANIMATIONS
-// =============================================================================
+/* ==========================================================================
+   6. PAGE TRANSITION ANIMATIONS (Load animation off)
+   ========================================================================== */
 body.im-page-is-loading { opacity: 1; }
-body.im-page-is-entering { opacity: 1; }
+body.im-page-is-entering { opacity: 1; } /* No fade-in animation on load */
 body.im-page-is-exiting {
-  animation: imPageFadeOutDown $im-page-transition-duration forwards ease-in !important;
+  animation: imPageFadeOutDown 0.2s forwards ease-in !important; /* Duration from $im-page-transition-duration */
 }
 @keyframes imPageFadeOutDown {
   from { opacity: 1; transform: translateY(0); }
-  to   { opacity: 0; transform: translateY($im-page-transition-translateY); }
+  to   { opacity: 0; transform: translateY(10px); } /* TranslateY from $im-page-transition-translateY */
 }
 
+/* ==========================================================================
+   7. DARK MODE SPECIFIC COMPONENT ADJUSTMENTS (Beyond CSS Var changes)
+   ========================================================================== */
+/* This section is for fine-tuning specific components in dark mode if the
+   CSS variable overrides in html.im-is-dark-mode are not sufficient.
+   For a well-planned variable system, this section might be minimal. */
 
-// =============================================================================
-// 12. DARK MODE SPECIFIC COMPONENT ADJUSTMENTS (Beyond CSS Var changes)
-// =============================================================================
-html.im-is-dark-mode {
-  .box {
+html.im-is-dark-mode .navbar.im-navbar-custom.is-visible {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.25); /* Darker shadow for visible navbar */
+}
+html.im-is-dark-mode .navbar.im-navbar-custom .navbar-menu.is-active {
+    background-color: var(--im-color-surface);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+    border-color: var(--im-color-border);
+}
+html.im-is-dark-mode .navbar.im-navbar-custom .navbar-dropdown {
+    background-color: var(--im-color-surface) !important;
+    border-color: var(--im-color-border) !important;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.35) !important;
+}
+html.im-is-dark-mode .navbar.im-navbar-custom .navbar-dropdown .navbar-item:hover {
+    background-color: var(--im-color-surface-alt) !important;
+}
+html.im-is-dark-mode .navbar.im-navbar-custom .navbar-dropdown .navbar-item.is-active-nav-item {
+    background-color: rgba(var(--im-color-primary-rgb), 0.25) !important;
+    color: var(--im-color-primary-light) !important;
+}
+
+html.im-is-dark-mode .box {
     box-shadow: 0 4px 15px rgba(0,0,0,0.2), 0 1px 5px rgba(0,0,0,0.15);
-    // border-color already uses var(--im-color-border)
-  }
-  .card {
+}
+html.im-is-dark-mode .card {
     box-shadow: 0 5px 20px rgba(0,0,0,0.25), 0 1px 6px rgba(0,0,0,0.2);
-  }
-  .navbar.im-navbar-custom {
-    &.is-visible { box-shadow: 0 1px 3px rgba(0,0,0,0.25); } // Darker visible shadow
-  }
-  .navbar.im-navbar-custom .navbar-menu {
-    @media screen and (max-width: 1023px) {
-      &.is-active {
-        box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-      }
-    }
-  }
-  .navbar.im-navbar-custom .navbar-dropdown {
-     box-shadow: 0 6px 12px rgba(0,0,0,0.35) !important;
-  }
-  // Other specific dark mode tweaks as needed
 }
