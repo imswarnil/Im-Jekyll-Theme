@@ -728,3 +728,232 @@ html.im-is-dark-mode .box {
 html.im-is-dark-mode .card {
     box-shadow: 0 5px 20px rgba(0,0,0,0.25), 0 1px 6px rgba(0,0,0,0.2);
 }
+
+
+// _sass/custom/home-hero.scss
+// Make sure Bulma variables (like $primary, $success, $warning) are available
+// or replace them with hex codes.
+
+.home-hero {
+  position: relative;
+  overflow: hidden;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  background-color: #f4f7f6; // A light, modern off-white/grey
+
+  // Video Background Styling
+  &.home-hero--has-video-background {
+    .home-hero-video-background-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+
+      .home-hero-video-background {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .home-hero-video-overlay-grid {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        background-size: 25px 25px; // Adjust grid size
+        pointer-events: none;
+      }
+
+      .home-hero-video-feather-overlay {
+         position: absolute;
+         top: 0; left: 0; width: 100%; height: 100%;
+         // Subtle vignette
+         background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.05) 100%);
+         pointer-events: none;
+      }
+    }
+    > .container { // Ensure content is above video
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+
+  .home-hero-content-column {
+    .home-hero-title {
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      color: hsl(0, 0%, 15%); // Darker text for title
+      .home-hero-wave {
+        display: inline-block;
+        animation: home-hero-wave-animation 2.5s infinite;
+        transform-origin: 70% 70%;
+      }
+      .home-hero-name-highlight {
+        // Example: Use your site's primary color or a specific highlight color
+        color: var(--bulma-primary, #7957d5); // Fallback to a purple if Bulma var not set
+        // For a gradient text effect (more complex):
+        // background: linear-gradient(to right, #6e45e2, #88d3ce);
+        // -webkit-background-clip: text;
+        // -webkit-text-fill-color: transparent;
+        // background-clip: text;
+        // text-fill-color: transparent;
+      }
+    }
+    .home-hero-tagline {
+      margin-bottom: 2rem;
+      color: hsl(0, 0%, 35%);
+      font-weight: 400;
+      strong {
+        font-weight: 600;
+        color: hsl(0, 0%, 25%);
+      }
+    }
+    .home-hero-current-status {
+      margin-bottom: 2.5rem;
+      font-size: 0.95rem;
+      color: hsl(0, 0%, 45%);
+      p {
+        display: flex;
+        align-items: center;
+        gap: 0.6em;
+        margin-bottom: 0.5em;
+        i { // Phosphor icons
+          font-size: 1.3em;
+          // color: var(--bulma-info, #3273DC); // Example color
+        }
+      }
+    }
+    .home-hero-cta-buttons {
+      margin-bottom: 2.5rem;
+      .button.is-primary {
+        // Add custom primary button styling if needed
+        // e.g., background-color: #your-brand-primary;
+      }
+    }
+    .home-hero-tech-stack {
+      margin-top: 2rem;
+      .home-hero-tech-stack-intro {
+        font-size: 0.9rem;
+        color: hsl(0, 0%, 50%);
+        margin-bottom: 0.75rem;
+      }
+      .home-hero-tech-icons {
+        .home-hero-tech-icon-tag.tag.is-dark {
+          background-color: hsl(0, 0%, 92%);
+          color: hsl(0, 0%, 25%);
+          border-radius: 6px;
+          padding: 0.5em 0.75em;
+          i { // Phosphor icons
+            font-size: 1.6rem;
+          }
+          &:hover {
+            background-color: hsl(0, 0%, 85%);
+          }
+        }
+      }
+    }
+  }
+
+  .home-hero-image-column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .home-hero-profile-image-figure {
+      img {
+        max-width: 100%; // Or a fixed max-width like 400px
+        height: auto;
+        border-radius: 12px; // Soft rounded corners for image
+        // Example subtle shadow, like Enji's image has a soft background element
+        // filter: drop-shadow(0px 15px 25px rgba(0,0,0,0.08));
+        // You might also want a ::before pseudo-element on the figure
+        // for a decorative background shape/color behind the image.
+      }
+    }
+  }
+
+  .home-hero-principles {
+    margin-top: 4rem;
+    .home-hero-principle-box {
+      border-radius: 10px;
+      background-color: #fff;
+      box-shadow: 0 6px 18px rgba(10,10,10,.07);
+      padding: 2rem 1.5rem;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .home-hero-principle-icon {
+        margin-bottom: 1.25rem;
+        i.is-size-1 { font-size: 2.75rem !important; } // Adjust icon size
+        // Example: If you use has-text-primary, has-text-success etc. on the icon span in HTML
+        &.has-text-primary i { color: var(--bulma-primary, #7957d5); }
+        &.has-text-success i { color: var(--bulma-success, #48c774); }
+        &.has-text-warning i { color: var(--bulma-warning, #ffdd57); }
+      }
+      .home-hero-principle-title {
+        margin-bottom: 0.75rem;
+        color: hsl(0, 0%, 20%);
+      }
+      .home-hero-principle-description {
+        font-size: 0.9rem;
+        color: hsl(0, 0%, 40%);
+      }
+    }
+  }
+}
+
+// Wave animation for the emoji
+@keyframes home-hero-wave-animation {
+  0% { transform: rotate(0.0deg) }
+  10% { transform: rotate(14.0deg) }
+  20% { transform: rotate(-8.0deg) }
+  30% { transform: rotate(14.0deg) }
+  40% { transform: rotate(-4.0deg) }
+  50% { transform: rotate(10.0deg) }
+  60% { transform: rotate(0.0deg) }
+  100% { transform: rotate(0.0deg) }
+}
+
+// Responsive adjustments
+@media screen and (max-width: 1023px) { // Bulma's tablet breakpoint (adjust if needed)
+  .home-hero {
+    .home-hero-image-column {
+      // Image might be better above text on tablet, or hidden
+      // For now, it's hidden by `is-hidden-touch` on desktop view, shown on tablet
+      // You may want to re-order columns for tablet or make image smaller
+      margin-top: 2rem; // Space if image appears below text
+    }
+  }
+}
+
+@media screen and (max-width: 768px) { // Bulma's mobile breakpoint
+  .home-hero {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    .home-hero-content-column {
+      text-align: center;
+      .home-hero-current-status p,
+      .home-hero-tech-stack .home-hero-tech-stack-intro {
+        justify-content: center;
+      }
+      .home-hero-tech-icons.field.is-grouped {
+        justify-content: center;
+      }
+      .home-hero-cta-buttons.buttons {
+        justify-content: center;
+      }
+    }
+    .home-hero-principles {
+      margin-top: 2.5rem;
+    }
+  }
+}

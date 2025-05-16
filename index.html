@@ -4,142 +4,158 @@ description: "An open-source Jekyll theme crafted using the Bulma CSS framework.
 image: /assets/logos/logo.svg
 layout: default
 ---
-
 {%- comment -%}
-  Hero Section for the Homepage
-  Data is sourced from site.hero in _config.yml
-  Ensure Phosphor Icons (Duotone) are included in your project.
-  Custom CSS for this section should be in a file like home-hero.scss
-  and use the 'home-hero-' prefix for custom classes.
+  Homepage Hero Section
+  ----------------------
+  This section uses hardcoded content and may pull some default values
+  from your existing _config.yml (like site.title or site.author.name).
+  It does NOT require a new 'hero:' section in _config.yml.
+  Custom CSS for this section should use the 'home-hero-' prefix.
+  Phosphor Icons are recommended for the icon examples.
 {%- endcomment -%}
 
-{%- assign hero = site.hero -%}
+<section class="section home-hero home-hero--has-video-background"> {# Add/remove home-hero--has-video-background as needed #}
 
-{%- if hero.enabled != false -%} {# Default to enabled if 'enabled' key is missing #}
-<section class="section home-hero {% if hero.enable_video_background and hero.background_video_url %}home-hero--has-video-background{% endif %}">
-
-  {%- if hero.enable_video_background and hero.background_video_url -%}
-    <div class="home-hero-video-background-container">
-      <video autoplay muted loop playsinline class="home-hero-video-background" style="opacity: {{ hero.video_opacity | default: 0.1 }};">
-        <source src="{{ hero.background_video_url }}" type="video/mp4">
-        Your browser does not support the video tag. {# Fallback text #}
-      </video>
-      <div class="home-hero-video-overlay-grid"></div> {# For the grid light effect - CSS driven #}
-      <div class="home-hero-video-feather-overlay"></div> {# For the feather effect - CSS driven #}
-    </div>
-  {%- endif -%}
+  {%- comment -%}
+    BACKGROUND VIDEO (Optional)
+    To enable, uncomment the div below and ensure the video URL is correct.
+    The class 'home-hero--has-video-background' on the parent section
+    is also recommended if the video is active.
+  {%- endcomment -%}
+  <div class="home-hero-video-background-container">
+    <video autoplay muted loop playsinline class="home-hero-video-background" style="opacity: 0.08;"> {# Adjust opacity as needed #}
+      <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="home-hero-video-overlay-grid"></div>
+    <div class="home-hero-video-feather-overlay"></div>
+  </div>
 
   <div class="container">
     <div class="columns is-vcentered is-desktop home-hero-main-content">
+
       {# Left Column: Text Content #}
-      <div class="column is-6-desktop is-12-tablet home-hero-content-column">
+      <div class="column is-7-desktop is-12-tablet home-hero-content-column">
         <h1 class="title is-1 home-hero-title">
-          {{ hero.greeting | default: "Hi!" }}
-          {%- if hero.wave_emoji -%}<span class="home-hero-wave">{{ hero.wave_emoji }}</span>{%- endif -%}<br>
-          {{ hero.intro_text_before_name | default: "I'm" }}
-          {%- if hero.name_highlight -%}<span class="home-hero-name-highlight">{{ hero.name_highlight }}</span>{%- endif -%}
-          {{- hero.name_suffix | default: "Singhai," -}}
+          Hello! <span class="home-hero-wave">👋</span><br>
+          I'm
+          {% assign hero_name = site.author.name | default: "Swarnil Singhai" %}
+          {% assign name_parts = hero_name | split: " " %}
+          <span class="home-hero-name-highlight">{{ name_parts[0] }}</span>
+          {% if name_parts.size > 1 %}
+            {% for i in (1..name_parts.size-1) %}{{ name_parts[i] }}{% unless forloop.last %} {% endunless %}{% endfor %},
+          {% else %}
+            ,
+          {% endif %}
         </h1>
 
         <p class="subtitle is-4 home-hero-tagline">
-          {{ hero.tagline_prefix | default: "A" }}
-          {%- if hero.tagline_main -%}<strong>{{ hero.tagline_main }}</strong>{%- else -%}<strong>Passionate Developer</strong>{%- endif -%}
-          {{ hero.tagline_suffix | default: "who loves building amazing things." }}
+          A <strong>{{ site.resume.personal_details.title | default: "Software Engineer" }}</strong>
+          {{ site.description | split: "specializing in" | last | prepend: "specializing in " | default: "specializing in creating innovative solutions." }}
         </p>
 
         <div class="home-hero-current-status">
-          {%- if hero.current_role -%}
           <p>
-            <i class="{{ hero.location_icon | default: 'ph-duotone ph-briefcase' }}"></i>
-            {{ hero.current_status_prefix | default: "Currently" }} {{ hero.current_role }}
+            <i class="ph-duotone ph-briefcase"></i> {# Hardcoded icon #}
+            Currently {{ site.resume.work_experience[0].role | default: "building awesome things" }} at {{ site.resume.work_experience[0].company | default: "a cool company" }}.
           </p>
-          {%- endif -%}
-          {%- if hero.location -%}
           <p>
-            <i class="ph-duotone ph-map-pin"></i> {# Defaulting icon directly as it's common #}
-            {{ hero.location_prefix | default: "Based in" }} {{ hero.location }}
+            <i class="ph-duotone ph-map-pin"></i> {# Hardcoded icon #}
+            Based in {{ site.resume.personal_details.location | default: "Bangalore, India" }}.
           </p>
-          {%- endif -%}
         </div>
 
         <div class="buttons are-medium home-hero-cta-buttons">
-          {%- if hero.cta_primary_text and hero.cta_primary_link -%}
-          <a href="{{ hero.cta_primary_link | relative_url }}" class="button is-primary is-rounded">
-            {%- if hero.cta_primary_icon %}<span class="icon is-small"><i class="{{ hero.cta_primary_icon }}"></i></span>{% endif -%}
-            <span>{{ hero.cta_primary_text }}</span>
+          <a href="{{ '/contact/' | relative_url }}" class="button is-primary is-rounded">
+            <span class="icon is-small"><i class="ph-duotone ph-paper-plane-tilt"></i></span> {# Hardcoded icon #}
+            <span>Get in Touch</span>
           </a>
-          {%- else -%}
-            {%- comment -%} Default CTA if primary is missing in config.yml {%- endcomment -%}
-            <a href="#contact" class="button is-primary is-rounded">
-              <span class="icon is-small"><i class="ph-duotone ph-paper-plane-tilt"></i></span>
-              <span>Get in Touch</span>
-            </a>
-          {%- endif -%}
-
-          {%- if hero.cta_secondary_text and hero.cta_secondary_link -%}
-          <a href="{{ hero.cta_secondary_link | relative_url }}" class="button is-light is-rounded">
-             {%- if hero.cta_secondary_icon %}<span class="icon is-small"><i class="{{ hero.cta_secondary_icon }}"></i></span>{% endif -%}
-            <span>{{ hero.cta_secondary_text }}</span>
+          <a href="{{ '/resume/' | relative_url }}" class="button is-light is-rounded">
+            <span class="icon is-small"><i class="ph-duotone ph-read-cv-logo"></i></span> {# Hardcoded icon #}
+            <span>View Resume</span>
           </a>
-          {%- endif -%}
         </div>
 
-        {%- if hero.tech_stack_icons and hero.tech_stack_icons.size > 0 -%}
         <div class="home-hero-tech-stack">
-          <p class="home-hero-tech-stack-intro">{{ hero.tech_stack_intro | default: "My favorite tools:" }}</p>
+          <p class="home-hero-tech-stack-intro">Key technologies I enjoy working with:</p>
           <div class="home-hero-tech-icons field is-grouped is-grouped-multiline">
-            {%- for tech in hero.tech_stack_icons -%}
-              <div class="control">
-                <div class="tags has-addons">
-                    <span class="tag is-dark is-medium home-hero-tech-icon-tag" title="{{ tech.name | default: 'Tool' }}">
-                        <i class="{{ tech.icon_class | default: 'ph-duotone ph-gear-six' }}"></i>
-                    </span>
+            {%- assign default_tech = site.resume.skills.categories[0].items | default: site.resume.skills.items | slice: 0, 4 -%}
+            {%- if default_tech.size > 0 -%}
+              {%- for item_name in default_tech -%}
+                <div class="control">
+                  <div class="tags has-addons">
+                      <span class="tag is-dark is-medium home-hero-tech-icon-tag" title="{{ item_name }}">
+                          {%- if item_name contains "Salesforce" or item_name contains "CRM" -%} <i class="ph-duotone ph-cloud-arrow-up"></i>
+                          {%- elsif item_name contains "Analytics" or item_name contains "Tableau" -%} <i class="ph-duotone ph-chart-line-up"></i>
+                          {%- elsif item_name contains "Apex" or item_name contains "Code" -%} <i class="ph-duotone ph-code"></i>
+                          {%- elsif item_name contains "Web" or item_name contains "JS" or item_name contains "HTML" -%} <i class="ph-duotone ph-globe-simple"></i>
+                          {%- else -%} <i class="ph-duotone ph-gear-six"></i>
+                          {%- endif -%}
+                      </span>
+                  </div>
                 </div>
-              </div>
-            {%- endfor -%}
+              {%- endfor -%}
+            {%- else -%}
+              {%- comment -%} Fallback if no skills found in resume section {%- endcomment -%}
+              <div class="control"><div class="tags has-addons"><span class="tag is-dark is-medium home-hero-tech-icon-tag" title="JavaScript"><i class="ph-duotone ph-file-js"></i></span></div></div>
+              <div class="control"><div class="tags has-addons"><span class="tag is-dark is-medium home-hero-tech-icon-tag" title="Salesforce"><i class="ph-duotone ph-cloud-arrow-up"></i></span></div></div>
+              <div class="control"><div class="tags has-addons"><span class="tag is-dark is-medium home-hero-tech-icon-tag" title="Analytics"><i class="ph-duotone ph-chart-line-up"></i></span></div></div>
+              <div class="control"><div class="tags has-addons"><span class="tag is-dark is-medium home-hero-tech-icon-tag" title="Databases"><i class="ph-duotone ph-database"></i></span></div></div>
+            {%- endif -%}
           </div>
         </div>
-        {%- endif -%}
       </div>
 
       {# Right Column: Profile Image #}
-      <div class="column is-6-desktop is-hidden-touch home-hero-image-column">
-        {%- if hero.profile_image_url -%}
-          <figure class="image home-hero-profile-image-figure">
-            <img src="{{ hero.profile_image_url | relative_url }}" alt="Profile image of {{ hero.name_highlight | default: 'the author' }} {{ hero.name_suffix | default: '' }}">
-          </figure>
-        {%- else -%}
-          {%- comment -%} Placeholder if profile image is missing in config.yml {%- endcomment -%}
-          <figure class="image home-hero-profile-image-figure is-1by1">
-            <img src="https://bulma.io/images/placeholders/480x480.png" alt="Profile image placeholder">
-          </figure>
-        {%- endif -%}
+      <div class="column is-5-desktop is-hidden-touch home-hero-image-column">
+        <figure class="image home-hero-profile-image-figure">
+          {%- if site.hero.profile_image_url -%} {# Checking if you DID add it to hero by chance #}
+            <img src="{{ site.hero.profile_image_url | relative_url }}" alt="Profile image of {{ site.author.name | default: 'Swarnil Singhai' }}">
+          {%- elsif site.author.image and site.author.image != "/assets/logos/logo.svg" -%}
+             <img src="{{ site.author.image | relative_url }}" alt="Profile image of {{ site.author.name | default: 'Swarnil Singhai' }}">
+          {%- else -%}
+             <img src="/assets/images/swarnil-profile.jpg" alt="Profile image of Swarnil Singhai"> {# Fallback to your specific path if provided #}
+             {%- comment -%} Or use a generic placeholder:
+             <img src="https://bulma.io/images/placeholders/480x480.png" alt="Profile image placeholder">
+             {%- endcomment -%}
+          {%- endif -%}
+        </figure>
       </div>
     </div>
 
-    {%- if hero.principles and hero.principles.size > 0 -%}
+    {# Principles Section - Hardcoded for structure, content can be customized #}
     <div class="home-hero-principles columns is-multiline is-centered">
-      {%- for principle in hero.principles -%}
       <div class="column is-one-third-desktop is-half-tablet">
         <div class="box home-hero-principle-box has-text-centered">
-          {%- if principle.icon_class -%}
-          <span class="icon is-large home-hero-principle-icon {{ principle.color_class | default: 'has-text-primary' }}">
-            <i class="{{ principle.icon_class }} is-size-1"></i>
+          <span class="icon is-large home-hero-principle-icon has-text-primary">
+            <i class="ph-duotone ph-database is-size-1"></i> {# Hardcoded icon #}
           </span>
-          {%- endif -%}
-          <h3 class="title is-4 home-hero-principle-title">{{ principle.title | default: "Core Value" }}</h3>
-          <p class="home-hero-principle-description">{{ principle.description | default: "Description of the core value." }}</p>
+          <h3 class="title is-4 home-hero-principle-title">Data-Driven Solutions</h3>
+          <p class="home-hero-principle-description">Focusing on leveraging data to create insightful and effective CRM solutions.</p>
         </div>
       </div>
-      {%- endfor -%}
+      <div class="column is-one-third-desktop is-half-tablet">
+        <div class="box home-hero-principle-box has-text-centered">
+          <span class="icon is-large home-hero-principle-icon has-text-success">
+            <i class="ph-duotone ph-code-block is-size-1"></i> {# Hardcoded icon #}
+          </span>
+          <h3 class="title is-4 home-hero-principle-title">Clean & Maintainable Code</h3>
+          <p class="home-hero-principle-description">Prioritizing robust, well-documented code for long-term success and scalability.</p>
+        </div>
+      </div>
+      <div class="column is-one-third-desktop is-half-tablet">
+        <div class="box home-hero-principle-box has-text-centered">
+          <span class="icon is-large home-hero-principle-icon has-text-warning">
+            <i class="ph-duotone ph-users-three is-size-1"></i> {# Hardcoded icon #}
+          </span>
+          <h3 class="title is-4 home-hero-principle-title">User-Centric Approach</h3>
+          <p class="home-hero-principle-description">Designing with the end-user in mind to deliver intuitive and valuable experiences.</p>
+        </div>
+      </div>
     </div>
-    {%- else -%}
-      {%- comment -%} You can add default principles here or leave it blank if 'principles' is empty in config.yml {%- endcomment -%}
-    {%- endif -%}
 
   </div>
 </section>
-{%- endif -%}
  <div class="section">
     <div class="container">
       <div class="columns">
