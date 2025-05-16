@@ -38,6 +38,11 @@
                       {% for subitem in item.dropdown %}{% assign subitem_url_relative_cleaned = subitem.link | relative_url | remove: "index.html" | default: "/" %}{% if current_page_url == subitem_url_relative_cleaned %}{% assign is_active_parent = true %}{% break %}{% endif %}{% endfor %}
                     {% endif %}
 
+                    {% assign nav_item_base_style = "padding: 0.75rem 1.25rem; min-height: 4.5rem; font-weight: 500; font-size: 0.95rem; background-color: transparent !important;" %}
+                    {% assign nav_item_text_color = "color: #4A5568;" %} 
+                    {% assign nav_item_active_style = "color: #6D28D9 !important; background-color: rgba(109, 40, 217, 0.08) !important; border-radius: 6px;" %}
+
+
                     {% if item.dropdown %}
                     <div class="navbar-item has-dropdown is-hoverable">
                       <a class="navbar-link im-navbar-link {% if is_active_parent %}is-active-nav-item{% endif %}" {% if item.link != "/#" %}href="{{ item_url_relative }}"{% else %}role="button" aria-haspopup="true" aria-expanded="false"{% endif %}>
