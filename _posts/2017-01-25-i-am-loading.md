@@ -6,7 +6,7 @@ date: 2017-01-25
 category: journal
 tags: [personal, journey, creator-life, imswarnil, origin-story]
 author: Swarnil
-image: https://imswarnil-com.s3.us-east-2.amazonaws.com/blog/im-loading/i-am-loading.png cover if available
+image: https://imswarnil-com.s3.us-east-2.amazonaws.com/blog/im-loading/i-am-loading.png
 excerpt: "Before the lights, camera, and followers — just me, figuring life out. This is where I truly began."
 TLTR: "This is not a guide, it's a journal. My raw thoughts before I became Imswarnil — the prequel, the confusion, and the chaos before clarity."
 comments: true
