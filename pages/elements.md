@@ -5,6 +5,7 @@ feature_image: "https://picsum.photos/2560/600?image=873"
 description: "A demo of Markdown and HTML includes"
 sidebar: true
 layout : page
+permalink : /elements/
 ---
 
 ---
