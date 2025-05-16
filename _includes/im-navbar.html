@@ -40,9 +40,8 @@
                       {% for subitem in item.dropdown %}{% assign subitem_url_relative_cleaned = subitem.link | relative_url | remove: "index.html" | default: "/" %}{% if current_page_url == subitem_url_relative_cleaned %}{% assign is_active_parent = true %}{% break %}{% endif %}{% endfor %}
                     {% endif %}
 
-                    {% comment %} Styles for navbar items - smaller font, adjusted padding {% endcomment %}
                     {% assign nav_item_base_style = "padding: 0.5rem 1rem; min-height: 4.2rem; font-weight: 500; font-size: 0.9rem; background-color: transparent !important; display:flex; align-items:center;" %}
-                    {% assign nav_item_text_color = "color: #4A5568;" %} {# Default text color: Dark Gray #}
+                    {% assign nav_item_text_color = "color: #4A5568;" %} 
                     {% assign nav_item_active_style = "color: #6D28D9 !important; background-color: rgba(109, 40, 217, 0.07) !important; border-radius: 5px;" %}
 
                     {% if item.dropdown %}
