@@ -1,4 +1,8 @@
+{% comment %} _includes/im-navbar.html {% endcomment %}
 <nav class="navbar im-navbar-custom is-fixed-top" role="navigation" aria-label="main navigation">
+    {# ... Rest of your navbar HTML from the previous "Vanilla JS Version - Mobile Toggle Visible" ... #}
+    {# Ensure it does NOT have is-fixed-top if JS handles all fixed behavior, OR keep it if JS only handles hide/show animation #}
+    {# The SCSS now styles .navbar.im-navbar-custom.is-fixed-top for positioning #}
     <div class="container">
         <div class="navbar-brand">
             <a href="{{ site.baseurl }}/" class="navbar-item im-logo-link">
@@ -7,8 +11,7 @@
                 {% endif %}
                 <span class="im-logo-text has-text-weight-bold ml-2">{{ site.title }}</span>
             </a>
-
-            <div class="navbar-item is-hidden-desktop ml-auto"> {# Wrapper for mobile icons, ml-auto to push right #}
+            <div class="navbar-item is-hidden-desktop ml-auto">
                 <a href="{{ '/search' | relative_url }}" class="im-navbar-mobile-action" aria-label="Search">
                     <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
                 </a>
@@ -18,11 +21,8 @@
                     </span>
                 </a>
             </div>
-
             <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="imVanillaNavMenu">
-             <span aria-hidden="true"></span>
-             <span aria-hidden="true"></span>
-             <span aria-hidden="true"></span>
+             <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
             </a>
         </div>
         <div class="navbar-menu" id="imVanillaNavMenu">
@@ -32,63 +32,32 @@
                     {% assign item_url_relative = item.link | relative_url %}
                     {% assign current_page_url = page.url | remove: "index.html" | default: "/" %}
                     {% assign current_item_url = item_url_relative | remove: "index.html" | default: "/" %}
-                    {% assign is_active_page = false %}
-                    {% if current_page_url == current_item_url and current_item_url != "/#" %}{% assign is_active_page = true %}{% endif %}
+                    {% assign is_active_page = false %}{% if current_page_url == current_item_url and current_item_url != "/#" %}{% assign is_active_page = true %}{% endif %}
                     {% assign is_active_parent = false %}
                     {% if item.dropdown %}
                       {% if item.link != "/#" and current_item_url != "/" and current_page_url contains current_item_url %}{% assign is_active_parent = true %}{% endif %}
-                      {% for subitem in item.dropdown %}
-                          {% assign subitem_url_relative_cleaned = subitem.link | relative_url | remove: "index.html" | default: "/" %}
-                          {% if current_page_url == subitem_url_relative_cleaned %}{% assign is_active_parent = true %}{% break %}{% endif %}
-                      {% endfor %}
+                      {% for subitem in item.dropdown %}{% assign subitem_url_relative_cleaned = subitem.link | relative_url | remove: "index.html" | default: "/" %}{% if current_page_url == subitem_url_relative_cleaned %}{% assign is_active_parent = true %}{% break %}{% endif %}{% endfor %}
                     {% endif %}
-
                     {% if item.dropdown %}
                     <div class="navbar-item has-dropdown is-hoverable">
-                      <a class="navbar-link {% if is_active_parent %}is-active-nav-item{% endif %}"
-                         {% if item.link != "/#" %}href="{{ item_url_relative }}"{% else %}role="button" aria-haspopup="true" aria-expanded="false"{% endif %}>
-                        {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="navbar-icon im-nav-image-icon">
-                        {% elsif item.icon %}<span class="icon im-nav-icon"><i class="ph ph-{{ item.icon }}"></i></span>{% endif %}
-                        <span class="im-nav-text">{{ item.name }}</span>
+                      <a class="navbar-link {% if is_active_parent %}is-active-nav-item{% endif %}" {% if item.link != "/#" %}href="{{ item_url_relative }}"{% else %}role="button" aria-haspopup="true" aria-expanded="false"{% endif %}>
+                        {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="navbar-icon im-nav-image-icon">{% elsif item.icon %}<span class="icon im-nav-icon"><i class="ph ph-{{ item.icon }}"></i></span>{% endif %}<span class="im-nav-text">{{ item.name }}</span>
                       </a>
                       <div class="navbar-dropdown is-boxed">
-                        {% for subitem in item.dropdown %}
-                          {% assign subitem_url_relative = subitem.link | relative_url %}
-                          {% assign subitem_url_relative_cleaned = subitem_url_relative | remove: "index.html" | default: "/" %}
-                          <a class="navbar-item {% if current_page_url == subitem_url_relative_cleaned %}is-active-nav-item{% endif %}" href="{{ subitem_url_relative }}">
-                            {% if subitem.image %}<img src="{{ subitem.image | relative_url }}" alt="{{ subitem.name | escape }}" class="navbar-icon im-nav-image-icon is-small">
-                            {% elsif subitem.icon %}<span class="icon im-nav-icon is-small"><i class="ph ph-{{ subitem.icon }}"></i></span>{% endif %}
-                            <span class="im-nav-text">{{ subitem.name }}</span>
-                          </a>
-                        {% endfor %}
+                        {% for subitem in item.dropdown %}{% assign subitem_url_relative = subitem.link | relative_url %}{% assign subitem_url_relative_cleaned = subitem_url_relative | remove: "index.html" | default: "/" %}<a class="navbar-item {% if current_page_url == subitem_url_relative_cleaned %}is-active-nav-item{% endif %}" href="{{ subitem_url_relative }}">{% if subitem.image %}<img src="{{ subitem.image | relative_url }}" alt="{{ subitem.name | escape }}" class="navbar-icon im-nav-image-icon is-small">{% elsif subitem.icon %}<span class="icon im-nav-icon is-small"><i class="ph ph-{{ subitem.icon }}"></i></span>{% endif %}<span class="im-nav-text">{{ subitem.name }}</span></a>{% endfor %}
                       </div>
                     </div>
                     {% else %}
                     <a class="navbar-item {% if is_active_page %}is-active-nav-item{% endif %}" href="{{ item_url_relative }}">
-                      {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="navbar-icon im-nav-image-icon">
-                      {% elsif item.icon %}<span class="icon im-nav-icon"><i class="ph ph-{{ item.icon }}"></i></span>{% endif %}
-                      <span class="im-nav-text">{{ item.name }}</span>
-                    </a>
-                    {% endif %}
+                      {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="navbar-icon im-nav-image-icon">{% elsif item.icon %}<span class="icon im-nav-icon"><i class="ph ph-{{ item.icon }}"></i></span>{% endif %}<span class="im-nav-text">{{ item.name }}</span>
+                    </a>{% endif %}
                   {% endif %}
                 {% endfor %}
             </div>
             <div class="navbar-end">
-                {% if site.social_media %}
-                    {% for item in site.social_media %}
-                        <a class="navbar-item im-social-icon is-hidden-touch" href="{{ item.url }}" target="_blank" rel="noopener noreferrer" title="{{ item.cta | escape }}">
-                            <span class="icon"><i class="ph ph-{{ item.icon | downcase }}"></i></span>
-                        </a>
-                    {% endfor %}
-                {% endif %}
-                <a href="{{ '/search' | relative_url }}" class="navbar-item is-hidden-touch im-navbar-desktop-search" aria-label="Search">
-                    <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
-                </a>
-                <a href="#" class="navbar-item is-hidden-touch im-dark-mode-toggle" id="im-desktop-dark-mode-toggle" title="Toggle Dark Mode" role="button" aria-pressed="false">
-                    <span class="icon is-medium">
-                        <i class="ph" id="im-desktop-theme-icon"></i>
-                    </span>
-                </a>
+                {% if site.social_media %}{% for item in site.social_media %}<a class="navbar-item im-social-icon is-hidden-touch" href="{{ item.url }}" target="_blank" rel="noopener noreferrer" title="{{ item.cta | escape }}"><span class="icon"><i class="ph ph-{{ item.icon | downcase }}"></i></span></a>{% endfor %}{% endif %}
+                <a href="{{ '/search' | relative_url }}" class="navbar-item is-hidden-touch im-navbar-desktop-search" aria-label="Search"><span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span></a>
+                <a href="#" class="navbar-item is-hidden-touch im-dark-mode-toggle" id="im-desktop-dark-mode-toggle" title="Toggle Dark Mode" role="button" aria-pressed="false"><span class="icon is-medium"><i class="ph" id="im-desktop-theme-icon"></i></span></a>
             </div>
         </div>
     </div>
