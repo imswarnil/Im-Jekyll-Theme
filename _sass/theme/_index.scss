@@ -1,206 +1,430 @@
 // index.scss - Single File SCSS for "IM" Themed Bulma Overrides
 
-//------------------------------------------------------------------------------
+//---------------------------------------------------------------- like `darken()` cannot operate directly on CSS custom properties (`var(...)`) because the actual color value is unknown at--------------
 // 1. SCSS Variables (im- prefix)
 //------------------------------------------------------------------------------
 
-// Font
+// Font Sass compile time (it's resolved by the browser at runtime).
+
+Let's fix that and integrate the sound
 $im-font-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-$im-font-weight-normal: 400;
-$im-font-weight-medium: 500;
+ effects.
+
+**Key Changes to Fix SCSS and Add Sound:**
+
+1.  **SCSS Color Functions:**
+    *$im-font-weight-normal: 400;
+$im-font-weight-medium:   Instead of `darken(var(--im-color-link), 10%)`, we need to define 500;
 $im-font-weight-semibold: 600;
 $im-font-weight-bold: 700;
-$im-base-font-size: 16px;
+$im-base-font-size: 16 a separate CSS custom property for the darkened color if we want to keep the dynamic theming. Or, if the link color is staticpx;
 $im-line-height-base: 1.65;
 
-// Sizing & Spacing
-$im-border-radius: 6px; // Slightly more subtle radius
+// Sizing & Sp (not changing between light/dark via CSS var directly), we can use an SCSS variable with `darken()acing
+$im-border-radius: 6px;
 $im-spacing-unit: 1rem;
-$im-section-padding-vertical: calc(#{$im-spacing-unit} * 3.5); // Adjusted
-$im-content-padding: calc(#{$im-spacing-unit} * 1.5); // For .box, .card, .panel content
+$im-section-padding-vertical: calc(#{$im-spacing-unit} * 3.5);`. For this solution, I'll assume the base link color is defined as an SCSS variable, and its dark
+$im-content-padding: calc(#{$im-spacing-unit} * 1.5);
 
 // Page Transition
-$im-page-transition-duration: 0.3s; // Faster
-$im-page-transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1); // Smoother ease-out like
-$im-page-transition-delay: 0.05s; // Shorter delay
-$im-page-transition-translateY: 15px; // Less travel
+$im-page-transition-duration: 0.3s;
+$im-page mode version is also an SCSS variable. This is often cleaner for such modifications.
+2.  **Sound Effects (-transition-timing-function: cubic-bezier(0.25, 0.8, 0.JavaScript):**
+    *   We'll create `<audio>` elements for `mouse.mp3` and `s25, 1);
+$im-page-transition-delay: 0.05s;
+$im-woosh.mp3`.
+    *   JavaScript will play `mouse.mp3` on link clicks (before navigationpage-transition-translateY: 15px;
 
 // Grid Lines
-$im-grid-spacing: 28px; // Slightly adjusted
+$im-grid-spacing: 28px;
 $im-grid-line-width: 1px;
-$im-grid-fade-extent: 70%; // More central visibility
+$im-grid-fade).
+    *   JavaScript will play `swoosh.mp3` when the page starts its exit animation for-extent: 70%;
 
-//------------------------------------------------------------------------------
+// Base Colors (SCSS variables for use with SCSS functions)
+$im-bul a transition.
+
+---
+
+**1. SCSS Code (`index.scss`) - Corrected and Enhanced**
+
+```scss
+// index.scss - Single File SCSS for "IM" Themed Bulma Overrides
+
+//ma-link: #3273dc; // Bulma's default link for SCSS processing
+$im-------------------------------------------------------------------------------
+// 1. SCSS Variables (im- prefix)
+//----------------------------------------------------------------bulma-link-hover: darken($im-bulma-link, 10%);
+
+//----------------------------------------------
+
+// Font
+$im-font-primary: "Inter", -apple-system, BlinkMacSystemFont----------------------------------------------
 // 2. CSS Custom Properties for Theming (:root for Light Mode Defaults)
-//------------------------------------------------------------------------------
+//----------------, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans--------------------------------------------------------------
 :root {
   // Primary Colors (Red Theme)
-  --im-color-primary-rgb: 229, 57, 53; // #e53935
+  --im-color--serif;
+$im-font-weight-normal: 400;
+$im-font-primary-rgb: 229, 57, 53; // #e5393weight-medium: 500;
+$im-font-weight-semibold: 600;5
   --im-color-primary: rgb(var(--im-color-primary-rgb));
-  --im-color-primary-light: #ef5350;
-  --im-color-primary-dark: #c62828;
-  --im-color-primary-inverted: #FFFFFF; // Text on primary
+  
+$im-font-weight-bold: 700;
+$im-base-font-size--im-color-primary-light: #ef5350;
+  --im-color-primary: 16px;
+$im-line-height-base: 1.65;
+
+//-dark: #c62828;
+  --im-color-primary-inverted: #FFFFFF Sizing & Spacing
+$im-border-radius: 6px;
+$im-spacing-unit: ;
 
   // Contextual Colors - Light Mode
-  --im-color-link: #3273dc; // Bulma's default link
+  --im-color-link: #{$im-bul1rem;
+$im-section-padding-vertical: calc(#{$im-spacing-unit} * ma-link}; // Use SCSS var here
+  --im-color-link-hover: #{$im-bul3.5);
+$im-content-padding: calc(#{$im-spacing-unit} * 1ma-link-hover}; // Pre-calculated hover
   --im-color-info: #209cee;
+.5);
+
+// Page Transition
+$im-page-transition-duration: 0.3s;
   --im-color-success: #23d160;
-  --im-color-warning: #ffdd57;
+  --im-color-warning$im-page-transition-timing-function: cubic-bezier(0.25, 0.8: #ffdd57;
   --im-color-danger: #ff3860;
 
-  --im-color-link-inverted: #FFFFFF;
-  --im-color-info-inverted: #FFFFFF;
+  --im, 0.25, 1);
+$im-page-transition-delay: 0.05s;
+$im-page-transition-translateY: 15px;
+
+// Grid Lines
+-color-link-inverted: #FFFFFF;
+  --im-color-info-inverted: #FFFFFF;$im-grid-spacing: 28px;
+$im-grid-line-width: 1
   --im-color-success-inverted: #FFFFFF;
-  --im-color-warning-inverted: rgba(0,0,0,0.7); // Dark text on yellow
+  --im-color-warning-invertedpx;
+$im-grid-fade-extent: 70%;
+
+// --- Static SCSS Colors (for: rgba(0,0,0,0.7);
   --im-color-danger-inverted: #FFFFFF;
 
   // Text Colors - Light Mode
-  --im-color-text: #363636; // Bulma's default text
-  --im-color-text-light: #7a7a7a; // Lighter text
-  --im-color-text-strong: #363636;
-  --im-color-text-headings: #222; // Slightly darker than body
-  --im-color-text-muted: #999; // For less important text, placeholders
+  --im-color-text: #363636;
+  --im-color-text-light: #7a7a7a;
+  -- use with darken/lighten where CSS vars are problematic) ---
+$im-static-color-link-light: #3273dc; // Bulma's default link
+$im-static-color-link-dark: #64b5f6;  // Brighter link blue for dark mode
+
+//------------------------------------------------------------------------------
+// im-color-text-strong: #363636;
+  --im-color-text2. CSS Custom Properties for Theming (:root for Light Mode Defaults)
+//------------------------------------------------------------------------------
+:-headings: #222;
+  --im-color-text-muted: #999;root {
+  // Primary Colors (Red Theme)
+  --im-color-primary-rgb: 2
   --im-color-text-on-surface: var(--im-color-text);
 
-  // Background & Surface Colors - Light Mode
-  --im-color-background: #f5f5f5; // Bulma's light grey
-  --im-color-surface: #FFFFFF; // For cards, boxes, navbar, panel
-  --im-color-border: #dbdbdb; // Bulma's default border
-  --im-color-border-light: #ededed; // Lighter border
+  //29, 57, 53; // #e53935
+  --im- Background & Surface Colors - Light Mode
+  --im-color-background: #f5f5f5;
+  --im-color-surface: #FFFFFF;
+  --im-color-border: #dbdbdb;
+color-primary: rgb(var(--im-color-primary-rgb));
+  --im-color-primary-  --im-color-border-light: #ededed;
   --im-color-border-hover: #b5b5b5;
-  --im-color-input-bg: var(--im-color-surface);
+  --im-color-input-bg: var(--im-light: #ef5350;
+  --im-color-primary-dark: #c62color-surface);
   --im-color-input-border: var(--im-color-border);
-  --im-color-input-shadow: rgba(var(--im-color-primary-rgb), 0.25);
+828;
+  --im-color-primary-inverted: #FFFFFF;
+
+  // Contextual Colors  --im-color-input-shadow: rgba(var(--im-color-primary-rgb), 0 - Light Mode
+  --im-color-link: #{$im-static-color-link-light};
+  --im-color-link-hover: #{darken($im-static-color-link-light, 1.25);
   --im-color-table-row-hover: #f9f9f9;
   --im-color-code-background: #f0f0f0;
-  --im-color-pre-background: var(--im-color-code-background);
-  --im-color-pre-text: #4a4a4a;
+  --im-color0%)}; // SCSS handles this now
+  --im-color-info: #209cee;
+-pre-background: var(--im-color-code-background);
+  --im-color-pre-text:  --im-color-success: #23d160;
+  --im-color-warning: # #4a4a4a;
 
   // Button Specifics - Light Mode
-  --im-button-light-bg: #f0f0f0; // Lighter gray
-  --im-button-light-border: #f0f0f0;
-  --im-button-light-text: var(--im-color-text);
-  --im-button-light-hover-bg: #e6e6e6;
-  --im-button-light-hover-border: #e6e6e6;
+  --im-button-ffdd57;
+  --im-color-danger: #ff3860;
 
-  // Grid Line Colors - Light Mode
-  --im-grid-line-color-for-section: rgba(0, 0, 0, 0.05); // Subtle dark
-  --im-grid-line-color-for-hero: rgba(255, 255, 255, 0.1); // Subtle light
+  --light-bg: #f0f0f0;
+  --im-button-light-border: #im-color-link-inverted: #FFFFFF;
+  --im-color-info-inverted: #FFFFFFf0f0f0;
+  --im-button-light-text: var(--im-color-;
+  --im-color-success-inverted: #FFFFFF;
+  --im-color-warning-text);
+  --im-button-light-hover-bg: #e6e6e6;
+inverted: rgba(0,0,0,0.7);
+  --im-color-danger-inverted: #FFFFFF  --im-button-light-hover-border: #e6e6e6;
+
+  // Grid;
+
+  // Text Colors - Light Mode
+  --im-color-text: #36363 Line Colors - Light Mode
+  --im-grid-line-color-for-section: rgba(0,6;
+  --im-color-text-light: #7a7a7a;
+  -- 0, 0, 0.05);
+  --im-grid-line-color-forim-color-text-strong: #363636;
+  --im-color-text-hero: rgba(255, 255, 255, 0.1);-headings: #222;
+  --im-color-text-muted: #999;
 
   // Toggle
   --im-dark-mode-toggle-icon-color: var(--im-color-text);
 }
 
 //------------------------------------------------------------------------------
-// 3. Mixins
-//------------------------------------------------------------------------------
+// 3. Mixins (Same as before)
+  --im-color-text-on-surface: var(--im-color-text);
 
-@mixin im-apply-fading-grid($line-color-var-name) {
+  //
+//------------------------------------------------------------------------------
+@mixin im-apply-fading-grid($line-color-var Background & Surface Colors - Light Mode
+  --im-color-background: #f5f5f5;
+  --im-color-surface: #FFFFFF;
+  --im-color-border: #dbdb-name) {
   &::before {
     content: "";
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
+    topdb;
+  --im-color-border-light: #ededed;
+  --im-color-border-hover: 0; left: 0; right: 0; bottom: 0;
     width: 100%; height: 100%;
     z-index: 0;
-    background-image:
-      repeating-linear-gradient(to right, var(#{$line-color-var-name}) 0, var(#{$line-color-var-name}) $im-grid-line-width, transparent $im-grid-line-width, transparent $im-grid-spacing),
-      repeating-linear-gradient(to bottom, var(#{$line-color-var-name}) 0, var(#{$line-color-var-name}) $im-grid-line-width, transparent $im-grid-line-width, transparent $im-grid-spacing);
-    background-size: $im-grid-spacing $im-grid-spacing;
+    background-: #b5b5b5;
+  --im-color-input-bg: var(--im-color-surfaceimage:
+      repeating-linear-gradient(to right, var(#{$line-color-var-name);
+  --im-color-input-border: var(--im-color-border);
+  --im-color-input-shadow: rgba(var(--im-color-primary-rgb), 0.25}) 0, var(#{$line-color-var-name}) $im-grid-line-width, transparent $im-grid-line-width, transparent $im-grid-spacing),
+      repeating-linear);
+  --im-color-table-row-hover: #f9f9f9;
+  -gradient(to bottom, var(#{$line-color-var-name}) 0, var(#{$line--im-color-code-background: #f0f0f0;
+  --im-color-pre-background-color-var-name}) $im-grid-line-width, transparent $im-grid-line-: var(--im-color-code-background);
+  --im-color-pre-text: #4a4width, transparent $im-grid-spacing);
+    background-size: $im-grid-spacing $ima4a;
+
+  // Button Specifics - Light Mode
+  --im-button-light-bg: #f0f0f0;
+  --im-button-light-border: #f0f0-grid-spacing;
     background-position: center center;
-    mask-image: radial-gradient(ellipse at center, black 0%, black $im-grid-fade-extent, transparent 100%);
-    -webkit-mask-image: radial-gradient(ellipse at center, black 0%, black $im-grid-fade-extent, transparent 100%);
+    mask-image: radial-gradient(f0;
+  --im-button-light-text: var(--im-color-text);
+  ellipse at center, black 0%, black $im-grid-fade-extent, transparent 100%);--im-button-light-hover-bg: #e6e6e6;
+  --im-
+    -webkit-mask-image: radial-gradient(ellipse at center, black 0%, black $imbutton-light-hover-border: #e6e6e6;
+
+  // Grid Line Colors - Light-grid-fade-extent, transparent 100%);
+    pointer-events: none;
+  } Mode
+  --im-grid-line-color-for-section: rgba(0, 0, 
+}
+
+//------------------------------------------------------------------------------
+// 4. Animations (Page Transitions - Same as before)
+//------------------------------------------------------------------------------
+@keyframes imPageFadeIn {
+  from { opacity: 0; transform: translateY($0, 0.05);
+  --im-grid-line-color-for-hero: rgbaim-page-transition-translateY); }
+  to   { opacity: 1; transform: translateY((255, 255, 255, 0.1);
+
+  // Toggle0); }
+}
+@keyframes imPageFadeOut {
+  from { opacity: 1; transform: translateY(
+  --im-dark-mode-toggle-icon-color: var(--im-color-text);
+0); }
+  to   { opacity: 0; transform: translateY(-$im-page-transition-translate}
+
+//------------------------------------------------------------------------------
+// 3. Mixins (Same as before)
+//------------------------------------------------------------------------------
+
+@mixin im-apply-fading-grid($line-color-var-name) {
+Y); }
+}
+
+//------------------------------------------------------------------------------
+// 5. Base Styles (HTML, Body,  &::before {
+    content: "";
+    position: absolute;
+    top: 0; left Typography)
+//------------------------------------------------------------------------------
+html {
+  background-color: var(--im-color-: 0; right: 0; bottom: 0;
+    width: 100%; heightbackground) !important;
+  scroll-behavior: smooth;
+  font-size: $im-base-: 100%;
+    z-index: 0;
+    background-image:
+      repefont-size;
+}
+body {
+  font-family: $im-font-primary !important;
+  colorating-linear-gradient(to right, var(#{$line-color-var-name}) 0, var(#{$line: var(--im-color-text) !important;
+  font-weight: $im-font-weight-color-var-name}) $im-grid-line-width, transparent $im-grid-line--normal !important;
+  line-height: $im-line-height-base !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;width, transparent $im-grid-spacing),
+      repeating-linear-gradient(to bottom, var(#{$line-color-var-name}) 0, var(#{$line-color-var-name}) $
+  background-color: var(--im-color-background) !important;
+  min-height: 100vh;
+  transition: background-color $im-page-transition-duration var(--im-im-grid-line-width, transparent $im-grid-line-width, transparent $im-grid-spacing);
+    background-size: $im-grid-spacing $im-grid-spacing;
+    backgroundpage-transition-timing-function), color $im-page-transition-duration var(--im-page-transition-position: center center;
+    mask-image: radial-gradient(ellipse at center, black 0%,-timing-function);
+
+  &.im-page-is-loading { opacity: 0; }
+  & black $im-grid-fade-extent, transparent 100%);
+    -webkit-mask-image.im-page-is-entering { animation: imPageFadeIn $im-page-transition-duration var: radial-gradient(ellipse at center, black 0%, black $im-grid-fade-extent, transparent(--im-page-transition-timing-function) forwards; animation-delay: $im-page-transition- 100%);
     pointer-events: none;
   }
 }
 
-//------------------------------------------------------------------------------
-// 4. Animations (Page Transitions)
+//----------------------------------------------------------------delay; }
+  &.im-page-is-exiting  { animation: imPageFadeOut $--------------
+// 4. Animations (Page Transitions - Same as before)
 //------------------------------------------------------------------------------
 
-@keyframes imPageFadeIn { // Simpler fade
-  from { opacity: 0; transform: translateY($im-page-transition-translateY); }
+@im-page-transition-duration var(--im-page-transition-timing-function) forwards !important; }keyframes imPageFadeIn {
+  from { opacity: 0; transform: translateY($im-page-transition-translateY
+}
+h1, h2, h3, h4, h5, h6, .title, .subtitle); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes imPageFadeOut { // Simpler fade
+@keyframes {
+  font-family: $im-font-primary !important;
+  color: var(--im-color- imPageFadeOut {
   from { opacity: 1; transform: translateY(0); }
-  to   { opacity: 0; transform: translateY(-$im-page-transition-translateY); } // Exit upwards
+  to   { opacity: 0; transform: translateY(-$im-page-transition-translateY); }
 }
 
-//------------------------------------------------------------------------------
+//----------------text-headings) !important;
+  transition: color $im-page-transition-duration var(--im-page-transition-timing-function);
+}
+.title {
+  font-weight: $im-font--------------------------------------------------------------
 // 5. Base Styles (HTML, Body, Typography)
-//------------------------------------------------------------------------------
+//-----------------------------------------------------------------weight-bold !important;
+  line-height: 1.2 !important;
+  margin---------------
 
 html {
   background-color: var(--im-color-background) !important;
-  scroll-behavior: smooth;
+  scroll-behavior:bottom: calc(#{$im-spacing-unit} * 1) !important;
+  &.is- smooth;
   font-size: $im-base-font-size;
 }
 
 body {
-  font-family: $im-font-primary !important;
-  color: var(--im-color-text) !important;
+  1 { font-size: 2.5rem !important; }
+  &.is-2 { fontfont-family: $im-font-primary !important;
+  color: var(--im-color-text-size: 2rem !important; }
+  &.is-3 { font-size: 1) !important;
   font-weight: $im-font-weight-normal !important;
-  line-height: $im-line-height-base !important;
-  -webkit-font-smoothing: antialiased;
+  line.75rem !important; }
+}
+.subtitle {
+  color: var(--im-color--height: $im-line-height-base !important;
+  -webkit-font-smoothing: anttext-light) !important;
+  font-weight: $im-font-weight-normal !important;ialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--im-color-background) !important;
+  background-color: var(--
+  line-height: 1.5 !important;
+  margin-bottom: calc(#{$im-spacing-unit} * 1.5) !important;
+  &.is-3 { font-sizeim-color-background) !important;
   min-height: 100vh;
-  transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function), color $im-page-transition-duration var(--im-page-transition-timing-function);
+  transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function),: 1.25rem !important; }
+  &.is-4 { font-size: 1.1rem !important; }
+}
+p { margin-bottom: $im-spacing-unit ! color $im-page-transition-duration var(--im-page-transition-timing-function);
 
   &.im-page-is-loading { opacity: 0; }
-  &.im-page-is-entering { animation: imPageFadeIn $im-page-transition-duration var(--im-page-transition-timing-function) forwards; animation-delay: $im-page-transition-delay; }
-  &.im-page-is-exiting  { animation: imPageFadeOut $im-page-transition-duration var(--im-page-transition-timing-function) forwards !important; }
+  &.im-page-isimportant; }
+a {
+  color: var(--im-color-link) !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease-in-out, opacity-entering { animation: imPageFadeIn $im-page-transition-duration var(--im-page-transition-timing- 0.2s ease-in-out;
+  &:hover {
+    color: var(--im-function) forwards; animation-delay: $im-page-transition-delay; }
+  &.im-color-link-hover) !important; // Use pre-calculated hover
+  }
+}
+strong, b {
+page-is-exiting  { animation: imPageFadeOut $im-page-transition-duration var(--im-page-transition-timing-function) forwards !important; }
 }
 
-h1, h2, h3, h4, h5, h6,
+h1, h2, h3,  color: var(--im-color-text-strong) !important;
+  font-weight: $im h4, h5, h6,
 .title,
 .subtitle {
-  font-family: $im-font-primary !important;
-  color: var(--im-color-text-headings) !important;
-  transition: color $im-page-transition-duration var(--im-page-transition-timing-function);
+  font-family: $-font-weight-bold !important;
+  transition: color $im-page-transition-duration var(--im-pageim-font-primary !important;
+  color: var(--im-color-text-headings) !important-transition-timing-function);
 }
+code { background-color: var(--im-color-code-;
+  transition: color $im-page-transition-duration var(--im-page-transition-timing-function);
+background); color: var(--im-color-danger); padding: 0.25em 0.5}
 
 .title {
   font-weight: $im-font-weight-bold !important;
-  line-height: 1.2 !important;
-  margin-bottom: calc(#{$im-spacing-unit} * 1) !important;
-  &.is-1 { font-size: 2.5rem !important; } // Adjusted
-  &.is-2 { font-size: 2rem !important; }
+  em; border-radius: $im-border-radius * 0.5; font-size: 0line-height: 1.2 !important;
+  margin-bottom: calc(#{$im-spacing-.875em;}
+pre { background-color: var(--im-color-pre-background); color: var(--im-color-pre-text); padding: $im-spacing-unit * 1.25;unit} * 1) !important;
+  &.is-1 { font-size: 2.5rem !important; }
+  &.is-2 { font-size: 2rem !important; border-radius: $im-border-radius; code { background-color: transparent; color: inherit; padding: 0; }}
+hr { background-color: var(--im-color-border-light) !important; height: 1 }
   &.is-3 { font-size: 1.75rem !important; }
 }
 
 .subtitle {
-  color: var(--im-color-text-light) !important; // Use lighter text for subtitles
-  font-weight: $im-font-weight-normal !important;
-  line-height: 1.5 !important;
+  color: var(--im-color-text-light) !important;
+  px !important; margin: $im-spacing-unit * 1.5 0 !important;}
+
+//----------------font-weight: $im-font-weight-normal !important;
+  line-height: 1.--------------------------------------------------------------
+// 6. Component Overrides (Mostly same as before, contextual colors use vars)
+//5 !important;
   margin-bottom: calc(#{$im-spacing-unit} * 1.5) !important;
-  &.is-3 { font-size: 1.25rem !important; }
+  &.is-3 { font-size: 1.25rem !important------------------------------------------------------------------------------
+
+// --- Hero Section (WITH GRID LINES) ---
+.hero {
+  position:; }
   &.is-4 { font-size: 1.1rem !important; }
-}
+ relative; overflow: hidden;
+  transition: background-color $im-page-transition-duration var(--im-page-}
 
 p {
   margin-bottom: $im-spacing-unit !important;
 }
 
-a {
-  color: var(--im-color-link) !important; // Use Bulma's link color var
+a {transition-timing-function);
+  &.is-primary { background-color:var(--im-color-
+  color: var(--im-color-link) !important; // Uses CSS var, hover uses another CSSprimary)!important;color:var(--im-color-primary-inverted)!important;@include im-apply- var
   text-decoration: none !important;
   transition: color 0.2s ease-in-out, opacity 0.2s ease-in-out;
   &:hover {
-    color: darken(var(--im-color-link), 10%) !important;
+    color: var(--im-color-link-hover) !important; // Now correctly uses a CSS var for hover
   }
 }
 
 strong, b {
   color: var(--im-color-text-strong) !important;
-  font-weight: $im-font-weight-bold !important; // Bulma default for strong
+  font-weight: $im-font-weight-bold !important;
   transition: color $im-page-transition-duration var(--im-page-transition-timing-function);
 }
 
 code {
   background-color: var(--im-color-code-background);
-  color: var(--im-color-danger);
+  color: var(--im-color-danger); // Or a more neutral color like var(--im-color-text)
   padding: 0.25em 0.5em;
   border-radius: $im-border-radius * 0.5;
   font-size: 0.875em;
@@ -224,397 +448,440 @@ hr {
 }
 
 //------------------------------------------------------------------------------
-// 6. Component Overrides
+// 6fading-grid('--im-grid-line-color-for-hero');.title,.subtitle,strong{color:var(--im-color-primary-inverted)!important;}strong{font-weight:$im-font-weight-bold!. Component Overrides (Same structure as before, ensure colors use CSS vars)
 //------------------------------------------------------------------------------
 
-// --- Hero Section (WITH GRID LINES) ---
+//important;}.field.is-grouped .icon.is-large{color:var(--im-color-primary-inverted --- Hero Section (WITH GRID LINES) ---
 .hero {
   position: relative;
-  overflow: hidden;
-  transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function);
+  overflow: hidden)!important;opacity:0.8;&:hover{opacity:1;}}}
+  &.is-link {;
+  transition: background-color $im-page-transition-duration var(--im-page-transition- background-color:var(--im-color-link)!important;color:var(--im-color-link-inverted)!important;.title,.subtitle,strong{color:var(--im-color-link-inverted)!important;timing-function);
 
   &.is-primary {
-    background-color: var(--im-color-primary) !important;
+    background-color: var(--im-color-primary}}
+  &.is-info { background-color:var(--im-color-info)!important;color:var(--im-color-info-inverted)!important;.title,.subtitle,strong{color:var(--im-) !important;
     color: var(--im-color-primary-inverted) !important;
-    @include im-apply-fading-grid('--im-grid-line-color-for-hero');
-    .title, .subtitle, strong { color: var(--im-color-primary-inverted) !important; }
+    @color-info-inverted)!important;}}
+  &.is-success { background-color:var(--im-color-success)!important;color:var(--im-color-success-inverted)!important;.title,.subtitle,include im-apply-fading-grid('--im-grid-line-color-for-hero');
+    strong{color:var(--im-color-success-inverted)!important;}}
+  &.is-warning { background-color:var(--im-color-warning)!important;color:var(--im-color-warning-inverted)!important;.title,.subtitle,strong{color:var(--im-color-warning-inverted)!important;.title, .subtitle, strong { color: var(--im-color-primary-inverted) !important; }}}
+  &.is-danger { background-color:var(--im-color-danger)!important;color:var(--im-color-danger-inverted)!important;.title,.subtitle,strong{color:var(--im-color-danger-inverted)!important;}}
+  .hero-head, .hero-body, .hero-foot { position: relative; z-index: 1; }
+}
+
+// --- Buttons ---
+.
     strong { font-weight: $im-font-weight-bold !important; }
     .field.is-grouped .icon.is-large { color: var(--im-color-primary-inverted) !important; opacity: 0.8; &:hover{ opacity:1;}}
   }
-  // Contextual Heroes
-  &.is-link { background-color: var(--im-color-link) !important; color: var(--im-color-link-inverted) !important; .title, .subtitle, strong{ color: var(--im-color-link-inverted) !important;}}
-  &.is-info { background-color: var(--im-color-info) !important; color: var(--im-color-info-inverted) !important; .title, .subtitle, strong{ color: var(--im-color-info-inverted) !important;}}
-  &.is-success { background-color: var(--im-color-success) !important; color: var(--im-color-success-inverted) !important; .title, .subtitle, strong{ color: var(--im-color-success-inverted) !important;}}
-  &.is-warning { background-color: var(--im-color-warning) !important; color: var(--im-color-warning-inverted) !important; .title, .subtitle, strong{ color: var(--im-color-warning-inverted) !important;}}
-  &.is-danger { background-color: var(--im-color-danger) !important; color: var(--im-color-danger-inverted) !important; .title, .subtitle, strong{ color: var(--im-color-danger-inverted) !important;}}
+  &.is-linkbutton {
+  font-family: $im-font-primary !important; font-weight: $im-font-weight-semibold !important; border-radius: $im-border-radius !important; padding: 0.6em 1.2em !important;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease !important;
+  border-width: 1px !important;
+  &:active { transform: translateY(1px); box-shadow: none; }
 
-  .hero-head, .hero-body, .hero-foot { position: relative; z-index: 1; }
+  // Helper function for RGBA from hex (if SCSS doesn't have one for var())
+  // This is a { background-color: var(--im-color-link) !important; color: var(--im-color-link-inverted) !important; .title, .subtitle, strong{ color: var(--im-color-link-inverted) !important;}}
+  &.is-info { background-color: var(--im-color-info) placeholder. For production, use SCSS's built-in `rgba($color, $alpha)` with SCSS color variables
+  // or define RGB components for CSS vars if `rgba(var(--im-color-contextual-rgb),  !important; color: var(--im-color-info-inverted) !important; .title, .subtitle, strong{ color: var(--im-color-info-inverted) !important;}}
+  &.is-0.25)` is needed everywhere.
+  // For now, let's assume manual RGB for focus ringssuccess { background-color: var(--im-color-success) !important; color: var(--im-color or no focus ring if RGB is not defined for all contextuals.
+  $contextual-colors: (
+-success-inverted) !important; .title, .subtitle, strong{ color: var(--im-color-    "primary": var(--im-color-primary-rgb), // Needs to be actual RGB list like 229success-inverted) !important;}}
+  &.is-warning { background-color: var(--im-color-warning) !important; color: var(--im-color-warning-inverted) !important; .title, 57, 53
+    "link": (50, 115, 2, .subtitle, strong{ color: var(--im-color-warning-inverted) !important;}}
+  20), // Example RGB for #3273dc
+    "info": (32, 1&.is-danger { background-color: var(--im-color-danger) !important; color: var56, 238), // Example RGB for #209cee
+    "success": (3(--im-color-danger-inverted) !important; .title, .subtitle, strong{ color: var(--5, 209, 96),// Example RGB for #23d160
+    im-color-danger-inverted) !important;}}
+
+  .hero-head, .hero-body,"warning": (255, 221, 87),// Example RGB for #ffdd57
+ .hero-foot { position: relative; z-index: 1; }
 }
 
 // --- Buttons ---
 .button {
   font-family: $im-font-primary !important;
-  font-weight: $im-font-weight-semibold !important;
-  border-radius: $im-border-radius !important;
-  padding: 0.6em 1.2em !important; // Slightly less padding
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease !important;
+  font-weight: $im    "danger": (255, 56, 96) // Example RGB for #ff386-font-weight-semibold !important;
+  border-radius: $im-border-radius !important;0
+  );
+
+  @each $name, $rgb-val in $contextual-colors {
+    &
+  padding: 0.6em 1.2em !important;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease.is-#{$name} {
+      // background-color: var(--im-color-#{$name}) !important; // This is now handled by the CSS vars directly
+      // border-color: var(--im-color-#{$name}), transform 0.1s ease, box-shadow 0.2s ease !important;
   border-width: 1px !important;
 
-  &:active { transform: translateY(1px); box-shadow: none; }
+  &:active { transform: translateY(1px); box-shadow: none; !important;
+      // color: var(--im-color-#{$name}-inverted) !important;
+      // &:hover {
+      //   background-color: darken(var(--im-color-#{$name}), 5 }
 
-  // Contextual Buttons
-  &.is-primary { background-color: var(--im-color-primary) !important; border-color: var(--im-color-primary) !important; color: var(--im-color-primary-inverted) !important; &:hover{ background-color:var(--im-color-primary-dark) !important; border-color:var(--im-color-primary-dark) !important;} &:focus,&.is-focused{box-shadow:0 0 0 0.125em var(--im-color-input-shadow) !important;}}
-  &.is-link    { background-color: var(--im-color-link)    !important; border-color: var(--im-color-link)    !important; color: var(--im-color-link-inverted)    !important; &:hover{ background-color:darken(var(--im-color-link),5%)    !important; border-color:darken(var(--im-color-link),5%)    !important;} &:focus,&.is-focused{box-shadow:0 0 0 0.125em rgba(var(--im-color-link),0.25) !important;}} // TODO: RGB for link
-  &.is-info    { background-color: var(--im-color-info)    !important; border-color: var(--im-color-info)    !important; color: var(--im-color-info-inverted)    !important; &:hover{ background-color:darken(var(--im-color-info),5%)    !important; border-color:darken(var(--im-color-info),5%)    !important;} &:focus,&.is-focused{box-shadow:0 0 0 0.125em rgba(var(--im-color-info),0.25) !important;}} // TODO: RGB for info
-  &.is-success { background-color: var(--im-color-success) !important; border-color: var(--im-color-success) !important; color: var(--im-color-success-inverted) !important; &:hover{ background-color:darken(var(--im-color-success),5%) !important; border-color:darken(var(--im-color-success),5%) !important;} &:focus,&.is-focused{box-shadow:0 0 0 0.125em rgba(var(--im-color-success),0.25) !important;}} // TODO: RGB for success
-  &.is-warning { background-color: var(--im-color-warning) !important; border-color: var(--im-color-warning) !important; color: var(--im-color-warning-inverted) !important; &:hover{ background-color:darken(var(--im-color-warning),5%) !important; border-color:darken(var(--im-color-warning),5%) !important;} &:focus,&.is-focused{box-shadow:0 0 0 0.125em rgba(var(--im-color-warning),0.25) !important;}} // TODO: RGB for warning
-  &.is-danger  { background-color: var(--im-color-danger)  !important; border-color: var(--im-color-danger)  !important; color: var(--im-color-danger-inverted)  !important; &:hover{ background-color:darken(var(--im-color-danger),5%)  !important; border-color:darken(var(--im-color-danger),5%)  !important;} &:focus,&.is-focused{box-shadow:0 0 0 0.125em rgba(var(--im-color-danger),0.25) !important;}} // TODO: RGB for danger
+  // Contextual Buttons using CSS Vars (example for primary, repeat for others)
+  &.is%) !important; // This won't work
+      //   border-color: darken(var(--im-color-#{$-primary { background-color: var(--im-color-primary) !important; border-color: var(--im-color-primary) !important; color: var(--im-color-primary-inverted) !important;name}), 5%) !important;
+      // }
+      &:focus, &.is-focused {
+        // Use &:hover{ background-color:var(--im-color-primary-dark) !important; border-color: the map $rgb-val if it contains literal RGB, otherwise manually specify
+        // For simplicity with CSS vars, focusvar(--im-color-primary-dark) !important;} &:focus,&.is-focused{box-shadow:0 0 0 0.125em var(--im-color-input-shadow) !important; rings might use the primary shadow for non-primary buttons,
+        // or you need --im-color-link-rgb, --im-color-info-rgb etc. defined.
+        @if $name == "primary" {
+          box-}}
+  // For other contextual buttons, if hover needs darken, define --im-color-link-dark, --shadow: 0 0 0 0.125em rgba(var(--im-color-primaryim-color-info-dark etc.
+  &.is-link    { background-color: var(--im-rgb), 0.25) !important;
+        } @else {
+           // Default to a generic-color-link)    !important; border-color: var(--im-color-link)    !important; color: var(--im-color-link-inverted)    !important; &:hover{ background-color:var(--im-color focus or primary focus for other contextual buttons if RGB vars are not set
+           // box-shadow: 0 0 -link-hover)    !important; border-color:var(--im-color-link-hover)    0 0.125em rgba(nth($rgb-val, 1), nth($rgb-val, 2), nth($rgb-val, 3), 0.25) !important;
+           !important;} /* Focus shadow needs var(--im-color-link-rgb) */}
+  &.is-info    // For now, using primary shadow as fallback.
+           box-shadow: 0 0 0 0{ background-color: var(--im-color-info)    !important; border-color: var(--im-color-info)    !important; color: var(--im-color-info-inverted)    !important; &:.125em var(--im-color-input-shadow) !important;
+        }
+      }
+    hover{ background-color:darken(var(--im-color-info),5%)    !important; border}
+  }
+  // Re-applying direct var usage as SCSS functions can't use CSS vars.
+  // Hover states will use a slightly darker version if available, or just default.
+  &.is-primary {-color:darken(var(--im-color-info),5%)    !important;} /* Focus shadow requires --im-color-info-rgb. Sass can't darken CSS vars. */ }
+  &.is- background-color:var(--im-color-primary)!important;border-color:var(--im-color-primary)!importantsuccess { background-color: var(--im-color-success) !important; border-color: var(--im-color;color:var(--im-color-primary-inverted)!important;&:hover{background-color:var(--im-color-success) !important; color: var(--im-color-success-inverted) !important; &:hover{-primary-dark)!important;border-color:var(--im-color-primary-dark)!important;}}
+  & background-color:darken(var(--im-color-success),5%) !important; border-color:.is-link    { background-color:var(--im-color-link)!important;border-color:vardarken(var(--im-color-success),5%) !important;} /* Requires --im-color-success-rgb */ }
+  &.is-warning { background-color: var(--im-color-warning) !important;(--im-color-link)!important;color:var(--im-color-link-inverted)!important;&: border-color: var(--im-color-warning) !important; color: var(--im-color-warninghover{background-color:darken($im-bulma-link,5%)!important;border-color:dark-inverted) !important; &:hover{ background-color:darken(var(--im-color-warning),en($im-bulma-link,5%)!important;}}
+  &.is-info    { background-color5%) !important; border-color:darken(var(--im-color-warning),5%) !important;} /*:var(--im-color-info)!important;border-color:var(--im-color-info)!important Requires --im-color-warning-rgb */ }
+  &.is-danger  { background-color: var(--im-color-danger)  !important; border-color: var(--im-color-danger);color:var(--im-color-info-inverted)!important;&:hover{background-color:darken  !important; color: var(--im-color-danger-inverted)  !important; &:hover{ background(#209cee,5%)!important;border-color:darken(#209cee,5%)!-color:darken(var(--im-color-danger),5%)  !important; border-color:important;}}
+  &.is-success { background-color:var(--im-color-success)!importantdarken(var(--im-color-danger),5%)  !important;} /* Requires --im-color-;border-color:var(--im-color-success)!important;color:var(--im-color-successdanger-rgb */ }
+
 
   .hero.is-primary &.is-light {
-    &.is-outlined { background-color:transparent !important; border-color:var(--im-color-primary-inverted) !important; color:var(--im-color-primary-inverted) !important; &:hover{background-color:rgba(255,255,255,0.1)!important;}}
-    &:not(.is-outlined) { background-color:var(--im-color-primary-inverted) !important; border-color:var(--im-color-primary-inverted) !important; color:var(--im-color-primary) !important; &:hover{background-color:rgba(255,255,255,0.9)!important; border-color:rgba(255,255,255,0.9)!important;}}
+    &.is-outlined {-inverted)!important;&:hover{background-color:darken(#23d160,5%)!important;border-color:darken(#23d160,5%)!important;}}
+ background-color:transparent !important; border-color:var(--im-color-primary-inverted) !important; color  &.is-warning { background-color:var(--im-color-warning)!important;border-color:var(--im-color-primary-inverted) !important; &:hover{background-color:rgba(2:var(--im-color-warning)!important;color:var(--im-color-warning-inverted)!important55,255,255,0.1)!important;}}
+    &:not(.is;&:hover{background-color:darken(#ffdd57,5%)!important;border-color:dark-outlined) { background-color:var(--im-color-primary-inverted) !important; border-coloren(#ffdd57,5%)!important;}}
+  &.is-danger  { background-color:var(--im-color-primary-inverted) !important; color:var(--im-color-primary) !important; &:hover{background-color:rgba(255,255,255,:var(--im-color-danger)!important;border-color:var(--im-color-danger)!important0.9)!important; border-color:rgba(255,255,255,0.9)!important;}}
   }
-  &.is-light { background-color:var(--im-button-light-bg)!important; border-color:var(--im-button-light-border)!important; color:var(--im-button-light-text)!important; &:hover{background-color:var(--im-button-light-hover-bg)!important; border-color:var(--im-button-light-hover-border)!important;}}
-  &.is-white   { border-color: transparent !important; color: var(--im-color-text)!important; &:hover, &:focus { background-color: var(--im-color-background)!important; border-color: transparent!important; color: var(--im-color-text)!important;}}
-  &.is-black   { background-color: #0a0a0a!important; border-color:transparent!important; color:#fff!important; &:hover, &:focus { background-color: #000!important; border-color:transparent!important; color:#fff!important;}}
-  &.is-ghost   { border-color: transparent!important; color: var(--im-color-link)!important; text-decoration: none!important; &:hover {color:var(--im-color-link)!important; text-decoration:underline!important;}}
+  &.is-light { background-color:var(--;color:var(--im-color-danger-inverted)!important;&:hover{background-color:darken(#ff3860,5%)!important;border-color:darken(#ff3860,im-button-light-bg)!important; border-color:var(--im-button-light-border)!important; color5%)!important;}}
+
+  .hero.is-primary &.is-light {&.is-outlined{background-:var(--im-button-light-text)!important; &:hover{background-color:var(--im-color:transparent!important;border-color:var(--im-color-primary-inverted)!important;color:button-light-hover-bg)!important; border-color:var(--im-button-light-hover-border)!importantvar(--im-color-primary-inverted)!important;&:hover{background-color:rgba(255,255,255,0.1)!important;}}&:not(.is-outlined){background-color:;}}
+  &.is-white   { border-color: transparent !important; color: var(--im-color-text)!important; &:hover, &:focus { background-color: var(--im-color-background)!importantvar(--im-color-primary-inverted)!important;border-color:var(--im-color-primary-inverted)!important;color:var(--im-color-primary)!important;&:hover{background-color:rgba; border-color: transparent!important; color: var(--im-color-text)!important;}}
+  &.(255,255,255,0.9)!important;border-color:rgbais-black   { background-color: #0a0a0a!important; border-color:transparent!(255,255,255,0.9)!important;}}}
+  &.important; color:#fff!important; &:hover, &:focus { background-color: #000!important; border-is-light {background-color:var(--im-button-light-bg)!important;border-color:var(--im-button-light-border)!important;color:var(--im-button-light-text)!importantcolor:transparent!important; color:#fff!important;}}
+  &.is-ghost   { border-color: transparent;&:hover{background-color:var(--im-button-light-hover-bg)!important;border-!important; color: var(--im-color-link)!important; text-decoration: none!important; &:color:var(--im-button-light-hover-border)!important;}}
+  &.is-whitehover {color:var(--im-color-link-hover)!important; text-decoration:underline!important;}}
 }
 
 // --- Box, Card, Panel (NO GRID LINES) ---
-.box, .card, .panel {
+.box, .card, .panel   { border-color: transparent !important; color: var(--im-color-text)!important; &:hover {
   background-color: var(--im-color-surface) !important;
-  border-radius: $im-border-radius !important;
-  box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,.1), 0 0px 0 1px rgba(10,10,10,.02) !important; // Bulma's default shadow
+  border-radius:, &:focus { background-color: var(--im-color-background)!important; border-color: transparent! $im-border-radius !important;
+  box-shadow: 0 0.5em 1important; color: var(--im-color-text)!important;}}
+  &.is-black   {em -0.125em rgba(10,10,10,.1), 0  background-color: #0a0a0a!important; border-color:transparent!important; color:#fff!important0px 0 1px rgba(10,10,10,.02) !important;; &:hover, &:focus { background-color: #000!important; border-color:transparent!
   border: 1px solid var(--im-color-border) !important;
-  color: var(--im-color-text-on-surface) !important;
-  transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function), border-color $im-page-transition-duration var(--im-page-transition-timing-function), box-shadow $im-page-transition-duration var(--im-page-transition-timing-function), color $im-page-transition-duration var(--im-page-transition-timing-function);
+  color: var(--im-important; color:#fff!important;}}
+  &.is-ghost   { border-color: transparent!important; colorcolor-text-on-surface) !important;
+  transition: background-color $im-page-transition: var(--im-color-link)!important; text-decoration: none!important; &:hover {color:var(---duration var(--im-page-transition-timing-function), border-color $im-page-transition-duration var(--im-page-transition-timing-function), box-shadow $im-page-transition-duration var(--im-color-link-hover)!important; text-decoration:underline!important;}}
 }
-.box { padding: $im-content-padding !important; }
+
+// --- Box, Card, Panel (NO GRID LINES) ---
+.box, .card, .panel { background-color:var(--im-colorim-page-transition-timing-function), color $im-page-transition-duration var(--im-page-surface)!important;border-radius:$im-border-radius!important;box-shadow:0 .5em 1-transition-timing-function);
+}
+.box { padding: $im-content-padding !important;em -.125em rgba(10,10,10,.1),0 0 0 1 }
 .card {
   padding: 0 !important;
-  .card-header { box-shadow:none!important; border-bottom:1px solid var(--im-color-border); padding:0.75rem $im-content-padding; background-color:transparent!important; transition:border-color $im-page-transition-duration var(--im-page-transition-timing-function); .card-header-title{color:var(--im-color-text-headings)!important;font-weight:$im-font-weight-semibold!important;transition:color $im-page-transition-duration var(--im-page-transition-timing-function);}}
-  .card-content{ padding:$im-content-padding!important; color:var(--im-color-text-on-surface)!important; transition:color $im-page-transition-duration var(--im-page-transition-timing-function);}
-  .card-footer { border-top:1px solid var(--im-color-border); padding:0.75rem $im-content-padding; transition:border-color $im-page-transition-duration var(--im-page-transition-timing-function); }
-  .card-image img { border-top-left-radius: $im-border-radius; border-top-right-radius: $im-border-radius; } // If image is first
+  .card-header { box-shadow:none!important; border-bottom:1px solid var(--im-color-border); padding:0.75px rgba(10,10,10,.02)!important;border:1px solid var(--rem $im-content-padding; background-color:transparent!important; transition:border-color $im-im-color-border)!important;color:var(--im-color-text-on-surface)!important;page-transition-duration var(--im-page-transition-timing-function); .card-header-title{transition:background-color $im-page-transition-duration var(--im-page-transition-timing-function),border-color $im-page-transition-duration var(--im-page-transition-timing-function),color:var(--im-color-text-headings)!important;font-weight:$im-font-weight-semibold!important;transition:color $im-page-transition-duration var(--im-page-transition-timing-function);box-shadow $im-page-transition-duration var(--im-page-transition-timing-function),color $im-page-transition-duration var(--im-page-transition-timing-function);}
+.box {}}
+  .card-content{ padding:$im-content-padding!important; color:var(--im-color- padding: $im-content-padding !important; }
+.card { padding:0!important; .card-header{text-on-surface)!important; transition:color $im-page-transition-duration var(--im-pagebox-shadow:none!important;border-bottom:1px solid var(--im-color-border);padding:.-transition-timing-function);}
+  .card-footer { border-top:1px solid var(--im-color-border); padding:0.75rem $im-content-padding; transition:border-color $im-75rem $im-content-padding;background-color:transparent!important;transition:border-color $im-pagepage-transition-duration var(--im-page-transition-timing-function); }
+  .card-image-transition-duration var(--im-page-transition-timing-function);.card-header-title{color:var(--im-color-text-headings)!important;font-weight:$im-font-weight-semibold img { border-top-left-radius: $im-border-radius; border-top-right-radius: $!important;transition:color $im-page-transition-duration var(--im-page-transition-timing-im-border-radius; }
 }
 .panel {
-  .panel-heading { background-color:var(--im-color-surface)!important; color:var(--im-color-text-headings)!important; border-bottom:1px solid var(--im-color-border)!important; border-top-left-radius:$im-border-radius!important; border-top-right-radius:$im-border-radius!important; font-weight:$im-font-weight-semibold; transition:background-color $im-page-transition-duration var(--im-page-transition-timing-function),color $im-page-transition-duration var(--im-page-transition-timing-function),border-color $im-page-transition-duration var(--im-page-transition-timing-function);}
-  .panel-block, .panel-tabs a { border-color:var(--im-color-border)!important; color:var(--im-color-text-on-surface)!important; transition:border-color $im-page-transition-duration var(--im-page-transition-timing-function),color $im-page-transition-duration var(--im-page-transition-timing-function); &:hover{background-color:rgba(var(--im-color-primary-rgb),0.05)!important;}}
-  .panel-tabs a.is-active { color:var(--im-color-primary)!important; border-bottom-color:var(--im-color-primary)!important;}
-  .panel-icon { color:var(--im-color-text-muted)!important; transition:color $im-page-transition-duration var(--im-page-transition-timing-function);}
+  .panel-heading { background-color:var(--imfunction);}}.card-content{padding:$im-content-padding!important;color:var(--im-color-color-surface)!important; color:var(--im-color-text-headings)!important; border-bottom:1px solid var(--im-color-border)!important; border-top-left-radius:$im--text-on-surface)!important;transition:color $im-page-transition-duration var(--im-page-transition-timing-function);}.card-footer{border-top:1px solid var(--im-border-radius!important; border-top-right-radius:$im-border-radius!important; font-weight:$im-font-weight-semibold; transition:background-color $im-page-transition-duration varcolor-border);padding:.75rem $im-content-padding;transition:border-color $im-page-(--im-page-transition-timing-function),color $im-page-transition-duration var(--im-transition-duration var(--im-page-transition-timing-function);}.card-image img{border-top-left-radius:$im-border-radius;border-top-right-radius:$im-border-radius;}}
+page-transition-timing-function),border-color $im-page-transition-duration var(--im-page-transition-timing-function);}
+  .panel-block, .panel-tabs a { border-color:var(--im.panel { .panel-heading{background-color:var(--im-color-surface)!important;color:var(--im-color-border)!important; color:var(--im-color-text-on-surface)!important; transition-color-text-headings)!important;border-bottom:1px solid var(--im-color-border)!:border-color $im-page-transition-duration var(--im-page-transition-timing-function),important;border-top-left-radius:$im-border-radius!important;border-top-right-radius:$im-border-radius!important;font-weight:$im-font-weight-semibold;transition:color $im-page-transition-duration var(--im-page-transition-timing-function); &:hover{background-color:rgba(var(--im-color-primary-rgb),0.05)!important;}}
+background-color $im-page-transition-duration var(--im-page-transition-timing-function),color $im-page-transition-duration var(--im-page-transition-timing-function),border-color $  .panel-tabs a.is-active { color:var(--im-color-primary)!important; borderim-page-transition-duration var(--im-page-transition-timing-function);}.panel-block,.panel-tabs-bottom-color:var(--im-color-primary)!important;}
+  .panel-icon { color:var(--im-color-text-muted)!important; transition:color $im-page-transition-duration var a{border-color:var(--im-color-border)!important;color:var(--im-color-text-on-surface)!important;transition:border-color $im-page-transition-duration var(--im-page-(--im-page-transition-timing-function);}
 }
 
 // --- Section (WITH GRID LINES) ---
 .section {
   padding: $im-section-padding-vertical 1.5rem !important;
-  background-color: transparent !important;
+  background-colortransition-timing-function),color $im-page-transition-duration var(--im-page-transition-timing-function);: transparent !important;
   position: relative; overflow: hidden;
-  &:not(.hero-body):not(.hero > .section) { @include im-apply-fading-grid('--im-grid-line-color-for-section'); }
+  &:not(.hero-body):&:hover{background-color:rgba(var(--im-color-primary-rgb),.05)!importantnot(.hero > .section) { @include im-apply-fading-grid('--im-grid-line;}}.panel-tabs a.is-active{color:var(--im-color-primary)!important;border-color-for-section'); }
   > .container { position: relative; z-index: 1; }
-}
+-bottom-color:var(--im-color-primary)!important;}.panel-icon{color:var(--im-color}
 
 // --- Navbar ---
 .navbar {
-  background-color: var(--im-color-surface) !important;
-  box-shadow: 0 2px 0 0 var(--im-color-background) !important; // Bulma's subtle bottom border
+  background-color: var(--im-color-surface) !important-text-muted)!important;transition:color $im-page-transition-duration var(--im-page-;
+  box-shadow: 0 2px 0 0 var(--im-color-background)transition-timing-function);}}
+
+// --- Section (WITH GRID LINES) ---
+.section { padding:$im-section !important;
   min-height: 3.25rem;
-  transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function), box-shadow $im-page-transition-duration var(--im-page-transition-timing-function);
-  .navbar-item, .navbar-link { color:var(--im-color-text)!important; font-weight:$im-font-weight-medium!important; transition:color $im-page-transition-duration var(--im-page-transition-timing-function),background-color $im-page-transition-duration var(--im-page-transition-timing-function); &:hover,&.is-active{background-color:transparent!important; color:var(--im-color-primary)!important;}}
-  .navbar-brand .navbar-item { font-weight:$im-font-weight-bold!important; color:var(--im-color-text-headings)!important;}
-  .navbar-burger { color:var(--im-color-text)!important; span{background-color:var(--im-color-text)!important; transition:background-color $im-page-transition-duration var(--im-page-transition-timing-function);}}
-  &.is-primary, .hero-head &.is-transparent, .hero-head &.has-background-primary {
-    background-color:var(--im-color-primary)!important; box-shadow:none!important;
-    .navbar-item,.navbar-link{color:var(--im-color-primary-inverted)!important;&:hover,&.is-active{background-color:rgba(255,255,255,0.1)!important;color:var(--im-color-primary-inverted)!important;}}
-    .navbar-brand .navbar-item{color:var(--im-color-primary-inverted)!important;}
-    .navbar-burger{color:var(--im-color-primary-inverted)!important; span{background-color:var(--im-color-primary-inverted)!important;}}
+  transition: background-color $-padding-vertical 1.5rem!important;background-color:transparent!important;position:relative;im-page-transition-duration var(--im-page-transition-timing-function), box-shadow $imoverflow:hidden;&:not(.hero-body):not(.hero > .section){@include im-apply-fading-page-transition-duration var(--im-page-transition-timing-function);
+  .navbar-item, .navbar-link { color:var(--im-color-text)!important; font-weight:$im-font--grid('--im-grid-line-color-for-section');} > .container{position:relative;z-index:1;}}
+
+// --- Navbar ---
+.navbar { background-color:var(--im-weight-medium!important; transition:color $im-page-transition-duration var(--im-page-transitioncolor-surface)!important;box-shadow:0 2px 0 0 var(--im-color--timing-function),background-color $im-page-transition-duration var(--im-page-transition-timing-background)!important;min-height:3.25rem;transition:background-color $im-page-function); &:hover,&.is-active{background-color:transparent!important; color:var(--im-colortransition-duration var(--im-page-transition-timing-function),box-shadow $im-page-transition-primary)!important;}}
+  .navbar-brand .navbar-item { font-weight:$im-font-weight-duration var(--im-page-transition-timing-function);.navbar-item,.navbar-link{color-bold!important; color:var(--im-color-text-headings)!important;}
+  .navbar-:var(--im-color-text)!important;font-weight:$im-font-weight-medium!importantburger { color:var(--im-color-text)!important; span{background-color:var(--im-;transition:color $im-page-transition-duration var(--im-page-transition-timing-function),color-text)!important; transition:background-color $im-page-transition-duration var(--im-pagebackground-color $im-page-transition-duration var(--im-page-transition-timing-function);&:-transition-timing-function);}}
+  &.is-primary, .hero-head &.is-transparenthover,&.is-active{background-color:transparent!important;color:var(--im-color-primary)!important, .hero-head &.has-background-primary {
+    background-color:var(--im-color-;}}.navbar-brand .navbar-item{font-weight:$im-font-weight-bold!important;color:primary)!important; box-shadow:none!important;
+    .navbar-item,.navbar-link{color:var(--var(--im-color-text-headings)!important;}.navbar-burger{color:var(--im-colorim-color-primary-inverted)!important;&:hover,&.is-active{background-color:rgba(255-text)!important;span{background-color:var(--im-color-text)!important;transition:background-color $im-page-transition-duration var(--im-page-transition-timing-function);}}&,255,255,0.1)!important;color:var(--im-color-primary.is-primary,.hero-head &.is-transparent,.hero-head &.has-background-primary{background-inverted)!important;}}
+    .navbar-brand .navbar-item{color:var(--im-color-color:var(--im-color-primary)!important;box-shadow:none!important;.navbar-item,.navbar-primary-inverted)!important;}
+    .navbar-burger{color:var(--im-color-primary-inverted)!important-link{color:var(--im-color-primary-inverted)!important;&:hover,&.is-active; span{background-color:var(--im-color-primary-inverted)!important;}}
   }
 }
 
 // --- Footer ---
 .footer {
-  background-color: var(--im-color-background)!important; // Footer often has a bg
-  padding: calc(#{$im-spacing-unit} * 2.5) 1.5rem calc(#{$im-spacing-unit} * 2.5) !important;
-  color: var(--im-color-text-light) !important;
-  border-top: 1px solid var(--im-color-border-light);
-  transition: color $im-page-transition-duration var(--im-page-transition-timing-function), border-color $im-page-transition-duration var(--im-page-transition-timing-function), background-color $im-page-transition-duration var(--im-page-transition-timing-function);
+  background-color: var(--im-color-background)!important;{background-color:rgba(255,255,255,.1)!important;color:var(--
+  padding: calc(#{$im-spacing-unit} * 2.5) 1.5rem calc(#{$im-color-primary-inverted)!important;}}.navbar-brand .navbar-item{color:var(--imim-spacing-unit} * 2.5) !important;
+  color: var(--im-color-color-primary-inverted)!important;}.navbar-burger{color:var(--im-color-primary-inverted)!important-text-light) !important;
+  border-top: 1px solid var(--im-color-;span{background-color:var(--im-color-primary-inverted)!important;}}}}
+
+// --- Footer ---border-light);
+  transition: color $im-page-transition-duration var(--im-page-transition
+.footer { background-color:var(--im-color-background)!important;padding:calc(#{$im-spacing--timing-function), border-color $im-page-transition-duration var(--im-page-transition-unit}*2.5) 1.5rem calc(#{$im-spacing-unit}*2.5timing-function), background-color $im-page-transition-duration var(--im-page-transition-timing)!important;color:var(--im-color-text-light)!important;border-top:1px solid var(---function);
   a {color:var(--im-color-text)!important; font-weight:$im-font-weight-medium!important; &:hover{color:var(--im-color-primary)!important;}}
-}
+}im-color-border-light);transition:color $im-page-transition-duration var(--im-page-transition-
 
 // --- Input Fields & Forms ---
 .input, .textarea, .select select {
-  font-family: $im-font-primary !important;
+  font-family: $timing-function),border-color $im-page-transition-duration var(--im-page-transition-timing-function),background-color $im-page-transition-duration var(--im-page-transition-timing-im-font-primary !important;
   border-radius: $im-border-radius !important;
-  border: 1px solid var(--im-color-input-border) !important;
-  box-shadow: inset 0 0.0625em 0.125em rgba(10,10,10,.05) !important; // Bulma's subtle inset
-  background-color: var(--im-color-input-bg) !important;
+function);a{color:var(--im-color-text)!important;font-weight:$im-font-  border: 1px solid var(--im-color-input-border) !important;
+  box-shadow: inset 0 0.0625em 0.125em rgba(10,10weight-medium!important;&:hover{color:var(--im-color-primary)!important;}}}
+
+// --- Input,10,.05) !important;
+  background-color: var(--im-color-input- Fields & Forms ---
+.input,.textarea,.select select{font-family:$im-font-primary!important;border-radius:$im-border-radius!important;border:1px solid var(--im-color-inputbg) !important;
   color: var(--im-color-text) !important;
-  transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function), border-color $im-page-transition-duration var(--im-page-transition-timing-function), color $im-page-transition-duration var(--im-page-transition-timing-function), box-shadow $im-page-transition-duration var(--im-page-transition-timing-function);
-  &::placeholder {color:var(--im-color-text-muted)!important; opacity:0.7; transition:color $im-page-transition-duration var(--im-page-transition-timing-function);}
-  &:hover { border-color: var(--im-color-border-hover)!important;}
-  &:focus,&.is-focused,&:active,&.is-active { border-color:var(--im-color-primary)!important; box-shadow:0 0 0 0.125em var(--im-color-input-shadow)!important;}
+  transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function), border-border)!important;box-shadow:inset 0 .0625em .125em rgba(1-color $im-page-transition-duration var(--im-page-transition-timing-function), color $0,10,10,.05)!important;background-color:var(--im-color-inputim-page-transition-duration var(--im-page-transition-timing-function), box-shadow $im-bg)!important;color:var(--im-color-text)!important;transition:background-color $im-page-transition-duration var(--im-page-transition-timing-function);
+  &::placeholder {-page-transition-duration var(--im-page-transition-timing-function),border-color $im-page-transitioncolor:var(--im-color-text-muted)!important; opacity:0.7; transition:color $im-page-duration var(--im-page-transition-timing-function),color $im-page-transition-duration var-transition-duration var(--im-page-transition-timing-function);}
+  &:hover { border-color: var(--im-page-transition-timing-function),box-shadow $im-page-transition-duration var(--(--im-color-border-hover)!important;}
+  &:focus,&.is-focused,&:active,&.im-page-transition-timing-function);&::placeholder{color:var(--im-color-text-is-active { border-color:var(--im-color-primary)!important; box-shadow:0 muted)!important;opacity:.7;transition:color $im-page-transition-duration var(--im-page-transition0 0 0.125em var(--im-color-input-shadow)!important;}
 }
-.select:not(.is-multiple):not(.is-loading)::after { border-color:var(--im-color-primary)!important; transition:border-color $im-page-transition-duration var(--im-page-transition-timing-function);}
-.checkbox, .radio {
-    &:hover { color: var(--im-color-text)!important; }
-}
-.label { color: var(--im-color-text-strong)!important; font-weight: $im-font-weight-bold!important;}
-.help { color: var(--im-color-text-light)!important;}
-.control.has-icons-left .icon, .control.has-icons-right .icon { color: var(--im-color-border)!important; }
-.input:focus ~ .icon, .textarea:focus ~ .icon, .select select:focus ~ .icon { color: var(--im-color-text-light)!important; }
+.-timing-function);}&:hover{border-color:var(--im-color-border-hover)!important;}&:focus,&.is-focused,&:active,&.is-active{border-color:var(--im-color-primaryselect:not(.is-multiple):not(.is-loading)::after { border-color:var(--im-color-primary)!important; transition:border-color $im-page-transition-duration var(--im-page-)!important;box-shadow:0 0 0 .125em var(--im-color-input-transition-timing-function);}
+.checkbox, .radio { &:hover { color: var(--im-color-text)!shadow)!important;}}
+.select:not(.is-multiple):not(.is-loading)::after{important; }}
+.label { color: var(--im-color-text-strong)!important; font-weightborder-color:var(--im-color-primary)!important;transition:border-color $im-page-transition-duration: $im-font-weight-bold!important;}
+.help { color: var(--im-color-text- var(--im-page-transition-timing-function);}
+.checkbox,.radio{&:hover{color:var(--im-light)!important;}
+.control.has-icons-left .icon, .control.has-icons-rightcolor-text)!important;}}
+.label{color:var(--im-color-text-strong)!important .icon { color: var(--im-color-border)!important; }
+.input:focus ~ .icon,;font-weight:$im-font-weight-bold!important;}
+.help{color:var(--im .textarea:focus ~ .icon, .select select:focus ~ .icon { color: var(--im-color-color-text-light)!important;}
+.control.has-icons-left .icon,.control.has--text-light)!important; }
 
 // --- Tags ---
-.tags .tag {
-  border-radius: $im-border-radius * 0.5 !important;
-  margin-bottom: $im-spacing-unit * 0.5 !important;
-  transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function), color $im-page-transition-duration var(--im-page-transition-timing-function), border-color $im-page-transition-duration var(--im-page-transition-timing-function);
-}
-.tag:not(body) { // Default tag
-  background-color: var(--im-color-background) !important;
-  color: var(--im-color-text) !important;
-  &.is-primary { background-color:var(--im-color-primary)!important; color:var(--im-color-primary-inverted)!important;}
-  &.is-link    { background-color:var(--im-color-link)!important;    color:var(--im-color-link-inverted)!important;}
-  &.is-info    { background-color:var(--im-color-info)!important;    color:var(--im-color-info-inverted)!important;}
-  &.is-success { background-color:var(--im-color-success)!important; color:var(--im-color-success-inverted)!important;}
-  &.is-warning { background-color:var(--im-color-warning)!important; color:var(--im-color-warning-inverted)!important;}
-  &.is-danger  { background-color:var(--im-color-danger)!important;  color:var(--im-color-danger-inverted)!important;}
-  &.is-light   { background-color:var(--im-button-light-bg)!important; color:var(--im-button-light-text)!important;} // Match light button
-  &.is-dark    { background-color: var(--im-color-text-strong)!important; color: var(--im-color-background)!important;}
+.tags .tag { border-radius: $icons-right .icon{color:var(--im-color-border)!important;}
+.input:focus ~im-border-radius * 0.5 !important; margin-bottom: $im-spacing-unit * 0 .icon,.textarea:focus ~ .icon,.select select:focus ~ .icon{color:var(--im-color-text.5 !important; transition: background-color $im-page-transition-duration var(--im-page--light)!important;}
+
+// --- Tags ---
+.tags .tag{border-radius:$im-border-radius*.5transition-timing-function), color $im-page-transition-duration var(--im-page-transition-timing-function),!important;margin-bottom:$im-spacing-unit*.5!important;transition:background-color $im-page- border-color $im-page-transition-duration var(--im-page-transition-timing-function);}
+.tag:transition-duration var(--im-page-transition-timing-function),color $im-page-transition-durationnot(body) {
+  background-color: var(--im-color-background) !important; color: var(-- var(--im-page-transition-timing-function),border-color $im-page-transition-duration varim-color-text) !important;
+  &.is-primary { background-color:var(--im(--im-page-transition-timing-function);}
+.tag:not(body){background-color:var(--im--color-primary)!important; color:var(--im-color-primary-inverted)!important;}
+  &color-background)!important;color:var(--im-color-text)!important;&.is-primary{background-color.is-link    { background-color:var(--im-color-link)!important;    color:var(--:var(--im-color-primary)!important;color:var(--im-color-primary-inverted)!importantim-color-link-inverted)!important;}
+  &.is-info    { background-color:var;}&.is-link{background-color:var(--im-color-link)!important;color:var(--(--im-color-info)!important;    color:var(--im-color-info-inverted)!important;}im-color-link-inverted)!important;}&.is-info{background-color:var(--im-
+  &.is-success { background-color:var(--im-color-success)!important; color:color-info)!important;color:var(--im-color-info-inverted)!important;}&.is-var(--im-color-success-inverted)!important;}
+  &.is-warning { background-color:var(--im-color-warning)!important; color:var(--im-color-warning-inverted)!important;}success{background-color:var(--im-color-success)!important;color:var(--im-color-
+  &.is-danger  { background-color:var(--im-color-danger)!important;  success-inverted)!important;}&.is-warning{background-color:var(--im-color-warning)!color:var(--im-color-danger-inverted)!important;}
+  &.is-light   { backgroundimportant;color:var(--im-color-warning-inverted)!important;}&.is-danger{background--color:var(--im-button-light-bg)!important; color:var(--im-button-lightcolor:var(--im-color-danger)!important;color:var(--im-color-danger-inverted)!-text)!important;}
+  &.is-dark    { background-color: var(--im-color-important;}&.is-light{background-color:var(--im-button-light-bg)!important;color:var(--im-button-light-text)!important;}&.is-dark{background-color:text-strong)!important; color: var(--im-color-background)!important;}
   &.is-black   { background-color: #0a0a0a!important; color: #fff!important;}
-  &.is-white   { background-color: #fff!important; color: #0a0a0a!important; border: 1px solid var(--im-color-border);}
+  var(--im-color-text-strong)!important;color:var(--im-color-background)!important;&.is-white   { background-color: #fff!important; color: #0a0a0}&.is-black{background-color:#0a0a0a!important;color:#fff!important;}&.is-white{background-color:#fff!important;color:#0a0a0a!importanta!important; border: 1px solid var(--im-color-border);}
 }
-.tags.has-addons .tag:not(:last-child) { margin-right: 0 !important; border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important; }
-.tags.has-addons .tag:not(:first-child){ margin-left: 0 !important; border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; }
+.tags.;border:1px solid var(--im-color-border);}}
+.tags.has-addons .tag:not(:has-addons .tag:not(:last-child) { margin-right: 0 !important; border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important;last-child){margin-right:0!important;border-top-right-radius:0!important;border-bottom-right-radius:0!important;}
+.tags.has-addons .tag:not(: }
+.tags.has-addons .tag:not(:first-child){ margin-left: 0 !first-child){margin-left:0!important;border-top-left-radius:0!important;important; border-top-left-radius: 0 !important; border-bottom-left-radius: border-bottom-left-radius:0!important;}
 
 // --- Notification & Message ---
-.notification, .message {
-  border-radius: $im-border-radius !important;
-  padding: $im-content-padding * 0.8 $im-content-padding $im-content-padding * 0.8 !important;
-  transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function), color $im-page-transition-duration var(--im-page-transition-timing-function);
-  strong { color: inherit !important; } // Ensure strong inherits notification text color
-}
+.notification,.message{border0 !important; }
+
+// --- Notification & Message ---
+.notification, .message { border-radius: $-radius:$im-border-radius!important;padding:$im-content-padding*.8 $im-content-im-border-radius !important; padding: $im-content-padding * 0.8 $im-content-padding $im-content-padding*.8!important;transition:background-color $im-page-transition-padding $im-content-padding * 0.8 !important; transition: background-color $im-page-transitionduration var(--im-page-transition-timing-function),color $im-page-transition-duration var(--im--duration var(--im-page-transition-timing-function), color $im-page-transition-duration varpage-transition-timing-function);strong{color:inherit!important;}}
+.notification{background-color(--im-page-transition-timing-function); strong { color: inherit !important; }}
 .notification {
-  background-color: var(--im-color-background) !important;
-  color: var(--im-color-text) !important;
-  &.is-primary { background-color:var(--im-color-primary)!important; color:var(--im-color-primary-inverted)!important;}
-  // Add other contextual notification colors if needed, similar to .tag
+:var(--im-color-background)!important;color:var(--im-color-text)!important;&.  background-color: var(--im-color-background) !important; color: var(--im-color-text) !important;
+  &.is-primary { background-color:var(--im-color-primaryis-primary{background-color:var(--im-color-primary)!important;color:var(--im-)!important; color:var(--im-color-primary-inverted)!important;}
 }
 .message {
-  background-color: var(--im-color-surface) !important; // Message body
-  box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,.1), 0 0px 0 1px rgba(10,10,10,.02) !important;
-  .message-header {
-    background-color: var(--im-color-text-strong) !important; // Default message header
-    color: var(--im-color-background) !important;
-    border-bottom: 1px solid var(--im-color-border);
-    font-weight: $im-font-weight-bold;
-    border-top-left-radius: $im-border-radius !important;
-    border-top-right-radius: $im-border-radius !important;
-    transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function), color $im-page-transition-duration var(--im-page-transition-timing-function);
-  }
-  .message-body {
-    border-color: var(--im-color-border) !important;
-    color: var(--im-color-text) !important;
-    border-bottom-left-radius: $im-border-radius !important;
-    border-bottom-right-radius: $im-border-radius !important;
-    transition: border-color $im-page-transition-duration var(--im-page-transition-timing-function), color $im-page-transition-duration var(--im-page-transition-timing-function);
-  }
-  // Contextual Messages
-  &.is-primary { .message-header{background-color:var(--im-color-primary)!important;color:var(--im-color-primary-inverted)!important;} .message-body{border-color:var(--im-color-primary)!important;}}
-  // Add other contextual message colors...
-}
+color-primary-inverted)!important;}}
+.message{background-color:var(--im-color-surface)!important;box-shadow:0 .5em 1em -.125em rgba(10,10  background-color: var(--im-color-surface) !important; box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,.1), 0,10,.1),0 0 0 1px rgba(10,10,10 0px 0 1px rgba(10,10,10,.02) !important;
+  ,.02)!important;.message-header{background-color:var(--im-color-text-strong)!important;color:var(--im-color-background)!important;border-bottom:1px solid var(--im.message-header { background-color: var(--im-color-text-strong) !important; color:-color-border);font-weight:$im-font-weight-bold;border-top-left-radius:$ var(--im-color-background) !important; border-bottom: 1px solid var(--im-color-border);im-border-radius!important;border-top-right-radius:$im-border-radius!important; font-weight: $im-font-weight-bold; border-top-left-radius: $im-bordertransition:background-color $im-page-transition-duration var(--im-page-transition-timing-function-radius !important; border-top-right-radius: $im-border-radius !important; transition:),color $im-page-transition-duration var(--im-page-transition-timing-function);}.message-body background-color $im-page-transition-duration var(--im-page-transition-timing-function), color{border-color:var(--im-color-border)!important;color:var(--im-color-text)!important $im-page-transition-duration var(--im-page-transition-timing-function);}
+  .message;border-bottom-left-radius:$im-border-radius!important;border-bottom-right-radius:$im-body { border-color: var(--im-color-border) !important; color: var(--im-color-text) !important; border-bottom-left-radius: $im-border-radius !important; border-bottom-border-radius!important;transition:border-color $im-page-transition-duration var(--im-page--right-radius: $im-border-radius !important; transition: border-color $im-page-transition-timing-function),color $im-page-transition-duration var(--im-page-transition-timing-function);transition-duration var(--im-page-transition-timing-function), color $im-page-transition-duration}&.is-primary{.message-header{background-color:var(--im-color-primary)!important;color: var(--im-page-transition-timing-function);}
+  &.is-primary { .message-headervar(--im-color-primary-inverted)!important;}.message-body{border-color:var(--im-color{background-color:var(--im-color-primary)!important;color:var(--im-color-primary-primary)!important;}}}
 
 // --- Table ---
-.table {
-  background-color: var(--im-color-surface) !important;
-  color: var(--im-color-text) !important;
-  th, td { border-color: var(--im-color-border-light) !important; transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function), border-color $im-page-transition-duration var(--im-page-transition-timing-function), color $im-page-transition-duration var(--im-page-transition-timing-function);}
-  th { color: var(--im-color-text-strong) !important; }
-  thead th, thead td { border-width: 0 0 2px !important; }
-  tbody tr:last-child td, tbody tr:last-child th { border-bottom-width: 0 !important; }
-  &.is-hoverable tbody tr:hover { background-color: var(--im-color-table-row-hover) !important; }
-  &.is-striped tbody tr:nth-child(odd) { background-color: var(--im-color-table-row-hover) !important; }
-  &.is-bordered { th,td { border-width: 1px !important; }}
-  &.is-fullwidth { width: 100% !important; }
-}
+.table{background-color:var(--im-color-surface)!-inverted)!important;} .message-body{border-color:var(--im-color-primary)!important;}}
+}important;color:var(--im-color-text)!important;th,td{border-color:var(--im-color
+
+// --- Table ---
+.table { background-color: var(--im-color-surface) !important;-border-light)!important;transition:background-color $im-page-transition-duration var(--im- color: var(--im-color-text) !important; th, td { border-color: var(--im-colorpage-transition-timing-function),border-color $im-page-transition-duration var(--im-page-border-light) !important; transition: background-color $im-page-transition-duration var(--im-transition-timing-function),color $im-page-transition-duration var(--im-page-transition--page-transition-timing-function), border-color $im-page-transition-duration var(--im-page-timing-function);}th{color:var(--im-color-text-strong)!important;}thead th,thead tdtransition-timing-function), color $im-page-transition-duration var(--im-page-transition-timing{border-width:0 0 2px!important;}tbody tr:last-child td,tbody tr:last-function);} th { color: var(--im-color-text-strong) !important; } thead th, thead-child th{border-bottom-width:0!important;}&.is-hoverable tbody tr:hover td { border-width: 0 0 2px !important; } tbody tr:last-child td{background-color:var(--im-color-table-row-hover)!important;}&.is-striped, tbody tr:last-child th { border-bottom-width: 0 !important; } &.is-hoverable tbody tr:nth-child(odd){background-color:var(--im-color-table-row-hover tbody tr:hover { background-color: var(--im-color-table-row-hover) !important;)!important;}&.is-bordered{th,td{border-width:1px!important;}}&.is } &.is-striped tbody tr:nth-child(odd) { background-color: var(--im-color-fullwidth{width:100%!important;}}
+
+// --- Other Components (Progress, Pagination, Tabs-table-row-hover) !important; } &.is-bordered { th,td { border-width:, Menu, Dropdown, Modal, Breadcrumb - same as previous full SCSS example) ---
+.progress{background- 1px !important; }} &.is-fullwidth { width: 100% !important; }}color:var(--im-color-border-light)!important;border-radius:$im-border-radius*
 
 // --- Progress Bar ---
-.progress {
-  background-color: var(--im-color-border-light) !important;
-  border-radius: $im-border-radius * 2 !important; // More rounded
-  &::-webkit-progress-bar { background-color: var(--im-color-border-light) !important; }
-  &::-webkit-progress-value { background-color: var(--im-color-text) !important; border-radius: $im-border-radius * 2 !important; }
-  &::-moz-progress-bar { background-color: var(--im-color-text) !important; border-radius: $im-border-radius * 2 !important; }
-  &::-ms-fill { background-color: var(--im-color-text) !important; border-radius: $im-border-radius * 2 !important; }
-  // Contextual progress bars
-  &.is-primary::-webkit-progress-value { background-color:var(--im-color-primary)!important;} &.is-primary::-moz-progress-bar { background-color:var(--im-color-primary)!important;} &.is-primary::-ms-fill { background-color:var(--im-color-primary)!important;}
-  // Add other contextual progress colors
-}
+.progress { background-color: var(--im-color-border-light) !2!important;&::-webkit-progress-bar{background-color:var(--im-color-border-light)!important; border-radius: $im-border-radius * 2 !important; &::-webkit-progress-bar {important;}&::-webkit-progress-value{background-color:var(--im-color-text)!important;border background-color: var(--im-color-border-light) !important; } &::-webkit-progress-value { background-color: var(--im-color-text) !important; border-radius: $im--radius:$im-border-radius*2!important;}&::-moz-progress-bar{background-color:var(--im-color-text)!important;border-radius:$im-border-radius*2!importantborder-radius * 2 !important; } &::-moz-progress-bar { background-color: var(--;}&::-ms-fill{background-color:var(--im-color-text)!important;border-radiusim-color-text) !important; border-radius: $im-border-radius * 2 !important:$im-border-radius*2!important;}&.is-primary::-webkit-progress-value{background-; } &::-ms-fill { background-color: var(--im-color-text) !important; border-radius: $im-border-radius * 2 !important; } &.is-primary::-webkit-progress-color:var(--im-color-primary)!important;}&.is-primary::-moz-progress-bar{background-value { background-color:var(--im-color-primary)!important;} &.is-primary::-moz-progress-barcolor:var(--im-color-primary)!important;}&.is-primary::-ms-fill{background- { background-color:var(--im-color-primary)!important;} &.is-primary::-ms-fill {color:var(--im-color-primary)!important;}}
+.pagination-link,.pagination-previous,.pagination-next background-color:var(--im-color-primary)!important;}}
 
 // --- Pagination ---
-.pagination-link, .pagination-previous, .pagination-next {
-  border-color: var(--im-color-border) !important;
-  color: var(--im-color-text) !important;
-  border-radius: $im-border-radius * 0.5 !important;
-  &:hover { border-color: var(--im-color-border-hover) !important; color: var(--im-color-primary) !important; }
-  &.is-current { background-color: var(--im-color-primary) !important; border-color: var(--im-color-primary) !important; color: var(--im-color-primary-inverted) !important; }
-  &:disabled { background-color: var(--im-color-background) !important; border-color: var(--im-color-border-light) !important; color: var(--im-color-text-muted) !important; opacity: 0.7; }
-}
+.pagination-{border-color:var(--im-color-border)!important;color:var(--im-color-textlink, .pagination-previous, .pagination-next { border-color: var(--im-color-border) !important;)!important;border-radius:$im-border-radius*.5!important;&:hover{border-color:var color: var(--im-color-text) !important; border-radius: $im-border-radius * 0(--im-color-border-hover)!important;color:var(--im-color-primary)!important;}&.5 !important; &:hover { border-color: var(--im-color-border-hover) !important;.is-current{background-color:var(--im-color-primary)!important;border-color:var color: var(--im-color-primary) !important; } &.is-current { background-color: var(--im(--im-color-primary)!important;color:var(--im-color-primary-inverted)!important;}&-color-primary) !important; border-color: var(--im-color-primary) !important; color:disabled{background-color:var(--im-color-background)!important;border-color:var(--im-color-border-light)!important;color:var(--im-color-text-muted)!important;opacity: var(--im-color-primary-inverted) !important; } &:disabled { background-color: var(--:.7;}}
+.pagination-ellipsis{color:var(--im-color-text-muted)!important;}
+.tabsim-color-background) !important; border-color: var(--im-color-border-light) !important; color: var(--im-color-text-muted) !important; opacity: 0.7;{a{border-bottom-color:var(--im-color-border)!important;color:var(--im }}
 .pagination-ellipsis { color: var(--im-color-text-muted) !important; }
 
-// --- Tabs ---
-.tabs {
-  a { border-bottom-color: var(--im-color-border) !important; color: var(--im-color-text) !important; &:hover { border-bottom-color: var(--im-color-text) !important; color: var(--im-color-text) !important; } }
-  li.is-active a { border-bottom-color: var(--im-color-primary) !important; color: var(--im-color-primary) !important; }
-  &.is-boxed {
-    a { border-radius: $im-border-radius $im-border-radius 0 0 !important; border-color: var(--im-color-border) !important; &:hover { background-color: var(--im-color-background) !important; border-bottom-color: var(--im-color-border) !important; } }
-    li.is-active a { background-color: var(--im-color-surface) !important; border-color: var(--im-color-border) !important; border-bottom-color: transparent !important; }
-  }
-  &.is-toggle {
-    a { border-radius: $im-border-radius !important; border-color: var(--im-color-border) !important; margin-bottom: 0 !important; &:hover { background-color: var(--im-color-background) !important; border-color: var(--im-color-border-hover) !important; z-index: 2; } }
-    li + li { margin-left: 0 !important; }
-    li:first-child a { border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important; }
-    li:last-child a { border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; }
-    li:not(:first-child):not(:last-child) a { border-radius: 0 !important; }
-    li.is-active a { background-color: var(--im-color-primary) !important; border-color: var(--im-color-primary) !important; color: var(--im-color-primary-inverted) !important; z-index: 1; }
-  }
-}
+-color-text)!important;&:hover{border-bottom-color:var(--im-color-text)!important;color// --- Tabs ---
+.tabs { a { border-bottom-color: var(--im-color-border) !important;:var(--im-color-text)!important;}}li.is-active a{border-bottom-color color: var(--im-color-text) !important; &:hover { border-bottom-color: var(--:var(--im-color-primary)!important;color:var(--im-color-primary)!important;}&im-color-text) !important; color: var(--im-color-text) !important; } }.is-boxed{a{border-radius:$im-border-radius $im-border-radius 0 0!important;border-color:var(--im-color-border)!important;&:hover{background-color:var li.is-active a { border-bottom-color: var(--im-color-primary) !important; color: var(--im-color-primary) !important; } &.is-boxed { a { border-radius: $(--im-color-background)!important;border-bottom-color:var(--im-color-border)!importantim-border-radius $im-border-radius 0 0 !important; border-color: var(--im-;}}li.is-active a{background-color:var(--im-color-surface)!important;bordercolor-border) !important; &:hover { background-color: var(--im-color-background) !important-color:var(--im-color-border)!important;border-bottom-color:transparent!important;}}; border-bottom-color: var(--im-color-border) !important; } } li.is-active a&.is-toggle{a{border-radius:$im-border-radius!important;border-color: { background-color: var(--im-color-surface) !important; border-color: var(--im-color-var(--im-color-border)!important;margin-bottom:0!important;&:hover{background-color:varborder) !important; border-bottom-color: transparent !important; } } &.is-toggle { a { border-(--im-color-background)!important;border-color:var(--im-color-border-hover)!importantradius: $im-border-radius !important; border-color: var(--im-color-border) !;z-index:2;}}li+li{margin-left:0!important;}li:first-child a{border-top-right-radius:0!important;border-bottom-right-radius:0important; margin-bottom: 0 !important; &:hover { background-color: var(--im-color-background) !important; border-color: var(--im-color-border-hover) !important; z-!important;}li:last-child a{border-top-left-radius:0!important;border-bottom-left-radius:0!important;}li:not(:first-child):not(:last-child)index: 2; } } li + li { margin-left: 0 !important; } li:first-child a a{border-radius:0!important;}li.is-active a{background-color:var(--im { border-top-right-radius: 0 !important; border-bottom-right-radius: 0-color-primary)!important;border-color:var(--im-color-primary)!important;color:var !important; } li:last-child a { border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; } li:not(:first-child):not(:(--im-color-primary-inverted)!important;z-index:1;}}}
+.menu-list alast-child) a { border-radius: 0 !important; } li.is-active a { background{border-radius:$im-border-radius*.5!important;color:var(--im-color-text-color: var(--im-color-primary) !important; border-color: var(--im-color-primary) !)!important;&:hover{background-color:var(--im-color-background)!important;color:var(--im-colorimportant; color: var(--im-color-primary-inverted) !important; z-index: 1;-text-strong)!important;}&.is-active{background-color:var(--im-color-primary }}}
 
 // --- Menu ---
-.menu-list a {
-  border-radius: $im-border-radius * 0.5 !important;
-  color: var(--im-color-text) !important;
-  &:hover { background-color: var(--im-color-background) !important; color: var(--im-color-text-strong) !important; }
-  &.is-active { background-color: var(--im-color-primary) !important; color: var(--im-color-primary-inverted) !important; }
-}
+.menu-list a { border-radius: $im-border-radius * 0)!important;color:var(--im-color-primary-inverted)!important;}}
+.menu-label{.5 !important; color: var(--im-color-text) !important; &:hover { background-colorcolor:var(--im-color-text-muted)!important;}
+.dropdown-trigger .button .icon{color:var(--im-color-text)!important;}
+.dropdown-menu{background-color:var(--im: var(--im-color-background) !important; color: var(--im-color-text-strong) !important; } &.is-active { background-color: var(--im-color-primary) !important;-color-surface)!important;border-radius:$im-border-radius!important;box-shadow:0 .5em 1em -.125em rgba(10,10,10,.1),0  color: var(--im-color-primary-inverted) !important; }}
 .menu-label { color: var(--im-color-text-muted) !important; }
 
 // --- Dropdown ---
-.dropdown-trigger .button .icon { color: var(--im-color-text) !important; }
-.dropdown-menu {
-  background-color: var(--im-color-surface) !important;
-  border-radius: $im-border-radius !important;
-  box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.02) !important;
-  padding-top: 4px !important; padding-bottom: 4px !important;
-  .dropdown-item {
-    color: var(--im-color-text) !important;
-    padding-right: 3rem !important; // Bulma default
-    &:hover { background-color: var(--im-color-background) !important; color: var(--im-color-text-strong) !important; }
-    &.is-active { background-color: var(--im-color-primary) !important; color: var(--im-color-primary-inverted) !important; }
-  }
-  .dropdown-divider { background-color: var(--im-color-border-light) !important; }
-}
+.dropdown-0 0 1px rgba(10,10,10,.02)!important;padding-trigger .button .icon { color: var(--im-color-text) !important; }
+.dropdown-top:4px!important;padding-bottom:4px!important;.dropdown-item{color:var(--im-menu { background-color: var(--im-color-surface) !important; border-radius: $im-color-text)!important;padding-right:3rem!important;&:hover{background-color:var(--im-colorborder-radius !important; box-shadow: 0 0.5em 1em -0.1-background)!important;color:var(--im-color-text-strong)!important;}&.is-active25em rgba(10,10,10,.1), 0 0 0 1{background-color:var(--im-color-primary)!important;color:var(--im-color-primarypx rgba(10,10,10,.02) !important; padding-top: 4-inverted)!important;}}.dropdown-divider{background-color:var(--im-color-border-light)!px !important; padding-bottom: 4px !important; .dropdown-item { color: var(--imimportant;}}
+.modal-background{background-color:rgba(10,10,10,.-color-text) !important; padding-right: 3rem !important; &:hover { background-color86)!important;}
+.modal-card{background-color:var(--im-color-surface)!important: var(--im-color-background) !important; color: var(--im-color-text-strong);border-radius:$im-border-radius!important;.modal-card-head,.modal-card-foot{ !important; } &.is-active { background-color: var(--im-color-primary) !important;background-color:var(--im-color-surface)!important;border-color:var(--im-color- color: var(--im-color-primary-inverted) !important; } } .dropdown-divider { background-color: varborder-light)!important;}.modal-card-head{border-top-left-radius:$im-border-(--im-color-border-light) !important; }}
 
 // --- Modal ---
-.modal-background { background-color: rgba(10,10,10,.86) !important; } // Standard Bulma
-.modal-card {
-  background-color: var(--im-color-surface) !important;
-  border-radius: $im-border-radius !important;
-  .modal-card-head, .modal-card-foot { background-color: var(--im-color-surface) !important; border-color: var(--im-color-border-light) !important; }
-  .modal-card-head { border-top-left-radius: $im-border-radius !important; border-top-right-radius: $im-border-radius !important; }
-  .modal-card-foot { border-bottom-left-radius: $im-border-radius !important; border-bottom-right-radius: $im-border-radius !important; }
-  .modal-card-title { color: var(--im-color-text-headings) !important; }
-  .modal-card-body { background-color: var(--im-color-surface) !important; color: var(--im-color-text) !important; }
-}
-.modal-close { background-color: rgba(10,10,10,.2) !important; &:hover{background-color:rgba(10,10,10,.3)!important;}}
+.modal-background {radius!important;border-top-right-radius:$im-border-radius!important;}.modal-card background-color: rgba(10,10,10,.86) !important; }
+.modal-card-foot{border-bottom-left-radius:$im-border-radius!important;border-bottom-right { background-color: var(--im-color-surface) !important; border-radius: $im-border-radius:$im-border-radius!important;}.modal-card-title{color:var(--im-color-text-radius !important; .modal-card-head, .modal-card-foot { background-color: var-headings)!important;}.modal-card-body{background-color:var(--im-color-surface)!(--im-color-surface) !important; border-color: var(--im-color-border-light)important;color:var(--im-color-text)!important;}}
+.modal-close{background-color !important; } .modal-card-head { border-top-left-radius: $im-border-:rgba(10,10,10,.2)!important;&:hover{background-color:rgbaradius !important; border-top-right-radius: $im-border-radius !important; } .modal(10,10,10,.3)!important;}}
+.breadcrumb{a{color:var(---card-foot { border-bottom-left-radius: $im-border-radius !important; border-bottom-right-radius: $im-border-radius !important; } .modal-card-title { colorim-color-link)!important;&:hover{color:var(--im-color-primary)!important;}}li.is-active a{color:var(--im-color-text-strong)!important;}li+li::: var(--im-color-text-headings) !important; } .modal-card-body { background-before{color:var(--im-color-text-light)!important;}}
 
-// --- Breadcrumb ---
-.breadcrumb {
-  a { color: var(--im-color-link) !important; &:hover { color: var(--im-color-primary) !important; }}
-  li.is-active a { color: var(--im-color-text-strong) !important; }
-  li + li::before { color: var(--im-color-text-light) !important; }
-}
-
-//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------color: var(--im-color-surface) !important; color: var(--im-color-text) !
 // 7. Dark Mode Styles
 //------------------------------------------------------------------------------
-html.im-is-dark-mode {
-  // Dark Mode Base Colors
+html.im-is-dark-important; }}
+.modal-close { background-color: rgba(10,10,10,.2) !important; &:hover{background-color:rgba(10,10,10,.3mode {
   --im-color-primary: #f44336; // Brighter red for dark mode, if primary needs to change
-  --im-color-primary-light: #ff7961;
+  --im-color-primary-light: #ff7961)!important;}}
+
+// --- Breadcrumb ---
+.breadcrumb { a { color: var(--im-color-link);
   --im-color-primary-dark: #ba000d;
-  --im-color-primary-rgb: 244, 67, 54; // RGB for #f44336
-  // --im-color-primary-inverted: #FFFFFF; // Stays same
+  --im-color- !important; &:hover { color: var(--im-color-primary) !important; }} li.is-primary-rgb: 244, 67, 54;
+  --im-color-link:active a { color: var(--im-color-text-strong) !important; } li + li::before { color: var(--im-color-text-light) !important; }}
 
-  --im-color-link: #64b5f6; // Brighter link blue
-  --im-color-info: #4fc3f7;
-  --im-color-success: #81c784;
-  --im-color-warning: #ffd54f; // Warning might need dark text even in dark mode
-  --im-color-danger: #e57373;
+//------------------------------------------------------------------------------ #{$im-color-primary}; // Link uses primary in dark mode
+  --im-color-link-hover
+// 7. Dark Mode Styles
+//------------------------------------------------------------------------------
+html.im-is-dark-: var(--im-color-primary-light);
+  --im-color-info: #4fc3f7;mode {
+  // Dark Mode Base Colors
+  --im-color-primary: #f44336; // Example: Brighter red for dark, adjust if needed
+  --im-color-primary-light --im-color-success: #81c784; --im-color-warning: #ffd54: #ff7961;
+  --im-color-primary-dark: #ba000f; --im-color-danger: #e57373;
+  --im-color-d;
+  --im-color-primary-rgb: 244, 67, 5link-inverted:#000; --im-color-info-inverted:#000; --im-color-success-inverted:#000; --im-color-warning-inverted:rgba(0,0,0,.4;
+  // --im-color-primary-inverted: #FFFFFF; // Usually stays white
 
-  --im-color-link-inverted: #000;
+  --im85); --im-color-danger-inverted:#000;
+  --im-color-text-color-link: #{$im-static-color-link-dark};
+  --im-color-link-:#e0e0e0; --im-color-text-light:#bdbdbd; --im-colorhover: #{darken($im-static-color-link-dark, 10%)};
+  --im--text-strong:#f5f5f5; --im-color-text-headings:#fff; --im-color-info: #4fc3f7;
+  --im-color-success: #81c78color-text-muted:#9e9e9e;
+  --im-color-background:#1e1e4;
+  --im-color-warning: #ffd54f;
+  --im-color-danger:1e; --im-color-surface:#2c2c2c; --im-color-border:# #e57373;
+
+  --im-color-link-inverted: #000;424242; --im-color-border-light:#333; --im-color
   --im-color-info-inverted: #000;
   --im-color-success-inverted: #000;
-  --im-color-warning-inverted: rgba(0,0,0,0.85);
-  --im-color-danger-inverted: #000;
+  --im-color-warning-inverted: rgba(0,0-border-hover:#555;
+  --im-color-input-bg:#3a3a3a; --im-color-input-border:var(--im-color-border); --im-color,0,0.85); // Warning text still dark
+  --im-color-danger-inverted:-input-shadow:rgba(var(--im-color-primary-rgb),.35);
+  --im- #000;
 
   --im-color-text: #e0e0e0;
-  --im-color-text-light: #bdbdbd;
-  --im-color-text-strong: #f5f5f5;
+  color-table-row-hover:#383838; --im-color-code-background:#--im-color-text-light: #bdbdbd;
+  --im-color-text-strong: #f333; --im-color-pre-background:var(--im-color-code-background); --im5f5f5;
   --im-color-text-headings: #ffffff;
   --im-color-text-muted: #9e9e9e;
-  --im-color-text-on-surface: var(--im-color-text);
+  --im-color-text-on-surface: var(---color-pre-text:#ccc;
+  --im-button-light-bg:#424242; --im-button-light-border:#424242; --im-button-light-text:im-color-text);
 
-  --im-color-background: #1e1e1e; // Very dark grey
-  --im-color-surface: #2c2c2c;   // Slightly lighter for surfaces
-  --im-color-border: #424242;
+  --im-color-background: #1e1e1e;
+var(--im-color-text-headings);
+  --im-button-light-hover-bg:#555;  --im-color-surface: #2c2c2c;
+  --im-color-border: #4 --im-button-light-hover-border:#555;
+  --im-grid-line-color-for24242;
   --im-color-border-light: #333333;
-  --im-color-border-hover: #555555;
+  -section:rgba(255,255,255,.04); --im-grid-line--im-color-border-hover: #555555;
   --im-color-input-bg: #3a3a3a;
-  --im-color-input-border: var(--im-color-border);
-  --im-color-input-shadow: rgba(var(--im-color-primary-rgb), 0.35); // Use dark primary RGB if changed
-  --im-color-table-row-hover: #383838;
-  --im-color-code-background: #333;
+  --im-color-input-border: var-color-for-hero:rgba(255,255,255,.08);
+  --im-dark-mode-toggle-icon-color: var(--im-color-text-light(--im-color-border);
+  --im-color-input-shadow: rgba(var(--im-color-primary-rgb), 0.35); // Use dark primary RGB
+  --im-color-table-row-);
+
+  .box,.card,.panel{box-shadow:0 .5em 1em -.125emhover: #383838;
+  --im-color-code-background: #33 rgba(0,0,0,.5),0 0 0 1px rgba(0,0,3;
   --im-color-pre-background: var(--im-color-code-background);
-  --im-color-pre-text: #ccc;
+  --0,.3)!important;}
+  .navbar{box-shadow:0 2px 0 0 varim-color-pre-text: #ccc;
 
-  --im-button-light-bg: #424242;
-  --im-button-light-border: #424242;
+  --im-button-light-bg: #4(--im-color-background)!important;}
+  .footer{background-color:#12121224242;
+  --im-button-light-border: #424242!important;}
+  code{background-color:var(--im-color-code-background);color:var(--im-;
   --im-button-light-text: var(--im-color-text-headings);
-  --im-button-light-hover-bg: #555555;
-  --im-button-light-hover-border: #555555;
+  color-info);}
+  pre{background-color:var(--im-color-pre-background);color:var(--im--im-button-light-hover-bg: #555555;
+  --im--color-pre-text);}
+  hr{background-color:var(--im-color-border)!importantbutton-light-hover-border: #555555;
 
-  --im-grid-line-color-for-section: rgba(255, 255, 255, 0.04);
-  --im-grid-line-color-for-hero: rgba(255, 255, 255, 0.08);
+  --im-grid-line;}
+  .tags .tag:not(body){&.is-dark{background-color:var(--im-color-text-light)!important;color:var(--im-color-background)!important;}&.is-black-color-for-section: rgba(255, 255, 255, 0.04);
+  --im-grid-line-color-for-hero: rgba(255,{background-color:#1c1c1c!important;color:#eee!important;}&.is- 255, 255, 0.08);
 
-  --im-dark-mode-toggle-icon-color: var(--im-color-text-light);
+  --im-dark-mode-toggle-white{background-color:#eee!important;color:#1c1c1c!important;border:1px solid varicon-color: var(--im-color-text-light);
 
   // Specific Dark Mode Component Overrides
-  .box, .card, .panel { box-shadow: 0 0.5em 1em -0.125em rgba(0,0,0,.5), 0 0px 0 1px rgba(0,0,0,.3) !important; }
-  .navbar { box-shadow: 0 2px 0 0 var(--im-color-background) !important; }
-  .footer { background-color: #121212 !important; } // Even darker footer
-  code { background-color: var(--im-color-code-background); color: var(--im-color-info); } // Code more distinct
-  pre { background-color: var(--im-color-pre-background); color: var(--im-color-pre-text); }
+(--im-color-border);}}
+  .message .message-header{background-color:var(--im-  .box, .card, .panel { box-shadow: 0 0.5em 1emcolor-surface)!important;color:var(--im-color-text-headings)!important;border-bottom: -0.125em rgba(0,0,0,.5), 0 0px 01px solid var(--im-color-border-light);}
+  .message.is-primary .message-header 1px rgba(0,0,0,.3) !important; }
+  .navbar { box-shadow: {background-color:var(--im-color-primary)!important;color:var(--im-color-primary0 2px 0 0 var(--im-color-background) !important; }
+  .footer-inverted)!important;}
+  .modal-background{background-color:rgba(0,0,0,. { background-color: #121212 !important; }
+  code { background-color: var(--92)!important;}
+  .modal-close{background-color:rgba(20,20,im-color-code-background); color: var(--im-color-info); }
+  pre { background20,.3)!important;&:hover{background-color:rgba(20,20,20,.4)!important;}}
+}
+
+//------------------------------------------------------------------------------
+// 8. Dark Mode Toggle Switch CSS (Phosph-color: var(--im-color-pre-background); color: var(--im-color-pre-text); }
   hr { background-color: var(--im-color-border) !important; }
 
-  .tags .tag:not(body) { // Dark mode tags
-    &.is-dark    { background-color: var(--im-color-text-light)!important; color: var(--im-color-background)!important;}
-    &.is-black   { background-color: #1c1c1c!important; color: #eee!important;} // Slightly off-black
-    &.is-white   { background-color: #eee!important; color: #1c1c1c!important; border: 1px solid var(--im-color-border);}
-  }
-  .message .message-header { background-color: var(--im-color-surface) !important; color: var(--im-color-text-headings) !important; border-bottom: 1px solid var(--im-color-border-light);}
-  .message.is-primary .message-header { background-color:var(--im-color-primary)!important; color:var(--im-color-primary-inverted)!important; }
-  .modal-background { background-color: rgba(0,0,0,.92) !important; }
-  .modal-close { background-color: rgba(20,20,20,.3) !important; &:hover{background-color:rgba(20,20,20,.4)!important;}}
-}
-
-//------------------------------------------------------------------------------
-// 8. Dark Mode Toggle Switch CSS (Phosphor Icons based)
+  or Icons based)
 //------------------------------------------------------------------------------
 .navbar-item.im-dark-mode-toggle {
-  color: var(--im-dark-mode-toggle-icon-color) !important; // Use variable for icon color
+.tags .tag:not(body) {
+    &.is-dark    { background-color: var(--im  color: var(--im-dark-mode-toggle-icon-color) !important;
   cursor: pointer;
-  transition: color $im-page-transition-duration var(--im-page-transition-timing-function);
+-color-text-light)!important; color: var(--im-color-background)!important;}
+    &.is-  transition: color $im-page-transition-duration var(--im-page-transition-timing-function);black   { background-color: #1c1c1c!important; color: #eee!important;}
   &:hover, &:focus {
-    background-color: transparent !important; // No bg change on hover for icon toggle
-    color: var(--im-color-primary) !important; // Highlight with primary color
+    background-color: transparent !important;
+    color: var(--im-color
+    &.is-white   { background-color: #eee!important; color: #1c1c1c-primary) !important;
   }
-  .icon i {
-    font-size: 1.5rem; // Adjust if Phosphor icons are larger/smaller
-    transition: transform 0.3s ease-in-out;
+  .icon i.ph { // Target Phosphor icons specifically
+!important; border: 1px solid var(--im-color-border);}
   }
-}
-
-// Rotate effect for icon switch (optional)
-html.im-is-dark-mode .navbar-item.im-dark-mode-toggle .icon i.ph-sun,
-html:not(.im-is-dark-mode) .navbar-item.im-dark-mode-toggle .icon i.ph-moon {
-  // transform: rotate(-180deg);
+  .message    font-size: 1.375rem; // Adjust for Phosphor icons
+    line-height:  .message-header { background-color: var(--im-color-surface) !important; color: var(--im-color-text-headings) !important; border-bottom: 1px solid var(--im-color-border-1;
+    vertical-align: middle; // Helps alignment
+  }
 }
