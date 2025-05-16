@@ -731,81 +731,33 @@ html.im-is-dark-mode .card {
 
 
 // _sass/custom/home-hero.scss
-// Make sure Bulma variables (like $primary, $success, $warning) are available
-// or replace them with hex codes.
 
 .home-hero {
-  position: relative;
-  overflow: hidden;
+  position: relative; // Still useful for z-indexing if needed, but not for bg video
+  overflow: hidden;   // Can be useful if content bleeds
   padding-top: 5rem;
   padding-bottom: 5rem;
-  background-color: #f4f7f6; // A light, modern off-white/grey
+  background-color: transparent; // Makes hero section background transparent
 
-  // Video Background Styling
-  &.home-hero--has-video-background {
-    .home-hero-video-background-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      overflow: hidden;
-
-      .home-hero-video-background {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      .home-hero-video-overlay-grid {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image:
-          linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-        background-size: 25px 25px; // Adjust grid size
-        pointer-events: none;
-      }
-
-      .home-hero-video-feather-overlay {
-         position: absolute;
-         top: 0; left: 0; width: 100%; height: 100%;
-         // Subtle vignette
-         background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.05) 100%);
-         pointer-events: none;
-      }
-    }
-    > .container { // Ensure content is above video
-      position: relative;
-      z-index: 1;
-    }
+  // The container content needs to be above any potential body background effects
+  > .container {
+    position: relative;
+    z-index: 1;
   }
-
 
   .home-hero-content-column {
     .home-hero-title {
       font-weight: 800;
       line-height: 1.2;
       margin-bottom: 1.5rem;
-      color: hsl(0, 0%, 15%); // Darker text for title
+      color: hsl(0, 0%, 15%);
       .home-hero-wave {
         display: inline-block;
         animation: home-hero-wave-animation 2.5s infinite;
         transform-origin: 70% 70%;
       }
       .home-hero-name-highlight {
-        // Example: Use your site's primary color or a specific highlight color
-        color: var(--bulma-primary, #7957d5); // Fallback to a purple if Bulma var not set
-        // For a gradient text effect (more complex):
-        // background: linear-gradient(to right, #6e45e2, #88d3ce);
-        // -webkit-background-clip: text;
-        // -webkit-text-fill-color: transparent;
-        // background-clip: text;
-        // text-fill-color: transparent;
+        color: var(--bulma-primary, #7957d5);
       }
     }
     .home-hero-tagline {
@@ -826,18 +778,13 @@ html.im-is-dark-mode .card {
         align-items: center;
         gap: 0.6em;
         margin-bottom: 0.5em;
-        i { // Phosphor icons
+        i {
           font-size: 1.3em;
-          // color: var(--bulma-info, #3273DC); // Example color
         }
       }
     }
     .home-hero-cta-buttons {
       margin-bottom: 2.5rem;
-      .button.is-primary {
-        // Add custom primary button styling if needed
-        // e.g., background-color: #your-brand-primary;
-      }
     }
     .home-hero-tech-stack {
       margin-top: 2rem;
@@ -852,7 +799,7 @@ html.im-is-dark-mode .card {
           color: hsl(0, 0%, 25%);
           border-radius: 6px;
           padding: 0.5em 0.75em;
-          i { // Phosphor icons
+          i {
             font-size: 1.6rem;
           }
           &:hover {
@@ -863,19 +810,51 @@ html.im-is-dark-mode .card {
     }
   }
 
-  .home-hero-image-column {
+  .home-hero-video-column { // This column now holds the video
     display: flex;
     justify-content: center;
     align-items: center;
-    .home-hero-profile-image-figure {
-      img {
-        max-width: 100%; // Or a fixed max-width like 400px
-        height: auto;
-        border-radius: 12px; // Soft rounded corners for image
-        // Example subtle shadow, like Enji's image has a soft background element
-        // filter: drop-shadow(0px 15px 25px rgba(0,0,0,0.08));
-        // You might also want a ::before pseudo-element on the figure
-        // for a decorative background shape/color behind the image.
+    // No background color needed here as the video will fill it or it's transparent
+
+    .home-hero-video-container-right {
+      position: relative;
+      width: 100%;
+      max-width: 560px; // Example max-width for the video, adjust as needed
+      aspect-ratio: 16 / 9; // Maintain video aspect ratio
+      border-radius: 12px; // Rounded corners for the video container
+      overflow: hidden; // Clip video and overlays to rounded corners
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1); // Optional shadow for depth
+
+      .home-hero-video-element-right {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; // Cover the container, may crop
+        // No separate border-radius needed, inherits from parent's overflow:hidden
+      }
+
+      .home-hero-video-overlay-grid,
+      .home-hero-video-feather-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none; // Allow interaction with video if any controls were visible
+        // border-radius: inherit; // Not strictly needed due to parent overflow:hidden
+      }
+
+      .home-hero-video-overlay-grid {
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), // Lighter grid lines
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 20px 20px; // Adjust grid size
+      }
+
+      .home-hero-video-feather-overlay {
+         background: radial-gradient(ellipse at center, rgba(0,0,0,0) 70%, rgba(0,0,0,0.1) 100%); // Softer vignette
       }
     }
   }
@@ -884,7 +863,7 @@ html.im-is-dark-mode .card {
     margin-top: 4rem;
     .home-hero-principle-box {
       border-radius: 10px;
-      background-color: #fff;
+      background-color: #fff; // Keep boxes opaque unless body grid should show through them too
       box-shadow: 0 6px 18px rgba(10,10,10,.07);
       padding: 2rem 1.5rem;
       height: 100%;
@@ -893,8 +872,7 @@ html.im-is-dark-mode .card {
       align-items: center;
       .home-hero-principle-icon {
         margin-bottom: 1.25rem;
-        i.is-size-1 { font-size: 2.75rem !important; } // Adjust icon size
-        // Example: If you use has-text-primary, has-text-success etc. on the icon span in HTML
+        i.is-size-1 { font-size: 2.75rem !important; }
         &.has-text-primary i { color: var(--bulma-primary, #7957d5); }
         &.has-text-success i { color: var(--bulma-success, #48c774); }
         &.has-text-warning i { color: var(--bulma-warning, #ffdd57); }
@@ -911,7 +889,6 @@ html.im-is-dark-mode .card {
   }
 }
 
-// Wave animation for the emoji
 @keyframes home-hero-wave-animation {
   0% { transform: rotate(0.0deg) }
   10% { transform: rotate(14.0deg) }
@@ -923,19 +900,15 @@ html.im-is-dark-mode .card {
   100% { transform: rotate(0.0deg) }
 }
 
-// Responsive adjustments
-@media screen and (max-width: 1023px) { // Bulma's tablet breakpoint (adjust if needed)
+@media screen and (max-width: 1023px) {
   .home-hero {
-    .home-hero-image-column {
-      // Image might be better above text on tablet, or hidden
-      // For now, it's hidden by `is-hidden-touch` on desktop view, shown on tablet
-      // You may want to re-order columns for tablet or make image smaller
-      margin-top: 2rem; // Space if image appears below text
+    .home-hero-video-column {
+      margin-top: 2rem;
     }
   }
 }
 
-@media screen and (max-width: 768px) { // Bulma's mobile breakpoint
+@media screen and (max-width: 768px) {
   .home-hero {
     padding-top: 3rem;
     padding-bottom: 3rem;
@@ -954,6 +927,12 @@ html.im-is-dark-mode .card {
     }
     .home-hero-principles {
       margin-top: 2.5rem;
+    }
+    .home-hero-video-column {
+        // On mobile, you might want the video full width or adjust differently
+        max-width: 90%; // Example: make it slightly less than full width on mobile
+        margin-left: auto;
+        margin-right: auto;
     }
   }
 }
