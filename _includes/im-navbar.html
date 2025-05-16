@@ -104,7 +104,7 @@
                     {% else %}
                     <a class="navbar-item {% if is_active_page %}is-active-nav-item{% endif %}" href="{{ item_url_relative }}">
                       {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="navbar-icon im-nav-image-icon">
-                      {% elsif item.icon %}<span class="icon im-nav-icon"><i class="ph ph-{{ item.icon }}"></i></span>{% endif %}
+                      {% elsif item.icon %}<span class="icon im-nav-icon"><i class="ph-duotone ph-{{ item.icon }}"></i></span>{% endif %}
                       <span class="im-nav-text">{{ item.name }}</span>
                     </a>
                     {% endif %}
