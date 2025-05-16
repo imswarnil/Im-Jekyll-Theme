@@ -71,6 +71,20 @@ social_media:
   - name: "youtube"
     url: "https://youtube.com/johndoe"
     cta: "Subscribe on YouTube"
+    
+tech_stack:
+  - name: "TypeScript"
+    icon: "fab fa-js-square"
+  - name: "React"
+    icon: "fab fa-react"
+  - name: "Next.js"
+    icon: "fas fa-arrow-alt-circle-right"
+  - name: "Tailwind CSS"
+    icon: "fas fa-wind"
+  - name: "Node.js"
+    icon: "fab fa-node-js"
+  - name: "VS Code"
+    icon: "fas fa-code"
 
 
 # --------------------------------------------
