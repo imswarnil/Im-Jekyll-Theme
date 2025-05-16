@@ -3,79 +3,68 @@ title: Im Jekyll Theme
 description: "An open-source Jekyll theme crafted using the Bulma CSS framework. This theme utilizes Bulma SCSS, making it incredibly easy to customize and adapt to your specific needs. With over 7 layouts and 10+ collections"
 image: /assets/logos/logo.svg
 layout: default
-hero:
-  greeting: "hi! 👋"
-  name: "Enji Kusnadi"
-  role: "a front-end developer who loves intuitive, clean and modern UI design."
-  buttons:
-    - text: "Get in Touch"
-      class: "is-light is-medium is-outlined"
-      link: "/contact"
-    - text: "RESUME"
-      class: "is-light is-medium"
-      icon: "fas fa-file-alt"
-      link: "/resume.pdf"
-  tech_stack:
-    - name: "TypeScript"
-      icon: "fab fa-js-square"
-    - name: "React"
-      icon: "fab fa-react"
-    - name: "Next.js"
-      icon: "fas fa-arrow-alt-circle-right"
-    - name: "Tailwind CSS"
-      icon: "fas fa-wind"
-    - name: "Node.js"
-      icon: "fab fa-node-js"
-    - name: "VS Code"
-      icon: "fas fa-code"
-  profile_image: "https://via.placeholder.com/400x450/FFFFFF/000000?text=Profile+Avatar"
 ---
 
-
-<!-- Hero content: will be in the middle -->
-<section class="hero is-fullheight-with-navbar">
+<section class="hero is-fullheight has-background-dark">
   <div class="hero-body">
     <div class="container">
-      <div class="columns is-vcentered">
-        <div class="column is-7-tablet is-6-desktop hero-content-column">
-          <p class="subtitle is-4 has-text-white">
-            {{ page.hero.greeting }}
-          </p>
+      <div class="columns is-vcentered is-variable is-8">
+        
+        <!-- Left Side -->
+        <div class="column is-7-tablet is-6-desktop">
+          <p class="subtitle is-4 has-text-white">Hi! 👋</p>
+
           <h1 class="title is-1 has-text-white">
-            I'm <strong class="has-text-weight-bold">{{ page.hero.name }}</strong>,
+            I'm <strong>{{ site.author.name }}</strong>,
           </h1>
+
           <h2 class="subtitle is-3 has-text-white">
-            {{ page.hero.role }}
+            a <span class="has-text-weight-bold">{{ site.author.titles[0] }}</span> who loves building things that matter.
           </h2>
+
+          <p class="mt-3 has-text-white">
+            {{ site.author.description }}
+          </p>
+
           <div class="buttons mt-5">
-            {% for button in page.hero.buttons %}
-              <a class="button {{ button.class }}" href="{{ button.link }}">
-                {% if button.icon %}<span class="icon"><i class="{{ button.icon }}"></i></span>{% endif %}
-                <span>{{ button.text }}</span>
-              </a>
-            {% endfor %}
+            <a class="button is-light is-medium is-outlined" href="mailto:{{ site.email }}">
+              Get in Touch
+            </a>
+            <a class="button is-light is-medium" href="{{ site.repo }}">
+              <span class="icon"><i class="fas fa-file-alt"></i></span>
+              <span>Resume</span>
+            </a>
           </div>
 
-          <p class="mt-6 mb-2 has-text-white">current favorite tech stack/tools:</p>
-          <div class="field is-grouped is-grouped-multiline tech-stack-icons">
-            {% for tech in page.hero.tech_stack %}
+          <!-- Tech Stack -->
+          <div class="mt-6">
+            <p class="mb-2 has-text-white">Favorite Tech Stack:</p>
+            <div class="field is-grouped is-grouped-multiline">
+              {% for tech in site.tech_stack %}
               <div class="control">
-                <span class="icon is-large has-text-white" title="{{ tech.name }}">
-                  <i class="{{ tech.icon }} fa-2x"></i>
-                </span>
+                <div class="tags has-addons">
+                  <span class="tag is-dark"><i class="{{ tech.icon }}"></i></span>
+                  <span class="tag is-white">{{ tech.name }}</span>
+                </div>
               </div>
-            {% endfor %}
+              {% endfor %}
+            </div>
           </div>
         </div>
-        <div class="column is-5-tablet is-6-desktop profile-image-container">
-          <figure class="image">
-            <img src="{{ page.hero.profile_image }}" alt="{{ page.hero.name }} - Front-end Developer">
+
+        <!-- Right Side -->
+        <div class="column is-5-tablet is-6-desktop">
+          <figure class="image is-square">
+            <img src="{{ site.author.image | relative_url }}" alt="{{ site.author.name }}">
           </figure>
         </div>
+
       </div>
     </div>
   </div>
 </section>
+
+
 
  <div class="section">
     <div class="container">
