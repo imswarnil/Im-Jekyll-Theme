@@ -8,23 +8,23 @@
 # 4. Jekyll settings
 # 5. Collections
 # 6. Jekyll collections settings
-# 7. Site setting 
+# 7. Site setting
 # 8. Installed Gems
 # 9. Files excluded from Jekyll builds
 
-# 1. Site Settings 
+# 1. Site Settings
 #################################################################################################
 
 # 1.1. Site Logo,Favicons,Manifest and Icons
 # -------------------------------------------
 encoding: utf-8 # Make sure the encoding is right
 lang: en # Set the site language
-locale : en-IN 
-title: "Im Jekyll Theme" # Site name or title, also used in jekyll-seo-tag
-description: "An open-source Jekyll theme crafted using the Bulma CSS framework. This theme utilizes Bulma SCSS, making it incredibly easy to customize and adapt to your specific needs. With over 7 layouts and 10+ collections" # Site description and default description, also used in seo
-keywords: ["Salesforce", "CRM", "Apex", "Lightning", "Trailhead", "Jekyll"]
-timezone: Europe/London # Timezone for blog posts and alike
-short_name: "IMJKT" # The web application short name, defaults to the site title
+locale : en-IN
+title: "Swarnil Singhai | Software Engineer" # Site name or title, also used in jekyll-seo-tag
+description: "Personal website of Swarnil Singhai, a Software Engineer at Twilio specializing in CRM Analytics, Salesforce, and web technologies. Explore projects, articles, and insights." # Site description and default description, also used in seo
+keywords: ["Swarnil Singhai", "Salesforce", "CRM Analytics", "Tableau CRM", "Einstein Analytics", "Apex", "LWC", "Software Engineer", "Twilio", "Bangalore", "Jekyll"]
+timezone: Asia/Kolkata # Timezone for blog posts and alike
+short_name: "Swarnil" # The web application short name, defaults to the site title
 logo: "/assets/logos/logo.svg" # Site logo, also used in jekyll-seo-tag
 favicons: # Favicons are also used in the manifest file. Syntax is 'size: path'
   16: '/assets/logos/logo@16px.png'
@@ -35,57 +35,107 @@ favicons: # Favicons are also used in the manifest file. Syntax is 'size: path'
   180: '/assets/logos/logo@180px.png'
   512: '/assets/logos/logo@512px.png'
   1024: '/assets/logos/logo@1024px.png'
+
 # Author (Admin) Information
 author:
-  name: "John Doe"
-  short_name: "JD"
-  image : "/assets/logos/logo.svg"
-  description: "A passionate developer and content creator who loves building open-source projects."
+  name: "Swarnil Singhai"
+  short_name: "Swarnil" # Or "SS" if you prefer
+  image : "/assets/logos/logo.svg" # Consider using a personal photo here
+  description: "Passionate Software Engineer at Twilio with expertise in CRM Analytics (Tableau CRM/Einstein Analytics) and the Salesforce ecosystem. Based in Bangalore, India."
+  location: "Bangalore, India"
   titles :
-    - "Software Engineer"
+    - "Software Engineer at Twilio"
+    - "CRM Analytics Specialist"
+    - "Salesforce Developer"
     - "Content Creator"
-    - "Freelancer"
   hobbies:
     - "Coding"
-    - "Blogging"
-    - "Photography"
+    - "Blogging / Content Creation"
+    - "Exploring new technologies"
     - "Traveling"
+  work_experience:
+    - company: "Kenscio"
+      role: "Web Developer"
+      start_date: "2018-01-15"
+      end_date: "2018-04-14" # Approx 3 months
+      duration: "3 Months"
+      details:
+        - "Developed and maintained web applications in a startup environment."
+        - "Gained experience with various web technologies."
+    - company: "Accenture"
+      role: "Software Engineer" # Last held role
+      start_date: "2018-03-23"
+      end_date: "2021-03-22" # Approx 3 years
+      duration: "3 Years"
+      details:
+        - "Joined as an Associate Software Engineer."
+        - "Trained extensively on the Salesforce platform (Apex, Lightning Components)."
+        - "Specialized in Einstein Analytics (now CRM Analytics), developing dashboards and dataflows."
+        - "Received a promotion to Software Engineer."
+    - company: "Cognizant"
+      role: "Project Associate"
+      start_date: "2021-03-23" # Assuming immediate start after Accenture
+      end_date: "2021-12-22" # Approx 9 months
+      duration: "9 Months"
+      details:
+        - "Focused on Tableau CRM (formerly Einstein Analytics, now CRM Analytics) projects."
+        - "Developed and implemented CRM Analytics solutions for clients."
+    - company: "Twilio"
+      role: "Tableau CRM Engineer" # Or "Software Engineer (CRM Analytics)"
+      start_date: "2021-12-23" # Assuming immediate start after Cognizant
+      current: true
+      details:
+        - "Currently working as a Tableau CRM Engineer, leveraging data to provide insights."
+        - "Building and enhancing CRM Analytics solutions within the Twilio ecosystem."
+
 social_media:
   - name: "twitter"
-    icon : x-logo
-    url: "https://twitter.com/johndoe"
+    icon : x-logo # (or fab fa-twitter if you are using Font Awesome v5/6, or fab fa-x-twitter for X logo)
+    url: "https://twitter.com/imswarnil"
     cta: "Tweet"
   - name: "linkedin"
-    icon : linkedin-logo
-    url: "https://linkedin.com/in/johndoe"
+    icon : linkedin-logo # (or fab fa-linkedin)
+    url: "https://linkedin.com/in/imswarnil" # Please verify this is your correct LinkedIn profile URL
     cta: "Connect on LinkedIn"
   - name: "github"
-    url: "https://github.com/johndoe"
+    icon: fab fa-github # Assuming Font Awesome for consistency
+    url: "https://github.com/imswarnil"
     cta: "Follow on GitHub"
-  - name: "instagram"
-    url: "https://instagram.com/johndoe"
-    cta: "Follow on Instagram"
-  - name: "facebook"
-    url: "https://facebook.com/johndoe"
-    cta: "Like on Facebook"
   - name: "youtube"
-    url: "https://youtube.com/johndoe"
+    icon: fab fa-youtube # Assuming Font Awesome
+    url: "https://youtube.com/@imswarnil" # Or /imswarnil if it's a custom URL
     cta: "Subscribe on YouTube"
+  - name: "instagram"
+    icon: fab fa-instagram # Assuming Font Awesome
+    url: "https://instagram.com/imswarnil"
+    cta: "Follow on Instagram"
+  # - name: "facebook" # Uncomment if you use it
+  #   url: "https://facebook.com/imswarnil" # Update if needed
+  #   cta: "Like on Facebook"
 
-tech_stack:
-  - name: "TypeScript"
+tech_stack: # Skills
+  - name: "Salesforce Platform"
+    icon: "fab fa-salesforce" # Font Awesome icon for Salesforce
+  - name: "CRM Analytics (Tableau CRM)"
+    icon: "fas fa-chart-line" # Example icon for analytics
+  - name: "Einstein Analytics"
+    icon: "fas fa-brain" # Example icon
+  - name: "Apex"
+    icon: "fas fa-code" # Generic code icon
+  - name: "LWC (Lightning Web Components)"
+    icon: "fas fa-bolt" # Lightning icon
+  - name: "SOQL & SOSL"
+    icon: "fas fa-database"
+  - name: "JavaScript"
     icon: "fab fa-js-square"
-  - name: "React"
-    icon: "fab fa-react"
-  - name: "Next.js"
-    icon: "fas fa-arrow-alt-circle-right"
-  - name: "Tailwind CSS"
-    icon: "fas fa-wind"
-  - name: "Node.js"
-    icon: "fab fa-node-js"
+  - name: "HTML5"
+    icon: "fab fa-html5"
+  - name: "CSS3"
+    icon: "fab fa-css3-alt"
+  - name: "Jekyll"
+    icon: "fas fa-gem" # Example icon for Jekyll/Ruby gems
   - name: "VS Code"
-    icon: "fas fa-code"
-
+    icon: "fas fa-code" # Already there, but good to keep
 
 # --------------------------------------------
  # 1.2. Site Url, Links & Github Repo
@@ -93,7 +143,7 @@ tech_stack:
 baseurl : ''
 url: 'https://jekyll.imswarnil.com' # Site URL, also used in jekyll-seo-tag
 permalink: /:title  # Permalink style /:categories/:title:output_ext
-repo: "https://github.com/imswarnil/"
+repo: "https://github.com/imswarnil/" # Your main GitHub profile, or a specific repo for the site if preferred
 email: "contact@imswarnil.com"
 description_separator: <!-- more --> # Marks end of description in posts
 
@@ -106,16 +156,16 @@ css_inline: false # Will insert all styles into a single <style> block in the <h
 sass:
   style: compressed # Style compression
 theme_color : '#fff'
-# Typography 
+# Typography
 fonts:
   preconnect_urls:
     - https://fonts.gstatic.com
   font_urls:
     - https://fonts.googleapis.com/css2?family=Geist:wght@100&display=swap
     - https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap
-    - https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap 
+    - https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap
 # -------------------------------------------------
-# 1.2. Robots And Indexing Settings 
+# 1.2. Robots And Indexing Settings
 indexing: true
 robots:
   bots:
@@ -148,13 +198,14 @@ manifest:
     - "news"
     - "social"
     - "lifestyle"
+    - "technology" # Added category
   iarc_rating_id: "dummy_iarc_rating_123abc"
   related_applications:
     - platform: "play"
       url: "https://play.google.com/store/apps/details?id=com.example.app"
       id: "com.example.app"
   prefer_related_applications: false
-  scope_extensions: 
+  scope_extensions:
    - origin: "https://subdomain.example.com"
    - origin: "https://partner.example.com"
 
@@ -186,8 +237,6 @@ adsense:
 
 # disqus: "alembic-1" # Blog post comments, uncomment the option and set the site ID from your Disqus account
 
-# 1.1. Site Logo,Favicons,Manifest and Icons
-
 # Include these directories and files in the `_site` output
 include:
   - _pages
@@ -197,7 +246,7 @@ paginate: 2 # jekyll-paginate > items per page
 paginate_path: /page:num # jekyll-paginate > blog page
 jekyll-mentions: https://twitter.com # jekyll-mentions > service used when @replying
 twitter:
-  username: DavidDarnes # jekyll-seo-tag > Owners twitter username
+  username: imswarnil # jekyll-seo-tag > Owners twitter username
 # markdown: CommonMark # Markdown parse settings, CommonMark performs slightly better an others in build time
 # commonmark:
   # options: ["SMART", "FOOTNOTES"]
@@ -207,12 +256,12 @@ twitter:
 # 5. Collections
 collections:
   posts:
-    title: Posts 
+    title: Posts
     output: true
-    description: "My thoughts and ideas"
-    image: "https://picsum.photos/2560/600?image=866"
+    description: "My thoughts, articles, and ideas on technology, Salesforce, and development." # Updated description
+    image: "https://picsum.photos/2560/600?image=866" # Consider a more personal or relevant banner
     permalink: /blog/:title
-    
+
 # 6. Jekyll collections settings
 defaults:
   -
@@ -220,30 +269,33 @@ defaults:
       path: ""
     values:
       image: "/assets/default-social-image.png" # Default image for sharing
+      author: "Swarnil Singhai" # Default author for all content
   -
     scope:
       path: ""
       type: "posts"
     values:
       layout: post # Set the default layout for posts
+      # author: "Swarnil Singhai" # Already set globally, but can be specific
   -
     scope:
       path: ""
       type: "pages"
     values:
       layout: page # Set the default layout for pages
-  - 
+      # author: "Swarnil Singhai" # Already set globally
+  -
    scope:
       path: "_videos"
    values:
       layout: "video"
-      author: "Swarnil" 
-
+      author: "Swarnil" # Kept as "Swarnil" as per original specific request
   - scope:
       path: "_webseries"
       type: "webseries"
     values:
       layout: "webseries"
+      author: "Swarnil Singhai" # Updated default author
       # Default images if none provided
       thumbnail: "https://m.media-amazon.com/images/M/MV5BMjg2NmM0MTEtYWY2Yy00NmFlLTllNTMtMjVkZjEwMGVlNzdjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"
       banner: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0M0nOm5GHoz9vwFo093zwkz5zLFKPwx2e4Q&s"
@@ -253,7 +305,7 @@ defaults:
       type: "projects" # Defaults specifically for the projects collection
     values:
       layout: project # We will create this layout soon
-      author: Swarnil # Default author for projects
+      author: "Swarnil" # Kept as "Swarnil" as per original specific request
       image: /assets/images/projects/placeholder.png # Default placeholder image
       category: ["Project"] # Default category if none specified
 
