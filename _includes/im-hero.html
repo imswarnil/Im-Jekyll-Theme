@@ -1,27 +1,3 @@
-{% comment %}
-  Reusable Hero Component for Jekyll
-  Usage: {% include hero.html
-            hero_size="is-medium" (is-small, is-medium, is-large, is-fullheight, is-fullheight-with-navbar)
-            hero_class="is-primary has-text-centered" (any Bulma color/helper classes)
-            hero_title="Page Title"
-            hero_subtitle="A catchy subtitle"
-            hero_layout_type=layout.name (pass layout.name to determine specific elements like breadcrumbs)
-            hero_collection_name=page.collection (for breadcrumbs if in a collection)
-            hero_collection_label="Blog" (display label for the collection)
-            hero_breadcrumbs=true (or false)
-            hero_buttons='[
-              {"label": "Get Started", "url": "/start/", "class": "is-primary is-large"},
-              {"label": "Learn More", "url": "/about/", "class": "is-light"}
-            ]' (JSON string for buttons)
-            hero_background_image="/assets/images/hero-bg.jpg"
-            hero_background_video="/assets/videos/hero-bg.mp4" (will take precedence over image)
-            hero_background_video_poster="/assets/images/video-poster.jpg"
-            hero_overlay_opacity="0.5" (0 to 1 for background image/video overlay)
-            hero_content_custom_html="<p>Some <em>custom HTML</em> here.</p>" (for custom content within hero-body)
-         %}
-{% endcomment %}
-
-{% comment %} --- Initialize Variables --- {% endcomment %}
 {% assign hero_size = include.hero_size | default: page.hero_size | default: "is-medium" %}
 {% assign hero_class = include.hero_class | default: page.hero_class | default: "is-primary" %}
 {% assign hero_title = include.hero_title | default: page.title | default: "Welcome" %}
