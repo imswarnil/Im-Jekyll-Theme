@@ -6,7 +6,6 @@ permalink: /robots.txt
 User-agent: *
 Disallow: /
 {% else %}
-{# Main wildcard rule #}
 User-agent: *
 Allow: /
 {% if site.robots.bots["*"].disallow %}
@@ -14,8 +13,6 @@ Allow: /
 Disallow: {{ path }}
 {% endfor %}
 {% endif %}
-
-{# Optional: Sitemap reference if URL exists #}
 {% if site.url %}
 Sitemap: {{ site.url }}/sitemap.xml
 {% endif %}
