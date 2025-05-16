@@ -1,32 +1,30 @@
-<nav class="navbar im-navbar-custom" role="navigation" aria-label="main navigation" style="background-color: transparent !important; box-shadow: none !important; min-height: 4.2rem; border-bottom: 1px solid rgba(67, 56, 202, 0.1);">
+<nav class="navbar is-fixed-top im-navbar-custom" role="navigation" aria-label="main navigation">
     <div class="container">
-        <div class="navbar-brand" style="min-height: 4.2rem;">
-            <a href="{{ site.baseurl }}/" class="navbar-item im-navbar-logo-link" style="padding: 0.5rem 0.75rem;">
+        <div class="navbar-brand">
+            <a href="{{ site.baseurl }}/" class="navbar-item im-navbar-logo-link">
                 {% if site.logo %}
-                <img class="image im-navbar-logo-image" src="{{ site.logo | relative_url }}" alt="{{ site.title | escape }} Logo" style="max-height: 1.8rem; margin-right: 0.4rem;">
+                <img class="image im-navbar-logo-image" src="{{ site.logo | relative_url }}" alt="{{ site.title | escape }} Logo">
                 {% endif %}
-                <span class="im-navbar-logo-text has-text-weight-bold ml-2" style="font-size: 1.05rem; color: #4338CA;">{{ site.title }}</span>
+                <span class="im-navbar-logo-text has-text-weight-bold ml-2">{{ site.title }}</span>
             </a>
 
-            <div class="navbar-item is-hidden-desktop ml-auto im-navbar-mobile-actions" style="align-items: center;">
-                <a href="{{ '/search' | relative_url }}" class="im-navbar-mobile-action" aria-label="Search" style="padding: 0 0.6rem; color: #4F46E5;">
-                    <span class="icon is-medium"><i class="ph ph-magnifying-glass" style="font-size:1.3rem;"></i></span>
+            <div class="navbar-item is-hidden-desktop ml-auto im-navbar-mobile-actions">
+                <a href="{{ '/search' | relative_url }}" class="im-navbar-mobile-action" aria-label="Search">
+                    <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
                 </a>
-                <a href="#" class="im-navbar-mobile-action im-dark-mode-toggle" id="im-mobile-dark-mode-toggle" title="Toggle Dark Mode" role="button" aria-pressed="false" style="padding: 0 0.6rem; color: #4F46E5;">
+                <a href="#" class="im-navbar-mobile-action im-dark-mode-toggle" id="im-mobile-dark-mode-toggle" title="Toggle Dark Mode" role="button" aria-pressed="false">
                     <span class="icon is-medium">
-                        <i class="ph" id="im-mobile-theme-icon" style="font-size:1.3rem;"></i>
+                        <i class="ph" id="im-mobile-theme-icon"></i>
                     </span>
                 </a>
             </div>
 
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="imVanillaNavMenu" style="color: #4338CA; width: 4.2rem; height: 4.2rem;">
-             <span aria-hidden="true" style="background-color: #4338CA !important; height: 2px;"></span>
-             <span aria-hidden="true" style="background-color: #4338CA !important; height: 2px;"></span>
-             <span aria-hidden="true" style="background-color: #4338CA !important; height: 2px;"></span>
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="imVanillaNavMenu">
+             <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
             </a>
         </div>
 
-        <div class="navbar-menu" id="imVanillaNavMenu" style="background-color: transparent !important;">
+        <div class="navbar-menu" id="imVanillaNavMenu">
             <div class="navbar-start">
                 {% for item in site.navbar %}
                   {% if item.name %}
@@ -40,61 +38,53 @@
                       {% for subitem in item.dropdown %}{% assign subitem_url_relative_cleaned = subitem.link | relative_url | remove: "index.html" | default: "/" %}{% if current_page_url == subitem_url_relative_cleaned %}{% assign is_active_parent = true %}{% break %}{% endif %}{% endfor %}
                     {% endif %}
 
-                    {% assign nav_item_base_style = "padding: 0.5rem 1rem; min-height: 4.2rem; font-weight: 500; font-size: 0.9rem; background-color: transparent !important; display:flex; align-items:center;" %}
+                    {% assign nav_item_base_style = "padding: 0.75rem 1.25rem; min-height: 4.5rem; font-weight: 500; font-size: 0.95rem; background-color: transparent !important;" %}
                     {% assign nav_item_text_color = "color: #4A5568;" %} 
-                    {% assign nav_item_active_style = "color: #6D28D9 !important; background-color: rgba(109, 40, 217, 0.07) !important; border-radius: 5px;" %}
+                    {% assign nav_item_active_style = "color: #6D28D9 !important; background-color: rgba(109, 40, 217, 0.08) !important; border-radius: 6px;" %}
+
 
                     {% if item.dropdown %}
-                    <div class="navbar-item has-dropdown is-hoverable" style="padding:0;"> 
-                      <a class="navbar-link im-navbar-link {% if is_active_parent %}is-active-nav-item{% endif %}"
-                         style="{{ nav_item_base_style }} {% if is_active_parent %}{{ nav_item_active_style }}{% else %}{{ nav_item_text_color }}{% endif %} border-color: transparent;"
-                         {% if item.link != "/#" %}href="{{ item_url_relative }}"{% else %}role="button" aria-haspopup="true" aria-expanded="false"{% endif %}>
-                        {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="im-navbar-icon im-navbar-image-icon" style="max-height: 1rem; margin-right: 0.4em;">
-                        {% elsif item.icon %}<span class="icon im-navbar-icon" style="margin-right: 0.4em;"><i class="ph ph-{{ item.icon }} im-navbar-ph-icon" style="font-size: 1.1em;"></i></span>{% endif %}
+                    <div class="navbar-item has-dropdown is-hoverable">
+                      <a class="navbar-link im-navbar-link {% if is_active_parent %}is-active-nav-item{% endif %}" {% if item.link != "/#" %}href="{{ item_url_relative }}"{% else %}role="button" aria-haspopup="true" aria-expanded="false"{% endif %}>
+                        {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="im-navbar-icon im-navbar-image-icon">
+                        {% elsif item.icon %}<span class="icon im-navbar-icon"><i class="ph ph-{{ item.icon }} im-navbar-ph-icon"></i></span>{% endif %}
                         <span class="im-navbar-text">{{ item.name }}</span>
                       </a>
-                      <div class="navbar-dropdown is-boxed im-navbar-dropdown-box" style="background-color: #ffffff !important; border: 1px solid #E2E8F0 !important; border-top: 1px solid #E2E8F0 !important; border-radius: 8px !important; box-shadow: 0 8px 20px rgba(0,0,0,0.1) !important; padding-top: 0.4rem !important; padding-bottom: 0.4rem !important; font-size: 0.85rem; margin-top: 0px; min-width: 12rem;">
+                      <div class="navbar-dropdown is-boxed im-navbar-dropdown-box">
                         {% for subitem in item.dropdown %}
                           {% assign subitem_url_relative = subitem.link | relative_url %}
                           {% assign subitem_url_relative_cleaned = subitem_url_relative | remove: "index.html" | default: "/" %}
-                          <a class="navbar-item im-navbar-dropdown-item {% if current_page_url == subitem_url_relative_cleaned %}is-active-nav-item{% endif %}" href="{{ subitem_url_relative }}"
-                             style="padding: 0.5rem 1rem !important; min-height: auto; {% if current_page_url == subitem_url_relative_cleaned %}color: #6D28D9 !important; background-color: rgba(109, 40, 217, 0.05) !important; font-weight: 500;{% else %}color: #4A5568 !important;{% endif %}">
-                            {% if subitem.image %}<img src="{{ subitem.image | relative_url }}" alt="{{ subitem.name | escape }}" class="im-navbar-icon im-navbar-image-icon is-small" style="max-height: 0.8rem; margin-right: 0.4em;">
-                            {% elsif subitem.icon %}<span class="icon im-navbar-icon is-small" style="margin-right: 0.4em;"><i class="ph ph-{{ subitem.icon }} im-navbar-ph-icon" style="font-size: 1rem;"></i></span>{% endif %}
+                          <a class="navbar-item im-navbar-dropdown-item {% if current_page_url == subitem_url_relative_cleaned %}is-active-nav-item{% endif %}" href="{{ subitem_url_relative }}">
+                            {% if subitem.image %}<img src="{{ subitem.image | relative_url }}" alt="{{ subitem.name | escape }}" class="im-navbar-icon im-navbar-image-icon is-small">
+                            {% elsif subitem.icon %}<span class="icon im-navbar-icon is-small"><i class="ph ph-{{ subitem.icon }} im-navbar-ph-icon"></i></span>{% endif %}
                             <span class="im-navbar-text">{{ subitem.name }}</span>
                           </a>
                         {% endfor %}
                       </div>
                     </div>
                     {% else %}
-                    <a class="navbar-item im-navbar-link {% if is_active_page %}is-active-nav-item{% endif %}" href="{{ item_url_relative }}"
-                       style="{{ nav_item_base_style }} {% if is_active_page %}{{ nav_item_active_style }}{% else %}{{ nav_item_text_color }}{% endif %}">
-                      {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="im-navbar-icon im-navbar-image-icon" style="max-height: 1rem; margin-right: 0.4em;">
-                      {% elsif item.icon %}<span class="icon im-navbar-icon" style="margin-right: 0.4em;"><i class="ph ph-{{ item.icon }} im-navbar-ph-icon" style="font-size: 1.1em;"></i></span>{% endif %}
+                    <a class="navbar-item im-navbar-link {% if is_active_page %}is-active-nav-item{% endif %}" href="{{ item_url_relative }}">
+                      {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="im-navbar-icon im-navbar-image-icon">
+                      {% elsif item.icon %}<span class="icon im-navbar-icon"><i class="ph ph-{{ item.icon }} im-navbar-ph-icon"></i></span>{% endif %}
                       <span class="im-navbar-text">{{ item.name }}</span>
                     </a>
                     {% endif %}
                   {% endif %}
                 {% endfor %}
             </div>
-            <div class="navbar-end" style="align-items: center;"> 
-                {% assign end_item_base_style = "display: inline-flex; align-items: center; justify-content: center; padding: 0.5rem 0.75rem; min-height: calc(4.2rem - 1.5rem); height: calc(4.2rem - 1.5rem); margin-left: 0.25rem; border-radius: 6px; font-size: 0.85rem;" %}
-                {% assign end_item_text_color = "color: #4A5568;" %}
-                {% assign end_item_bg_color = "background-color: rgba(226, 232, 240, 0.5);" %} 
-
+            <div class="navbar-end">
                 {% if site.social_media %}
                   {% for item in site.social_media %}
-                    <a class="navbar-item im-navbar-end-item im-navbar-social-icon is-hidden-touch" href="{{ item.url }}" target="_blank" rel="noopener noreferrer" title="{{ item.cta | escape }}" style="{{ end_item_base_style }} {{ end_item_text_color }} background-color: transparent;">
-                        <span class="icon"><i class="ph ph-{{ item.icon | downcase }}" style="font-size: 1.1rem;"></i></span>
+                    <a class="navbar-item im-navbar-end-item im-navbar-social-icon is-hidden-touch" href="{{ item.url }}" target="_blank" rel="noopener noreferrer" title="{{ item.cta | escape }}">
+                        <span class="icon"><i class="ph ph-{{ item.icon | downcase }}"></i></span>
                     </a>
                   {% endfor %}
                 {% endif %}
-                <a href="{{ '/search' | relative_url }}" class="navbar-item im-navbar-end-item im-navbar-desktop-search is-hidden-touch" aria-label="Search" style="{{ end_item_base_style }} {{ end_item_text_color }} {{ end_item_bg_color }}">
-                    <span class="icon is-medium" style="margin-right: 0.3em;"><i class="ph ph-magnifying-glass" style="font-size: 1rem;"></i></span>
-                    <span style="font-weight: 500;">Quick Access</span>
+                <a href="{{ '/search' | relative_url }}" class="navbar-item im-navbar-end-item im-navbar-desktop-search is-hidden-touch" aria-label="Search">
+                    <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
                 </a>
-                <a href="#" class="navbar-item im-navbar-end-item im-dark-mode-toggle is-hidden-touch" id="im-desktop-dark-mode-toggle" title="Toggle Dark Mode" role="button" aria-pressed="false" style="{{ end_item_base_style }} {{ end_item_text_color }} {{ end_item_bg_color }}">
-                    <span class="icon is-medium"><i class="ph" id="im-desktop-theme-icon" style="font-size: 1.1rem;"></i></span>
+                <a href="#" class="navbar-item im-navbar-end-item im-dark-mode-toggle is-hidden-touch" id="im-desktop-dark-mode-toggle" title="Toggle Dark Mode" role="button" aria-pressed="false">
+                    <span class="icon is-medium"><i class="ph" id="im-desktop-theme-icon"></i></span>
                 </a>
             </div>
         </div>
