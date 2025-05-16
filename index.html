@@ -5,65 +5,74 @@ image: /assets/logos/logo.svg
 layout: default
 ---
 
-<section class="hero is-fullheight has-background-dark">
-  <div class="hero-body">
-    <div class="container">
-      <div class="columns is-vcentered is-variable is-8">
-        
-        <!-- Left Side -->
-        <div class="column is-7-tablet is-6-desktop">
-          <p class="subtitle is-4 has-text-white">Hi! 👋</p>
+   <!-- Hero content: will be in the middle -->
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-vcentered">
+                    <div class="column is-7-tablet is-6-desktop hero-content-column">
+                        <p class="subtitle is-4 has-text-white">
+                            hi! 👋
+                        </p>
+                        <h1 class="title is-1 has-text-white">
+                            I'm <strong class="has-text-weight-bold">Enji</strong> Kusnadi,
+                        </h1>
+                        <h2 class="subtitle is-3 has-text-white">
+                            a <strong>front-end developer</strong> who loves intuitive, clean and modern UI design.
+                        </h2>
+                        <div class="buttons mt-5">
+                            <a class="button is-light is-medium is-outlined">
+                                <span>Get in Touch</span>
+                            </a>
+                            <a class="button is-light is-medium">
+                                <span class="icon"><i class="fas fa-file-alt"></i></span>
+                                <span>RESUME</span>
+                            </a>
+                        </div>
 
-          <h1 class="title is-1 has-text-white">
-            I'm <strong>{{ site.author.name }}</strong>,
-          </h1>
-
-          <h2 class="subtitle is-3 has-text-white">
-            a <span class="has-text-weight-bold">{{ site.author.titles[0] }}</span> who loves building things that matter.
-          </h2>
-
-          <p class="mt-3 has-text-white">
-            {{ site.author.description }}
-          </p>
-
-          <div class="buttons mt-5">
-            <a class="button is-light is-medium is-outlined" href="mailto:{{ site.email }}">
-              Get in Touch
-            </a>
-            <a class="button is-light is-medium" href="{{ site.repo }}">
-              <span class="icon"><i class="fas fa-file-alt"></i></span>
-              <span>Resume</span>
-            </a>
-          </div>
-
-          <!-- Tech Stack -->
-          <div class="mt-6">
-            <p class="mb-2 has-text-white">Favorite Tech Stack:</p>
-            <div class="field is-grouped is-grouped-multiline">
-              {% for tech in site.tech_stack %}
-              <div class="control">
-                <div class="tags has-addons">
-                  <span class="tag is-dark"><i class="{{ tech.icon }}"></i></span>
-                  <span class="tag is-white">{{ tech.name }}</span>
+                        <p class="mt-6 mb-2 has-text-white">current favorite tech stack/tools:</p>
+                        <div class="field is-grouped is-grouped-multiline tech-stack-icons">
+                            <div class="control">
+                                <span class="icon is-large has-text-white" title="TypeScript">
+                                    <i class="fab fa-js-square fa-2x"></i> <!-- Placeholder, ideally a TS icon -->
+                                </span>
+                            </div>
+                            <div class="control">
+                                <span class="icon is-large has-text-white" title="React">
+                                    <i class="fab fa-react fa-2x"></i>
+                                </span>
+                            </div>
+                            <div class="control">
+                                <span class="icon is-large has-text-white" title="Next.js">
+                                    <i class="fas fa-arrow-alt-circle-right fa-2x"></i> <!-- Placeholder -->
+                                </span>
+                            </div>
+                            <div class="control">
+                                <span class="icon is-large has-text-white" title="Tailwind CSS">
+                                    <i class="fas fa-wind fa-2x"></i> <!-- Placeholder -->
+                                </span>
+                            </div>
+                             <div class="control">
+                                <span class="icon is-large has-text-white" title="Node.js">
+                                    <i class="fab fa-node-js fa-2x"></i>
+                                </span>
+                            </div>
+                            <div class="control">
+                                <span class="icon is-large has-text-white" title="VS Code">
+                                    <i class="fas fa-code fa-2x"></i> <!-- Placeholder -->
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-5-tablet is-6-desktop profile-image-container">
+                        <figure class="image">
+                            <!-- Replace with your actual image URL -->
+                            <img src="https://via.placeholder.com/400x450/FFFFFF/000000?text=Profile+Avatar" alt="Enji Kusnadi - Front-end Developer">
+                        </figure>
+                    </div>
                 </div>
-              </div>
-              {% endfor %}
             </div>
-          </div>
         </div>
-
-        <!-- Right Side -->
-        <div class="column is-5-tablet is-6-desktop">
-          <figure class="image is-square">
-            <img src="{{ site.author.image | relative_url }}" alt="{{ site.author.name }}">
-          </figure>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</section>
-
+    </section>
 
 
  <div class="section">
