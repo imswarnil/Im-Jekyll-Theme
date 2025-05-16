@@ -1,0 +1,186 @@
+// _sass/theme/_variables.scss
+
+// =============================================================================
+// IM THEME - SCSS & CSS CUSTOM PROPERTIES
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// A. CORE "IM" SCSS VARIABLES
+// These are used to set Bulma's global variables and for internal calculations.
+// -----------------------------------------------------------------------------
+
+// --- Colors (Light Mode Base) ---
+$im-primary-color: #e53935; // Your core red
+$im-primary-color-light: #ef5350;
+$im-primary-color-dark: #c62828;
+$im-primary-color-inverse: #FFFFFF; // Text on primary
+
+$im-text-color: #2D3748;
+$im-text-color-headings: #1A202C;
+$im-text-color-muted: #718096;
+
+$im-background-color: #F9FAFB; // Overall page background
+$im-surface-color: #FFFFFF;   // Cards, boxes, navbar default solid bg
+$im-surface-color-alt: #F0F2F5; // Slight variations
+
+$im-border-color: #E2E8F0;
+$im-border-color-light: #EFF2F7;
+$im-border-color-hover: #D1D9E6; // For input hover
+
+$im-link-color: $im-primary-color;
+$im-link-color-hover: $im-primary-color-dark;
+
+// --- Typography ---
+$im-font-family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+$im-font-family-monospace: "Roboto Mono", Consolas, Monaco, monospace; // Added monospace
+
+$im-font-weight-normal: 400;
+$im-font-weight-medium: 500;
+$im-font-weight-semibold: 600;
+$im-font-weight-bold: 700;
+
+$im-base-font-size: 16px;       // Corresponds to Bulma's $size-normal
+$im-line-height-base: 1.6;
+
+// --- Sizing & Spacing ---
+$im-border-radius: 6px;
+$im-border-radius-large: 10px; // For larger elements like video player
+
+$im-spacing-unit: 1rem; // Base for margins/paddings
+
+// Navbar specific
+$im-navbar-height: 3.5rem;
+$im-navbar-item-padding-vertical: 0.75rem;
+$im-navbar-item-padding-horizontal: 1rem;
+$im-navbar-scroll-transition-duration: 0.3s;
+$im-navbar-shadow: 0 1px 3px rgba(0,0,0,0.04); // Shadow for scrolled navbar
+
+// Grid Lines system
+$im-grid-line-width: 1px;
+$im-grid-default-spacing: 30px;
+$im-grid-default-fade-extent: 70%;
+
+// Transitions
+$im-base-transition-duration: 0.2s;
+
+
+// -----------------------------------------------------------------------------
+// B. CSS CUSTOM PROPERTIES (for dynamic theming via JS, light/dark mode)
+// These are defined in :root and overridden in html.im-is-dark-mode
+// Their initial values are derived from the SCSS variables above for light mode.
+// -----------------------------------------------------------------------------
+:root {
+  // --- Colors ---
+  --im-color-primary-rgb: #{red($im-primary-color)}, #{green($im-primary-color)}, #{blue($im-primary-color)};
+  --im-color-primary: #{$im-primary-color};
+  --im-color-primary-light: #{$im-primary-color-light};
+  --im-color-primary-dark: #{$im-primary-color-dark};
+  --im-color-primary-inverse: #{$im-primary-color-inverse};
+
+  --im-color-text: #{$im-text-color};
+  --im-color-text-headings: #{$im-text-color-headings};
+  --im-color-text-muted: #{$im-text-color-muted};
+  --im-color-text-on-primary: #{$im-primary-color-inverse}; // Same as primary-inverse
+  --im-color-text-on-surface: var(--im-color-text);
+
+  --im-color-background: #{$im-background-color};
+  --im-color-surface: #{$im-surface-color};
+  --im-navbar-bg-transparent: rgba(#{red($im-surface-color)}, #{green($im-surface-color)}, #{blue($im-surface-color)}, 0.65);
+  --im-navbar-bg-scrolled: rgba(#{red($im-surface-color)}, #{green($im-surface-color)}, #{blue($im-surface-color)}, 0.92);
+  --im-navbar-border-transparent: rgba(#{red($im-border-color)}, #{green($im-border-color)}, #{blue($im-border-color)}, 0.0);
+  --im-navbar-border-scrolled: rgba(#{red($im-border-color)}, #{green($im-border-color)}, #{blue($im-border-color)}, 0.5);
+  --im-color-surface-alt: #{$im-surface-color-alt};
+
+  --im-color-border-rgb: #{red($im-border-color)}, #{green($im-border-color)}, #{blue($im-border-color)};
+  --im-color-border: #{$im-border-color};
+  --im-color-border-light: #{$im-border-color-light};
+  --im-color-border-hover: #{$im-border-color-hover};
+
+  --im-color-link: var(--im-color-primary);
+  --im-color-link-hover: var(--im-color-primary-dark);
+
+  // --- Specific elements using CSS vars for easy JS/dark mode override ---
+  --im-button-light-bg: #{mix($im-primary-color, $im-surface-color, 10%)}; // Light tint of primary
+  --im-button-light-border: var(--im-button-light-bg);
+  --im-button-light-text: #{$im-primary-color-dark};
+  --im-button-light-hover-bg: #{mix($im-primary-color, $im-surface-color, 20%)};
+  --im-button-light-hover-border: var(--im-button-light-hover-bg);
+
+  --im-input-bg: var(--im-color-surface);
+  --im-input-border: var(--im-color-border);
+  --im-input-text: var(--im-color-text);
+  --im-input-placeholder-text: var(--im-color-text-muted);
+  --im-input-focus-border: var(--im-color-primary);
+  --im-input-focus-shadow: rgba(var(--im-color-primary-rgb), 0.25);
+
+  // --- Sizing & Spacing ---
+  --im-border-radius: #{$im-border-radius};
+  --im-border-radius-large: #{$im-border-radius-large};
+  --im-spacing-unit: #{$im-spacing-unit};
+  --im-content-padding: #{$im-content-padding}; // SCSS var $im-content-padding
+  --im-section-padding-vertical: #{$im-section-padding-vertical}; // SCSS var
+  --im-navbar-height: #{$im-navbar-height};
+  --im-navbar-scroll-transition-duration: #{$im-navbar-scroll-transition-duration};
+
+  // --- Fonts ---
+  --im-font-family-sans-serif: #{$im-font-family-sans-serif};
+  --im-font-family-monospace: #{$im-font-family-monospace};
+
+
+  // --- Icons ---
+  --im-icon-color: var(--im-color-text-muted);
+  --im-icon-color-hover: var(--im-color-primary);
+
+  // --- Grid Lines Colors ---
+  --im-color-grid-lines-default: rgba(var(--im-color-border-rgb), 0.3); // Softer than border
+  --im-color-grid-lines-section: rgba(#{red($im-text-color)}, #{green($im-text-color)}, #{blue($im-text-color)}, 0.05);
+  --im-color-grid-lines-hero: rgba(255, 255, 255, 0.08);
+  --im-color-grid-lines-primary: rgba(var(--im-color-primary-rgb), 0.15);
+  --im-color-grid-lines-light: rgba(var(--im-color-border-rgb), 0.2);
+  --im-color-grid-lines-dark: rgba(#{red($im-text-color)}, #{green($im-text-color)}, #{blue($im-text-color)}, 0.08);
+}
+
+// --- Dark Mode CSS Custom Property Overrides ---
+html.im-is-dark-mode {
+  --im-color-primary-inverse: var(--im-color-text-headings);
+  --im-color-text: #CBD5E0;
+  --im-color-text-headings: #E2E8F0;
+  --im-color-text-muted: #A0AEC0;
+
+  --im-color-background: #171C23;
+  --im-color-surface: #202731;
+  --im-navbar-bg-transparent: rgba(32, 39, 49, 0.65);
+  --im-navbar-bg-scrolled: rgba(32, 39, 49, 0.92);
+  --im-navbar-border-transparent: rgba(74, 85, 104, 0.0);
+  --im-navbar-border-scrolled: rgba(74, 85, 104, 0.5);
+  --im-color-surface-alt: #252E3D;
+
+  --im-color-border-rgb: 74, 85, 104; // #4A5568
+  --im-color-border: rgb(var(--im-color-border-rgb));
+  --im-color-border-light: #3E4C5F;
+  --im-color-border-hover: #5A6B81;
+
+  --im-color-link: var(--im-color-primary-light);
+  --im-color-link-hover: var(--im-color-primary);
+
+  --im-button-light-bg: #4A5568;
+  --im-button-light-border: var(--im-button-light-bg);
+  --im-button-light-text: var(--im-color-text-headings);
+  --im-button-light-hover-bg: #5A6B81;
+  --im-button-light-hover-border: var(--im-button-light-hover-bg);
+
+  --im-input-bg: var(--im-color-surface);
+  --im-input-border: var(--im-color-border);
+  --im-input-text: var(--im-color-text-on-surface);
+  --im-input-placeholder-text: var(--im-color-text-muted);
+
+  --im-icon-color: var(--im-color-text-muted);
+  --im-icon-color-hover: var(--im-color-primary-light);
+
+  --im-color-grid-lines-default: rgba(var(--im-color-border-rgb), 0.3);
+  --im-color-grid-lines-section: rgba(255, 255, 255, 0.04);
+  --im-color-grid-lines-hero: rgba(255, 255, 255, 0.07);
+  --im-color-grid-lines-primary: rgba(var(--im-color-primary-rgb), 0.2);
+  --im-color-grid-lines-light: rgba(255, 255, 255, 0.08); // Light lines on dark bg
+  --im-color-grid-lines-dark: rgba(255, 255, 255, 0.05); // "Dark" on dark means subtle light
+}

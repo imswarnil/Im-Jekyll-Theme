@@ -1,0 +1,84 @@
+// _sass/theme/_base.scss
+
+// =============================================================================
+// BASE & ELEMENT STYLES
+// =============================================================================
+html {
+  background-color: var(--im-color-background);
+  font-size: $im-base-font-size; // Used by Bulma for 'rem' calculations
+  scroll-behavior: smooth;
+  // overflow-y: scroll; // Prevent layout shift
+}
+
+body {
+  font-family: var(--im-font-family-sans-serif);
+  color: var(--im-color-text);
+  font-weight: $im-font-weight-normal;
+  line-height: $im-line-height-base;
+  background-color: var(--im-color-background); // Fallback, html usually covers it
+  min-height: 100vh;
+  font-size: 1rem; // Ensure body text size is based on html font-size
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  // Transitions for dark mode on body are generally not needed if children transition
+}
+
+// Typography using Bulma classes primarily, with IM theme overrides
+.title {
+  font-family: var(--im-font-family-sans-serif);
+  color: var(--im-color-text-headings) !important;
+  font-weight: $im-font-weight-bold !important; // Stronger titles
+  line-height: 1.2 !important;
+  margin-bottom: $im-spacing-unit !important; // Use SCSS var for consistency
+}
+// Bulma .is-1, .is-2 etc. for size still apply
+
+.subtitle {
+  font-family: var(--im-font-family-sans-serif);
+  color: var(--im-color-text-muted) !important;
+  font-weight: $im-font-weight-normal !important;
+  line-height: 1.5 !important;
+  margin-bottom: calc(#{$im-spacing-unit} * 1.5) !important;
+}
+
+// Base HTML elements if not covered by Bulma .content
+p {
+  // Bulma .content p will have its own styles. This is for <p> outside .content
+  font-family: var(--im-font-family-sans-serif);
+  line-height: $im-line-height-base;
+  margin-bottom: $im-spacing-unit;
+}
+
+a {
+  color: var(--im-color-link);
+  text-decoration: none;
+  transition: color $im-base-transition-duration ease-in-out;
+  &:hover {
+    color: var(--im-color-link-hover);
+  }
+}
+
+strong, b {
+  color: var(--im-color-text-headings);
+  font-weight: $im-font-weight-semibold; // Use theme semibold
+}
+
+hr { // Default hr
+  background-color: var(--im-color-border);
+  border: none;
+  display: block;
+  height: 1px;
+  margin: $im-spacing-unit 0;
+}
+// Bulma .is-divider can be styled separately if needed
+
+// Main content area wrapper (for fixed navbar padding by JS)
+.im-main-content-area {
+    padding-top: var(--im-navbar-height);
+    transition: padding-top var(--im-navbar-scroll-transition-duration) ease-out;
+}
+
+// Page transition classes (animations defined later)
+body.im-page-is-loading { opacity: 1; } // No fade if load animation off
+body.im-page-is-entering { opacity: 1; }
+body.im-page-is-exiting { /* Animation applied here */ }

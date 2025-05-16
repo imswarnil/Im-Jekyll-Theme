@@ -1,7 +1,97 @@
-$primary: #e53935;
-$link : $primary;
-$family-sans-serif: "Outfit", "Arial", sans-serif !default;
-$family-monospace: "Roboto Mono", monospace !default;
-@import "../node_modules/bulma/sass/index";
-@import "./theme/index";
 
+
+
+
+// $primary: #e53935;
+// $link : $primary;
+// $family-sans-serif: "Outfit", "Arial", sans-serif !default;
+// $family-monospace: "Roboto Mono", monospace !default;
+// @import "../node_modules/bulma/sass/index";
+// @import "./theme/index";
+
+
+
+@import "./variables";
+
+// Initial variables (Bulma defaults that can be overridden)
+$family-sans-serif: $im-font-family-sans-serif;
+$family-monospace: $im-font-family-monospace;
+
+$primary: $im-primary-color;
+$primary-light: $im-primary-color-light; // Optional: if Bulma uses it and you want to control it
+$primary-dark: $im-primary-color-dark;   // Optional
+$primary-invert: $im-primary-color-inverse;
+
+$link: $im-link-color;
+$link-hover: $im-link-color-hover;
+// $link-active: ...;
+
+// Text colors
+$text: $im-text-color;
+$text-light: $im-text-color-muted; // Bulma uses this for muted text
+$text-strong: $im-text-color-headings;
+
+// Background colors
+$body-background-color: $im-background-color;
+$background: $im-background-color; // General background
+// $scheme-main: $im-background-color; // For Bulma 0.9.4+ color schemes
+
+// Surface and Border colors for components
+$surface-color: $im-surface-color; // (Not a direct Bulma var, but useful for consistency)
+$border: $im-border-color;
+$border-light: $im-border-color-light;
+$border-hover: $im-border-color-hover;
+
+// Sizes and Spacing
+$radius: $im-border-radius;
+$radius-large: $im-border-radius-large; // Bulma uses $radius-large for cards etc.
+// $radius-small: ...;
+
+$size-normal: $im-base-font-size; // Bulma's base font size
+
+// Component specific variables
+$box-background-color: $im-surface-color;
+$box-padding: $im-content-padding; // Use your SCSS var
+$box-radius: $im-border-radius;
+$box-shadow: 0 3px 8px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.03); // Custom shadow for boxes
+
+$card-background-color: $im-surface-color;
+$card-radius: $im-border-radius-large; // Cards often look good slightly more rounded
+$card-shadow: 0 4px 10px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.04);
+$card-header-background-color: transparent;
+$card-footer-border-top: 1px solid $border;
+
+$input-background-color: $im-surface-color;
+$input-border-color: $border;
+$input-color: $text;
+$input-placeholder-color: $text-light;
+$input-hover-border-color: $border-hover;
+$input-focus-border-color: $primary;
+$input-focus-box-shadow-size: 0 0 0 0.125em;
+$input-focus-box-shadow-color: rgba($primary, 0.25);
+$input-radius: $radius;
+
+$navbar-background-color: transparent; // Initial state for fixed transparent navbar
+$navbar-height: $im-navbar-height;
+$navbar-item-color: $text;
+$navbar-item-hover-color: $link;
+$navbar-item-hover-background-color: transparent; // For transparent navbar
+$navbar-item-active-color: $link;
+$navbar-item-active-background-color: transparent;
+$navbar-dropdown-background-color: $im-surface-color;
+$navbar-dropdown-border-top: 1px solid $border-light; // Or just $border
+$navbar-dropdown-item-hover-color: $link;
+$navbar-dropdown-item-hover-background-color: $im-surface-color-alt;
+$navbar-dropdown-item-active-color: $primary-invert;
+$navbar-dropdown-item-active-background-color: $primary;
+
+// Add more Bulma variable overrides here as needed
+// Full list: https://bulma.io/documentation/customize/variables/
+
+
+// 3. Import Bulma AFTER your variable overrides
+@import "../node_modules/bulma/sass/index"; // Adjust path to your Bulma installation
+
+
+// 4. Your "IM" Theme's additional styles and overrides (imports your theme partials)
+@import "./theme/index"; // This imports _sass/theme/_index.scss
