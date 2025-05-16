@@ -1,0 +1,590 @@
+//------------------------------------------------------------------------------
+// 12. Video Page Layout
+//------------------------------------------------------------------------------
+
+// --- Base Variables from your existing CSS (adapted to IM theme) ---
+// These are overridden or mapped to your existing IM theme variables.
+// Example: var(--primary-color) becomes var(--im-color-primary)
+// var(--text-color) becomes var(--im-color-text)
+// var(--light-text) becomes var(--im-color-text-muted)
+// var(--border-color) becomes var(--im-color-border)
+// var(--bg-color) becomes var(--im-color-surface) // Or a slightly off-surface for contrast
+
+// --- Video Content Container & Columns ---
+.video-content-container {
+  // max-width: 1400px; // This can be managed by Bulma's .container or a custom one
+  // margin: 0 auto; // Handled by .container
+  // padding: $im-spacing-unit * 1.5; // Replaced by section/container padding
+
+  // Using Bulma's .section for padding and potentially grid lines
+  &.section {
+    padding-top: $im-spacing-unit * 2 !important;
+    padding-bottom: $im-spacing-unit * 2 !important;
+    // @include im-apply-fading-grid('--im-grid-line-color-for-section');
+    // > .container { // If you wrap content in a container for width constraint
+    //   position: relative; z-index: 1;
+    // }
+  }
+
+  .columns.is-gapless {
+    // Bulma handles this
+  }
+
+  // Main content and sidebar columns
+  .column.is-8, // Main content
+  .column.is-4 { // Sidebar
+    // Bulma handles sizing
+  }
+}
+
+// --- Video Hero (Player) ---
+.video-hero {
+  width: 100%;
+  background: #000; // Keep black background for video player contrast
+  position: relative;
+  border-radius: $im-border-radius; // Add rounded corners
+  overflow: hidden; // Clip iframe
+  margin-bottom: $im-spacing-unit * 1.5;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.video-container { // Bulma's .video class can also be used: <figure class="image is-16by9">
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0; // Ensure no iframe border
+  }
+}
+
+// --- Video Content Area (Left Column) ---
+.video-content {
+  padding: $im-spacing-unit; // Inner padding for content elements
+  background-color: var(--im-color-surface);
+  border: 1px solid var(--im-color-border);
+  border-radius: $im-border-radius;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.03);
+
+  @include tablet {
+    padding: $im-content-padding;
+  }
+}
+html.im-is-dark-mode .video-content {
+   box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.video-header {
+  padding: $im-spacing-unit 0;
+  margin-bottom: $im-spacing-unit * 1.5;
+  border-bottom: 1px solid var(--im-color-border);
+
+  .video-title { // This is your h1
+    color: var(--im-color-text-headings) !important; // From global h1 styles
+    font-size: 1.8rem !important; // As per your CSS
+    margin-bottom: calc(#{$im-spacing-unit} / 2) !important;
+    line-height: 1.3;
+  }
+  .video-title.subtitle { // This is your h3 for description
+    color: var(--im-color-text-muted) !important; // From global .subtitle styles
+    font-size: 1.1rem !important; // As per your CSS for subtitle
+    margin-bottom: $im-spacing-unit !important;
+    font-weight: $im-font-weight-normal !important;
+  }
+}
+
+.video-stats {
+  display: flex;
+  flex-wrap: wrap; // Allow wrapping on smaller screens
+  gap: $im-spacing-unit * 1.25;
+  color: var(--im-color-text-muted);
+  font-size: 0.9em;
+  margin-top: $im-spacing-unit;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+  }
+  i { // Font Awesome icons
+    margin-right: calc(#{$im-spacing-unit} / 2);
+    color: var(--im-color-text-muted); // Or var(--im-color-primary) for more emphasis
+  }
+}
+
+// --- Author Section ---
+.author-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $im-spacing-unit 0;
+  margin-bottom: $im-spacing-unit * 1.5;
+  border-bottom: 1px solid var(--im-color-border);
+
+  .author-info {
+    display: flex;
+    align-items: center;
+    gap: $im-spacing-unit;
+
+    .author-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--im-color-border); // Subtle border
+    }
+
+    div { // Text content next to avatar
+      h3 { // Author name
+        color: var(--im-color-text-headings) !important;
+        font-weight: $im-font-weight-semibold !important;
+        font-size: 1.1rem !important;
+        margin: 0 0 calc(#{$im-spacing-unit}/4) 0 !important;
+      }
+      p { // Subscriber count
+        font-size: 0.9em !important;
+        color: var(--im-color-text-muted) !important;
+        margin: 0 !important;
+      }
+    }
+  }
+
+  .subscribe-button {
+    @extend .button; // Inherit base IM button styles
+    @extend .is-primary; // Use IM primary button style
+    // background: var(--im-color-primary) !important; // Already handled by .is-primary
+    // color: var(--im-color-text-on-primary) !important; // Already handled
+    border-radius: 20px !important; // Keep your specific radius for this button
+    font-weight: $im-font-weight-semibold !important;
+    padding: 0.6em 1.2em !important; // Adjust padding if needed
+
+    // &:hover {
+    //   background: var(--im-color-primary-dark) !important; // Handled by .is-primary:hover
+    //   transform: translateY(-2px); // Keep custom transform
+    // }
+  }
+}
+
+// --- Video Description ---
+.video-description {
+  padding: $im-spacing-unit 0;
+  // border-bottom: 1px solid var(--im-color-border); // Optional last border
+
+  .description-content {
+    // Styles for {{ content }} will come from general Markdown styling (section 9)
+    line-height: $im-line-height-base;
+    color: var(--im-color-text);
+    font-size: 0.95em;
+
+    p, ul, ol { // Ensure consistent spacing for content from Markdown
+      margin-bottom: $im-spacing-unit !important;
+    }
+  }
+
+  .video-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(#{$im-spacing-unit} / 2);
+    margin-top: $im-spacing-unit * 1.5;
+
+    span {
+      // Use Bulma's tag style as a base for better theme consistency
+      @extend .tag;
+      @extend .is-light; // Use IM light tag style (often primary tinted)
+      // color: var(--im-color-primary) !important; // Your original blue, or IM primary for theme
+      background-color: rgba(var(--im-color-primary-rgb), 0.1) !important;
+      color: var(--im-color-primary-dark) !important;
+      font-size: 0.85em !important;
+      border-radius: $im-border-radius !important; // Or Bulma's default tag radius
+      padding: 0.3em 0.8em;
+    }
+  }
+}
+html.im-is-dark-mode .video-description .video-tags span {
+  background-color: rgba(var(--im-color-primary-rgb), 0.2) !important;
+  color: var(--im-color-primary-light) !important;
+}
+
+
+// --- Sidebar Styles ---
+.video-sidebar {
+  padding-left: 0; // Reset padding if columns are gapless
+  @include tablet {
+    padding-left: $im-spacing-unit * 1.5; // Add padding on larger screens
+  }
+
+  // Common style for sidebar section titles
+  h3.sidebar-title { // Add this class to your <h3> elements in sidebar
+    font-size: 1.1em !important; // Consistent title size
+    font-weight: $im-font-weight-semibold !important;
+    color: var(--im-color-text-headings) !important;
+    margin-bottom: $im-spacing-unit !important;
+    display: flex;
+    align-items: center;
+    gap: calc(#{$im-spacing-unit} / 2);
+    padding-bottom: calc(#{$im-spacing-unit} / 2);
+    border-bottom: 1px solid var(--im-color-border);
+    i { color: var(--im-color-primary); }
+  }
+
+
+  .timestamps-desktop {
+    margin-bottom: $im-spacing-unit * 2;
+    .timestamps-list {
+      max-height: 350px; // Adjust as needed
+      overflow-y: auto;
+      background: rgba(var(--im-color-primary-rgb), 0.02); // Very subtle tint
+      border: 1px solid var(--im-color-border);
+      border-radius: $im-border-radius;
+      padding: calc(#{$im-spacing-unit} / 2);
+
+      .timestamp {
+        display: flex; // For better alignment of time and title
+        justify-content: space-between;
+        padding: calc(#{$im-spacing-unit} * 0.6) $im-spacing-unit;
+        cursor: pointer;
+        border-radius: calc(#{$im-border-radius} / 1.5);
+        transition: background-color 0.2s ease, color 0.2s ease;
+        margin-bottom: calc(#{$im-spacing-unit} / 3);
+        border-bottom: 1px solid var(--im-color-border); // Separator
+        &:last-child { border-bottom: none; }
+
+        &:hover, &.active {
+          background-color: rgba(var(--im-color-primary-rgb), 0.1);
+          .timestamp-title {
+            color: var(--im-color-primary-dark);
+          }
+        }
+        &.active {
+          // background: rgba(var(--im-color-primary-rgb), 0.15); // Slightly more emphasis for active
+          // Use your existing .active style: background: #ffebee; (adapt to theme)
+          background-color: var(--im-button-light-bg); // Example using an existing theme var
+        }
+
+        .timestamp-time {
+          font-weight: $im-font-weight-semibold;
+          color: var(--im-color-primary);
+          margin-right: $im-spacing-unit;
+          white-space: nowrap;
+        }
+        .timestamp-title {
+          color: var(--im-color-text);
+          font-size: 0.9em;
+          line-height: 1.4;
+          flex-grow: 1; // Allow title to take remaining space
+        }
+      }
+    }
+  }
+  html.im-is-dark-mode .timestamps-desktop .timestamps-list {
+    background: rgba(var(--im-color-primary-rgb), 0.04);
+    .timestamp:hover, .timestamp.active {
+      background-color: rgba(var(--im-color-primary-rgb), 0.2);
+       .timestamp-title {
+         color: var(--im-color-primary-light);
+       }
+    }
+    .timestamp.active {
+        background-color: var(--im-button-light-bg);
+    }
+  }
+
+  .related-videos {
+    .related-video {
+      display: flex;
+      gap: $im-spacing-unit;
+      margin-bottom: $im-spacing-unit * 1.25;
+      text-decoration: none;
+      color: var(--im-color-text);
+      padding: calc(#{$im-spacing-unit} / 2);
+      border-radius: $im-border-radius;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+      border: 1px solid transparent; // For hover effect
+
+      &:hover {
+        background-color: rgba(var(--im-color-primary-rgb), 0.03);
+        border-color: var(--im-color-border);
+        transform: translateY(-2px);
+      }
+
+      img {
+        width: 120px; // Keep fixed width
+        height: 68px;
+        border-radius: calc(#{$im-border-radius} / 1.5);
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      .video-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center; // Better vertical alignment
+        h4 { // Video title
+          margin: 0 0 calc(#{$im-spacing-unit} / 3) 0 !important;
+          font-size: 0.9em !important;
+          font-weight: $im-font-weight-semibold !important;
+          color: var(--im-color-text-headings) !important;
+          line-height: 1.3;
+        }
+        p { // Author
+          margin: 0 0 calc(#{$im-spacing-unit} / 3) 0 !important;
+          font-size: 0.8em !important;
+          color: var(--im-color-text-muted) !important;
+        }
+        span { // Views
+          font-size: 0.75em !important;
+          color: var(--im-color-text-muted) !important;
+        }
+      }
+    }
+  }
+  html.im-is-dark-mode .related-videos .related-video:hover {
+    background-color: rgba(var(--im-color-primary-rgb), 0.06);
+    border-color: var(--im-color-border);
+  }
+
+}
+
+// --- Mobile Timestamps (Fixed Bottom) ---
+.timestamps-mobile {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--im-color-surface);
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+  z-index: 100; // Ensure it's above other content
+  display: none; // Hidden by default, shown via @media
+
+  .timestamps-toggle {
+    width: 100%;
+    padding: $im-spacing-unit ($im-spacing-unit * 1.5);
+    background: var(--im-color-primary);
+    color: var(--im-color-text-on-primary);
+    border: none;
+    font-weight: $im-font-weight-semibold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(#{$im-spacing-unit} / 2);
+    cursor: pointer;
+    font-size: 0.95em;
+  }
+
+  .timestamps-list-mobile {
+    max-height: 200px;
+    overflow-y: auto;
+    padding: calc(#{$im-spacing-unit} / 2);
+    border-top: 1px solid var(--im-color-border);
+    display: none; // Toggled by JS
+
+    // Inherit .timestamp styles from desktop, just adjust context
+    .timestamp {
+      // Similar styling to .timestamps-desktop .timestamp
+      display: flex;
+      justify-content: space-between;
+      padding: calc(#{$im-spacing-unit} * 0.6) $im-spacing-unit;
+      cursor: pointer;
+      border-radius: calc(#{$im-border-radius} / 1.5);
+      transition: background-color 0.2s ease;
+      margin-bottom: calc(#{$im-spacing-unit} / 3);
+
+      &:hover, &.active {
+        background-color: rgba(var(--im-color-primary-rgb), 0.1);
+      }
+       &.active {
+         background-color: var(--im-button-light-bg);
+       }
+
+      .timestamp-time {
+        font-weight: $im-font-weight-semibold;
+        color: var(--im-color-primary);
+        margin-right: $im-spacing-unit;
+      }
+      .timestamp-title {
+        color: var(--im-color-text);
+        font-size: 0.9em;
+      }
+    }
+  }
+}
+html.im-is-dark-mode .timestamps-mobile {
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.25);
+  .timestamps-toggle {
+    background: var(--im-color-primary); // Stays same unless primary color changes for dark
+  }
+  .timestamps-list-mobile .timestamp:hover,
+  .timestamps-list-mobile .timestamp.active {
+     background-color: rgba(var(--im-color-primary-rgb), 0.2);
+  }
+  .timestamps-list-mobile .timestamp.active {
+      background-color: var(--im-button-light-bg);
+  }
+}
+
+
+// --- Share Modal ---
+.share-modal {
+  // Using Bulma's modal structure as a base if possible, or custom
+  // Assuming it is position:fixed, display:flex, align-items:center, justify-content:center
+  // and toggled by JS.
+  // Your existing CSS for .share-modal can be the base.
+
+  // If not using Bulma modal:
+  &.is-active { // Example class for JS to toggle
+    display: flex !important; // Override display: none;
+  }
+  // Ensure it's above other content
+  z-index: 1000; // High z-index
+
+  .share-content {
+    background: var(--im-color-surface) !important;
+    padding: $im-content-padding !important;
+    border-radius: $im-border-radius !important;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+
+    h3 {
+      margin-top: 0 !important;
+      margin-bottom: $im-spacing-unit * 1.5 !important;
+      text-align: center;
+      color: var(--im-color-text-headings) !important;
+      font-weight: $im-font-weight-semibold !important;
+      font-size: 1.3em;
+    }
+
+    .share-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(50px, 1fr)); // More responsive grid
+      gap: $im-spacing-unit;
+      margin: ($im-spacing-unit * 1.5) 0;
+
+      .share-button {
+        display: inline-flex; // Use inline-flex for better centering
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        color: white !important; // Ensure icon color is white
+        font-size: 1.2rem;
+        margin: 0 auto; // Center button within grid cell
+        text-decoration: none;
+        transition: transform 0.2s ease, opacity 0.2s ease;
+        &:hover {
+          transform: scale(1.1);
+          opacity: 0.9;
+        }
+      }
+      // Keep your social media background colors
+      .facebook { background: #3b5998; }
+      .twitter { background: #1da1f2; }
+      // ... etc. for other social buttons
+      .copy-link { background: var(--im-color-text-muted); }
+    }
+
+    .close-share {
+      @extend .button; // Use IM button style
+      // @extend .is-light; // Or .is-primary
+      display: block !important;
+      margin: 0 auto !important; // Center it
+      background: var(--im-color-primary) !important; // From your CSS
+      color: var(--im-color-text-on-primary) !important;
+      border-radius: $im-border-radius !important; // Or keep your 4px
+      padding: 0.6em 1.5em !important;
+    }
+  }
+}
+html.im-is-dark-mode .share-modal .share-content {
+  box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+}
+
+// --- Suggestions Button (FAB - Floating Action Button) ---
+.suggestions-button {
+  // Keep your positioning
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  background: var(--im-color-primary) !important;
+  color: var(--im-color-text-on-primary) !important;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(var(--im-color-primary-rgb),0.3);
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(var(--im-color-primary-rgb),0.4);
+  }
+}
+
+
+// --- Responsive Styles (Adapting your @media query) ---
+@include mobile { // Bulma's mobile mixin (or max-width: 768px)
+  .video-content-container {
+    // padding: 0; // Your style
+    // Using Bulma section means it will have horizontal padding by default
+    // For truly edge-to-edge on mobile for video hero, you might need to adjust .section or .container padding
+  }
+
+  .video-content {
+    padding: $im-spacing-unit !important; // Consistent padding
+    border-radius: 0; // Edge-to-edge feel if desired
+    border-left: none;
+    border-right: none;
+  }
+
+  .video-sidebar {
+    padding: $im-spacing-unit !important;
+    margin-top: $im-spacing-unit * 1.5; // Space between main content and sidebar on mobile
+    // Add a border top to separate from main content when stacked
+    border-top: 1px solid var(--im-color-border);
+    padding-top: $im-spacing-unit * 1.5 !important;
+  }
+
+  // .columns.is-gapless {
+  //   flex-direction: column; // Bulma handles this with responsive column classes
+  // }
+
+  // .column.is-8, .column.is-4 {
+  //   width: 100%; // Bulma handles this
+  // }
+
+  .timestamps-desktop {
+    display: none !important;
+  }
+
+  .timestamps-mobile {
+    display: block !important;
+  }
+
+  .suggestions-button {
+    bottom: 140px; // Adjust if mobile timestamps are tall
+    // If mobile timestamps list is open, it might need to be higher
+  }
+
+  .video-header {
+    .video-title { font-size: 1.5rem !important; }
+    .video-title.subtitle { font-size: 1rem !important; }
+  }
+
+  .author-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $im-spacing-unit;
+    .subscribe-button { margin-top: $im-spacing-unit; }
+  }
+}
