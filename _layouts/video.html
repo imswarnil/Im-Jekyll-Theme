@@ -2,242 +2,290 @@
 layout: default
 ---
 
-<!-- Main Content Container -->
-<div class="video-content-container section"> <!-- Optional: Added .section for consistent padding/grid -->
-  <div class="container"> <!-- Optional: Added .container for max-width and centering -->
-    <div class="columns is-gapless">
+<section class="section im-video-page py-5">
+  <div class="container">
+    <div class="columns is-variable is-1-mobile is-5-tablet">
       <!-- Main Content Column -->
-      <div class="column is-8-tablet is-12-mobile"> <!-- Added responsive classes -->
-        <div class="video-content">
-          <!-- Full Width Video Player -->
-          <div class="video-hero">
-              <div class="video-container"> <!-- Or use Bulma: <figure class="image is-16by9"> -->
-                <iframe
-                  id="mainVideo"
-                  src="https://www.youtube.com/embed/{{ page.videoId }}?autoplay=1&modestbranding=1&rel=0"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
-                  loading="lazy"
-                  title="{{ page.title | escape }}"
-                ></iframe>
+      <div class="column is-8-tablet">
+        <div class="im-video-main-content-wrapper"> <!-- Wrapper if styling beyond Bulma classes is needed -->
+
+          <!-- Video Player -->
+          <figure class="image is-16by9 mb-5 im-video-player-figure">
+            <iframe
+              class="has-iframe-radius-large" <!-- SCSS will define this radius -->
+              id="mainVideo"
+              src="https://www.youtube.com/embed/{{ page.videoId }}?autoplay=1&modestbranding=1&rel=0"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              loading="lazy"
+              title="{{ page.title | escape }}"
+            ></iframe>
+          </figure>
+
+          <!-- Video Title, Description, Stats -->
+          <div class="mb-5 px-1"> <!-- Added small horizontal padding for text -->
+            <h1 class="title is-3 has-text-weight-bold">{{ page.title }}</h1>
+            {% if page.description %}
+              <p class="subtitle is-5 has-text-grey-dark">{{ page.description }}</p>
+            {% endif %}
+            <div class="level is-mobile mt-4">
+              <div class="level-left">
+                {% if page.views %}
+                <div class="level-item">
+                  <span class="icon-text">
+                    <span class="icon"><i class="ph ph-eye"></i></span>
+                    <span>{{ page.views }} views</span>
+                  </span>
+                </div>
+                {% endif %}
+                {% if page.date %}
+                <div class="level-item">
+                  <span class="icon-text">
+                    <span class="icon"><i class="ph ph-calendar-blank"></i></span>
+                    <span>{{ page.date | date: "%b %d, %Y" }}</span>
+                  </span>
+                </div>
+                {% endif %}
               </div>
-            </div>
-          <!-- Video Title and Info -->
-          <div class="video-header">
-            <h1 class="video-title title is-3">{{ page.title }}</h1>
-            <h3 class="video-title subtitle is-5">{{ page.description }}</h3>
-            <div class="video-stats">
-              <span><i class="ph ph-eye"></i> 254K views</span> <!-- Using Phosphor icons if available -->
-              <span><i class="ph ph-calendar-blank"></i> {{ page.date | date: "%B %d, %Y" }}</span>
-              <span><i class="ph ph-thumbs-up"></i> 12K</span>
+              <div class="level-right">
+                {% if page.likes %}
+                <div class="level-item">
+                   <span class="icon-text">
+                    <span class="icon"><i class="ph ph-thumbs-up"></i></span>
+                    <span>{{ page.likes }}</span>
+                  </span>
+                </div>
+                {% endif %}
+                <div class="level-item">
+                    <button class="button is-light is-small" onclick="toggleShareModal()" aria-label="Share video">
+                        <span class="icon"><i class="ph ph-share-network"></i></span>
+                        <span class="is-hidden-mobile">Share</span>
+                    </button>
+                </div>
+              </div>
             </div>
           </div>
 
           <!-- Author Section -->
-          <div class="author-section">
-            <div class="author-info">
-              <img src="https://via.placeholder.com/48?text={{ page.author | slice: 0 }}" alt="{{ page.author }}" class="author-avatar">
-              <div>
-                <h3 class="title is-6 has-text-weight-semibold">{{ page.author }}</h3>
-                <p class="subtitle is-7">15K subscribers</p>
+          <div class="media box p-4 mb-5"> <!-- Using Bulma .media and .box -->
+            <figure class="media-left">
+              <p class="image is-48x48">
+                <img class="is-rounded" src="{{ page.author_avatar | default: 'https://via.placeholder.com/48?text=A' }}" alt="{{ page.author | escape }}">
+              </p>
+            </figure>
+            <div class="media-content">
+              <div class="content is-small"> <!-- .content for typography, .is-small for sizing -->
+                <p>
+                  <strong class="is-block">{{ page.author | default: "Video Author" }}</strong>
+                  {% if page.author_subscribers %}
+                    <span class="has-text-grey">{{ page.author_subscribers }}</span>
+                  {% endif %}
+                </p>
               </div>
             </div>
-            <button class="subscribe-button button is-primary">Subscribe</button> <!-- Added Bulma button classes -->
+            <div class="media-right">
+              <button class="button is-primary is-rounded">Subscribe</button>
+            </div>
           </div>
 
-          <!-- Video Description -->
-          <div class="video-description content"> <!-- Added Bulma .content for Markdown styling -->
-            <div class="description-content">
+          <!-- Video Full Description & Tags -->
+          {% if content and content != "" or page.tags and page.tags.size > 0 %}
+          <div class="content box p-4"> <!-- Using Bulma .content and .box -->
+            {% if content and content != "" %}
               {{ content }}
-              {% if page.tags and page.tags.size > 0 %}
-              <div class="video-tags tags"> <!-- Added Bulma .tags -->
-                {% for tag in page.tags %}
-                  <span class="tag is-light">#{{ tag }}</span> <!-- Added Bulma .tag.is-light -->
+            {% endif %}
+            {% if page.tags and page.tags.size > 0 %}
+              <div class="tags mt-4">
+                {% for tag_item in page.tags %}
+                  <span class="tag is-light">#{{ tag_item }}</span> <!-- Bulma .tag.is-light -->
                 {% endfor %}
               </div>
-              {% endif %}
-            </div>
+            {% endif %}
           </div>
-        </div>
+          {% endif %}
+
+        </div> <!-- End .im-video-main-content-wrapper -->
       </div>
 
       <!-- Sidebar Column -->
-      <div class="column is-4-tablet is-12-mobile"> <!-- Added responsive classes -->
-        <div class="video-sidebar">
+      <div class="column is-4-tablet">
+        <div class="im-video-sidebar-wrapper"> <!-- Wrapper if styling beyond Bulma classes is needed -->
           <!-- Timestamps - Desktop -->
           {% if page.timestamps and page.timestamps.size > 0 %}
-          <div class="timestamps-desktop">
-            <h3 class="sidebar-title title is-5"><i class="ph ph-clock"></i> Timestamps</h3> <!-- Added .sidebar-title -->
-            <div class="timestamps-list">
+          <div class="panel mb-5 is-hidden-touch"> <!-- Bulma .panel, hidden on touch -->
+            <p class="panel-heading">
+              <span class="icon-text">
+                <span class="icon"><i class="ph ph-clock"></i></span>
+                <span>Timestamps</span>
+              </span>
+            </p>
+            <div class="im-panel-scrollable-content"> <!-- Custom class for scroll -->
               {% for timestamp in page.timestamps %}
-                <div class="timestamp" onclick="seekToTime('{{ timestamp.time }}')" role="button" tabindex="0"
-                     onkeypress="if(event.key === 'Enter' || event.key === ' ') { seekToTime('{{ timestamp.time }}'); event.preventDefault(); }">
-                  <span class="timestamp-time">{{ timestamp.time }}</span>
-                  <span class="timestamp-title">{{ timestamp.title }}</span>
-                </div>
+                <a class="panel-block is-flex is-justify-content-space-between" onclick="seekToTime('{{ timestamp.time }}')" role="button" tabindex="0"
+                   onkeypress="if(event.key === 'Enter' || event.key === ' ') { seekToTime('{{ timestamp.time }}'); event.preventDefault(); }">
+                  <span class="has-text-primary has-text-weight-semibold">{{ timestamp.time }}</span>
+                  <span class="ml-2 has-text-right is-flex-grow-1">{{ timestamp.title }}</span>
+                </a>
               {% endfor %}
             </div>
           </div>
           {% endif %}
 
           <!-- Related Videos -->
-          <div class="related-videos">
-            <h3 class="sidebar-title title is-5"><i class="ph ph-stack"></i> More Videos</h3> <!-- Added .sidebar-title -->
-            {% assign related_videos_limit = 3 %}
-            {% assign current_video_id = page.videoId %}
-            {% assign related_videos_count = 0 %}
-            {% for video in site.videos %}
-              {% if video.videoId != current_video_id and related_videos_count < related_videos_limit %}
-                <a href="{{ video.url | relative_url }}" class="related-video">
-                  <figure class="image is-16by9 related-video-thumb"> <!-- Bulma figure for image consistency -->
-                     <img src="https://img.youtube.com/vi/{{ video.videoId }}/mqdefault.jpg" alt="{{ video.title | escape }}">
-                  </figure>
-                  <div class="video-info">
-                    <h4 class="title is-6">{{ video.title | truncate: 50 }}</h4>
-                    <p class="subtitle is-7">{{ video.author }}</p>
-                    <span class="is-size-7 has-text-grey">{{ video.views | default: "0" }} views</span>
-                  </div>
-                </a>
-                {% assign related_videos_count = related_videos_count | plus: 1 %}
-              {% endif %}
-            {% endfor %}
+          <div class="panel"> <!-- Bulma .panel -->
+             <p class="panel-heading">
+                <span class="icon-text">
+                    <span class="icon"><i class="ph ph-stack"></i></span>
+                    <span>More Videos</span>
+                </span>
+            </p>
+            <div class="im-panel-scrollable-content"> <!-- Custom class for scroll -->
+                {% assign related_videos_limit = 5 %}
+                {% assign current_video_id = page.videoId %}
+                {% assign related_videos_count = 0 %}
+                {% for video in site.videos %}
+                  {% if video.videoId != current_video_id and related_videos_count < related_videos_limit %}
+                    <a href="{{ video.url | relative_url }}" class="panel-block media"> <!-- .media inside .panel-block -->
+                      <figure class="media-left is-marginless">
+                        <p class="image is-128x72">
+                          <img src="https://img.youtube.com/vi/{{ video.videoId }}/mqdefault.jpg" alt="{{ video.title | escape }}" class="im-related-thumb">
+                        </p>
+                      </figure>
+                      <div class="media-content ml-3">
+                        <div class="content is-small">
+                          <p class="has-text-weight-semibold mb-1 is-clipped-2">{{ video.title }}</p>
+                          <p class="is-size-7 has-text-grey mb-1">{{ video.author }}</p>
+                          <p class="is-size-7 has-text-grey-light">{{ video.views | default: "0" }} views</p>
+                        </div>
+                      </div>
+                    </a>
+                    {% assign related_videos_count = related_videos_count | plus: 1 %}
+                  {% endif %}
+                {% endfor %}
+            </div>
           </div>
-        </div>
+        </div> <!-- End .im-video-sidebar-wrapper -->
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- Timestamps - Mobile (Fixed Bottom) -->
 {% if page.timestamps and page.timestamps.size > 0 %}
-<div class="timestamps-mobile">
-  <button class="timestamps-toggle button is-primary is-fullwidth"> <!-- Bulma button classes -->
+<div class="is-fixed-bottom has-background-surface p-2 is-hidden-tablet im-mobile-timestamps-container">
+  <button class="button is-primary is-fullwidth im-timestamps-toggle" aria-expanded="false" aria-controls="mobileTimestampsList">
     <span class="icon"><i class="ph ph-clock"></i></span>
     <span>Jump To</span>
   </button>
-  <div class="timestamps-list-mobile">
+  <div class="is-hidden mt-2 box p-2 im-mobile-timestamps-list" id="mobileTimestampsList"> <!-- Added .box -->
     {% for timestamp in page.timestamps %}
-      <div class="timestamp" onclick="seekToTime('{{ timestamp.time }}')" role="button" tabindex="0"
-           onkeypress="if(event.key === 'Enter' || event.key === ' ') { seekToTime('{{ timestamp.time }}'); event.preventDefault(); }">
-        <span class="timestamp-time">{{ timestamp.time }}</span>
-        <span class="timestamp-title">{{ timestamp.title }}</span>
-      </div>
+      <a class="button is-fullwidth is-light mb-1 is-justify-content-flex-start" onclick="seekToTime('{{ timestamp.time }}')" role="button">
+        <span class="has-text-primary has-text-weight-semibold mr-2">{{ timestamp.time }}</span>
+        <span>{{ timestamp.title }}</span>
+      </a>
     {% endfor %}
   </div>
 </div>
 {% endif %}
 
-<!-- Share Modal (assumes JS toggles an 'is-active' class on it) -->
-<div class="share-modal modal"> <!-- Added Bulma .modal class for base structure and JS toggle -->
-  <div class="modal-background" onclick="toggleShareModal()"></div> <!-- JS to close -->
-  <div class="share-content modal-card"> <!-- Added Bulma .modal-card -->
+<!-- Share Modal -->
+<div class="modal im-share-modal"> <!-- Bulma .modal -->
+  <div class="modal-background" onclick="toggleShareModal()"></div>
+  <div class="modal-card">
     <header class="modal-card-head">
-        <p class="modal-card-title">Share this video</p>
-        <button class="delete" aria-label="close" onclick="toggleShareModal()"></button> <!-- Bulma close -->
+      <p class="modal-card-title">Share this video</p>
+      <button class="delete" aria-label="close" onclick="toggleShareModal()"></button>
     </header>
-    <section class="modal-card-body">
-        <div class="share-buttons">
-          <!-- Using ph- icons for consistency if FontAwesome isn't primary -->
-          <a href="#" class="share-button facebook" aria-label="Share on Facebook"><i class="ph ph-facebook-logo"></i></a>
-          <a href="#" class="share-button twitter" aria-label="Share on Twitter"><i class="ph ph-twitter-logo"></i></a>
-          <a href="#" class="share-button linkedin" aria-label="Share on LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
-          <a href="#" class="share-button whatsapp" aria-label="Share on WhatsApp"><i class="ph ph-whatsapp-logo"></i></a>
-          <a href="#" class="share-button reddit" aria-label="Share on Reddit"><i class="ph ph-reddit-logo"></i></a>
-          <a href="#" class="share-button telegram" aria-label="Share on Telegram"><i class="ph ph-telegram-logo"></i></a>
-          <a href="#" class="share-button copy-link" aria-label="Copy link"><i class="ph ph-link"></i></a>
-        </div>
+    <section class="modal-card-body has-text-centered">
+      <p class="mb-4">Share this video with your friends!</p>
+      <div class="buttons are-small is-centered field is-grouped is-grouped-multiline is-grouped-centered"> <!-- Bulma button groups -->
+        <div class="control"><a href="#" class="button is-outlined" aria-label="Share on Facebook"><span class="icon"><i class="ph ph-facebook-logo"></i></span><span>Facebook</span></a></div>
+        <div class="control"><a href="#" class="button is-outlined" aria-label="Share on Twitter"><span class="icon"><i class="ph ph-twitter-logo"></i></span><span>Twitter</span></a></div>
+        <div class="control"><a href="#" class="button is-outlined" aria-label="Share on LinkedIn"><span class="icon"><i class="ph ph-linkedin-logo"></i></span><span>LinkedIn</span></a></div>
+        <div class="control"><a href="#" class="button is-outlined" aria-label="Share on WhatsApp"><span class="icon"><i class="ph ph-whatsapp-logo"></i></span><span>WhatsApp</span></a></div>
+        <div class="control"><a href="#" class="button is-outlined" aria-label="Share on Reddit"><span class="icon"><i class="ph ph-reddit-logo"></i></span><span>Reddit</span></a></div>
+        <div class="control"><a href="#" class="button is-outlined" aria-label="Share on Telegram"><span class="icon"><i class="ph ph-telegram-logo"></i></span><span>Telegram</span></a></div>
+        <div class="control"><a href="#" class="button is-light im-copy-link-button" aria-label="Copy link"><span class="icon"><i class="ph ph-link"></i></span><span>Copy Link</span></a></div>
+      </div>
+      <input type="text" class="input mt-4 is-sr-only im-share-link-input" value="https://example.com/{{ page.url }}" readonly>
     </section>
-    <!-- <footer class="modal-card-foot">
-        <button class="button" onclick="toggleShareModal()">Close</button>
-    </footer> -->
   </div>
 </div>
 
-<!-- Suggestions Button (FAB) - No changes needed here from your original -->
-<button class="suggestions-button button is-primary is-rounded" aria-label="Show suggestions"> <!-- Added Bulma button classes -->
-    <span class="icon"><i class="ph ph-lightbulb"></i></span>
+<!-- Suggestions Button (FAB) -->
+<button class="button is-primary is-rounded is-large is-fixed-bottom-right m-4"> <!-- Plain Bulma classes -->
+    <span class="icon is-medium"><i class="ph ph-lightbulb"></i></span>
 </button>
 
-<!--
-  JavaScript for timestamp seeking, mobile timestamps toggle, and share modal toggle.
-  Your provided JS for seekToTime and mobile timestamps toggle is a good start.
-  Share modal would need a simple toggle function.
--->
+<!-- JavaScript remains largely the same, ensure selectors match any minor HTML class changes -->
 <script>
-  // Simple timestamp navigation without YouTube API
   function seekToTime(timestamp) {
     const iframe = document.getElementById('mainVideo');
     if (!iframe) return;
-
     const timeParts = timestamp.split(':');
     let seconds = 0;
-
-    if (timeParts.length === 2) { // MM:SS
-      seconds = parseInt(timeParts[0], 10) * 60 + parseInt(timeParts[1], 10);
-    } else if (timeParts.length === 3) { // HH:MM:SS
-      seconds = parseInt(timeParts[0], 10) * 3600 + parseInt(timeParts[1], 10) * 60 + parseInt(timeParts[2], 10);
-    }
-
+    if (timeParts.length === 2) { seconds = parseInt(timeParts[0], 10) * 60 + parseInt(timeParts[1], 10); }
+    else if (timeParts.length === 3) { seconds = parseInt(timeParts[0], 10) * 3600 + parseInt(timeParts[1], 10) * 60 + parseInt(timeParts[2], 10); }
     if (isNaN(seconds)) return;
 
     const currentSrc = iframe.src;
     let baseUrl = currentSrc.split('?')[0];
     let params = new URLSearchParams(currentSrc.split('?')[1] || '');
-
     params.set('start', seconds);
-    params.set('autoplay', '1'); // Ensure autoplay continues
-
+    params.set('autoplay', '1');
     iframe.src = `${baseUrl}?${params.toString()}`;
 
-    // Highlight the clicked timestamp
-    document.querySelectorAll('.timestamp').forEach(item => {
-      item.classList.remove('active');
-    });
-    // Safely add 'active' class if event.currentTarget exists
-    if (event && event.currentTarget) {
-        event.currentTarget.classList.add('active');
-    } else { // Fallback for direct calls
-        const allTimestamps = document.querySelectorAll('.timestamp');
-        for(let ts of allTimestamps) {
-            if(ts.textContent.includes(timestamp)) {
-                ts.classList.add('active');
-                break;
-            }
-        }
-    }
+    document.querySelectorAll('.panel-block, .button.is-light.mb-1').forEach(item => item.classList.remove('is-active')); // Adjusted selector
+    if (event && event.currentTarget) { event.currentTarget.classList.add('is-active'); }
   }
 
-  // Toggle mobile timestamps
-  const timestampsToggle = document.querySelector('.timestamps-toggle');
-  const timestampsListMobile = document.querySelector('.timestamps-list-mobile');
-  if (timestampsToggle && timestampsListMobile) {
-    timestampsToggle.addEventListener('click', function() {
-      timestampsListMobile.style.display = (timestampsListMobile.style.display === 'block') ? 'none' : 'block';
-      this.setAttribute('aria-expanded', timestampsListMobile.style.display === 'block');
+  const mobileTimestampsToggle = document.querySelector('.im-timestamps-toggle');
+  const mobileTimestampsList = document.getElementById('mobileTimestampsList');
+  if (mobileTimestampsToggle && mobileTimestampsList) {
+    mobileTimestampsToggle.addEventListener('click', function() {
+      const isHidden = mobileTimestampsList.classList.toggle('is-hidden');
+      this.setAttribute('aria-expanded', !isHidden);
     });
   }
 
-  // Share Modal Toggle
-  const shareModal = document.querySelector('.share-modal');
+  const shareModal = document.querySelector('.im-share-modal');
+  const shareLinkInput = document.querySelector('.im-share-link-input');
   function toggleShareModal() {
     if (shareModal) {
-      shareModal.classList.toggle('is-active'); // Bulma's way to show/hide modals
-      // Toggle aria-hidden for accessibility
+      shareModal.classList.toggle('is-active');
       const isActive = shareModal.classList.contains('is-active');
       shareModal.setAttribute('aria-hidden', !isActive);
-      if (isActive) {
-          shareModal.querySelector('.delete, .share-button, button').focus(); // Focus first focusable element
+      if (isActive && shareLinkInput) {
+          shareLinkInput.value = window.location.href;
+          shareModal.querySelector('.delete, .button').focus();
       }
     }
   }
+  const copyLinkButton = document.querySelector('.im-copy-link-button');
+  if(copyLinkButton && shareLinkInput) {
+      copyLinkButton.addEventListener('click', function(e) {
+          e.preventDefault();
+          shareLinkInput.classList.remove('is-sr-only');
+          shareLinkInput.select();
+          shareLinkInput.setSelectionRange(0, 99999);
+          try {
+              document.execCommand('copy');
+              const originalText = this.querySelector('span:last-child').textContent;
+              this.querySelector('span:last-child').textContent = 'Copied!';
+              this.classList.add('is-success'); this.classList.remove('is-light');
+              setTimeout(() => {
+                this.querySelector('span:last-child').textContent = originalText;
+                this.classList.remove('is-success'); this.classList.add('is-light');
+                shareLinkInput.classList.add('is-sr-only');
+              }, 2000);
+          } catch (err) {
+              alert('Failed to copy. Please copy manually.');
+              shareLinkInput.classList.remove('is-sr-only');
+          }
+      });
+  }
 
-  // Example: Add event listener to a share trigger button (you'll need to add such a button to your page)
-  // e.g., <button onclick="toggleShareModal()">Share Video</button>
-  // Or attach to an icon in video-stats:
-  // <span onclick="toggleShareModal()" role="button" tabindex="0"><i class="ph ph-share-network"></i> Share</span>
-
-  // Close modal with Escape key
   document.addEventListener('keydown', function (event) {
     if (event.key === 'Escape' || event.key === 'Esc') {
       if (shareModal && shareModal.classList.contains('is-active')) {
@@ -245,5 +293,4 @@ layout: default
       }
     }
   });
-
 </script>
