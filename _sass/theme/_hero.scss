@@ -382,3 +382,226 @@ html.im-is-dark-mode .im-code-block {
     color: var(--im-color-text-on-surface) !important;
   }
 }
+
+//------------------------------------------------------------------------------
+// 11. Image Carousel & Modal
+//------------------------------------------------------------------------------
+
+// --- Carousel Item Styling ---
+.im-image-carousel {
+  // Bulma columns provide the grid
+  margin-top: $im-spacing-unit * 1.5;
+}
+
+.im-carousel-item {
+  display: block;
+  position: relative;
+  border-radius: $im-border-radius;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: var(--im-color-surface); // In case image doesn't load
+
+  figure.image img {
+    object-fit: cover; // Ensure images fill the 4by3 container
+    transition: transform 0.4s ease-out;
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(var(--im-color-primary-rgb), 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    color: var(--im-color-text-on-primary);
+    pointer-events: none; // So click goes through to the <a>
+
+    .icon i {
+      font-size: 2.5rem; // Larger icon
+    }
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(var(--im-color-primary-rgb),0.2);
+    figure.image img {
+      transform: scale(1.05);
+    }
+    .im-carousel-item__overlay {
+      opacity: 1;
+    }
+  }
+}
+html.im-is-dark-mode .im-carousel-item {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+   &:hover {
+    box-shadow: 0 8px 20px rgba(var(--im-color-primary-rgb),0.3);
+  }
+}
+
+// --- Modal Styling ---
+
+// Pure CSS Modal Toggle using :target
+// This is a basic implementation. JavaScript is far more robust for modals.
+.im-image-modal {
+  display: none; // Hidden by default
+  align-items: center; // Vertically center modal-card
+  justify-content: center; // Horizontally center modal-card
+
+  // When the modal's ID is targeted by a URL fragment (#im-image-modal)
+  &:target {
+    display: flex; // Show the modal
+    // Bulma's .modal class adds position: fixed, top:0, left:0, right:0, bottom:0, z-index etc.
+  }
+}
+
+// Custom Modal Card for 2-column layout
+.im-modal-card {
+  background-color: var(--im-color-surface) !important;
+  border-radius: $im-border-radius !important;
+  width: 90%; // Responsive width
+  max-width: 1100px; // Max width for large screens
+  max-height: 90vh; // Prevent modal from being too tall
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+
+
+  .im-modal-header { // Re-style Bulma's modal-card-head
+    background-color: var(--im-color-surface) !important; // Match your theme
+    border-bottom: 1px solid var(--im-color-border) !important;
+    border-top-left-radius: $im-border-radius;
+    border-top-right-radius: $im-border-radius;
+
+    .modal-card-title {
+      color: var(--im-color-text-headings) !important;
+      font-weight: $im-font-weight-semibold;
+    }
+    .im-modal-close { // If using custom icon close
+      color: var(--im-color-text-muted);
+      &:hover {
+        color: var(--im-color-primary);
+      }
+    }
+    .delete { // Bulma's delete button
+      background-color: var(--im-color-text-muted) !important;
+      &:hover {
+        background-color: var(--im-color-primary) !important;
+      }
+    }
+  }
+
+  .im-modal-body { // Re-style Bulma's modal-card-body
+    padding: 0 !important; // Remove default padding, we use our layout
+    flex-grow: 1; // Allow body to take up available space
+    overflow: hidden; // Important for the flex layout within
+    border-bottom-left-radius: $im-border-radius;
+    border-bottom-right-radius: $im-border-radius;
+  }
+}
+html.im-is-dark-mode .im-modal-card {
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+}
+
+
+.im-modal-layout {
+  display: flex;
+  height: 100%; // Fill the im-modal-body
+  min-height: 400px; // Ensure a minimum height
+}
+
+.im-modal-sidebar {
+  width: 200px; // Fixed width for sidebar
+  flex-shrink: 0;
+  padding: $im-content-padding;
+  border-right: 1px solid var(--im-color-border);
+  overflow-y: auto; // Scroll if many thumbnails
+  background-color: rgba(var(--im-color-primary-rgb), 0.02); // Subtle tint
+
+  &__title {
+    color: var(--im-color-text-muted) !important;
+    margin-bottom: $im-spacing-unit !important;
+    text-transform: uppercase;
+    font-size: 0.8rem !important;
+    letter-spacing: 0.05em;
+  }
+}
+html.im-is-dark-mode .im-modal-sidebar {
+   background-color: rgba(var(--im-color-primary-rgb), 0.05);
+}
+
+.im-modal-thumbnail-list {
+  display: flex;
+  flex-direction: column;
+  gap: calc(#{$im-spacing-unit} / 2);
+}
+
+.im-modal-thumbnail {
+  display: block;
+  border: 2px solid transparent;
+  border-radius: calc(#{$im-border-radius} / 2);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+  position: relative;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  &:hover {
+    border-color: var(--im-color-primary-light);
+    transform: scale(1.03);
+  }
+
+  &.is-active { // Style for the "selected" thumbnail
+    border-color: var(--im-color-primary);
+    box-shadow: 0 0 0 2px var(--im-color-primary); // Extra emphasis
+    transform: scale(1.03);
+  }
+}
+
+.im-modal-main-image {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $im-spacing-unit; // Some padding around the main image
+  overflow: hidden; // If image is very large
+
+  figure.image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+      max-width: 100%;
+      max-height: 100%; // Calculated against the modal-card-body max-height
+      object-fit: contain; // Show entire image, don't crop
+      border-radius: calc(#{$im-border-radius} / 2);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+  }
+}
+html.im-is-dark-mode .im-modal-main-image figure.image img {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+// If the im-image-carousel-section has your grid lines
+.im-image-carousel-section {
+  @include im-apply-fading-grid('--im-grid-line-color-for-section');
+  > .container { // Ensure container content is above grid
+    position: relative;
+    z-index: 1;
+  }
+}

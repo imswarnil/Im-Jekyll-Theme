@@ -302,3 +302,115 @@ function greet() {
   console.log("Hello, component!");
 }</code></pre>
 </div>
+
+<div class="im-image-carousel-section section"> <!-- Optional: Apply section grid -->
+    <div class="container">
+        <h3 class="title is-4 has-text-centered">Image Gallery Showcase</h3>
+
+        <!-- Carousel Visual Representation -->
+        <div class="im-image-carousel columns is-multiline is-mobile">
+            <!-- Item 1 -->
+            <div class="column is-one-third-tablet is-half-mobile">
+                <a href="#im-image-modal" class="im-carousel-item" data-modal-trigger data-image-src="https://picsum.photos/1200/800?image=101" data-thumbnail-src="https://picsum.photos/400/300?image=101" aria-label="Open image 1 in modal">
+                    <figure class="image is-4by3">
+                        <img src="https://picsum.photos/400/300?image=101" alt="Gallery Image 1">
+                    </figure>
+                    <span class="im-carousel-item__overlay">
+                        <span class="icon is-large">
+                            <i class="ph ph-eye"></i>
+                        </span>
+                    </span>
+                </a>
+            </div>
+            <!-- Item 2 -->
+            <div class="column is-one-third-tablet is-half-mobile">
+                <a href="#im-image-modal" class="im-carousel-item" data-modal-trigger data-image-src="https://picsum.photos/1200/800?image=102" data-thumbnail-src="https://picsum.photos/400/300?image=102" aria-label="Open image 2 in modal">
+                    <figure class="image is-4by3">
+                        <img src="https://picsum.photos/400/300?image=102" alt="Gallery Image 2">
+                    </figure>
+                    <span class="im-carousel-item__overlay">
+                        <span class="icon is-large">
+                            <i class="ph ph-eye"></i>
+                        </span>
+                    </span>
+                </a>
+            </div>
+            <!-- Item 3 -->
+            <div class="column is-one-third-tablet is-half-mobile">
+                <a href="#im-image-modal" class="im-carousel-item" data-modal-trigger data-image-src="https://picsum.photos/1200/800?image=103" data-thumbnail-src="https://picsum.photos/400/300?image=103" aria-label="Open image 3 in modal">
+                    <figure class="image is-4by3">
+                        <img src="https://picsum.photos/400/300?image=103" alt="Gallery Image 3">
+                    </figure>
+                    <span class="im-carousel-item__overlay">
+                        <span class="icon is-large">
+                            <i class="ph ph-eye"></i>
+                        </span>
+                    </span>
+                </a>
+            </div>
+            <!-- Add more items as needed (Item 4, 5, 6 for a full row on desktop) -->
+            <div class="column is-one-third-tablet is-half-mobile">
+                 <a href="#im-image-modal" class="im-carousel-item" data-modal-trigger data-image-src="https://picsum.photos/1200/800?image=104" data-thumbnail-src="https://picsum.photos/400/300?image=104" aria-label="Open image 4 in modal">
+                    <figure class="image is-4by3">
+                        <img src="https://picsum.photos/400/300?image=104" alt="Gallery Image 4">
+                    </figure>
+                    <span class="im-carousel-item__overlay">
+                        <span class="icon is-large">
+                            <i class="ph ph-eye"></i>
+                        </span>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Structure (Hidden by default with CSS) -->
+<!-- For pure CSS :target trick, the ID must be on the modal itself -->
+<div class="im-image-modal modal" id="im-image-modal"> <!-- Bulma's .modal class for basic structure -->
+    <div class="modal-background" data-modal-close></div> <!-- For closing modal by clicking background -->
+    <div class="im-modal-card modal-card"> <!-- Custom modal card for our layout -->
+        <header class="im-modal-header modal-card-head">
+            <p class="modal-card-title">Image Preview</p>
+            <a href="#" class="im-modal-close delete" aria-label="close" data-modal-close></a>
+            <!-- Or using Phosphor icon for close -->
+            <!-- <a href="#" class="im-modal-close icon is-medium" aria-label="close" data-modal-close>
+                <i class="ph ph-x"></i>
+            </a> -->
+        </header>
+        <section class="im-modal-body modal-card-body">
+            <div class="im-modal-layout">
+                <!-- Left Side: Image Selection Panel (Thumbnails) -->
+                <div class="im-modal-sidebar">
+                    <h4 class="im-modal-sidebar__title subtitle is-6">Select Image:</h4>
+                    <div class="im-modal-thumbnail-list">
+                        <a href="#" class="im-modal-thumbnail is-active" data-select-image="https://picsum.photos/1200/800?image=101">
+                            <img src="https://picsum.photos/100/75?image=101" alt="Thumbnail 1">
+                        </a>
+                        <a href="#" class="im-modal-thumbnail" data-select-image="https://picsum.photos/1200/800?image=102">
+                            <img src="https://picsum.photos/100/75?image=102" alt="Thumbnail 2">
+                        </a>
+                        <a href="#" class="im-modal-thumbnail" data-select-image="https://picsum.photos/1200/800?image=103">
+                            <img src="https://picsum.photos/100/75?image=103" alt="Thumbnail 3">
+                        </a>
+                        <a href="#" class="im-modal-thumbnail" data-select-image="https://picsum.photos/1200/800?image=104">
+                            <img src="https://picsum.photos/100/75?image=104" alt="Thumbnail 4">
+                        </a>
+                        <!-- Thumbnails here would ideally be populated by JS based on the gallery -->
+                    </div>
+                </div>
+                <!-- Right Side: Main Image Display -->
+                <div class="im-modal-main-image">
+                    <figure class="image">
+                        <!-- JS would set this src -->
+                        <img id="im-modal-displayed-image" src="https://picsum.photos/1200/800?image=101" alt="Selected gallery image">
+                    </figure>
+                </div>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button is-success">Save changes</button>
+            <button class="button" data-modal-close>Cancel</button>
+        </footer>
+    </div>
+</div>
