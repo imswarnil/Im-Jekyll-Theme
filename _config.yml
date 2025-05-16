@@ -21,7 +21,7 @@
 encoding: utf-8 # Make sure the encoding is right
 lang: en # Set the site language
 locale : en-IN
-title: "Swarnil Singhai | Software Engineer & CRM Analytics Specialist" # Site name or title
+title: "Imswarnil" # Site name or title
 description: "Personal website and portfolio of Swarnil Singhai, a Software Engineer at Twilio specializing in CRM Analytics, Salesforce, and web technologies. Based in Bangalore, India." # Site description
 keywords: ["Swarnil Singhai", "Salesforce", "CRM Analytics", "Tableau CRM", "Einstein Analytics", "Apex", "LWC", "Software Engineer", "Twilio", "Bangalore", "Resume", "Portfolio"]
 timezone: Asia/Kolkata # Timezone for blog posts and alike
