@@ -1,41 +1,5 @@
 {% comment %} _includes/im-navbar.html {% endcomment %}
-<nav class="navbar {% if site.fixed_navbar %} is-fixed-top {% endif %} has-shadow-navbar"
-     x-data="{
-        openNav: false,
-        alpineDarkMode: localStorage.getItem('im-theme') === 'dark',
-        initAlpineDarkMode() {
-            const savedTheme = localStorage.getItem('im-theme');
-            const prefersDark = !savedTheme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-            if (savedTheme === 'dark' || prefersDark) {
-                this.alpineDarkMode = true;
-                document.documentElement.classList.add('im-is-dark-mode');
-            } else {
-                this.alpineDarkMode = false;
-                document.documentElement.classList.remove('im-is-dark-mode');
-            }
-            this.updateAlpineIcon();
-        },
-        toggleAlpineDarkMode() {
-            this.alpineDarkMode = !this.alpineDarkMode;
-            const newTheme = this.alpineDarkMode ? 'dark' : 'light';
-            localStorage.setItem('im-theme', newTheme); // Use same localStorage item
-            if (this.alpineDarkMode) {
-                document.documentElement.classList.add('im-is-dark-mode'); // Use same class
-            } else {
-                document.documentElement.classList.remove('im-is-dark-mode');
-            }
-            this.updateAlpineIcon();
-        },
-        updateAlpineIcon() {
-            const themeIconEl = document.getElementById('im-theme-icon');
-            if (themeIconEl) {
-                themeIconEl.className = this.alpineDarkMode ? 'ph ph-sun' : 'ph ph-moon';
-            }
-        }
-     }"
-     x-init="initAlpineDarkMode()"
-     x-cloak>
+<nav class="navbar {% if site.fixed_navbar %} is-fixed-top {% endif %} has-shadow-navbar">
     <div class="container">
         <div class="navbar-brand">
             <a href="{{ site.baseurl }}/" class="navbar-item im-logo-link">
