@@ -5,7 +5,7 @@
                 {% if site.logo %}
                 <img class="image im-navbar-logo-image" src="{{ site.logo | relative_url }}" alt="{{ site.title | escape }} Logo">
                 {% endif %}
-                <span class="im-navbar-logo-text has-text-weight-bold ml-2">{{ site.title }}</span>
+                <span class="has-text-weight-bold ml-2">{{ site.title }}</span>
             </a>
 
             <div class="navbar-item is-hidden-desktop ml-auto im-navbar-mobile-actions">
@@ -19,14 +19,12 @@
                 </a>
             </div>
 
-           
             <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="imThemedNavMenu">
              <span aria-hidden="true"></span>
              <span aria-hidden="true"></span>
              <span aria-hidden="true"></span>
             </a>
         </div>
-
 
         <div class="navbar-menu" id="imThemedNavMenu">
             <div class="navbar-start">
@@ -47,7 +45,7 @@
                       <a class="navbar-link im-navbar-link {% if is_active_parent %}is-active-nav-item{% endif %}" {% if item.link != "/#" %}href="{{ item_url_relative }}"{% else %}role="button" aria-haspopup="true" aria-expanded="false"{% endif %}>
                         {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="im-navbar-icon im-navbar-image-icon">
                         {% elsif item.icon %}<span class="icon im-navbar-icon"><i class="ph ph-{{ item.icon }} im-navbar-ph-icon"></i></span>{% endif %}
-                        <span class="im-navbar-text">{{ item.name }}</span>
+                        {{ item.name }} 
                       </a>
                       <div class="navbar-dropdown is-boxed im-navbar-dropdown-box">
                         {% for subitem in item.dropdown %}
@@ -56,7 +54,7 @@
                           <a class="navbar-item im-navbar-dropdown-item {% if current_page_url == subitem_url_relative_cleaned %}is-active-nav-item{% endif %}" href="{{ subitem_url_relative }}">
                             {% if subitem.image %}<img src="{{ subitem.image | relative_url }}" alt="{{ subitem.name | escape }}" class="im-navbar-icon im-navbar-image-icon is-small">
                             {% elsif subitem.icon %}<span class="icon im-navbar-icon is-small"><i class="ph ph-{{ subitem.icon }} im-navbar-ph-icon"></i></span>{% endif %}
-                            <span class="im-navbar-text">{{ subitem.name }}</span>
+                            {{ subitem.name }} 
                           </a>
                         {% endfor %}
                       </div>
@@ -65,7 +63,7 @@
                     <a class="navbar-item im-navbar-link {% if is_active_page %}is-active-nav-item{% endif %}" href="{{ item_url_relative }}">
                       {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="im-navbar-icon im-navbar-image-icon">
                       {% elsif item.icon %}<span class="icon im-navbar-icon"><i class="ph ph-{{ item.icon }} im-navbar-ph-icon"></i></span>{% endif %}
-                      <span class="im-navbar-text">{{ item.name }}</span>
+                      {{ item.name }}
                     </a>
                     {% endif %}
                   {% endif %}
@@ -90,6 +88,7 @@
         </div>
     </div>
 </nav>
+
 <script>
   document.addEventListener('DOMContentLoaded', () => {
   const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
@@ -103,6 +102,5 @@
       });
     });
   }
-  // Optional: JS for navbar background change on scroll (as shown before)
 });
 </script>
