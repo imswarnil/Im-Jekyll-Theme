@@ -259,7 +259,7 @@ defaults:
 
 
 # 9. Site navigation
-fixed_navbar : true;
+fixed_navbar : true
 navbar:
   - name: Home
     link: /
