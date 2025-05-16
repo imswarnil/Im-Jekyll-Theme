@@ -1,190 +1,119 @@
-{%- comment -%}
-    Table of Contents Generator - Version 1.1.0 (Improved)
-    Generates a TOC from headings in the provided HTML content.
-    Inspired by allejo/jekyll-toc.
-{%- endcomment -%}
+{% capture tocWorkspace %}
+    {% comment %}
+        Version 1.0.8
+          https://github.com/allejo/jekyll-toc
+    {% endcomment %}
 
-{%- capture toc_generator_workspace -%}
-    {%- assign toc_html_output = "" -%}
-    {%- assign ordered_list = include.ordered | default: false -%}
-    {%- assign min_header_level = include.h_min | default: 2 -%} {# Default to h2 for practical TOCs #}
-    {%- assign max_header_level = include.h_max | default: 4 -%} {# Default to h4 #}
-    {%- assign content_html = include.html | default: content -%} {# Use 'content' if 'include.html' is not passed #}
-    {%- assign heading_nodes = content_html | split: "<h" -%}
-    {%- assign first_valid_header = true -%}
-    {%- assign current_min_level_found = 7 -%} {# Initialize high to find the actual min level #}
+    {% capture my_toc %}{% endcapture %}
+    {% assign orderedList = include.ordered | default: false %}
+    {% assign minHeader = include.h_min | default: 1 %}
+    {% assign maxHeader = include.h_max | default: 6 %}
+    {% assign nodes = include.html | split: '<h' %}
+    {% assign firstHeader = true %}
 
-    {%- capture list_item_prefix -%}{% if ordered_list %}1.{% else %}-{% endif %}{%- endcapture -%}
+    {% capture listModifier %}{% if orderedList %}1.{% else %}-{% endif %}{% endcapture %}
 
-    {%- for node in heading_nodes -%}
-        {%- if node == "" or node == nil -%}{% continue %}{%- endif -%}
+    {% for node in nodes %}
+        {% if node == "" %}
+            {% continue %}
+        {% endif %}
 
-        {%- assign header_level_char = node | slice: 0, 1 -%}
-        {%- assign is_valid_header_char = "123456" | contains: header_level_char -%}
+        {% assign headerLevel = node | replace: '"', '' | slice: 0, 1 | times: 1 %}
 
-        {%- unless is_valid_header_char -%}{% continue %}{%- endunless -%}
-        {%- assign header_level = header_level_char | times: 1 -%}
+        {% if headerLevel < minHeader or headerLevel > maxHeader %}
+            {% continue %}
+        {% endif %}
 
-        {%- if header_level < min_header_level or header_level > max_header_level -%}
-            {%- continue -%}
-        {%- endif -%}
+        {% if firstHeader %}
+            {% assign firstHeader = false %}
+            {% assign minHeader = headerLevel %}
+        {% endif %}
 
-        {%- if first_valid_header -%}
-            {%- assign first_valid_header = false -%}
-            {%- assign current_min_level_found = header_level -%}
-        {%- else -%}
-            {%- if header_level < current_min_level_found -%}
-                {%- assign current_min_level_found = header_level -%}
-            {%- endif -%}
-        {%- endif -%}
+        {% assign indentAmount = headerLevel | minus: minHeader %}
+        {% assign _workspace = node | split: '</h' %}
 
-        {%- assign temp_split = node | split: "</h" -%}
-        {%- assign header_content_part = temp_split[0] -%}
+        {% assign _idWorkspace = _workspace[0] | split: 'id="' %}
+        {% assign _idWorkspace = _idWorkspace[1] | split: '"' %}
+        {% assign html_id = _idWorkspace[0] %}
 
-        {%- assign id_parts = header_content_part | split: 'id="' -%}
-        {%- if id_parts.size > 1 -%}
-            {%- assign html_id = id_parts[1] | split: '"' | first -%}
-        {%- else -%}
-            {%- comment -%} Skip header if it has no ID, or generate one (more complex) {%- endcomment -%}
-            {%- continue -%}
-        {%- endif -%}
+        {% assign _classWorkspace = _workspace[0] | split: 'class="' %}
+        {% assign _classWorkspace = _classWorkspace[1] | split: '"' %}
+        {% assign html_class = _classWorkspace[0] %}
 
-        {%- assign class_parts = header_content_part | split: 'class="' -%}
-        {%- if class_parts.size > 1 -%}
-            {%- assign html_class = class_parts[1] | split: '"' | first -%}
-            {%- if html_class contains "no_toc" or html_class contains "no-toc" -%}
-                {%- continue -%}
-            {%- endif -%}
-        {%- endif -%}
+        {% if html_class contains "no_toc" %}
+            {% continue %}
+        {% endif %}
 
-        {%- capture attributes_to_strip -%}{{ header_content_part | split: ">" | first }}>{%- endcapture -%}
-        {%- assign header_text = header_content_part | remove: attributes_to_strip -%}
-        {%- assign sanitized_header_text = header_text | strip_html | strip -%}
-        {%- if sanitized_header_text == "" -%}{% continue %}{%- endif -%}
+        {% capture _hAttrToStrip %}{{ _workspace[0] | split: '>' | first }}>{% endcapture %}
+        {% assign header = _workspace[0] | replace: _hAttrToStrip, '' %}
 
-        {%- assign indent_amount = header_level | minus: current_min_level_found -%}
-        {%- assign indent_space = "" -%}
-        {%- for i in (1..indent_amount) -%}
-            {%- assign indent_space = indent_space | prepend: "  " -%} {# Two spaces for Markdown list indent #}
-        {%- endfor -%}
+        {% assign space = '' %}
+        {% for i in (1..indentAmount) %}
+            {% assign space = space | prepend: '    ' %}
+        {% endfor %}
 
-        {%- assign item_class_template = include.item_class | default: "toc-item-level-%level%" -%}
-        {%- assign item_class = item_class_template | replace: "%level%", header_level -%}
-        {%- capture list_item_class_markdown %}{:.{{ item_class }}}{%- endcapture -%}
+        {% unless include.item_class == blank %}
+            {% capture listItemClass %}{:.{{ include.item_class | replace: '%level%', headerLevel }}}{% endcapture %}
+        {% endunless %}
 
-        {%- assign anchor_class_template = include.anchor_class | default: "toc-link" -%}
-        {%- assign anchor_class = anchor_class_template | replace: "%level%", header_level -%}
-        {%- capture anchor_class_markdown %}{:.{{ anchor_class }}}{%- endcapture -%}
+        {% capture heading_body %}{% if include.sanitize %}{{ header | strip_html }}{% else %}{{ header }}{% endif %}{% endcapture %}
+        {% capture my_toc %}{{ my_toc }}
+{{ space }}{{ listModifier }} {{ listItemClass }} [{{ heading_body | replace: "|", "\|" }}]({% if include.baseurl %}{{ include.baseurl }}{% endif %}#{{ html_id }}){% if include.anchor_class %}{:.{{ include.anchor_class }}}{% endif %}{% endcapture %}
+    {% endfor %}
 
-        {%- capture toc_entry_text -%}
-            {%- if include.sanitize != false -%}{{ sanitized_header_text }}{%- else -%}{{ header_text }}{%- endif -%}
-        {%- endcapture -%}
+    {% if include.class %}
+        {% capture my_toc %}{:.{{ include.class }}}
+{{ my_toc | lstrip }}{% endcapture %}
+    {% endif %}
 
-        {%- capture toc_html_output -%}
-            {{ toc_html_output }}
-            {{ indent_space }}{{ list_item_prefix }} {{ list_item_class_markdown }} [{{ toc_entry_text | replace: "|", "\|" }}]({% if include.baseurl %}{{ include.baseurl }}{% endif %}#{{ html_id }}){{ anchor_class_markdown }}
-        {%- endcapture -%}
-    {%- endfor -%}
+    {% if include.id %}
+        {% capture my_toc %}{: #{{ include.id }}}
+{{ my_toc | lstrip }}{% endcapture %}
+    {% endif %}
+{% endcapture -%}
+{%- assign tocWorkspace = '' %}
 
-    {%- assign toc_wrapper_class = include.class | default: "toc-wrapper" -%}
-    {%- assign toc_wrapper_id = include.id | default: "page-toc" -%}
-
-    {%- if toc_html_output != "" -%}
-        {%- capture toc_html_output -%}
-            {: #{{ toc_wrapper_id }} .{{ toc_wrapper_class }} }
-            {{ toc_html_output | lstrip }}
-        {%- endcapture -%}
-    {%- endif -%}
-{%- endcapture -%}
-{%- assign toc_generator_workspace = "" -%} {# Clear workspace variable #}
-
-{%- if toc_html_output and toc_html_output != "" -%}
-<aside class="toc-container is-sticky-sidebar" aria-labelledby="toc-heading">
-    <div class="toc-header">
-        <h2 id="toc-heading" class="menu-label toc-title">{{ include.contents_title | default: "On this page" }}</h2>
-        <button class="button is-small is-outlined toc-toggle" aria-expanded="true" aria-controls="toc-menu-list">
-            <span class="icon is-small">
-                <i class="ph ph-list"></i>
-            </span>
-            <span>Toggle</span>
-        </button>
+<div class="contents">
+    <div class="menu">
+        <p class="menu-label">{{ include.contents_title }}</p>
+        {{ my_toc | markdownify | strip }}
     </div>
-    <nav class="menu toc-menu" id="toc-menu-list">
-        {{ toc_html_output | markdownify }}
-    </nav>
-</aside>
-{%- endif -%}
-
+</div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const tocContainer = document.querySelector('.toc-container');
-        if (!tocContainer) return; // Exit if TOC is not on the page
-
-        const tocMenu = tocContainer.querySelector('.toc-menu .menu-list'); // Target the generated ul/ol
-        const tocLinks = tocMenu ? Array.from(tocMenu.querySelectorAll('a.toc-link')) : [];
-        const tocToggle = tocContainer.querySelector('.toc-toggle');
-        const mainContentHeadings = Array.from(document.querySelectorAll(
-            'main h{{ include.h_min | default: 2 }}[id],' +
-            'main h{{ include.h_min | default: 2 | plus: 1 }}[id],' +
-            'main h{{ include.h_min | default: 2 | plus: 2 }}[id]'
-            // Add more levels if your maxHeader is higher and you want to spy on them
-        ));
-
-        if (!tocLinks.length || !mainContentHeadings.length) {
-            // if (tocToggle) tocToggle.style.display = 'none'; // Hide toggle if no links/headings
-            // tocContainer.style.display = 'none'; // Hide whole TOC if no links/headings
-            return;
-        }
-
-        const scrollSpyOffset = parseInt(tocContainer.dataset.scrollSpyOffset, 10) || 150; // Configurable offset
-
-        const highlightTocLink = () => {
-            let currentSectionId = null;
-            const scrollYPosition = window.scrollY;
-
-            mainContentHeadings.forEach(heading => {
-                const headingTop = heading.offsetTop;
-                if (scrollYPosition >= headingTop - scrollSpyOffset) {
-                    currentSectionId = heading.getAttribute('id');
-                }
-            });
-
-            tocLinks.forEach(link => {
-                link.classList.remove('is-active');
-                const href = link.getAttribute('href');
-                if (href && currentSectionId && href.endsWith('#' + currentSectionId)) {
-                    link.classList.add('is-active');
-                    // Optional: Scroll active link into view within the TOC
-                    // link.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }
-            });
-        };
-
-        let scrollTimeout;
-        const onScroll = () => {
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(highlightTocLink, 50); // Debounce scroll event
-        };
-
-        highlightTocLink(); // Initial highlight
-        window.addEventListener('scroll', onScroll);
-        window.addEventListener('resize', onScroll); // Re-check on resize
-
-        // Toggle functionality
-        if (tocToggle && tocMenu) {
-            // Check initial state based on screen size (e.g., hidden on mobile)
-            const isMobile = window.innerWidth < 769; // Bulma's mobile breakpoint
-            if (isMobile) {
-                tocMenu.classList.add('is-hidden-mobile-initially'); // Custom class to hide on load for mobile
-                tocToggle.setAttribute('aria-expanded', 'false');
-            }
-
-            tocToggle.addEventListener('click', () => {
-                const isExpanded = tocMenu.classList.toggle('is-hidden-mobile-initially');
-                tocMenu.classList.toggle('is-fully-hidden', !isExpanded); // General hidden class
-                tocToggle.setAttribute('aria-expanded', isExpanded.toString());
-                tocToggle.classList.toggle('is-active', isExpanded);
-            });
-        }
-    });
-</script>
+      // Function to add 'is-active' class to the current section link in the TOC
+      const spyScroll = () => {
+          const sections = document.querySelectorAll('h2[id], h3[id]');
+          const tocLinks = document.querySelectorAll('.menu-list a');
+  
+          let currentSection = "none";
+  
+          sections.forEach(section => {
+              const sectionTop = section.offsetTop;
+              if (scrollY >= sectionTop - 200) { // 200px offset for activation before reaching the section
+                  currentSection = section.getAttribute('id');
+              }
+          });
+  
+          tocLinks.forEach(link => {
+              link.classList.remove('is-active');
+              if (link.getAttribute('href').includes(currentSection)) {
+                  link.classList.add('is-active');
+              }
+          });
+      };
+  
+      // Initial call and event listener on scroll
+      spyScroll();
+      document.addEventListener('scroll', spyScroll);
+  
+      // Toggleable feature for TOC
+      const tocToggle = document.querySelector('.toc-toggle');
+      const tocMenu = document.querySelector('.contents');
+  
+      tocToggle.addEventListener('click', () => {
+          tocMenu.classList.toggle('is-hidden');
+      });
+  });
+  
+  </script>
