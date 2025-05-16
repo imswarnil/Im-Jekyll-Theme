@@ -8,6 +8,86 @@
     </div>
    {% include site-before-end.html %}
    {% include head/sw.html %}
+   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const themeToggle = document.getElementById('im-theme-checkbox');
+    const htmlElement = document.documentElement; // Target <html> for class
+    const bodyElement = document.body;
+
+    // --- Theme Toggle Logic ---
+    const applyTheme = (theme) => {
+        if (theme === 'dark') {
+            htmlElement.classList.add('im-is-dark-mode');
+            if (themeToggle) themeToggle.checked = true;
+        } else {
+            htmlElement.classList.remove('im-is-dark-mode');
+            if (themeToggle) themeToggle.checked = false;
+        }
+    };
+
+    // Check localStorage for saved theme
+    const savedTheme = localStorage.getItem('im-theme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedTheme) {
+        applyTheme(savedTheme);
+    } else if (prefersDark) {
+        applyTheme('dark');
+    } else {
+        applyTheme('light'); // Default
+    }
+
+    // Event listener for the toggle
+    if (themeToggle) {
+        themeToggle.addEventListener('change', () => {
+            const newTheme = themeToggle.checked ? 'dark' : 'light';
+            applyTheme(newTheme);
+            localStorage.setItem('im-theme', newTheme);
+        });
+    }
+
+    // --- Page Transition Logic ---
+    if (bodyElement.classList.contains('im-page-is-loading')) { // Check if class was added pre-JS
+        bodyElement.classList.remove('im-page-is-loading');
+    }
+    // Always trigger enter animation unless it's a bfcache restoration
+    if (performance.navigation.type !== performance.navigation.TYPE_BACK_FORWARD) {
+        requestAnimationFrame(() => { // Ensure styles are computed
+             bodyElement.classList.add('im-page-is-entering');
+        });
+    }
+
+
+    const internalLinks = document.querySelectorAll('a[href]:not([href^="#"]):not([href^="mailto:"]):not([href^="tel:"]):not([target="_blank"])');
+    const transitionDurationString = getComputedStyle(document.documentElement).getPropertyValue('--im-page-transition-duration') || '0.4s';
+    const transitionDuration = parseFloat(transitionDurationString) * 1000;
+
+    internalLinks.forEach(link => {
+      link.addEventListener('click', function(event) {
+        const href = this.getAttribute('href');
+        // Basic check to avoid JS links or very different domains
+        if (href && (href.startsWith('/') || href.startsWith('.') || href.startsWith(window.location.origin) || !href.includes(':'))) {
+          event.preventDefault();
+          bodyElement.classList.remove('im-page-is-entering');
+          bodyElement.classList.add('im-page-is-exiting');
+          setTimeout(() => {
+            window.location.href = href;
+          }, transitionDuration);
+        }
+      });
+    });
+
+    // Handle bfcache for back/forward navigation
+    window.addEventListener('pageshow', function(event) {
+      if (event.persisted) { // Page is from bfcache
+        bodyElement.classList.remove('im-page-is-exiting', 'im-page-is-loading');
+        requestAnimationFrame(() => {
+             bodyElement.classList.add('im-page-is-entering');
+        });
+      }
+    });
+});
+   </script>
    <script src="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2"></script>
 </body>
 </html>
