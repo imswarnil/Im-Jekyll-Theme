@@ -273,14 +273,14 @@ defaults:
 
 # 9. Site navigation (unchanged from your original for now, can be updated if needed)
 fixed_navbar: true
-:
+navbar:
   - name: Home
     link: /
     icon: house
     dropdown:
       - name: Personal
         link: /personal/
-        icon: usernavbar
+        icon: user
   - name: About # This could link to a page that uses resume data
     link: /about/
     icon: identification-card
