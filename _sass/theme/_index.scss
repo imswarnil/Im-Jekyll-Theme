@@ -19,10 +19,10 @@ $im-spacing-unit: 1rem;
 $im-section-padding-vertical: calc(#{$im-spacing-unit} * 4);
 $im-content-padding: calc(#{$im-spacing-unit} * 1.75); // For .box, .card, .panel content
 
-// Page Transition
-$im-page-transition-duration: 0.4s;
-$im-page-transition-delay: 0.1s; // Optional delay for entry animation
-$im-page-transition-translateY: 20px;
+// Page Transition (FASTER ANIMATIONS)
+$im-page-transition-duration: 0.2s; // Faster
+$im-page-transition-delay: 0.05s;    // Shorter delay (or 0s if preferred)
+$im-page-transition-translateY: 15px; // Slightly less translation
 
 // Grid Lines
 $im-grid-spacing: 30px;
@@ -61,15 +61,19 @@ $im-grid-fade-extent: 65%;
   --im-button-light-hover-border: #FFCDD2;
 
   // Grid Line Colors - Light Mode
-  --im-grid-line-color-for-section: rgba(45, 55, 72, 0.06); // Dark lines on light bg for sections
-  --im-grid-line-color-for-hero: rgba(255, 255, 255, 0.12); // Light lines on primary bg for hero
+  --im-grid-line-color-for-section: rgba(45, 55, 72, 0.06);
+  --im-grid-line-color-for-hero: rgba(255, 255, 255, 0.12);
 
-  // Theme Toggle
-  --im-toggle-bg-off: #ccc;
-  --im-toggle-bg-on: var(--im-color-primary);
-  --im-toggle-slider-color: white;
-  --im-toggle-icon-sun-color: #f39c12;
-  --im-toggle-icon-moon-color: white;
+  // Theme Toggle related (old, but keeping for reference if parts are reused - now primarily controlled by icon color vars if needed)
+  // --im-toggle-bg-off: #ccc; // Not used by new toggle
+  // --im-toggle-bg-on: var(--im-color-primary); // Not used by new toggle
+  // --im-toggle-slider-color: white; // Not used by new toggle
+  // For icon colors (though icons typically inherit color or use their own SVG fill)
+  --im-icon-sun-color: #f39c12; // Example if you want to control icon color via CSS var
+  --im-icon-moon-color: var(--im-color-text); // Example for light mode moon
+
+  // Page Transition Duration for JS
+  --im-page-transition-duration-css: #{$im-page-transition-duration};
 }
 
 //------------------------------------------------------------------------------
@@ -86,7 +90,7 @@ $im-grid-fade-extent: 65%;
     bottom: 0;
     width: 100%;
     height: 100%;
-    z-index: 0; // Behind content, above element's direct background
+    z-index: 0;
 
     background-image:
       repeating-linear-gradient(
@@ -113,7 +117,7 @@ $im-grid-fade-extent: 65%;
 }
 
 //------------------------------------------------------------------------------
-// 4. Animations (Page Transitions)
+// 4. Animations (Page Transitions) - Use SCSS variables for duration
 //------------------------------------------------------------------------------
 
 @keyframes imPageFadeInUp {
@@ -134,7 +138,7 @@ $im-grid-fade-extent: 65%;
   }
   to {
     opacity: 0;
-    transform: translateY($im-page-transition-translateY); // Or negative for slide up exit
+    transform: translateY($im-page-transition-translateY);
   }
 }
 
@@ -156,17 +160,17 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--im-color-background) !important;
-  min-height: 100vh; // Ensure body takes full height for transitions
-  transition: background-color 0.3s ease, color 0.3s ease; // For dark mode theme switch
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 
-  &.im-page-is-loading { // Applied by JS initially if using JS for entry
+  &.im-page-is-loading {
     opacity: 0;
   }
-  &.im-page-is-entering { // Applied by JS after DOMContentLoaded if using JS for entry
+  &.im-page-is-entering {
     animation: imPageFadeInUp $im-page-transition-duration forwards ease-out;
     animation-delay: $im-page-transition-delay;
   }
-  &.im-page-is-exiting { // Applied by JS on link click
+  &.im-page-is-exiting {
     animation: imPageFadeOutDown $im-page-transition-duration forwards ease-in !important;
   }
 }
@@ -217,13 +221,13 @@ strong, b {
 }
 
 //------------------------------------------------------------------------------
-// 6. Component Overrides
+// 6. Component Overrides (Largely unchanged, will use new theme vars)
 //------------------------------------------------------------------------------
 
 // --- Hero Section (WITH GRID LINES) ---
 .hero {
   position: relative;
-  overflow: hidden; // Clip pseudo-element for grid
+  overflow: hidden;
   transition: background-color 0.3s ease;
 
   &.is-primary {
@@ -240,7 +244,6 @@ strong, b {
       font-weight: $im-font-weight-bold !important;
     }
 
-    // Tech stack icons
     .field.is-grouped .icon.is-large {
       color: var(--im-color-text-on-primary) !important;
       opacity: 0.8;
@@ -251,7 +254,6 @@ strong, b {
     }
   }
 
-  // Ensure hero content is above the grid
   .hero-head,
   .hero-body,
   .hero-foot {
@@ -288,7 +290,6 @@ strong, b {
     }
   }
 
-  // Buttons on primary hero background
   .hero.is-primary & {
     &.is-light {
       &.is-outlined {
@@ -299,10 +300,10 @@ strong, b {
           background-color: rgba(255, 255, 255, 0.1) !important;
         }
       }
-      &:not(.is-outlined) { // Resume button style
+      &:not(.is-outlined) {
         background-color: var(--im-color-text-on-primary) !important;
         border-color: var(--im-color-text-on-primary) !important;
-        color: var(--im-color-primary) !important; // Text on button is primary color
+        color: var(--im-color-primary) !important;
         &:hover {
           background-color: rgba(255, 255, 255, 0.9) !important;
           border-color: rgba(255, 255, 255, 0.9) !important;
@@ -311,8 +312,7 @@ strong, b {
     }
   }
 
-  // General .is-light button style (not on primary hero)
-  &:not(.hero.is-primary > .hero-body .buttons > &):not(.hero.is-primary > .hero-foot .buttons > &).is-light { // More specific selector
+  &:not(.hero.is-primary > .hero-body .buttons > &):not(.hero.is-primary > .hero-foot .buttons > &).is-light {
     background-color: var(--im-button-light-bg) !important;
     border-color: var(--im-button-light-border) !important;
     color: var(--im-button-light-text) !important;
@@ -323,7 +323,7 @@ strong, b {
   }
 }
 
-// --- Box, Card, Panel (NO GRID LINES) ---
+// --- Box, Card, Panel ---
 .box,
 .card,
 .panel {
@@ -340,7 +340,7 @@ strong, b {
 }
 
 .card {
-  padding: 0 !important; // Card itself has no padding, content areas do
+  padding: 0 !important;
   .card-header {
     box-shadow: none !important;
     border-bottom: 1px solid var(--im-color-border);
@@ -362,16 +362,12 @@ strong, b {
     border-top: 1px solid var(--im-color-border);
     padding: 0.75rem $im-content-padding;
     transition: border-color 0.3s ease;
-    .card-footer-item {
-      // Style footer items if needed
-    }
   }
 }
 
 .panel {
-  // Bulma panel uses .panel-heading, .panel-block etc.
   .panel-heading {
-    background-color: var(--im-color-surface) !important; // Or a slightly different shade if desired
+    background-color: var(--im-color-surface) !important;
     color: var(--im-color-text-headings) !important;
     border-bottom: 1px solid var(--im-color-border) !important;
     border-top-left-radius: $im-border-radius !important;
@@ -397,21 +393,18 @@ strong, b {
   }
 }
 
-
-// --- Section (for general content areas, WITH GRID LINES) ---
+// --- Section ---
 .section {
   padding: $im-section-padding-vertical 1.5rem !important;
-  background-color: transparent !important; // Sits on body background
+  background-color: transparent !important;
   position: relative;
-  overflow: hidden; // Clip pseudo-element
+  overflow: hidden;
 
-  // Apply grid to sections that are not part of a hero's body
   &:not(.hero-body):not(.hero > .section) {
     @include im-apply-fading-grid('--im-grid-line-color-for-section');
   }
 
-  // Ensure section content (like .container) is above the grid
-  > .container { // Direct child container
+  > .container {
     position: relative;
     z-index: 1;
   }
@@ -428,16 +421,24 @@ strong, b {
     font-weight: $im-font-weight-medium !important;
     transition: color 0.3s ease, background-color 0.3s ease;
     &:hover, &.is-active {
-      background-color: transparent !important; // Or a very subtle hover bg
+      background-color: transparent !important;
       color: var(--im-color-primary) !important;
     }
+    // For the new icon toggle, ensure icon color is appropriate
+    &.im-dark-mode-toggle .icon {
+        color: var(--im-color-text); // Default icon color
+        transition: color 0.3s ease;
+    }
+    &.im-dark-mode-toggle:hover .icon {
+        color: var(--im-color-primary); // Icon color on hover
+    }
+
   }
   .navbar-brand .navbar-item {
     font-weight: $im-font-weight-bold !important;
     color: var(--im-color-text-headings) !important;
   }
 
-  // Navbar in Hero Head (Primary Background)
   &.is-primary, .hero-head &.is-transparent, .hero-head &.has-background-primary {
     background-color: var(--im-color-primary) !important;
     box-shadow: none !important;
@@ -446,6 +447,13 @@ strong, b {
         &:hover, &.is-active {
             background-color: rgba(255,255,255,0.1) !important;
             color: var(--im-color-text-on-primary) !important;
+        }
+        // For the new icon toggle in primary navbar
+        &.im-dark-mode-toggle .icon {
+            color: var(--im-color-text-on-primary);
+        }
+        &.im-dark-mode-toggle:hover .icon {
+            color: var(--im-color-text-on-primary); // Or a slightly lighter/whiter shade if desired
         }
     }
      .navbar-brand .navbar-item {
@@ -457,15 +465,15 @@ strong, b {
 // --- Footer ---
 .footer {
   background-color: transparent !important;
-  padding: calc(#{$im-spacing-unit} * 3) 1.5rem calc(#{$im-spacing-unit} * 3) !important; // Increased padding
+  padding: calc(#{$im-spacing-unit} * 3) 1.5rem calc(#{$im-spacing-unit} * 3) !important;
   color: var(--im-color-text-muted) !important;
   border-top: 1px solid var(--im-color-border);
   position: relative;
-  z-index: 1; // Above any page-wide grid if section grid extends
+  z-index: 1;
   transition: color 0.3s ease, border-color 0.3s ease;
 
   a {
-    color: var(--im-color-text) !important; // Or --im-color-text-muted for less emphasis
+    color: var(--im-color-text) !important;
     font-weight: $im-font-weight-medium !important;
     &:hover {
       color: var(--im-color-primary) !important;
@@ -480,7 +488,7 @@ strong, b {
   border: 1px solid var(--im-color-input-border) !important;
   box-shadow: none !important;
   background-color: var(--im-color-input-bg) !important;
-  color: var(--im-color-text) !important; // Text color inside input
+  color: var(--im-color-text) !important;
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 
   &::placeholder {
@@ -495,7 +503,7 @@ strong, b {
     box-shadow: 0 0 0 0.125em rgba(var(--im-color-primary-rgb), 0.25) !important;
   }
 }
-.select:not(.is-multiple):not(.is-loading)::after { // Dropdown arrow
+.select:not(.is-multiple):not(.is-loading)::after {
   border-color: var(--im-color-primary) !important;
   transition: border-color 0.3s ease;
 }
@@ -505,148 +513,60 @@ strong, b {
 // 7. Dark Mode Styles
 //------------------------------------------------------------------------------
 html.im-is-dark-mode {
-  // Dark Mode Primary Colors
-  // --im-color-primary: #e53935; // Can stay same or be adjusted
-  // --im-color-primary-light: #ef5350;
-  // --im-color-primary-dark: #c62828;
-  // --im-color-primary-rgb: 229, 57, 53;
-
-  // Text Colors - Dark Mode
+  // Dark Mode Text Colors
   --im-color-text: #CBD5E0;
   --im-color-text-headings: #E2E8F0;
   --im-color-text-muted: #A0AEC0;
-  // --im-color-text-on-primary: #FFFFFF; // Stays same
 
-  // Background & Surface Colors - Dark Mode
+  // Dark Mode Background & Surface Colors
   --im-color-background: #1A202C;
   --im-color-surface: #2D3748;
   --im-color-border: #4A5568;
   --im-color-input-bg: var(--im-color-surface);
   --im-color-input-border: var(--im-color-border);
-  --im-color-text-on-surface: var(--im-color-text-headings); // Text on cards/boxes is lighter
+  --im-color-text-on-surface: var(--im-color-text-headings);
 
-  // Button Specifics - Dark Mode
+  // Dark Mode Button Specifics
   --im-button-light-bg: #4A5568;
   --im-button-light-border: #4A5568;
   --im-button-light-text: var(--im-color-text-headings);
   --im-button-light-hover-bg: #718096;
   --im-button-light-hover-border: #718096;
 
-  // Grid Line Colors - Dark Mode
-  --im-grid-line-color-for-section: rgba(255, 255, 255, 0.05); // Very subtle white lines
-  --im-grid-line-color-for-hero: rgba(255, 255, 255, 0.12); // Stays same or adjusted if primary changes
+  // Dark Mode Grid Line Colors
+  --im-grid-line-color-for-section: rgba(255, 255, 255, 0.05);
+  --im-grid-line-color-for-hero: rgba(255, 255, 255, 0.12);
 
-  // Theme Toggle Dark Mode
-  --im-toggle-bg-off: #4A5568; // Darker off state for dark mode
-  --im-toggle-icon-sun-color: #f1c40f;
+  // Icon colors for dark mode
+  --im-icon-sun-color: #f1c40f; // Sun icon color in dark mode
+  --im-icon-moon-color: var(--im-color-text); // Moon icon color (when it's light mode, this var is different)
+
+  // Navbar icon toggle in dark mode
+  .navbar .navbar-item.im-dark-mode-toggle .icon {
+    color: var(--im-color-text); // Use dark mode text color for icon
+  }
+  .navbar .navbar-item.im-dark-mode-toggle:hover .icon {
+    color: var(--im-color-primary); // Hover remains primary
+  }
+
+  .navbar.is-primary .navbar-item.im-dark-mode-toggle .icon,
+  .hero-head .navbar.is-transparent .navbar-item.im-dark-mode-toggle .icon,
+  .hero-head .navbar.has-background-primary .navbar-item.im-dark-mode-toggle .icon {
+    color: var(--im-color-text-on-primary); // Icon on primary bg in dark mode
+  }
+  // Hover for icon on primary bg in dark mode can remain the same or be adjusted if needed
 }
 
-// Specific Dark Mode Overrides for components if CSS variables aren't enough
-// (Mostly covered by vars, but some shadows or complex states might need this)
 html.im-is-dark-mode {
   .box, .card, .panel {
     box-shadow: 0 6px 15px rgba(0,0,0,0.2), 0 3px 6px rgba(0,0,0,0.15) !important;
   }
-
-  .button.is-primary {
-    &:focus, &.is-focused { // Adjust focus shadow if primary color RGB changes for dark mode
-      // box-shadow: 0 0 0 0.125em rgba(var(--im-color-primary-rgb-dark-mode, var(--im-color-primary-rgb)), 0.25) !important;
-    }
-  }
-  .input:focus, .textarea:focus, .select select:focus,
-  .input.is-focused, .textarea.is-focused, .select select.is-focused,
-  .input:active, .textarea:active, .select select:active,
-  .input.is-active, .textarea.is-active, .select select.is-active {
-    // Adjust focus shadow if primary color RGB changes for dark mode
-    // box-shadow: 0 0 0 0.125em rgba(var(--im-color-primary-rgb-dark-mode, var(--im-color-primary-rgb)), 0.25) !important;
-  }
 }
-
 
 //------------------------------------------------------------------------------
-// 8. Theme Toggle Switch CSS
+// 8. Theme Toggle Switch CSS - REMOVED
 //------------------------------------------------------------------------------
-.im-theme-toggle-container {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  // Example placement if in navbar:
-  // margin-left: auto; // Pushes it to the right
-  // padding: 0 0.75rem;
-}
-
-.im-theme-switch {
-  position: relative;
-  display: inline-block;
-  width: 50px; // Width of the switch
-  height: 26px; // Height of the switch
-
-  input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-}
-
-.im-slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: var(--im-toggle-bg-off);
-  transition: .4s;
-  display: flex;
-  align-items: center;
-  justify-content: space-between; // For icons
-  padding: 0 4px; // Padding for icons
-
-  &.round {
-    border-radius: 26px;
-  }
-
-  &:before { // The toggle circle
-    position: absolute;
-    content: "";
-    height: 20px;
-    width: 20px;
-    left: 3px;
-    bottom: 3px;
-    background-color: var(--im-toggle-slider-color);
-    transition: .4s;
-    &.round {
-      border-radius: 50%;
-    }
-  }
-
-  .im-slider-icon {
-    font-size: 0.9em;
-    line-height: 1; // Ensure icons are vertically centered if they have weird line-height
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .im-sun-icon { color: var(--im-toggle-icon-sun-color); }
-  .im-moon-icon { color: var(--im-toggle-icon-moon-color); }
-}
-
-input:checked + .im-slider {
-  background-color: var(--im-toggle-bg-on);
-  .im-moon-icon { opacity: 1; }
-}
-input:not(:checked) + .im-slider {
-  .im-sun-icon { opacity: 1; }
-}
-
-input:focus + .im-slider {
-  box-shadow: 0 0 1px var(--im-color-primary);
-}
-
-input:checked + .im-slider:before {
-  transform: translateX(24px); // Move circle to the right
-}
+// This section is no longer needed as the new toggle uses standard navbar item and icon styling.
+// The Phosphor icons (ph-sun, ph-moon) will need their own CSS if not using a CDN
+// that provides it. The Bulma .icon class handles sizing.
+// Color can be controlled via .navbar-item color or specific rules for the icon itself as shown above.
