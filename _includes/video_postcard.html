@@ -1,0 +1,65 @@
+{% comment %}
+  Jekyll Include for a YouTube-like Video Postcard
+  Expects a 'video' object as a parameter, which should be a Jekyll document
+  with front matter like:
+  - VideoId (YouTube Video ID)
+  - title
+  - duration (optional)
+  - author (optional)
+  - views (optional, for future use)
+
+  Usage:
+  <div class="columns is-multiline">
+    {% for video_item in site.videos %}
+      <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+        {% include video_postcard.html video=video_item %}
+      </div>
+    {% endfor %}
+  </div>
+{% endcomment %}
+
+{% assign video_data = include.video %}
+{% assign video_id = video_data.VideoId %}
+{% assign video_title = video_data.title | escape %}
+{% assign video_url = video_data.url | relative_url %}
+{% assign video_duration = video_data.duration %}
+{% assign video_author = video_data.author | escape %}
+
+<div class="im-video-postcard box has-background-black p-0">
+  <a href="{{ video_url }}" aria-label="Watch video: {{ video_title }}">
+    <div class="im-postcard-window-bar">
+      <span class="im-window-dot"></span>
+      <span class="im-window-dot"></span>
+      <span class="im-window-dot"></span>
+      <span class="im-window-title is-size-7 has-text-grey-lighter is-family-monospace">youtube.com</span>
+    </div>
+
+    <figure class="image is-16by9 im-postcard-thumbnail-figure">
+      <img
+        class="im-postcard-thumbnail"
+        src="https://img.youtube.com/vi/{{ video_id }}/hqdefault.jpg"
+        alt="Thumbnail for {{ video_title }}"
+        loading="lazy"
+      >
+      <div class="im-postcard-overlay">
+        <span class="icon is-large has-text-white">
+          <i class="ph ph-play-circle" style="font-size: 4rem;"></i> <!-- Phosphor Play Circle Icon -->
+        </span>
+      </div>
+      {% if video_duration %}
+        <span class="tag is-dark im-postcard-duration is-size-7">{{ video_duration }}</span>
+      {% endif %}
+    </figure>
+  </a>
+
+  <div class="im-postcard-content p-3">
+    <h3 class="title is-6 mb-1 is-clipped-2">
+      <a href="{{ video_url }}" class="has-text-light">{{ video_title }}</a>
+    </h3>
+    {% if video_author %}
+    <p class="subtitle is-7 has-text-grey-light is-clipped-1">
+      {{ video_author }}
+    </p>
+    {% endif %}
+  </div>
+</div>
