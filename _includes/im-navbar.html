@@ -1,16 +1,4 @@
-<nav class="navbar is-fixed-top im-navbar-custom" role="navigation" aria-label="main navigation"
-     style="background-color: rgba(255, 255, 255, 0.65); /* Initial light transparent background */
-            border-bottom: 1px solid rgba(226, 232, 240, 0.0); /* Initial transparent border */
-            /* Note: backdrop-filter is not well-supported as an inline style.
-               It's best applied via a CSS class.
-               If your theme is dark by default, adjust rgba values accordingly.
-               e.g., background-color: rgba(32, 39, 49, 0.65);
-            */
-            min-height: var(--im-navbar-height, 3.5rem); /* Fallback if CSS var not loaded */
-            position: fixed; top: 0; left: 0; right: 0; z-index: 1030;
-            transition: transform 0.3s ease-out, background-color 0.3s ease-out, border-color 0.3s ease-out, box-shadow 0.3s ease-out;"
-            {# This 'transition' property inline will be overridden by your JS adding/removing classes if those classes also define transitions #}
->
+<nav class="navbar is-fixed-top im-navbar-custom" role="navigation" aria-label="main navigation">
     <div class="container">
         <div class="navbar-brand">
             <a href="{{ site.baseurl }}/" class="navbar-item im-logo-link">
