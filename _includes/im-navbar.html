@@ -1,41 +1,5 @@
-{% comment %} _includes/im-navbar.html {% endcomment %}
-<nav class="navbar {% if site.fixed_navbar %} is-fixed-top {% endif %} has-shadow-navbar"
-     x-data="{
-        openNav: false,
-        alpineDarkMode: localStorage.getItem('im-theme') === 'dark',
-        initAlpineDarkMode() {
-            const savedTheme = localStorage.getItem('im-theme');
-            const prefersDark = !savedTheme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-            if (savedTheme === 'dark' || prefersDark) {
-                this.alpineDarkMode = true;
-                document.documentElement.classList.add('im-is-dark-mode');
-            } else {
-                this.alpineDarkMode = false;
-                document.documentElement.classList.remove('im-is-dark-mode');
-            }
-            this.updateAlpineIcon();
-        },
-        toggleAlpineDarkMode() {
-            this.alpineDarkMode = !this.alpineDarkMode;
-            const newTheme = this.alpineDarkMode ? 'dark' : 'light';
-            localStorage.setItem('im-theme', newTheme); // Use same localStorage item
-            if (this.alpineDarkMode) {
-                document.documentElement.classList.add('im-is-dark-mode'); // Use same class
-            } else {
-                document.documentElement.classList.remove('im-is-dark-mode');
-            }
-            this.updateAlpineIcon();
-        },
-        updateAlpineIcon() {
-            const themeIconEl = document.getElementById('im-theme-icon');
-            if (themeIconEl) {
-                themeIconEl.className = this.alpineDarkMode ? 'ph ph-sun' : 'ph ph-moon';
-            }
-        }
-     }"
-     x-init="initAlpineDarkMode()"
-     x-cloak>
+{% comment %} _includes/im-navbar.html (Vanilla JS Version) {% endcomment %}
+<nav class="navbar {% if site.fixed_navbar %}is-fixed-top{% endif %} has-shadow-navbar" role="navigation" aria-label="main navigation">
     <div class="container">
         <div class="navbar-brand">
             <a href="{{ site.baseurl }}/" class="navbar-item im-logo-link">
@@ -47,15 +11,13 @@
             <a href="{{ '/search' | relative_url }}" class="navbar-item is-hidden-desktop im-navbar-mobile-search" aria-label="Search">
                 <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
             </a>
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-               data-target="imNavMenuAlpine"
-               :class="{ 'is-active': openNav }" @click="openNav = !openNav">
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="imVanillaNavMenu">
              <span aria-hidden="true"></span>
              <span aria-hidden="true"></span>
              <span aria-hidden="true"></span>
             </a>
         </div>
-        <div class="navbar-menu" id="imNavMenuAlpine" :class="{ 'is-active': openNav }">
+        <div class="navbar-menu" id="imVanillaNavMenu">
             <div class="navbar-start">
                 {% for item in site.navbar %}
                   {% if item.name %}
@@ -104,7 +66,7 @@
                     {% else %}
                     <a class="navbar-item {% if is_active_page %}is-active-nav-item{% endif %}" href="{{ item_url_relative }}">
                       {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="navbar-icon im-nav-image-icon">
-                      {% elsif item.icon %}<span class="icon im-nav-icon"><i class="ph-duotone ph-{{ item.icon }}"></i></span>{% endif %}
+                      {% elsif item.icon %}<span class="icon im-nav-icon"><i class="ph ph-{{ item.icon }}"></i></span>{% endif %}
                       <span class="im-nav-text">{{ item.name }}</span>
                     </a>
                     {% endif %}
@@ -122,14 +84,9 @@
                 <a href="{{ '/search' | relative_url }}" class="navbar-item is-hidden-touch im-navbar-desktop-search" aria-label="Search">
                     <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
                 </a>
-                <a href="#" class="navbar-item im-dark-mode-toggle"
-                   id="im-alpine-dark-mode-toggle"
-                   title="Toggle Dark Mode"
-                   role="button"
-                   @click.prevent="toggleAlpineDarkMode()"
-                   :aria-pressed="alpineDarkMode.toString()">
+                <a href="#" class="navbar-item im-dark-mode-toggle" id="im-dark-mode-toggle" title="Toggle Dark Mode" role="button" aria-pressed="false">
                     <span class="icon is-medium">
-                        <i class="ph" id="im-theme-icon"></i> 
+                        <i class="ph" id="im-theme-icon"></i> {# Icon class set by theme_script.js #}
                     </span>
                 </a>
             </div>
