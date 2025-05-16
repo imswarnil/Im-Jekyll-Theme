@@ -1,108 +1,19 @@
 <!DOCTYPE html>
-<html lang="{{ site.lang | default: 'en-US' }}" class=" {% if site.fixed_navbar %} has-navbar-fixed-top {% endif %}" >
+<html lang="{{ site.lang | default: 'en-US' }}" class="{% if site.fixed_navbar %}has-navbar-fixed-top{% endif %}" >
 {% include im-head.html %}
 <body class="layout-{{ page.layout | default: 'default'}}">
+
     {% include im-navbar.html %}
-    <div class="content"> 
-        {{ content }} <!-- This is where your markdown gets rendered -->
-    </div>
+
+    <main class="im-main-content"> {# Good to have a main wrapper #}
+        {{ content }}
+    </main>
+
+   {% include im-footer.html %}
+
    {% include site-before-end.html %}
    {% include head/sw.html %}
-   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-    const htmlElement = document.documentElement; // Target <html> for class
-    const bodyElement = document.body;
 
-    // --- Theme Toggle Elements ---
-    const themeToggleLink = document.getElementById('im-dark-mode-toggle');
-    const themeIcon = document.getElementById('im-theme-icon'); // The <i> tag for the icon
-
-    // --- Theme Toggle Logic ---
-    const applyTheme = (theme) => {
-        if (theme === 'dark') {
-            htmlElement.classList.add('im-is-dark-mode');
-            if (themeIcon) {
-                themeIcon.classList.remove('ph-moon'); // Assuming Phosphor icons
-                themeIcon.classList.add('ph-sun');
-            }
-            if (themeToggleLink) themeToggleLink.setAttribute('aria-pressed', 'true');
-        } else {
-            htmlElement.classList.remove('im-is-dark-mode');
-            if (themeIcon) {
-                themeIcon.classList.remove('ph-sun');
-                themeIcon.classList.add('ph-moon');
-            }
-            if (themeToggleLink) themeToggleLink.setAttribute('aria-pressed', 'false');
-        }
-        localStorage.setItem('im-theme', theme);
-    };
-
-    // Check localStorage and system preference for initial theme
-    const savedTheme = localStorage.getItem('im-theme');
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    let initialTheme = 'light'; // Default
-
-    if (savedTheme) {
-        initialTheme = savedTheme;
-    } else if (prefersDark) {
-        initialTheme = 'dark';
-    }
-    applyTheme(initialTheme); // Apply determined theme
-
-    // Event listener for the new toggle link
-    if (themeToggleLink) {
-        themeToggleLink.addEventListener('click', (event) => {
-            event.preventDefault(); // Prevent default <a> tag behavior
-            const isDarkMode = htmlElement.classList.contains('im-is-dark-mode');
-            const newTheme = isDarkMode ? 'light' : 'dark';
-            applyTheme(newTheme);
-        });
-    }
-
-    // --- Page Transition Logic ---
-    if (bodyElement.classList.contains('im-page-is-loading')) { // Check if class was added pre-JS
-        bodyElement.classList.remove('im-page-is-loading');
-    }
-
-    // Always trigger enter animation unless it's a bfcache restoration
-    if (performance.navigation.type !== performance.navigation.TYPE_BACK_FORWARD) {
-        requestAnimationFrame(() => { // Ensure styles are computed
-             bodyElement.classList.add('im-page-is-entering');
-        });
-    }
-
-    const internalLinks = document.querySelectorAll('a[href]:not([href^="#"]):not([href^="mailto:"]):not([href^="tel:"]):not([target="_blank"])');
-    // Get transition duration from CSS custom property (make sure it's defined in SCSS :root)
-    const transitionDurationString = getComputedStyle(document.documentElement).getPropertyValue('--im-page-transition-duration-css').trim() || '0.2s'; // Fallback to new fast value
-    const transitionDuration = parseFloat(transitionDurationString) * 1000; // Handles "0.2s" -> 200
-
-    internalLinks.forEach(link => {
-      link.addEventListener('click', function(event) {
-        const href = this.getAttribute('href');
-        // Basic check to avoid JS links or very different domains
-        if (href && (href.startsWith('/') || href.startsWith('.') || href.startsWith(window.location.origin) || !href.includes(':'))) {
-          event.preventDefault();
-          bodyElement.classList.remove('im-page-is-entering'); // Ensure no conflict with exit animation
-          bodyElement.classList.add('im-page-is-exiting');
-          setTimeout(() => {
-            window.location.href = href;
-          }, transitionDuration);
-        }
-      });
-    });
-
-    // Handle bfcache for back/forward navigation
-    window.addEventListener('pageshow', function(event) {
-      if (event.persisted) { // Page is from bfcache
-        bodyElement.classList.remove('im-page-is-exiting', 'im-page-is-loading');
-        // Force re-application of entering animation for visual consistency
-        requestAnimationFrame(() => {
-             bodyElement.classList.add('im-page-is-entering');
-        });
-      }
-    });
-});
-   </script>
-   <script src="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2"></script>
+   <script src="{{ '/assets/js/theme_script.js' | relative_url }}"></script>
 </body>
 </html>
