@@ -121,7 +121,7 @@ hero:
  #----------------------------------------------------------------------------------------------
 baseurl : ''
 url: 'https://jekyll.imswarnil.com' # Site URL
-permalink: /:title  # Permalink style
+permalink: /:categories/:title  # Permalink style
 repo: "https://github.com/imswarnil/" # Your main GitHub profile
 email: "contact@imswarnil.com" # General contact email for the site
 description_separator: <!-- more -->
