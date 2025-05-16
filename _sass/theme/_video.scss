@@ -1,0 +1,250 @@
+//------------------------------------------------------------------------------
+// 12. Video Page Layout (Bulma-centric with IM Theme)
+//------------------------------------------------------------------------------
+
+.im-video-page { // Scoping class for all video page specific overrides
+
+  // --- Video Player Figure ---
+  .im-video-player-figure.image.is-16by9 { // Target the specific figure
+    border-radius: $im-border-radius * 1.25; // Your theme's border radius
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    iframe.has-iframe-radius-large { // Class added in HTML for iframe
+      border-radius: $im-border-radius * 1.25; // Match figure
+    }
+  }
+  html.im-is-dark-mode & .im-video-player-figure.image.is-16by9 {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  }
+
+  // --- Titles & Subtitles ---
+  // Global .title and .subtitle styles from section 5 apply.
+  // Specific overrides for context if needed:
+  .title.is-3 { // Main video title
+    color: var(--im-color-text-headings);
+    margin-bottom: $im-spacing-unit * 0.5 !important; // Fine-tune margin
+  }
+  .subtitle.is-5 { // Short description
+    color: var(--im-color-text-muted);
+    margin-bottom: $im-spacing-unit * 1.5 !important;
+  }
+
+  // --- Level for Stats & Share ---
+  .level {
+    .level-item .icon-text {
+      color: var(--im-color-text-muted);
+      .icon i {
+        color: var(--im-color-text-muted); // Or var(--im-color-primary)
+      }
+    }
+    .button.is-light { // Share button in level
+      // Bulma .button.is-light is already themed by your section 6 overrides
+      // e.g., background-color: var(--im-button-light-bg);
+      // color: var(--im-button-light-text);
+    }
+  }
+
+  // --- Author Box (Bulma .media and .box) ---
+  .media.box { // Theming the .box containing the .media object
+    // .box is already themed by your section 6 overrides
+    // (bg, border, radius, shadow, padding via $im-content-padding)
+    .media-left .image img.is-rounded {
+      border: 2px solid var(--im-color-border); // Optional avatar border
+    }
+    .media-content .content strong { // Author name
+      color: var(--im-color-text-headings);
+    }
+    .media-right .button.is-primary.is-rounded {
+      // .button.is-primary is already themed by section 6
+      // .is-rounded is a Bulma helper
+    }
+  }
+
+  // --- Full Description Box (Bulma .content and .box) ---
+  .content.box { // Theming the .box containing .content
+    // .box is already themed by section 6
+    // .content gets typographic styling from global rules & section 9 (Markdown)
+    // If specific line-height or font-size needed here:
+    // line-height: $im-line-height-base * 1.05;
+    .tags .tag.is-light {
+      // .tag.is-light is themed by your Bulma overrides if you have them.
+      // If not, or for specific look here:
+      background-color: rgba(var(--im-color-primary-rgb), 0.08) !important;
+      color: var(--im-color-primary-dark) !important;
+      font-weight: $im-font-weight-medium;
+      border-radius: $im-border-radius * 0.5;
+    }
+  }
+  html.im-is-dark-mode & .content.box .tags .tag.is-light {
+    background-color: rgba(var(--im-color-primary-rgb), 0.18) !important;
+    color: var(--im-color-primary-light) !important;
+  }
+
+  // --- Sidebar Styling (Bulma .panel) ---
+  .im-video-sidebar-wrapper { // Added this wrapper in HTML
+    // Add padding here if columns are is-gapless and sidebar needs internal spacing on tablet+
+    // This avoids media queries directly in SCSS.
+    // Example: could use Bulma padding helpers on this wrapper in HTML for different breakpoints.
+    // Alternatively, direct children like .panel can have top margin.
+  }
+
+  .panel { // Theming Bulma .panel for timestamps and related videos
+    // .panel and .panel-heading are already themed by your section 6 overrides
+    // (bg, border, radius, heading style)
+    border: 1px solid var(--im-color-border); // Ensure border from theme
+
+    .panel-heading {
+      .icon i {
+        color: var(--im-color-primary);
+      }
+    }
+
+    .im-panel-scrollable-content { // Custom class for consistent scrollable area
+        max-height: 380px; // Adjust as needed
+        overflow-y: auto;
+        // Apply scrollbar styling consistent with your theme if desired (browser-specific)
+        &::-webkit-scrollbar { width: 6px; }
+        &::-webkit-scrollbar-track { background: transparent; }
+        &::-webkit-scrollbar-thumb {
+            background-color: rgba(var(--im-color-text-muted-rgb, 113, 128, 150), 0.3); // Define --im-color-text-muted-rgb
+            border-radius: $im-border-radius;
+        }
+        html.im-is-dark-mode &::-webkit-scrollbar-thumb {
+            background-color: rgba(var(--im-color-text-muted-rgb, 160, 174, 192), 0.4);
+        }
+    }
+
+    .panel-block { // General styling for items within panel
+      // .panel-block hover is themed globally (section 6)
+      &.is-flex { // For timestamp items
+        // Bulma helper
+      }
+      &.media { // For related video items
+        padding: $im-spacing-unit * 0.75;
+        align-items: flex-start; // Align media items to top
+        .media-left .image.is-128x72 img.im-related-thumb {
+           border-radius: $im-border-radius * 0.75;
+        }
+        .media-content .content {
+          p.has-text-weight-semibold { color: var(--im-color-text-headings); }
+          p.has-text-grey, p.has-text-grey-light { color: var(--im-color-text-muted); }
+        }
+      }
+      // Active state for clickable panel blocks (like timestamps)
+      &.is-active {
+         background-color: var(--im-button-light-bg) !important; // From your theme
+         color: var(--im-button-light-text) !important;
+         span, strong { color: inherit !important; } // Ensure text inside also changes
+         .has-text-primary { color: var(--im-button-light-text) !important; } // Override specific color
+      }
+    }
+  }
+  html.im-is-dark-mode & .panel .panel-block.is-active {
+      background-color: var(--im-button-light-bg) !important; // Dark mode button light bg
+      color: var(--im-button-light-text) !important; // Dark mode button light text
+  }
+
+
+  // --- Mobile Timestamps ---
+  .im-mobile-timestamps-container.is-fixed-bottom {
+    // background-color: var(--im-color-surface); // Set in HTML
+    // box-shadow from Bulma helper or custom utility class
+    border-top: 1px solid var(--im-color-border);
+    z-index: 100; // Bulma's fixed elements are usually higher
+
+    .im-timestamps-toggle.button.is-primary.is-fullwidth {
+      // .button.is-primary already themed
+      border-bottom-left-radius: 0; // For continuous look if list is open
+      border-bottom-right-radius: 0;
+    }
+    .im-mobile-timestamps-list.box { // The list container
+      // .box is themed
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      border-top: none; // Avoid double border with container
+      max-height: 200px;
+      overflow-y: auto;
+      .button.is-light { // Each timestamp item
+        // .button.is-light is themed
+        // is-justify-content-flex-start is a Bulma helper
+        &.is-active {
+          background-color: var(--im-button-light-hover-bg) !important; // Darker active for light buttons
+          color: var(--im-button-light-text) !important;
+          font-weight: $im-font-weight-semibold;
+          .has-text-primary { color: var(--im-button-light-text) !important; }
+        }
+      }
+    }
+  }
+  html.im-is-dark-mode & .im-mobile-timestamps-container.is-fixed-bottom {
+     border-top-color: var(--im-color-border); // Uses dark mode var
+  }
+
+  // --- Share Modal (Bulma .modal) ---
+  .im-share-modal.modal {
+    .modal-card {
+      // .modal-card-head, .modal-card-body, .modal-card-foot styling
+      // should be part of your global Bulma overrides for .card if you have them.
+      // If not, theme them here:
+      .modal-card-head {
+        background-color: var(--im-color-surface);
+        border-bottom: 1px solid var(--im-color-border);
+        .modal-card-title { color: var(--im-color-text-headings); }
+      }
+      .modal-card-body {
+        background-color: var(--im-color-surface);
+        color: var(--im-color-text);
+        .buttons .button.is-outlined {
+          border-color: var(--im-color-border);
+          color: var(--im-color-text-muted);
+          &:hover {
+            background-color: var(--im-color-surface); // Or a very light tint
+            border-color: var(--im-color-text-muted); // Or primary
+            color: var(--im-color-primary);
+          }
+          &.im-copy-link-button.is-light { // For the copy link button
+             // .button.is-light already themed
+             &.is-success { // When "Copied!"
+                background-color: #48c78e !important; // Bulma success
+                border-color: #48c78e !important;
+                color: white !important;
+             }
+          }
+        }
+      }
+    }
+  }
+
+  // --- Suggestions FAB ---
+  .button.is-primary.is-rounded.is-large.is-fixed-bottom-right { // FAB
+    // .button.is-primary is themed
+    // Bulma helpers for shape, size, position
+    width: 56px !important; // Enforce FAB size
+    height: 56px !important;
+    padding: 0 !important; // Remove padding for icon centering
+    box-shadow: 0 4px 12px rgba(var(--im-color-primary-rgb), 0.35);
+    &:hover {
+      box-shadow: 0 6px 18px rgba(var(--im-color-primary-rgb), 0.45);
+      transform: translateY(-2px) scale(1.05);
+    }
+  }
+
+  // Helper class from HTML for truncating text (example)
+  .is-clipped-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+} // End .im-video-page
+
+// --- Define --im-color-text-muted-rgb if not already defined for scrollbar ---
+:root {
+  // Assuming --im-color-text-muted is like #718096
+  --im-color-text-muted-rgb: 113, 128, 150;
+}
+html.im-is-dark-mode {
+  // Assuming --im-color-text-muted in dark mode is like #A0AEC0
+  --im-color-text-muted-rgb: 160, 174, 192;
+}

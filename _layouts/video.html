@@ -2,295 +2,599 @@
 layout: default
 ---
 
-<section class="section im-video-page py-5">
-  <div class="container">
-    <div class="columns is-variable is-1-mobile is-5-tablet">
-      <!-- Main Content Column -->
-      <div class="column is-8-tablet">
-        <div class="im-video-main-content-wrapper"> <!-- Wrapper if styling beyond Bulma classes is needed -->
+<!-- Main Content Container -->
+<div class="video-content-container">
+  <div class="columns is-gapless">
+    <!-- Main Content Column -->
+    <div class="column is-8">
+      <div class="video-content">
+        <!-- Full Width Video Player -->
+<div class="video-hero">
+    <div class="video-container">
+      <iframe 
+        id="mainVideo"
+        src="https://www.youtube.com/embed/{{ page.VideoId }}?autoplay=1"
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+        loading="lazy"
+      ></iframe>
+    </div>
+  </div>
+        <!-- Video Title and Info -->
+        <div class="video-header">
+          <h1 class="video-title">{{ page.title }}</h1>
+          <h3 class="video-title subtitle">{{ page.description }}</h1>
+          <div class="video-stats">
+            <span><i class="fas fa-eye"></i> 254K views</span>
+            <span><i class="far fa-calendar-alt"></i> {{ page.date | date: "%B %d, %Y" }}</span>
+            <span><i class="fas fa-thumbs-up"></i> 12K</span>
+          </div>
+        </div>
 
-          <!-- Video Player -->
-          <figure class="image is-16by9 mb-5 im-video-player-figure">
-            <iframe
-              class="has-iframe-radius-large" <!-- SCSS will define this radius -->
-              id="mainVideo"
-              src="https://www.youtube.com/embed/{{ page.videoId }}?autoplay=1&modestbranding=1&rel=0"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-              loading="lazy"
-              title="{{ page.title | escape }}"
-            ></iframe>
-          </figure>
-
-          <!-- Video Title, Description, Stats -->
-          <div class="mb-5 px-1"> <!-- Added small horizontal padding for text -->
-            <h1 class="title is-3 has-text-weight-bold">{{ page.title }}</h1>
-            {% if page.description %}
-              <p class="subtitle is-5 has-text-grey-dark">{{ page.description }}</p>
-            {% endif %}
-            <div class="level is-mobile mt-4">
-              <div class="level-left">
-                {% if page.views %}
-                <div class="level-item">
-                  <span class="icon-text">
-                    <span class="icon"><i class="ph ph-eye"></i></span>
-                    <span>{{ page.views }} views</span>
-                  </span>
-                </div>
-                {% endif %}
-                {% if page.date %}
-                <div class="level-item">
-                  <span class="icon-text">
-                    <span class="icon"><i class="ph ph-calendar-blank"></i></span>
-                    <span>{{ page.date | date: "%b %d, %Y" }}</span>
-                  </span>
-                </div>
-                {% endif %}
-              </div>
-              <div class="level-right">
-                {% if page.likes %}
-                <div class="level-item">
-                   <span class="icon-text">
-                    <span class="icon"><i class="ph ph-thumbs-up"></i></span>
-                    <span>{{ page.likes }}</span>
-                  </span>
-                </div>
-                {% endif %}
-                <div class="level-item">
-                    <button class="button is-light is-small" onclick="toggleShareModal()" aria-label="Share video">
-                        <span class="icon"><i class="ph ph-share-network"></i></span>
-                        <span class="is-hidden-mobile">Share</span>
-                    </button>
-                </div>
-              </div>
+        <!-- Author Section -->
+        <div class="author-section">
+          <div class="author-info">
+            <img src="https://via.placeholder.com/48" alt="{{ page.author }}" class="author-avatar">
+            <div>
+              <h3>{{ page.author }}</h3>
+              <p>15K subscribers</p>
             </div>
           </div>
+          <button class="subscribe-button">Subscribe</button>
+        </div>
 
-          <!-- Author Section -->
-          <div class="media box p-4 mb-5"> <!-- Using Bulma .media and .box -->
-            <figure class="media-left">
-              <p class="image is-48x48">
-                <img class="is-rounded" src="{{ page.author_avatar | default: 'https://via.placeholder.com/48?text=A' }}" alt="{{ page.author | escape }}">
-              </p>
-            </figure>
-            <div class="media-content">
-              <div class="content is-small"> <!-- .content for typography, .is-small for sizing -->
-                <p>
-                  <strong class="is-block">{{ page.author | default: "Video Author" }}</strong>
-                  {% if page.author_subscribers %}
-                    <span class="has-text-grey">{{ page.author_subscribers }}</span>
-                  {% endif %}
-                </p>
-              </div>
-            </div>
-            <div class="media-right">
-              <button class="button is-primary is-rounded">Subscribe</button>
-            </div>
-          </div>
-
-          <!-- Video Full Description & Tags -->
-          {% if content and content != "" or page.tags and page.tags.size > 0 %}
-          <div class="content box p-4"> <!-- Using Bulma .content and .box -->
-            {% if content and content != "" %}
-              {{ content }}
-            {% endif %}
-            {% if page.tags and page.tags.size > 0 %}
-              <div class="tags mt-4">
-                {% for tag_item in page.tags %}
-                  <span class="tag is-light">#{{ tag_item }}</span> <!-- Bulma .tag.is-light -->
-                {% endfor %}
-              </div>
-            {% endif %}
-          </div>
-          {% endif %}
-
-        </div> <!-- End .im-video-main-content-wrapper -->
-      </div>
-
-      <!-- Sidebar Column -->
-      <div class="column is-4-tablet">
-        <div class="im-video-sidebar-wrapper"> <!-- Wrapper if styling beyond Bulma classes is needed -->
-          <!-- Timestamps - Desktop -->
-          {% if page.timestamps and page.timestamps.size > 0 %}
-          <div class="panel mb-5 is-hidden-touch"> <!-- Bulma .panel, hidden on touch -->
-            <p class="panel-heading">
-              <span class="icon-text">
-                <span class="icon"><i class="ph ph-clock"></i></span>
-                <span>Timestamps</span>
-              </span>
-            </p>
-            <div class="im-panel-scrollable-content"> <!-- Custom class for scroll -->
-              {% for timestamp in page.timestamps %}
-                <a class="panel-block is-flex is-justify-content-space-between" onclick="seekToTime('{{ timestamp.time }}')" role="button" tabindex="0"
-                   onkeypress="if(event.key === 'Enter' || event.key === ' ') { seekToTime('{{ timestamp.time }}'); event.preventDefault(); }">
-                  <span class="has-text-primary has-text-weight-semibold">{{ timestamp.time }}</span>
-                  <span class="ml-2 has-text-right is-flex-grow-1">{{ timestamp.title }}</span>
-                </a>
+        <!-- Video Description -->
+        <div class="video-description">
+          <div class="description-content">
+            {{ content }}
+            <div class="video-tags">
+              {% for tag in page.tags %}
+                <span>#{{ tag }}</span>
               {% endfor %}
             </div>
           </div>
-          {% endif %}
+        </div>
+      </div>
+    </div>
 
-          <!-- Related Videos -->
-          <div class="panel"> <!-- Bulma .panel -->
-             <p class="panel-heading">
-                <span class="icon-text">
-                    <span class="icon"><i class="ph ph-stack"></i></span>
-                    <span>More Videos</span>
-                </span>
-            </p>
-            <div class="im-panel-scrollable-content"> <!-- Custom class for scroll -->
-                {% assign related_videos_limit = 5 %}
-                {% assign current_video_id = page.videoId %}
-                {% assign related_videos_count = 0 %}
-                {% for video in site.videos %}
-                  {% if video.videoId != current_video_id and related_videos_count < related_videos_limit %}
-                    <a href="{{ video.url | relative_url }}" class="panel-block media"> <!-- .media inside .panel-block -->
-                      <figure class="media-left is-marginless">
-                        <p class="image is-128x72">
-                          <img src="https://img.youtube.com/vi/{{ video.videoId }}/mqdefault.jpg" alt="{{ video.title | escape }}" class="im-related-thumb">
-                        </p>
-                      </figure>
-                      <div class="media-content ml-3">
-                        <div class="content is-small">
-                          <p class="has-text-weight-semibold mb-1 is-clipped-2">{{ video.title }}</p>
-                          <p class="is-size-7 has-text-grey mb-1">{{ video.author }}</p>
-                          <p class="is-size-7 has-text-grey-light">{{ video.views | default: "0" }} views</p>
-                        </div>
-                      </div>
-                    </a>
-                    {% assign related_videos_count = related_videos_count | plus: 1 %}
-                  {% endif %}
-                {% endfor %}
-            </div>
+    <!-- Sidebar Column -->
+    <div class="column is-4">
+      <div class="video-sidebar">
+        <!-- Timestamps - Desktop -->
+        <div class="timestamps-desktop">
+          <h3><i class="far fa-clock"></i> Timestamps</h3>
+          <div class="timestamps-list">
+            {% for timestamp in page.timestamps %}
+              <div class="timestamp" onclick="seekToTime('{{ timestamp.time }}')">
+                <span class="timestamp-time">{{ timestamp.time }}</span>
+                <span class="timestamp-title">{{ timestamp.title }}</span>
+              </div>
+            {% endfor %}
           </div>
-        </div> <!-- End .im-video-sidebar-wrapper -->
+        </div>
+        <!-- Related Videos -->
+        <div class="related-videos">
+          <h3><i class="fas fa-play-circle"></i> More Videos</h3>
+          {% assign related_videos = site.videos | where_exp:"video", "video.VideoId != page.VideoId" | sample: 3 %}
+          {% for video in related_videos %}
+            <a href="{{ video.url | relative_url }}" class="related-video">
+              <img src="https://img.youtube.com/vi/{{ video.VideoId }}/mqdefault.jpg" alt="{{ video.title }}">
+              <div class="video-info">
+                <h4>{{ video.title | truncate: 50 }}</h4>
+                <p>{{ video.author }}</p>
+                <span>{{ video.views | default: "0" }} views</span>
+              </div>
+            </a>
+          {% endfor %}
+        </div>
       </div>
     </div>
   </div>
-</section>
+</div>
 
 <!-- Timestamps - Mobile (Fixed Bottom) -->
-{% if page.timestamps and page.timestamps.size > 0 %}
-<div class="is-fixed-bottom has-background-surface p-2 is-hidden-tablet im-mobile-timestamps-container">
-  <button class="button is-primary is-fullwidth im-timestamps-toggle" aria-expanded="false" aria-controls="mobileTimestampsList">
-    <span class="icon"><i class="ph ph-clock"></i></span>
-    <span>Jump To</span>
+<div class="timestamps-mobile">
+  <button class="timestamps-toggle">
+    <i class="far fa-clock"></i> Jump To
   </button>
-  <div class="is-hidden mt-2 box p-2 im-mobile-timestamps-list" id="mobileTimestampsList"> <!-- Added .box -->
+  <div class="timestamps-list-mobile">
     {% for timestamp in page.timestamps %}
-      <a class="button is-fullwidth is-light mb-1 is-justify-content-flex-start" onclick="seekToTime('{{ timestamp.time }}')" role="button">
-        <span class="has-text-primary has-text-weight-semibold mr-2">{{ timestamp.time }}</span>
-        <span>{{ timestamp.title }}</span>
-      </a>
+      <div class="timestamp" onclick="seekToTime('{{ timestamp.time }}')">
+        <span class="timestamp-time">{{ timestamp.time }}</span>
+        <span class="timestamp-title">{{ timestamp.title }}</span>
+      </div>
     {% endfor %}
   </div>
 </div>
-{% endif %}
 
 <!-- Share Modal -->
-<div class="modal im-share-modal"> <!-- Bulma .modal -->
-  <div class="modal-background" onclick="toggleShareModal()"></div>
-  <div class="modal-card">
-    <header class="modal-card-head">
-      <p class="modal-card-title">Share this video</p>
-      <button class="delete" aria-label="close" onclick="toggleShareModal()"></button>
-    </header>
-    <section class="modal-card-body has-text-centered">
-      <p class="mb-4">Share this video with your friends!</p>
-      <div class="buttons are-small is-centered field is-grouped is-grouped-multiline is-grouped-centered"> <!-- Bulma button groups -->
-        <div class="control"><a href="#" class="button is-outlined" aria-label="Share on Facebook"><span class="icon"><i class="ph ph-facebook-logo"></i></span><span>Facebook</span></a></div>
-        <div class="control"><a href="#" class="button is-outlined" aria-label="Share on Twitter"><span class="icon"><i class="ph ph-twitter-logo"></i></span><span>Twitter</span></a></div>
-        <div class="control"><a href="#" class="button is-outlined" aria-label="Share on LinkedIn"><span class="icon"><i class="ph ph-linkedin-logo"></i></span><span>LinkedIn</span></a></div>
-        <div class="control"><a href="#" class="button is-outlined" aria-label="Share on WhatsApp"><span class="icon"><i class="ph ph-whatsapp-logo"></i></span><span>WhatsApp</span></a></div>
-        <div class="control"><a href="#" class="button is-outlined" aria-label="Share on Reddit"><span class="icon"><i class="ph ph-reddit-logo"></i></span><span>Reddit</span></a></div>
-        <div class="control"><a href="#" class="button is-outlined" aria-label="Share on Telegram"><span class="icon"><i class="ph ph-telegram-logo"></i></span><span>Telegram</span></a></div>
-        <div class="control"><a href="#" class="button is-light im-copy-link-button" aria-label="Copy link"><span class="icon"><i class="ph ph-link"></i></span><span>Copy Link</span></a></div>
-      </div>
-      <input type="text" class="input mt-4 is-sr-only im-share-link-input" value="https://example.com/{{ page.url }}" readonly>
-    </section>
+<div class="share-modal">
+  <div class="share-content">
+    <h3>Share this video</h3>
+    <div class="share-buttons">
+      <a href="#" class="share-button facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" class="share-button twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" class="share-button linkedin"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#" class="share-button whatsapp"><i class="fab fa-whatsapp"></i></a>
+      <a href="#" class="share-button reddit"><i class="fab fa-reddit-alien"></i></a>
+      <a href="#" class="share-button telegram"><i class="fab fa-telegram-plane"></i></a>
+      <a href="#" class="share-button copy-link"><i class="fas fa-link"></i></a>
+    </div>
+    <button class="close-share">Close</button>
   </div>
 </div>
 
-<!-- Suggestions Button (FAB) -->
-<button class="button is-primary is-rounded is-large is-fixed-bottom-right m-4"> <!-- Plain Bulma classes -->
-    <span class="icon is-medium"><i class="ph ph-lightbulb"></i></span>
-</button>
 
-<!-- JavaScript remains largely the same, ensure selectors match any minor HTML class changes -->
+
+<style>
+/* Base Styles */
+:root {
+  --primary-color: var(--bulma-primary);
+  --text-color: #333;
+  --light-text: #666;
+  --border-color: #eee;
+  --bg-color: #f9f9f9;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+}
+
+/* Full Width Video Hero */
+.video-hero {
+  width: 100%;
+  background: #000;
+  position: relative;
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Main Content Container */
+.video-content-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Video Header */
+.video-header {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.video-title {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.video-stats {
+  display: flex;
+  gap: 20px;
+  color: var(--light-text);
+  font-size: 0.9rem;
+}
+
+.video-stats i {
+  margin-right: 5px;
+}
+
+/* Author Section */
+.author-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.author-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.author-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.author-info h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.author-info p {
+  margin: 5px 0 0;
+  font-size: 0.9rem;
+  color: var(--light-text);
+}
+
+.subscribe-button {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.subscribe-button:hover {
+  background: #cc0000;
+  transform: translateY(-2px);
+}
+
+/* Video Description */
+.video-description {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.description-toggle {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.description-toggle h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.description-toggle i {
+  margin-left: 10px;
+  transition: transform 0.3s;
+}
+
+.description-content {
+  line-height: 1.6;
+}
+
+.video-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.video-tags span {
+  color: #065fd4;
+  font-size: 0.9rem;
+}
+
+/* Sidebar Styles */
+.video-sidebar {
+  padding-left: 20px;
+}
+
+.timestamps-desktop h3 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.timestamps-list {
+  max-height: 400px;
+  overflow-y: auto;
+  background: var(--bg-color);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.timestamp {
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+  margin-bottom: 5px;
+}
+
+.timestamp:hover {
+  background: #e5e5e5;
+}
+
+.timestamp-time {
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-right: 10px;
+}
+
+.timestamp-title {
+  color: var(--text-color);
+}
+
+.related-videos h3 {
+  font-size: 1.2rem;
+  margin: 20px 0 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.related-video {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+.related-video img {
+  width: 120px;
+  height: 68px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.video-info h4 {
+  margin: 0 0 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.video-info p {
+  margin: 0 0 5px;
+  font-size: 0.8rem;
+  color: var(--light-text);
+}
+
+.video-info span {
+  font-size: 0.7rem;
+  color: var(--light-text);
+}
+
+.sponsor-sidebar {
+  background: var(--bg-color);
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.sponsor-sidebar h3 {
+  font-size: 1.1rem;
+  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sponsor-sidebar img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.sponsor-sidebar p {
+  margin: 0 0 10px;
+  font-size: 0.9rem;
+}
+
+.sponsor-sidebar button {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* Mobile Timestamps */
+.timestamps-mobile {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+  display: none;
+  z-index: 100;
+}
+
+.timestamps-toggle {
+  width: 100%;
+  padding: 15px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.timestamps-list-mobile {
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 10px;
+  display: none;
+}
+
+/* Share Modal */
+.share-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  display: none;
+}
+
+.share-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+}
+
+.share-content h3 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.share-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.share-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: white;
+  font-size: 1.2rem;
+  margin: 0 auto;
+}
+
+.facebook { background: #3b5998; }
+.twitter { background: #1da1f2; }
+.linkedin { background: #0077b5; }
+.whatsapp { background: #25d366; }
+.reddit { background: #ff5700; }
+.telegram { background: #0088cc; }
+.copy-link { background: #666; }
+
+.close-share {
+  display: block;
+  margin: 0 auto;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Suggestions Button */
+.suggestions-button {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .video-content-container {
+    padding: 0;
+  }
+  
+  .video-content {
+    padding: 15px;
+  }
+  
+  .video-sidebar {
+    padding: 15px;
+  }
+  
+  .columns.is-gapless {
+    flex-direction: column;
+  }
+  
+  .column.is-8, .column.is-4 {
+    width: 100%;
+  }
+  
+  .timestamps-desktop {
+    display: none;
+  }
+  
+  .timestamps-mobile {
+    display: block;
+  }
+  
+  .suggestions-button {
+    bottom: 140px;
+  }
+}
+
+/* Timestamp Click Functionality */
+.timestamp.active {
+  background: #ffebee;
+}
+</style>
+
 <script>
-  function seekToTime(timestamp) {
-    const iframe = document.getElementById('mainVideo');
-    if (!iframe) return;
-    const timeParts = timestamp.split(':');
-    let seconds = 0;
-    if (timeParts.length === 2) { seconds = parseInt(timeParts[0], 10) * 60 + parseInt(timeParts[1], 10); }
-    else if (timeParts.length === 3) { seconds = parseInt(timeParts[0], 10) * 3600 + parseInt(timeParts[1], 10) * 60 + parseInt(timeParts[2], 10); }
-    if (isNaN(seconds)) return;
-
-    const currentSrc = iframe.src;
-    let baseUrl = currentSrc.split('?')[0];
-    let params = new URLSearchParams(currentSrc.split('?')[1] || '');
-    params.set('start', seconds);
-    params.set('autoplay', '1');
-    iframe.src = `${baseUrl}?${params.toString()}`;
-
-    document.querySelectorAll('.panel-block, .button.is-light.mb-1').forEach(item => item.classList.remove('is-active')); // Adjusted selector
-    if (event && event.currentTarget) { event.currentTarget.classList.add('is-active'); }
+// Simple timestamp navigation without YouTube API
+function seekToTime(timestamp) {
+  const iframe = document.getElementById('mainVideo');
+  const timeParts = timestamp.split(':');
+  let seconds = 0;
+  
+  if (timeParts.length === 2) {
+    // MM:SS format
+    seconds = parseInt(timeParts[0]) * 60 + parseInt(timeParts[1]);
+  } else if (timeParts.length === 3) {
+    // HH:MM:SS format
+    seconds = parseInt(timeParts[0]) * 3600 + parseInt(timeParts[1]) * 60 + parseInt(timeParts[2]);
   }
-
-  const mobileTimestampsToggle = document.querySelector('.im-timestamps-toggle');
-  const mobileTimestampsList = document.getElementById('mobileTimestampsList');
-  if (mobileTimestampsToggle && mobileTimestampsList) {
-    mobileTimestampsToggle.addEventListener('click', function() {
-      const isHidden = mobileTimestampsList.classList.toggle('is-hidden');
-      this.setAttribute('aria-expanded', !isHidden);
-    });
-  }
-
-  const shareModal = document.querySelector('.im-share-modal');
-  const shareLinkInput = document.querySelector('.im-share-link-input');
-  function toggleShareModal() {
-    if (shareModal) {
-      shareModal.classList.toggle('is-active');
-      const isActive = shareModal.classList.contains('is-active');
-      shareModal.setAttribute('aria-hidden', !isActive);
-      if (isActive && shareLinkInput) {
-          shareLinkInput.value = window.location.href;
-          shareModal.querySelector('.delete, .button').focus();
-      }
-    }
-  }
-  const copyLinkButton = document.querySelector('.im-copy-link-button');
-  if(copyLinkButton && shareLinkInput) {
-      copyLinkButton.addEventListener('click', function(e) {
-          e.preventDefault();
-          shareLinkInput.classList.remove('is-sr-only');
-          shareLinkInput.select();
-          shareLinkInput.setSelectionRange(0, 99999);
-          try {
-              document.execCommand('copy');
-              const originalText = this.querySelector('span:last-child').textContent;
-              this.querySelector('span:last-child').textContent = 'Copied!';
-              this.classList.add('is-success'); this.classList.remove('is-light');
-              setTimeout(() => {
-                this.querySelector('span:last-child').textContent = originalText;
-                this.classList.remove('is-success'); this.classList.add('is-light');
-                shareLinkInput.classList.add('is-sr-only');
-              }, 2000);
-          } catch (err) {
-              alert('Failed to copy. Please copy manually.');
-              shareLinkInput.classList.remove('is-sr-only');
-          }
-      });
-  }
-
-  document.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape' || event.key === 'Esc') {
-      if (shareModal && shareModal.classList.contains('is-active')) {
-        toggleShareModal();
-      }
-    }
+  
+  // Update iframe src with new time
+  const currentSrc = iframe.src.split('?')[0];
+  iframe.src = `${currentSrc}?autoplay=1&start=${seconds}`;
+  
+  // Highlight the clicked timestamp
+  document.querySelectorAll('.timestamp').forEach(item => {
+    item.classList.remove('active');
   });
+  event.currentTarget.classList.add('active');
+}
+// Toggle mobile timestamps
+document.querySelector('.timestamps-toggle').addEventListener('click', function() {
+  const list = document.querySelector('.timestamps-list-mobile');
+  if (list.style.display === 'block') {
+    list.style.display = 'none';
+  } else {
+    list.style.display = 'block';
+  }
+});
 </script>
