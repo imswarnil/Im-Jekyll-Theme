@@ -1,3 +1,10 @@
+// index.scss - Single File SCSS for "IM" Themed Bulma Overrides
+
+//------------------------------------------------------------------------------
+// 1. SCSS Variables (im- prefix)
+//------------------------------------------------------------------------------
+
+// Font
 $im-font-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 $im-font-weight-normal: 400;
 $im-font-weight-medium: 500;
@@ -6,102 +13,134 @@ $im-font-weight-bold: 700;
 $im-base-font-size: 16px;
 $im-line-height-base: 1.65;
 
-$im-border-radius: 6px;
+// Sizing & Spacing
+$im-border-radius: 8px;
 $im-spacing-unit: 1rem;
-$im-section-padding-vertical: calc(#{$im-spacing-unit} * 3.5);
-$im-content-padding: calc(#{$im-spacing-unit} * 1.5);
+$im-section-padding-vertical: calc(#{$im-spacing-unit} * 4);
+$im-content-padding: calc(#{$im-spacing-unit} * 1.75); // For .box, .card, .panel content
 
-$im-page-transition-duration: 0.3s;
-$im-page-transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-$im-page-transition-delay: 0.05s;
-$im-page-transition-translateY: 15px;
+// Page Transition
+$im-page-transition-duration: 0.4s;
+$im-page-transition-delay: 0.1s; // Optional delay for entry animation
+$im-page-transition-translateY: 20px;
 
-$im-grid-spacing: 28px;
+// Grid Lines
+$im-grid-spacing: 30px;
 $im-grid-line-width: 1px;
-$im-grid-fade-extent: 70%;
+$im-grid-fade-extent: 65%;
 
-$im-static-color-link-light: #3273dc;
-$im-static-color-link-dark: #64b5f6;
-
+//------------------------------------------------------------------------------
+// 2. CSS Custom Properties for Theming (:root for Light Mode Defaults)
+//------------------------------------------------------------------------------
 :root {
-  --im-color-primary-rgb: 229, 57, 53;
+  // Primary Colors (Red Theme)
+  --im-color-primary-rgb: 229, 57, 53; // For rgba() usage, #e53935
   --im-color-primary: rgb(var(--im-color-primary-rgb));
   --im-color-primary-light: #ef5350;
   --im-color-primary-dark: #c62828;
-  --im-color-primary-inverted: #FFFFFF;
 
-  --im-color-link: #{$im-static-color-link-light};
-  --im-color-link-hover: #{darken($im-static-color-link-light, 10%)};
-  --im-color-info: #209cee;
-  --im-color-success: #23d160;
-  --im-color-warning: #ffdd57;
-  --im-color-danger: #ff3860;
+  // Text Colors - Light Mode
+  --im-color-text: #2D3748;
+  --im-color-text-headings: #1A202C;
+  --im-color-text-muted: #718096;
+  --im-color-text-on-primary: #FFFFFF;
+  --im-color-text-on-surface: var(--im-color-text); // Text on cards/boxes
 
-  --im-color-link-inverted: #FFFFFF;
-  --im-color-info-inverted: #FFFFFF;
-  --im-color-success-inverted: #FFFFFF;
-  --im-color-warning-inverted: rgba(0,0,0,0.7);
-  --im-color-danger-inverted: #FFFFFF;
-
-  --im-color-text: #363636;
-  --im-color-text-light: #7a7a7a;
-  --im-color-text-strong: #363636;
-  --im-color-text-headings: #222;
-  --im-color-text-muted: #999;
-  --im-color-text-on-surface: var(--im-color-text);
-
-  --im-color-background: #f5f5f5;
-  --im-color-surface: #FFFFFF;
-  --im-color-border: #dbdbdb;
-  --im-color-border-light: #ededed;
-  --im-color-border-hover: #b5b5b5;
+  // Background & Surface Colors - Light Mode
+  --im-color-background: #F9FAFB;
+  --im-color-surface: #FFFFFF; // For cards, boxes, navbar, panel
+  --im-color-border: #E2E8F0;
   --im-color-input-bg: var(--im-color-surface);
   --im-color-input-border: var(--im-color-border);
-  --im-color-input-shadow: rgba(var(--im-color-primary-rgb), 0.25);
-  --im-color-table-row-hover: #f9f9f9;
-  --im-color-code-background: #f0f0f0;
-  --im-color-pre-background: var(--im-color-code-background);
-  --im-color-pre-text: #4a4a4a;
 
-  --im-button-light-bg: #f0f0f0;
-  --im-button-light-border: #f0f0f0;
-  --im-button-light-text: var(--im-color-text);
-  --im-button-light-hover-bg: #e6e6e6;
-  --im-button-light-hover-border: #e6e6e6;
+  // Button Specifics - Light Mode
+  --im-button-light-bg: #FEEBEE; // Light red tint
+  --im-button-light-border: #FEEBEE;
+  --im-button-light-text: var(--im-color-primary-dark);
+  --im-button-light-hover-bg: #FFCDD2;
+  --im-button-light-hover-border: #FFCDD2;
 
-  --im-grid-line-color-for-section: rgba(0, 0, 0, 0.05);
-  --im-grid-line-color-for-hero: rgba(255, 255, 255, 0.1);
+  // Grid Line Colors - Light Mode
+  --im-grid-line-color-for-section: rgba(45, 55, 72, 0.06); // Dark lines on light bg for sections
+  --im-grid-line-color-for-hero: rgba(255, 255, 255, 0.12); // Light lines on primary bg for hero
 
-  --im-dark-mode-toggle-icon-color: var(--im-color-text);
+  // Theme Toggle
+  --im-toggle-bg-off: #ccc;
+  --im-toggle-bg-on: var(--im-color-primary);
+  --im-toggle-slider-color: white;
+  --im-toggle-icon-sun-color: #f39c12;
+  --im-toggle-icon-moon-color: white;
 }
+
+//------------------------------------------------------------------------------
+// 3. Mixins
+//------------------------------------------------------------------------------
 
 @mixin im-apply-fading-grid($line-color-var-name) {
   &::before {
     content: "";
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    width: 100%; height: 100%;
-    z-index: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; // Behind content, above element's direct background
+
     background-image:
-      repeating-linear-gradient(to right, var(#{$line-color-var-name}) 0, var(#{$line-color-var-name}) $im-grid-line-width, transparent $im-grid-line-width, transparent $im-grid-spacing),
-      repeating-linear-gradient(to bottom, var(#{$line-color-var-name}) 0, var(#{$line-color-var-name}) $im-grid-line-width, transparent $im-grid-line-width, transparent $im-grid-spacing);
+      repeating-linear-gradient(
+        to right,
+        var(#{$line-color-var-name}) 0,
+        var(#{$line-color-var-name}) $im-grid-line-width,
+        transparent $im-grid-line-width,
+        transparent $im-grid-spacing
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        var(#{$line-color-var-name}) 0,
+        var(#{$line-color-var-name}) $im-grid-line-width,
+        transparent $im-grid-line-width,
+        transparent $im-grid-spacing
+      );
     background-size: $im-grid-spacing $im-grid-spacing;
     background-position: center center;
+
     mask-image: radial-gradient(ellipse at center, black 0%, black $im-grid-fade-extent, transparent 100%);
     -webkit-mask-image: radial-gradient(ellipse at center, black 0%, black $im-grid-fade-extent, transparent 100%);
     pointer-events: none;
   }
 }
 
-@keyframes imPageFadeIn {
-  from { opacity: 0; transform: translateY($im-page-transition-translateY); }
-  to   { opacity: 1; transform: translateY(0); }
+//------------------------------------------------------------------------------
+// 4. Animations (Page Transitions)
+//------------------------------------------------------------------------------
+
+@keyframes imPageFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY($im-page-transition-translateY);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-@keyframes imPageFadeOut {
-  from { opacity: 1; transform: translateY(0); }
-  to   { opacity: 0; transform: translateY(-$im-page-transition-translateY); }
+@keyframes imPageFadeOutDown {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY($im-page-transition-translateY); // Or negative for slide up exit
+  }
 }
+
+//------------------------------------------------------------------------------
+// 5. Base Styles (HTML, Body, Typography)
+//------------------------------------------------------------------------------
 
 html {
   background-color: var(--im-color-background) !important;
@@ -117,12 +156,19 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--im-color-background) !important;
-  min-height: 100vh;
-  transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function), color $im-page-transition-duration var(--im-page-transition-timing-function);
+  min-height: 100vh; // Ensure body takes full height for transitions
+  transition: background-color 0.3s ease, color 0.3s ease; // For dark mode theme switch
 
-  &.im-page-is-loading { opacity: 0; }
-  &.im-page-is-entering { animation: imPageFadeIn $im-page-transition-duration var(--im-page-transition-timing-function) forwards; animation-delay: $im-page-transition-delay; }
-  &.im-page-is-exiting  { animation: imPageFadeOut $im-page-transition-duration var(--im-page-transition-timing-function) forwards !important; }
+  &.im-page-is-loading { // Applied by JS initially if using JS for entry
+    opacity: 0;
+  }
+  &.im-page-is-entering { // Applied by JS after DOMContentLoaded if using JS for entry
+    animation: imPageFadeInUp $im-page-transition-duration forwards ease-out;
+    animation-delay: $im-page-transition-delay;
+  }
+  &.im-page-is-exiting { // Applied by JS on link click
+    animation: imPageFadeOutDown $im-page-transition-duration forwards ease-in !important;
+  }
 }
 
 h1, h2, h3, h4, h5, h6,
@@ -130,20 +176,20 @@ h1, h2, h3, h4, h5, h6,
 .subtitle {
   font-family: $im-font-primary !important;
   color: var(--im-color-text-headings) !important;
-  transition: color $im-page-transition-duration var(--im-page-transition-timing-function);
+  transition: color 0.3s ease;
 }
 
 .title {
   font-weight: $im-font-weight-bold !important;
   line-height: 1.2 !important;
   margin-bottom: calc(#{$im-spacing-unit} * 1) !important;
-  &.is-1 { font-size: 2.5rem !important; }
+  &.is-1 { font-size: 2.75rem !important; }
   &.is-2 { font-size: 2rem !important; }
   &.is-3 { font-size: 1.75rem !important; }
 }
 
 .subtitle {
-  color: var(--im-color-text-light) !important;
+  color: var(--im-color-text-muted) !important;
   font-weight: $im-font-weight-normal !important;
   line-height: 1.5 !important;
   margin-bottom: calc(#{$im-spacing-unit} * 1.5) !important;
@@ -156,295 +202,451 @@ p {
 }
 
 a {
-  color: var(--im-color-link) !important;
+  color: var(--im-color-primary) !important;
   text-decoration: none !important;
   transition: color 0.2s ease-in-out, opacity 0.2s ease-in-out;
   &:hover {
-    color: var(--im-color-link-hover) !important;
+    color: var(--im-color-primary-dark) !important;
   }
 }
 
 strong, b {
-  color: var(--im-color-text-strong) !important;
-  font-weight: $im-font-weight-bold !important;
-  transition: color $im-page-transition-duration var(--im-page-transition-timing-function);
+  color: var(--im-color-text-headings) !important;
+  font-weight: $im-font-weight-semibold !important;
+  transition: color 0.3s ease;
 }
 
-code {
-  background-color: var(--im-color-code-background);
-  color: var(--im-color-danger);
-  padding: 0.25em 0.5em;
-  border-radius: $im-border-radius * 0.5;
-  font-size: 0.875em;
-}
-pre {
-  background-color: var(--im-color-pre-background);
-  color: var(--im-color-pre-text);
-  padding: $im-spacing-unit * 1.25;
-  border-radius: $im-border-radius;
-  code {
-    background-color: transparent;
-    color: inherit;
-    padding: 0;
-  }
-}
+//------------------------------------------------------------------------------
+// 6. Component Overrides
+//------------------------------------------------------------------------------
 
-hr {
-    background-color: var(--im-color-border-light) !important;
-    height: 1px !important;
-    margin: $im-spacing-unit * 1.5 0 !important;
-}
-
+// --- Hero Section (WITH GRID LINES) ---
 .hero {
   position: relative;
-  overflow: hidden;
-  transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function);
+  overflow: hidden; // Clip pseudo-element for grid
+  transition: background-color 0.3s ease;
 
   &.is-primary {
     background-color: var(--im-color-primary) !important;
-    color: var(--im-color-primary-inverted) !important;
+    color: var(--im-color-text-on-primary) !important;
     @include im-apply-fading-grid('--im-grid-line-color-for-hero');
-    .title, .subtitle, strong { color: var(--im-color-primary-inverted) !important; }
-    strong { font-weight: $im-font-weight-bold !important; }
-    .field.is-grouped .icon.is-large { color: var(--im-color-primary-inverted) !important; opacity: 0.8; &:hover{ opacity:1;}}
-  }
-  &.is-link { background-color: var(--im-color-link) !important; color: var(--im-color-link-inverted) !important; .title, .subtitle, strong{ color: var(--im-color-link-inverted) !important;}}
-  &.is-info { background-color: var(--im-color-info) !important; color: var(--im-color-info-inverted) !important; .title, .subtitle, strong{ color: var(--im-color-info-inverted) !important;}}
-  &.is-success { background-color: var(--im-color-success) !important; color: var(--im-color-success-inverted) !important; .title, .subtitle, strong{ color: var(--im-color-success-inverted) !important;}}
-  &.is-warning { background-color: var(--im-color-warning) !important; color: var(--im-color-warning-inverted) !important; .title, .subtitle, strong{ color: var(--im-color-warning-inverted) !important;}}
-  &.is-danger { background-color: var(--im-color-danger) !important; color: var(--im-color-danger-inverted) !important; .title, .subtitle, strong{ color: var(--im-color-danger-inverted) !important;}}
 
-  .hero-head, .hero-body, .hero-foot { position: relative; z-index: 1; }
+    .title,
+    .subtitle,
+    strong {
+      color: var(--im-color-text-on-primary) !important;
+    }
+    strong {
+      font-weight: $im-font-weight-bold !important;
+    }
+
+    // Tech stack icons
+    .field.is-grouped .icon.is-large {
+      color: var(--im-color-text-on-primary) !important;
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  // Ensure hero content is above the grid
+  .hero-head,
+  .hero-body,
+  .hero-foot {
+    position: relative;
+    z-index: 1;
+  }
 }
 
+// --- Buttons ---
 .button {
   font-family: $im-font-primary !important;
   font-weight: $im-font-weight-semibold !important;
   border-radius: $im-border-radius !important;
-  padding: 0.6em 1.2em !important;
+  padding: 0.7em 1.5em !important;
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease !important;
   border-width: 1px !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 
-  &:active { transform: translateY(1px); box-shadow: none; }
-
-  &.is-primary { background-color: var(--im-color-primary) !important; border-color: var(--im-color-primary) !important; color: var(--im-color-primary-inverted) !important; &:hover{ background-color:var(--im-color-primary-dark) !important; border-color:var(--im-color-primary-dark) !important;} &:focus,&.is-focused{box-shadow:0 0 0 0.125em var(--im-color-input-shadow) !important;}}
-  &.is-link    { background-color: var(--im-color-link)    !important; border-color: var(--im-color-link)    !important; color: var(--im-color-link-inverted)    !important; &:hover{ background-color:darken($im-static-color-link-light,5%)    !important; border-color:darken($im-static-color-link-light,5%)    !important;} &:focus,&.is-focused{box-shadow:0 0 0 0.125em rgba(50,115,220,0.25) !important;}}
-  &.is-info    { background-color: var(--im-color-info)    !important; border-color: var(--im-color-info)    !important; color: var(--im-color-info-inverted)    !important; &:hover{ background-color:darken(#209cee,5%)    !important; border-color:darken(#209cee,5%)    !important;} &:focus,&.is-focused{box-shadow:0 0 0 0.125em rgba(32,156,238,0.25) !important;}}
-  &.is-success { background-color: var(--im-color-success) !important; border-color: var(--im-color-success) !important; color: var(--im-color-success-inverted) !important; &:hover{ background-color:darken(#23d160,5%) !important; border-color:darken(#23d160,5%) !important;} &:focus,&.is-focused{box-shadow:0 0 0 0.125em rgba(35,209,96,0.25) !important;}}
-  &.is-warning { background-color: var(--im-color-warning) !important; border-color: var(--im-color-warning) !important; color: var(--im-color-warning-inverted) !important; &:hover{ background-color:darken(#ffdd57,5%) !important; border-color:darken(#ffdd57,5%) !important;} &:focus,&.is-focused{box-shadow:0 0 0 0.125em rgba(255,221,87,0.25) !important;}}
-  &.is-danger  { background-color: var(--im-color-danger)  !important; border-color: var(--im-color-danger)  !important; color: var(--im-color-danger-inverted)  !important; &:hover{ background-color:darken(#ff3860,5%)  !important; border-color:darken(#ff3860,5%)  !important;} &:focus,&.is-focused{box-shadow:0 0 0 0.125em rgba(255,56,96,0.25) !important;}}
-
-  .hero.is-primary &.is-light {
-    &.is-outlined { background-color:transparent !important; border-color:var(--im-color-primary-inverted) !important; color:var(--im-color-primary-inverted) !important; &:hover{background-color:rgba(255,255,255,0.1)!important;}}
-    &:not(.is-outlined) { background-color:var(--im-color-primary-inverted) !important; border-color:var(--im-color-primary-inverted) !important; color:var(--im-color-primary) !important; &:hover{background-color:rgba(255,255,255,0.9)!important; border-color:rgba(255,255,255,0.9)!important;}}
+  &:active {
+    transform: translateY(1px);
+    box-shadow: none;
   }
-  &.is-light { background-color:var(--im-button-light-bg)!important; border-color:var(--im-button-light-border)!important; color:var(--im-button-light-text)!important; &:hover{background-color:var(--im-button-light-hover-bg)!important; border-color:var(--im-button-light-hover-border)!important;}}
-  &.is-white   { border-color: transparent !important; color: var(--im-color-text)!important; &:hover, &:focus { background-color: var(--im-color-background)!important; border-color: transparent!important; color: var(--im-color-text)!important;}}
-  &.is-black   { background-color: #0a0a0a!important; border-color:transparent!important; color:#fff!important; &:hover, &:focus { background-color: #000!important; border-color:transparent!important; color:#fff!important;}}
-  &.is-ghost   { border-color: transparent!important; color: var(--im-color-link)!important; text-decoration: none!important; &:hover {color:var(--im-color-link-hover)!important; text-decoration:underline!important;}}
+
+  &.is-primary {
+    background-color: var(--im-color-primary) !important;
+    border-color: var(--im-color-primary) !important;
+    color: var(--im-color-text-on-primary) !important;
+    &:hover {
+      background-color: var(--im-color-primary-dark) !important;
+      border-color: var(--im-color-primary-dark) !important;
+    }
+    &:focus, &.is-focused {
+      box-shadow: 0 0 0 0.125em rgba(var(--im-color-primary-rgb), 0.25) !important;
+    }
+  }
+
+  // Buttons on primary hero background
+  .hero.is-primary & {
+    &.is-light {
+      &.is-outlined {
+        background-color: transparent !important;
+        border-color: var(--im-color-text-on-primary) !important;
+        color: var(--im-color-text-on-primary) !important;
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1) !important;
+        }
+      }
+      &:not(.is-outlined) { // Resume button style
+        background-color: var(--im-color-text-on-primary) !important;
+        border-color: var(--im-color-text-on-primary) !important;
+        color: var(--im-color-primary) !important; // Text on button is primary color
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.9) !important;
+          border-color: rgba(255, 255, 255, 0.9) !important;
+        }
+      }
+    }
+  }
+
+  // General .is-light button style (not on primary hero)
+  &:not(.hero.is-primary > .hero-body .buttons > &):not(.hero.is-primary > .hero-foot .buttons > &).is-light { // More specific selector
+    background-color: var(--im-button-light-bg) !important;
+    border-color: var(--im-button-light-border) !important;
+    color: var(--im-button-light-text) !important;
+    &:hover {
+      background-color: var(--im-button-light-hover-bg) !important;
+      border-color: var(--im-button-light-hover-border) !important;
+    }
+  }
 }
 
-.box, .card, .panel {
+// --- Box, Card, Panel (NO GRID LINES) ---
+.box,
+.card,
+.panel {
   background-color: var(--im-color-surface) !important;
   border-radius: $im-border-radius !important;
-  box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,.1), 0 0px 0 1px rgba(10,10,10,.02) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0,0,0,0.04) !important;
   border: 1px solid var(--im-color-border) !important;
   color: var(--im-color-text-on-surface) !important;
-  transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function), border-color $im-page-transition-duration var(--im-page-transition-timing-function), box-shadow $im-page-transition-duration var(--im-page-transition-timing-function), color $im-page-transition-duration var(--im-page-transition-timing-function);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
 }
-.box { padding: $im-content-padding !important; }
+
+.box {
+  padding: $im-content-padding !important;
+}
+
 .card {
-  padding: 0 !important;
-  .card-header { box-shadow:none!important; border-bottom:1px solid var(--im-color-border); padding:0.75rem $im-content-padding; background-color:transparent!important; transition:border-color $im-page-transition-duration var(--im-page-transition-timing-function); .card-header-title{color:var(--im-color-text-headings)!important;font-weight:$im-font-weight-semibold!important;transition:color $im-page-transition-duration var(--im-page-transition-timing-function);}}
-  .card-content{ padding:$im-content-padding!important; color:var(--im-color-text-on-surface)!important; transition:color $im-page-transition-duration var(--im-page-transition-timing-function);}
-  .card-footer { border-top:1px solid var(--im-color-border); padding:0.75rem $im-content-padding; transition:border-color $im-page-transition-duration var(--im-page-transition-timing-function); }
-  .card-image img { border-top-left-radius: $im-border-radius; border-top-right-radius: $im-border-radius; }
-}
-.panel {
-  .panel-heading { background-color:var(--im-color-surface)!important; color:var(--im-color-text-headings)!important; border-bottom:1px solid var(--im-color-border)!important; border-top-left-radius:$im-border-radius!important; border-top-right-radius:$im-border-radius!important; font-weight:$im-font-weight-semibold; transition:background-color $im-page-transition-duration var(--im-page-transition-timing-function),color $im-page-transition-duration var(--im-page-transition-timing-function),border-color $im-page-transition-duration var(--im-page-transition-timing-function);}
-  .panel-block, .panel-tabs a { border-color:var(--im-color-border)!important; color:var(--im-color-text-on-surface)!important; transition:border-color $im-page-transition-duration var(--im-page-transition-timing-function),color $im-page-transition-duration var(--im-page-transition-timing-function); &:hover{background-color:rgba(var(--im-color-primary-rgb),0.05)!important;}}
-  .panel-tabs a.is-active { color:var(--im-color-primary)!important; border-bottom-color:var(--im-color-primary)!important;}
-  .panel-icon { color:var(--im-color-text-muted)!important; transition:color $im-page-transition-duration var(--im-page-transition-timing-function);}
-}
-
-.section {
-  padding: $im-section-padding-vertical 1.5rem !important;
-  background-color: transparent !important;
-  position: relative; overflow: hidden;
-  &:not(.hero-body):not(.hero > .section) { @include im-apply-fading-grid('--im-grid-line-color-for-section'); }
-  > .container { position: relative; z-index: 1; }
-}
-
-.navbar {
-  background-color: var(--im-color-surface) !important;
-  box-shadow: 0 2px 0 0 var(--im-color-background) !important;
-  min-height: 3.25rem;
-  transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function), box-shadow $im-page-transition-duration var(--im-page-transition-timing-function);
-  .navbar-item, .navbar-link { color:var(--im-color-text)!important; font-weight:$im-font-weight-medium!important; transition:color $im-page-transition-duration var(--im-page-transition-timing-function),background-color $im-page-transition-duration var(--im-page-transition-timing-function); &:hover,&.is-active{background-color:transparent!important; color:var(--im-color-primary)!important;}}
-  .navbar-brand .navbar-item { font-weight:$im-font-weight-bold!important; color:var(--im-color-text-headings)!important;}
-  .navbar-burger { color:var(--im-color-text)!important; span{background-color:var(--im-color-text)!important; transition:background-color $im-page-transition-duration var(--im-page-transition-timing-function);}}
-  &.is-primary, .hero-head &.is-transparent, .hero-head &.has-background-primary {
-    background-color:var(--im-color-primary)!important; box-shadow:none!important;
-    .navbar-item,.navbar-link{color:var(--im-color-primary-inverted)!important;&:hover,&.is-active{background-color:rgba(255,255,255,0.1)!important;color:var(--im-color-primary-inverted)!important;}}
-    .navbar-brand .navbar-item{color:var(--im-color-primary-inverted)!important;}
-    .navbar-burger{color:var(--im-color-primary-inverted)!important; span{background-color:var(--im-color-primary-inverted)!important;}}
+  padding: 0 !important; // Card itself has no padding, content areas do
+  .card-header {
+    box-shadow: none !important;
+    border-bottom: 1px solid var(--im-color-border);
+    padding: 0.75rem $im-content-padding;
+    background-color: transparent !important;
+    transition: border-color 0.3s ease;
+    .card-header-title {
+      color: var(--im-color-text-headings) !important;
+      font-weight: $im-font-weight-semibold !important;
+      transition: color 0.3s ease;
+    }
+  }
+  .card-content {
+    padding: $im-content-padding !important;
+    color: var(--im-color-text-on-surface) !important;
+    transition: color 0.3s ease;
+  }
+  .card-footer {
+    border-top: 1px solid var(--im-color-border);
+    padding: 0.75rem $im-content-padding;
+    transition: border-color 0.3s ease;
+    .card-footer-item {
+      // Style footer items if needed
+    }
   }
 }
 
-.footer {
-  background-color: var(--im-color-background)!important;
-  padding: calc(#{$im-spacing-unit} * 2.5) 1.5rem calc(#{$im-spacing-unit} * 2.5) !important;
-  color: var(--im-color-text-light) !important;
-  border-top: 1px solid var(--im-color-border-light);
-  transition: color $im-page-transition-duration var(--im-page-transition-timing-function), border-color $im-page-transition-duration var(--im-page-transition-timing-function), background-color $im-page-transition-duration var(--im-page-transition-timing-function);
-  a {color:var(--im-color-text)!important; font-weight:$im-font-weight-medium!important; &:hover{color:var(--im-color-primary)!important;}}
+.panel {
+  // Bulma panel uses .panel-heading, .panel-block etc.
+  .panel-heading {
+    background-color: var(--im-color-surface) !important; // Or a slightly different shade if desired
+    color: var(--im-color-text-headings) !important;
+    border-bottom: 1px solid var(--im-color-border) !important;
+    border-top-left-radius: $im-border-radius !important;
+    border-top-right-radius: $im-border-radius !important;
+    font-weight: $im-font-weight-semibold;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  .panel-block, .panel-tabs a {
+    border-color: var(--im-color-border) !important;
+    color: var(--im-color-text-on-surface) !important;
+    transition: border-color 0.3s ease, color 0.3s ease;
+    &:hover {
+        background-color: rgba(var(--im-color-primary-rgb), 0.05) !important;
+    }
+  }
+  .panel-tabs a.is-active {
+    color: var(--im-color-primary) !important;
+    border-bottom-color: var(--im-color-primary) !important;
+  }
+  .panel-icon {
+    color: var(--im-color-text-muted) !important;
+    transition: color 0.3s ease;
+  }
 }
 
+
+// --- Section (for general content areas, WITH GRID LINES) ---
+.section {
+  padding: $im-section-padding-vertical 1.5rem !important;
+  background-color: transparent !important; // Sits on body background
+  position: relative;
+  overflow: hidden; // Clip pseudo-element
+
+  // Apply grid to sections that are not part of a hero's body
+  &:not(.hero-body):not(.hero > .section) {
+    @include im-apply-fading-grid('--im-grid-line-color-for-section');
+  }
+
+  // Ensure section content (like .container) is above the grid
+  > .container { // Direct child container
+    position: relative;
+    z-index: 1;
+  }
+}
+
+// --- Navbar ---
+.navbar {
+  background-color: var(--im-color-surface) !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.03) !important;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+  .navbar-item, .navbar-link {
+    color: var(--im-color-text) !important;
+    font-weight: $im-font-weight-medium !important;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    &:hover, &.is-active {
+      background-color: transparent !important; // Or a very subtle hover bg
+      color: var(--im-color-primary) !important;
+    }
+  }
+  .navbar-brand .navbar-item {
+    font-weight: $im-font-weight-bold !important;
+    color: var(--im-color-text-headings) !important;
+  }
+
+  // Navbar in Hero Head (Primary Background)
+  &.is-primary, .hero-head &.is-transparent, .hero-head &.has-background-primary {
+    background-color: var(--im-color-primary) !important;
+    box-shadow: none !important;
+    .navbar-item, .navbar-link {
+        color: var(--im-color-text-on-primary) !important;
+        &:hover, &.is-active {
+            background-color: rgba(255,255,255,0.1) !important;
+            color: var(--im-color-text-on-primary) !important;
+        }
+    }
+     .navbar-brand .navbar-item {
+        color: var(--im-color-text-on-primary) !important;
+     }
+  }
+}
+
+// --- Footer ---
+.footer {
+  background-color: transparent !important;
+  padding: calc(#{$im-spacing-unit} * 3) 1.5rem calc(#{$im-spacing-unit} * 3) !important; // Increased padding
+  color: var(--im-color-text-muted) !important;
+  border-top: 1px solid var(--im-color-border);
+  position: relative;
+  z-index: 1; // Above any page-wide grid if section grid extends
+  transition: color 0.3s ease, border-color 0.3s ease;
+
+  a {
+    color: var(--im-color-text) !important; // Or --im-color-text-muted for less emphasis
+    font-weight: $im-font-weight-medium !important;
+    &:hover {
+      color: var(--im-color-primary) !important;
+    }
+  }
+}
+
+// --- Input Fields ---
 .input, .textarea, .select select {
   font-family: $im-font-primary !important;
   border-radius: $im-border-radius !important;
   border: 1px solid var(--im-color-input-border) !important;
-  box-shadow: inset 0 0.0625em 0.125em rgba(10,10,10,.05) !important;
+  box-shadow: none !important;
   background-color: var(--im-color-input-bg) !important;
-  color: var(--im-color-text) !important;
-  transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function), border-color $im-page-transition-duration var(--im-page-transition-timing-function), color $im-page-transition-duration var(--im-page-transition-timing-function), box-shadow $im-page-transition-duration var(--im-page-transition-timing-function);
-  &::placeholder {color:var(--im-color-text-muted)!important; opacity:0.7; transition:color $im-page-transition-duration var(--im-page-transition-timing-function);}
-  &:hover { border-color: var(--im-color-border-hover)!important;}
-  &:focus,&.is-focused,&:active,&.is-active { border-color:var(--im-color-primary)!important; box-shadow:0 0 0 0.125em var(--im-color-input-shadow)!important;}
-}
-.select:not(.is-multiple):not(.is-loading)::after { border-color:var(--im-color-primary)!important; transition:border-color $im-page-transition-duration var(--im-page-transition-timing-function);}
-.checkbox, .radio { &:hover { color: var(--im-color-text)!important; }}
-.label { color: var(--im-color-text-strong)!important; font-weight: $im-font-weight-bold!important;}
-.help { color: var(--im-color-text-light)!important;}
-.control.has-icons-left .icon, .control.has-icons-right .icon { color: var(--im-color-border)!important; }
-.input:focus ~ .icon, .textarea:focus ~ .icon, .select select:focus ~ .icon { color: var(--im-color-text-light)!important; }
+  color: var(--im-color-text) !important; // Text color inside input
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 
-.tags .tag { border-radius: $im-border-radius * 0.5 !important; margin-bottom: $im-spacing-unit * 0.5 !important; transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function), color $im-page-transition-duration var(--im-page-transition-timing-function), border-color $im-page-transition-duration var(--im-page-transition-timing-function);}
-.tag:not(body) {
-  background-color: var(--im-color-background) !important; color: var(--im-color-text) !important;
-  &.is-primary { background-color:var(--im-color-primary)!important; color:var(--im-color-primary-inverted)!important;}
-  &.is-link    { background-color:var(--im-color-link)!important;    color:var(--im-color-link-inverted)!important;}
-  &.is-info    { background-color:var(--im-color-info)!important;    color:var(--im-color-info-inverted)!important;}
-  &.is-success { background-color:var(--im-color-success)!important; color:var(--im-color-success-inverted)!important;}
-  &.is-warning { background-color:var(--im-color-warning)!important; color:var(--im-color-warning-inverted)!important;}
-  &.is-danger  { background-color:var(--im-color-danger)!important;  color:var(--im-color-danger-inverted)!important;}
-  &.is-light   { background-color:var(--im-button-light-bg)!important; color:var(--im-button-light-text)!important;}
-  &.is-dark    { background-color: var(--im-color-text-strong)!important; color: var(--im-color-background)!important;}
-  &.is-black   { background-color: #0a0a0a!important; color: #fff!important;}
-  &.is-white   { background-color: #fff!important; color: #0a0a0a!important; border: 1px solid var(--im-color-border);}
-}
-.tags.has-addons .tag:not(:last-child) { margin-right: 0 !important; border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important; }
-.tags.has-addons .tag:not(:first-child){ margin-left: 0 !important; border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; }
+  &::placeholder {
+    color: var(--im-color-text-muted) !important;
+    opacity: 0.7;
+    transition: color 0.3s ease;
+  }
 
-.notification, .message { border-radius: $im-border-radius !important; padding: $im-content-padding * 0.8 $im-content-padding $im-content-padding * 0.8 !important; transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function), color $im-page-transition-duration var(--im-page-transition-timing-function); strong { color: inherit !important; }}
-.notification {
-  background-color: var(--im-color-background) !important; color: var(--im-color-text) !important;
-  &.is-primary { background-color:var(--im-color-primary)!important; color:var(--im-color-primary-inverted)!important;}
+  &:focus, &.is-focused,
+  &:active, &.is-active {
+    border-color: var(--im-color-primary) !important;
+    box-shadow: 0 0 0 0.125em rgba(var(--im-color-primary-rgb), 0.25) !important;
+  }
 }
-.message {
-  background-color: var(--im-color-surface) !important;
-  box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,.1), 0 0px 0 1px rgba(10,10,10,.02) !important;
-  .message-header { background-color: var(--im-color-text-strong) !important; color: var(--im-color-background) !important; border-bottom: 1px solid var(--im-color-border); font-weight: $im-font-weight-bold; border-top-left-radius: $im-border-radius !important; border-top-right-radius: $im-border-radius !important; transition: background-color $im-page-transition-duration var(--im-page-transition-timing-function), color $im-page-transition-duration var(--im-page-transition-timing-function);}
-  .message-body { border-color: var(--im-color-border) !important; color: var(--im-color-text) !important; border-bottom-left-radius: $im-border-radius !important; border-bottom-right-radius: $im-border-radius !important; transition: border-color $im-page-transition-duration var(--im-page-transition-timing-function), color $im-page-transition-duration var(--im-page-transition-timing-function);}
-  &.is-primary { .message-header{background-color:var(--im-color-primary)!important;color:var(--im-color-primary-inverted)!important;} .message-body{border-color:var(--im-color-primary)!important;}}
+.select:not(.is-multiple):not(.is-loading)::after { // Dropdown arrow
+  border-color: var(--im-color-primary) !important;
+  transition: border-color 0.3s ease;
 }
 
-.table{background-color:var(--im-color-surface)!important;color:var(--im-color-text)!important;th,td{border-color:var(--im-color-border-light)!important;transition:background-color $im-page-transition-duration var(--im-page-transition-timing-function),border-color $im-page-transition-duration var(--im-page-transition-timing-function),color $im-page-transition-duration var(--im-page-transition-timing-function);}th{color:var(--im-color-text-strong)!important;}thead th,thead td{border-width:0 0 2px!important;}tbody tr:last-child td,tbody tr:last-child th{border-bottom-width:0!important;}&.is-hoverable tbody tr:hover{background-color:var(--im-color-table-row-hover)!important;}&.is-striped tbody tr:nth-child(odd){background-color:var(--im-color-table-row-hover)!important;}&.is-bordered{th,td{border-width:1px!important;}}&.is-fullwidth{width:100%!important;}}
-.progress{background-color:var(--im-color-border-light)!important;border-radius:$im-border-radius*2!important;&::-webkit-progress-bar{background-color:var(--im-color-border-light)!important;}&::-webkit-progress-value{background-color:var(--im-color-text)!important;border-radius:$im-border-radius*2!important;}&::-moz-progress-bar{background-color:var(--im-color-text)!important;border-radius:$im-border-radius*2!important;}&::-ms-fill{background-color:var(--im-color-text)!important;border-radius:$im-border-radius*2!important;}&.is-primary::-webkit-progress-value{background-color:var(--im-color-primary)!important;}&.is-primary::-moz-progress-bar{background-color:var(--im-color-primary)!important;}&.is-primary::-ms-fill{background-color:var(--im-color-primary)!important;}}
-.pagination-link,.pagination-previous,.pagination-next{border-color:var(--im-color-border)!important;color:var(--im-color-text)!important;border-radius:$im-border-radius*.5!important;&:hover{border-color:var(--im-color-border-hover)!important;color:var(--im-color-primary)!important;}&.is-current{background-color:var(--im-color-primary)!important;border-color:var(--im-color-primary)!important;color:var(--im-color-primary-inverted)!important;}&:disabled{background-color:var(--im-color-background)!important;border-color:var(--im-color-border-light)!important;color:var(--im-color-text-muted)!important;opacity:.7;}}
-.pagination-ellipsis{color:var(--im-color-text-muted)!important;}
-.tabs{a{border-bottom-color:var(--im-color-border)!important;color:var(--im-color-text)!important;&:hover{border-bottom-color:var(--im-color-text)!important;color:var(--im-color-text)!important;}}li.is-active a{border-bottom-color:var(--im-color-primary)!important;color:var(--im-color-primary)!important;}&.is-boxed{a{border-radius:$im-border-radius $im-border-radius 0 0!important;border-color:var(--im-color-border)!important;&:hover{background-color:var(--im-color-background)!important;border-bottom-color:var(--im-color-border)!important;}}li.is-active a{background-color:var(--im-color-surface)!important;border-color:var(--im-color-border)!important;border-bottom-color:transparent!important;}}&.is-toggle{a{border-radius:$im-border-radius!important;border-color:var(--im-color-border)!important;margin-bottom:0!important;&:hover{background-color:var(--im-color-background)!important;border-color:var(--im-color-border-hover)!important;z-index:2;}}li+li{margin-left:0!important;}li:first-child a{border-top-right-radius:0!important;border-bottom-right-radius:0!important;}li:last-child a{border-top-left-radius:0!important;border-bottom-left-radius:0!important;}li:not(:first-child):not(:last-child) a{border-radius:0!important;}li.is-active a{background-color:var(--im-color-primary)!important;border-color:var(--im-color-primary)!important;color:var(--im-color-primary-inverted)!important;z-index:1;}}}
-.menu-list a{border-radius:$im-border-radius*.5!important;color:var(--im-color-text)!important;&:hover{background-color:var(--im-color-background)!important;color:var(--im-color-text-strong)!important;}&.is-active{background-color:var(--im-color-primary)!important;color:var(--im-color-primary-inverted)!important;}}
-.menu-label{color:var(--im-color-text-muted)!important;}
-.dropdown-trigger .button .icon{color:var(--im-color-text)!important;}
-.dropdown-menu{background-color:var(--im-color-surface)!important;border-radius:$im-border-radius!important;box-shadow:0 .5em 1em -.125em rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.02)!important;padding-top:4px!important;padding-bottom:4px!important;.dropdown-item{color:var(--im-color-text)!important;padding-right:3rem!important;&:hover{background-color:var(--im-color-background)!important;color:var(--im-color-text-strong)!important;}&.is-active{background-color:var(--im-color-primary)!important;color:var(--im-color-primary-inverted)!important;}}.dropdown-divider{background-color:var(--im-color-border-light)!important;}}
-.modal-background{background-color:rgba(10,10,10,.86)!important;}
-.modal-card{background-color:var(--im-color-surface)!important;border-radius:$im-border-radius!important;.modal-card-head,.modal-card-foot{background-color:var(--im-color-surface)!important;border-color:var(--im-color-border-light)!important;}.modal-card-head{border-top-left-radius:$im-border-radius!important;border-top-right-radius:$im-border-radius!important;}.modal-card-foot{border-bottom-left-radius:$im-border-radius!important;border-bottom-right-radius:$im-border-radius!important;}.modal-card-title{color:var(--im-color-text-headings)!important;}.modal-card-body{background-color:var(--im-color-surface)!important;color:var(--im-color-text)!important;}}
-.modal-close{background-color:rgba(10,10,10,.2)!important;&:hover{background-color:rgba(10,10,10,.3)!important;}}
-.breadcrumb{a{color:var(--im-color-link)!important;&:hover{color:var(--im-color-primary)!important;}}li.is-active a{color:var(--im-color-text-strong)!important;}li+li::before{color:var(--im-color-text-light)!important;}}
 
+//------------------------------------------------------------------------------
+// 7. Dark Mode Styles
+//------------------------------------------------------------------------------
 html.im-is-dark-mode {
-  --im-color-primary: #f44336;
-  --im-color-primary-light: #ff7961;
-  --im-color-primary-dark: #ba000d;
-  --im-color-primary-rgb: 244, 67, 54;
+  // Dark Mode Primary Colors
+  // --im-color-primary: #e53935; // Can stay same or be adjusted
+  // --im-color-primary-light: #ef5350;
+  // --im-color-primary-dark: #c62828;
+  // --im-color-primary-rgb: 229, 57, 53;
 
-  --im-color-link: #{$im-static-color-link-dark};
-  --im-color-link-hover: #{darken($im-static-color-link-dark, 10%)};
-  --im-color-info: #4fc3f7;
-  --im-color-success: #81c784;
-  --im-color-warning: #ffd54f;
-  --im-color-danger: #e57373;
+  // Text Colors - Dark Mode
+  --im-color-text: #CBD5E0;
+  --im-color-text-headings: #E2E8F0;
+  --im-color-text-muted: #A0AEC0;
+  // --im-color-text-on-primary: #FFFFFF; // Stays same
 
-  --im-color-link-inverted:#000;
-  --im-color-info-inverted:#000;
-  --im-color-success-inverted:#000;
-  --im-color-warning-inverted:rgba(0,0,0,0.85);
-  --im-color-danger-inverted:#000;
-
-  --im-color-text: #e0e0e0;
-  --im-color-text-light: #bdbdbd;
-  --im-color-text-strong: #f5f5f5;
-  --im-color-text-headings: #ffffff;
-  --im-color-text-muted: #9e9e9e;
-  --im-color-text-on-surface: var(--im-color-text);
-
-  --im-color-background: #1e1e1e;
-  --im-color-surface: #2c2c2c;
-  --im-color-border: #424242;
-  --im-color-border-light: #333333;
-  --im-color-border-hover: #555555;
-  --im-color-input-bg: #3a3a3a;
+  // Background & Surface Colors - Dark Mode
+  --im-color-background: #1A202C;
+  --im-color-surface: #2D3748;
+  --im-color-border: #4A5568;
+  --im-color-input-bg: var(--im-color-surface);
   --im-color-input-border: var(--im-color-border);
-  --im-color-input-shadow: rgba(var(--im-color-primary-rgb), 0.35);
-  --im-color-table-row-hover: #383838;
-  --im-color-code-background: #333;
-  --im-color-pre-background: var(--im-color-code-background);
-  --im-color-pre-text: #ccc;
+  --im-color-text-on-surface: var(--im-color-text-headings); // Text on cards/boxes is lighter
 
-  --im-button-light-bg: #424242;
-  --im-button-light-border: #424242;
+  // Button Specifics - Dark Mode
+  --im-button-light-bg: #4A5568;
+  --im-button-light-border: #4A5568;
   --im-button-light-text: var(--im-color-text-headings);
-  --im-button-light-hover-bg: #555555;
-  --im-button-light-hover-border: #555555;
+  --im-button-light-hover-bg: #718096;
+  --im-button-light-hover-border: #718096;
 
-  --im-grid-line-color-for-section: rgba(255, 255, 255, 0.04);
-  --im-grid-line-color-for-hero: rgba(255, 255, 255, 0.08);
+  // Grid Line Colors - Dark Mode
+  --im-grid-line-color-for-section: rgba(255, 255, 255, 0.05); // Very subtle white lines
+  --im-grid-line-color-for-hero: rgba(255, 255, 255, 0.12); // Stays same or adjusted if primary changes
 
-  --im-dark-mode-toggle-icon-color: var(--im-color-text-light);
-
-  .box,.card,.panel{box-shadow:0 .5em 1em -.125em rgba(0,0,0,.5),0 0 0 1px rgba(0,0,0,.3)!important;}
-  .navbar{box-shadow:0 2px 0 0 var(--im-color-background)!important;}
-  .footer{background-color:#121212!important;}
-  code{background-color:var(--im-color-code-background);color:var(--im-color-info);}
-  pre{background-color:var(--im-color-pre-background);color:var(--im-color-pre-text);}
-  hr{background-color:var(--im-color-border)!important;}
-  .tags .tag:not(body){&.is-dark{background-color:var(--im-color-text-light)!important;color:var(--im-color-background)!important;}&.is-black{background-color:#1c1c1c!important;color:#eee!important;}&.is-white{background-color:#eee!important;color:#1c1c1c!important;border:1px solid var(--im-color-border);}}
-  .message .message-header{background-color:var(--im-color-surface)!important;color:var(--im-color-text-headings)!important;border-bottom:1px solid var(--im-color-border-light);}
-  .message.is-primary .message-header{background-color:var(--im-color-primary)!important;color:var(--im-color-primary-inverted)!important;}
-  .modal-background{background-color:rgba(0,0,0,.92)!important;}
-  .modal-close{background-color:rgba(20,20,20,.3)!important;&:hover{background-color:rgba(20,20,20,.4)!important;}}
+  // Theme Toggle Dark Mode
+  --im-toggle-bg-off: #4A5568; // Darker off state for dark mode
+  --im-toggle-icon-sun-color: #f1c40f;
 }
 
-.navbar-item.im-dark-mode-toggle {
-  color: var(--im-dark-mode-toggle-icon-color) !important;
-  cursor: pointer;
-  transition: color $im-page-transition-duration var(--im-page-transition-timing-function);
-  display: inline-flex;
-  align-items: center;
-  padding: 0.5rem 0.75rem;
+// Specific Dark Mode Overrides for components if CSS variables aren't enough
+// (Mostly covered by vars, but some shadows or complex states might need this)
+html.im-is-dark-mode {
+  .box, .card, .panel {
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2), 0 3px 6px rgba(0,0,0,0.15) !important;
+  }
 
-  &:hover, &:focus {
-    background-color: transparent !important;
-    color: var(--im-color-primary) !important;
+  .button.is-primary {
+    &:focus, &.is-focused { // Adjust focus shadow if primary color RGB changes for dark mode
+      // box-shadow: 0 0 0 0.125em rgba(var(--im-color-primary-rgb-dark-mode, var(--im-color-primary-rgb)), 0.25) !important;
+    }
   }
-  .icon {
-    color: inherit !important;
-    transition: transform 0.3s ease-in-out, color 0.2s ease;
+  .input:focus, .textarea:focus, .select select:focus,
+  .input.is-focused, .textarea.is-focused, .select select.is-focused,
+  .input:active, .textarea:active, .select select:active,
+  .input.is-active, .textarea.is-active, .select select.is-active {
+    // Adjust focus shadow if primary color RGB changes for dark mode
+    // box-shadow: 0 0 0 0.125em rgba(var(--im-color-primary-rgb-dark-mode, var(--im-color-primary-rgb)), 0.25) !important;
   }
-  .icon i.ph {
-    font-size: 1.375rem;
-    line-height: 1;
-    vertical-align: middle;
+}
+
+
+//------------------------------------------------------------------------------
+// 8. Theme Toggle Switch CSS
+//------------------------------------------------------------------------------
+.im-theme-toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  // Example placement if in navbar:
+  // margin-left: auto; // Pushes it to the right
+  // padding: 0 0.75rem;
+}
+
+.im-theme-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px; // Width of the switch
+  height: 26px; // Height of the switch
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
   }
+}
+
+.im-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--im-toggle-bg-off);
+  transition: .4s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; // For icons
+  padding: 0 4px; // Padding for icons
+
+  &.round {
+    border-radius: 26px;
+  }
+
+  &:before { // The toggle circle
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: var(--im-toggle-slider-color);
+    transition: .4s;
+    &.round {
+      border-radius: 50%;
+    }
+  }
+
+  .im-slider-icon {
+    font-size: 0.9em;
+    line-height: 1; // Ensure icons are vertically centered if they have weird line-height
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .im-sun-icon { color: var(--im-toggle-icon-sun-color); }
+  .im-moon-icon { color: var(--im-toggle-icon-moon-color); }
+}
+
+input:checked + .im-slider {
+  background-color: var(--im-toggle-bg-on);
+  .im-moon-icon { opacity: 1; }
+}
+input:not(:checked) + .im-slider {
+  .im-sun-icon { opacity: 1; }
+}
+
+input:focus + .im-slider {
+  box-shadow: 0 0 1px var(--im-color-primary);
+}
+
+input:checked + .im-slider:before {
+  transform: translateX(24px); // Move circle to the right
 }
