@@ -1,5 +1,5 @@
-{% comment %} _includes/im-navbar.html (Vanilla JS Version) {% endcomment %}
-<nav class="navbar {% if site.fixed_navbar %}is-fixed-top{% endif %} has-shadow-navbar" role="navigation" aria-label="main navigation">
+{% comment %} _includes/im-navbar.html (Vanilla JS Version - Mobile Toggle Visible) {% endcomment %}
+<nav class="navbar {% if site.fixed_navbar %}is-fixed-top{% endif %}" role="navigation" aria-label="main navigation">
     <div class="container">
         <div class="navbar-brand">
             <a href="{{ site.baseurl }}/" class="navbar-item im-logo-link">
@@ -8,9 +8,19 @@
                 {% endif %}
                 <span class="im-logo-text has-text-weight-bold ml-2">{{ site.title }}</span>
             </a>
-            <a href="{{ '/search' | relative_url }}" class="navbar-item is-hidden-desktop im-navbar-mobile-search" aria-label="Search">
-                <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
-            </a>
+
+            {# Mobile Icons Area #}
+            <div class="navbar-item is-hidden-desktop"> {# Wrapper for mobile icons #}
+                <a href="{{ '/search' | relative_url }}" class="im-navbar-mobile-action" aria-label="Search">
+                    <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
+                </a>
+                <a href="#" class="im-navbar-mobile-action im-dark-mode-toggle" id="im-mobile-dark-mode-toggle" title="Toggle Dark Mode" role="button" aria-pressed="false">
+                    <span class="icon is-medium">
+                        <i class="ph" id="im-mobile-theme-icon"></i> {# Separate ID for mobile icon if needed #}
+                    </span>
+                </a>
+            </div>
+
             <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="imVanillaNavMenu">
              <span aria-hidden="true"></span>
              <span aria-hidden="true"></span>
@@ -24,22 +34,14 @@
                     {% assign item_url_relative = item.link | relative_url %}
                     {% assign current_page_url = page.url | remove: "index.html" | default: "/" %}
                     {% assign current_item_url = item_url_relative | remove: "index.html" | default: "/" %}
-
                     {% assign is_active_page = false %}
-                    {% if current_page_url == current_item_url and current_item_url != "/#" %}
-                        {% assign is_active_page = true %}
-                    {% endif %}
-
+                    {% if current_page_url == current_item_url and current_item_url != "/#" %}{% assign is_active_page = true %}{% endif %}
                     {% assign is_active_parent = false %}
                     {% if item.dropdown %}
-                      {% if item.link != "/#" and current_item_url != "/" and current_page_url contains current_item_url %}
-                          {% assign is_active_parent = true %}
-                      {% endif %}
+                      {% if item.link != "/#" and current_item_url != "/" and current_page_url contains current_item_url %}{% assign is_active_parent = true %}{% endif %}
                       {% for subitem in item.dropdown %}
                           {% assign subitem_url_relative_cleaned = subitem.link | relative_url | remove: "index.html" | default: "/" %}
-                          {% if current_page_url == subitem_url_relative_cleaned %}
-                              {% assign is_active_parent = true %}{% break %}
-                          {% endif %}
+                          {% if current_page_url == subitem_url_relative_cleaned %}{% assign is_active_parent = true %}{% break %}{% endif %}
                       {% endfor %}
                     {% endif %}
 
@@ -76,7 +78,7 @@
             <div class="navbar-end">
                 {% if site.social_media %}
                     {% for item in site.social_media %}
-                        <a class="navbar-item im-social-icon" href="{{ item.url }}" target="_blank" rel="noopener noreferrer" title="{{ item.cta | escape }}">
+                        <a class="navbar-item im-social-icon is-hidden-touch" href="{{ item.url }}" target="_blank" rel="noopener noreferrer" title="{{ item.cta | escape }}">
                             <span class="icon"><i class="ph ph-{{ item.icon | downcase }}"></i></span>
                         </a>
                     {% endfor %}
@@ -84,9 +86,9 @@
                 <a href="{{ '/search' | relative_url }}" class="navbar-item is-hidden-touch im-navbar-desktop-search" aria-label="Search">
                     <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
                 </a>
-                <a href="#" class="navbar-item im-dark-mode-toggle" id="im-dark-mode-toggle" title="Toggle Dark Mode" role="button" aria-pressed="false">
+                <a href="#" class="navbar-item is-hidden-touch im-dark-mode-toggle" id="im-desktop-dark-mode-toggle" title="Toggle Dark Mode" role="button" aria-pressed="false">
                     <span class="icon is-medium">
-                        <i class="ph" id="im-theme-icon"></i> {# Icon class set by theme_script.js #}
+                        <i class="ph" id="im-desktop-theme-icon"></i>
                     </span>
                 </a>
             </div>
