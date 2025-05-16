@@ -19,6 +19,9 @@ $im-navbar-height: 3.5rem; // Slightly more height for better click targets & ae
 $im-navbar-item-padding-vertical: 0.75rem;
 $im-navbar-item-padding-horizontal: 1rem;
 $im-navbar-scroll-transition-duration: 0.3s;
+$im-grid-line-width: 1px !default; // Default line width for grids
+
+
 
 
 // =============================================================================
@@ -70,4 +73,5 @@ $im-navbar-scroll-transition-duration: 0.3s;
   // --- Icons ---
   --im-icon-color: var(--im-color-text-muted);
   --im-icon-color-hover: var(--im-color-primary);
+  --im-color-text-muted-rgb: 113, 128, 150;
 }
