@@ -5,34 +5,68 @@ image: /assets/logos/logo.svg
 layout: default
 ---
 
+
 <section class="section">
   <div class="container">
     <h1 class="title is-2 has-text-centered">Featured Videos</h1>
-    <hr>
+    <hr class="mb-5">
 
     <div class="columns is-multiline is-variable is-3-mobile is-3-tablet is-4-desktop">
-      {% assign videos_to_display = site.videos | sort: "date" | reverse %}
       {% comment %}
-        Or filter by category, etc.:
-        {% assign videos_to_display = site.videos | where: "category", "some_category" | sort: "date" | reverse %}
+        1. Filter all posts to get only those with category 'video'.
+        2. Sort them by date (newest first).
       {% endcomment %}
+      {% assign video_posts = "" | split: "" %} {# Initialize an empty array #}
+      {% for post in site.posts %}
+        {% if post.category == "video" or post.categories contains "video" %}
+          {% assign video_posts = video_posts | push: post %}
+        {% endif %}
+      {% endfor %}
 
-      {% if videos_to_display.size > 0 %}
-        {% for item in videos_to_display limit:9 %}
+      {% comment %}
+        Now sort the collected video_posts.
+        Note: Directly sorting the filtered array might require a plugin for complex sorts.
+        For simple date sort, this often works if posts are already date-sorted by Jekyll.
+        If not, a more robust solution might involve assigning to a new array after filtering
+        and then applying sort, or ensuring site.posts is already sorted by date.
+        Jekyll typically sorts site.posts by date descending by default.
+      {% endcomment %}
+      {% assign sorted_video_posts = video_posts | sort: "date" | reverse %}
+
+
+      {% if sorted_video_posts.size > 0 %}
+        {% for item in sorted_video_posts limit:9 %} {# Display up to 9 video postcards #}
           <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
             {% include video_postcard.html video=item %}
           </div>
         {% endfor %}
       {% else %}
         <div class="column">
-          <p class="has-text-centered">No videos found.</p>
+          <p class="has-text-centered content">
+            <span class="icon is-large has-text-grey-light mb-3">
+              <i class="ph ph-video" style="font-size: 3rem;"></i>
+            </span>
+            <br>
+            No videos found in this category yet. Check back soon!
+          </p>
         </div>
       {% endif %}
     </div>
 
-    {% if videos_to_display.size > 9 %}
-      <div class="has-text-centered mt-5">
-        <a href="/all-videos-archive/" class="button is-primary is-outlined">View All Videos</a>
+    {% comment %}
+      Optional: Link to a page that shows all videos if more than the limit exist.
+      You might create a dedicated page that lists all posts with category: video.
+    {% endcomment %}
+    {% if sorted_video_posts.size > 9 %}
+      <div class="has-text-centered mt-6">
+        {% comment %}
+          Create a page (e.g., /all-videos.html) that specifically lists all posts
+          with category 'video'.
+        {% endcomment %}
+        <a href="/all-videos/" class="button is-primary is-outlined is-medium">
+          <span class="icon"><i class="ph ph-list-video"></i></span>
+          <span>View All Videos</span>
+        </a>
       </div>
     {% endif %}
 
