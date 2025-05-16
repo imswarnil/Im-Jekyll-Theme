@@ -1,405 +1,749 @@
-/* theme-overrides.css - Enji.dev Inspired for Bulma */
+/* theme-overrides.css */
 
 /* ==========================================================================
    1. CSS CUSTOM PROPERTIES (:root - Light Mode & Dark Mode Definitions)
    ========================================================================== */
 :root {
-  /* --- Colors (Enji.dev often uses a clean, near-white base with a strong accent) --- */
+  /* --- Colors --- */
   --im-color-primary-rgb: 229, 57, 53; /* Your Red */
   --im-color-primary: rgb(var(--im-color-primary-rgb));
-  --im-color-primary-hover: #d62f2b; /* Slightly darker for hover */
-  --im-color-primary-light: #ef5350; /* For lighter accents if needed */
-  --im-color-primary-text-hover: var(--im-color-primary); /* For text that becomes primary on hover */
+  --im-color-primary-light: #ef5350;
+  --im-color-primary-dark: #c62828;
   --im-color-primary-inverse: #FFFFFF;
 
   /* Text Colors - Light Mode */
-  --im-color-text: #2c3e50; /* Slightly softer dark blue/grey */
-  --im-color-text-headings: #1f2937; /* Darker for strong headings */
-  --im-color-text-muted: #6b7280;  /* Mid-grey for subtitles, meta */
-  --im-color-text-subtle: #9ca3af; /* Lighter grey for less emphasis */
+  --im-color-text: #2d3748;
+  --im-color-text-headings: #1a202c;
+  --im-color-text-muted: #718096;
   --im-color-text-on-primary: #FFFFFF;
   --im-color-text-on-surface: var(--im-color-text);
-  --im-color-text-placeholder: #a0aec0;
 
   /* Backgrounds & Surfaces - Light Mode */
-  --im-color-background: #f9fafb; /* Very light grey */
-  --im-color-surface: #FFFFFF;   /* Cards, boxes */
-  --im-navbar-bg-transparent: rgba(249, 250, 251, 0.7); /* Initial transparent navbar (matches background) */
-  --im-navbar-bg-scrolled: rgba(255, 255, 255, 0.96);  /* Solid background when scrolled */
-  --im-navbar-border-transparent: rgba(229, 231, 235, 0.0); /* Based on border, initially transparent */
-  --im-navbar-border-scrolled: rgba(229, 231, 235, 0.6); /* Subtle border when scrolled */
-  --im-color-surface-alt: #f3f4f6; /* Slightly darker off-white */
-  --im-color-hover-subtle-bg: rgba(var(--im-color-primary-rgb), 0.03); /* Very subtle primary tint for hover */
+  --im-color-background: #f7fafc; /* Matches $body-background-color */
+  --im-color-surface: #FFFFFF;
+  --im-navbar-bg-transparent: rgba(247, 250, 252, 0.75); /* Based on background */
+  --im-navbar-bg-scrolled: rgba(255, 255, 255, 0.95);
+  --im-navbar-border-transparent: rgba(226, 232, 240, 0.0); /* Based on border */
+  --im-navbar-border-scrolled: rgba(226, 232, 240, 0.4);
+  --im-color-surface-alt: #edf2f7;
 
   /* Borders - Light Mode */
-  --im-color-border-rgb: 229, 231, 235; /* Tailwind gray-300 like */
+  --im-color-border-rgb: 226, 232, 240;
   --im-color-border: rgb(var(--im-color-border-rgb));
-  --im-color-border-light: #e5e7eb; /* Tailwind gray-200 like */
-  --im-color-border-hover: #d1d5db; /* Tailwind gray-400 like */
+  --im-color-border-light: #f1f5f9;
+  --im-color-border-hover: #cbd5e0;
 
   /* Links */
-  --im-color-link: var(--im-color-primary);
-  --im-color-link-hover: var(--im-color-primary-hover);
+  --im-color-link: var(--im-color-primary); /* Uses primary */
+  --im-color-link-hover: var(--im-color-primary-dark);
 
-  /* Buttons */
-  --im-button-primary-bg: var(--im-color-primary);
-  --im-button-primary-border: var(--im-color-primary);
-  --im-button-primary-text: var(--im-color-primary-inverse);
-  --im-button-primary-hover-bg: var(--im-color-primary-hover);
-  --im-button-primary-hover-border: var(--im-color-primary-hover);
-
-  --im-button-secondary-bg: transparent;
-  --im-button-secondary-border: var(--im-color-border);
-  --im-button-secondary-text: var(--im-color-text-muted);
-  --im-button-secondary-hover-bg: var(--im-color-surface-alt);
-  --im-button-secondary-hover-border: var(--im-color-border-hover);
-  --im-button-secondary-hover-text: var(--im-color-text);
+  /* Buttons - Light Variant (Primary is handled by Bulma's $primary) */
+  --im-button-light-bg: #fef2f2; /* Light red tint */
+  --im-button-light-border: #fde8e8;
+  --im-button-light-text: var(--im-color-primary-dark);
+  --im-button-light-hover-bg: #fee2e2;
+  --im-button-light-hover-border: #fdd8d8;
 
   /* Inputs */
   --im-input-bg: var(--im-color-surface);
   --im-input-border: var(--im-color-border);
   --im-input-text: var(--im-color-text);
-  --im-input-placeholder-text: var(--im-color-text-subtle);
+  --im-input-placeholder-text: var(--im-color-text-muted);
   --im-input-focus-border: var(--im-color-primary);
-  --im-input-focus-shadow: rgba(var(--im-color-primary-rgb), 0.15); /* Softer focus */
+  --im-input-focus-shadow: rgba(var(--im-color-primary-rgb), 0.2);
 
   /* --- Sizing & Spacing --- */
-  --im-border-radius: 5px;
-  --im-border-radius-large: 8px; /* For cards, modals */
+  --im-border-radius: 4px;
+  --im-border-radius-large: 6px;
   --im-spacing-unit: 1rem;
-  --im-content-padding: 1.75rem;
-  --im-section-padding-vertical: 4.5rem; /* Generous vertical space */
-  --im-navbar-height: 4rem; /* Slightly taller for more presence */
-  --im-navbar-item-padding-v: 0.75rem;
-  --im-navbar-item-padding-h: 1.25rem; /* More horizontal padding for items */
-  --im-navbar-scroll-transition-duration: 0.25s;
-  --im-base-transition-duration: 0.2s;
+  --im-content-padding: 1.5rem;
+  --im-section-padding-vertical: 3.5rem;
+  --im-navbar-height: 3.75rem;
+  --im-navbar-scroll-transition-duration: 0.3s;
+  --im-base-transition-duration: 0.25s;
 
   /* --- Fonts --- */
   --im-font-family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  --im-font-family-monospace: "JetBrains Mono", "Roboto Mono", Consolas, Monaco, monospace;
-  --im-letter-spacing-tight: -0.025em;
-  --im-letter-spacing-normal: 0em;
-  --im-letter-spacing-wide: 0.025em;
+  --im-font-family-monospace: "Roboto Mono", Consolas, Monaco, monospace;
 
   /* --- Icons --- */
-  --im-icon-color: var(--im-color-text-subtle); /* Icons more subtle by default */
+  --im-icon-color: var(--im-color-text-muted);
   --im-icon-color-hover: var(--im-color-primary);
 
   /* --- Site Background Grid --- */
-  --im-site-grid-line-color: rgba(0, 0, 0, 0.02); /* Extremely subtle */
-  --im-site-grid-spacing: 50px;
+  --im-site-grid-line-color: rgba(0, 0, 0, 0.03);
+  --im-site-grid-spacing: 35px;
   --im-site-grid-line-width: 1px;
 }
 
-/* Dark Mode CSS Variables */
 html.im-is-dark-mode {
-  --im-color-primary-hover: #ff6b66; /* Brighter hover for primary in dark */
-  --im-color-primary-text-hover: var(--im-color-primary-light);
-
-  --im-color-text: #cdd2d9; /* Lighter grey */
-  --im-color-text-headings: #f0f2f5;
-  --im-color-text-muted: #94a3b8; /* Tailwind slate-400 */
-  --im-color-text-subtle: #64748b; /* Tailwind slate-500 */
-  --im-color-text-placeholder: #64748b;
-
-  --im-color-background: #0a0e14; /* Very dark blue/black */
-  --im-color-surface: #111827;   /* Tailwind gray-900 */
-  --im-navbar-bg-transparent: rgba(10, 14, 20, 0.75);
-  --im-navbar-bg-scrolled: rgba(17, 24, 39, 0.96);
+  --im-color-primary-inverse: #101112;
+  --im-color-text: #c1c9d4;
+  --im-color-text-headings: #e5e7eb;
+  --im-color-text-muted: #9ca3af;
+  --im-color-background: #0c0d0e;
+  --im-color-surface: #16181a;
+  --im-navbar-bg-transparent: rgba(12, 13, 14, 0.75);
+  --im-navbar-bg-scrolled: rgba(22, 24, 26, 0.95);
   --im-navbar-border-transparent: rgba(55, 65, 81, 0.0);
-  --im-navbar-border-scrolled: rgba(55, 65, 81, 0.3);
-  --im-color-surface-alt: #1f2937; /* Tailwind gray-800 */
-  --im-color-hover-subtle-bg: rgba(var(--im-color-primary-rgb), 0.08);
-
+  --im-navbar-border-scrolled: rgba(55, 65, 81, 0.4);
+  --im-color-surface-alt: #202327;
   --im-color-border-rgb: 55, 65, 81;
   --im-color-border: rgb(var(--im-color-border-rgb));
   --im-color-border-light: #4b5563;
   --im-color-border-hover: #6b7280;
-
   --im-color-link: var(--im-color-primary-light);
-  --im-color-link-hover: var(--im-color-primary);
-
-  --im-button-secondary-bg: transparent;
-  --im-button-secondary-border: var(--im-color-border);
-  --im-button-secondary-text: var(--im-color-text-muted);
-  --im-button-secondary-hover-bg: var(--im-color-surface-alt);
-  --im-button-secondary-hover-border: var(--im-color-border-hover);
-  --im-button-secondary-hover-text: var(--im-color-text);
-
-
+  --im-color-link-hover: var(--im-color-primary); /* Keep primary for hover in dark */
+  --im-button-light-bg: #374151;
+  --im-button-light-border: #4b5563;
+  --im-button-light-text: var(--im-color-text-headings);
+  --im-button-light-hover-bg: #4b5563;
+  --im-button-light-hover-border: #6b7280;
   --im-input-bg: var(--im-color-surface-alt);
   --im-input-border: var(--im-color-border);
   --im-input-text: var(--im-color-text);
-  --im-input-focus-shadow: rgba(var(--im-color-primary-rgb), 0.2);
-
+  --im-input-placeholder-text: var(--im-color-text-muted);
+  --im-input-focus-shadow: rgba(var(--im-color-primary-rgb), 0.3);
   --im-icon-color: var(--im-color-text-muted);
   --im-icon-color-hover: var(--im-color-primary-light);
-
-  --im-site-grid-line-color: rgba(255, 255, 255, 0.02);
+  --im-site-grid-line-color: rgba(0, 0, 0, 0.223);
 }
-
 
 /* ==========================================================================
    2. BASE & HTML ELEMENT STYLES
    ========================================================================== */
-html { /* ... (keep as is) ... */ }
-body { /* ... (keep as is, with grid) ... */ }
-/* Site-wide Background Grid from previous example */
-body::before { /* ... (keep as is, uses new --im-site-grid-* vars) ... */ }
+html {
+  background-color: var(--im-color-background);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-/* Typography */
+body {
+  font-family: var(--im-font-family-sans-serif);
+  color: var(--im-color-text);
+  line-height: 1.65; /* Enji.dev often has generous line height */
+  background-color: transparent; /* Let html background show through, grid is on body::before */
+  min-height: 100vh;
+  font-size: 1rem; /* Relative to html font-size (Bulma default) */
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Site-wide Background Grid */
+body::before {
+  content: '';
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  background-image:
+    repeating-linear-gradient( to right, var(--im-site-grid-line-color) 0,
+      var(--im-site-grid-line-color) var(--im-site-grid-line-width),
+      transparent var(--im-site-grid-line-width),
+      transparent var(--im-site-grid-spacing) ),
+    repeating-linear-gradient( to bottom, var(--im-site-grid-line-color) 0,
+      var(--im-site-grid-line-color) var(--im-site-grid-line-width),
+      transparent var(--im-site-grid-line-width),
+      transparent var(--im-site-grid-spacing) );
+  background-size: var(--im-site-grid-spacing) var(--im-site-grid-spacing);
+  background-position: center center;
+  z-index: -10; pointer-events: none; opacity: 0.5; /* Even more subtle */
+}
+
+/* Typography Overrides */
 .title, .subtitle, h1, h2, h3, h4, h5, h6 {
   font-family: var(--im-font-family-sans-serif);
-  letter-spacing: var(--im-letter-spacing-tight);
   word-break: break-word;
 }
-.title {
+.title { /* Overrides Bulma .title */
   color: var(--im-color-text-headings) !important;
-  font-weight: 700 !important; /* Bold */
-  line-height: 1.2 !important;
-  margin-bottom: 0.75em !important; /* Tighter bottom margin for titles */
+  font-weight: 700 !important; /* Bolder for Enji.dev feel */
+  line-height: 1.15 !important;
 }
-.subtitle {
+.subtitle { /* Overrides Bulma .subtitle */
   color: var(--im-color-text-muted) !important;
   font-weight: 400 !important;
-  line-height: 1.5 !important; /* More line height */
-  margin-top: -0.25em; /* Pull subtitle closer to title */
-  margin-bottom: 1.5em !important;
+  line-height: 1.4 !important;
 }
-h1, .title.is-1 { font-size: 2.5rem; letter-spacing: -0.04em; } /* 40px */
-h2, .title.is-2 { font-size: 2rem; letter-spacing: -0.035em; } /* 32px */
-h3, .title.is-3 { font-size: 1.75rem; letter-spacing: -0.03em; } /* 28px */
-h4, .title.is-4 { font-size: 1.375rem; letter-spacing: -0.025em; } /* 22px */
-h5, .title.is-5 { font-size: 1.125rem; } /* 18px */
-h6, .title.is-6 { font-size: 1rem; font-weight: 600 !important; } /* Slightly bolder h6 */
+/* Keep Bulma's .is-1 to .is-6 for title/subtitle sizing */
 
-p { margin-bottom: 1.25em; font-size: 1rem; line-height: 1.75; color: var(--im-color-text); }
+p { margin-bottom: var(--im-spacing-unit); } /* Consistent paragraph spacing */
 
 a:not(.button):not(.navbar-item):not(.dropdown-item):not(.panel-block):not(.tag):not(.card-footer-item) {
   color: var(--im-color-link);
-  font-weight: 500;
+  font-weight: 500; /* Medium weight for standalone links */
   text-decoration: none;
-  transition: color var(--im-base-transition-duration) ease, opacity var(--im-base-transition-duration) ease;
-  position: relative; /* For potential underline effects */
+  transition: color var(--im-base-transition-duration) ease;
 }
 a:not(.button):not(.navbar-item):not(.dropdown-item):not(.panel-block):not(.tag):not(.card-footer-item):hover {
   color: var(--im-color-link-hover);
-  /* Enji.dev style underline on hover
-  &::after {
-    content: ''; position: absolute; left: 0; bottom: -2px;
-    width: 100%; height: 1px; background-color: var(--im-color-link-hover);
-  }
-  */
+  /* text-decoration: underline; */ /* Optional */
 }
 
 strong { color: var(--im-color-text-headings) !important; font-weight: 600 !important; }
-hr { background-color: var(--im-color-border-light); height: 1px; border: none; margin: 3rem 0; }
+hr { background-color: var(--im-color-border); height: 1px; border: none; margin: 2rem 0; }
 
 .im-main-content-area { /* For JS to manage padding with scrolling navbar */
     padding-top: var(--im-navbar-height);
     transition: padding-top var(--im-navbar-scroll-transition-duration) ease-out;
 }
 
+
 /* ==========================================================================
-   3. BULMA COMPONENT OVERRIDES (Enji.dev Inspired)
+   3. BULMA COMPONENT OVERRIDES (Pure CSS Overrides)
    ========================================================================== */
 
 /* --- Layout --- */
-.section { padding: var(--im-section-padding-vertical) 1.5rem; position: relative; }
-.hero.is-primary { /* ... (keep as is) ... */ }
-.footer { /* ... (keep as is, but use --im-section-padding-vertical for top/bottom) ... */
-  padding: var(--im-section-padding-vertical) 1.5rem;
+.section {
+  padding: var(--im-section-padding-vertical) 1.5rem; /* More vertical space */
 }
+
+.hero.is-primary {
+  background-color: var(--im-color-primary) !important;
+  color: var(--im-color-primary-inverse) !important;
+}
+.hero.is-primary .title,
+.hero.is-primary .subtitle {
+  color: var(--im-color-primary-inverse) !important;
+}
+.hero.is-primary .button.is-light {
+    background-color: var(--im-color-primary-inverse) !important;
+    border-color: var(--im-color-primary-inverse) !important;
+    color: var(--im-color-primary) !important;
+}
+.hero.is-primary .button.is-light:hover {
+    background-color: rgba(255,255,255,0.95) !important;
+    border-color: rgba(255,255,255,0.95) !important;
+}
+
+.footer {
+  background-color: var(--im-color-surface-alt);
+  color: var(--im-color-text-muted);
+  padding: var(--im-section-padding-vertical) 1.5rem;
+  border-top: 1px solid var(--im-color-border);
+  font-size: 0.9em;
+}
+.footer a { color: var(--im-color-text); font-weight: 500; }
+.footer a:hover { color: var(--im-color-link-hover); }
 
 
 /* --- Elements --- */
 .button {
   font-family: var(--im-font-family-sans-serif);
-  font-weight: 500;
+  font-weight: 500; /* Medium weight for buttons */
   border-radius: var(--im-border-radius);
-  transition: all var(--im-base-transition-duration) cubic-bezier(0.4, 0, 0.2, 1); /* Smoother transition */
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  border-width: 1px;
-  padding: 0.75em 1.5em; /* Slightly more padding */
-  letter-spacing: var(--im-letter-spacing-wide);
-  text-transform: none; /* Enji.dev buttons are not typically uppercase */
+  transition: all var(--im-base-transition-duration) ease;
+  box-shadow: 0 2px 3px rgba(0,0,0,0.04); /* Softer shadow */
+  border-width: 1px; /* Ensure border is visible for non-colored buttons */
 }
-.button:active { transform: translateY(0px) scale(0.98); box-shadow: none; }
-.button.is-primary { /* Themed by Bulma vars */ }
-.button.is-primary:hover { filter: brightness(95%); } /* Subtle darken */
+.button:active { transform: translateY(1px); box-shadow: 0 1px 1px rgba(0,0,0,0.04); }
 
-.button.is-light { /* Overriding to be more like Enji secondary/ghost button */
-  background-color: var(--im-button-secondary-bg) !important;
-  border-color: var(--im-button-secondary-border) !important;
-  color: var(--im-button-secondary-text) !important;
-  box-shadow: none;
+/* .button.is-primary is themed by $primary via main.scss */
+.button.is-light { /* Custom .is-light to use IM theme vars */
+  background-color: var(--im-button-light-bg) !important;
+  border-color: var(--im-button-light-border) !important;
+  color: var(--im-button-light-text) !important;
 }
 .button.is-light:hover {
-  background-color: var(--im-button-secondary-hover-bg) !important;
-  border-color: var(--im-button-secondary-hover-border) !important;
-  color: var(--im-button-secondary-hover-text) !important;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+  background-color: var(--im-button-light-hover-bg) !important;
+  border-color: var(--im-button-light-hover-border) !important;
 }
-.button.is-primary.is-outlined {
-    border-color: var(--im-color-primary); color: var(--im-color-primary);
-    background-color: transparent;
-}
-.button.is-primary.is-outlined:hover, .button.is-primary.is-outlined:focus {
-    background-color: rgba(var(--im-color-primary-rgb), 0.07);
-    border-color: var(--im-color-primary); color: var(--im-color-primary);
-}
-
 
 .box {
   background-color: var(--im-color-surface);
   border-radius: var(--im-border-radius-large);
-  box-shadow: 0 10px 25px -5px rgba(100, 116, 139, 0.08), 0 4px 6px -2px rgba(100, 116, 139, 0.04); /* More diffused */
+  box-shadow: 0 8px 24px rgba(100, 116, 139, 0.08); /* Enji.dev often has diffused shadows */
   border: 1px solid var(--im-color-border-light);
   padding: var(--im-content-padding);
+  color: var(--im-color-text-on-surface);
 }
 
-.content code { /* ... (keep as is, but verify font) ... */ font-family: var(--im-font-family-monospace); }
-.content pre { /* ... (keep as is, ensure dark bg and light text) ... */ }
-.content blockquote { /* ... (keep as is, thinner border) ... */ }
+.content code { /* Code within .content */
+  background-color: var(--im-color-surface-alt);
+  border: 1px solid var(--im-color-border-light);
+  color: var(--im-color-primary-dark);
+  padding: 0.2em 0.45em;
+  border-radius: var(--im-border-radius);
+  font-size: 0.9em;
+  font-family: var(--im-font-family-monospace);
+}
+.content pre {
+  background-color: #1e293b; /* Darker background for code blocks like Enji */
+  color: #e2e8f0; /* Light text on dark pre */
+  border: 1px solid #334155; /* Darker border */
+  border-radius: var(--im-border-radius);
+  padding: 1.25em;
+  overflow-x: auto;
+  white-space: pre;
+}
+html.im-is-dark-mode .content pre { /* Keep pre dark even in light mode, adjust if needed */
+    background-color: #0f172a; /* Even darker for dark mode */
+    border-color: #1e293b;
+    color: #cbd5e1;
+}
+.content pre code { /* Code inside pre */
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  color: inherit !important; /* Inherit from pre */
+  font-size: inherit !important;
+}
+.content blockquote {
+  background-color: var(--im-color-surface-alt);
+  border-left: 3px solid var(--im-color-primary);
+  padding: 1.25em 1.5em; /* More padding */
+  color: var(--im-color-text-muted);
+  border-radius: 0 var(--im-border-radius) var(--im-border-radius) 0;
+}
 
-.icon { color: var(--im-icon-color); transition: color var(--im-base-transition-duration) ease;}
-.icon i.ph { vertical-align: -0.15em; font-size: 1.15em; } /* Standardize icon size */
+.icon { color: var(--im-icon-color); }
+.icon i.ph { vertical-align: -0.15em; font-size: 1.1em; }
 a:hover > .icon, button:hover > .icon,
-a:hover > .icon-text > .icon, button:hover > .icon-text > .icon { color: var(--im-icon-color-hover); }
+a:hover > .icon-text > .icon, button:hover > .icon-text > .icon {
+  color: var(--im-icon-color-hover);
+}
 
 figure.image img { border-radius: var(--im-border-radius); }
-.tag { border-radius: var(--im-border-radius); font-weight: 500; font-size: 0.8rem; padding: 0.3em 0.75em; }
+.tag { border-radius: var(--im-border-radius); font-weight: 500; }
+.tag.is-light {
+    background-color: var(--im-button-light-bg);
+    color: var(--im-button-light-text);
+}
 
 /* --- Components --- */
 .card {
   background-color: var(--im-color-surface);
   border-radius: var(--im-border-radius-large);
-  box-shadow: 0 10px 30px -10px rgba(100, 116, 139, 0.1), 0 4px 6px -4px rgba(100, 116, 139, 0.05); /* Enji-like shadow */
+  box-shadow: 0 10px 30px rgba(100, 116, 139, 0.07); /* Diffused shadow */
   border: 1px solid var(--im-color-border);
-  overflow: hidden; /* Important for clean look if image is at top */
 }
 .card-header {
+  background-color: transparent;
   border-bottom: 1px solid var(--im-color-border-light);
-  padding: 1rem var(--im-content-padding);
-  box-shadow: none;
+  box-shadow: none; padding: 1rem var(--im-content-padding);
 }
-.card-header-title { color: var(--im-color-text-headings); font-weight: 600; font-size: 1.125rem; letter-spacing: var(--im-letter-spacing-tight); }
+.card-header-title { color: var(--im-color-text-headings); font-weight: 600; }
 .card-content { padding: var(--im-content-padding); }
-.card-footer { border-top: 1px solid var(--im-color-border-light); padding: 1rem var(--im-content-padding); }
+.card-footer {
+  background-color: transparent;
+  border-top: 1px solid var(--im-color-border-light);
+  padding: 1rem var(--im-content-padding);
+}
 
-/* Navbar (im-navbar-custom is your class) */
+/* Navbar (im-navbar-custom is your class on the nav element) */
 .navbar.im-navbar-custom {
   min-height: var(--im-navbar-height) !important;
   background-color: var(--im-navbar-bg-transparent) !important;
-  backdrop-filter: blur(16px) saturate(180%); /* Stronger blur */
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
   border-bottom: 1px solid var(--im-navbar-border-transparent);
   transition: transform var(--im-navbar-scroll-transition-duration) ease-out,
               background-color var(--im-navbar-scroll-transition-duration) ease-out,
               border-color var(--im-navbar-scroll-transition-duration) ease-out,
               box-shadow var(--im-navbar-scroll-transition-duration) ease-out;
+  /* is-fixed-top handles fixed positioning from Bulma */
 }
 .navbar.im-navbar-custom.is-visible {
   transform: translateY(0%);
   background-color: var(--im-navbar-bg-scrolled) !important;
   border-bottom-color: var(--im-navbar-border-scrolled);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.03); /* Very very subtle shadow */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02); /* Very subtle shadow when visible */
 }
 .navbar.im-navbar-custom.is-hidden-scroll { transform: translateY(-100%); }
 
 .navbar-brand { min-height: var(--im-navbar-height); }
 .navbar-brand .navbar-item { padding-top:0; padding-bottom:0; display:flex; align-items:center; }
 
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 1023px) { /* Bulma's $desktop - 1px */
   .navbar-menu.is-active {
-    background-color: var(--im-color-surface); box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    padding: 0.5rem 0; border-radius: 0 0 var(--im-border-radius-large) var(--im-border-radius-large);
+    background-color: var(--im-color-surface);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    padding: 0.5rem 0;
+    border-radius: 0 0 var(--im-border-radius) var(--im-border-radius);
     border: 1px solid var(--im-color-border); border-top: none;
     position: absolute; left: 0; right: 0; top: 100%; z-index: 20;
   }
 }
 .navbar-item, .navbar-link {
-  color: var(--im-color-text-muted) !important; /* Muted color for nav items by default */
+  color: var(--im-color-text) !important;
   font-weight: 500 !important;
-  padding: var(--im-navbar-item-padding-v) var(--im-navbar-item-padding-h) !important;
-  min-height: var(--im-navbar-height); display: flex; align-items: center; position: relative;
+  padding: 0.75rem 1rem !important; /* Use values from CSS vars if defined, or direct */
+  min-height: var(--im-navbar-height);
+  display: flex; align-items: center; position: relative;
   transition: color var(--im-base-transition-duration) ease;
 }
-.navbar-item .icon i.ph, .navbar-link .icon i.ph {
-    transition: color var(--im-base-transition-duration) ease;
-    color: var(--im-icon-color); /* Use default icon color */
-}
+.navbar-item .icon i.ph, .navbar-link .icon i.ph { transition: color var(--im-base-transition-duration) ease; }
 
-/* Enji.dev Hover/Active: Text turns primary, subtle indicator */
 .navbar-item:hover, .navbar-link:hover,
 .navbar-item.is-hovered, .navbar-link.is-hovered {
   background-color: transparent !important;
-  color: var(--im-color-primary-text-hover) !important; /* Use specific hover text color */
+  color: var(--im-color-primary) !important;
 }
 .navbar-item:hover .icon i.ph, .navbar-link:hover .icon i.ph,
 .navbar-item.is-hovered .icon i.ph, .navbar-link.is-hovered .icon i.ph {
-    color: var(--im-color-primary-text-hover) !important;
+    color: var(--im-color-primary) !important;
 }
 
-.navbar-item.is-active-nav-item, .navbar-link.is-active-nav-item {
-  color: var(--im-color-primary) !important; /* Active item is primary color */
-  font-weight: 500 !important; /* No need to be bolder than hover */
+.navbar-item.is-active-nav-item, .navbar-link.is-active-nav-item { /* Your custom class */
+  color: var(--im-color-primary) !important;
+  font-weight: 600 !important;
   background-color: transparent !important;
 }
 .navbar-item.is-active-nav-item .icon i.ph, .navbar-link.is-active-nav-item .icon i.ph {
     color: var(--im-color-primary) !important;
 }
-/* Subtle Pill/Line indicator for active items - Enji style */
-.navbar-item.is-active-nav-item::after,
-.navbar-link.is-active-nav-item::after {
-  content: '';
-  position: absolute;
-  left: var(--im-navbar-item-padding-h); /* Align with text padding */
-  right: var(--im-navbar-item-padding-h);
-  bottom: 0.6rem; /* Position from bottom */
-  height: 3px; /* Thickness of the pill/line */
-  background-color: var(--im-color-primary);
-  border-radius: 2px; /* Rounded pill */
-  opacity: 0; /* Hidden by default if only for main item */
-  transition: opacity var(--im-base-transition-duration) ease;
-}
-.navbar-start > .navbar-item.is-active-nav-item::after,
-.navbar-start > .navbar-item.has-dropdown.is-hoverable > .navbar-link.is-active-nav-item::after {
-    opacity: 1; /* Show for top-level active items */
-}
-/* Remove triangle for navbar-link arrow, use Bulma's default */
-.navbar-link::after { border-color: var(--im-color-text-subtle) !important; }
-.navbar-link:hover::after, .navbar-link.is-active-nav-item::after {
-    /* Let Bulma handle this, or override if active state needs different arrow color */
+.navbar-item.is-active-nav-item::after, .navbar-link.is-active-nav-item::after {
+  content: ''; position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%);
+  width: 0; height: 0; border-left: 5px solid transparent;
+  border-right: 5px solid transparent; border-bottom: 5px solid var(--im-color-primary);
 }
 
-.navbar-dropdown { /* ... (keep refined styles from previous, ensure padding and font size match Enji) ... */ }
-.im-logo-link .im-logo-image { max-height: calc(var(--im-navbar-height) * 0.55); margin-right: 0.75rem;}
-.im-logo-link .im-logo-text { font-size: 1.3rem; color: var(--im-color-text-headings); font-weight: 600; letter-spacing: var(--im-letter-spacing-tight);}
+.navbar-link::after { /* Bulma's arrow */
+  border-color: var(--im-color-text-muted) !important;
+  right: 1rem; /* Consistent with item padding */
+}
+.navbar-link:hover::after, .navbar-link.is-active-nav-item::after {
+    /* The main active indicator is the triangle. Arrow color change on hover is good. */
+}
+.navbar-dropdown {
+  background-color: var(--im-color-surface) !important;
+  border: 1px solid var(--im-color-border) !important;
+  border-top: none !important;
+  border-radius: 0 0 var(--im-border-radius) var(--im-border-radius) !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.07) !important; /* Softer dropdown shadow */
+  padding-top: 0.3rem !important; padding-bottom: 0.3rem !important;
+  font-size: 0.925em;
+}
+.navbar-dropdown .navbar-item {
+  padding: 0.6rem 1.25rem !important; /* Consistent padding */
+  min-height: auto; color: var(--im-color-text) !important;
+}
+.navbar-dropdown .navbar-item:hover {
+  background-color: var(--im-color-surface-alt) !important;
+  color: var(--im-color-primary) !important;
+}
+.navbar-dropdown .navbar-item.is-active-nav-item {
+  background-color: rgba(var(--im-color-primary-rgb), 0.07) !important; /* Subtle active bg */
+  color: var(--im-color-primary-dark) !important;
+  font-weight: 500 !important;
+}
+.navbar-dropdown .navbar-item.is-active-nav-item::after { display: none; }
+
+/* Your custom classes for logo and icons in navbar */
+.im-logo-link .im-logo-image { max-height: calc(var(--im-navbar-height) * 0.5); margin-right: 0.6rem;}
+.im-logo-link .im-logo-text { font-size: 1.2rem; color: var(--im-color-text-headings); font-weight: 700;}
+.im-nav-icon { margin-right: 0.5em; }
+.im-nav-icon i.ph { font-size: 1.2em; }
+.im-nav-image-icon { max-height: 1.25rem; margin-right: 0.5em; }
+.im-nav-image-icon.is-small { max-height: 1rem; }
+
+.navbar-brand .navbar-item.is-hidden-desktop { margin-left: auto; /* Push mobile icons to right */ }
+.im-navbar-mobile-action .icon i.ph,
+.navbar-end .im-dark-mode-toggle .icon i.ph { /* Covers desktop and mobile toggle */
+    color: var(--im-icon-color);
+}
+.im-navbar-mobile-action:hover .icon i.ph,
+.navbar-end .im-dark-mode-toggle:hover .icon i.ph {
+    color: var(--im-icon-color-hover);
+}
 
 /* --- Forms --- */
 .input, .textarea, .select select {
-  font-family: var(--im-font-family-sans-serif); border-radius: var(--im-border-radius);
-  border: 1px solid var(--im-input-border); box-shadow: none;
-  background-color: var(--im-input-bg); color: var(--im-input-text);
+  font-family: var(--im-font-family-sans-serif);
+  border-radius: var(--im-border-radius);
+  border: 1px solid var(--im-input-border);
+  box-shadow: none;
+  background-color: var(--im-input-bg);
+  color: var(--im-input-text);
   transition: border-color var(--im-base-transition-duration) ease, box-shadow var(--im-base-transition-duration) ease;
-  padding: 0.85em 1.1em; /* Generous padding */
-  font-size: 0.95rem;
+  padding: 0.75em 1em; /* Consistent padding */
 }
-.input::placeholder, .textarea::placeholder { color: var(--im-input-placeholder-text); opacity: 1; }
-.input:hover, .textarea:hover, .select:hover select { border-color: var(--im-color-border-hover); }
+.input::placeholder, .textarea::placeholder {
+  color: var(--im-input-placeholder-text);
+  opacity: 0.7;
+}
+.input:hover, .textarea:hover, .select:hover select { /* Target select wrapper for hover on select */
+  border-color: var(--im-color-border-hover);
+}
 .input:focus, .textarea:focus, .select select:focus,
 .input.is-focused, .textarea.is-focused, .select select.is-focused,
 .input:active, .textarea:active, .select select:active,
 .input.is-active, .textarea.is-active, .select select.is-active {
   border-color: var(--im-input-focus-border) !important;
-  box-shadow: 0 0 0 3px var(--im-input-focus-shadow) !important; /* Slightly larger focus ring */
+  box-shadow: 0 0 0 0.125em var(--im-input-focus-shadow) !important;
 }
-.label { color: var(--im-color-text-headings); font-weight: 500; font-size: 0.9rem; text-transform: none; letter-spacing: normal;}
-.help { color: var(--im-color-text-subtle); font-size: 0.85rem;}
+.textarea { line-height: 1.65; }
+.select:not(.is-multiple):not(.is-loading)::after { /* Dropdown arrow */
+  border-color: var(--im-color-primary);
+  right: 1.25em; /* Adjust arrow position */
+}
+.label {
+  color: var(--im-color-text-headings);
+  font-weight: 600; /* Bulma default is 700 */
+  margin-bottom: 0.5em;
+}
+.help {
+  color: var(--im-color-text-muted);
+  font-size: 0.9rem;
+  margin-top: 0.25em;
+}
 
 /* ==========================================================================
    4. PAGE TRANSITION ANIMATIONS (Load animation off)
    ========================================================================== */
-/* ... (keep as is) ... */
+body.im-page-is-loading { opacity: 1; }
+body.im-page-is-entering { opacity: 1; } /* No fade-in animation on load */
+body.im-page-is-exiting {
+  animation: imPageFadeOutDown var(--im-page-transition-duration-css, 0.2s) forwards ease-in !important;
+}
+@keyframes imPageFadeOutDown {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(10px); } /* Use fixed value or CSS var if defined */
+}
+
+// _sass/custom/_navbar-theme.scss
+
+// --- Theme Variables (customize these) ---
+$navbar-theme-height: 4.2rem; // Adjust for desired navbar height
+$navbar-theme-bg: transparent;
+$navbar-theme-border-bottom: 1px solid rgba(67, 56, 202, 0.08); // Subtle purple-ish border
+
+$navbar-theme-logo-text-color: #4338CA; // Indigo/Purple
+$navbar-theme-logo-text-size: 1.05rem;
+$navbar-theme-logo-image-max-height: 1.9rem;
+
+$navbar-theme-link-color: #4A5568; // Dark Gray for text
+$navbar-theme-link-font-size: 0.9rem;
+$navbar-theme-link-font-weight: 500;
+$navbar-theme-link-padding-v: 0.5rem;
+$navbar-theme-link-padding-h: 1rem;
+
+$navbar-theme-link-active-color: #6D28D9; // Brighter Purple for active
+$navbar-theme-link-active-bg: rgba(109, 40, 217, 0.07);
+$navbar-theme-link-active-radius: 5px;
+
+$navbar-theme-icon-color: $navbar-theme-link-color;
+$navbar-theme-icon-active-color: $navbar-theme-link-active-color;
+$navbar-theme-icon-size: 1.1em; // For Phosphor icons within links
+
+$navbar-theme-burger-color: $navbar-theme-logo-text-color;
+
+$navbar-theme-dropdown-bg: #ffffff;
+$navbar-theme-dropdown-border: #E2E8F0;
+$navbar-theme-dropdown-shadow: 0 8px 20px rgba(0,0,0,0.08);
+$navbar-theme-dropdown-radius: 8px;
+$navbar-theme-dropdown-item-font-size: 0.85rem;
+
+$navbar-theme-quick-access-bg: rgba(226, 232, 240, 0.6); // Semi-transparent light gray
+$navbar-theme-quick-access-color: $navbar-theme-link-color;
+$navbar-theme-quick-access-hover-bg: rgba(200, 210, 220, 0.7);
+$navbar-theme-quick-access-padding-v: 0.5rem;
+$navbar-theme-quick-access-padding-h: 0.75rem;
+$navbar-theme-quick-access-radius: 6px;
+
+
+// --- Navbar Theming ---
+.navbar.im-navbar-themed {
+  background-color: $navbar-theme-bg !important; // Override Bulma if needed
+  box-shadow: none !important;
+  min-height: $navbar-theme-height;
+  border-bottom: $navbar-theme-border-bottom;
+  // Transition for background color change on scroll (if JS adds a class)
+  transition: background-color 0.3s ease-in-out;
+
+  // Example: Add a class like 'is-scrolled' with JS to change bg on scroll
+  // &.is-scrolled {
+  //   background-color: rgba(255, 255, 255, 0.95) !important; // Semi-transparent white
+  //   backdrop-filter: blur(5px); // Glassmorphism effect
+  //   border-bottom: 1px solid rgba(0,0,0,0.05);
+  //   box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
+  // }
+
+  .navbar-brand {
+    min-height: $navbar-theme-height; // Match navbar height
+  }
+
+  .im-navbar-logo-link {
+    padding: $navbar-theme-link-padding-v $navbar-theme-link-padding-h * 0.75; // Slightly less horizontal padding for logo
+    .im-navbar-logo-image {
+      max-height: $navbar-theme-logo-image-max-height;
+      margin-right: 0.4rem;
+    }
+    .im-navbar-logo-text {
+      font-size: $navbar-theme-logo-text-size;
+      color: $navbar-theme-logo-text-color;
+    }
+  }
+
+  .im-navbar-mobile-actions {
+    align-items: center; // Vertically center mobile icons
+    .im-navbar-mobile-action {
+      padding: 0 0.6rem;
+      color: $navbar-theme-logo-text-color; // Match logo color for mobile icons
+      .icon i {
+        font-size: 1.3rem;
+      }
+    }
+  }
+
+  .navbar-burger.burger {
+    color: $navbar-theme-burger-color; // Affects the burger lines if they inherit color
+    width: $navbar-theme-height; // Make burger touch area match height
+    height: $navbar-theme-height;
+    span {
+      background-color: $navbar-theme-burger-color !important; // Explicitly color lines
+      height: 2px; // Thinner lines
+      // Adjust positioning if needed due to height change
+      // left: calc(50% - 8px);
+      // &:nth-child(1) { top: calc(50% - 6px); }
+      // &:nth-child(2) { top: calc(50% - 1px); }
+      // &:nth-child(3) { top: calc(50% + 4px); }
+    }
+  }
+
+  .navbar-menu {
+    // On desktop, the background is handled by .navbar.im-navbar-themed
+    // On mobile, when .is-active, Bulma gives it a background. We can override that.
+    @media screen and (max-width: 1023px) { // Bulma's desktop - 1px
+      &.is-active {
+        background-color: $navbar-theme-dropdown-bg !important; // Opaque for mobile dropdown
+        box-shadow: $navbar-theme-dropdown-shadow !important;
+      }
+    }
+  }
+
+  .navbar-start, .navbar-end {
+    align-items: stretch; // Ensure items can fill height
+  }
+
+  .navbar-item.has-dropdown.im-navbar-dropdown-container {
+    padding: 0; // Remove padding from the wrapper div, apply to link
+    &:hover .navbar-link, &.is-active .navbar-link { // Keep link styles on hover/active
+        // Potentially different from .is-active-nav-item if needed
+    }
+  }
+
+  .im-navbar-link,
+  .navbar-item.im-navbar-link { // Target both direct items and dropdown triggers
+    display: inline-flex; // For vertical centering of content
+    align-items: center;
+    padding: $navbar-theme-link-padding-v $navbar-theme-link-padding-h;
+    min-height: $navbar-theme-height;
+    color: $navbar-theme-link-color;
+    font-weight: $navbar-theme-link-font-weight;
+    font-size: $navbar-theme-link-font-size;
+    background-color: transparent; // Ensure transparent by default
+
+    &.is-active-nav-item {
+      color: $navbar-theme-link-active-color !important;
+      background-color: $navbar-theme-link-active-bg !important;
+      border-radius: $navbar-theme-link-active-radius;
+    }
+
+    &:hover:not(.is-active-nav-item) {
+      color: $navbar-theme-link-active-color; // Hover color same as active for consistency
+      background-color: rgba(109, 40, 217, 0.04); // Very subtle hover bg
+      border-radius: $navbar-theme-link-active-radius;
+    }
+
+    .im-navbar-icon {
+      margin-right: 0.4em;
+      .im-navbar-ph-icon {
+        font-size: $navbar-theme-icon-size;
+      }
+    }
+    .im-navbar-image-icon {
+      max-height: 1rem; // Adjust if needed
+    }
+
+    // Dropdown arrow styling
+    &.navbar-link::after {
+      border-color: $navbar-theme-icon-color; // Arrow color matches default icon color
+      // To make arrow smaller (Bulma default is 3px border, 0.375em size)
+      border-width: 2px;
+      right: $navbar-theme-link-padding-h * 0.75;
+      margin-top: -3px; // Adjust vertical alignment for 2px border
+    }
+    &:hover::after,
+    &.is-active-nav-item::after {
+      border-color: $navbar-theme-icon-active-color; // Arrow color matches active icon color
+    }
+  }
+
+  .im-navbar-dropdown-box.navbar-dropdown {
+    background-color: $navbar-theme-dropdown-bg !important;
+    border: 1px solid $navbar-theme-dropdown-border !important;
+    border-top: 1px solid $navbar-theme-dropdown-border !important; // Ensure top border is consistent
+    border-radius: $navbar-theme-dropdown-radius !important;
+    box-shadow: $navbar-theme-dropdown-shadow !important;
+    padding-top: 0.4rem !important;
+    padding-bottom: 0.4rem !important;
+    font-size: $navbar-theme-dropdown-item-font-size;
+    margin-top: 0; // Reset any negative margin
+    min-width: 12rem;
+
+    .im-navbar-dropdown-item.navbar-item {
+      padding: 0.5rem 1rem !important;
+      color: $navbar-theme-link-color !important;
+      font-weight: normal;
+
+      &.is-active-nav-item {
+        color: $navbar-theme-link-active-color !important;
+        background-color: $navbar-theme-link-active-bg !important;
+        font-weight: $navbar-theme-link-font-weight;
+      }
+      &:hover:not(.is-active-nav-item) {
+         color: $navbar-theme-link-active-color !important;
+         background-color: rgba(109, 40, 217, 0.04) !important;
+      }
+
+      .im-navbar-icon.is-small .im-navbar-ph-icon {
+        font-size: $navbar-theme-icon-size * 0.9;
+      }
+      .im-navbar-image-icon.is-small {
+        max-height: 0.8rem;
+      }
+    }
+  }
+
+  .navbar-end {
+    .im-navbar-end-item {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: $navbar-theme-height; // Match nav height for vertical centering
+      padding: $navbar-theme-link-padding-v $navbar-theme-link-padding-h * 0.75;
+      color: $navbar-theme-icon-color; // Default color for end icons
+
+      &:hover {
+        background-color: rgba(109, 40, 217, 0.04);
+        border-radius: $navbar-theme-link-active-radius;
+        color: $navbar-theme-link-active-color;
+      }
+
+      .icon i, .icon .ph { // Target Phosphor icons correctly
+        font-size: 1.2rem;
+      }
+    }
+
+    .im-navbar-quick-access {
+      background-color: $navbar-theme-quick-access-bg;
+      color: $navbar-theme-quick-access-color;
+      border-radius: $navbar-theme-quick-access-radius;
+      padding: $navbar-theme-quick-access-padding-v $navbar-theme-quick-access-padding-h;
+      font-size: $navbar-theme-link-font-size * 0.95;
+      font-weight: $navbar-theme-link-font-weight;
+      height: calc(#{$navbar-theme-height} - 1.6rem); // Make it shorter
+      margin: 0.8rem 0; // Vertical margin to center it
+
+      .icon { margin-right: 0.3em; }
+
+      &:hover {
+        background-color: $navbar-theme-quick-access-hover-bg;
+        color: $navbar-theme-logo-text-color; // Example hover text color
+      }
+    }
+    .im-dark-mode-toggle-desktop {
+        // Similar to quick-access or plain icon, depending on desired look
+        // Using default end-item style for now
+    }
+  }
+}
