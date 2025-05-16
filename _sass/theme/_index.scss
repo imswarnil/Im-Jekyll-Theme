@@ -1,0 +1,371 @@
+/* Enji Dev Style Overrides for Bulma */
+
+:root {
+    /* Typography */
+    --enji-font-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    --enji-font-weight-normal: 400;
+    --enji-font-weight-medium: 500;
+    --enji-font-weight-semibold: 600;
+    --enji-font-weight-bold: 700;
+
+    /* Colors - Inspired by Enji Dev Screenshot */
+    --enji-color-primary: #7B3FE8; /* The prominent purple */
+    --enji-color-primary-light: #9362F0;
+    --enji-color-primary-dark: #642CC7;
+
+    --enji-color-text: #2D3748; /* Dark gray for body text */
+    --enji-color-text-headings: #1A202C; /* Slightly darker for headings */
+    --enji-color-text-muted: #718096; /* Lighter gray for subtitles, meta */
+    --enji-color-text-on-primary: #FFFFFF; /* Text on primary background */
+
+    --enji-color-background: #F9FAFB; /* Very light gray page background */
+    --enji-color-surface: #FFFFFF;    /* Background for cards, boxes */
+    --enji-color-border: #E2E8F0;     /* Subtle borders */
+
+    /* Grid Lines */
+    --grid-line-color-light-bg: rgba(45, 55, 72, 0.06); /* Subtle dark lines on light bg */
+    --grid-line-color-dark-bg: rgba(255, 255, 255, 0.1); /* Subtle light lines on dark bg */
+    --grid-spacing: 30px;
+    --grid-line-width: 1px;
+    --grid-fade-extent: 65%; /* How far from center the grid is fully visible */
+
+    /* Sizing & Spacing */
+    --enji-border-radius: 8px;
+    --enji-spacing-unit: 1rem; /* Base for margins/paddings */
+    --enji-section-padding-vertical: calc(var(--enji-spacing-unit) * 4);
+    --enji-box-padding: calc(var(--enji-spacing-unit) * 1.75);
+}
+
+/* --- Global Styles & Typography --- */
+html {
+    background-color: var(--enji-color-background) !important;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--enji-font-primary) !important;
+    color: var(--enji-color-text) !important;
+    font-weight: var(--enji-font-weight-normal) !important;
+    line-height: 1.65 !important;
+    font-size: 16px; /* Base font size */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6,
+.title,
+.subtitle {
+    font-family: var(--enji-font-primary) !important;
+    color: var(--enji-color-text-headings) !important;
+}
+
+.title {
+    font-weight: var(--enji-font-weight-bold) !important;
+    line-height: 1.2 !important;
+    margin-bottom: calc(var(--enji-spacing-unit) * 1) !important; /* Reduced from Bulma default */
+}
+.title.is-1 { font-size: 2.75rem !important; } /* Adjust as needed */
+.title.is-2 { font-size: 2rem !important; }
+.title.is-3 { font-size: 1.75rem !important; }
+
+
+.subtitle {
+    color: var(--enji-color-text-muted) !important;
+    font-weight: var(--enji-font-weight-normal) !important;
+    line-height: 1.5 !important;
+    margin-bottom: calc(var(--enji-spacing-unit) * 1.5) !important;
+}
+.subtitle.is-3 { font-size: 1.25rem !important; }
+.subtitle.is-4 { font-size: 1.1rem !important; }
+
+
+p {
+    margin-bottom: var(--enji-spacing-unit) !important;
+}
+
+a {
+    color: var(--enji-color-primary) !important;
+    text-decoration: none !important;
+    transition: color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+a:hover {
+    color: var(--enji-color-primary-dark) !important;
+    /* text-decoration: underline !important; */ /* Enji style seems to avoid underlines */
+}
+
+strong, b {
+    color: var(--enji-color-text-headings) !important;
+    font-weight: var(--enji-font-weight-semibold) !important;
+}
+
+
+/* --- Fading Grid Lines Mixin-like Structure --- */
+/* We'll apply this as a ::before pseudo-element to relevant sections */
+.has-enji-grid::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Behind content, above element's direct background */
+    background-size: var(--grid-spacing) var(--grid-spacing);
+    background-position: center center;
+    mask-image: radial-gradient(ellipse at center, black 0%, black var(--grid-fade-extent), transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 0%, black var(--grid-fade-extent), transparent 100%);
+    pointer-events: none;
+}
+
+/* --- Component Overrides --- */
+
+/* Hero Section */
+.hero {
+    position: relative; /* For ::before pseudo-element */
+    overflow: hidden; /* Clip pseudo-element */
+}
+.hero.is-primary {
+    background-color: var(--enji-color-primary) !important;
+    color: var(--enji-color-text-on-primary) !important;
+}
+.hero.is-primary .title,
+.hero.is-primary .subtitle {
+    color: var(--enji-color-text-on-primary) !important;
+}
+.hero.is-primary strong { /* Make strong text pop more on primary bg */
+    color: var(--enji-color-text-on-primary) !important;
+    font-weight: var(--enji-font-weight-bold) !important; /* Or even more distinct if needed */
+}
+
+.hero.is-primary::before { /* Grid for primary hero */
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    background-image:
+        repeating-linear-gradient(to right, var(--grid-line-color-dark-bg) 0, var(--grid-line-color-dark-bg) var(--grid-line-width), transparent var(--grid-line-width), transparent var(--grid-spacing)),
+        repeating-linear-gradient(to bottom, var(--grid-line-color-dark-bg) 0, var(--grid-line-color-dark-bg) var(--grid-line-width), transparent var(--grid-line-width), transparent var(--grid-spacing));
+    background-size: var(--grid-spacing) var(--grid-spacing);
+    background-position: center center;
+    mask-image: radial-gradient(ellipse at center, black 0%, black var(--grid-fade-extent), transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 0%, black var(--grid-fade-extent), transparent 100%);
+    pointer-events: none;
+}
+/* Ensure hero content is above the grid */
+.hero .hero-head,
+.hero .hero-body,
+.hero .hero-foot {
+    position: relative;
+    z-index: 1;
+}
+
+
+/* Buttons */
+.button {
+    font-family: var(--enji-font-primary) !important;
+    font-weight: var(--enji-font-weight-semibold) !important;
+    border-radius: var(--enji-border-radius) !important;
+    padding: 0.7em 1.5em !important; /* Enji buttons look a bit more padded */
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease !important;
+    border-width: 1px !important; /* Ensure border width is consistent */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.button:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+.button.is-primary {
+    background-color: var(--enji-color-primary) !important;
+    border-color: var(--enji-color-primary) !important;
+    color: var(--enji-color-text-on-primary) !important;
+}
+.button.is-primary:hover {
+    background-color: var(--enji-color-primary-dark) !important;
+    border-color: var(--enji-color-primary-dark) !important;
+}
+
+/* For hero buttons (Get in Touch, Resume) */
+.hero.is-primary .button.is-light.is-outlined {
+    background-color: transparent !important;
+    border-color: var(--enji-color-text-on-primary) !important;
+    color: var(--enji-color-text-on-primary) !important;
+}
+.hero.is-primary .button.is-light.is-outlined:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.hero.is-primary .button.is-light:not(.is-outlined) { /* Resume button */
+    background-color: var(--enji-color-text-on-primary) !important;
+    border-color: var(--enji-color-text-on-primary) !important;
+    color: var(--enji-color-primary) !important;
+}
+.hero.is-primary .button.is-light:not(.is-outlined):hover {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    border-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* General .is-light button style */
+.button.is-light {
+    background-color: #EDF2F7 !important; /* A light gray complementary to the theme */
+    border-color: #EDF2F7 !important;
+    color: var(--enji-color-text-headings) !important;
+}
+.button.is-light:hover {
+    background-color: #E2E8F0 !important;
+    border-color: #E2E8F0 !important;
+}
+
+
+/* Box & Card */
+.box,
+.card {
+    background-color: var(--enji-color-surface) !important;
+    border-radius: var(--enji-border-radius) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0,0,0,0.04) !important; /* Softer, more modern shadow */
+    border: 1px solid var(--enji-color-border) !important;
+    padding: var(--enji-box-padding) !important;
+
+    position: relative; /* For ::before pseudo-element */
+    overflow: hidden; /* Clip pseudo-element */
+}
+
+.box::before,
+.card::before { /* Grid for boxes and cards */
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    background-image:
+        repeating-linear-gradient(to right, var(--grid-line-color-light-bg) 0, var(--grid-line-color-light-bg) var(--grid-line-width), transparent var(--grid-line-width), transparent var(--grid-spacing)),
+        repeating-linear-gradient(to bottom, var(--grid-line-color-light-bg) 0, var(--grid-line-color-light-bg) var(--grid-line-width), transparent var(--grid-line-width), transparent var(--grid-spacing));
+    background-size: var(--grid-spacing) var(--grid-spacing);
+    background-position: center center;
+    mask-image: radial-gradient(ellipse at center, black 0%, black var(--grid-fade-extent), transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 0%, black var(--grid-fade-extent), transparent 100%);
+    pointer-events: none;
+}
+
+/* Ensure box/card content is above the grid */
+.box > *,
+.card .card-header,
+.card .card-content,
+.card .card-image,
+.card .card-footer {
+    position: relative;
+    z-index: 1;
+}
+
+.card .card-header {
+    box-shadow: none !important; /* Remove Bulma's default card header shadow */
+    border-bottom: 1px solid var(--enji-color-border);
+    padding: 0.75rem var(--enji-box-padding);
+}
+.card .card-header-title {
+    color: var(--enji-color-text-headings) !important;
+    font-weight: var(--enji-font-weight-semibold) !important;
+}
+
+
+/* Section (for general content areas) */
+.section {
+    padding: var(--enji-section-padding-vertical) 1.5rem !important; /* Enji style looks like more vertical padding */
+    background-color: transparent !important; /* Sections are on the main page bg */
+    position: relative; /* For ::before pseudo-element */
+    overflow: hidden; /* Clip pseudo-element */
+}
+
+/* Apply grid to sections that are not part of a hero (to avoid double grid) */
+.section:not(.hero-body):not(.hero > .section) {
+    /* Use the same ::before as .box and .card for light backgrounds */
+}
+.section:not(.hero-body):not(.hero > .section)::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    background-image:
+        repeating-linear-gradient(to right, var(--grid-line-color-light-bg) 0, var(--grid-line-color-light-bg) var(--grid-line-width), transparent var(--grid-line-width), transparent var(--grid-spacing)),
+        repeating-linear-gradient(to bottom, var(--grid-line-color-light-bg) 0, var(--grid-line-color-light-bg) var(--grid-line-width), transparent var(--grid-line-width), transparent var(--grid-spacing));
+    background-size: var(--grid-spacing) var(--grid-spacing);
+    background-position: center center;
+    mask-image: radial-gradient(ellipse at center, black 0%, black var(--grid-fade-extent), transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 0%, black var(--grid-fade-extent), transparent 100%);
+    pointer-events: none;
+}
+
+/* Ensure section content (like .container) is above the grid */
+.section > .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Navbar (if one exists outside hero) */
+.navbar {
+    background-color: var(--enji-color-surface) !important; /* Or transparent if it's over a gridded section */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03) !important; /* Subtle shadow */
+}
+.navbar-item, .navbar-link {
+    color: var(--enji-color-text) !important;
+    font-weight: var(--enji-font-weight-medium) !important;
+}
+.navbar-item:hover, .navbar-link:hover,
+.navbar-item.is-active, .navbar-link.is-active {
+    background-color: transparent !important; /* Or a very subtle hover */
+    color: var(--enji-color-primary) !important;
+}
+.navbar-brand .navbar-item { /* Logo area */
+    font-weight: var(--enji-font-weight-bold) !important;
+    color: var(--enji-color-text-headings) !important;
+}
+
+
+/* Footer */
+.footer {
+    background-color: transparent !important; /* To show section grid or page background */
+    padding: calc(var(--enji-spacing-unit) * 2) 1.5rem calc(var(--enji-spacing-unit) * 2) !important;
+    color: var(--enji-color-text-muted) !important;
+    border-top: 1px solid var(--enji-color-border); /* Optional top border */
+    position: relative; /* For grid if needed, but usually footer is simpler */
+    z-index: 1; /* To be above any page-wide grid */
+}
+.footer a {
+    color: var(--enji-color-text) !important;
+    font-weight: var(--enji-font-weight-medium) !important;
+}
+.footer a:hover {
+    color: var(--enji-color-primary) !important;
+}
+
+/* Input Fields (Basic Styling) */
+.input, .textarea {
+    font-family: var(--enji-font-primary) !important;
+    border-radius: var(--enji-border-radius) !important;
+    border-color: var(--enji-color-border) !important;
+    box-shadow: none !important; /* Remove Bulma's default input shadow */
+    background-color: var(--enji-color-surface) !important;
+    color: var(--enji-color-text) !important;
+}
+.input:focus, .textarea:focus,
+.input.is-focused, .textarea.is-focused,
+.input:active, .textarea:active,
+.input.is-active, .textarea.is-active {
+    border-color: var(--enji-color-primary) !important;
+    box-shadow: 0 0 0 0.125em rgba(var(--enji-color-primary), 0.25) !important; /* Bulma like focus */
+}
+
+/* Tech Stack Icons (from hero example) */
+.hero .field.is-grouped .icon.is-large {
+    color: var(--enji-color-text-on-primary) !important;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+.hero .field.is-grouped .icon.is-large:hover {
+    opacity: 1;
+}
