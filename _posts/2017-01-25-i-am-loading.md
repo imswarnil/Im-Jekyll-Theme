@@ -1,16 +1,18 @@
 ---
 layout: post
-title: "Building My Own Website with a Custom Jekyll Theme"
-description: "A detailed account of building my own website, imswarnil.com, using a custom Jekyll theme."
-date: 2016-10-05
-category: blog
-tags: [jekyll, persona, story]
-author: Jane Smith
-image: /assets/images/post-three.jpg
-excerpt: "This post details the process of building my personal website, imswarnil.com, using a custom Jekyll theme."
-TLTR: "Learn how I built my personal website, imswarnil.com, using a custom Jekyll theme and the challenges faced during development."
-comments : true
-sidebar : true
+title: "I'm Loading…"
+description: "The messy, honest beginning of my creative journey before the camera rolled. A raw journal entry of dreams, doubt, and chaos."
+date: 2017-01-25
+category: journal
+tags: [personal, journey, creator-life, imswarnil, origin-story]
+author: Swarnil
+image: https://imswarnil-com.s3.us-east-2.amazonaws.com/blog/im-loading/i-am-loading.png cover if available
+excerpt: "Before the lights, camera, and followers — just me, figuring life out. This is where I truly began."
+TLTR: "This is not a guide, it's a journal. My raw thoughts before I became Imswarnil — the prequel, the confusion, and the chaos before clarity."
+comments: true
+sidebar: true
+keywords: ["Imswarnil journal", "creative journey", "starting YouTube channel", "I'm Loading", "life before fame", "Indian creator story"]
+canonical_url: https://www.imswarnil.com/journal/im-loading
 ---
 
 Creating a personal website is an exciting project that allows you to showcase your skills, portfolio, and interests. For my website, imswarnil.com, I decided to use a custom Jekyll theme to leverage the power of static site generation.
