@@ -1,63 +1,109 @@
-<nav class="navbar {% if site.fixed_navbar %} is-fixed-top {% endif %}"
+{% comment %} _includes/im-navbar.html {% endcomment %}
+<nav class="navbar {% if site.fixed_navbar %}is-fixed-top{% endif %} has-shadow-navbar"
      x-data="{
         openNav: false,
-        darkMode: localStorage.getItem('darkMode') === 'true' || (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
+        darkMode: localStorage.getItem('im-theme') === 'dark', // Use 'im-theme' consistent with your JS
+        initDarkMode() {
+            const savedTheme = localStorage.getItem('im-theme');
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme === 'dark') {
+                this.darkMode = true;
+            } else if (!savedTheme && prefersDark) {
+                this.darkMode = true;
+            } else {
+                this.darkMode = false; // Explicitly set to false if not dark
+            }
+            this.applyHtmlClass();
+        },
         toggleDarkMode() {
             this.darkMode = !this.darkMode;
-            localStorage.setItem('darkMode', this.darkMode);
+            localStorage.setItem('im-theme', this.darkMode ? 'dark' : 'light');
+            this.applyHtmlClass();
+            this.updateIcon(); // Call to update icon from Alpine
+        },
+        applyHtmlClass() {
             if (this.darkMode) {
-                document.documentElement.classList.add('is-dark-mode');
+                document.documentElement.classList.add('im-is-dark-mode');
             } else {
-                document.documentElement.classList.remove('is-dark-mode');
+                document.documentElement.classList.remove('im-is-dark-mode');
+            }
+        },
+        updateIcon() { // New function to update icon based on Alpine's darkMode state
+            const themeIconElement = document.getElementById('im-theme-icon');
+            if (themeIconElement) {
+                if (this.darkMode) {
+                    themeIconElement.className = 'ph ph-sun';
+                } else {
+                    themeIconElement.className = 'ph ph-moon';
+                }
             }
         }
      }"
-     x-init="if (darkMode) document.documentElement.classList.add('is-dark-mode');"
+     x-init="initDarkMode(); updateIcon();"
      x-cloak>
     <div class="container">
         <div class="navbar-brand">
             <a href="{{ site.baseurl }}/" class="navbar-item im-logo-link">
-                <img class="image im-logo-image" src="{{ site.baseurl }}{{ site.logo}}" alt="{{ site.title }} Logo">
-                <span class="im-logo-text">{{ site.title }}</span>
+                {% if site.logo %}
+                <img class="image im-logo-image" src="{{ site.logo | relative_url }}" alt="{{ site.title | escape }} Logo">
+                {% endif %}
+                <span class="im-logo-text has-text-weight-bold ml-2">{{ site.title }}</span>
             </a>
             <a href="{{ '/search' | relative_url }}" class="navbar-item is-hidden-desktop im-navbar-mobile-search" aria-label="Search">
                 <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
             </a>
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navMenu" :class="{ 'is-active': openNav }" @click="openNav = !openNav">
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+               data-target="imNavMenu"
+               :class="{ 'is-active': openNav }" @click="openNav = !openNav">
              <span aria-hidden="true"></span>
              <span aria-hidden="true"></span>
              <span aria-hidden="true"></span>
             </a>
         </div>
-        <div class="navbar-menu" id="navMenu" :class="{ 'is-active': openNav }">
+        <div class="navbar-menu" id="imNavMenu" :class="{ 'is-active': openNav }">
             <div class="navbar-start">
-              <div class="navbar" role="navigation" aria-label="main navigation">
-                {% comment %} Your existing navigation loop {% endcomment %}
                 {% for item in site.navbar %}
                   {% if item.name %}
                     {% assign item_url_relative = item.link | relative_url %}
+                    {% assign current_page_url = page.url | remove: "index.html" %}
+                    {% assign current_item_url = item_url_relative | remove: "index.html" %}
+
                     {% assign is_active_page = false %}
-                    {% if page.url == item_url_relative and item_url_relative != "/#" %}{% assign is_active_page = true %}{% endif %}
-                    {% if page.url == "/" and item_url_relative == "/" %}{% assign is_active_page = true %}{% endif %}
+                    {% if current_page_url == current_item_url and current_item_url != "/#" %}
+                        {% assign is_active_page = true %}
+                    {% endif %}
+                    {% if current_page_url == "/" and current_item_url == "/" %}
+                        {% assign is_active_page = true %}
+                    {% endif %}
+
                     {% assign is_active_parent = false %}
                     {% if item.dropdown %}
-                      {% if item.link != "/#" and page.url contains item_url_relative %}{% assign is_active_parent = true %}{% endif %}
-                      {% for subitem in item.dropdown %}{% assign subitem_url_relative = subitem.link | relative_url %}{% if page.url == subitem_url_relative %}{% assign is_active_parent = true %}{% break %}{% endif %}{% endfor %}
+                      {% if item.link != "/#" and current_page_url contains current_item_url and current_item_url != "/" %}
+                          {% assign is_active_parent = true %}
+                      {% endif %}
+                      {% for subitem in item.dropdown %}
+                          {% assign subitem_url_relative = subitem.link | relative_url | remove: "index.html" %}
+                          {% if current_page_url == subitem_url_relative %}
+                              {% assign is_active_parent = true %}{% break %}
+                          {% endif %}
+                      {% endfor %}
                     {% endif %}
 
                     {% if item.dropdown %}
                     <div class="navbar-item has-dropdown is-hoverable">
-                      <a class="navbar-link {% if is_active_parent %}is-active-nav-item{% endif %}" {% if item.link != "/#" %}href="{{ item_url_relative }}"{% else %}role="button" aria-haspopup="true" aria-expanded="false"{% endif %}>
-                        {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name }}" class="navbar-icon im-nav-image-icon">
-                        {% elsif item.icon %}<span class="icon im-nav-icon"><i class="ph-duotone ph-{{ item.icon }}"></i></span>{% endif %}
+                      <a class="navbar-link {% if is_active_parent %}is-active-nav-item{% endif %}"
+                         {% if item.link != "/#" %}href="{{ item_url_relative }}"{% else %}role="button" aria-haspopup="true" aria-expanded="false"{% endif %}>
+                        {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="navbar-icon im-nav-image-icon">
+                        {% elsif item.icon %}<span class="icon im-nav-icon"><i class="ph ph-{{ item.icon }}"></i></span>{% endif %}
                         <span class="im-nav-text">{{ item.name }}</span>
                       </a>
-                      <div class="navbar-dropdown">
+                      <div class="navbar-dropdown is-boxed">
                         {% for subitem in item.dropdown %}
                           {% assign subitem_url_relative = subitem.link | relative_url %}
-                          <a class="navbar-item {% if page.url == subitem_url_relative %}is-active-nav-item{% endif %}" href="{{ subitem_url_relative }}">
-                            {% if subitem.image %}<img src="{{ subitem.image | relative_url }}" alt="{{ subitem.name }}" class="navbar-icon im-nav-image-icon is-small">
-                            {% elsif subitem.icon %}<span class="icon im-nav-icon is-small"><i class="ph-duotone ph-{{ subitem.icon }}"></i></span>{% endif %}
+                          {% assign current_subitem_url = subitem_url_relative | remove: "index.html" %}
+                          <a class="navbar-item {% if current_page_url == current_subitem_url %}is-active-nav-item{% endif %}" href="{{ subitem_url_relative }}">
+                            {% if subitem.image %}<img src="{{ subitem.image | relative_url }}" alt="{{ subitem.name | escape }}" class="navbar-icon im-nav-image-icon is-small">
+                            {% elsif subitem.icon %}<span class="icon im-nav-icon is-small"><i class="ph ph-{{ subitem.icon }}"></i></span>{% endif %}
                             <span class="im-nav-text">{{ subitem.name }}</span>
                           </a>
                         {% endfor %}
@@ -65,30 +111,34 @@
                     </div>
                     {% else %}
                     <a class="navbar-item {% if is_active_page %}is-active-nav-item{% endif %}" href="{{ item_url_relative }}">
-                      {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name }}" class="navbar-icon im-nav-image-icon">
-                      {% elsif item.icon %}<span class="icon im-nav-icon"><i class="ph-duotone ph-{{ item.icon }}"></i></span>{% endif %}
+                      {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="navbar-icon im-nav-image-icon">
+                      {% elsif item.icon %}<span class="icon im-nav-icon"><i class="ph ph-{{ item.icon }}"></i></span>{% endif %}
                       <span class="im-nav-text">{{ item.name }}</span>
                     </a>
                     {% endif %}
                   {% endif %}
                 {% endfor %}
-              </div>
             </div>
             <div class="navbar-end">
-                {% for item in site.social_media %}
-                    <a class="navbar-item im-social-icon" href="{{ item.url }}" target="_blank" rel="noopener noreferrer" title="{{ item.cta }}">
-                        <span class="icon"><i class="ph-duotone ph-{{ item.icon | downcase }}"></i></span>
-                    </a>
-                {% endfor %}
+                {% if site.social_media %}
+                    {% for item in site.social_media %}
+                        <a class="navbar-item im-social-icon" href="{{ item.url }}" target="_blank" rel="noopener noreferrer" title="{{ item.cta | escape }}">
+                            <span class="icon"><i class="ph ph-{{ item.icon | downcase }}"></i></span>
+                        </a>
+                    {% endfor %}
+                {% endif %}
                 <a href="{{ '/search' | relative_url }}" class="navbar-item is-hidden-touch im-navbar-desktop-search" aria-label="Search">
                     <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
                 </a>
-                <!-- DARK MODE TOGGLE BUTTON -->
-                <a href="#" class="navbar-item im-dark-mode-toggle" id="im-dark-mode-toggle" title="Toggle Dark Mode" role="button" aria-pressed="false">
-    <span class="icon is-medium">
-        <i class="ph" id="im-theme-icon"></i> <!-- Icon class (ph-moon or ph-sun) will be set by JavaScript -->
-    </span>
-</a>
+                <a href="#" class="navbar-item im-dark-mode-toggle"
+                   title="Toggle Dark Mode"
+                   role="button"
+                   @click.prevent="toggleDarkMode()"
+                   :aria-pressed="darkMode.toString()">
+                    <span class="icon is-medium">
+                        <i class="ph" id="im-theme-icon" :class="darkMode ? 'ph-sun' : 'ph-moon'"></i>
+                    </span>
+                </a>
             </div>
         </div>
     </div>

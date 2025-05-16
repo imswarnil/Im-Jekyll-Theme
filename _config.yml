@@ -259,55 +259,60 @@ defaults:
 
 
 # 9. Site navigation
-fixed_navbar : true
+fixed_navbar: true # CRUCIAL: Make sure this is true
 navbar:
   - name: Home
     link: /
-    icon: house
+    icon: house # ph-house
     dropdown:
       - name: Personal
-        link: /personal
-        icon: user
+        link: /personal/ # Added trailing slash
+        icon: user # ph-user
   - name: About
-    link: /about
-    icon: fa-user
+    link: /about/
+    icon: identification-card # (was fa-user) e.g., ph-identification-card
   - name: Elements
-    link: /elements
+    link: /elements/
+    icon: puzzle-piece # e.g., ph-puzzle-piece
   - name: Layouts
     link: /#
+    icon: "layout" # e.g., ph-layout (was fa-app)
     dropdown:
       - name: Post Layouts
         link: /#
-        icon: fa-pen
+        icon: article # e.g., ph-article (was fa-pen)
       - name: Video Layout
-        link: /videos
-        icon: fa-play
-    icon: fa-app
-  - name: Categories 
+        link: /videos/
+        icon: play-circle # ph-play-circle
+  - name: Categories
     link: /categories/
+    icon: tag # ph-tag
   - name: Example Pages
     link: /#
+    icon: "sparkle" # e.g., ph-sparkle
     dropdown:
-      - name: Landing Page With Callouts
+      - name: Landing Page
         link: /landing/
-        icon: fa-rocket
+        icon: rocket-launch # ph-rocket-launch
       - name: Sponsors Page
         link: /sponsors/
-        icon: fa-hand-holding-heart
+        icon: handshake # e.g., ph-handshake (was fa-hand-holding-heart)
       - name: Image Gallery
         link: /gallery/
-        icon: fa-images
+        icon: image # ph-image or ph-images
       - name: Products
         link: /products/
-        icon: fa-box-open
+        icon: package # e.g., ph-package (was fa-box-open)
       - name: Recipe Page
         link: /example-recipe/
-        image : https://yt3.googleusercontent.com/bUPnDYABdzOveHZUSC-0745utTub-SQ76iuOjvYVUEeQrsA1fBMTgXbAsZ1SigmXd6BbtkqnwA=s900-c-k-c0x00ffffff-no-rj
+        image : "https://yt3.googleusercontent.com/bUPnDYABdzOveHZUSC-0745utTub-SQ76iuOjvYVUEeQrsA1fBMTgXbAsZ1SigmXd6BbtkqnwA=s900-c-k-c0x00ffffff-no-rj"
+        # icon: "cooking-pot" # e.g., ph-cooking-pot
       - name: Showcase
         link: /showcase/
-        icon: fa-star
-  - link: /search
-    icon: fa-search
+        icon: star # ph-star
+  - name: Search # Changed from link to name for consistency if it's a page
+    link: /search/
+    icon: magnifying-glass # ph-magnifying-glass
 
 
 # 8. Installed Gems
