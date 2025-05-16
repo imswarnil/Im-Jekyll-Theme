@@ -1,0 +1,341 @@
+//------------------------------------------------------------------------------
+// 9. Markdown & Content Styling (for content generated from Markdown)
+//------------------------------------------------------------------------------
+
+// Apply these styles generally to content areas.
+// If your markdown is always within a specific class like '.page-content',
+// you can scope these rules further e.g., .page-content { h1 {} ... }
+// For now, assuming it's within a .container or a .content div.
+
+.container, // General container
+.content {  // Bulma's class for typographic content
+
+  hr {
+    background-color: var(--im-color-border) !important;
+    border: none !important;
+    height: 1px !important;
+    margin: ($im-spacing-unit * 2) 0 !important;
+  }
+
+  // Headings are already styled globally, but ensure bottom margin consistency
+  h1, h2, h3, h4, h5, h6 {
+    &:not(:first-child) {
+      margin-top: ($im-spacing-unit * 2) !important;
+    }
+    &:not(:last-child) {
+      margin-bottom: $im-spacing-unit !important;
+    }
+  }
+  h1 { margin-bottom: ($im-spacing-unit * 1.5) !important; }
+  h2 { margin-bottom: ($im-spacing-unit * 1.25) !important; }
+
+
+  p {
+    // Global p styling should apply, this is for context
+    line-height: $im-line-height-base;
+    &:last-child {
+      margin-bottom: 0 !important; // Often useful within block elements
+    }
+  }
+
+  ul, ol {
+    margin-left: $im-spacing-unit * 1.5 !important;
+    margin-bottom: $im-spacing-unit !important;
+    padding-left: $im-spacing-unit !important; // Indentation for bullets/numbers
+
+    li {
+      margin-bottom: calc(#{$im-spacing-unit} / 2) !important;
+      padding-left: calc(#{$im-spacing-unit} / 2) !important; // Space after bullet/number
+      &::marker { // Style list bullets/numbers
+        color: var(--im-color-primary);
+        // font-weight: $im-font-weight-semibold; // Optional: bolder markers
+      }
+    }
+
+    // Nested lists
+    ul, ol {
+      margin-top: calc(#{$im-spacing-unit} / 2) !important;
+      margin-bottom: calc(#{$im-spacing-unit} / 2) !important;
+    }
+  }
+
+  dl { // Definition lists
+    margin-bottom: $im-spacing-unit !important;
+    dt {
+      font-weight: $im-font-weight-semibold !important;
+      color: var(--im-color-text-headings) !important;
+      margin-bottom: calc(#{$im-spacing-unit} / 4) !important;
+    }
+    dd {
+      margin-left: $im-spacing-unit * 1.5 !important;
+      margin-bottom: $im-spacing-unit !important;
+      color: var(--im-color-text) !important;
+      &:last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+  }
+
+  blockquote {
+    background-color: rgba(var(--im-color-primary-rgb), 0.03) !important;
+    border-left: 4px solid var(--im-color-primary) !important;
+    padding: $im-spacing-unit ($im-spacing-unit * 1.5) !important;
+    margin: ($im-spacing-unit * 1.5) 0 !important;
+    color: var(--im-color-text-muted) !important; // Slightly muted text for quotes
+    border-radius: 0 $im-border-radius $im-border-radius 0;
+
+    p {
+      color: inherit !important; // Ensure p inside blockquote inherits muted color
+      &:last-of-type {
+        margin-bottom: 0 !important;
+      }
+    }
+
+    // Nested blockquotes
+    blockquote {
+      margin-top: $im-spacing-unit !important;
+      margin-bottom: 0 !important;
+      margin-left: $im-spacing-unit !important;
+      padding: ($im-spacing-unit * 0.75) $im-spacing-unit !important;
+      font-size: 0.95em;
+      border-left-width: 3px !important;
+    }
+  }
+
+  // Code blocks and inline code
+  // Inline code (not inside <pre>)
+  *:not(pre) > code,
+  p > code, li > code, dd > code, th > code, td > code { // More specific for inline
+    background-color: var(--im-color-surface) !important;
+    border: 1px solid var(--im-color-border) !important;
+    color: var(--im-color-primary-dark) !important; // Or a dedicated code text color
+    padding: 0.15em 0.4em !important;
+    border-radius: calc(#{$im-border-radius} / 2) !important;
+    font-size: 0.9em !important;
+    font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace !important;
+    white-space: nowrap;
+  }
+
+  // Fenced code blocks (Jekyll adds .highlighter-rouge)
+  .highlighter-rouge {
+    margin-bottom: $im-spacing-unit * 1.5 !important;
+    position: relative; // For copy button positioning
+
+    .highlight { // This is the <pre> wrapper
+      background-color: var(--im-color-surface) !important;
+      border: 1px solid var(--im-color-border) !important;
+      border-radius: $im-border-radius !important;
+      padding: $im-spacing-unit !important;
+      overflow-x: auto !important;
+      font-size: 0.9em !important;
+      line-height: 1.5;
+
+      pre {
+        margin: 0 !important;
+        padding: 0 !important;
+        background-color: transparent !important;
+        border: none !important;
+        font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace !important;
+      }
+
+      code { // Code specifically inside pre
+        background-color: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        color: var(--im-color-text-on-surface) !important; // Ensure it matches surface text color
+        font-size: inherit !important; // Inherit from .highlight
+        white-space: pre; // Allow wrapping but preserve spaces
+      }
+    }
+
+    // Style for the copy button (it's already a .button .is-primary .is-small)
+    .copy-code-button {
+      position: absolute !important;
+      top: 0.5rem !important;
+      right: 0.5rem !important;
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
+
+      &:hover {
+        opacity: 1;
+      }
+      // Ensure text and icon colors are appropriate if they don't inherit well
+      .icon {
+         color: var(--im-color-text-on-primary) !important; // If needed
+      }
+      .text {
+         color: var(--im-color-text-on-primary) !important; // If needed
+      }
+    }
+  }
+
+  // Tables
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin-bottom: $im-spacing-unit * 1.5 !important;
+    font-size: 0.95em;
+    border: 1px solid var(--im-color-border) !important;
+    border-radius: $im-border-radius; // Apply to table itself if not to cells
+    overflow: hidden; // To make border-radius clip th/td backgrounds
+
+    th, td {
+      border: 1px solid var(--im-color-border) !important;
+      padding: 0.75em 1em !important;
+      text-align: left !important;
+      vertical-align: top; // Better for multi-line content
+    }
+
+    thead {
+      // background-color: var(--im-color-surface); // Or a slightly different shade
+      th {
+        font-weight: $im-font-weight-semibold !important;
+        color: var(--im-color-text-headings) !important;
+        background-color: rgba(var(--im-color-primary-rgb), 0.03) !important; // Subtle tint
+        // border-bottom-width: 2px !important; // Heavier bottom border for header
+      }
+    }
+
+    tbody {
+      tr {
+        &:nth-child(even) { // Zebra striping
+           background-color: rgba(var(--im-color-primary-rgb), 0.015) !important;
+        }
+        &:hover td {
+          // background-color: rgba(var(--im-color-primary-rgb), 0.04) !important; // Hover effect
+        }
+      }
+      td {
+        line-height: $im-line-height-base;
+      }
+    }
+  }
+
+  // Images
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: $im-border-radius !important;
+    // margin-bottom: $im-spacing-unit !important; // If images are block elements
+    // box-shadow: 0 2px 8px rgba(0,0,0,0.08); // Optional subtle shadow
+  }
+
+  // Footnotes
+  .footnotes {
+    margin-top: ($im-spacing-unit * 3) !important;
+    padding-top: ($im-spacing-unit * 1.5) !important;
+    border-top: 1px solid var(--im-color-border) !important;
+    font-size: 0.9em !important;
+    color: var(--im-color-text-muted) !important;
+
+    ol {
+      padding-left: 0 !important; // Reset ol padding for custom layout
+      list-style: none;
+    }
+    li {
+      margin-bottom: $im-spacing-unit !important;
+      padding-left: $im-spacing-unit * 2 !important; // Indent text
+      position: relative;
+
+      &::marker { display: none; } // Hide default marker
+
+      // Custom marker for footnotes
+      &::before {
+        content: counter(list-item) "."; // Or just counter(list-item) if you use <sup id="fnref:..."> as the number
+        position: absolute;
+        left: 0;
+        top: 0; // Adjust as needed
+        font-weight: $im-font-weight-semibold;
+        color: var(--im-color-primary);
+      }
+
+      p:last-of-type {
+        margin-bottom: 0 !important;
+      }
+    }
+    .reversefootnote {
+      font-size: 0.9em;
+      margin-left: 0.25em;
+    }
+  }
+
+  // Markdown-it specific elements if needed
+  del { // Strikethrough
+    color: var(--im-color-text-muted) !important;
+    text-decoration-color: var(--im-color-text-muted) !important;
+  }
+
+  ins { // Inserted text ++inserted++
+    text-decoration: none !important;
+    background-color: rgba(var(--im-color-primary-rgb), 0.1) !important;
+    padding: 0.1em 0.2em;
+    border-radius: calc(#{$im-border-radius} / 3);
+  }
+
+  mark { // Marked text ==marked==
+    background-color: #fff1a7 !important; // A typical yellow highlight
+    color: #5c4800 !important;
+    padding: 0.1em 0.2em;
+    border-radius: calc(#{$im-border-radius} / 3);
+  }
+  html.im-is-dark-mode & mark { // Mark in dark mode
+    background-color: #a88c0c !important; // Darker yellow
+    color: #fffde7 !important;
+  }
+
+
+  abbr[title] {
+    text-decoration: none !important;
+    border-bottom: 1px dotted var(--im-color-text-muted) !important;
+    cursor: help !important;
+  }
+
+  // Emoji images (often class="emoji")
+  img.emoji {
+    height: 1.2em !important; // Adjust size to better fit text line
+    width: 1.2em !important;
+    margin: 0 0.05em 0 0.1em !important;
+    vertical-align: -0.2em !important; // Better alignment with text
+    border-radius: 0 !important; // Emojis usually don't have radius
+    box-shadow: none !important;
+  }
+
+  // Breadcrumbs are Bulma, but ensure link color is consistent
+  .breadcrumb ul li a {
+    color: var(--im-color-primary) !important;
+    &:hover {
+      color: var(--im-color-primary-dark) !important;
+    }
+  }
+  .breadcrumb li.is-active a {
+    color: var(--im-color-text) !important; // Active breadcrumb text
+    font-weight: $im-font-weight-semibold !important;
+  }
+
+  // Custom containers like ::: warning (if they render with a class)
+  // Assuming markdown-it-container renders ::: type as <div class="custom-container custom-container-type">
+  // Example: .custom-container-warning { styles... }
+  // Your HTML shows "::: warning *here be dragons* :::" becomes a <p> tag.
+  // If it was <div class="warning">...</div>, you'd style .warning.
+  // For now, this will just be a normal <p>. If you configure markdown-it-container
+  // to output specific classes, you can style them.
+}
+
+// Ensure that the breadcrumb is not affected by the generic .container > ul styling for lists
+.breadcrumb {
+  ul {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    li::marker {
+      display: none !important;
+    }
+  }
+}
+
+
+// If your specific page layout has a main content area div, e.g.
+// <div class="page-content"> <!-- markdown output here --> </div>
+// Then you might prefer to scope all the above styles:
+// .page-content { hr {} table {} ... }
+// This prevents overly broad styling if .container is used elsewhere for non-markdown layout.
+// For now, .container and .content are used as per Bulma's common usage.
