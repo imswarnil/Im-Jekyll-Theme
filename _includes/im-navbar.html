@@ -1,4 +1,4 @@
-<nav class="navbar im-navbar-custom" role="navigation" aria-label="main navigation" style="background-color: transparent !important; box-shadow: none !important; min-height: 4.2rem; border-bottom: 1px solid rgba(67, 56, 202, 0.1);"> {/* Removed is-fixed-top, added subtle border */}
+<nav class="navbar im-navbar-custom" role="navigation" aria-label="main navigation" style="background-color: transparent !important; box-shadow: none !important; min-height: 4.2rem; border-bottom: 1px solid rgba(67, 56, 202, 0.1);">
     <div class="container">
         <div class="navbar-brand" style="min-height: 4.2rem;">
             <a href="{{ site.baseurl }}/" class="navbar-item im-navbar-logo-link" style="padding: 0.5rem 0.75rem;">
@@ -46,9 +46,9 @@
                     {% assign nav_item_active_style = "color: #6D28D9 !important; background-color: rgba(109, 40, 217, 0.07) !important; border-radius: 5px;" %}
 
                     {% if item.dropdown %}
-                    <div class="navbar-item has-dropdown is-hoverable" style="padding:0;"> {/* Remove padding from wrapper div */}
+                    <div class="navbar-item has-dropdown is-hoverable" style="padding:0;"> 
                       <a class="navbar-link im-navbar-link {% if is_active_parent %}is-active-nav-item{% endif %}"
-                         style="{{ nav_item_base_style }} {% if is_active_parent %}{{ nav_item_active_style }}{% else %}{{ nav_item_text_color }}{% endif %} border-color: transparent;" {/* Attempt to make arrow match text or be less obtrusive */}
+                         style="{{ nav_item_base_style }} {% if is_active_parent %}{{ nav_item_active_style }}{% else %}{{ nav_item_text_color }}{% endif %} border-color: transparent;"
                          {% if item.link != "/#" %}href="{{ item_url_relative }}"{% else %}role="button" aria-haspopup="true" aria-expanded="false"{% endif %}>
                         {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="im-navbar-icon im-navbar-image-icon" style="max-height: 1rem; margin-right: 0.4em;">
                         {% elsif item.icon %}<span class="icon im-navbar-icon" style="margin-right: 0.4em;"><i class="ph ph-{{ item.icon }} im-navbar-ph-icon" style="font-size: 1.1em;"></i></span>{% endif %}
@@ -78,10 +78,10 @@
                   {% endif %}
                 {% endfor %}
             </div>
-            <div class="navbar-end" style="align-items: center;"> {/* Align items vertically */}
+            <div class="navbar-end" style="align-items: center;"> 
                 {% assign end_item_base_style = "display: inline-flex; align-items: center; justify-content: center; padding: 0.5rem 0.75rem; min-height: calc(4.2rem - 1.5rem); height: calc(4.2rem - 1.5rem); margin-left: 0.25rem; border-radius: 6px; font-size: 0.85rem;" %}
                 {% assign end_item_text_color = "color: #4A5568;" %}
-                {% assign end_item_bg_color = "background-color: rgba(226, 232, 240, 0.5);" %} {/* Light greyish background for button look */}
+                {% assign end_item_bg_color = "background-color: rgba(226, 232, 240, 0.5);" %} 
 
                 {% if site.social_media %}
                   {% for item in site.social_media %}
@@ -92,7 +92,7 @@
                 {% endif %}
                 <a href="{{ '/search' | relative_url }}" class="navbar-item im-navbar-end-item im-navbar-desktop-search is-hidden-touch" aria-label="Search" style="{{ end_item_base_style }} {{ end_item_text_color }} {{ end_item_bg_color }}">
                     <span class="icon is-medium" style="margin-right: 0.3em;"><i class="ph ph-magnifying-glass" style="font-size: 1rem;"></i></span>
-                    <span style="font-weight: 500;">Quick Access</span> {# Added text to mimic "Quick Access" button #}
+                    <span style="font-weight: 500;">Quick Access</span>
                 </a>
                 <a href="#" class="navbar-item im-navbar-end-item im-dark-mode-toggle is-hidden-touch" id="im-desktop-dark-mode-toggle" title="Toggle Dark Mode" role="button" aria-pressed="false" style="{{ end_item_base_style }} {{ end_item_text_color }} {{ end_item_bg_color }}">
                     <span class="icon is-medium"><i class="ph" id="im-desktop-theme-icon" style="font-size: 1.1rem;"></i></span>
