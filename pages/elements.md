@@ -253,3 +253,52 @@ It converts "HTML", but keep intact partial entries like "xxxHTMLyyy" and so on.
 ::: warning
 *here be dragons*
 :::
+
+<div class="im-video-embed im-video-embed--16-9">
+    <iframe
+        src="https://www.youtube.com/embed/VIDEO_ID"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        title="Embedded YouTube Video">
+    </iframe>
+</div>
+
+<!-- For 4:3 aspect ratio -->
+<div class="im-video-embed im-video-embed--4-3">
+    <iframe src="..." ...></iframe>
+</div>
+
+<aside class="im-ad-placeholder" aria-label="Advertisement">
+    <span class="im-ad-placeholder__label">Advertisement</span>
+    <p>Your ad content or a placeholder image/text would go here.</p>
+    <a href="#" class="im-ad-placeholder__link">Learn More</a>
+</aside>
+
+<div class="im-takeaways-box">
+    <h4 class="im-takeaways-box__title"><i class="ph ph-list-checks"></i> Key Takeaways</h4>
+    <ul class="im-takeaways-box__list">
+        <li>First important point that readers should remember.</li>
+        <li>Another crucial insight from the article.</li>
+        <li>And a final summary item.</li>
+    </ul>
+</div>
+
+<blockquote class="im-pull-quote">
+    <p>"This is an impactful statement that deserves to be highlighted and pulled out from the main text flow."</p>
+    <cite class="im-pull-quote__cite">— Author Name, Source</cite>
+</blockquote>
+
+<div class="im-code-block">
+    <div class="im-code-block__header">
+        <span class="im-code-block__language">JavaScript</span>
+        <button class="im-code-block__copy-btn button is-small">
+            <span class="icon"><i class="ph ph-copy"></i></span>
+            <span>Copy</span>
+        </button>
+    </div>
+    <pre class="im-code-block__pre"><code class="language-javascript">// Your code here
+function greet() {
+  console.log("Hello, component!");
+}</code></pre>
+</div>
