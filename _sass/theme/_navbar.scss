@@ -1,0 +1,169 @@
+// _sass/_navbar.scss
+
+// =============================================================================
+// NAVBAR STYLES
+// =============================================================================
+.navbar.im-navbar-custom { // Add .im-navbar-custom to your <nav> element
+  min-height: var(--im-navbar-height) !important;
+  background-color: var(--im-navbar-bg-transparent) !important;
+  backdrop-filter: blur(8px) saturate(160%);
+  -webkit-backdrop-filter: blur(8px) saturate(160%);
+  border-bottom: 1px solid var(--im-navbar-border-transparent);
+  transition: transform var(--im-navbar-scroll-transition-duration) ease-out,
+              background-color var(--im-navbar-scroll-transition-duration) ease-out,
+              border-color var(--im-navbar-scroll-transition-duration) ease-out,
+              box-shadow var(--im-navbar-scroll-transition-duration) ease-out;
+  position: fixed; // Crucial for scroll effect
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1030; // Bulma's fixed navbar z-index
+
+  // State when navbar should be fully visible (scrolled up or at top)
+  &.is-visible {
+    transform: translateY(0%);
+    background-color: var(--im-navbar-bg-scrolled) !important;
+    border-bottom-color: var(--im-navbar-border-scrolled);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04); // Subtle shadow when visible
+  }
+
+  // State when navbar is hidden (scrolled down)
+  &.is-hidden-scroll {
+    transform: translateY(-100%);
+  }
+
+
+  .navbar-brand {
+    min-height: var(--im-navbar-height);
+    .navbar-item {
+      padding-top: 0;
+      padding-bottom: 0;
+      display:flex;
+      align-items:center;
+    }
+  }
+
+  .navbar-menu {
+    // Mobile menu background (when active)
+    @media screen and (max-width: 1023px) { // Bulma's $desktop - 1px
+      &.is-active {
+        background-color: var(--im-color-surface);
+        box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1);
+        padding: 0.5rem 0;
+        border-bottom-left-radius: var(--im-border-radius);
+        border-bottom-right-radius: var(--im-border-radius);
+        border: 1px solid var(--im-color-border);
+        border-top: none;
+        position: absolute; // For mobile dropdown
+        left: 0;
+        right: 0;
+        top: 100%; // Position below brand
+        z-index: 20;
+      }
+    }
+  }
+
+  .navbar-item, .navbar-link {
+    color: var(--im-color-text) !important;
+    font-weight: $im-font-weight-medium !important;
+    padding: $im-navbar-item-padding-vertical $im-navbar-item-padding-horizontal !important;
+    min-height: var(--im-navbar-height);
+    display: flex;
+    align-items: center;
+    position: relative; // For triangle indicator
+    transition: color 0.2s ease; // Only transition color for performance with transparent bg
+
+    &:hover, &.is-hovered { // is-hovered for dropdown parent
+      background-color: transparent !important; // Keep transparent on hover
+      color: var(--im-color-primary) !important;
+      .icon i.ph {
+         color: var(--im-color-primary) !important;
+      }
+    }
+
+    &.is-active-nav-item { // Your custom class for active items
+      color: var(--im-color-primary) !important;
+      font-weight: $im-font-weight-semibold !important;
+      background-color: transparent !important;
+      .icon i.ph {
+         color: var(--im-color-primary) !important;
+      }
+      &::after { // Triangle indicator
+        content: '';
+        position: absolute;
+        bottom: 4px; // Adjust to sit nicely
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-bottom: 5px solid var(--im-color-primary);
+      }
+    }
+  }
+
+  .navbar-link { // For dropdown toggles
+    &::after { // Bulma's arrow
+      border-color: var(--im-color-text-muted) !important;
+      right: $im-navbar-item-padding-horizontal * 0.7;
+    }
+    &:hover::after, &.is-active-nav-item::after { // When parent is hovered/active
+        border-color: var(--im-color-primary) !important;
+    }
+  }
+
+  .navbar-dropdown {
+    background-color: var(--im-color-surface) !important; // Solid for dropdown
+    border: 1px solid var(--im-color-border) !important;
+    border-top: none !important;
+    border-radius: 0 0 var(--im-border-radius) var(--im-border-radius) !important;
+    box-shadow: 0 6px 12px rgba(10, 10, 10, 0.1) !important;
+    padding-top: 0.25rem !important; padding-bottom: 0.25rem !important;
+    font-size: 0.9em;
+    .navbar-item {
+      padding: calc(#{$im-navbar-item-padding-vertical} * 0.85) calc(#{$im-navbar-item-padding-horizontal} * 1.1) !important;
+      min-height: auto;
+      color: var(--im-color-text) !important; // Ensure text color
+      &:hover {
+        background-color: var(--im-color-surface-alt) !important;
+        color: var(--im-color-primary) !important;
+      }
+      &.is-active-nav-item { // Active item in dropdown
+        background-color: rgba(var(--im-color-primary-rgb), 0.08) !important;
+        color: var(--im-color-primary-dark) !important;
+        font-weight: $im-font-weight-medium !important;
+        &::after { display: none; } // No triangle in dropdown items
+      }
+    }
+  }
+
+  // Logo and Nav Icons
+  .im-logo-link {
+    .im-logo-image {
+      max-height: calc(var(--im-navbar-height) * 0.55);
+      margin-right: 0.5rem;
+    }
+    .im-logo-text {
+      font-size: 1.05rem;
+      color: var(--im-color-text-headings);
+      font-weight: $im-font-weight-bold;
+    }
+  }
+  .im-nav-icon { margin-right: 0.4em; i.ph { font-size: 1.1em; } }
+  .im-nav-image-icon { max-height: 1.1rem; margin-right: 0.4em; &.is-small { max-height: 0.9rem; } }
+
+  // Mobile action icons in navbar-brand
+  .navbar-brand .navbar-item.is-hidden-desktop { // The wrapper for mobile icons
+    margin-left:auto; // Push them to the right before the burger
+  }
+  .im-navbar-mobile-action { // Class for search and theme toggle on mobile
+    padding: 0 0.5rem !important; // Compact padding
+    .icon i.ph { color: var(--im-color-text-muted); }
+    &:hover .icon i.ph { color: var(--im-color-primary); }
+  }
+  // Theme toggle specific icon styling (if different from general mobile action)
+  .im-dark-mode-toggle .icon i.ph {
+     /* Handled by .im-navbar-mobile-action or specific color vars in JS */
+  }
+}

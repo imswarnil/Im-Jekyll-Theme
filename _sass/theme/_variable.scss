@@ -1,0 +1,73 @@
+// _sass/_variables.scss
+
+// =============================================================================
+// 1. THEME VARIABLES (SCSS)
+// =============================================================================
+$im-font-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+$im-font-weight-normal: 400;
+$im-font-weight-medium: 500;
+$im-font-weight-semibold: 600;
+$im-font-weight-bold: 700;
+
+$im-base-font-size: 16px;
+$im-line-height-base: 1.6;
+
+$im-border-radius: 6px;
+$im-spacing-unit: 1rem;
+
+$im-navbar-height: 3.5rem; // Slightly more height for better click targets & aesthetics
+$im-navbar-item-padding-vertical: 0.75rem;
+$im-navbar-item-padding-horizontal: 1rem;
+$im-navbar-scroll-transition-duration: 0.3s;
+
+
+// =============================================================================
+// 2. CSS CUSTOM PROPERTIES (:root Defaults - LIGHT MODE FOCUS)
+// =============================================================================
+:root {
+  // --- Colors ---
+  --im-color-primary-rgb: 229, 57, 53;
+  --im-color-primary: rgb(var(--im-color-primary-rgb));
+  --im-color-primary-light: #ef5350;
+  --im-color-primary-dark: #c62828;
+  --im-color-primary-inverse: #FFFFFF;
+
+  --im-color-text: #2D3748;
+  --im-color-text-headings: #1A202C;
+  --im-color-text-muted: #718096;
+  --im-color-text-on-primary: #FFFFFF;
+  --im-color-text-on-surface: var(--im-color-text);
+
+  --im-color-background: #F9FAFB;
+  --im-color-surface: #FFFFFF;
+  // For transparent navbar with slight tint & blur
+  --im-navbar-bg-transparent: rgba(255, 255, 255, 0.7); // Initial transparent state
+  --im-navbar-bg-scrolled: rgba(255, 255, 255, 0.95);  // Background when scrolled up/visible
+  --im-navbar-border-transparent: rgba(var(--im-color-border-rgb, 226, 232, 240), 0.0); // Initially no border
+  --im-navbar-border-scrolled: rgba(var(--im-color-border-rgb, 226, 232, 240), 0.7); // Border when scrolled up
+
+  --im-color-surface-alt: #F0F2F5;
+  --im-color-border-rgb: 226, 232, 240;
+  --im-color-border: rgb(var(--im-color-border-rgb));
+  --im-color-border-light: #EFF2F7;
+
+  --im-color-link: var(--im-color-primary);
+  --im-color-link-hover: var(--im-color-primary-dark);
+
+  // Other variables for buttons, inputs etc. can be added here as needed
+  // For now, focusing on navbar essentials
+
+  // --- Sizing & Spacing (CSS accessible) ---
+  --im-border-radius: #{$im-border-radius};
+  --im-spacing-unit: #{$im-spacing-unit};
+  --im-navbar-height: #{$im-navbar-height};
+  --im-navbar-scroll-transition-duration: #{$im-navbar-scroll-transition-duration};
+
+
+  // --- Fonts (CSS accessible) ---
+  --im-font-family-sans-serif: #{$im-font-primary};
+
+  // --- Icons ---
+  --im-icon-color: var(--im-color-text-muted);
+  --im-icon-color-hover: var(--im-color-primary);
+}
