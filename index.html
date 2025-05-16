@@ -3,7 +3,79 @@ title: Im Jekyll Theme
 description: "An open-source Jekyll theme crafted using the Bulma CSS framework. This theme utilizes Bulma SCSS, making it incredibly easy to customize and adapt to your specific needs. With over 7 layouts and 10+ collections"
 image: /assets/logos/logo.svg
 layout: default
+hero:
+  greeting: "hi! 👋"
+  name: "Enji Kusnadi"
+  role: "a front-end developer who loves intuitive, clean and modern UI design."
+  buttons:
+    - text: "Get in Touch"
+      class: "is-light is-medium is-outlined"
+      link: "/contact"
+    - text: "RESUME"
+      class: "is-light is-medium"
+      icon: "fas fa-file-alt"
+      link: "/resume.pdf"
+  tech_stack:
+    - name: "TypeScript"
+      icon: "fab fa-js-square"
+    - name: "React"
+      icon: "fab fa-react"
+    - name: "Next.js"
+      icon: "fas fa-arrow-alt-circle-right"
+    - name: "Tailwind CSS"
+      icon: "fas fa-wind"
+    - name: "Node.js"
+      icon: "fab fa-node-js"
+    - name: "VS Code"
+      icon: "fas fa-code"
+  profile_image: "https://via.placeholder.com/400x450/FFFFFF/000000?text=Profile+Avatar"
 ---
+
+
+<!-- Hero content: will be in the middle -->
+<section class="hero is-fullheight-with-navbar">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns is-vcentered">
+        <div class="column is-7-tablet is-6-desktop hero-content-column">
+          <p class="subtitle is-4 has-text-white">
+            {{ page.hero.greeting }}
+          </p>
+          <h1 class="title is-1 has-text-white">
+            I'm <strong class="has-text-weight-bold">{{ page.hero.name }}</strong>,
+          </h1>
+          <h2 class="subtitle is-3 has-text-white">
+            {{ page.hero.role }}
+          </h2>
+          <div class="buttons mt-5">
+            {% for button in page.hero.buttons %}
+              <a class="button {{ button.class }}" href="{{ button.link }}">
+                {% if button.icon %}<span class="icon"><i class="{{ button.icon }}"></i></span>{% endif %}
+                <span>{{ button.text }}</span>
+              </a>
+            {% endfor %}
+          </div>
+
+          <p class="mt-6 mb-2 has-text-white">current favorite tech stack/tools:</p>
+          <div class="field is-grouped is-grouped-multiline tech-stack-icons">
+            {% for tech in page.hero.tech_stack %}
+              <div class="control">
+                <span class="icon is-large has-text-white" title="{{ tech.name }}">
+                  <i class="{{ tech.icon }} fa-2x"></i>
+                </span>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="column is-5-tablet is-6-desktop profile-image-container">
+          <figure class="image">
+            <img src="{{ page.hero.profile_image }}" alt="{{ page.hero.name }} - Front-end Developer">
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
  <div class="section">
     <div class="container">
