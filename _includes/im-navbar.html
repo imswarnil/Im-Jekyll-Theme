@@ -1,570 +1,420 @@
-  <nav class="navbar is-fixed-top navbar-custom navbar-themed" role="navigation" aria-label="main navigation">
-        <div class="container">
-            <div class="navbar-brand">
-                <a href="{{ site.baseurl | default: './' }}/" class="navbar-item navbar-logo-link">
-                    {% if site.logo %}
-                    <img class="image navbar-logo-image" src="{{ site.logo | relative_url }}" alt="{{ site.title | escape | default: 'Site' }} Logo">
-                    {% else %}
-                    <span class="icon is-large mr-2"><i class="ph-bold ph-code"></i></span>
-                    {% endif %}
-                    <span class="navbar-logo-text has-text-weight-bold ml-2">{{ site.title | default: "My Site Title" }}</span>
+<style>
+    body {
+        padding-top: var(--bulma-navbar-height, 3.25rem);
+    }
+
+    .im-navbar-custom {
+        background-color: var(--bulma-navbar-background-color, var(--bulma-scheme-main));
+        transition: background-color 0.3s ease;
+        border-bottom: 1px solid var(--bulma-border, hsl(0, 0%, 86%));
+    }
+    html.is-dark .im-navbar-custom {
+        background-color: var(--bulma-navbar-background-color, var(--bulma-scheme-main-bis));
+        border-bottom: 1px solid var(--bulma-border, hsl(0, 0%, 29%));
+    }
+
+    .im-navbar-logo-link:hover {
+        background-color: transparent !important;
+    }
+    .im-navbar-logo-image {
+        max-height: var(--bulma-navbar-item-img-max-height, 1.75rem);
+    }
+    .im-navbar-logo-text {
+        color: var(--bulma-navbar-item-color, var(--bulma-text-strong));
+        transition: color 0.3s ease;
+    }
+    html.is-dark .im-navbar-logo-text {
+         color: var(--bulma-navbar-item-color, var(--bulma-text-invert));
+    }
+
+    .navbar-burger span {
+        background-color: var(--bulma-navbar-burger-color, var(--bulma-navbar-item-color));
+        height: 2px;
+    }
+    html.is-dark .navbar-burger span {
+        background-color: var(--bulma-navbar-burger-color, var(--bulma-navbar-item-color));
+    }
+
+    .navbar-menu {
+        background-color: var(--bulma-navbar-background-color, var(--bulma-scheme-main));
+        transition: background-color 0.3s ease;
+    }
+    html.is-dark .navbar-menu {
+        background-color: var(--bulma-navbar-background-color, var(--bulma-scheme-main-bis));
+    }
+    @media screen and (max-width: 1023px) {
+        .navbar-menu.is-active {
+            box-shadow: 0 8px 16px hsla(var(--bulma-scheme-h), var(--bulma-scheme-s), var(--bulma-scheme-l), 0.1);
+        }
+    }
+
+    .im-navbar-link,
+    .navbar-item.im-navbar-link {
+        color: var(--bulma-navbar-item-color, var(--bulma-text));
+        transition: color 0.3s ease, background-color 0.3s ease;
+    }
+    html.is-dark .im-navbar-link,
+    html.is-dark .navbar-item.im-navbar-link {
+        color: var(--bulma-navbar-item-color, var(--bulma-text-invert));
+    }
+
+    .im-navbar-link:hover,
+    .navbar-item.im-navbar-link:hover,
+    .navbar-item.has-dropdown:hover > .im-navbar-link {
+        background-color: var(--bulma-navbar-item-hover-background-color, var(--bulma-background));
+        color: var(--bulma-navbar-item-hover-color, var(--bulma-link));
+    }
+    html.is-dark .im-navbar-link:hover,
+    html.is-dark .navbar-item.im-navbar-link:hover,
+    html.is-dark .navbar-item.has-dropdown:hover > .im-navbar-link {
+        background-color: var(--bulma-navbar-item-hover-background-color, var(--bulma-scheme-main-ter));
+        color: var(--bulma-navbar-item-hover-color, var(--bulma-link-invert));
+    }
+
+    .navbar-link.im-navbar-link::after {
+        border-color: var(--bulma-navbar-item-color, var(--bulma-text));
+        transition: border-color 0.3s ease;
+    }
+    html.is-dark .navbar-link.im-navbar-link::after {
+        border-color: var(--bulma-navbar-item-color, var(--bulma-text-invert));
+    }
+    .navbar-item.has-dropdown:hover > .navbar-link.im-navbar-link::after {
+        border-color: var(--bulma-navbar-item-hover-color, var(--bulma-link));
+    }
+    html.is-dark .navbar-item.has-dropdown:hover > .navbar-link.im-navbar-link::after {
+        border-color: var(--bulma-navbar-item-hover-color, var(--bulma-link-invert));
+    }
+
+    .is-active-nav-item,
+    .navbar-link.is-active-nav-item {
+        background-color: var(--bulma-navbar-item-active-background-color, var(--bulma-white-ter)) !important;
+        color: var(--bulma-navbar-item-active-color, var(--bulma-link)) !important;
+        font-weight: var(--bulma-weight-semibold, 600);
+    }
+    html.is-dark .is-active-nav-item,
+    html.is-dark .navbar-link.is-active-nav-item {
+        background-color: var(--bulma-navbar-item-active-background-color, var(--bulma-black-ter)) !important;
+        color: var(--bulma-navbar-item-active-color, var(--bulma-link-invert)) !important;
+    }
+    .navbar-link.is-active-nav-item::after {
+        border-color: var(--bulma-navbar-item-active-color, var(--bulma-link)) !important;
+    }
+    html.is-dark .navbar-link.is-active-nav-item::after {
+        border-color: var(--bulma-navbar-item-active-color, var(--bulma-link-invert)) !important;
+    }
+
+    .im-navbar-dropdown-box {
+        background-color: var(--bulma-navbar-dropdown-background-color, var(--bulma-scheme-main));
+        border: 1px solid var(--bulma-navbar-dropdown-border-color, var(--bulma-border));
+        box-shadow: var(--bulma-navbar-dropdown-boxed-shadow, 0 0.5em 0.5em hsla(var(--bulma-scheme-h), var(--bulma-scheme-s), var(--bulma-scheme-invert-l), 0.1), 0 0 0 1px hsla(var(--bulma-scheme-h), var(--bulma-scheme-s), var(--bulma-scheme-invert-l), 0.1) );
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+    html.is-dark .im-navbar-dropdown-box {
+        background-color: var(--bulma-navbar-dropdown-background-color, var(--bulma-scheme-main-bis));
+        border: 1px solid var(--bulma-navbar-dropdown-border-color, var(--bulma-border-hover));
+    }
+
+    .im-navbar-dropdown-item {
+        color: var(--bulma-navbar-item-color, var(--bulma-text));
+    }
+    html.is-dark .im-navbar-dropdown-item {
+         color: var(--bulma-navbar-item-color, var(--bulma-text-invert));
+    }
+    .im-navbar-dropdown-item:hover {
+        background-color: var(--bulma-navbar-dropdown-item-hover-background-color, var(--bulma-background));
+        color: var(--bulma-navbar-dropdown-item-hover-color, var(--bulma-link));
+    }
+    html.is-dark .im-navbar-dropdown-item:hover {
+        background-color: var(--bulma-navbar-dropdown-item-hover-background-color, var(--bulma-scheme-main-ter));
+        color: var(--bulma-navbar-dropdown-item-hover-color, var(--bulma-link-invert));
+    }
+    .im-navbar-dropdown-item.is-active-nav-item {
+        background-color: var(--bulma-navbar-item-active-background-color, var(--bulma-white-ter)) !important;
+        color: var(--bulma-navbar-item-active-color, var(--bulma-link)) !important;
+    }
+    html.is-dark .im-navbar-dropdown-item.is-active-nav-item {
+        background-color: var(--bulma-navbar-item-active-background-color, var(--bulma-black-ter)) !important;
+        color: var(--bulma-navbar-item-active-color, var(--bulma-link-invert)) !important;
+    }
+    
+    .im-navbar-icon, .im-navbar-ph-icon {
+        color: inherit;
+        margin-right: 0.5em;
+    }
+    .im-navbar-image-icon {
+        max-height: 1.25em;
+    }
+    .im-navbar-icon.is-small {
+        font-size: 0.9em;
+    }
+
+    .im-navbar-mobile-actions {
+        align-items: center;
+    }
+    .im-navbar-mobile-action .icon {
+        color: var(--bulma-navbar-item-color, var(--bulma-text));
+        transition: color 0.3s ease;
+    }
+    html.is-dark .im-navbar-mobile-action .icon {
+         color: var(--bulma-navbar-item-color, var(--bulma-text-invert));
+    }
+    .im-navbar-mobile-action:hover .icon {
+        color: var(--bulma-link, hsl(217, 71%, 53%));
+    }
+    html.is-dark .im-navbar-mobile-action:hover .icon {
+        color: var(--bulma-link-invert, hsl(217, 71%, 53%));
+    }
+
+    .im-navbar-end-item .icon {
+        color: var(--bulma-navbar-item-color, var(--bulma-text));
+        transition: color 0.3s ease;
+    }
+    html.is-dark .im-navbar-end-item .icon {
+        color: var(--bulma-navbar-item-color, var(--bulma-text-invert));
+    }
+    .im-navbar-end-item:hover .icon {
+        color: var(--bulma-link, hsl(217, 71%, 53%));
+    }
+    html.is-dark .im-navbar-end-item:hover .icon {
+         color: var(--bulma-link-invert, hsl(217, 71%, 53%));
+    }
+    .im-dark-mode-toggle .icon i, .im-dark-mode-toggle-desktop .icon i {
+        font-size: 1.5rem;
+    }
+    .im-navbar-quick-access span:not(.icon) {
+        margin-left: 0.25em;
+    }
+</style>
+
+<nav class="navbar is-fixed-top im-navbar-custom im-navbar-themed" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a href="{{ site.baseurl | default: './' }}/" class="navbar-item im-navbar-logo-link">
+                {% if site.logo %}
+                <img class="image im-navbar-logo-image" src="{{ site.logo | relative_url }}" alt="{{ site.title | escape | default: 'Site' }} Logo">
+                {% else %}
+                <span class="icon is-large"><i class="ph-bold ph-code"></i></span>
+                {% endif %}
+                <span class="im-navbar-logo-text has-text-weight-bold ml-2">{{ site.title | default: "My Site Title" }}</span>
+            </a>
+
+            <div class="navbar-item is-hidden-desktop ml-auto im-navbar-mobile-actions">
+                <a href="{{ '/search' | relative_url | default: '#' }}" class="im-navbar-mobile-action" aria-label="Search">
+                    <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
                 </a>
-
-                <div class="navbar-item is-hidden-desktop ml-auto navbar-mobile-actions">
-                    <a href="{{ '/search' | relative_url | default: '#' }}" class="navbar-mobile-action" aria-label="Search">
-                        <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
-                    </a>
-                    <a href="#" class="navbar-mobile-action dark-mode-toggle" id="mobile-dark-mode-toggle" title="Toggle Dark Mode" role="button" aria-pressed="false">
-                        <span class="icon is-medium">
-                            <i class="ph" id="mobile-theme-icon"></i>
-                        </span>
-                    </a>
-                </div>
-
-                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="mainNavbarMenu">
-                 <span aria-hidden="true"></span>
-                 <span aria-hidden="true"></span>
-                 <span aria-hidden="true"></span>
-                 <span aria-hidden="true"></span>
+                <a href="#" class="im-navbar-mobile-action im-dark-mode-toggle" id="im-mobile-dark-mode-toggle" title="Toggle Dark Mode" role="button" aria-pressed="false">
+                    <span class="icon is-medium">
+                        <i class="ph" id="im-mobile-theme-icon"></i>
+                    </span>
                 </a>
             </div>
 
-            <div class="navbar-menu" id="mainNavbarMenu">
-                <div class="navbar-start">
-                    {% assign navbar_items = site.navbar | default: '[{"name": "Home", "link": "/", "icon": "house"}, {"name": "Blog", "link": "/blog", "icon": "article"}, {"name": "Docs", "link": "#", "icon": "book-open", "dropdown": [{"name": "Overview", "link": "/docs/overview", "icon": "compass"}, {"name": "Components", "link": "/docs/components", "icon": "puzzle-piece"}]}]' | parse_json %}
-                    {% for item in navbar_items %}
-                      {% if item.name %}
-                        {% assign item_url_relative = item.link | relative_url | default: "#" %}
-                        {% assign current_page_url = page.url | remove: "index.html" | default: "/" %}
-                        {% assign current_item_url = item_url_relative | remove: "index.html" | default: "/" %}
-                        {% assign is_active_page = false %}{% if current_page_url == current_item_url and current_item_url != "/#" %}{% assign is_active_page = true %}{% endif %}
-                        {% assign is_active_parent = false %}
-                        {% if item.dropdown %}
-                          {% if item.link != "/#" and current_item_url != "/" and current_page_url contains current_item_url %}{% assign is_active_parent = true %}{% endif %}
-                          {% for subitem in item.dropdown %}{% assign subitem_url_relative_cleaned = subitem.link | relative_url | remove: "index.html" | default: "/" %}{% if current_page_url == subitem_url_relative_cleaned %}{% assign is_active_parent = true %}{% break %}{% endif %}{% endfor %}
-                        {% endif %}
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="imThemedNavMenu">
+             <span aria-hidden="true"></span>
+             <span aria-hidden="true"></span>
+             <span aria-hidden="true"></span>
+            </a>
+        </div>
 
-                        {% if item.dropdown %}
-                        <div class="navbar-item has-dropdown is-hoverable navbar-dropdown-container">
-                          <a class="navbar-link {% if is_active_parent %}is-active-nav-item{% endif %}" {% if item.link != "/#" %}href="{{ item_url_relative }}"{% else %}role="button" aria-haspopup="true" aria-expanded="false"{% endif %}>
-                            {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="navbar-icon navbar-image-icon">
-                            {% elsif item.icon %}<span class="icon navbar-icon"><i class="ph ph-{{ item.icon }} navbar-ph-icon"></i></span>{% endif %}
-                            <span class="navbar-text">{{ item.name }}</span>
-                          </a>
-                          <div class="navbar-dropdown is-boxed navbar-dropdown-box">
-                            {% for subitem in item.dropdown %}
-                              {% assign subitem_url_relative = subitem.link | relative_url %}
-                              {% assign subitem_url_relative_cleaned = subitem_url_relative | remove: "index.html" | default: "/" %}
-                              <a class="navbar-item navbar-dropdown-item {% if current_page_url == subitem_url_relative_cleaned %}is-active-nav-item{% endif %}" href="{{ subitem_url_relative }}">
-                                {% if subitem.image %}<img src="{{ subitem.image | relative_url }}" alt="{{ subitem.name | escape }}" class="navbar-icon navbar-image-icon is-small">
-                                {% elsif subitem.icon %}<span class="icon navbar-icon is-small"><i class="ph ph-{{ subitem.icon }} navbar-ph-icon"></i></span>{% endif %}
-                                <span class="navbar-text">{{ subitem.name }}</span>
-                              </a>
-                            {% endfor %}
-                          </div>
-                        </div>
-                        {% else %}
-                        <a class="navbar-item navbar-link {% if is_active_page %}is-active-nav-item{% endif %}" href="{{ item_url_relative }}">
-                          {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="navbar-icon navbar-image-icon">
-                          {% elsif item.icon %}<span class="icon navbar-icon"><i class="ph ph-{{ item.icon }} navbar-ph-icon"></i></span>{% endif %}
-                          <span class="navbar-text">{{ item.name }}</span>
-                        </a>
-                        {% endif %}
-                      {% endif %}
-                    {% endfor %}
-                </div>
-                <div class="navbar-end">
-                    {% assign social_media_items = site.social_media | default: '[{"name": "Twitter", "url": "#", "icon": "twitter-logo", "cta": "Follow us on Twitter"}, {"name": "GitHub", "url": "#", "icon": "github-logo", "cta": "Our GitHub"}]' | parse_json %}
-                    {% for item in social_media_items %}
-                        <a class="navbar-item navbar-end-item navbar-social-icon is-hidden-touch" href="{{ item.url }}" target="_blank" rel="noopener noreferrer" title="{{ item.cta | escape }}">
-                            <span class="icon"><i class="ph ph-{{ item.icon | downcase }}"></i></span>
-                        </a>
-                    {% endfor %}
+        <div class="navbar-menu" id="imThemedNavMenu">
+            <div class="navbar-start">
+                {% assign navbar_items_json = site.navbar | default: '[{"name": "Home", "link": "/", "icon": "house"}, {"name": "Blog", "link": "/blog/", "icon": "article"}, {"name": "Docs", "link": "#", "icon": "book-open", "dropdown": [{"name": "Overview", "link": "/docs/overview/", "icon": "compass"}, {"name": "Components", "link": "/docs/components/", "icon": "puzzle-piece"}]}]' %}
+                {% assign navbar_items = navbar_items_json | type_of == "string" | if: navbar_items_json | parse_json, else: navbar_items_json %}
 
-                    <div class="navbar-item has-dropdown quick-access-panel-container" id="quickAccessEndContainer">
-                        <a class="navbar-link navbar-end-item is-hidden-touch" id="quickAccessEndToggle" role="button" aria-haspopup="true" aria-expanded="false" title="Quick Access">
-                            <span class="icon is-small"><i class="ph ph-dots-three-circle"></i></span>
-                            <span class="is-hidden-touch ml-1">Tools</span>
-                        </a>
-                        <div class="navbar-dropdown is-right" id="quickAccessEndDropdownMenu">
-                            <div class="panel">
-                                <p class="panel-heading">Quick Access</p>
-                                <div class="panel-block">
-                                    <p class="control has-icons-left">
-                                        <input class="input is-small" type="text" placeholder="Search anything...">
-                                        <span class="icon is-left"><i class="ph ph-magnifying-glass" aria-hidden="true"></i></span>
-                                    </p>
-                                </div>
-                                <a href="#" class="panel-block">
-                                    <span class="icon"><i class="ph ph-tags" aria-hidden="true"></i></span>
-                                    Available Tags
-                                </a>
-                                <a href="#" class="panel-block">
-                                    <span class="icon"><i class="ph ph-books" aria-hidden="true"></i></span>
-                                    All Categories
-                                </a>
-                                <a href="#" class="panel-block">
-                                    <span class="icon"><i class="ph ph-archive" aria-hidden="true"></i></span>
-                                    Archives
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                {% for item in navbar_items %}
+                  {% if item.name %}
+                    {% assign item_url_relative = item.link | relative_url | default: "#" %}
+                    {% assign page_url_cleaned = page.url | remove: "index.html" | default: "/" %}
+                    {% if page_url_cleaned != "/" and page_url_cleaned endswith "/" %}{% assign page_url_cleaned = page_url_cleaned | remove_last: "/" %}{% endif %}
                     
-                    <a href="#" class="navbar-item navbar-end-item dark-mode-toggle-desktop is-hidden-touch" id="desktop-dark-mode-toggle" title="Toggle Dark Mode" role="button" aria-pressed="false">
-                        <span class="icon is-medium"><i class="ph" id="desktop-theme-icon"></i></span>
+                    {% assign current_item_url_cleaned = item_url_relative | remove: "index.html" | default: "/" %}
+                    {% if current_item_url_cleaned != "/" and current_item_url_cleaned endswith "/" %}{% assign current_item_url_cleaned = current_item_url_cleaned | remove_last: "/" %}{% endif %}
+
+                    {% assign is_active_page = false %}{% if page_url_cleaned == current_item_url_cleaned and current_item_url_cleaned != "/#" %}{% assign is_active_page = true %}{% endif %}
+                    {% assign is_active_parent = false %}
+                    {% if item.dropdown %}
+                      {% if item.link != "/#" and current_item_url_cleaned != "/" and page_url_cleaned contains current_item_url_cleaned %}{% assign is_active_parent = true %}{% endif %}
+                      {% for subitem in item.dropdown %}
+                        {% assign subitem_url_relative = subitem.link | relative_url %}
+                        {% assign subitem_url_cleaned = subitem_url_relative | remove: "index.html" | default: "/" %}
+                        {% if subitem_url_cleaned != "/" and subitem_url_cleaned endswith "/" %}{% assign subitem_url_cleaned = subitem_url_cleaned | remove_last: "/" %}{% endif %}
+                        {% if page_url_cleaned == subitem_url_cleaned %}{% assign is_active_parent = true %}{% break %}{% endif %}
+                      {% endfor %}
+                    {% endif %}
+
+                    {% if item.dropdown %}
+                    <div class="navbar-item has-dropdown is-hoverable im-navbar-dropdown-container">
+                      <a class="navbar-link im-navbar-link {% if is_active_parent %}is-active-nav-item{% endif %}" {% if item.link != "/#" %}href="{{ item_url_relative }}"{% else %}role="button" aria-haspopup="true" aria-expanded="false"{% endif %}>
+                        {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="im-navbar-icon im-navbar-image-icon">
+                        {% elsif item.icon %}<span class="icon im-navbar-icon"><i class="ph ph-{{ item.icon }} im-navbar-ph-icon"></i></span>{% endif %}
+                        <span class="im-navbar-text">{{ item.name }}</span>
+                      </a>
+                      <div class="navbar-dropdown is-boxed im-navbar-dropdown-box">
+                        {% for subitem in item.dropdown %}
+                          {% assign subitem_url_relative = subitem.link | relative_url %}
+                          {% assign subitem_url_cleaned = subitem_url_relative | remove: "index.html" | default: "/" %}
+                          {% if subitem_url_cleaned != "/" and subitem_url_cleaned endswith "/" %}{% assign subitem_url_cleaned = subitem_url_cleaned | remove_last: "/" %}{% endif %}
+                          <a class="navbar-item im-navbar-dropdown-item {% if page_url_cleaned == subitem_url_cleaned %}is-active-nav-item{% endif %}" href="{{ subitem_url_relative }}">
+                            {% if subitem.image %}<img src="{{ subitem.image | relative_url }}" alt="{{ subitem.name | escape }}" class="im-navbar-icon im-navbar-image-icon is-small">
+                            {% elsif subitem.icon %}<span class="icon im-navbar-icon is-small"><i class="ph ph-{{ subitem.icon }} im-navbar-ph-icon"></i></span>{% endif %}
+                            <span class="im-navbar-text">{{ subitem.name }}</span>
+                          </a>
+                        {% endfor %}
+                      </div>
+                    </div>
+                    {% else %}
+                    <a class="navbar-item im-navbar-link {% if is_active_page %}is-active-nav-item{% endif %}" href="{{ item_url_relative }}">
+                      {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="im-navbar-icon im-navbar-image-icon">
+                      {% elsif item.icon %}<span class="icon im-navbar-icon"><i class="ph ph-{{ item.icon }} im-navbar-ph-icon"></i></span>{% endif %}
+                      <span class="im-navbar-text">{{ item.name }}</span>
                     </a>
-                </div>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+            </div>
+            <div class="navbar-end">
+                 {% assign social_media_items_json = site.social_media | default: '[{"url": "#", "icon": "twitter-logo", "cta": "Follow us on Twitter"}, {"url": "#", "icon": "github-logo", "cta": "Our GitHub"}]' %}
+                 {% assign social_media_items = social_media_items_json | type_of == "string" | if: social_media_items_json | parse_json, else: social_media_items_json %}
+                  {% for item in social_media_items %}
+                    <a class="navbar-item im-navbar-end-item im-navbar-social-icon is-hidden-touch" href="{{ item.url }}" target="_blank" rel="noopener noreferrer" title="{{ item.cta | escape }}">
+                        <span class="icon"><i class="ph ph-{{ item.icon | downcase }}"></i></span>
+                    </a>
+                  {% endfor %}
+                <a href="{{ '/search' | relative_url | default: '#' }}" class="navbar-item im-navbar-end-item im-navbar-quick-access is-hidden-touch" aria-label="Search">
+                    <span class="icon is-small"><i class="ph ph-magnifying-glass"></i></span>
+                    <span class="im-navbar-text">Quick Access</span>
+                </a>
+                <a href="#" class="navbar-item im-navbar-end-item im-dark-mode-toggle-desktop is-hidden-touch" id="im-desktop-dark-mode-toggle" title="Toggle Dark Mode" role="button" aria-pressed="false">
+                    <span class="icon is-medium"><i class="ph" id="im-desktop-theme-icon"></i></span>
+                </a>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <section class="section">
-        <div class="container">
-            <h1 class="title">Welcome</h1>
-            <p class="subtitle">This is a sample page with a themed Bulma navbar.</p>
-            <div class="content">
-                <p>The navbar is fixed to the top and supports dark mode. Click the sun/moon icon to toggle themes. The "Quick Access" / "Tools" menu in the navbar end provides a dropdown panel.</p>
-                <p>Navbar items are generated based on placeholder Liquid logic. The active item should be styled.</p>
-                <p>To see this work with your actual Jekyll data, you would replace the default placeholder JSON in the Liquid `assign` tags with your `site.navbar` and `site.social_media` data structures.</p>
-                <p>For example, `page.url` would be `/` for the homepage (after removing `index.html`).</p>
-                <p>Current (simulated) page.url for active link testing: <code id="currentPageUrlDisplay">/</code></p>
-                <p>Try navigating by changing the URL hash (e.g., `index.html#blog` or `index.html#/docs/components`) and refreshing to see (simulated) active states. This is a very basic simulation for testing the `is-active-nav-item` class application.</p>
-            </div>
-            <div style="height: 100vh; background-color: var(--navbar-item-hover-background-color); padding: 20px; margin-top:20px; border-radius: 6px;">
-                <p style="color: var(--text-color);">Scrollable content area...</p>
-            </div>
-        </div>
-    </section>
+<script type="application/ld+json" id="navbar-structured-data">
+</script>
 
-    <footer class="footer" style="background-color: var(--navbar-background-color); color: var(--text-color); transition: background-color 0.3s ease, color 0.3s ease;">
-        <div class="content has-text-centered">
-            <p>
-                <strong>Bulma Themed Navbar</strong> by You.
-            </p>
-        </div>
-    </footer>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-        if ($navbarBurgers.length > 0) {
-            $navbarBurgers.forEach(el => {
-                el.addEventListener('click', () => {
-                    const target = el.dataset.target;
-                    const $target = document.getElementById(target);
-                    el.classList.toggle('is-active');
-                    $target.classList.toggle('is-active');
-                });
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+    if ($navbarBurgers.length > 0) {
+        $navbarBurgers.forEach(el => {
+            el.addEventListener('click', () => {
+                const target = el.dataset.target;
+                const $target = document.getElementById(target);
+                el.classList.toggle('is-active');
+                $target.classList.toggle('is-active');
             });
-        }
+        });
+    }
 
-        const quickAccessToggle = document.getElementById('quickAccessEndToggle');
-        const quickAccessContainer = document.getElementById('quickAccessEndContainer');
-        if (quickAccessToggle && quickAccessContainer) {
-            quickAccessToggle.addEventListener('click', (event) => {
-                event.preventDefault();
-                quickAccessContainer.classList.toggle('is-active');
-            });
-            document.addEventListener('click', (event) => {
-                if (!quickAccessContainer.contains(event.target) && quickAccessContainer.classList.contains('is-active')) {
-                    quickAccessContainer.classList.remove('is-active');
-                }
-            });
-        }
-        
-        const mobileToggle = document.getElementById('mobile-dark-mode-toggle');
-        const desktopToggle = document.getElementById('desktop-dark-mode-toggle');
-        const mobileIcon = document.getElementById('mobile-theme-icon');
-        const desktopIcon = document.getElementById('desktop-theme-icon');
-        const htmlElement = document.documentElement;
+    const mobileToggle = document.getElementById('im-mobile-dark-mode-toggle');
+    const desktopToggle = document.getElementById('im-desktop-dark-mode-toggle');
+    const mobileIcon = document.getElementById('im-mobile-theme-icon');
+    const desktopIcon = document.getElementById('im-desktop-theme-icon');
+    const htmlElement = document.documentElement;
 
-        function setTheme(isDark) {
-            if (isDark) {
-                htmlElement.classList.add('is-dark-mode');
-                if(mobileIcon) mobileIcon.className = 'ph ph-sun';
-                if(desktopIcon) desktopIcon.className = 'ph ph-sun';
-                if(mobileToggle) mobileToggle.setAttribute('aria-pressed', 'true');
-                if(desktopToggle) desktopToggle.setAttribute('aria-pressed', 'true');
-                localStorage.setItem('theme', 'dark');
-            } else {
-                htmlElement.classList.remove('is-dark-mode');
-                if(mobileIcon) mobileIcon.className = 'ph ph-moon';
-                if(desktopIcon) desktopIcon.className = 'ph ph-moon';
-                if(mobileToggle) mobileToggle.setAttribute('aria-pressed', 'false');
-                if(desktopToggle) desktopToggle.setAttribute('aria-pressed', 'false');
-                localStorage.setItem('theme', 'light');
-            }
-        }
-
-        const preferredTheme = localStorage.getItem('theme');
-        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-        if (preferredTheme === 'dark' || (!preferredTheme && prefersDarkScheme)) {
-            setTheme(true);
+    function setTheme(isDark, updateStorage = true) {
+        if (isDark) {
+            htmlElement.classList.add('is-dark');
+            if(mobileIcon) mobileIcon.className = 'ph ph-sun';
+            if(desktopIcon) desktopIcon.className = 'ph ph-sun';
+            if(mobileToggle) mobileToggle.setAttribute('aria-pressed', 'true');
+            if(desktopToggle) desktopToggle.setAttribute('aria-pressed', 'true');
+            if(updateStorage) localStorage.setItem('bulmaTheme', 'dark');
         } else {
-            setTheme(false);
+            htmlElement.classList.remove('is-dark');
+            if(mobileIcon) mobileIcon.className = 'ph ph-moon';
+            if(desktopIcon) desktopIcon.className = 'ph ph-moon';
+            if(mobileToggle) mobileToggle.setAttribute('aria-pressed', 'false');
+            if(desktopToggle) desktopToggle.setAttribute('aria-pressed', 'false');
+            if(updateStorage) localStorage.setItem('bulmaTheme', 'light');
         }
+    }
 
-        if (mobileToggle) {
-            mobileToggle.addEventListener('click', (e) => {
-                e.preventDefault();
-                setTheme(!htmlElement.classList.contains('is-dark-mode'));
-            });
-        }
-        if (desktopToggle) {
-            desktopToggle.addEventListener('click', (e) => {
-                e.preventDefault();
-                setTheme(!htmlElement.classList.contains('is-dark-mode'));
-            });
-        }
-        
-        function simulateJekyllActiveLogic() {
-            let currentSimulatedUrl = (window.location.hash.substring(1) || "/").toLowerCase();
-            if (currentSimulatedUrl.endsWith('/')) {
-                currentSimulatedUrl = currentSimulatedUrl.slice(0, -1);
+    const preferredTheme = localStorage.getItem('bulmaTheme');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (preferredTheme === 'dark') {
+        setTheme(true, false);
+    } else if (preferredTheme === 'light') {
+        setTheme(false, false);
+    } else if (prefersDarkScheme) {
+        setTheme(true, false); 
+    } else {
+        setTheme(false, false);
+    }
+
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            setTheme(!htmlElement.classList.contains('is-dark'));
+        });
+    }
+    if (desktopToggle) {
+        desktopToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            setTheme(!htmlElement.classList.contains('is-dark'));
+        });
+    }
+    
+    function generateNavbarLdJson() {
+        const siteNavigationElement = {
+            "@context": "https://schema.org",
+            "@type": "SiteNavigationElement",
+            "name": "Main Navigation",
+            "hasPart": []
+        };
+
+        const navbarItems = document.querySelectorAll('#imThemedNavMenu .navbar-start > .navbar-item, #imThemedNavMenu .navbar-start > .im-navbar-dropdown-container');
+        let position = 1;
+
+        navbarItems.forEach(item => {
+            const linkElement = item.classList.contains('has-dropdown') ? item.querySelector('.navbar-link') : item;
+            const itemName = linkElement.querySelector('.im-navbar-text') ? linkElement.querySelector('.im-navbar-text').textContent.trim() : 'Unnamed Link';
+            let itemUrl = linkElement.getAttribute('href');
+            if (itemUrl && !itemUrl.startsWith('http') && !itemUrl.startsWith('#')) {
+                 itemUrl = new URL(itemUrl, window.location.origin).href;
+            } else if (itemUrl === '#') {
+                itemUrl = window.location.href + '#'; // Placeholder for dropdown toggles
             }
-             if (currentSimulatedUrl === "") currentSimulatedUrl = "/";
 
-            document.getElementById('currentPageUrlDisplay').textContent = currentSimulatedUrl;
 
-            document.querySelectorAll('.navbar-menu .navbar-item, .navbar-menu .navbar-link').forEach(el => {
-                el.classList.remove('is-active-nav-item');
-            });
+            const navElementPart = {
+                "@type": "WebPage",
+                "name": itemName,
+                "url": itemUrl || window.location.href, 
+                "position": position++
+            };
 
-            document.querySelectorAll('.navbar-start > .navbar-item, .navbar-start > .navbar-dropdown-container').forEach(navItemOrDropdown => {
-                const mainLink = navItemOrDropdown.classList.contains('has-dropdown') ? navItemOrDropdown.querySelector('.navbar-link') : navItemOrDropdown;
-                if (!mainLink) return;
-
-                let itemUrl = (mainLink.getAttribute('href') || "#").toLowerCase();
-                if (itemUrl.startsWith('./')) itemUrl = itemUrl.substring(2);
-                if (itemUrl.endsWith('index.html')) itemUrl = itemUrl.slice(0, -10);
-                if (itemUrl.endsWith('/')) itemUrl = itemUrl.slice(0, -1);
-                if (itemUrl === "") itemUrl = "/";
-                
-
-                let isActiveParent = false;
-                if (navItemOrDropdown.classList.contains('has-dropdown')) {
-                    const dropdownItems = navItemOrDropdown.querySelectorAll('.navbar-dropdown-item');
-                    dropdownItems.forEach(subItem => {
-                        let subItemUrl = (subItem.getAttribute('href') || "#").toLowerCase();
-                        if (subItemUrl.startsWith('./')) subItemUrl = subItemUrl.substring(2);
-                        if (subItemUrl.endsWith('index.html')) subItemUrl = subItemUrl.slice(0, -10);
-                        if (subItemUrl.endsWith('/')) subItemUrl = subItemUrl.slice(0, -1);
-                        if (subItemUrl === "") subItemUrl = "/";
-
-                        if (currentSimulatedUrl === subItemUrl && subItemUrl !== "/#") {
-                            subItem.classList.add('is-active-nav-item');
-                            isActiveParent = true;
-                        }
-                    });
-                     if (itemUrl !== "/#" && currentSimulatedUrl.startsWith(itemUrl) && itemUrl !== "/") {
-                         isActiveParent = true;
-                     }
-
-                } else {
-                    if (currentSimulatedUrl === itemUrl && itemUrl !== "/#") {
-                        mainLink.classList.add('is-active-nav-item');
+            if (item.classList.contains('has-dropdown')) {
+                navElementPart["@type"] = "SiteNavigationElement"; 
+                navElementPart["hasPart"] = [];
+                const dropdownItems = item.querySelectorAll('.im-navbar-dropdown-item');
+                let subPosition = 1;
+                dropdownItems.forEach(subItem => {
+                    const subItemName = subItem.querySelector('.im-navbar-text') ? subItem.querySelector('.im-navbar-text').textContent.trim() : 'Unnamed Sublink';
+                    let subItemUrl = subItem.getAttribute('href');
+                     if (subItemUrl && !subItemUrl.startsWith('http')) {
+                        subItemUrl = new URL(subItemUrl, window.location.origin).href;
                     }
-                }
-                if(isActiveParent && mainLink) {
-                     mainLink.classList.add('is-active-nav-item');
-                }
-            });
-        }
-        simulateJekyllActiveLogic();
-        window.addEventListener('hashchange', simulateJekyllActiveLogic);
-
-    });
-    </script>
-     <style>
-        :root {
-            --navbar-background-color: hsl(0, 0%, 100%);
-            --navbar-item-color: hsl(0, 0%, 29%);
-            --navbar-item-hover-color: hsl(0, 0%, 21%);
-            --navbar-item-hover-background-color: hsl(0, 0%, 96%);
-            --navbar-item-active-color: hsl(204, 71%, 53%);
-            --navbar-item-active-background-color: hsl(0, 0%, 92%);
-            --navbar-dropdown-background-color: hsl(0, 0%, 100%);
-            --navbar-dropdown-item-hover-color: hsl(0, 0%, 21%);
-            --navbar-dropdown-item-hover-background-color: hsl(0, 0%, 96%);
-            --navbar-dropdown-border-color: hsl(0, 0%, 86%);
-            --navbar-divider-background-color: hsl(0, 0%, 93%);
-            --text-color: hsl(0, 0%, 21%);
-            --body-background-color: hsl(0, 0%, 98%);
-            --link-color: hsl(217, 71%, 53%);
-            --panel-heading-background-color: hsl(0, 0%, 96%);
-            --panel-block-border-color: hsl(0, 0%, 93%);
-            --input-background-color: hsl(0, 0%, 100%);
-            --input-border-color: hsl(0, 0%, 86%);
-            --button-primary-background-color: hsl(217, 71%, 53%);
-            --button-primary-color: hsl(0, 0%, 100%);
-            --navbar-logo-text-color: var(--navbar-item-color);
-            --navbar-icon-color: var(--navbar-item-color);
-            --navbar-burger-color: var(--navbar-item-color);
-        }
-
-        html.is-dark-mode {
-            --navbar-background-color: hsl(0, 0%, 21%);
-            --navbar-item-color: hsl(0, 0%, 96%);
-            --navbar-item-hover-color: hsl(0, 0%, 100%);
-            --navbar-item-hover-background-color: hsl(0, 0%, 29%);
-            --navbar-item-active-color: hsl(204, 71%, 63%);
-            --navbar-item-active-background-color: hsl(0, 0%, 25%);
-            --navbar-dropdown-background-color: hsl(0, 0%, 18%);
-            --navbar-dropdown-item-hover-color: hsl(0, 0%, 96%);
-            --navbar-dropdown-item-hover-background-color: hsl(0, 0%, 27%);
-            --navbar-dropdown-border-color: hsl(0, 0%, 30%);
-            --navbar-divider-background-color: hsl(0, 0%, 27%);
-            --text-color: hsl(0, 0%, 96%);
-            --body-background-color: hsl(0, 0%, 14%);
-            --link-color: hsl(217, 71%, 63%);
-            --panel-heading-background-color: hsl(0, 0%, 29%);
-            --panel-block-border-color: hsl(0, 0%, 27%);
-            --input-background-color: hsl(0, 0%, 14%);
-            --input-border-color: hsl(0, 0%, 30%);
-            --button-primary-background-color: hsl(217, 71%, 53%);
-            --button-primary-color: hsl(0, 0%, 100%);
-            --navbar-logo-text-color: var(--navbar-item-color);
-            --navbar-icon-color: var(--navbar-item-color);
-            --navbar-burger-color: var(--navbar-item-color);
-        }
-
-        body {
-            background-color: var(--body-background-color);
-            color: var(--text-color);
-            padding-top: 3.25rem;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .navbar {
-            background-color: var(--navbar-background-color);
-            transition: background-color 0.3s ease;
-        }
-        .navbar.is-fixed-top {
-            box-shadow: 0 2px 3px hsla(0,0%,4%,.1);
-        }
-
-        .navbar-brand .navbar-item:hover {
-            background-color: transparent !important;
-        }
-        .navbar-logo-image {
-            max-height: 28px;
-        }
-        .navbar-logo-text {
-            color: var(--navbar-logo-text-color);
-            transition: color 0.3s ease;
-        }
-
-        .navbar-burger {
-            color: var(--navbar-burger-color);
-            transition: color 0.3s ease;
-        }
-        .navbar-burger span {
-            background-color: currentColor;
-            height: 2px;
-            left: calc(50% - 8px);
-            position: absolute;
-            transform-origin: center;
-            transition-duration: 86ms;
-            transition-property: background-color, opacity, transform;
-            transition-timing-function: ease-out;
-            width: 16px;
-        }
-        .navbar-burger span:nth-child(1) { top: calc(50% - 7px); }
-        .navbar-burger span:nth-child(2) { top: calc(50% - 1px); }
-        .navbar-burger span:nth-child(3) { top: calc(50% + 5px); }
-        .navbar-burger span:nth-child(4) { display: none; }
-
-        .navbar-burger.is-active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-        .navbar-burger.is-active span:nth-child(2) { opacity: 0; }
-        .navbar-burger.is-active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-        
-        .navbar-menu {
-            background-color: var(--navbar-background-color);
-            transition: background-color 0.3s ease;
-        }
-        @media screen and (max-width: 1023px) {
-            .navbar-menu.is-active {
-                box-shadow: 0 8px 16px rgba(10,10,10,.1);
+                    navElementPart.hasPart.push({
+                        "@type": "WebPage",
+                        "name": subItemName,
+                        "url": subItemUrl || window.location.href,
+                        "position": subPosition++
+                    });
+                });
             }
-        }
-
-        .navbar-item, .navbar-link {
-            color: var(--navbar-item-color);
-            transition: color 0.3s ease, background-color 0.3s ease;
-        }
-        .navbar-item:hover, .navbar-link:hover {
-            background-color: var(--navbar-item-hover-background-color);
-            color: var(--navbar-item-hover-color);
-        }
-        .navbar-item.has-dropdown:hover > .navbar-link,
-        .navbar-item.has-dropdown.is-active > .navbar-link {
-             background-color: var(--navbar-item-hover-background-color);
-        }
-
-        .navbar-link::after {
-            border-color: var(--navbar-item-color);
-            transition: border-color 0.3s ease;
-        }
-        .navbar-item.has-dropdown:hover > .navbar-link::after,
-        .navbar-item.has-dropdown.is-active > .navbar-link::after {
-            border-color: var(--navbar-item-hover-color);
-        }
+            siteNavigationElement.hasPart.push(navElementPart);
+        });
         
-        .navbar-item.is-active-nav-item,
-        .navbar-link.is-active-nav-item {
-            background-color: var(--navbar-item-active-background-color) !important;
-            color: var(--navbar-item-active-color) !important;
-            font-weight: bold;
+        const scriptTag = document.getElementById('navbar-structured-data');
+        if (scriptTag) {
+            scriptTag.textContent = JSON.stringify(siteNavigationElement, null, 2);
         }
-        .navbar-item.is-active-nav-item:hover,
-        .navbar-link.is-active-nav-item:hover {
-             background-color: var(--navbar-item-active-background-color) !important;
-             color: var(--navbar-item-active-color) !important;
-        }
-        .navbar-link.is-active-nav-item::after {
-            border-color: var(--navbar-item-active-color) !important;
-        }
-
-        .navbar-dropdown {
-            background-color: var(--navbar-dropdown-background-color);
-            border-top: 1px solid var(--navbar-dropdown-border-color);
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
-        .navbar-dropdown.is-boxed {
-            border: 1px solid var(--navbar-dropdown-border-color);
-            box-shadow: 0 8px 8px hsla(0,0%,4%,.1);
-        }
-        .navbar-dropdown .navbar-item {
-            color: var(--navbar-item-color);
-        }
-        .navbar-dropdown .navbar-item:hover {
-            background-color: var(--navbar-dropdown-item-hover-background-color);
-            color: var(--navbar-dropdown-item-hover-color);
-        }
-        .navbar-dropdown .navbar-item.is-active-nav-item {
-            background-color: var(--navbar-item-active-background-color) !important;
-            color: var(--navbar-item-active-color) !important;
-        }
-        
-        .navbar-divider {
-            background-color: var(--navbar-divider-background-color);
-            transition: background-color 0.3s ease;
-        }
-
-        .navbar-icon, .navbar-ph-icon {
-            color: var(--navbar-icon-color);
-            transition: color 0.3s ease;
-        }
-        .navbar-item:hover .navbar-icon,
-        .navbar-item:hover .navbar-ph-icon,
-        .navbar-link:hover .navbar-icon,
-        .navbar-link:hover .navbar-ph-icon {
-            color: var(--navbar-item-hover-color);
-        }
-        .is-active-nav-item .navbar-icon,
-        .is-active-nav-item .navbar-ph-icon {
-            color: var(--navbar-item-active-color) !important;
-        }
-        
-        .navbar-image-icon {
-            max-height: 1.25em;
-            margin-right: 0.5em;
-        }
-        .navbar-icon.is-small {
-            font-size: 0.9em;
-        }
-
-        .navbar-mobile-actions {
-            align-items: center;
-        }
-        .navbar-mobile-action .icon {
-            color: var(--navbar-item-color);
-             transition: color 0.3s ease;
-        }
-
-        .quick-access-panel-container .navbar-dropdown {
-            min-width: 300px;
-            padding: 0;
-        }
-        .quick-access-panel-container .panel {
-            border: none;
-            box-shadow: none;
-            background-color: var(--navbar-dropdown-background-color);
-            transition: background-color 0.3s ease;
-        }
-        .quick-access-panel-container .panel-heading {
-            background-color: var(--panel-heading-background-color);
-            font-size: 0.9em;
-            font-weight: bold;
-            border-bottom: 1px solid var(--panel-block-border-color);
-            color: var(--text-color);
-            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-        }
-        .quick-access-panel-container .panel-block {
-            border-bottom: 1px solid var(--panel-block-border-color);
-            color: var(--text-color);
-            transition: border-color 0.3s ease, color 0.3s ease, background-color 0.2s ease;
-        }
-        .quick-access-panel-container .panel-block:last-child {
-            border-bottom: none;
-        }
-        .quick-access-panel-container .panel-block:hover,
-        .quick-access-panel-container a.panel-block:hover {
-            background-color: var(--navbar-dropdown-item-hover-background-color);
-            color: var(--link-color);
-        }
-        .quick-access-panel-container .panel-block .icon {
-            margin-right: 0.75em;
-            color: var(--text-color);
-             transition: color 0.3s ease;
-        }
-        .quick-access-panel-container .panel-block:hover .icon {
-            color: var(--link-color);
-        }
-        .quick-access-panel-container .panel-block input.input {
-            box-shadow: none;
-            background-color: var(--input-background-color);
-            border-color: var(--input-border-color);
-            color: var(--text-color);
-            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-        }
-        .quick-access-panel-container .panel-block input.input:focus {
-            border-color: var(--link-color);
-        }
-
-        .dark-mode-toggle, .dark-mode-toggle-desktop {
-            cursor: pointer;
-        }
-        .dark-mode-toggle .icon i, .dark-mode-toggle-desktop .icon i {
-            font-size: 1.5rem;
-        }
-
-        .button.is-primary {
-            background-color: var(--button-primary-background-color);
-            color: var(--button-primary-color);
-             transition: background-color 0.3s ease;
-        }
-        .button.is-primary:hover {
-            background-color: hsl(217, 71%, 48%);
-        }
-        .button.is-light {
-            background-color: var(--navbar-item-hover-background-color);
-            color: var(--navbar-item-hover-color);
-            border-color: transparent;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        .button.is-light:hover {
-            background-color: hsl(0,0%,90%);
-        }
-        html.is-dark-mode .button.is-light {
-            background-color: var(--navbar-item-hover-background-color);
-            color: var(--navbar-item-hover-color);
-        }
-        html.is-dark-mode .button.is-light:hover {
-            background-color: hsl(0,0%,35%);
-        }
-
-
-    </style>
+    }
+    generateNavbarLdJson();
+});
+</script>
