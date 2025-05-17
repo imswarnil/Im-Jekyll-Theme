@@ -8,7 +8,6 @@
                 <span class="im-navbar-logo-text has-text-weight-bold ml-2">{{ site.title }}</span>
             </a>
 
-            {# Mobile-only action icons, appear next to logo before burger #}
             <div class="navbar-item is-hidden-desktop ml-auto im-navbar-mobile-actions">
                 <a href="{{ '/search' | relative_url }}" class="im-navbar-mobile-action" aria-label="Search">
                     <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
@@ -20,7 +19,6 @@
                 </a>
             </div>
 
-            {# Standard Bulma Navbar Burger #}
             <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="imThemedNavMenu">
              <span aria-hidden="true"></span>
              <span aria-hidden="true"></span>
@@ -29,7 +27,6 @@
             </a>
         </div>
 
-        {# Standard Bulma Navbar Menu - ID matches burger's data-target #}
         <div class="navbar-menu" id="imThemedNavMenu">
             <div class="navbar-start">
                 {% for item in site.navbar %}
