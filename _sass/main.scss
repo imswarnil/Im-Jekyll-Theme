@@ -1,13 +1,7 @@
-$primary: #e53935; // Your core red
-$link: $primary;
-$family-sans-serif: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif; // Enji.dev like font
-$family-monospace: "Roboto Mono", Consolas, Monaco, monospace;
 
-// Optional: Set a few other key Bulma variables if desired for base compilation
-$body-background-color: #f7fafc; // Light grey base
-$text: #2d3748; // Dark grey text
-$radius: 4px; // Subtle default radius
+$primary: #e53935;
+$link : $primary;
+$family-sans-serif: "Outfit", "Arial", sans-serif !default;
+$family-monospace: "Roboto Mono", monospace !default;
+@import "../node_modules/bulma/sass/index";
 
-// 2. Import Bulma
-@import "../node_modules/bulma/sass/index"; // Adjust path to your Bulma installation
-@import "./theme/index"; // Adjust path to your Bulma installation
