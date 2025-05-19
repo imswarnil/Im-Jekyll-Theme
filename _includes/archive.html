@@ -144,8 +144,7 @@
                     </div>
                 {% endif %}
 
-                {% comment %} Adsense Placeholder Logic - show after every 6th post, for example {% endcomment %}
-                {% assign mod = forloop.index | modulo: 6 %}
+                {% assign mod = forloop.index | modulo: 2 %}
                 {% if forloop.index > 1 and mod == 0 %}
                     <div class="column is-4 post-item is-adsense-placeholder">
                          <div class="card im-adsense-card">
