@@ -197,10 +197,7 @@
       "@type": "SiteNavigationElement",
       "@id": {{ sitenavigation_id | jsonify }},
       "name": "Main Navigation",
-      "description": "Main navigation links for {{ site.title }}",
-      "potentialAction": [
-        {{ schema_nav_actions | join: "," }}
-      ]
+      "description": "Main navigation links for {{ site.title }}"
     }
   ]
 }
