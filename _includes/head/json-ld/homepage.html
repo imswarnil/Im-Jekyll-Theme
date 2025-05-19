@@ -42,7 +42,7 @@
 
 {%- for nav_item_config in site.navbar -%}
   {%- if nav_item_config.link and nav_item_config.link != "/#" and nav_item_config.link != "#" -%}
-    {%- if nav_item_config.link == "/" %}{% continue %}{% endif %} {# Skip home, already added #}
+    {%- if nav_item_config.link == "/" %}{% continue %}{% endif %} 
     {%- capture nav_action_item -%}
 {
   "@type": "NavigateAction",
