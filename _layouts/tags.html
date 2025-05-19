@@ -11,10 +11,11 @@ layout: default
           All Collections
         </p>
         <ul class="menu-list">
-          {% for collection in site.collections %}
-            {% if collection.label != "posts" %}
+          {% assign sorted_collections = site.collections | sort: "label" %}
+          {% for collection in sorted_collections %}
+            {% unless collection.label == "posts" %}
               <li>
-                <a href="#{{ collection.label }}" class="collection-link">
+                <a href="#collection-{{ collection.label | slugify }}" class="collection-link is-flex is-align-items-center">
                   <span class="icon-text">
                     <span class="icon">
                       <i class="fas fa-{% if collection.label == 'projects' %}project-diagram{% else %}folder{% endif %}"></i>
@@ -23,7 +24,7 @@ layout: default
                   </span>
                 </a>
               </li>
-            {% endif %}
+            {% endunless %}
           {% endfor %}
         </ul>
 
@@ -31,7 +32,7 @@ layout: default
           All Tags
         </p>
         <ul class="menu-list">
-          {% assign all_tags = "" | split: "," %}
+          {% assign all_tags = "" | split: "" %}
           {% for collection in site.collections %}
             {% for doc in collection.docs %}
               {% for tag in doc.tags %}
@@ -42,10 +43,10 @@ layout: default
             {% endfor %}
           {% endfor %}
           
-          {% assign sorted_tags = all_tags | sort %}
+          {% assign sorted_tags = all_tags | sort_natural %}
           {% for tag in sorted_tags %}
             <li>
-              <a href="#{{ tag | slugify }}" class="tag-link">
+              <a href="#tag-{{ tag | slugify }}" class="tag-link is-flex is-align-items-center">
                 <span class="icon-text">
                   <span class="icon">
                     <i class="fas fa-tag"></i>
@@ -61,12 +62,12 @@ layout: default
 
     <!-- Main content -->
     <div class="column">
-      <h1 class="title is-1 has-text-centered">Sitewide Tags & Collections</h1>
+      <h1 class="title is-1 has-text-centered mb-6">Sitewide Tags & Collections</h1>
       
       <!-- Collections Section -->
-      {% for collection in site.collections %}
-        {% if collection.label != "posts" %}
-          <div class="box" id="{{ collection.label }}">
+      {% for collection in sorted_collections %}
+        {% unless collection.label == "posts" %}
+          <div class="box mb-6 scroll-target" id="collection-{{ collection.label | slugify }}">
             <h2 class="title is-3">
               <span class="icon-text">
                 <span class="icon">
@@ -74,171 +75,266 @@ layout: default
                 </span>
                 <span>{{ collection.label | capitalize }}</span>
               </span>
-              <span class="has-text-grey">({{ collection.docs.size }} items)</span>
+              <span class="has-text-grey is-size-5 ml-2">({{ collection.docs.size }} item{% if collection.docs.size != 1 %}s{% endif %})</span>
             </h2>
             
-            <div class="columns is-multiline">
-              {% for doc in collection.docs %}
-                <div class="column is-one-third">
-                  <div class="card">
-                    <div class="card-image">
-                      <figure class="image is-4by3">
-                        {% if doc.image %}
-                          <img src="{{ doc.image | relative_url }}" alt="{{ doc.title }}" loading="lazy">
-                        {% else %}
-                          <img src="{{ '/assets/images/default-thumbnail.jpg' | relative_url }}" alt="Default thumbnail" loading="lazy">
-                        {% endif %}
-                      </figure>
-                    </div>
-                    <div class="card-content">
-                      <h3 class="title is-5">
-                        <a href="{{ doc.url | relative_url }}">{{ doc.title }}</a>
-                      </h3>
-                      <div class="content">
-                        {% if doc.date %}
-                          <time datetime="{{ doc.date | date_to_xmlschema }}">
-                            {{ doc.date | date: "%b %-d, %Y" }}
-                          </time>
-                          <br>
-                        {% endif %}
-                        <div class="tags">
-                          {% for tag in doc.tags %}
-                            <a href="#{{ tag | slugify }}" class="tag is-light">
-                              {{ tag }}
+            {% if collection.docs.size > 0 %}
+              <div class="columns is-multiline">
+                {% for doc in collection.docs %}
+                  <div class="column is-one-third">
+                    <div class="card">
+                      {% if doc.image %}
+                        <div class="card-image">
+                          <figure class="image is-4by3">
+                            <a href="{{ doc.url | relative_url }}">
+                              <img src="{{ doc.image | relative_url }}" alt="{{ doc.title | escape }}" loading="lazy">
                             </a>
-                          {% endfor %}
+                          </figure>
+                        </div>
+                      {% endif %}
+                      <div class="card-content">
+                        <h3 class="title is-5">
+                          <a href="{{ doc.url | relative_url }}">{{ doc.title | escape }}</a>
+                        </h3>
+                        <div class="content">
+                          {% if doc.date %}
+                            <p class="is-size-7 has-text-grey">
+                              <time datetime="{{ doc.date | date_to_xmlschema }}">
+                                {{ doc.date | date: "%b %-d, %Y" }}
+                              </time>
+                            </p>
+                          {% endif %}
+                          {% if doc.tags and doc.tags.size > 0 %}
+                            <div class="tags are-small">
+                              {% for tag in doc.tags %}
+                                <a href="#tag-{{ tag | slugify }}" class="tag is-light tag-link-inline">
+                                  {{ tag }}
+                                </a>
+                              {% endfor %}
+                            </div>
+                          {% endif %}
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              {% endfor %}
-            </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p><em>No items in this collection yet.</em></p>
+            {% endif %}
           </div>
-        {% endif %}
+        {% endunless %}
       {% endfor %}
       
       <!-- Tags Section -->
-      <div class="box">
+      {% if sorted_tags.size > 0 %}
+      <div class="box mb-6">
         <h2 class="title is-3">
           <span class="icon-text">
             <span class="icon">
               <i class="fas fa-tags"></i>
             </span>
-            <span>All Tags</span>
+            <span>Browse by Tag</span>
           </span>
         </h2>
         
-        {% assign all_docs = "" | split: "," %}
+        {% assign all_docs_for_tags_section = "" | split: "" %}
         {% for collection in site.collections %}
-          {% assign all_docs = all_docs | concat: collection.docs %}
+            {% assign all_docs_for_tags_section = all_docs_for_tags_section | concat: collection.docs %}
         {% endfor %}
         
         {% for tag in sorted_tags %}
-          <div class="mb-6" id="{{ tag | slugify }}">
-            <h3 class="title is-4">
+          <div class="mb-6 scroll-target" id="tag-{{ tag | slugify }}">
+            <h3 class="title is-4 is-flex is-align-items-center">
+              <span class="icon is-medium mr-2"><i class="fas fa-tag"></i></span>
               <span class="tag is-primary is-medium">{{ tag }}</span>
             </h3>
             
             <div class="columns is-multiline">
-              {% for doc in all_docs %}
+              {% assign tagged_docs_count = 0 %}
+              {% for doc in all_docs_for_tags_section %}
                 {% if doc.tags contains tag %}
+                  {% assign tagged_docs_count = tagged_docs_count | plus: 1 %}
                   <div class="column is-one-third">
                     <div class="card">
+                      {% if doc.image %}
+                        <div class="card-image">
+                          <figure class="image is-4by3">
+                             <a href="{{ doc.url | relative_url }}">
+                              <img src="{{ doc.image | relative_url }}" alt="{{ doc.title | escape }}" loading="lazy">
+                            </a>
+                          </figure>
+                        </div>
+                      {% endif %}
                       <div class="card-content">
                         <h4 class="title is-5">
                           <a href="{{ doc.url | relative_url }}">
-                            {{ doc.title }}
+                            {{ doc.title | escape }}
                           </a>
                         </h4>
                         <div class="content">
-                          <span class="tag is-info is-light">
-                            {% for collection in site.collections %}
-                              {% if collection.docs contains doc %}
-                                {{ collection.label | capitalize }}
-                              {% endif %}
-                            {% endfor %}
-                          </span>
-                          {% if doc.date %}
-                            <time datetime="{{ doc.date | date_to_xmlschema }}">
-                              {{ doc.date | date: "%b %-d, %Y" }}
-                            </time>
-                          {% endif %}
+                          <p class="is-size-7">
+                            <span class="tag is-info is-light mr-2">
+                              {{ doc.collection | capitalize }}
+                            </span>
+                            {% if doc.date %}
+                              <time datetime="{{ doc.date | date_to_xmlschema }}">
+                                {{ doc.date | date: "%b %-d, %Y" }}
+                              </time>
+                            {% endif %}
+                          </p>
                         </div>
                       </div>
                     </div>
                   </div>
                 {% endif %}
               {% endfor %}
+              {% if tagged_docs_count == 0 %}
+                <div class="column">
+                  <p><em>No items found with this tag.</em></p>
+                </div>
+              {% endif %}
             </div>
           </div>
         {% endfor %}
       </div>
+      {% endif %}
     </div>
   </div>
 </section>
 
 <style>
   .tag-link, .collection-link {
-    transition: all 0.3s ease;
+    transition: all 0.2s ease-in-out;
     padding: 0.5em 0.75em;
     border-radius: 4px;
+    width: 100%; /* Ensure full width for better click area and hover bg */
   }
-  .tag-link:hover, .collection-link:hover {
-    background-color: #f5f5f5;
-    transform: translateX(5px);
+  .tag-link:hover, .collection-link:hover,
+  .tag-link.is-active, .collection-link.is-active { /* For active state */
+    background-color: hsl(0, 0%, 96%); /* Bulma $grey-lighter */
+    color: hsl(0, 0%, 21%); /* Bulma $grey-darker */
+    transform: translateX(3px);
   }
   .card {
     height: 100%;
     display: flex;
     flex-direction: column;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border: 1px solid hsl(0, 0%, 86%); /* Bulma $grey-light */
   }
   .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.08);
   }
   .card-content {
     flex-grow: 1;
   }
   .menu {
     position: sticky;
-    top: 20px;
-    max-height: calc(100vh - 40px);
+    top: 1.5rem; /* Adjust based on your navbar height if any */
+    max-height: calc(100vh - 3rem);
     overflow-y: auto;
-    padding-right: 0.75rem;
+    padding-right: 0.75rem; /* For scrollbar space */
   }
-  .tag.is-medium {
-    font-size: 1.1rem;
-    padding: 0.5rem 1rem;
+  /* Bulma helper to ensure icon and text align vertically in links */
+  .is-flex.is-align-items-center .icon-text .icon { 
+    display: inline-flex; 
+    align-items: center;
   }
-  .tags a.tag:hover {
-    background-color: #e8e8e8;
+  .scroll-target { /* For highlighting the target section */
+    transition: box-shadow 0.5s ease-out;
+  }
+  .scroll-target-active {
+    box-shadow: 0 0 0 3px hsl(217, 71%, 53%) !important; /* Bulma $primary */
+    border-radius: 6px; /* Bulma $radius-large */
+  }
+  .tags.are-small .tag {
+    margin-bottom: 0.25rem; /* Space out tags a bit */
+  }
+  .tag-link-inline:hover {
+    background-color: hsl(0, 0%, 86%); /* Bulma $grey-light */
+  }
+
+  /* Film-roll-esque scrollbar for webkit browsers */
+  .menu::-webkit-scrollbar {
+    width: 8px;
+  }
+  .menu::-webkit-scrollbar-track {
+    background: hsl(0, 0%, 96%); /* Bulma $grey-lighter */
+    border-radius: 10px;
+  }
+  .menu::-webkit-scrollbar-thumb {
+    background: hsl(0, 0%, 86%); /* Bulma $grey-light */
+    border-radius: 10px;
+  }
+  .menu::-webkit-scrollbar-thumb:hover {
+    background: hsl(0, 0%, 71%); /* Bulma $grey */
   }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // Smooth scroll for anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  const OFFSET_TOP = 80; // Adjust this value based on your fixed header height, if any. 20 is a general padding.
+
+  function smoothScrollTo(targetElement) {
+    if (targetElement) {
+      const topPos = targetElement.getBoundingClientRect().top + window.pageYOffset - OFFSET_TOP;
+      window.scrollTo({
+        top: topPos,
+        behavior: 'smooth'
+      });
+
+      // Highlight the target section
+      document.querySelectorAll('.scroll-target-active').forEach(activeEl => {
+        activeEl.classList.remove('scroll-target-active');
+      });
+      targetElement.classList.add('scroll-target-active');
+      setTimeout(() => {
+        targetElement.classList.remove('scroll-target-active');
+      }, 1500); // Keep highlight for 1.5 seconds
+    }
+  }
+
+  // Smooth scroll for anchor links in sidebar and inline tags
+  document.querySelectorAll('a.collection-link, a.tag-link, a.tag-link-inline').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       e.preventDefault();
-      const targetId = this.getAttribute('href');
+      const targetId = this.getAttribute('href'); // #collection-slug or #tag-slug
       const targetElement = document.querySelector(targetId);
       
       if (targetElement) {
-        window.scrollTo({
-          top: targetElement.offsetTop - 20,
-          behavior: 'smooth'
-        });
-        
-        // Highlight the target section temporarily
-        targetElement.style.boxShadow = '0 0 0 2px #3273dc';
-        setTimeout(() => {
-          targetElement.style.boxShadow = 'none';
-        }, 1000);
+        smoothScrollTo(targetElement);
+        // Update URL hash without page jump for SPA-like feel
+        if (history.pushState) {
+          history.pushState(null, null, targetId);
+        } else {
+          window.location.hash = targetId;
+        }
       }
     });
   });
+
+  // Handle initial load with hash
+  function scrollToHash() {
+    if (window.location.hash) {
+      // Add a slight delay to ensure all elements are rendered and positions are calculated
+      setTimeout(() => {
+        const targetElement = document.querySelector(window.location.hash);
+        if (targetElement) {
+          smoothScrollTo(targetElement);
+        }
+      }, 100); // 100ms delay, adjust if needed
+    }
+  }
+  
+  scrollToHash(); // Call on initial load
+
+  // Optional: If you want to re-scroll if the hash changes (e.g., browser back/forward)
+  window.addEventListener('hashchange', scrollToHash, false);
+
+  // Optional: Active state for sidebar links based on scroll (more complex)
+  // This would require an IntersectionObserver to track which section is in view.
+  // For simplicity, we'll stick to highlighting on click/load.
 });
 </script>
