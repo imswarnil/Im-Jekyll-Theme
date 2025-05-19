@@ -1,101 +1,148 @@
-// _variables.scss (or directly in your main scss file before Bulma import)
+// =========================================================================
+// ENJI DEV - BULMA THEME
+// main.scss
+// =========================================================================
 
-// ==== 1. CUSTOM COLOR PALETTE (Derived from UI with 'im-' prefix) ====
-$im-purple-primary: #7F56D9;
-$im-blue-active-nav: #4A47C2;
-$im-text-dark-headings: #101828;
-$im-logo-text-main: #301E50;
-$im-text-body-main: #4D3D6F;
-$im-text-grey-subtle: #667085;
-$im-background-page: #FDFCFE;    // Overall page background (very light lavender)
-$im-border-ui: #EDE9F2;
-$im-divider-ui: #EAECF0;
-$im-button-bg-light: #F0EEF3;
+// ==== 0. FONT IMPORTS (Assumed to be in HTML or via @import) ====
+// @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+// ==== 1. CUSTOM COLOR PALETTE & THEME VARIABLES ====
+$im-purple-primary: #7F56D9;         // Main CTA, active elements
+$im-blue-active-nav: #4A47C2;      // Active "Work" navbar item
+$im-purple-deep: #6941C6;         // Used for some accents, could be link hover
+
+$im-text-hero-name: #101828;      // "I'm Enji Kusnadi"
+$im-text-logo-dark: #301E50;      // "nji", "dev" in logo
+$im-text-heading-section: #1D2939; // Dark grey for section titles like "Eye Catching"
+$im-text-body: #4D3D6F;           // Main body paragraph text
+$im-text-body-subtle: #667085;      // Subtitles, meta-text, input placeholders
+$im-text-light-accent: #53389E;   // Purpleish text for small accent like "Clean & Intuitive" above section
+
+$im-background-page: #F9FAFB;     // Main page background (very light grey/off-white from UI)
+$im-background-navbar: #FFFFFF;   // Navbar background is white
+$im-background-card: #FFFFFF;     // Cards are white
+$im-background-button-light: #F0EEF3; // For "Resume", "Quick Access" buttons
+$im-background-feature-card-icon-yellow: #FFD166;
+$im-background-feature-card-icon-pink: #EF476F;
+$im-background-feature-card-icon-blue: #118AB2;
+
+
+$im-border-default: #EAECF0;      // Subtle borders for cards, dividers
+$im-border-input: #D0D5DD;        // Input borders
+$im-border-gridline: #E4E7EC;     // Very light for subtle grid lines
+
 $im-white: #FFFFFF;
-$im-black: #0A0A0A;
-$im-grid-line-color: lighten($im-border-ui, 7%); // Very light for subtle grid lines
+$im-black: #101828; // Using the darkest text as black reference
 
 // ==== 2. BULMA GLOBAL VARIABLE OVERRIDES ====
 
 // --- Typography ---
 $family-sans-serif: "Inter", "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 $family-primary: $family-sans-serif;
-$body-size: 1rem; // 16px
-$body-line-height: 1.7; // Increased for readability as per UI
-$body-color: $im-text-body-main;
-$text: $im-text-body-main;
-$text-light: $im-text-grey-subtle;
-$text-strong: $im-text-dark-headings;
+$family-secondary: $family-sans-serif;
+// $family-monospace: "Roboto Mono", monospace; // Define if used
+
+$base-font-size: 16px; // Explicitly setting base
+$body-size: $base-font-size;
+$body-line-height: 1.7;
+$body-color: $im-text-body;
+$body-weight: 400; // Regular weight for body
+
+$text: $im-text-body;
+$text-light: $im-text-body-subtle;
+$text-strong: $im-text-dark-headings; // For <strong> or .has-text-weight-bold
+
 $weight-light: 300;
 $weight-normal: 400;
 $weight-medium: 500;
 $weight-semibold: 600;
 $weight-bold: 700;
-$title-color: $im-text-dark-headings;
+$weight-extrabold: 800; // If needed for hero title
+
+// Title and Subtitle defaults
+$title-color: $im-text-heading-section;
 $title-weight: $weight-bold;
-$title-line-height: 1.2;
-$subtitle-color: $im-text-grey-subtle;
+$title-line-height: 1.25;
+$title-family: $family-primary;
+$title-strong-color: $im-text-dark-headings; // For very strong titles
+$title-strong-weight: $weight-extrabold;
+
+$subtitle-color: $im-text-body-subtle;
 $subtitle-weight: $weight-normal;
-$size-1: 3rem; // Adjust for "I'm Enji Kusnadi" - might need custom CSS for exact size
-$size-3: 1.875rem; // Approx 30px for "Eye Catching..."
-$size-4: 1.25rem; // ~20px
-$size-5: 1.125rem; // ~18px
-$size-6: 1rem;    // ~16px
-$size-7: 0.875rem; // ~14px
+$subtitle-line-height: 1.5;
+$subtitle-family: $family-primary;
+
+// Font Sizes (Mapping to UI)
+// Hero title "I'm Enji Kusnadi" is very large, likely custom CSS, not just a Bulma size.
+$size-1: 3rem;    // ~48px
+$size-2: 2.25rem; // ~36px
+$size-3: 1.875rem; // ~30px (Main section headings e.g., "Eye Catching...")
+$size-4: 1.5rem;  // ~24px (Sub-section headings)
+$size-5: 1.125rem; // ~18px (Card titles)
+$size-6: 1rem;     // ~16px (Default body text, descriptions)
+$size-7: 0.875rem; // ~14px (Meta text, small tags, some subtitles)
 
 // --- Colors ---
 $primary: $im-purple-primary;
-$link: $im-logo-text-main;
+$link: $im-purple-deep; // Darker purple for links, primary for hover
 $link-hover: $primary;
-$info: $im-blue-active-nav; // Use the active blue for info context if desired
-$success: #059669; // A more modern green
-$warning: #FBBF24; // A modern yellow/amber
-$danger: #EF4444;  // A modern red
+$link-hover-border: transparent; // No underline on hover for links
+
+$info: $im-blue-active-nav; // Using the active blue for general info context
+$success: #10B981; // A modern, slightly desaturated green
+$warning: #F59E0B; // A modern amber/yellow
+$danger: #EF4444;  // A modern, slightly softer red
+
 $white: $im-white;
 $black: $im-black;
-$scheme-main: $white; // Card backgrounds, etc.
-$scheme-main-bis: darken($white, 2%);
-$scheme-main-ter: darken($white, 4%);
-$scheme-invert: $white; // Text on $primary buttons should be white based on UI
-$text-invert: $white;   // General inverted text color
+
+// Scheme colors
+$scheme-main: $im-background-card; // Cards, boxes, etc.
+$scheme-main-bis: darken($im-background-card, 2%);
+$scheme-main-ter: darken($im-background-card, 4%);
+$scheme-invert: $white; // Text color on $primary buttons
+$text-invert: $white;   // General inverted text color (e.g., on dark backgrounds)
 
 // Backgrounds and Borders
 $body-background-color: $im-background-page;
 $background: $im-background-page;
-$border: $im-border-ui;
-$border-light: lighten($im-border-ui, 5%);
+$border: $im-border-default;
+$border-light: lighten($im-border-default, 3%);
 $border-hover: $primary;
 
 // --- Layout & Spacing ---
 $radius-small: 6px;
 $radius: 8px;
 $radius-large: 12px;
+$radius-rounded: 9999px;
+
 $control-radius: $radius;
-$gap: 32px;
-$section-padding: 6rem 1.5rem; // Generous padding
-$section-padding-medium: $section-padding;
-$section-padding-large: $section-padding;
+
+$gap: 32px; // Column gap (default is 1.5rem or 0.75rem depending on Bulma version)
+$section-padding: 6rem 1.5rem; // Generous vertical padding for sections
+$container-offset: ($gap * 2); // Offset for widescreen/fullhd containers
+$container-max-width: 1152px; // Max width for .container on widescreen/fullhd ($widescreen - (2 * $gap))
 
 // ==== 3. BULMA COMPONENT VARIABLE OVERRIDES ====
 
 // --- Navbar ---
-$navbar-background-color: $im-background-page;
-$navbar-item-color: $im-text-body-main;
+$navbar-background-color: $im-background-navbar;
+$navbar-item-color: $im-text-body;
 $navbar-item-hover-color: $primary;
-$navbar-item-hover-background-color:transparent;
-$navbar-item-active-color: $white;
-$navbar-item-active-background-color: $im-blue-active-nav; // For "Work" item
+$navbar-item-hover-background-color: lighten($im-purple-primary, 40%); // Very light purple on hover
+$navbar-item-active-color: $white; // For the specific "Work" item
+$navbar-item-active-background-color: $im-blue-active-nav;
 $navbar-dropdown-background-color: $white;
 $navbar-dropdown-item-hover-background-color: $im-background-page;
 $navbar-dropdown-item-hover-color: $primary;
-$navbar-dropdown-border-top: 2px solid $primary;
-$navbar-dropdown-arrow: $primary;
-$navbar-height: 68px; // Approx from UI
+$navbar-dropdown-border-top: 2px solid $primary; // Consistent with UI
+$navbar-dropdown-arrow: $im-purple-deep; // Arrow color for dropdowns
+$navbar-height: 68px; // As per UI
 $navbar-padding-vertical: 0rem;
-$navbar-padding-horizontal: 1rem; // Container will handle main padding
+$navbar-padding-horizontal: 0rem; // Container inside navbar will handle padding
 $navbar-item-img-max-height: 28px;
 $navbar-box-shadow-size: 0 1px 3px;
-$navbar-box-shadow-color: rgba($im-black, 0.05); // Softer navbar shadow
+$navbar-box-shadow-color: rgba($black, 0.05);
 
 // --- Buttons ---
 $button-family: $family-primary;
@@ -103,190 +150,362 @@ $button-color: $white;
 $button-background-color: $primary;
 $button-border-color: $primary;
 $button-border-width: 1px;
-$button-padding-vertical: 0.75em; // UI "Get in Touch" button is quite padded
+$button-padding-vertical: 0.8em; // UI "Get in Touch" button padding
 $button-padding-horizontal: 1.75em;
-$button-hover-background-color: darken($primary, 5%);
-$button-hover-border-color: darken($primary, 5%);
+$button-hover-background-color: darken($primary, 6%);
+$button-hover-border-color: darken($primary, 6%);
+$button-active-background-color: darken($primary, 8%);
+$button-active-border-color: darken($primary, 8%);
+$button-focus-box-shadow-color: rgba($primary, 0.25);
 $button-radius: $radius;
 
+// Light buttons (for "Resume", "Quick Access")
 $button-light-background-color: $im-button-bg-light;
 $button-light-color: $im-logo-text-main;
-$button-light-border-color: $im-button-bg-light;
+$button-light-border-color: $im-button-bg-light; // Or $im-border-ui for subtle border
 $button-light-hover-background-color: darken($im-button-bg-light, 4%);
 $button-light-hover-color: darken($im-logo-text-main, 5%);
+$button-light-active-background-color: darken($im-button-bg-light, 6%);
 
-// --- Card --- (Used for the feature cards, documentation card in UI)
-$card-background-color: $white;
+// --- Card --- (For generic cards, specific feature cards will have custom CSS)
+$card-background-color: $im-background-card;
 $card-color: $text;
+$card-header-background-color: $im-background-card;
 $card-header-color: $text-strong;
+$card-header-padding: 1.25rem;
 $card-header-weight: $weight-semibold;
-$card-shadow: 0 8px 16px rgba($im-logo-text-main, 0.04), 0 2px 6px rgba($im-logo-text-main, 0.03); // Softer, more layered shadow like UI
-$card-radius: $radius-large; // More rounded cards
-$card-content-padding: 1.5rem; // More padding in cards
+$card-shadow: 0 8px 24px rgba($im-logo-text-main, 0.05), 0 2px 8px rgba($im-logo-text-main, 0.03); // Refined shadow
+$card-radius: $radius-large;
+$card-content-padding: $card-header-padding; // Consistent padding
+$card-footer-border-top: 1px solid $im-divider-ui;
+$card-footer-padding: 1rem $card-header-padding;
 
-// --- Tags --- (Used for "Docs", "Support" in UI)
-$tag-background-color: $im-button-bg-light;
-$tag-color: $im-text-body-main;
-$tag-radius: $radius-small; // Slightly rounded
-// For colored tags, rely on .is-primary.is-light etc.
-// Customize light variants if needed:
-$primary-light: lighten($primary, 38%); // Making primary-light very light
-$primary-invert: $primary; // Text color on primary-light tags
-$info-light: lighten($info, 35%);
+// --- Tags ---
+$tag-background-color: lighten($primary, 40%); // Default tag bg
+$tag-color: $primary; // Text color for default tags
+$tag-radius: $radius-small;
+$tag-padding-left: 0.85em;
+$tag-padding-right: 0.85em;
+// For .is-light variants of contextual tags
+$primary-light: lighten($primary, 42%);
+$primary-invert: $primary; // Text on primary-light tags
+$info-light: lighten($info, 38%);
 $info-invert: $info;
+$warning-light: lighten($warning, 30%);
+$warning-invert: darken($warning, 25%); // Darker text on light yellow for contrast
+$success-light: lighten($success, 40%);
+$success-invert: $success;
+$danger-light: lighten($danger, 35%);
+$danger-invert: $danger;
+
+
+// --- Forms ---
+$input-background-color: $white;
+$input-border-color: $im-border-input;
+$input-color: $text;
+$input-hover-border-color: darken($im-border-input, 10%);
+$input-focus-border-color: $primary;
+$input-focus-box-shadow-color: rgba($primary, 0.2);
+$input-placeholder-color: $im-text-grey-subtle;
+$input-radius: $radius;
+$label-color: $text-strong;
+$label-weight: $weight-medium;
+$help-color: $text-light;
 
 
 // ==== 4. IMPORT BULMA ====
-@import "../node_modules/bulma/sass/index"; // Adjust path
+@import "../node_modules/bulma/sass/index"; // Adjust path if necessary
 
-// ==== 5. ADDITIONAL GLOBAL STYLES / MINOR OVERRIDES (AFTER BULMA IMPORT) ====
+// ==== 5. ADDITIONAL GLOBAL STYLES & CUSTOM COMPONENT STYLES (AFTER BULMA IMPORT) ====
 
 html {
-    background-color: $body-background-color;
+    background-color: $body-background-color; // This already sets the overall page background
     scroll-behavior: smooth;
 }
 
 body {
-    font-family: $family-primary;
-    color: $body-color;
-    font-size: $body-size;
-    line-height: $body-line-height;
-    font-weight: $weight-normal; // Default body font weight is normal
-    overflow-x: hidden; // Prevent horizontal scroll from any pseudo-elements
-    position: relative; // Needed for pseudo-elements to be fixed relative to body
+    // Font families, color, line-height are set by Bulma using our variables.
+    // The grid background is applied via ::before pseudo-element.
+    position: relative; // For pseudo-elements
+    overflow-x: hidden;
 }
 
 // Fading Grid Lines Effect
-body::before { // The grid itself
+body::before {
     content: "";
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-image: radial-gradient($im-grid-line-color 0.5px, transparent 0.5px);
-    background-size: 28px 28px; // Adjust size of grid as per UI
-    z-index: -2; // Deepest background
-    opacity: 0.6; // Overall grid subtlety
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background-image: radial-gradient($im-border-gridline 0.5px, transparent 0.5px);
+    background-size: 28px 28px; // UI grid size
+    z-index: -2;
+    opacity: 0.5; // Subtlety of grid
 }
-
-body::after { // The fading overlay
+body::after {
     content: "";
     position: fixed;
-    top: 0; // Start fade from very top
-    left: 0;
-    width: 100%;
-    height: 150vh; // Make it taller than viewport to ensure fade covers scroll
-    // Gradient starts transparent (matching navbar area), fades to body background
+    top: 0; left: 0; width: 100%; height: 150vh; // Extra height for full fade on scroll
     background: linear-gradient(
         to bottom,
-        rgba(red($im-background-page), green($im-background-page), blue($im-background-page), 0) $navbar-height, // Transparent up to navbar bottom
-        rgba(red($im-background-page), green($im-background-page), blue($im-background-page), 0.3) calc(#{$navbar-height} + 10vh), // Start fade
-        $im-background-page calc(#{$navbar-height} + 50vh) // Fully opaque matching body bg
+        rgba(red($im-background-page), green($im-background-page), blue($im-background-page), 0) $navbar-height,
+        rgba(red($im-background-page), green($im-background-page), blue($im-background-page), 0.2) calc(#{$navbar-height} + 10vh),
+        $im-background-page calc(#{$navbar-height} + 45vh) // Fade completes faster
     );
-    z-index: -1; // Above grid, below content
-    pointer-events: none; // Allow clicks through
+    z-index: -1;
+    pointer-events: none;
 }
 
-
-// Navbar logo specific styling
-.im-navbar-logo .im-logo-e {
-    color: $primary;
+// Navbar specific overrides if needed
+.navbar {
+    // .container inside navbar already handles max-width and centering
 }
-.im-navbar-logo .im-logo-dev {
-    color: $primary; 
-    opacity: 0.75;
+.navbar-brand .navbar-item.im-navbar-logo { // Your custom class for the logo
+    font-weight: $weight-bold;
+    font-size: 1.25rem; // Ensure it uses a Bulma size var or explicit
+    color: $im-logo-text-main;
+    padding-left: 0; // If container provides padding
 }
+.im-navbar-logo .im-logo-e { color: $primary; }
+.im-navbar-logo .im-logo-dev { color: $primary; opacity: 0.75; }
 
-// Active "Work" navbar item style from UI
-.navbar-item.im-work-active {
+.navbar-item.im-work-active { // Your custom class for the "Work" button
     background-color: $im-blue-active-nav !important;
     color: $white !important;
     border-radius: $radius-small !important;
-    padding: 0.5em 1em !important; // Adjusted padding
-    // For vertical centering if navbar items have varying internal padding:
+    padding: 0.5em 1.1em !important; // Fine-tuned padding
     display: inline-flex;
     align-items: center;
-    // If navbar-height is fixed, calculate internal height:
-    // max-height: calc(#{$navbar-height} - 1.5rem); // Example
+    // Max height to fit well if navbar height is fixed
+    max-height: calc(#{$navbar-height} - 2rem); // Example, adjust
+    margin-top: auto; // Vertical centering helpers
+    margin-bottom: auto;
 }
-.navbar-item.im-work-active:hover {
-    background-color: darken($im-blue-active-nav, 5%) !important;
-}
-.navbar-item.im-work-active .icon.im-active-arrow { // Assuming you add this class to the arrow span
+.navbar-item.im-work-active .icon.im-active-arrow { // Class for the arrow SVG span
     margin-left: 0.4em;
-    path { fill: $white; }
+    svg path { fill: $white; }
 }
 
-// Quick Access Button
+// Quick Access Button specific styles
 .im-quick-access-button {
-    font-size: $size-7 !important; // Make sure it uses the small font size
-    // Other styles should be covered by $button-light-* variables
+    font-size: $size-7 !important; // Ensures small size
+    // Background, color, etc., should come from $button-light-* vars
     .im-quick-access-key {
-        background-color: darken($im-button-bg-light, 7%);
-        color: $im-text-body-main; // Or $im-logo-text-main
+        background-color: darken($im-button-bg-light, 8%);
+        color: $im-text-body;
         border-radius: 3px;
         padding: 0.15em 0.45em;
-        font-size: 0.8em; // Relative to button
+        font-size: 0.85em; // Relative to button font size
         margin-left: 0.75em;
         font-weight: $weight-semibold;
     }
 }
 
-// Ensure body has top padding if navbar is fixed
-// Bulma's .has-navbar-fixed-top on <html> or <body> usually handles this
-// but if your navbar height is custom, you might need to adjust:
-// html.has-navbar-fixed-top {
-//   padding-top: $navbar-height;
-// }
-// body.has-navbar-fixed-top { // If you put it on body
-//   padding-top: $navbar-height;
-// }
+// Hero Section Specifics (Example for "I'm Enji Kusnadi" part)
+.hero.im-hero-main { // Add this class to your main hero section
+    padding-top: 2rem; // Add some space below navbar if navbar is transparent initially
+    padding-bottom: 4rem;
+    .hero-body {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .im-hero-greeting { // For "hi! 👋"
+        font-size: $size-3;
+        font-weight: $weight-medium;
+        color: $text-light;
+        margin-bottom: 0.5rem;
+    }
+    .im-hero-title { // For "I'm Enji Kusnadi"
+        font-size: 4rem; // Custom large size
+        line-height: 1.1;
+        font-weight: $weight-extrabold; // Make it very bold
+        color: $im-text-dark-headings;
+        margin-bottom: 0.75rem;
+        .im-hero-name-highlight { // For "Enji"
+            color: $primary;
+        }
+    }
+    .im-hero-subtitle { // For "a front-end developer..."
+        font-size: $size-4; // Larger subtitle
+        color: $im-text-body;
+        font-weight: $weight-normal;
+        max-width: 600px; // Constrain width like UI
+        line-height: 1.5;
+        margin-bottom: 2rem;
+    }
+    .im-hero-buttons .button { // Ensure buttons in hero match style
+        margin-right: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+}
 
-// Example styling for a feature card like in the UI
-.im-feature-card {
+// Feature Cards (Clean & Intuitive, etc.)
+.im-feature-card-section { // Wrapper for the 3 feature cards
+    // Uses .columns .column is-one-third for layout
+}
+.im-feature-card { // Apply to each .box or .card
     background-color: $white;
     border-radius: $radius-large;
-    padding: 1.75rem; // Generous padding
+    padding: 1.75rem;
     box-shadow: $card-shadow;
-    text-align: center; // If content is centered
-}
-.im-feature-card .im-feature-icon-wrapper { // Wrapper for the colored circle
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px; // UI icon circle size
-    height: 48px;
-    border-radius: 50%;
-    margin-bottom: 1rem;
-    color: $white; // Icon color
-    font-size: 1.5rem; // Icon size within circle
-}
-// Example colors for feature icons - add more as needed
-.im-feature-card.is-yellow .im-feature-icon-wrapper { background-color: #FFD166; }
-.im-feature-card.is-pink .im-feature-icon-wrapper { background-color: #EF476F; }
-.im-feature-card.is-blue .im-feature-icon-wrapper { background-color: #118AB2; }
+    text-align: left; // UI text is left-aligned in these
+    height: 100%; // For equal height in columns
+    .im-feature-icon-wrapper {
+        display: flex; // Changed to flex for easier icon centering
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        margin-bottom: 1rem;
+        color: $white;
+        font-size: 1.5rem; // Size of icon inside the circle
+    }
+    &.is-yellow .im-feature-icon-wrapper { background-color: $im-background-feature-card-icon-yellow; }
+    &.is-pink .im-feature-icon-wrapper { background-color: $im-background-feature-card-icon-pink; }
+    &.is-blue .im-feature-icon-wrapper { background-color: $im-background-feature-card-icon-blue; }
 
-.im-feature-card .title.is-6 { // Title inside these feature cards
-    font-weight: $weight-semibold;
-    color: $text-strong;
-    margin-bottom: 0.5rem;
-}
-.im-feature-card .content p { // Text inside these feature cards
-    font-size: $size-7;
-    color: $text-light;
-    line-height: 1.5;
-}
-
-// For the "Beautiful inside and out" section title
-.im-decorative-title {
-    // This would need custom HTML structure and more specific CSS
-    // For example, using ::before and ::after for the lines
-    // Variables can't create such complex decorative elements directly.
+    .title.is-6 {
+        font-weight: $weight-semibold;
+        color: $text-strong;
+        margin-bottom: 0.5rem;
+    }
+    .content p {
+        font-size: $size-7;
+        color: $text-light;
+        line-height: 1.6;
+    }
 }
 
-// For the numbered list (1. Typography, 2. Spacing etc.)
-.im-principles-list .im-principle-item {
-    // This also requires custom HTML (e.g., columns or flex) and CSS for styling
-    // Variables will style the text and colors within, but not the layout itself.
+// Decorative title "Beautiful inside and out"
+.im-decorative-title-wrapper { // You'd need a wrapper div
+    text-align: center;
+    margin-top: 6rem;
+    margin-bottom: 6rem;
+    .im-decorative-line {
+        display: inline-block;
+        width: 80px;
+        height: 2px;
+        background-color: $im-divider-ui;
+        vertical-align: middle;
+    }
+    .im-decorative-title-text {
+        font-size: $size-2; // Large decorative text
+        font-weight: $weight-light; // UI text is light
+        color: $text-light;
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+        .is-strong { // For "inside" and "out"
+            font-weight: $weight-bold;
+            color: $text-strong;
+        }
+        .is-highlight { // For "must"
+            background-color: lighten($primary, 35%);
+            color: $primary;
+            padding: 0.1em 0.3em;
+            border-radius: $radius-small;
+        }
+    }
+}
+
+// Numbered Principles List (Typography, Spacing, etc.)
+.im-principles-list { // This would be a .columns.is-multiline container
+    .column { // Each principle item
+        // .box or custom styled div inside
+    }
+    .im-principle-item { // Custom class for each item
+        background-color: $white;
+        border-radius: $radius-large;
+        padding: 1.5rem;
+        box-shadow: $card-shadow;
+        display: flex;
+        align-items: center;
+        margin-bottom: $gap;
+        .im-principle-number {
+            font-size: 3rem; // Large number
+            font-weight: $weight-bold;
+            color: $im-text-grey-subtle;
+            margin-right: 1.5rem;
+            line-height: 1;
+        }
+        .im-principle-content .title.is-5 {
+            font-weight: $weight-semibold;
+            margin-bottom: 0.25rem;
+        }
+        .im-principle-content p {
+            font-size: $size-7;
+            color: $text-light;
+        }
+    }
+}
+
+// Small card like "Create Documentation"
+.im-small-task-card { // Apply to a .card or .box
+    border-radius: $radius-large;
+    box-shadow: $card-shadow;
+    .im-card-icon-header { // For the 'E' icon
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.75rem;
+        .icon { // Wrapper for letter E
+            width: 36px;
+            height: 36px;
+            border-radius: $radius-small;
+            background-color: $info; // Or another color
+            color: $white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: $weight-bold;
+            font-size: $size-6; // E size
+            margin-right: 0.75rem;
+        }
+        .tag { // For "High" priority tag
+            margin-left: auto;
+        }
+    }
+    .title.is-6 { font-weight: $weight-semibold; margin-bottom: 0.25rem; }
+    p.is-size-7 { color: $text-light; margin-bottom: 0.75rem; }
+    .tags .tag { font-size: 0.7rem; padding: 0.5em 0.75em;} // Smaller tags
+    .im-task-meta {
+        font-size: $size-7;
+        color: $text-light;
+        .icon { color: $text-light;}
+    }
+}
+
+
+// Footer
+.footer {
+    background-color: $im-background-page; // UI footer matches page bg
+    padding: 3rem 1.5rem 3rem; // Reduced padding
+    border-top: 1px solid $im-divider-ui;
+    .footer-column-title { // For "About Me", "Work", "Learn"
+        font-weight: $weight-semibold;
+        color: $text-strong;
+        margin-bottom: 1rem;
+        font-size: $size-6;
+    }
+    .footer-links a.footer-link { // Your custom class for footer links
+        color: $text-light;
+        display: block;
+        padding: 0.3rem 0;
+        font-size: $size-7;
+        &:hover {
+            color: $primary;
+        }
+    }
+    .footer-social-icons .icon { // Icons like X, GitHub in footer
+        color: $text-light;
+        font-size: 1.25rem;
+        margin-right: 0.75rem;
+        &:hover {
+            color: $primary;
+        }
+    }
+    .footer-bottom-text {
+        font-size: $size-7;
+        color: $text-light;
+        border-top: 1px solid $im-divider-ui;
+        padding-top: 1.5rem;
+        margin-top: 1.5rem;
+    }
 }
