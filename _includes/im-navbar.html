@@ -24,10 +24,7 @@
         </div>
 
         <div class="navbar-menu" id="bulmaNavbarMenuTarget">
-            <div class="navbar-start">
-                
-            </div>
-            <div class="navbar-center-items-desktop" style="flex-grow: 1; display: flex; justify-content: center; align-items: center;">
+            <div class="navbar-start" id="bulma-navbar-start-main-items">
                 {% assign navbar_items_json = site.navbar | default: '[{"name": "Home", "link": "/", "icon": "house"}, {"name": "Blog", "link": "/blog/", "icon": "article"}, {"name": "Docs", "link": "#", "icon": "book-open", "dropdown": [{"name": "Overview", "link": "/docs/overview/", "icon": "compass"}, {"name": "Components", "link": "/docs/components/", "icon": "puzzle-piece"}]}]' %}
                 {% assign navbar_items = navbar_items_json %}
                 {% if navbar_items_json | type_of == "string" %}{% assign navbar_items = navbar_items_json | parse_json %}{% endif %}
@@ -104,25 +101,26 @@
 </nav>
 
 <style>
-    @media screen and (max-width: 1023px) {
-        .navbar-center-items-desktop {
-            display: block !important; /* On mobile, items should stack, not be centered */
-            flex-grow: 0 !important;
-            justify-content: flex-start !important;
+    @media screen and (min-width: 1024px) {
+        #bulma-main-navbar .navbar-menu {
+            justify-content: space-between; /* Allows start and end to push to sides */
         }
-        .navbar-menu .navbar-center-items-desktop > .navbar-item,
-        .navbar-menu .navbar-center-items-desktop > .has-dropdown {
-            /* Ensure they behave like normal navbar-start items on mobile */
-            display: block; 
+        /* To center navbar-start items, we make navbar-start itself a flex container
+           and then ensure it doesn't take up all the space if navbar-end has items. */
+        #bulma-main-navbar .navbar-start {
+            justify-content: center; /* Center items within navbar-start */
+            flex-grow: 1; /* Allow navbar-start to grow and push items to center */
+            margin-right: auto; /* Push navbar-end to the right */
+            margin-left: auto; /* Push navbar-brand to the left */
+        }
+         #bulma-main-navbar .navbar-end {
+            margin-left: 0; /* Ensure navbar-end doesn't get pushed by navbar-start's auto margin */
         }
     }
-    @media screen and (min-width: 1024px) {
-         .navbar-menu { /* Ensure navbar-menu allows for centering container to grow */
-            display: flex;
-            flex-grow: 1;
-        }
-        .navbar-start, .navbar-end { /* Allow them to shrink if center needs space */
-            flex-shrink: 1;
+    /* On mobile, navbar-start items should behave normally (stack vertically) */
+    @media screen and (max-width: 1023px) {
+        #bulma-main-navbar .navbar-start {
+            justify-content: flex-start; /* Default stacking behavior */
         }
     }
 </style>
@@ -164,37 +162,5 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-
-    // Function to move items from navbar-start to the centering div for desktop
-    // and back to navbar-start for mobile.
-    function arrangeNavbarItems() {
-        const navbarStart = mainNavbar.querySelector('.navbar-start');
-        const navbarCenterDesktop = mainNavbar.querySelector('.navbar-center-items-desktop');
-        
-        if (!navbarStart || !navbarCenterDesktop) return;
-
-        if (window.innerWidth >= 1024) { // Desktop
-            // Move items from navbar-start to navbar-center-desktop
-            // (but only if they aren't already there)
-            if (navbarStart.children.length > 0 && navbarStart.firstChild.classList && (navbarStart.firstChild.classList.contains('navbar-item') || navbarStart.firstChild.classList.contains('has-dropdown')) ) {
-                 while (navbarStart.firstChild) {
-                    navbarCenterDesktop.appendChild(navbarStart.firstChild);
-                }
-            }
-        } else { // Mobile
-            // Move items from navbar-center-desktop back to navbar-start
-             if (navbarCenterDesktop.children.length > 0) {
-                while (navbarCenterDesktop.firstChild) {
-                    navbarStart.appendChild(navbarCenterDesktop.firstChild);
-                }
-            }
-        }
-    }
-
-    // Initial arrangement
-    arrangeNavbarItems();
-    // Re-arrange on resize
-    window.addEventListener('resize', arrangeNavbarItems);
-
 });
 </script>
