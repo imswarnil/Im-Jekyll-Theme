@@ -8,33 +8,47 @@
 // variable you use for grid lines) are correctly themed for both light and dark modes
 // by your Bulma Sass setup.
 
-html {
-    // The $body-background-color variable will be set by your Bulma theme
-    // for both light and dark modes.
-    background-color: $body-background-color;
 
+
+// This SCSS should be part of your main SCSS file,
+// AFTER your Bulma variable overrides and AFTER @import "bulma/bulma";
+
+// It assumes variables like $body-background-color and $border-light (or a similar
+// variable you use for grid lines) are correctly themed for both light and dark modes
+// by your Bulma Sass setup when html[data-theme="dark"] is active (if that's how your Bulma dark mode is triggered).
+
+html {
+    // The $body-background-color variable should be set by your Bulma theme
+    // for both light and dark modes.
+    // Bulma applies this to the body, so html can be simple.
+    // However, for a fixed grid that covers everything, applying to html is robus
     // Grid Lines Background using themed Bulma variables
     background-image:
-        linear-gradient(to right, $border-light 0.5px, transparent 0.5px), // Vertical lines
-        linear-gradient(to bottom, $border-light 0.5px, transparent 0.5px); // Horizontal lines
+        linear-gradient(to right, grey 0.5px, transparent 0.5px), // Vertical lines
+        linear-gradient(to bottom, grey 0.5px, transparent 0.5px); // Horizontal lines
     background-size: 28px 28px; // Size of each grid cell
     background-attachment: fixed; // Grid stays in place during scroll
 }
 
 body {
     background-color: transparent !important; // Body MUST be transparent for the HTML grid to show
-    
-    // Essential for layout
     position: relative; 
     overflow-x: hidden; 
     margin: 0;
-    min-height: 100vh;
-
-    // Space for your fixed navbar. Assumes $navbar-height is defined in your Bulma vars.
-    // Bulma's .has-navbar-fixed-top on <html> or <body> usually handles this,
-    // but if your navbar height is custom, this ensures correct padding.
-    padding-top: $navbar-height; 
 }
+
+// If your Bulma dark mode CSS uses data-theme="dark" on html to change variable values:
+html[data-theme="dark"] {
+    // Bulma's dark mode should change $body-background-color and $border-light.
+    // If it doesn't, or if you need to force it for the grid specifically:
+    // background-color: $your-dark-mode-body-bg-variable; // e.g., a darker shade from your palette
+    // background-image:
+    //     linear-gradient(to right, $your-dark-mode-grid-line-variable 0.5px, transparent 0.5px),
+    //     linear-gradient(to bottom, $your-dark-mode-grid-line-variable 0.5px, transparent 0.5px);
+}
+
+/* Optional: Ensure Phosphor Icons script is included in your HTML head or before body close */
+/* <script src="https://unpkg.com/@phosphor-icons/web"></script> */
 
 // NO ::after pseudo-element for fading if you want the grid always visible.
 // If you DID want the fade, it would use $body-background-color for the opaque part.
