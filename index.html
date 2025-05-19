@@ -4,7 +4,7 @@ description: "An open-source Jekyll theme crafted using the Bulma CSS framework.
 image: /assets/logos/logo.svg
 layout: default
 ---
-
+{% if page.url == "/" %}
 <section class="section home-hero">
   <div class="container">
     <div class="columns is-vcentered is-desktop home-hero-main-content">
@@ -116,6 +116,7 @@ layout: default
 
   </div>
 </section>
+{% endif %}
 
 
  <div class="section">
