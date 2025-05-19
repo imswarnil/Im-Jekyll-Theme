@@ -2,7 +2,12 @@
     <div class="container">
         <div class="navbar-brand">
             <a href="{{ site.baseurl | default: './' }}/" class="navbar-item im-navbar-logo">
-                <span class="im-logo-e">e</span>nji<span class="im-logo-dev">dev</span>
+                {% if site.logo_image_path %}
+                <img src="{{ site.logo_image_path | relative_url }}" alt="{{ site.title | escape | default: 'Site' }} Logo" style="max-height: var(--bulma-navbar-item-img-max-height, 1.75rem);">
+                {% else %}
+                <span class="icon is-large"><i class="ph-bold ph-code"></i></span>
+                {% endif %}
+                <span class="has-text-weight-bold ml-2">{{ site.title | default: "My Site Title" }}</span>
             </a>
 
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="imNavbarMenuTarget">
@@ -14,29 +19,71 @@
 
         <div class="navbar-menu" id="imNavbarMenuTarget">
             <div class="navbar-start">
-                <a href="#" class="navbar-item">Projects</a>
-                <a href="#" class="navbar-item">Blog</a>
-                <a href="#" class="navbar-item">T.I.L<span class="im-dot">.</span></a>
-                <a href="#" class="navbar-item is-active im-work-active">
-                    Work
-                    <span class="icon is-small im-active-arrow">
-                        <svg viewBox="0 0 8 8" width="8" height="8" fill="currentColor" style="display: inline-block; vertical-align: middle; margin-left: 0.3em;">
-                            <path d="M2.5 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z"></path>
-                        </svg>
-                    </span>
-                </a>
-                <a href="#" class="navbar-item">Skills & Tools</a>
-                <a href="#" class="navbar-item">Experience</a>
-                <a href="#" class="navbar-item">Studio</a>
-                <a href="#" class="navbar-item">Contact</a>
+                {% for item in site.navbar %}
+                  {% if item.name %}
+                    {% assign item_url_relative = item.link | relative_url | default: "#" %}
+                    {% assign page_url_cleaned = page.url | remove: "index.html" | default: "/" %}
+                    {% assign temp_page_url_array = page_url_cleaned | split: "/" %}
+                    {% if temp_page_url_array.last == "" and page_url_cleaned != "/" %}{% assign page_url_cleaned = page_url_cleaned | remove_last: "/" %}{% endif %}
+                    
+                    {% assign current_item_url_cleaned = item_url_relative | remove: "index.html" | default: "/" %}
+                    {% assign temp_current_item_url_array = current_item_url_cleaned | split: "/" %}
+                    {% if temp_current_item_url_array.last == "" and current_item_url_cleaned != "/" %}{% assign current_item_url_cleaned = current_item_url_cleaned | remove_last: "/" %}{% endif %}
+
+                    {% assign is_active_page = false %}{% if page_url_cleaned == current_item_url_cleaned and current_item_url_cleaned != "/#" %}{% assign is_active_page = true %}{% endif %}
+                    {% assign is_active_parent = false %}
+                    {% if item.dropdown %}
+                      {% if item.link != "/#" and current_item_url_cleaned != "/" and page_url_cleaned contains current_item_url_cleaned %}{% assign is_active_parent = true %}{% endif %}
+                      {% for subitem in item.dropdown %}
+                        {% assign subitem_url_relative = subitem.link | relative_url %}
+                        {% assign subitem_url_cleaned = subitem_url_relative | remove: "index.html" | default: "/" %}
+                        {% assign temp_sub_url_array = subitem_url_cleaned | split: "/" %}
+                        {% if temp_sub_url_array.last == "" and subitem_url_cleaned != "/" %}{% assign subitem_url_cleaned = subitem_url_cleaned | remove_last: "/" %}{% endif %}
+                        {% if page_url_cleaned == subitem_url_cleaned %}{% assign is_active_parent = true %}{% break %}{% endif %}
+                      {% endfor %}
+                    {% endif %}
+
+                    {% if item.dropdown %}
+                    <div class="navbar-item has-dropdown {% if is_active_parent %}is-active{% else %}is-hoverable{% endif %}">
+                      <a class="navbar-link {% if is_active_parent %}is-active{% endif %}" {% if item.link != "/#" %}href="{{ item_url_relative }}"{% else %}role="button" aria-haspopup="true" aria-expanded="false"{% endif %}>
+                        {% if item.icon %}<span class="icon mr-2"><i class="ph ph-{{ item.icon }}"></i></span>{% endif %}
+                        <span>{{ item.name }}</span>
+                      </a>
+                      <div class="navbar-dropdown is-boxed">
+                        {% for subitem in item.dropdown %}
+                          {% assign subitem_url_relative = subitem.link | relative_url %}
+                          {% assign subitem_url_cleaned = subitem_url_relative | remove: "index.html" | default: "/" %}
+                           {% assign temp_sub_url_dd_array = subitem_url_cleaned | split: "/" %}
+                           {% if temp_sub_url_dd_array.last == "" and subitem_url_cleaned != "/" %}{% assign subitem_url_cleaned = subitem_url_cleaned | remove_last: "/" %}{% endif %}
+                          <a class="navbar-item {% if page_url_cleaned == subitem_url_cleaned %}is-active{% endif %}" href="{{ subitem_url_relative }}">
+                            {% if subitem.image %}
+                                <figure class="image is-24x24 mr-2">
+                                    <img class="is-rounded" src="{{ subitem.image | relative_url }}" alt="{{ subitem.name | escape }}">
+                                </figure>
+                            {% elsif subitem.icon %}
+                                <span class="icon mr-2 is-small"><i class="ph ph-{{ subitem.icon }}"></i></span>
+                            {% endif %}
+                            <span>{{ subitem.name }}</span>
+                          </a>
+                        {% endfor %}
+                      </div>
+                    </div>
+                    {% else %}
+                    <a class="navbar-item {% if is_active_page %}is-active{% endif %}" href="{{ item_url_relative }}">
+                      {% if item.icon %}<span class="icon mr-2"><i class="ph ph-{{ item.icon }}"></i></span>{% endif %}
+                      <span>{{ item.name }}</span>
+                    </a>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
             </div>
 
             <div class="navbar-end">
                 <a href="#" class="navbar-item im-navbar-icon-item" aria-label="Twitter/X">
-                    <span class="icon"><i class="fab fa-xing"></i></span>
+                    <span class="icon"><i class="ph ph-x-logo"></i></span>
                 </a>
                 <a href="#" class="navbar-item im-navbar-icon-item" aria-label="GitHub">
-                    <span class="icon"><i class="fab fa-github"></i></span>
+                    <span class="icon"><i class="ph ph-github-logo"></i></span>
                 </a>
                 <div class="navbar-item">
                     <button class="button im-quick-access-button">
@@ -50,38 +97,42 @@
 </nav>
 
 <style>
-    /* Apply body padding if navbar is fixed top */
     body {
-        padding-top: 3.25rem; /* Default Bulma navbar height */
+        padding-top: 60px; /* Adjusted for navbar height */
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        background-color: #FDFCFE; /* Match UI background */
     }
 
     nav.im-navbar {
-        background-color: #FDFCFE; /* Very light lavender/off-white based on UI */
-        border-bottom: 1px solid #EDE9F2; /* Subtle border */
-        height: 60px; /* Approximate height from UI */
+        background-color: #FDFCFE;
+        border-bottom: 1px solid #EDE9F2;
+        min-height: 60px; /* Explicit height */
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02); /* Subtle shadow */
     }
-
     nav.im-navbar .container {
-        min-height: 60px; /* Ensure container also respects height */
+        min-height: 60px; /* Ensure container respects height */
     }
-    
     nav.im-navbar .navbar-brand {
-        min-height: 60px;
+        min-height: 60px; /* Consistent height */
     }
-
     nav.im-navbar .navbar-brand .navbar-item.im-navbar-logo {
         font-weight: 700;
-        font-size: 1.25rem; /* Approx size */
-        color: #301E50; /* Dark purple for 'nji' and 'dev' */
-        padding-left: 0; /* Align with container edge typically */
+        font-size: 1.2rem;
+        color: #301E50;
+        padding-left: 0;
+        display: flex;
+        align-items: center;
     }
     nav.im-navbar .navbar-brand .navbar-item.im-navbar-logo .im-logo-e {
-        color: #7F56D9; /* Brighter purple for 'e' */
+        color: #7F56D9;
     }
-
+    nav.im-navbar .navbar-brand .navbar-item.im-navbar-logo .im-logo-dev {
+        color: #7F56D9;
+        opacity: 0.7;
+    }
     nav.im-navbar .navbar-burger {
         color: #301E50;
-        height: 60px; /* Match navbar height */
+        height: 60px; /* Align with navbar height */
         width: 60px;
     }
     nav.im-navbar .navbar-burger span {
@@ -90,154 +141,159 @@
     }
 
     nav.im-navbar .navbar-menu {
-        min-height: 60px;
+        min-height: 60px; /* Consistent height */
     }
 
-    /* Centering navbar-start items on desktop */
     @media screen and (min-width: 1024px) {
         nav.im-navbar .navbar-menu {
             display: flex;
-            flex-grow: 1; /* Allow menu to take space for centering */
-            align-items: stretch; /* Ensure items take full height */
+            flex-grow: 1;
+            align-items: stretch;
         }
         nav.im-navbar .navbar-start {
             margin-left: auto;
             margin-right: auto;
-            justify-content: center; /* Center the items within navbar-start */
-            align-items: stretch; /* Ensure items take full height */
+            justify-content: center;
+            align-items: stretch;
         }
          nav.im-navbar .navbar-end {
-            margin-left: 0; /* Default for end alignment */
+            margin-left: 0;
             align-items: stretch;
         }
     }
     
     nav.im-navbar .navbar-item {
-        color: #4D3D6F; /* Menu item text color */
+        color: #52466A; /* Adjusted based on UI */
         font-weight: 500;
-        font-size: 0.9rem;
-        padding: 0.5rem 1rem; /* Adjust padding for spacing */
-        line-height: 60px; /* Vertical centering in navbar */
-        min-height: 60px;
+        font-size: 0.875rem; /* 14px */
+        padding: 0.5rem 0.9rem;
         display: flex;
         align-items: center;
+        min-height: 60px; /* Consistent height */
     }
     nav.im-navbar .navbar-item:hover,
-    nav.im-navbar .navbar-item.is-hoverable:hover, /* For dropdowns */
-    nav.im-navbar .navbar-link:hover {
-        background-color: #F7F3FC; /* Light hover */
-        color: #7F56D9; /* Purple hover text */
+    nav.im-navbar .navbar-item.is-hoverable:hover > .navbar-link { /* For dropdown links */
+        background-color: #F8F5FC; /* Lighter purple hover */
+        color: #6941C6; /* Darker purple text on hover */
     }
-    nav.im-navbar .navbar-item .im-dot {
-        margin-left: 1px; /* For the T.I.L. */
-        color: #7F56D9;
+    nav.im-navbar .navbar-item.is-active,
+    nav.im-navbar .navbar-link.is-active {
+        background-color: #4A47C2 !important; /* Active blue from UI */
+        color: white !important;
+        border-radius: 6px;
+        padding: 0.5rem 1rem; /* Adjusted padding */
+        height: 36px; /* Fixed height for active state */
+        align-self: center; /* Vertically center within the 60px navbar item slot */
     }
-
-    nav.im-navbar .navbar-item.im-work-active,
-    nav.im-navbar .navbar-item.im-work-active:hover {
-        background-color: #4A47C2; /* Active blue background */
-        color: white;
-        border-radius: 6px; /* Rounded corners for active item */
-        padding: 0.5rem 1.25rem; /* Slightly more padding for active */
-        line-height: initial; /* Reset line height if padding controls height */
-        height: 38px; /* Specific height for active item */
-        align-self: center; /* Center vertically if navbar-item is taller */
-        margin-top: auto; /* For vertical centering */
-        margin-bottom: auto; /* For vertical centering */
-    }
-    nav.im-navbar .navbar-item.im-work-active .icon.im-active-arrow {
-        color: white;
-        transform: scale(0.9);
-    }
-    nav.im-navbar .navbar-item.im-work-active .icon.im-active-arrow svg {
-        width: 6px; /* Adjust size of arrow */
-        height: 6px;
+    nav.im-navbar .navbar-item.is-active .icon, /* Icon color in active state */
+    nav.im-navbar .navbar-link.is-active .icon {
+        color: white !important;
     }
 
     nav.im-navbar .navbar-link {
-        color: #4D3D6F;
+        color: #52466A;
         font-weight: 500;
+        padding-right: 2.5em; /* Ensure space for Bulma arrow */
     }
-    nav.im-navbar .navbar-link::after { /* Arrow for dropdown */
-        border-color: #7F56D9;
+    nav.im-navbar .navbar-link::after {
+        border-color: #7F56D9; /* Purple arrow */
     }
 
     nav.im-navbar .navbar-dropdown {
-        border-top: 2px solid #4A47C2; /* Blue top border for dropdown */
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        border-radius: 0 0 6px 6px;
+        border-top: 2px solid #4A47C2;
+        box-shadow: 0 8px 16px rgba(102,75,166,0.1); /* Softer shadow */
+        border-radius: 0 0 8px 8px; /* Slightly more rounded */
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
     }
     nav.im-navbar .navbar-dropdown .navbar-item {
-        line-height: initial; /* Reset for dropdown items */
-        min-height: initial;
-        padding: 0.6rem 1rem;
+        min-height: auto; /* Override for dropdown items */
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
     }
-    nav.im-navbar .navbar-dropdown .navbar-item:hover {
-         background-color: #F7F3FC;
-         color: #7F56D9;
+     nav.im-navbar .navbar-dropdown .navbar-item .icon {
+        color: #6941C6; /* Default icon color in dropdown */
+    }
+    nav.im-navbar .navbar-dropdown .navbar-item:hover .icon {
+        color: #6941C6; /* Keep consistent or make slightly darker if needed */
+    }
+    nav.im-navbar .navbar-dropdown .navbar-item.is-active {
+        background-color: #F3F0F9 !important; /* Very light purple for active in dropdown */
+        color: #4A47C2 !important; /* Blue text for active in dropdown */
+    }
+    nav.im-navbar .navbar-dropdown .navbar-item.is-active .icon {
+        color: #4A47C2 !important;
+    }
+     nav.im-navbar .navbar-dropdown .navbar-item figure.image.is-24x24 {
+        height: 24px;
+        width: 24px;
+    }
+    nav.im-navbar .navbar-dropdown .navbar-item img.is-rounded {
+        border-radius: 50%;
     }
 
+
     nav.im-navbar .navbar-end .navbar-item.im-navbar-icon-item {
-        color: #5E517D;
-        padding: 0 0.75rem; /* Spacing for icons */
+        color: #663399; /* Purple for end icons */
+        padding: 0 0.6rem;
     }
     nav.im-navbar .navbar-end .navbar-item.im-navbar-icon-item:hover {
-        color: #7F56D9;
+        color: #4A47C2; /* Blue on hover */
         background-color: transparent;
     }
     nav.im-navbar .navbar-end .navbar-item.im-navbar-icon-item .icon {
-        font-size: 1.1rem; /* Icon size */
+        font-size: 1.2rem; /* Slightly larger icons */
     }
     nav.im-navbar .navbar-end .button.im-quick-access-button {
-        background-color: #F0EEF3; /* Light grey button */
-        border: none;
-        color: #4D3D6F;
+        background-color: #F9F5FF; /* Lighter purple for quick access button */
+        border: 1px solid #E9D7FE; /* Subtle border */
+        color: #6941C6; /* Purple text */
         font-weight: 500;
-        font-size: 0.85rem;
+        font-size: 0.875rem;
         border-radius: 6px;
-        padding: 0.5em 1em;
-        height: 38px;
+        padding-left: 1em;
+        padding-right: 0.75em; /* Make space for key */
+        height: 36px;
+        box-shadow: 0 1px 2px rgba(16,24,40,0.05);
     }
     nav.im-navbar .navbar-end .button.im-quick-access-button:hover {
-        background-color: #E5E0EC;
+        background-color: #F4EBFF;
     }
     nav.im-navbar .navbar-end .button.im-quick-access-button .im-quick-access-key {
-        background-color: #DCD7E3;
-        color: #5E517D;
+        background-color: white;
+        color: #6941C6;
+        border: 1px solid #E9D7FE;
         border-radius: 4px;
         padding: 0.1em 0.4em;
         font-size: 0.75em;
         margin-left: 0.75em;
         font-weight: 600;
+        box-shadow: 0 1px 1px rgba(0,0,0,0.05);
     }
 
-    /* Ensure dropdowns are clickable on mobile and not just hoverable */
     @media screen and (max-width: 1023px) {
         nav.im-navbar .navbar-item.has-dropdown.is-hoverable:not(.is-active) .navbar-dropdown {
-            display: none; /* Hide dropdown unless .is-active (toggled by JS) */
+            display: none;
         }
         nav.im-navbar .navbar-item.has-dropdown.is-active .navbar-dropdown {
             display: block;
         }
-        nav.im-navbar .navbar-start { /* Reset centering for mobile */
+        nav.im-navbar .navbar-start {
             margin-left: 0;
             margin-right: 0;
             justify-content: flex-start;
         }
-        nav.im-navbar .navbar-item.im-work-active { /* Adjust active item style for mobile if needed */
-            width: 100%;
-            justify-content: center;
-            margin-top: 0.5rem;
-            margin-bottom: 0.5rem;
+        nav.im-navbar .navbar-item.is-active {
+            width: calc(100% - 1.5rem); /* Account for padding in navbar-menu */
+            margin-left: 0.75rem;
+            margin-right: 0.75rem;
+            justify-content: flex-start; /* Align text left on mobile active */
         }
     }
 </style>
 
-<!-- Font Awesome for icons (if you don't have it already) -->
-<script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
-<!-- Or use Phosphor icons if that's what ph-code means -->
-<!-- <script src="https://unpkg.com/@phosphor-icons/web"></script> -->
-
+<!-- Include Phosphor Icons (ensure this is in your <head> or before the navbar) -->
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -269,12 +325,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         }
-        // Ensure is-hoverable is only active on desktop if the dropdown itself isn't already marked active by Liquid/server
+        
         if ('ontouchstart' in document.documentElement) {
             dropdown.classList.remove('is-hoverable');
         } else {
-            // If dropdown is not marked as active (e.g. by server for current page section)
-            // then allow hover for desktop.
             if (!dropdown.classList.contains('is-active')) { 
                  dropdown.classList.add('is-hoverable');
             }
