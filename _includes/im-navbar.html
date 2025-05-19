@@ -1,71 +1,68 @@
-<nav class="navbar is-fixed-top im-navbar" role="navigation" aria-label="main navigation" id="myCustomNavbar">
+<nav class="navbar is-fixed-top pro-navbar" role="navigation" aria-label="main navigation" id="professionalNavbar">
     <div class="container">
         <div class="navbar-brand">
-            <a href="{{ site.url | default: '.' }}/" class="navbar-item im-navbar-logo">
+            <a href="{{ site.url | default: '.' }}/" class="navbar-item pro-navbar-logo">
                 {% if site.logo_image_path %}
                 <img src="{{ site.logo_image_path | relative_url }}" alt="{{ site.title | escape | default: 'Site' }} Logo">
                 {% else %}
-                <span class="im-logo-e">e</span>nji<span class="im-logo-dev">dev</span>
+                <span class="icon is-medium"><i class="ph-bold ph-code"></i></span>
+                <span class="has-text-weight-bold ml-2">{{ site.title | default: "My Site Title" }}</span>
                 {% endif %}
             </a>
 
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="imNavbarMenuTarget">
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="professionalNavbarMenu">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
             </a>
         </div>
-        <div class="navbar-menu" id="imNavbarMenuTarget">
+
+        <div class="navbar-menu" id="professionalNavbarMenu">
             <div class="navbar-start">
                 {% for item in site.navbar %}
                   {% if item.name %}
                     {% assign item_url_relative = item.link | relative_url | default: "#" %}
-                    {% assign item_url_cleaned = item_url_relative | remove_first: "/" | remove: "index.html" %}
-                    {% if item_url_cleaned == "" and item_url_relative == "/" %}{% assign item_url_cleaned = "/" %}{% endif %}
 
+                    {% capture processed_page_url %}{{ page.url | remove: "index.html" }}{% endcapture %}
+                    {% if processed_page_url == "/" %}{% assign page_url_cleaned = "/" %}
+                    {% else %}{% assign page_url_cleaned = processed_page_url | remove_first: "/" %}{% if page_url_cleaned endswith "/" %}{% assign page_url_cleaned = page_url_cleaned | remove_last: "/" %}{% endif %}{% endif %}
 
-                    {% assign page_url_cleaned = page.url | remove_first: "/" | remove: "index.html" %}
-                    {% if page_url_cleaned == "" and page.url == "/" %}{% assign page_url_cleaned = "/" %}{% endif %}
-
+                    {% capture processed_item_url %}{{ item_url_relative | remove: "index.html" }}{% endcapture %}
+                    {% if processed_item_url == "/" %}{% assign current_item_url_cleaned = "/" %}
+                    {% else %}{% assign current_item_url_cleaned = processed_item_url | remove_first: "/" %}{% if current_item_url_cleaned endswith "/" %}{% assign current_item_url_cleaned = current_item_url_cleaned | remove_last: "/" %}{% endif %}{% endif %}
 
                     {% assign is_active_page = false %}
-                    {% if item_url_cleaned == "/" and page_url_cleaned == "/" %}
-                        {% assign is_active_page = true %}
-                    {% elsif item_url_cleaned != "/" and page_url_cleaned == item_url_cleaned %}
+                    {% if page_url_cleaned == current_item_url_cleaned and current_item_url_cleaned != "#" %}
                         {% assign is_active_page = true %}
                     {% endif %}
 
                     {% assign is_active_parent = false %}
                     {% if item.dropdown %}
-                      {% if item.link != "/#" and current_item_url_cleaned != "/" %}
-                        {% if page_url_cleaned contains current_item_url_cleaned %}{% assign is_active_parent = true %}{% endif %}
+                      {% if item.link != "#" and current_item_url_cleaned != "" and current_item_url_cleaned != "/" and page_url_cleaned contains current_item_url_cleaned %}
+                        {% assign is_active_parent = true %}
                       {% endif %}
                       {% for subitem in item.dropdown %}
                         {% assign subitem_url_relative = subitem.link | relative_url %}
-                        {% assign subitem_url_cleaned = subitem_url_relative | remove_first: "/" | remove: "index.html" %}
-                         {% if subitem_url_cleaned == "" and subitem_url_relative == "/" %}{% assign subitem_url_cleaned = "/" %}{% endif %}
-                        {% if page_url_cleaned == subitem_url_cleaned %}{% assign is_active_parent = true %}{% break %}{% endif %}
+                        {% capture processed_subitem_url %}{{ subitem_url_relative | remove: "index.html" }}{% endcapture %}
+                        {% if processed_subitem_url == "/" %}{% assign subitem_url_cleaned = "/" %}
+                        {% else %}{% assign subitem_url_cleaned = processed_subitem_url | remove_first: "/" %}{% if subitem_url_cleaned endswith "/" %}{% assign subitem_url_cleaned = subitem_url_cleaned | remove_last: "/" %}{% endif %}{% endif %}
+                        {% if page_url_cleaned == subitem_url_cleaned %}{% assign is_active_parent = true %}{% assign is_active_page = false %}{% break %}{% endif %}
                       {% endfor %}
                     {% endif %}
 
                     {% if item.dropdown %}
-                    <div class="navbar-item has-dropdown {% if is_active_parent %}is-active-dropdown{% else %}is-hoverable{% endif %}">
-                      <a class="navbar-link {% if is_active_parent %}im-active-navbar-link{% endif %}" {% if item.link != "/#" %}href="{{ item_url_relative }}"{% else %}role="button" aria-haspopup="true" aria-expanded="false"{% endif %}>
+                    <div class="navbar-item has-dropdown {% if is_active_parent %}is-active-dropdown-parent{% else %}is-hoverable{% endif %}">
+                      <a class="navbar-link {% if is_active_parent %}is-active{% endif %}" {% if item.link != "#" %}href="{{ item_url_relative }}"{% else %}role="button" aria-haspopup="true" aria-expanded="false"{% endif %}>
                         {% if item.icon %}<span class="icon mr-1"><i class="ph ph-{{ item.icon }}"></i></span>{% endif %}
                         <span>{{ item.name }}</span>
-                        {% if is_active_parent and item.link == "/#" %}
-                        <span class="icon is-small im-active-arrow">
-                            <svg viewBox="0 0 8 8" width="8" height="8" fill="currentColor"><path d="M2.5 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z"></path></svg>
-                        </span>
-                        {% endif %}
                       </a>
                       <div class="navbar-dropdown is-boxed">
                         {% for subitem in item.dropdown %}
                           {% assign subitem_url_relative = subitem.link | relative_url %}
-                          {% assign subitem_url_cleaned = subitem_url_relative | remove_first: "/" | remove: "index.html" %}
-                          {% if subitem_url_cleaned == "" and subitem_url_relative == "/" %}{% assign subitem_url_cleaned = "/" %}{% endif %}
-
-                          <a class="navbar-item {% if page_url_cleaned == subitem_url_cleaned %}im-active-navbar-item{% endif %}" href="{{ subitem_url_relative }}">
+                          {% capture processed_subitem_url_dd %}{{ subitem_url_relative | remove: "index.html" }}{% endcapture %}
+                          {% if processed_subitem_url_dd == "/" %}{% assign subitem_url_cleaned_dd = "/" %}
+                          {% else %}{% assign subitem_url_cleaned_dd = processed_subitem_url_dd | remove_first: "/" %}{% if subitem_url_cleaned_dd endswith "/" %}{% assign subitem_url_cleaned_dd = subitem_url_cleaned_dd | remove_last: "/" %}{% endif %}{% endif %}
+                          <a class="navbar-item {% if page_url_cleaned == subitem_url_cleaned_dd %}is-active{% endif %}" href="{{ subitem_url_relative }}">
                             {% if subitem.image %}
                                 <figure class="image is-24x24 mr-2">
                                     <img class="is-rounded" src="{{ subitem.image | relative_url }}" alt="{{ subitem.name | escape }}">
@@ -79,14 +76,9 @@
                       </div>
                     </div>
                     {% else %}
-                    <a class="navbar-item {% if is_active_page %}im-active-navbar-item{% endif %}" href="{{ item_url_relative }}">
+                    <a class="navbar-item {% if is_active_page %}is-active{% endif %}" href="{{ item_url_relative }}">
                       {% if item.icon %}<span class="icon mr-1"><i class="ph ph-{{ item.icon }}"></i></span>{% endif %}
                       <span>{{ item.name }}</span>
-                       {% if is_active_page %}
-                        <span class="icon is-small im-active-arrow">
-                             <svg viewBox="0 0 8 8" width="8" height="8" fill="currentColor"><path d="M2.5 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z"></path></svg>
-                        </span>
-                        {% endif %}
                     </a>
                     {% endif %}
                   {% endif %}
@@ -94,17 +86,18 @@
             </div>
 
             <div class="navbar-end">
-                <a href="#" class="navbar-item im-navbar-icon-item" aria-label="X">
-                    <span class="icon"><i class="ph ph-x-logo"></i></span>
+                <a href="{{ '/search' | relative_url | default: '#' }}" class="navbar-item" aria-label="Search">
+                    <span class="icon"><i class="ph ph-magnifying-glass"></i></span>
                 </a>
-                <a href="#" class="navbar-item im-navbar-icon-item" aria-label="GitHub">
+                {% if site.github_username %}
+                <a href="https://github.com/{{ site.github_username }}" class="navbar-item" aria-label="GitHub" target="_blank" rel="noopener">
                     <span class="icon"><i class="ph ph-github-logo"></i></span>
                 </a>
+                {% endif %}
                 <div class="navbar-item">
-                    <button class="button im-quick-access-button">
-                        <span>Quick Access</span>
-                        <span class="im-quick-access-key">Q</span>
-                    </button>
+                    <a href="{{ site.action_button_link | default: '#' }}" class="button is-primary">
+                        {{ site.action_button_text | default: "Get Started" }}
+                    </a>
                 </div>
             </div>
         </div>
@@ -112,245 +105,167 @@
 </nav>
 
 <style>
-  
-    nav.im-navbar {
-        background-color: var(--im-navbar-background, #FDFCFE);
-        border-bottom: 1px solid var(--im-navbar-border-color, #EDE9F2);
-        min-height: var(--im-navbar-height, 60px);
-        box-shadow: var(--im-navbar-shadow, 0 2px 4px rgba(0,0,0,0.02));
-        font-family: var(--bulma-family-sans-serif); /* Ensure navbar uses Bulma's font stack */
-    }
-    nav.im-navbar .container {
-        min-height: var(--im-navbar-height, 60px);
-    }
-    nav.im-navbar .navbar-brand {
-        min-height: var(--im-navbar-height, 60px);
-    }
-    nav.im-navbar .navbar-brand .navbar-item.im-navbar-logo {
-        font-weight: var(--bulma-weight-bold);
-        font-size: 1.2rem;
-        color: var(--im-logo-base-color, #301E50);
-        padding-left: 0;
-        display: flex;
-        align-items: center;
-    }
-    nav.im-navbar .navbar-brand .navbar-item.im-navbar-logo .im-logo-e,
-    nav.im-navbar .navbar-brand .navbar-item.im-navbar-logo .im-logo-dev {
-        color: var(--im-logo-accent-color, #7F56D9);
-    }
-    nav.im-navbar .navbar-brand .navbar-item.im-navbar-logo img {
-        max-height: calc(var(--im-navbar-height, 60px) - 20px); /* Logo image height */
+    body {
+        padding-top: var(--bulma-navbar-height, 3.25rem); 
+        font-family: var(--bulma-family-sans-serif);
     }
 
-    nav.im-navbar .navbar-burger {
-        color: var(--im-burger-color, #301E50);
-        height: var(--im-navbar-height, 60px);
-        width: var(--im-navbar-height, 60px);
-    }
-    nav.im-navbar .navbar-burger span {
-        height: 2px; /* Bulma default is 1px, UI looks thicker */
-        background-color: var(--im-burger-color, #301E50);
+    nav.pro-navbar {
+        background-color: var(--bulma-white);
+        box-shadow: 0 2px 3px hsla(0, 0%, 4%, 0.1); /* Subtle shadow */
+        font-family: var(--bulma-family-sans-serif);
     }
 
-    nav.im-navbar .navbar-menu {
-        min-height: var(--im-navbar-height, 60px);
+    nav.pro-navbar .navbar-brand .navbar-item.pro-navbar-logo {
+        font-weight: var(--bulma-weight-semibold);
+        color: var(--bulma-text-strong);
+    }
+    nav.pro-navbar .navbar-brand .navbar-item.pro-navbar-logo img {
+        max-height: calc(var(--bulma-navbar-height, 3.25rem) - 1rem);
+    }
+     nav.pro-navbar .navbar-brand .navbar-item.pro-navbar-logo .icon { /* For ph-code icon */
+        color: var(--bulma-primary);
     }
 
+
+    nav.pro-navbar .navbar-burger span {
+        background-color: var(--bulma-text);
+        height: 2px; /* Slightly thicker burger lines */
+    }
+
+    /* Center navbar-start items on desktop */
     @media screen and (min-width: 1024px) {
-        nav.im-navbar .navbar-menu {
-            display: flex;
-            flex-grow: 1;
-            align-items: stretch;
+        nav.pro-navbar .navbar-menu {
+            flex-grow: 1; /* Allow navbar-menu to take available space */
         }
-        nav.im-navbar .navbar-start {
-            margin-left: auto;
-            margin-right: auto;
-            justify-content: center;
-            align-items: stretch;
+        nav.pro-navbar .navbar-start {
+            margin-left: auto;   /* Push items to center */
+            margin-right: auto;  /* Push items to center */
+            justify-content: center; /* Center items within navbar-start itself */
         }
-         nav.im-navbar .navbar-end {
-            margin-left: 0;
-            align-items: stretch;
+         nav.pro-navbar .navbar-end {
+            margin-left: 0; /* Standard end alignment */
         }
     }
     
-    nav.im-navbar .navbar-item,
-    nav.im-navbar .navbar-link { /* Target both for consistency */
-        color: var(--im-navbar-item-color, #52466A);
+    nav.pro-navbar .navbar-item,
+    nav.pro-navbar .navbar-link {
+        color: var(--bulma-text);
         font-weight: var(--bulma-weight-medium);
-        font-size: 0.875rem; /* 14px */
-        padding-top: 0; /* Remove Bulma's default */
-        padding-bottom: 0; /* Remove Bulma's default */
-        padding-left: 0.9rem;
-        padding-right: 0.9rem;
-        display: flex;
-        align-items: center;
-        min-height: var(--im-navbar-height, 60px);
-        line-height: var(--im-navbar-height, 60px); /* For vertical centering of text */
-        border-bottom: 2px solid transparent; /* For hover/active indication */
-        transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
+        border-bottom: 2px solid transparent; /* For active state underline */
     }
-    nav.im-navbar .navbar-item:hover,
-    nav.im-navbar .navbar-link:hover, /* Keep hover consistent for links within dropdown items */
-    nav.im-navbar .navbar-item.is-hoverable:hover > .navbar-link { 
-        background-color: var(--bulma-primary-light, #eff1fa); /* Bulma's primary light for hover */
-        color: var(--bulma-primary, #4A47C2); /* Bulma's primary for text color */
-        border-bottom-color: transparent; /* Remove border on hover if not active */
+    nav.pro-navbar .navbar-item .icon { /* General icon styling within items */
+        color: var(--bulma-grey-dark);
+        transition: color 0.2s ease-in-out;
+    }
+
+    nav.pro-navbar .navbar-item:hover,
+    nav.pro-navbar .navbar-link:hover,
+    nav.pro-navbar .navbar-item.is-hoverable:hover > .navbar-link { 
+        background-color: var(--bulma-background); /* Default Bulma hover background */
+        color: var(--bulma-link-hover);
+        border-bottom-color: transparent; /* Remove border on non-active hover */
+    }
+    nav.pro-navbar .navbar-item:hover .icon,
+    nav.pro-navbar .navbar-link:hover .icon {
+        color: var(--bulma-link-hover);
     }
     
-    /* Active state styles */
-    nav.im-navbar .navbar-item.im-active-navbar-item,
-    nav.im-navbar .navbar-link.im-active-navbar-link,
-    nav.im-navbar .navbar-item.is-active-dropdown > .navbar-link { /* For parent of active dropdown */
-        background-color: transparent; /* No background for active link itself */
-        color: var(--bulma-primary, #4A47C2) !important; /* Primary color for text */
+    /* Active state for direct links and dropdown parent links */
+    nav.pro-navbar .navbar-item.is-active,
+    nav.pro-navbar .navbar-link.is-active,
+    nav.pro-navbar .navbar-item.is-active-dropdown-parent > .navbar-link {
+        background-color: transparent !important; /* No background for active links themselves */
+        color: var(--bulma-primary) !important;
         font-weight: var(--bulma-weight-semibold);
-        border-bottom: 2px solid var(--bulma-primary, #4A47C2); /* Underline for active */
+        border-bottom: 2px solid var(--bulma-primary);
     }
-    /* Arrow for active items */
-    nav.im-navbar .navbar-item .icon.im-active-arrow,
-    nav.im-navbar .navbar-link .icon.im-active-arrow {
-        color: var(--bulma-primary, #4A47C2);
-        transform: scale(0.8);
-        margin-left: 0.3em;
-        display: inline-flex;
-        vertical-align: middle;
-    }
-     nav.im-navbar .navbar-item:not(.has-dropdown).im-active-navbar-item .icon:not(.im-active-arrow),
-     nav.im-navbar .navbar-link.im-active-navbar-link .icon:not(.im-active-arrow) { /* Icon color in active state */
-        color: var(--bulma-primary, #4A47C2) !important;
+    nav.pro-navbar .navbar-item.is-active .icon,
+    nav.pro-navbar .navbar-link.is-active .icon,
+    nav.pro-navbar .navbar-item.is-active-dropdown-parent > .navbar-link .icon {
+        color: var(--bulma-primary) !important;
     }
 
 
-    nav.im-navbar .navbar-link { /* General navbar-link (used in dropdowns) */
-        padding-right: 2.5em; /* Default Bulma space for its arrow */
+    nav.pro-navbar .navbar-link::after { /* Bulma's dropdown arrow */
+        border-color: var(--bulma-grey-dark);
     }
-    nav.im-navbar .navbar-link:not(.im-active-navbar-link)::after { /* Bulma's dropdown arrow */
-        border-color: var(--im-navbar-item-color, #52466A);
-    }
-    nav.im-navbar .navbar-link.im-active-navbar-link::after {
-        border-color: var(--bulma-primary, #4A47C2);
+    nav.pro-navbar .navbar-link:hover::after,
+    nav.pro-navbar .navbar-link.is-active::after,
+    nav.pro-navbar .navbar-item.is-active-dropdown-parent > .navbar-link::after {
+        border-color: var(--bulma-primary);
     }
 
 
-    nav.im-navbar .navbar-dropdown {
-        border-top: 2px solid var(--bulma-primary, #4A47C2);
+    nav.pro-navbar .navbar-dropdown {
+        border-top-color: var(--bulma-primary); /* Match active underline */
         box-shadow: var(--bulma-dropdown-shadow, 0 8px 8px rgba(10, 10, 10, 0.1));
-        border-radius: 0 0 var(--bulma-radius-large) var(--bulma-radius-large);
-        padding-top: 0.25rem;
-        padding-bottom: 0.25rem;
+        border-radius: 0 0 var(--bulma-radius) var(--bulma-radius);
     }
-    nav.im-navbar .navbar-dropdown .navbar-item {
-        min-height: auto;
-        line-height: 1.5; /* Normal line height for dropdown items */
-        padding: 0.5rem 1rem;
-        font-size: 0.875rem;
+    nav.pro-navbar .navbar-dropdown .navbar-item {
         border-bottom: none; /* No underline for dropdown items */
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
-     nav.im-navbar .navbar-dropdown .navbar-item .icon {
-        color: var(--im-dropdown-icon-color, #6941C6);
+    nav.pro-navbar .navbar-dropdown .navbar-item:hover {
+        background-color: var(--bulma-background);
+        color: var(--bulma-link-hover);
     }
-    nav.im-navbar .navbar-dropdown .navbar-item:hover {
-        background-color: var(--bulma-primary-light, #eff1fa);
-        color: var(--bulma-primary, #4A47C2);
-    }
-    nav.im-navbar .navbar-dropdown .navbar-item:hover .icon {
-        color: var(--bulma-primary, #4A47C2);
-    }
-    nav.im-navbar .navbar-dropdown .navbar-item.im-active-navbar-item {
-        background-color: var(--bulma-primary-light, #eff1fa) !important;
-        color: var(--bulma-primary, #4A47C2) !important;
+    nav.pro-navbar .navbar-dropdown .navbar-item.is-active {
+        background-color: var(--bulma-primary-light) !important;
+        color: var(--bulma-primary) !important;
         font-weight: var(--bulma-weight-semibold);
-        border-bottom: none;
     }
-    nav.im-navbar .navbar-dropdown .navbar-item.im-active-navbar-item .icon {
-        color: var(--bulma-primary, #4A47C2) !important;
+    nav.pro-navbar .navbar-dropdown .navbar-item.is-active .icon {
+        color: var(--bulma-primary) !important;
     }
-     nav.im-navbar .navbar-dropdown .navbar-item figure.image.is-24x24 {
+     nav.pro-navbar .navbar-dropdown .navbar-item figure.image.is-24x24 {
         height: 24px;
         width: 24px;
     }
 
-    nav.im-navbar .navbar-end .navbar-item.im-navbar-icon-item {
-        color: var(--im-navbar-end-icon-color, #663399);
-        padding: 0 0.6rem;
-        border-bottom: none;
+    /* Navbar End styling */
+    nav.pro-navbar .navbar-end .navbar-item .icon {
+        color: var(--bulma-grey-darker);
     }
-    nav.im-navbar .navbar-end .navbar-item.im-navbar-icon-item:hover {
-        color: var(--bulma-primary, #4A47C2);
-        background-color: transparent;
-    }
-    nav.im-navbar .navbar-end .navbar-item.im-navbar-icon-item .icon {
-        font-size: 1.2rem;
-    }
-    nav.im-navbar .navbar-end .button.im-quick-access-button {
-        background-color: var(--im-quickaccess-bg, #F9F5FF);
-        border: 1px solid var(--im-quickaccess-border, #E9D7FE);
-        color: var(--im-quickaccess-text, #6941C6);
-        font-weight: var(--bulma-weight-medium);
-        font-size: 0.875rem;
-        border-radius: var(--bulma-radius);
-        padding-left: 1em;
-        padding-right: 0.75em;
-        height: 36px;
-        box-shadow: var(--bulma-button-shadow, 0 1px 2px rgba(16,24,40,0.05));
-    }
-    nav.im-navbar .navbar-end .button.im-quick-access-button:hover {
-        background-color: var(--im-quickaccess-hover-bg, #F4EBFF);
-    }
-    nav.im-navbar .navbar-end .button.im-quick-access-button .im-quick-access-key {
-        background-color: var(--im-quickaccess-key-bg, white);
-        color: var(--im-quickaccess-key-text, #6941C6);
-        border: 1px solid var(--im-quickaccess-key-border, #E9D7FE);
-        border-radius: var(--bulma-radius-small);
-        padding: 0.1em 0.4em;
-        font-size: 0.75em;
-        margin-left: 0.75em;
-        font-weight: var(--bulma-weight-semibold);
+    nav.pro-navbar .navbar-end .navbar-item:hover .icon {
+        color: var(--bulma-link);
     }
 
     @media screen and (max-width: 1023px) {
-        nav.im-navbar .navbar-item.has-dropdown.is-hoverable:not(.is-active-dropdown) .navbar-dropdown {
-            display: none;
-        }
-        nav.im-navbar .navbar-item.has-dropdown.is-active-dropdown .navbar-dropdown {
-            display: block;
-        }
-        nav.im-navbar .navbar-start {
+        nav.pro-navbar .navbar-start {
             margin-left: 0;
             margin-right: 0;
-            justify-content: flex-start;
+            justify-content: flex-start; /* Standard mobile stacking */
         }
-        nav.im-navbar .navbar-item,
-        nav.im-navbar .navbar-link {
-             line-height: 1.5; /* Normal line height for mobile */
-             min-height: auto;
-             padding-top: 0.5rem;
-             padding-bottom: 0.5rem;
+        nav.pro-navbar .navbar-item.is-active,
+        nav.pro-navbar .navbar-link.is-active,
+        nav.pro-navbar .navbar-item.is-active-dropdown-parent > .navbar-link {
+            border-bottom-color: transparent; /* No underline for active items on mobile */
+            /* Bulma's default mobile active style (background) will take over if .is-active is directly on the item */
         }
-        nav.im-navbar .navbar-item.im-active-navbar-item,
-        nav.im-navbar .navbar-link.im-active-navbar-link,
-        nav.im-navbar .navbar-item.is-active-dropdown > .navbar-link {
-            width: calc(100% - 1.5rem);
-            margin-left: 0.75rem;
-            margin-right: 0.75rem;
-            justify-content: flex-start;
-            border-bottom-color: transparent; /* No underline on mobile active, use background or text */
-            background-color: var(--bulma-primary-light, #eff1fa); /* Light bg for mobile active */
+         nav.pro-navbar .navbar-item.has-dropdown.is-active-dropdown-parent > .navbar-link {
+             /* Ensure the parent link of an active dropdown gets some distinction on mobile */
+            background-color: var(--bulma-white-ter);
         }
-         nav.im-navbar .navbar-item.im-active-navbar-item .icon.im-active-arrow,
-         nav.im-navbar .navbar-link.im-active-navbar-link .icon.im-active-arrow {
-            display: none; /* Hide desktop active arrow on mobile */
+        nav.pro-navbar .navbar-item.has-dropdown.is-hoverable:not(.is-active-dropdown-parent) .navbar-dropdown {
+             display: none; /* Ensure dropdowns are hidden unless toggled by JS via is-active-dropdown-parent */
+        }
+        nav.pro-navbar .navbar-item.has-dropdown.is-active-dropdown-parent .navbar-dropdown {
+            display: block;
         }
     }
 </style>
 
-<!-- Include Phosphor Icons -->
+<!-- Include Phosphor Icons Script (place in <head> or before body end) -->
 <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const mainNavbar = document.getElementById('myCustomNavbar');
+    const mainNavbar = document.getElementById('professionalNavbar');
     if (!mainNavbar) return;
 
     const navbarBurgers = mainNavbar.querySelectorAll('.navbar-burger');
@@ -372,20 +287,23 @@ document.addEventListener('DOMContentLoaded', () => {
             link.addEventListener('click', function(event) {
                 if (window.innerWidth < 1024) { 
                     event.preventDefault();
-                    // For mobile, toggle 'is-active-dropdown' on the parent .has-dropdown
-                    // This is distinct from Bulma's .is-active which might be set by Liquid for current page section
-                    dropdown.classList.toggle('is-active-dropdown'); 
+                    // Use a distinct class for JS-toggled active state on mobile for dropdowns
+                    // to avoid conflict with server-rendered 'is-active' for current page highlighting.
+                    dropdown.classList.toggle('is-active-dropdown-parent'); 
                     const isExpanded = link.getAttribute('aria-expanded') === 'true';
                     link.setAttribute('aria-expanded', !isExpanded);
                 }
             });
         }
         
+        // Bulma handles hover for 'is-hoverable' on desktop.
+        // Liquid logic should set 'is-active' for the currently active section's parent dropdown.
+        // This ensures 'is-hoverable' is only for non-active dropdowns on desktop.
         if ('ontouchstart' in document.documentElement) {
             dropdown.classList.remove('is-hoverable');
         } else {
-            // is-hoverable is added by default by Liquid if not is-active-parent.
-            // No need to add it here again unless there's specific logic.
+            // if the dropdown parent isn't already marked as active (e.g. section is active)
+            // then is-hoverable (from Liquid) will apply.
         }
     });
 });
