@@ -1,4 +1,4 @@
-<section class="section">
+<section class="section archive-column-cards">
     <div class="container">
         <div id="post-list" class="columns is-multiline">
             {% assign posts_processed_count = 0 %}
@@ -6,100 +6,103 @@
                 {% assign posts_processed_count = posts_processed_count | plus: 1 %}
 
                 <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-                    <a href="{{ post.url | relative_url }}" style="text-decoration: none; color: inherit; display: block; height: 100%;">
-                        <div class="card" style="display: flex; flex-direction: column; height: 100%;">
+                    <a href="{{ post.url | relative_url }}" class="post-item-link">
+                        <div class="box post-item-box"> {/* Using a box for a card-like container */}
                             {% if post.image and post.category != "video" %}
-                            <div class="card-image">
-                                <figure class="image is-4by3">
-                                    <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
-                                </figure>
-                            </div>
+                            <figure class="image is-4by3 mb-4">
+                                <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                            </figure>
                             {% elsif post.category == "video" and post.VideoId %}
-                            <div class="card-image">
-                                <figure class="image is-16by9">
-                                    <img src="https://i.ytimg.com/vi/{{ post.VideoId }}/hqdefault.jpg" alt="{{ post.title }}">
-                                    {% if post.duration %}
-                                    <div class="is-overlay is-flex is-align-items-flex-end is-justify-content-flex-end p-2">
-                                        <span class="tag is-dark is-rounded">{{ post.duration }}</span>
-                                    </div>
-                                    {% endif %}
-                                </figure>
-                            </div>
+                            <figure class="image is-16by9 mb-4 video-thumbnail-container-column">
+                                <img src="https://i.ytimg.com/vi/{{ post.VideoId }}/hqdefault.jpg" alt="{{ post.title }}">
+                                {% if post.duration %}
+                                <div class="is-overlay is-flex is-align-items-flex-end is-justify-content-flex-end p-2">
+                                    <span class="tag is-dark is-rounded">{{ post.duration }}</span>
+                                </div>
+                                {% endif %}
+                                <div class="is-overlay is-flex is-align-items-center is-justify-content-center video-play-indicator-column">
+                                    <span class="icon is-large has-text-white has-background-dark-transparent-overlay-column">
+                                        <i class="ph-fill ph-play-circle"></i>
+                                    </span>
+                                </div>
+                            </figure>
                             {% endif %}
 
-                            <div class="card-content" style="flex-grow: 1; display: flex; flex-direction: column;">
-                                <div class="content">
-                                    <div class="level is-mobile is-marginless mb-3">
-                                        <div class="level-left">
-                                            <div class="level-item">
-                                                <span class="tag 
-                                                    {% if post.category == 'journal' %}is-warning{% endif %}
-                                                    {% if post.category == 'video' %}is-danger{% endif %}
-                                                    {% if post.category == 'project' %}is-primary{% endif %}
-                                                    {% if post.category != 'journal' and post.category != 'video' and post.category != 'project' %}is-info{% endif %} 
-                                                    is-light is-rounded is-capitalized">
-                                                    <span class="icon is-small mr-1">
-                                                        {% if post.category == "journal" %}<i class="ph ph-notebook"></i>
-                                                        {% elsif post.category == "video" %}<i class="ph ph-youtube-logo"></i>
-                                                        {% elsif post.category == "project" %}<i class="ph ph-git-branch"></i>
-                                                        {% else %}<i class="ph ph-article"></i>
-                                                        {% endif %}
-                                                    </span>
-                                                    {{ post.category | default: "Blog" }}
+                            <div class="content">
+                                <div class="level is-mobile is-marginless mb-3">
+                                    <div class="level-left">
+                                        <div class="level-item">
+                                            <span class="tag 
+                                                {% if post.category == 'journal' %}is-warning{% endif %}
+                                                {% if post.category == 'video' %}is-danger{% endif %}
+                                                {% if post.category == 'project' %}is-primary{% endif %}
+                                                {% if post.category != 'journal' and post.category != 'video' and post.category != 'project' %}is-info{% endif %} 
+                                                is-light is-rounded is-capitalized">
+                                                <span class="icon is-small mr-1">
+                                                    {% if post.category == "journal" %}<i class="ph ph-notebook"></i>
+                                                    {% elsif post.category == "video" %}<i class="ph ph-youtube-logo"></i>
+                                                    {% elsif post.category == "project" %}<i class="ph ph-git-branch"></i>
+                                                    {% else %}<i class="ph ph-article"></i>
+                                                    {% endif %}
                                                 </span>
-                                            </div>
-                                        </div>
-                                        <div class="level-right">
-                                            <p class="level-item is-size-7 has-text-grey">
-                                                <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %d, '%y" }}</time>
-                                            </p>
+                                                {{ post.category | default: "Blog" }}
+                                            </span>
                                         </div>
                                     </div>
-
-                                    <p class="title is-5 mb-2">{{ post.title }}</p>
-                                    <p class="is-size-6">
-                                        {% if post.excerpt %}{{ post.excerpt | strip_html | truncate: 100 }}{% else %}{{ post.content | strip_html | truncate: 100 }}{% endif %}
-                                    </p>
-
-                                    {% if post.TLTR %}
-                                    <article class="message is-light is-small mt-4 {% if post.category == 'journal' %}is-warning{% else %}is-info{% endif %}">
-                                        <div class="message-body py-2 px-3"><strong>TL;DR:</strong> {{ post.TLTR }}</div>
-                                    </article>
-                                    {% endif %}
+                                    <div class="level-right">
+                                        <p class="level-item is-size-7 has-text-grey">
+                                            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %d, '%y" }}</time>
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                             <footer class="card-footer" style="margin-top: auto;">
-                                {% if post.category == "project" %}
-                                    {% if post.live_url %}<a href="{{ post.live_url }}" class="card-footer-item is-size-7" target="_blank" rel="noopener">Demo</a>{% endif %}
-                                    {% if post.repo_url %}<a href="{{ post.repo_url }}" class="card-footer-item is-size-7" target="_blank" rel="noopener">Code</a>{% endif %}
-                                    <span class="card-footer-item is-size-7">Details →</span>
-                                {% else %}
-                                    <span class="card-footer-item is-size-7">Read More →</span>
+
+                                <p class="title is-5 mb-2">{{ post.title }}</p>
+                                <p class="is-size-6 excerpt-text-column">
+                                    {% if post.excerpt %}{{ post.excerpt | strip_html | truncate: 100 }}{% else %}{{ post.content | strip_html | truncate: 100 }}{% endif %}
+                                </p>
+
+                                {% if post.TLTR %}
+                                <article class="message is-light is-small mt-4 {% if post.category == 'journal' %}is-warning{% else %}is-info{% endif %}">
+                                    <div class="message-body py-2 px-3"><strong>TL;DR:</strong> {{ post.TLTR }}</div>
+                                </article>
                                 {% endif %}
-                            </footer>
+                            </div>
+                            
+                            <div class="post-item-footer mt-auto pt-3"> {/* Footer section */}
+                                {% if post.category == "project" %}
+                                    <div class="buttons are-small is-centered">
+                                        {% if post.live_url %}<a href="{{ post.live_url }}" class="button is-link is-light" target="_blank" rel="noopener">Demo</a>{% endif %}
+                                        {% if post.repo_url %}<a href="{{ post.repo_url }}" class="button is-dark is-light" target="_blank" rel="noopener">Code</a>{% endif %}
+                                    </div>
+                                {% elsif post.tags %}
+                                     <div class="tags are-small is-centered">
+                                        {% for tag in post.tags limit:3 %}
+                                        <span class="tag is-light">{{ tag }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
                         </div>
                     </a>
                 </div>
 
                 {% if posts_processed_count == 1 %}
                     <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-                         <div class="card" style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                            <div class="card-content has-text-centered">
-                                <p class="is-size-7 has-text-grey-light mb-2">Advertisement</p>
-                                {% include adsense.html format="square" %}
-                                {% capture ad_include_output %}{% include adsense.html format="square" %}{% endcapture %}
-                                {% if ad_include_output == "" %}
-                                <div class="box has-background-white-ter" style="width: 100%; min-height: 250px; display:flex; align-items:center; justify-content:center; border: 1px dashed var(--bulma-grey-lighter);">
-                                    <span class="icon is-large has-text-grey-lighter"><i class="ph ph-megaphone"></i></span>
-                                </div>
-                                {% endif %}
+                         <div class="box post-item-box ad-placeholder-box" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                            <p class="is-size-7 has-text-grey-light mb-2">Advertisement</p>
+                            {% include adsense.html format="square" %}
+                            {% capture ad_include_output %}{% include adsense.html format="square" %}{% endcapture %}
+                            {% if ad_include_output == "" %}
+                            <div class="has-background-white-ter" style="width: 100%; min-height: 230px; display:flex; align-items:center; justify-content:center; border: 1px dashed var(--bulma-grey-lighter); border-radius: var(--bulma-radius-small);">
+                                <span class="icon is-large has-text-grey-lighter"><i class="ph ph-megaphone"></i></span>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                 {% elsif posts_processed_count == 3 %} 
                  <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-                    <div class="card has-background-info-light" style="height: 100%; display: flex; flex-direction: column;">
-                        <div class="card-content has-text-centered">
+                    <div class="box post-item-box newsletter-box-column has-background-info-light">
+                        <div class="has-text-centered">
                              <span class="icon is-large has-text-info mb-3"><i class="ph ph-envelope-simple-open"></i></span>
                             <p class="title is-5 has-text-info-dark">Stay Updated!</p>
                             <p class="subtitle is-6 has-text-grey-darker">Subscribe for the latest posts & news.</p>
@@ -130,4 +133,84 @@
     </div>
 </section>
 
-<!-- Include Phosphor Icons (this is an external script, technically not "pure Bulma HTML" but necessary for icons) -->
+<style>
+/* MINIMAL CSS - Only what's necessary beyond Bulma defaults */
+.archive-column-cards .post-item-link {
+    text-decoration: none;
+    color: inherit;
+    display: block; /* For the <a> to take up column space */
+    height: 100%; /* For the <a> to take up column space */
+}
+.archive-column-cards .post-item-box {
+    height: 100%; /* Make the box fill the column */
+    display: flex;
+    flex-direction: column; /* To push footer to bottom */
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    /* Bulma's .box already has a shadow and border-radius */
+}
+.archive-column-cards .post-item-link:hover .post-item-box {
+    transform: translateY(-4px);
+    box-shadow: 0 0.75em 1.5em -0.25em rgba(10,10,10,.15), 0 0 0 1px rgba(10,10,10,.03);
+}
+.archive-column-cards .post-item-box .content {
+    flex-grow: 1; /* Allow main content to push footer down */
+}
+.archive-column-cards .post-item-box .post-item-footer {
+    /* margin-top: auto; ensure this is the direct child of the flex container (.post-item-box) */
+    border-top: 1px solid var(--bulma-border-light, #ededed); /* Footer separator */
+}
+
+.archive-column-cards .image img {
+    object-fit: cover; /* Critical for consistent image display */
+    width: 100%;
+    height: 100%;
+}
+.archive-column-cards .video-thumbnail-container-column {
+    position: relative;
+    background-color: var(--bulma-black);
+}
+.archive-column-cards .video-play-indicator-column {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+.archive-column-cards .has-background-dark-transparent-overlay-column {
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 50%;
+    padding: 0.5rem;
+}
+.archive-column-cards .video-play-indicator-column .icon.is-large i { font-size: 3rem; }
+
+.archive-column-cards .excerpt-text-column {
+    /* Add min-height if you want excerpts to take up similar space,
+       but this can lead to too much empty space if excerpts vary a lot.
+       Letting flex-grow on .content handle it is often better. */
+    /* min-height: 60px; */ 
+}
+
+/* Ad and Newsletter placeholders */
+.archive-column-cards .ad-placeholder-box,
+.archive-column-cards .newsletter-box-column {
+    /* Using Bulma's .box for these, so minimal extra styling */
+    /* The inline style on the div for height/flex is already there */
+}
+.archive-column-cards .newsletter-box-column .icon.is-large {
+    font-size: 3rem; /* Standard Bulma large icon size */
+}
+
+
+@media screen and (min-width: 769px) { /* Bulma tablet and up */
+    .archive-column-cards .columns.is-multiline {
+        align-items: stretch; 
+    }
+    .archive-column-cards .column {
+        display: flex; /* Important for height:100% on children to work within columns */
+    }
+}
+</style>
+
+<!-- Include Phosphor Icons -->
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
