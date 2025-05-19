@@ -1,9 +1,43 @@
 @use "sass:math";
 
-/* === BODY AND FADING GRID STYLES (Hardcoded Values) === */
+// This SCSS should be part of your main SCSS file,
+// AFTER your Bulma variable overrides and AFTER @import "bulma/bulma";
+// Or in a separate SCSS file imported after Bulma.
 
+// It assumes variables like $body-background-color and $border-light (or a similar
+// variable you use for grid lines) are correctly themed for both light and dark modes
+// by your Bulma Sass setup.
 
+html {
+    // The $body-background-color variable will be set by your Bulma theme
+    // for both light and dark modes.
+    background-color: $body-background-color;
 
+    // Grid Lines Background using themed Bulma variables
+    background-image:
+        linear-gradient(to right, $border-light 0.5px, transparent 0.5px), // Vertical lines
+        linear-gradient(to bottom, $border-light 0.5px, transparent 0.5px); // Horizontal lines
+    background-size: 28px 28px; // Size of each grid cell
+    background-attachment: fixed; // Grid stays in place during scroll
+}
+
+body {
+    background-color: transparent !important; // Body MUST be transparent for the HTML grid to show
+    
+    // Essential for layout
+    position: relative; 
+    overflow-x: hidden; 
+    margin: 0;
+    min-height: 100vh;
+
+    // Space for your fixed navbar. Assumes $navbar-height is defined in your Bulma vars.
+    // Bulma's .has-navbar-fixed-top on <html> or <body> usually handles this,
+    // but if your navbar height is custom, this ensures correct padding.
+    padding-top: $navbar-height; 
+}
+
+// NO ::after pseudo-element for fading if you want the grid always visible.
+// If you DID want the fade, it would use $body-background-color for the opaque part.
 
 // Headings
 h1 {
