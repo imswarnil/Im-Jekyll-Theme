@@ -10,11 +10,11 @@
                 <span class="has-text-weight-bold ml-2">{{ site.title | default: "My Site Title" }}</span>
             </a>
 
-            <div class="navbar-item is-hidden-desktop ml-auto" style="align-items: center;">
-                <a href="{{ '/search' | relative_url | default: '#' }}" aria-label="Search" style="padding: 0.5rem 0.75rem;">
+            <div class="navbar-item is-hidden-desktop ml-auto" style="display: flex; align-items: center;">
+                <a href="{{ '/search' | relative_url | default: '#' }}" aria-label="Search" class="mr-2">
                     <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
                 </a>
-                <a href="#" id="im-mobile-dark-mode-toggle-bulma" title="Toggle Dark Mode" role="button" aria-pressed="false" style="padding: 0.5rem 0.75rem;">
+                <a href="#" id="im-mobile-dark-mode-toggle-bulma" title="Toggle Dark Mode" role="button" aria-pressed="false">
                     <span class="icon is-medium">
                         <i class="ph" id="im-mobile-theme-icon-bulma"></i>
                     </span>
@@ -108,9 +108,6 @@
     </div>
 </nav>
 
-<script type="application/ld+json" id="bulma-navbar-structured-data">
-</script>
-
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const mainNavbar = document.getElementById('im-main-navbar');
@@ -131,45 +128,43 @@ document.addEventListener('DOMContentLoaded', () => {
         const link = dropdown.querySelector('.navbar-link');
         if (link) {
             link.addEventListener('click', function(event) {
-                if (window.innerWidth < 1024) { // Bulma's tablet breakpoint for click behavior
+                if (window.innerWidth < 1024) { 
                     event.preventDefault();
+                    // Toggle 'is-active' on the PARENT '.navbar-item.has-dropdown' for Bulma mobile dropdowns
                     dropdown.classList.toggle('is-active');
                     const isExpanded = link.getAttribute('aria-expanded') === 'true';
                     link.setAttribute('aria-expanded', !isExpanded);
                 }
             });
         }
-        // Remove hover for touch, keep for non-touch if not parent of active
+        // Ensure dropdowns are not hoverable on touch, but clickable
+        // is-hoverable should be managed by Liquid for desktop active states
         if ('ontouchstart' in document.documentElement) {
             dropdown.classList.remove('is-hoverable');
         } else {
-            if (!dropdown.classList.contains('is-active')) { // .is-active for parent is handled by Liquid
-                dropdown.classList.add('is-hoverable');
+            // If it's not an active parent (handled by Liquid's `is-active` on the dropdown div), make it hoverable
+            if (!dropdown.classList.contains('is-active')) {
+                 dropdown.classList.add('is-hoverable');
             }
         }
     });
 
+    // Simplified Dark Mode Toggle (Icon changes and local storage only)
     const mobileToggle = document.getElementById('im-mobile-dark-mode-toggle-bulma');
     const desktopToggle = document.getElementById('im-desktop-dark-mode-toggle-bulma');
     const mobileIcon = document.getElementById('im-mobile-theme-icon-bulma');
     const desktopIcon = document.getElementById('im-desktop-theme-icon-bulma');
     const htmlEl = document.documentElement;
 
-    function applyTheme(isDark) {
-        const body = document.body;
-        const computedStyle = getComputedStyle(htmlEl);
+    function applyThemeIcons(isDark) {
         if (isDark) {
-            htmlEl.classList.add('is-dark');
-            body.style.backgroundColor = computedStyle.getPropertyValue('--bulma-scheme-main-bis').trim() || 'hsl(0, 0%, 14%)';
-            body.style.color = computedStyle.getPropertyValue('--bulma-text-invert').trim() || 'hsl(0, 0%, 96%)';
+            htmlEl.classList.add('is-dark'); // For CSS to target if needed
             if (mobileIcon) mobileIcon.className = 'ph ph-sun';
             if (desktopIcon) desktopIcon.className = 'ph ph-sun';
             if (mobileToggle) mobileToggle.setAttribute('aria-pressed', 'true');
             if (desktopToggle) desktopToggle.setAttribute('aria-pressed', 'true');
         } else {
             htmlEl.classList.remove('is-dark');
-            body.style.backgroundColor = computedStyle.getPropertyValue('--bulma-scheme-main').trim() || 'hsl(0, 0%, 96%)';
-            body.style.color = computedStyle.getPropertyValue('--bulma-text').trim() || 'hsl(0, 0%, 29%)';
             if (mobileIcon) mobileIcon.className = 'ph ph-moon';
             if (desktopIcon) desktopIcon.className = 'ph ph-moon';
             if (mobileToggle) mobileToggle.setAttribute('aria-pressed', 'false');
@@ -178,16 +173,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function setThemePreference(isDark) {
-        applyTheme(isDark);
-        localStorage.setItem('bulmaTheme', isDark ? 'dark' : 'light');
+        applyThemeIcons(isDark);
+        localStorage.setItem('bulmaUserTheme', isDark ? 'dark' : 'light');
     }
 
-    const savedTheme = localStorage.getItem('bulmaTheme');
+    const savedTheme = localStorage.getItem('bulmaUserTheme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
     if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-        applyTheme(true);
+        applyThemeIcons(true);
     } else {
-        applyTheme(false);
+        applyThemeIcons(false);
     }
 
     [mobileToggle, desktopToggle].forEach(toggle => {
@@ -198,49 +194,5 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
-
-    function generateSiteNavigationLd() {
-        const navData = {
-            "@context": "https://schema.org",
-            "@type": "SiteNavigationElement",
-            "name": "Main Navigation",
-            "hasPart": []
-        };
-        let pos = 1;
-        mainNavbar.querySelectorAll('.navbar-start > .navbar-item, .navbar-start > .has-dropdown').forEach(item => {
-            const link = item.classList.contains('has-dropdown') ? item.querySelector('.navbar-link') : item;
-            if (!link) return;
-            const nameEl = link.querySelector('span:not(.icon)');
-            const name = nameEl ? nameEl.textContent.trim() : (link.textContent.trim() || "Unnamed");
-            let url = link.getAttribute('href') || '#';
-            if (url !== '#' && !url.startsWith('http')) {
-                try { url = new URL(url, window.location.origin).href; }
-                catch (e) { url = window.location.origin + (url.startsWith('/') ? '' : '/') + url; }
-            } else if (url ==='#') {
-                 url = window.location.href + '#dropdown-' + name.toLowerCase().replace(/\s+/g, '-');
-            }
-
-            const part = { "@type": "WebPage", "name": name, "url": url, "position": pos++ };
-            if (item.classList.contains('has-dropdown')) {
-                part["@type"] = "SiteNavigationElement";
-                part.hasPart = [];
-                let subPos = 1;
-                item.querySelectorAll('.navbar-dropdown > .navbar-item').forEach(subItem => {
-                    const subNameEl = subItem.querySelector('span:not(.icon)');
-                    const subName = subNameEl ? subNameEl.textContent.trim() : (subItem.textContent.trim() || "Unnamed Sub");
-                    let subUrl = subItem.getAttribute('href') || '#';
-                    if (subUrl !== '#' && !subUrl.startsWith('http')) {
-                        try { subUrl = new URL(subUrl, window.location.origin).href; }
-                        catch (e) { subUrl = window.location.origin + (subUrl.startsWith('/') ? '' : '/') + subUrl; }
-                    }
-                    part.hasPart.push({ "@type": "WebPage", "name": subName, "url": subUrl, "position": subPos++ });
-                });
-            }
-            navData.hasPart.push(part);
-        });
-        const scriptTag = document.getElementById('bulma-navbar-structured-data');
-        if (scriptTag) scriptTag.textContent = JSON.stringify(navData, null, 2);
-    }
-    generateSiteNavigationLd();
 });
 </script>
