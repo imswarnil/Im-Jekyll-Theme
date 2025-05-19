@@ -2,171 +2,125 @@
     <div class="container">
         <div id="post-list" class="columns is-multiline">
             {% for post in paginator.posts %}
-                {% if post.category == "journal" %}
-                    <div class="column is-one-third">
-                        <div class="card" style="height: 100%; border-left: 4px solid var(--bulma-warning-dark, hsl(48, 100%, 29%));">
-                            <div class="card-content">
-                                <div class="content">
-                                    <p class="is-size-7 has-text-grey">
-                                        <span class="icon-text">
-                                            <span class="icon is-small"><i class="ph ph-calendar-blank"></i></span>
-                                            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %-d, %Y" }}</time>
-                                        </span>
-                                    </p>
-                                    <p class="title is-4">{{ post.title }}</p>
-                                    <p class="is-size-6">
-                                        {% if post.excerpt %}
-                                            {{ post.excerpt | truncate: 180 }}
-                                        {% else %}
-                                            {{ post.content | strip_html | truncate: 180 }}
-                                        {% endif %}
-                                    </p>
-                                    {% if post.TLTR %}
-                                    <article class="message is-warning is-small mt-3">
-                                        <div class="message-body">
-                                            <strong>TL;DR:</strong> {{ post.TLTR }}
-                                        </div>
-                                    </article>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <footer class="card-footer" style="margin-top: auto;">
-                                <div class="card-footer-item">
-                                    <div class="tags are-small">
-                                        {% for tag in post.tags limit:3 %}
-                                          <span class="tag is-light">{{ tag }}</span>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                                <a href="{{ post.url | relative_url }}" class="card-footer-item has-text-link">
-                                    Read Journal <span class="icon is-small ml-1"><i class="ph ph-arrow-right"></i></span>
-                                </a>
-                            </footer>
-                        </div>
-                    </div>
-                {% elsif post.category == "video" %}
-                    <div class="column is-one-third">
-                        <div class="card" style="height: 100%;">
-                            <div class="card-image">
-                                <figure class="image is-16by9 video-card-figure">
-                                    <img src="https://i.ytimg.com/vi/{{ post.VideoId }}/hqdefault.jpg" alt="{{ post.title }}">
-                                    <div class="video-play-overlay">
-                                        <span class="icon is-large has-text-white"><i class="ph ph-play-circle"></i></span>
-                                    </div>
-                                    <iframe class="video-iframe" width="100%" height="100%" src="https://www.youtube.com/embed/{{ post.VideoId }}?autoplay=0&mute=1&enablejsapi=1&loop=1&playlist={{post.VideoId}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="display:none; position: absolute; top:0; left:0;"></iframe>
-                                </figure>
-                                <div class="video-duration-badge is-overlay">
-                                     <span class="icon-text is-size-7">
-                                        <span class="icon is-small"><i class="ph ph-clock"></i></span>
-                                        <span>{{ post.duration }}</span>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="card-content">
-                                <p class="title is-5 mb-1">{{ post.title }}</p>
-                                <p class="subtitle is-7 has-text-grey">
-                                    <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</time>
-                                </p>
-                                <div class="tags are-small">
-                                    {% for tag in post.tags limit:3 %}
-                                      <span class="tag is-info is-light">{{ tag }}</span>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                             <footer class="card-footer" style="margin-top: auto;">
-                                <a href="{{ post.url | relative_url }}" class="card-footer-item">Watch Video</a>
-                            </footer>
-                        </div>
-                    </div>
-                {% elsif post.category == "project" %}
-                     <div class="column is-one-third">
-                        <div class="card" style="height: 100%; border-top: 4px solid var(--bulma-primary);">
-                            {% if post.image %}
-                            <div class="card-image">
-                                <figure class="image is-16by9">
-                                <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
-                                </figure>
-                            </div>
-                            {% endif %}
-                            <div class="card-content">
-                                <p class="title is-5">{{ post.title }}</p>
-                                <p class="subtitle is-7 has-text-grey">{{ post.status | default: "Ongoing" }} - <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y" }}</time></p>
-                                <div class="content is-small">
-                                    {{ post.description | truncate: 120 }}
-                                </div>
-                                <div class="tags are-small">
-                                    {% for tech in post.technologies limit:4 %}
-                                    <span class="tag is-primary is-light">{{ tech }}</span>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                            <footer class="card-footer" style="margin-top: auto;">
-                                {% if post.live_url %}<a href="{{ post.live_url }}" class="card-footer-item" target="_blank" rel="noopener">Live Demo</a>{% endif %}
-                                {% if post.repo_url %}<a href="{{ post.repo_url }}" class="card-footer-item" target="_blank" rel="noopener">Repository</a>{% endif %}
-                                {% unless post.live_url and post.repo_url %}<a href="{{ post.url | relative_url }}" class="card-footer-item">Details</a>{% endunless %}
-                            </footer>
-                        </div>
-                    </div>
-                {% else %} 
-                    <div class="column is-one-third">
-                        <div class="card" style="height: 100%;">
-                            {% if post.image %}
-                            <div class="card-image">
-                                <figure class="image is-16by9"> 
-                                <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
-                                </figure>
-                            </div>
-                            {% endif %}
-                            <div class="card-content">
-                                <div class="media mb-2">
-                                    <div class="media-content">
-                                        <p class="title is-5 mb-1">{{ post.title }}</p>
-                                        <p class="subtitle is-7 has-text-grey">
-                                            {% if post.author %}By {{ post.author }} · {% endif %}
-                                            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</time>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="content is-small">
-                                    {% if post.TLTR %}
-                                    <article class="message is-info is-small mt-2 mb-2">
-                                        <div class="message-body">
-                                           <strong>TL;DR:</strong> {{ post.TLTR }}
-                                        </div>
-                                    </article>
-                                    {% endif %}
-                                    {{ post.excerpt | default: post.content | strip_html | truncate: 150 }}
-                                </div>
-                            </div>
-                             <footer class="card-footer" style="margin-top: auto;">
-                                <div class="card-footer-item">
-                                     <div class="tags are-small">
-                                        {% for tag in post.tags limit:3 %}
-                                        <span class="tag is-light">{{ tag }}</span>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                                <a href="{{ post.url | relative_url }}" class="card-footer-item has-text-link">
-                                    Read More <span class="icon is-small ml-1"><i class="ph ph-arrow-right"></i></span>
-                                </a>
-                            </footer>
-                        </div>
-                    </div>
-                {% endif %}
+                {% assign column_class = "is-one-third" %}
+                {% comment %} Adjust column class for ads to maintain layout if needed, or keep it simple {% endcomment %}
 
-                {% assign ad_frequency = 1 %} 
+                <div class="column {{ column_class }}">
+                    <div class="card" style="height: 100%; display: flex; flex-direction: column;">
+                        {% if post.category == "video" %}
+                            {% if post.VideoId %}
+                            <div class="card-image">
+                                <a href="{{ post.url | relative_url }}">
+                                    <figure class="image is-16by9">
+                                        <img src="https://i.ytimg.com/vi/{{ post.VideoId }}/hqdefault.jpg" alt="{{ post.title }}">
+                                    </figure>
+                                </a>
+                                {% if post.duration %}
+                                <div class="is-overlay is-flex is-align-items-flex-end is-justify-content-flex-end p-2">
+                                    <span class="tag is-dark">{{ post.duration }}</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% elsif post.image %}
+                             <div class="card-image">
+                                <a href="{{ post.url | relative_url }}">
+                                    <figure class="image is-16by9">
+                                        <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                                    </figure>
+                                </a>
+                            </div>
+                            {% endif %}
+                        {% elsif post.image %}
+                            <div class="card-image">
+                                <a href="{{ post.url | relative_url }}">
+                                    <figure class="image is-16by9">
+                                        <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                                    </figure>
+                                </a>
+                            </div>
+                        {% endif %}
+
+                        <div class="card-content" style="flex-grow: 1; display: flex; flex-direction: column;">
+                            {% if post.category == "journal" %}
+                                <span class="tag is-warning mb-2">Journal</span>
+                            {% elsif post.category == "project" %}
+                                <span class="tag is-primary mb-2">Project</span>
+                            {% endif %}
+
+                            <p class="title is-5">{{ post.title }}</p>
+                            <p class="subtitle is-7 has-text-grey mb-3">
+                                {% if post.author %}By {{ post.author }} · {% endif %}
+                                <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</time>
+                            </p>
+
+                            <div class="content is-small">
+                                {% if post.TLTR %}
+                                <article class="message is-info is-small">
+                                    <div class="message-body py-2 px-3">
+                                        <strong>TL;DR:</strong> {{ post.TLTR }}
+                                    </div>
+                                </article>
+                                {% endif %}
+                                <p>
+                                {% if post.excerpt %}
+                                    {{ post.excerpt | truncate: 150 }}
+                                {% else %}
+                                    {{ post.content | strip_html | truncate: 150 }}
+                                {% endif %}
+                                </p>
+                            </div>
+
+                            <div style="margin-top: auto;"> {# Pushes tags and button to bottom of card-content #}
+                                {% if post.category == "project" and post.technologies %}
+                                <div class="tags are-small mb-3">
+                                    {% for tech in post.technologies limit:4 %}
+                                      <span class="tag is-primary is-light">{{ tech }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% elsif post.tags %}
+                                <div class="tags are-small mb-3">
+                                    {% for tag in post.tags limit:3 %}
+                                      <span class="tag is-light">{{ tag }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+
+                                {% if post.category == "video" %}
+                                     <a href="{{ post.url | relative_url }}" class="button is-link is-outlined is-small is-fullwidth">
+                                        <span>Watch Video</span>
+                                        <span class="icon is-small"><i class="ph ph-play"></i></span>
+                                    </a>
+                                {% elsif post.category == "project" %}
+                                    <div class="buttons are-small">
+                                        {% if post.live_url %}<a href="{{ post.live_url }}" class="button is-link is-light" target="_blank" rel="noopener">Live Demo</a>{% endif %}
+                                        {% if post.repo_url %}<a href="{{ post.repo_url }}" class="button is-dark is-light" target="_blank" rel="noopener">Repository</a>{% endif %}
+                                        <a href="{{ post.url | relative_url }}" class="button is-outlined">Details</a>
+                                    </div>
+                                {% else %}
+                                    <a href="{{ post.url | relative_url }}" class="button is-link is-outlined is-small is-fullwidth">
+                                        <span>Read More</span>
+                                        <span class="icon is-small"><i class="ph ph-arrow-right"></i></span>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% assign ad_frequency = 6 %}
                 {% assign mod_ad = forloop.index | modulo: ad_frequency %}
                 {% if forloop.index >= ad_frequency and mod_ad == 0 %}
-                    <div class="column is-one-third">
+                    <div class="column {{ column_class }}">
                          <div class="card" style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: var(--bulma-background);">
                             <div class="card-content has-text-centered">
                                 <p class="is-size-7 has-text-grey-light mb-2">Advertisement</p>
-                               {% include adsense.html format="square" %}
+                                <div class="box has-background-white-ter" style="width: 100%; min-height: 200px; display:flex; align-items:center; justify-content:center;">
+                                    <span class="icon is-large has-text-grey-lighter"><i class="ph ph-image"></i></span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 {% endif %}
-
             {% endfor %}
         </div>
       
@@ -216,145 +170,40 @@
     </div>
 </section>
 
-<style>
-/* Minimal Custom CSS - Relies mostly on Bulma classes and inline styles for uniqueness */
-.archive-page .card {
-    box-shadow: var(--bulma-card-shadow, 0 0.5em 1em -0.125em rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.02));
-    border-radius: var(--bulma-card-radius, 0.25rem);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
-.archive-page .card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0.75em 1.5em -0.15em rgba(10,10,10,.15), 0 0 0 1px rgba(10,10,10,.03);
-}
-.archive-page .card-image img {
-    object-fit: cover; /* Ensure images cover the figure area */
-}
-.archive-page .card-content .media:not(:last-child) { /* Bulma default override */
-    margin-bottom: 0.75rem;
-}
-.archive-page .card-footer {
-    border-top: 1px solid var(--bulma-border-light, #ededed);
-}
-.archive-page .card-footer-item {
-    font-size: 0.9rem;
-}
-.archive-page .card-footer-item:not(:last-child) {
-    border-right: 1px solid var(--bulma-border-light, #ededed);
-}
+<!-- Include Phosphor Icons (usually in <head> or before </body>) -->
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-/* Video Card Specific CSS */
-.archive-page .video-card-figure {
-    position: relative; /* For iframe and overlay positioning */
-    background-color: #000; /* Fallback for image load */
-    cursor: pointer;
+<style>
+/* VERY MINIMAL CSS - Mostly for ensuring cards within columns stretch, which Bulma usually does */
+@media screen and (min-width: 769px) { /* Bulma's tablet breakpoint */
+    .archive-page .columns.is-multiline {
+        align-items: stretch; /* Default Bulma behavior, but good to be explicit */
+    }
+    .archive-page .column {
+        display: flex; /* This helps the card inside to stretch to 100% height */
+    }
 }
-.archive-page .video-play-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0,0,0,0.4);
-    transition: opacity 0.3s ease;
-    pointer-events: none; /* Important for click-to-play */
+.archive-page .card-image .image img {
+    object-fit: cover; /* Ensure image covers the area without distortion */
+    width: 100%;
+    height: 100%;
 }
-.archive-page .video-card-figure.is-playing .video-play-overlay {
-    opacity: 0;
-}
-.archive-page .video-play-overlay .icon.is-large i {
-    font-size: 3.5rem; /* Adjusted play icon size */
-    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6));
-}
-.archive-page .video-duration-badge {
+.archive-page .video-duration-badge { /* For the video duration */
     position: absolute;
     bottom: 0.5rem;
     right: 0.5rem;
-    background-color: rgba(0,0,0,0.75);
-    color: var(--bulma-white);
-    padding: 0.15rem 0.4rem;
+    background-color: rgba(0,0,0,0.7);
+    color: white;
+    padding: 0.2em 0.5em;
     border-radius: var(--bulma-radius-small);
+    font-size: 0.75rem;
+    pointer-events: none; /* So it doesn't interfere with clicks on the image link */
 }
-
-/* Ensure columns in a row attempt to have similar visual height */
-@media screen and (min-width: 769px) {
-    .archive-page .columns.is-multiline {
-        align-items: stretch;
-    }
-    .archive-page .column {
-        display: flex; /* Allows card to stretch with height: 100% */
-    }
+.archive-page .card-image .is-overlay { /* Ensure overlay elements like duration badge are positioned correctly */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 </style>
-
-<!-- Include Phosphor Icons -->
-<script src="https://unpkg.com/@phosphor-icons/web"></script>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const videoFigures = document.querySelectorAll('.archive-page .video-card-figure');
-
-    videoFigures.forEach(figure => {
-        const iframe = figure.querySelector('.video-iframe');
-        const thumbnail = figure.querySelector('img');
-        const playOverlay = figure.querySelector('.video-play-overlay');
-
-        const startVideoPlayback = () => {
-            if (iframe && thumbnail) {
-                thumbnail.style.display = 'none';
-                if (playOverlay) playOverlay.style.display = 'none';
-                iframe.style.display = 'block';
-                figure.classList.add('is-playing');
-                // Modify src to autoplay. Adding '&autoplay=1' might not work if already present.
-                // A more robust way is to ensure 'autoplay=1' is in the src.
-                if (iframe.src.includes('autoplay=0')) {
-                    iframe.src = iframe.src.replace('autoplay=0', 'autoplay=1');
-                } else if (!iframe.src.includes('autoplay=1')) {
-                    iframe.src += (iframe.src.includes('?') ? '&' : '?') + 'autoplay=1';
-                }
-            }
-        };
-        
-        const stopVideoPlayback = () => {
-             if (iframe && thumbnail) {
-                if (iframe.src.includes('autoplay=1')) {
-                    iframe.src = iframe.src.replace('autoplay=1', 'autoplay=0');
-                }
-                iframe.style.display = 'none';
-                thumbnail.style.display = 'block';
-                if (playOverlay) playOverlay.style.display = 'flex';
-                figure.classList.remove('is-playing');
-            }
-        };
-
-        figure.addEventListener('mouseenter', () => {
-            // Only start if iframe is not already visible (i.e., not already playing from a click)
-            if (iframe && iframe.style.display === 'none') {
-                 startVideoPlayback();
-            }
-        });
-
-        figure.addEventListener('mouseleave', () => {
-            // Stop playback when mouse leaves
-            stopVideoPlayback();
-        });
-        
-        // Clicking the figure should also toggle play, especially for touch devices
-        figure.addEventListener('click', (event) => {
-            // Prevent click from propagating if iframe is already visible and playable
-            if (iframe && iframe.style.display === 'block' && event.target !== iframe) {
-                 // If clicking on the figure (not the iframe itself) while video is playing,
-                 // you might want to pause or do nothing. For simplicity, we'll just let iframe handle it.
-                return;
-            }
-            if (iframe && iframe.style.display === 'none') {
-                startVideoPlayback();
-            }
-        });
-
-    });
-});
-</script>
