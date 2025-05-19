@@ -212,7 +212,7 @@ include:
   - _pages
 
 # 3. Gem settings
-paginate: 2
+paginate: 3
 paginate_path: /page:num
 jekyll-mentions: https://twitter.com
 twitter:
