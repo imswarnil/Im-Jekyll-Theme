@@ -1,7 +1,132 @@
+// _variables.scss (or directly here)
+// ==== COLOR PALETTE (APPROXIMATED FROM UI) ====
+$enji-purple: #7F56D9;
+$enji-blue-active: #4A47C2;
+$enji-dark-text: #101828;
+$enji-logo-dark-purple: #301E50;
+$enji-body-text: #4D3D6F;
+$enji-grey-text: #667085;
+$enji-light-grey-text: #98A2B3;
+$enji-background: #FDFCFE;
+$enji-border: #EDE9F2;
+$enji-divider: #EAECF0;
+$enji-button-secondary-bg: #F0EEF3;
 
-$primary: #e53935;
-$link : $primary;
-$family-sans-serif: "Outfit", "Arial", sans-serif !default;
-$family-monospace: "Roboto Mono", monospace !default;
+// ==== BULMA COLOR OVERRIDES ====
+$primary: $enji-purple;
+$link: $enji-logo-dark-purple;
+$link-hover: $primary;
+$text: $enji-body-text;
+$text-light: $enji-grey-text;
+$text-strong: $enji-dark-text;
+$body-background-color: $enji-background;
+$background: $enji-background;
+$scheme-main: $white; // Cards, etc. should be white based on UI
+$scheme-main-bis: darken($white, 2%);
+$scheme-main-ter: darken($white, 4%);
+$scheme-invert: $enji-dark-text;
+$border: $enji-border;
+$border-light: lighten($enji-border, 5%);
+$navbar-background-color: $enji-background; // Navbar background like body
+$navbar-item-color: $enji-body-text;
+$navbar-item-hover-color: $primary;
+$navbar-item-hover-background-color: transparent;
+// For active "Work" item style as in UI
+$navbar-item-active-background-color: $enji-blue-active;
+$navbar-item-active-color: $white;
+$button-color: $white;
+$button-background-color: $primary;
+$button-border-color: $primary;
+$button-hover-background-color: darken($primary, 5%);
+$button-hover-border-color: darken($primary, 5%);
+$button-light-background-color: $enji-button-secondary-bg;
+$button-light-color: $enji-body-text;
+$card-background-color: $white;
+$card-shadow: 0 4px 12px rgba(16, 24, 40, 0.03), 0 1px 2px rgba(16, 24, 40, 0.01); // Softer, more layered shadow
+$tag-background-color: $enji-button-secondary-bg;
+$tag-color: $enji-body-text;
+$tag-radius: 4px;
+
+
+// ==== TYPOGRAPHY OVERRIDES ====
+$family-sans-serif: "Inter", "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+$family-primary: $family-sans-serif;
+$size-1: 2.75rem; // Adjusted for "I'm Enji"
+$size-3: 1.75rem; // Section headings
+$size-4: 1.25rem; // Card titles
+$size-6: 1rem;    // Base body text (16px)
+$size-7: 0.875rem; // Meta text
+$body-size: $size-6;
+$body-line-height: 1.65; // Slightly more leading for readability
+$weight-medium: 500;
+$weight-semibold: 600;
+$weight-bold: 700;
+$title-color: $enji-dark-text;
+$title-weight: $weight-bold;
+$subtitle-color: $enji-grey-text;
+
+// ==== LAYOUT & SPACING OVERRIDES ====
+$navbar-height: 64px; // Exact pixel height
+$navbar-item-img-max-height: 28px; // Logo in navbar
+$section-padding: 5rem 1.5rem;
+$button-padding-vertical: 0.65em; // UI buttons look a bit more padded
+$button-padding-horizontal: 1.65em;
+$radius: 8px; // General border radius for UI elements like cards, buttons
+$radius-small: 6px;
+$radius-large: 12px;
+$control-radius: $radius; // For form inputs
+
+
+// Import the full Bulma (or specific parts)
 @import "../node_modules/bulma/sass/index";
 
+
+// Any additional global styles AFTER Bulma import
+// For example, if you still need some specific tweaks for .im-navbar-logo etc.
+// but try to achieve as much as possible with variables.
+.im-navbar-logo .im-logo-e {
+    color: $primary; // Ensure it uses the updated primary
+}
+.im-navbar-logo .im-logo-dev {
+    color: $primary; // Or a variant like darken($primary, 10%)
+    opacity: 0.7;
+}
+// Active "Work" item in navbar - a more specific style from UI
+.navbar-item.im-work-active {
+    background-color: $enji-blue-active;
+    color: $white !important; // Important to override default navbar-item-active-color if it's different
+    border-radius: $radius-small;
+    padding-left: 1.25em !important; // More specific padding
+    padding-right: 1.25em !important;
+}
+.navbar-item.im-work-active:hover {
+    background-color: darken($enji-blue-active, 5%);
+}
+.navbar-item.im-work-active .icon.im-active-arrow {
+    margin-left: 0.5em;
+    path {
+        fill: $white;
+    }
+}
+// Quick Access Button Specifics from UI
+.im-quick-access-button {
+    background-color: $button-light-background-color;
+    border: none;
+    color: $button-light-color;
+    font-weight: $weight-medium;
+    font-size: 0.875rem;
+    border-radius: $radius-small;
+    &:hover {
+        background-color: $button-light-hover-background-color;
+        color: $button-light-hover-color;
+    }
+    .im-quick-access-key {
+        background-color: darken($button-light-background-color, 5%);
+        color: $button-light-color;
+        border-radius: 3px;
+        padding: 0.1em 0.4em;
+        font-size: 0.8em;
+        margin-left: 0.75em;
+        font-weight: $weight-semibold;
+    }
+}
