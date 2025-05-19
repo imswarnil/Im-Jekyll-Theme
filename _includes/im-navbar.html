@@ -10,11 +10,11 @@
                 <span class="has-text-weight-bold ml-2">{{ site.title | default: "My Site Title" }}</span>
             </a>
 
-            <div class="navbar-item is-hidden-desktop ml-auto">
-                <a href="{{ '/search' | relative_url | default: '#' }}" class="is-hidden-desktop" aria-label="Search" style="padding: 0.5rem 0.75rem;">
+            <div class="navbar-item is-hidden-desktop ml-auto" style="align-items: center;">
+                <a href="{{ '/search' | relative_url | default: '#' }}" aria-label="Search" style="padding: 0.5rem 0.75rem;">
                     <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
                 </a>
-                <a href="#" class="is-hidden-desktop" id="im-mobile-dark-mode-toggle-bulma" title="Toggle Dark Mode" role="button" aria-pressed="false" style="padding: 0.5rem 0.75rem;">
+                <a href="#" id="im-mobile-dark-mode-toggle-bulma" title="Toggle Dark Mode" role="button" aria-pressed="false" style="padding: 0.5rem 0.75rem;">
                     <span class="icon is-medium">
                         <i class="ph" id="im-mobile-theme-icon-bulma"></i>
                     </span>
@@ -114,173 +114,133 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const mainNavbar = document.getElementById('im-main-navbar');
-    if (mainNavbar) {
-        const $navbarBurgers = Array.prototype.slice.call(mainNavbar.querySelectorAll('.navbar-burger'), 0);
-        if ($navbarBurgers.length > 0) {
-            $navbarBurgers.forEach(el => {
-                el.addEventListener('click', () => {
-                    const target = el.dataset.target;
-                    const $target = document.getElementById(target);
-                    el.classList.toggle('is-active');
-                    $target.classList.toggle('is-active');
-                });
-            });
-        }
+    if (!mainNavbar) return;
 
-        const navbarDropdowns = mainNavbar.querySelectorAll('.navbar-item.has-dropdown');
-        navbarDropdowns.forEach(dropdown => {
-            const link = dropdown.querySelector('.navbar-link');
-            if (link) {
-                link.addEventListener('click', function(event) {
-                    if (window.innerWidth < 1024) { // Bulma's tablet breakpoint
-                        event.preventDefault();
-                        // Toggle 'is-active' on the PARENT '.navbar-item.has-dropdown'
-                        // Bulma's CSS for mobile dropdowns relies on this parent having 'is-active'
-                        // The '.navbar-dropdown' itself is always visible in mobile if parent is active
-                        dropdown.classList.toggle('is-active');
-                        
-                        // Also update aria-expanded on the link
-                        const isExpanded = link.getAttribute('aria-expanded') === 'true' || false;
-                        link.setAttribute('aria-expanded', !isExpanded);
-                    }
-                });
-            }
-             // Ensure dropdowns are not hoverable on touch, but clickable
-            if ('ontouchstart' in document.documentElement) {
-                dropdown.classList.remove('is-hoverable');
-            } else {
-                 // For desktop, ensure is-active is removed if not parent of current page for hover to work
-                if (!dropdown.querySelector('.navbar-link.is-active')) {
-                     dropdown.classList.add('is-hoverable');
-                }
-            }
+    const navbarBurgers = mainNavbar.querySelectorAll('.navbar-burger');
+    navbarBurgers.forEach(burger => {
+        burger.addEventListener('click', () => {
+            const targetId = burger.dataset.target;
+            const targetMenu = document.getElementById(targetId);
+            burger.classList.toggle('is-active');
+            targetMenu.classList.toggle('is-active');
         });
+    });
 
-
-        const mobileToggle = document.getElementById('im-mobile-dark-mode-toggle-bulma');
-        const desktopToggle = document.getElementById('im-desktop-dark-mode-toggle-bulma');
-        const mobileIcon = document.getElementById('im-mobile-theme-icon-bulma');
-        const desktopIcon = document.getElementById('im-desktop-theme-icon-bulma');
-        const htmlElement = document.documentElement;
-
-        function setTheme(isDark, updateStorage = true) {
-            const computedStyle = getComputedStyle(document.documentElement);
-            if (isDark) {
-                htmlElement.classList.add('is-dark');
-                document.body.style.backgroundColor = computedStyle.getPropertyValue('--bulma-scheme-main-bis').trim() || 'hsl(0, 0%, 14%)';
-                document.body.style.color = computedStyle.getPropertyValue('--bulma-text-invert').trim() || 'hsl(0, 0%, 96%)';
-                if(mobileIcon) mobileIcon.className = 'ph ph-sun';
-                if(desktopIcon) desktopIcon.className = 'ph ph-sun';
-                if(mobileToggle) mobileToggle.setAttribute('aria-pressed', 'true');
-                if(desktopToggle) desktopToggle.setAttribute('aria-pressed', 'true');
-                if(updateStorage) localStorage.setItem('bulmaTheme', 'dark');
-            } else {
-                htmlElement.classList.remove('is-dark');
-                document.body.style.backgroundColor = computedStyle.getPropertyValue('--bulma-scheme-main').trim() || 'hsl(0, 0%, 96%)';
-                document.body.style.color = computedStyle.getPropertyValue('--bulma-text').trim() || 'hsl(0, 0%, 29%)';
-                if(mobileIcon) mobileIcon.className = 'ph ph-moon';
-                if(desktopIcon) desktopIcon.className = 'ph ph-moon';
-                if(mobileToggle) mobileToggle.setAttribute('aria-pressed', 'false');
-                if(desktopToggle) desktopToggle.setAttribute('aria-pressed', 'false');
-                if(updateStorage) localStorage.setItem('bulmaTheme', 'light');
-            }
+    const navbarDropdowns = mainNavbar.querySelectorAll('.navbar-item.has-dropdown');
+    navbarDropdowns.forEach(dropdown => {
+        const link = dropdown.querySelector('.navbar-link');
+        if (link) {
+            link.addEventListener('click', function(event) {
+                if (window.innerWidth < 1024) { // Bulma's tablet breakpoint for click behavior
+                    event.preventDefault();
+                    dropdown.classList.toggle('is-active');
+                    const isExpanded = link.getAttribute('aria-expanded') === 'true';
+                    link.setAttribute('aria-expanded', !isExpanded);
+                }
+            });
         }
-
-        const preferredTheme = localStorage.getItem('bulmaTheme');
-        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-        if (preferredTheme === 'dark') {
-            setTheme(true, false);
-        } else if (preferredTheme === 'light') {
-            setTheme(false, false);
-        } else if (prefersDarkScheme) {
-            setTheme(true, true); 
+        // Remove hover for touch, keep for non-touch if not parent of active
+        if ('ontouchstart' in document.documentElement) {
+            dropdown.classList.remove('is-hoverable');
         } else {
-            setTheme(false, true);
-        }
-
-        if (mobileToggle) {
-            mobileToggle.addEventListener('click', (e) => {
-                e.preventDefault();
-                setTheme(!htmlElement.classList.contains('is-dark'));
-            });
-        }
-        if (desktopToggle) {
-            desktopToggle.addEventListener('click', (e) => {
-                e.preventDefault();
-                setTheme(!htmlElement.classList.contains('is-dark'));
-            });
-        }
-        
-        function generateNavbarLdJson() {
-            const siteNavigationElement = {
-                "@context": "https://schema.org",
-                "@type": "SiteNavigationElement",
-                "name": "Main Navigation",
-                "hasPart": []
-            };
-
-            const navbarItemElements = mainNavbar.querySelectorAll('.navbar-start > .navbar-item, .navbar-start > .has-dropdown');
-            let position = 1;
-
-            navbarItemElements.forEach(item => {
-                const linkElement = item.classList.contains('has-dropdown') ? item.querySelector('.navbar-link') : item;
-                if (!linkElement) return; 
-                const itemNameElement = linkElement.querySelector('span:not(.icon)');
-                const itemName = itemNameElement ? itemNameElement.textContent.trim() : (linkElement.textContent.trim() || 'Unnamed Link');
-                let itemUrl = linkElement.getAttribute('href');
-                
-                if (itemUrl && itemUrl !== '#' && !itemUrl.match(/^https?:\/\//i)) {
-                     try {
-                        itemUrl = new URL(itemUrl, window.location.origin).href;
-                     } catch (e) {
-                        itemUrl = window.location.origin + (itemUrl.startsWith('/') ? '' : '/') + itemUrl;
-                     }
-                } else if (itemUrl === '#') {
-                    itemUrl = window.location.href + '#dropdown-' + itemName.toLowerCase().replace(/\s+/g, '-'); 
-                }
-
-
-                const navElementPart = {
-                    "@type": "WebPage",
-                    "name": itemName,
-                    "url": itemUrl || window.location.href, 
-                    "position": position++
-                };
-
-                if (item.classList.contains('has-dropdown')) {
-                    navElementPart["@type"] = "SiteNavigationElement"; 
-                    navElementPart["hasPart"] = [];
-                    const dropdownItems = item.querySelectorAll('.navbar-dropdown > .navbar-item');
-                    let subPosition = 1;
-                    dropdownItems.forEach(subItem => {
-                        const subItemNameElement = subItem.querySelector('span:not(.icon)');
-                        const subItemName = subItemNameElement ? subItemNameElement.textContent.trim() : (subItem.textContent.trim() || 'Unnamed Sublink');
-                        let subItemUrl = subItem.getAttribute('href');
-                         if (subItemUrl && !subItemUrl.match(/^https?:\/\//i)) {
-                            try {
-                               subItemUrl = new URL(subItemUrl, window.location.origin).href;
-                            } catch (e) {
-                               subItemUrl = window.location.origin + (subItemUrl.startsWith('/') ? '' : '/') + subItemUrl;
-                            }
-                        }
-                        navElementPart.hasPart.push({
-                            "@type": "WebPage",
-                            "name": subItemName,
-                            "url": subItemUrl || window.location.href,
-                            "position": subPosition++
-                        });
-                    });
-                }
-                siteNavigationElement.hasPart.push(navElementPart);
-            });
-            
-            const scriptTag = document.getElementById('bulma-navbar-structured-data');
-            if (scriptTag) {
-                scriptTag.textContent = JSON.stringify(siteNavigationElement, null, 2);
+            if (!dropdown.classList.contains('is-active')) { // .is-active for parent is handled by Liquid
+                dropdown.classList.add('is-hoverable');
             }
         }
-        generateNavbarLdJson();
+    });
+
+    const mobileToggle = document.getElementById('im-mobile-dark-mode-toggle-bulma');
+    const desktopToggle = document.getElementById('im-desktop-dark-mode-toggle-bulma');
+    const mobileIcon = document.getElementById('im-mobile-theme-icon-bulma');
+    const desktopIcon = document.getElementById('im-desktop-theme-icon-bulma');
+    const htmlEl = document.documentElement;
+
+    function applyTheme(isDark) {
+        const body = document.body;
+        const computedStyle = getComputedStyle(htmlEl);
+        if (isDark) {
+            htmlEl.classList.add('is-dark');
+            body.style.backgroundColor = computedStyle.getPropertyValue('--bulma-scheme-main-bis').trim() || 'hsl(0, 0%, 14%)';
+            body.style.color = computedStyle.getPropertyValue('--bulma-text-invert').trim() || 'hsl(0, 0%, 96%)';
+            if (mobileIcon) mobileIcon.className = 'ph ph-sun';
+            if (desktopIcon) desktopIcon.className = 'ph ph-sun';
+            if (mobileToggle) mobileToggle.setAttribute('aria-pressed', 'true');
+            if (desktopToggle) desktopToggle.setAttribute('aria-pressed', 'true');
+        } else {
+            htmlEl.classList.remove('is-dark');
+            body.style.backgroundColor = computedStyle.getPropertyValue('--bulma-scheme-main').trim() || 'hsl(0, 0%, 96%)';
+            body.style.color = computedStyle.getPropertyValue('--bulma-text').trim() || 'hsl(0, 0%, 29%)';
+            if (mobileIcon) mobileIcon.className = 'ph ph-moon';
+            if (desktopIcon) desktopIcon.className = 'ph ph-moon';
+            if (mobileToggle) mobileToggle.setAttribute('aria-pressed', 'false');
+            if (desktopToggle) desktopToggle.setAttribute('aria-pressed', 'false');
+        }
     }
+
+    function setThemePreference(isDark) {
+        applyTheme(isDark);
+        localStorage.setItem('bulmaTheme', isDark ? 'dark' : 'light');
+    }
+
+    const savedTheme = localStorage.getItem('bulmaTheme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        applyTheme(true);
+    } else {
+        applyTheme(false);
+    }
+
+    [mobileToggle, desktopToggle].forEach(toggle => {
+        if (toggle) {
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                setThemePreference(!htmlEl.classList.contains('is-dark'));
+            });
+        }
+    });
+
+    function generateSiteNavigationLd() {
+        const navData = {
+            "@context": "https://schema.org",
+            "@type": "SiteNavigationElement",
+            "name": "Main Navigation",
+            "hasPart": []
+        };
+        let pos = 1;
+        mainNavbar.querySelectorAll('.navbar-start > .navbar-item, .navbar-start > .has-dropdown').forEach(item => {
+            const link = item.classList.contains('has-dropdown') ? item.querySelector('.navbar-link') : item;
+            if (!link) return;
+            const nameEl = link.querySelector('span:not(.icon)');
+            const name = nameEl ? nameEl.textContent.trim() : (link.textContent.trim() || "Unnamed");
+            let url = link.getAttribute('href') || '#';
+            if (url !== '#' && !url.startsWith('http')) {
+                try { url = new URL(url, window.location.origin).href; }
+                catch (e) { url = window.location.origin + (url.startsWith('/') ? '' : '/') + url; }
+            } else if (url ==='#') {
+                 url = window.location.href + '#dropdown-' + name.toLowerCase().replace(/\s+/g, '-');
+            }
+
+            const part = { "@type": "WebPage", "name": name, "url": url, "position": pos++ };
+            if (item.classList.contains('has-dropdown')) {
+                part["@type"] = "SiteNavigationElement";
+                part.hasPart = [];
+                let subPos = 1;
+                item.querySelectorAll('.navbar-dropdown > .navbar-item').forEach(subItem => {
+                    const subNameEl = subItem.querySelector('span:not(.icon)');
+                    const subName = subNameEl ? subNameEl.textContent.trim() : (subItem.textContent.trim() || "Unnamed Sub");
+                    let subUrl = subItem.getAttribute('href') || '#';
+                    if (subUrl !== '#' && !subUrl.startsWith('http')) {
+                        try { subUrl = new URL(subUrl, window.location.origin).href; }
+                        catch (e) { subUrl = window.location.origin + (subUrl.startsWith('/') ? '' : '/') + subUrl; }
+                    }
+                    part.hasPart.push({ "@type": "WebPage", "name": subName, "url": subUrl, "position": subPos++ });
+                });
+            }
+            navData.hasPart.push(part);
+        });
+        const scriptTag = document.getElementById('bulma-navbar-structured-data');
+        if (scriptTag) scriptTag.textContent = JSON.stringify(navData, null, 2);
+    }
+    generateSiteNavigationLd();
 });
 </script>
