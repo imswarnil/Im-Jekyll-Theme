@@ -1,9 +1,9 @@
 <nav class="navbar is-fixed-top im-navbar" role="navigation" aria-label="main navigation" id="myCustomNavbar">
     <div class="container">
         <div class="navbar-brand">
-            <a href="{{ site.baseurl | default: './' }}/" class="navbar-item im-navbar-logo">
-                {% if site.logo_image_path %}
-                <img src="{{ site.logo_image_path | relative_url }}" alt="{{ site.title | escape | default: 'Site' }} Logo" style="max-height: var(--bulma-navbar-item-img-max-height, 1.75rem);">
+            <a href="{{ site.url | default: './' }}/" class="navbar-item im-navbar-logo">
+                {% if site.logo %}
+                <img src="{{ site.logo | relative_url }}" alt="{{ site.title | escape | default: 'Site' }} Logo" style="max-height: var(--bulma-navbar-item-img-max-height, 1.75rem);">
                 {% else %}
                 <span class="icon is-large"><i class="ph-bold ph-code"></i></span>
                 {% endif %}
@@ -16,7 +16,6 @@
                 <span aria-hidden="true"></span>
             </a>
         </div>
-
         <div class="navbar-menu" id="imNavbarMenuTarget">
             <div class="navbar-start">
                 {% for item in site.navbar %}
@@ -97,11 +96,6 @@
 </nav>
 
 <style>
-    body {
-        padding-top: 60px; /* Adjusted for navbar height */
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-        background-color: #FDFCFE; /* Match UI background */
-    }
 
     nav.im-navbar {
         background-color: #FDFCFE;
@@ -291,9 +285,6 @@
         }
     }
 </style>
-
-<!-- Include Phosphor Icons (ensure this is in your <head> or before the navbar) -->
-<script src="https://unpkg.com/@phosphor-icons/web"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
