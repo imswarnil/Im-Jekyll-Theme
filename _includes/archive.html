@@ -154,16 +154,14 @@
                     </div>
                 {% endif %}
 
-                {% assign ad_frequency = 6 %} 
+                {% assign ad_frequency = 1 %} 
                 {% assign mod_ad = forloop.index | modulo: ad_frequency %}
                 {% if forloop.index >= ad_frequency and mod_ad == 0 %}
                     <div class="column is-one-third">
                          <div class="card" style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: var(--bulma-background);">
                             <div class="card-content has-text-centered">
                                 <p class="is-size-7 has-text-grey-light mb-2">Advertisement</p>
-                                <div class="box" style="width: 100%; max-width: 300px; min-height: 250px; display:flex; align-items:center; justify-content:center; background-color: var(--bulma-white-ter);">
-                                    <span class="icon is-large has-text-grey-lighter"><i class="ph ph-image"></i></span>
-                                </div>
+                               {% include adsense.html format="square" %}
                             </div>
                         </div>
                     </div>
