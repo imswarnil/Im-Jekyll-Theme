@@ -75,70 +75,7 @@
                 <a href="{{ '/search' | relative_url }}" class="navbar-item im-navbar-end-item im-navbar-quick-access is-hidden-touch" aria-label="Search">
                     <span class="icon is-small"><i class="ph ph-magnifying-glass"></i></span>
                 </a>
-                <button id="themeToggleBtn" class="navbar-item button is-light" aria-label="Toggle theme" title="Toggle theme">
-    <span class="icon">
-        <i class="ph" id="themeToggleIcon"></i> <!-- Phosphor Icon placeholder -->
-    </span>
-</button>
-<!-- Place this script at the end of your <body> or in a linked .js file -->
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const htmlElement = document.documentElement;
-    const toggleButton = document.getElementById('themeToggleBtn');
-    const toggleIcon = document.getElementById('themeToggleIcon'); // Assuming Phosphor Icons
-
-    const THEME_KEY = 'userPreferredTheme';
-    const DARK_THEME_VALUE = 'dark';
-    const LIGHT_THEME_VALUE = 'light';
-    const DATA_THEME_ATTR = 'data-theme';
-
-    function applyTheme(theme) {
-        if (theme === DARK_THEME_VALUE) {
-            htmlElement.setAttribute(DATA_THEME_ATTR, DARK_THEME_VALUE);
-            // htmlElement.classList.add('theme-dark'); // Alternative if using class
-            if (toggleIcon) toggleIcon.className = 'ph ph-sun'; // Sun icon for dark mode
-            if (toggleButton) toggleButton.setAttribute('aria-pressed', 'true');
-        } else {
-            htmlElement.removeAttribute(DATA_THEME_ATTR);
-            // htmlElement.classList.remove('theme-dark'); // Alternative if using class
-            if (toggleIcon) toggleIcon.className = 'ph ph-moon'; // Moon icon for light mode
-            if (toggleButton) toggleButton.setAttribute('aria-pressed', 'false');
-        }
-    }
-
-    function setThemeAndStorage(theme) {
-        applyTheme(theme);
-        localStorage.setItem(THEME_KEY, theme);
-    }
-
-    if (toggleButton) {
-        toggleButton.addEventListener('click', () => {
-            const currentTheme = htmlElement.getAttribute(DATA_THEME_ATTR) === DARK_THEME_VALUE ? DARK_THEME_VALUE : LIGHT_THEME_VALUE;
-            const newTheme = currentTheme === DARK_THEME_VALUE ? LIGHT_THEME_VALUE : DARK_THEME_VALUE;
-            setThemeAndStorage(newTheme);
-        });
-    }
-
-    // Initialize theme
-    const savedTheme = localStorage.getItem(THEME_KEY);
-    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    if (savedTheme) {
-        applyTheme(savedTheme);
-    } else if (prefersDarkScheme) {
-        applyTheme(DARK_THEME_VALUE); // Apply OS preference but don't save it yet, let user confirm with toggle
-    } else {
-        applyTheme(LIGHT_THEME_VALUE); // Default to light
-    }
-
-    // Optional: Listen for OS theme changes if no user preference is set
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        if (!localStorage.getItem(THEME_KEY)) { // Only if user hasn't set a preference
-            applyTheme(e.matches ? DARK_THEME_VALUE : LIGHT_THEME_VALUE);
-        }
-    });
-});
-</script>
+                
             </div>
         </div>
     </div>

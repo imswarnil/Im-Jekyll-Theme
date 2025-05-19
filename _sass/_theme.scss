@@ -2,50 +2,7 @@
 
 /* === BODY AND FADING GRID STYLES (Hardcoded Values) === */
 
-body {   
-    background-color: #F9FAFB; /* Enji Dev Page Background Color */
-    font-size: 16px; /* Standard base size */
-    line-height: 1.7; /* Generous line height from UI */
-    font-weight: 400; /* Normal weight */
-    position: relative; /* For pseudo-elements */
-    overflow-x: hidden; /* Prevent horizontal scroll from pseudo-elements */
-    margin: 0; /* Reset default browser margin */
-    padding-top: 68px; /* Space for fixed navbar (adjust if your navbar height is different) */
-}
 
-/* Grid Lines Background */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    /* Grid line color (very light grey, similar to Enji Dev UI's subtle grid) */
-    background-image: radial-gradient(#E4E7EC 0.5px, transparent 0.5px);
-    background-size: 28px 28px; /* Grid cell size */
-    z-index: -2; /* Place it behind everything */
-    opacity: 0.5; /* Subtlety of the grid */
-}
-
-/* Fading Overlay (to make grid lines disappear as you scroll down) */
-body::after {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 150vh; /* Ensure it covers a good scroll distance */
-    /* Gradient fades from transparent (at navbar height) to the body background color */
-    background: linear-gradient(
-        to bottom,
-        rgba(249, 250, 251, 0) 68px,  /* Transparent up to navbar height (68px example) - Page BG RGB: 249,250,251 */
-        rgba(249, 250, 251, 0.3) calc(68px + 10vh), /* Start fading in page background */
-        #F9FAFB calc(68px + 50vh)     /* Fully opaque with page background color */
-    );
-    z-index: -1; /* Place it above the grid lines but below content */
-    pointer-events: none; /* Allow clicks to pass through */
-}
 
 
 // Headings
