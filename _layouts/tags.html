@@ -2,6 +2,8 @@
 layout: default
 ---
 
+{% assign initial_display_limit = 6 %} {# Number of items to show initially per section #}
+
 <section class="section">
   <div class="columns">
     <!-- Sidebar -->
@@ -32,19 +34,19 @@ layout: default
           All Tags
         </p>
         <ul class="menu-list">
-          {% assign all_tags = "" | split: "" %}
+          {% assign all_tags_for_sidebar = "" | split: "" %}
           {% for collection in site.collections %}
-            {% for doc in collection.docs %}
-              {% for tag in doc.tags %}
-                {% unless all_tags contains tag %}
-                  {% assign all_tags = all_tags | push: tag %}
+            {% for doc_item in collection.docs %} {# Changed 'doc' to 'doc_item' to avoid conflict #}
+              {% for tag in doc_item.tags %}
+                {% unless all_tags_for_sidebar contains tag %}
+                  {% assign all_tags_for_sidebar = all_tags_for_sidebar | push: tag %}
                 {% endunless %}
               {% endfor %}
             {% endfor %}
           {% endfor %}
           
-          {% assign sorted_tags = all_tags | sort_natural %}
-          {% for tag in sorted_tags %}
+          {% assign sorted_tags_for_sidebar = all_tags_for_sidebar | sort_natural %}
+          {% for tag in sorted_tags_for_sidebar %}
             <li>
               <a href="#tag-{{ tag | slugify }}" class="tag-link is-flex is-align-items-center">
                 <span class="icon-text">
@@ -79,9 +81,10 @@ layout: default
             </h2>
             
             {% if collection.docs.size > 0 %}
-              <div class="columns is-multiline">
-                {% for doc in collection.docs %}
+              <div class="columns is-multiline items-container-visible">
+                {% for doc in collection.docs limit: initial_display_limit %}
                   <div class="column is-one-third">
+                    {# --- Card HTML Start (for Collections section) --- #}
                     <div class="card">
                       {% if doc.image %}
                         <div class="card-image">
@@ -97,8 +100,9 @@ layout: default
                           <a href="{{ doc.url | relative_url }}">{{ doc.title | escape }}</a>
                         </h3>
                         <div class="content">
+                          {% comment %} Collection badge is NOT shown here as it's redundant within a collection section {% endcomment %}
                           {% if doc.date %}
-                            <p class="is-size-7 has-text-grey">
+                            <p class="is-size-7 has-text-grey mb-2">
                               <time datetime="{{ doc.date | date_to_xmlschema }}">
                                 {{ doc.date | date: "%b %-d, %Y" }}
                               </time>
@@ -106,9 +110,9 @@ layout: default
                           {% endif %}
                           {% if doc.tags and doc.tags.size > 0 %}
                             <div class="tags are-small">
-                              {% for tag in doc.tags %}
-                                <a href="#tag-{{ tag | slugify }}" class="tag is-light tag-link-inline">
-                                  {{ tag }}
+                              {% for tag_item in doc.tags %}
+                                <a href="#tag-{{ tag_item | slugify }}" class="tag is-light tag-link-inline">
+                                  {{ tag_item }}
                                 </a>
                               {% endfor %}
                             </div>
@@ -116,9 +120,65 @@ layout: default
                         </div>
                       </div>
                     </div>
+                    {# --- Card HTML End --- #}
                   </div>
                 {% endfor %}
               </div>
+
+              {% if collection.docs.size > initial_display_limit %}
+                <div class="hidden-items" id="hidden-items-coll-{{ collection.label | slugify }}" style="display: none;">
+                  <div class="columns is-multiline">
+                    {% for doc in collection.docs offset: initial_display_limit %}
+                      <div class="column is-one-third">
+                        {# --- Card HTML Start (for Collections section - hidden items) --- #}
+                        <div class="card">
+                          {% if doc.image %}
+                            <div class="card-image">
+                              <figure class="image is-4by3">
+                                <a href="{{ doc.url | relative_url }}">
+                                  <img src="{{ doc.image | relative_url }}" alt="{{ doc.title | escape }}" loading="lazy">
+                                </a>
+                              </figure>
+                            </div>
+                          {% endif %}
+                          <div class="card-content">
+                            <h3 class="title is-5">
+                              <a href="{{ doc.url | relative_url }}">{{ doc.title | escape }}</a>
+                            </h3>
+                            <div class="content">
+                              {% if doc.date %}
+                                <p class="is-size-7 has-text-grey mb-2">
+                                  <time datetime="{{ doc.date | date_to_xmlschema }}">
+                                    {{ doc.date | date: "%b %-d, %Y" }}
+                                  </time>
+                                </p>
+                              {% endif %}
+                              {% if doc.tags and doc.tags.size > 0 %}
+                                <div class="tags are-small">
+                                  {% for tag_item in doc.tags %}
+                                    <a href="#tag-{{ tag_item | slugify }}" class="tag is-light tag-link-inline">
+                                      {{ tag_item }}
+                                    </a>
+                                  {% endfor %}
+                                </div>
+                              {% endif %}
+                            </div>
+                          </div>
+                        </div>
+                        {# --- Card HTML End --- #}
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <button class="button is-small is-light show-more-button mt-4"
+                        data-target-id="hidden-items-coll-{{ collection.label | slugify }}"
+                        data-total-items="{{ collection.docs.size }}"
+                        data-initial-limit="{{ initial_display_limit }}"
+                        data-text-singular="item"
+                        data-text-plural="items">
+                  Show all {{ collection.docs.size }} items
+                </button>
+              {% endif %}
             {% else %}
               <p><em>No items in this collection yet.</em></p>
             {% endif %}
@@ -127,7 +187,11 @@ layout: default
       {% endfor %}
       
       <!-- Tags Section -->
-      {% if sorted_tags.size > 0 %}
+      {% assign all_tags_for_main = "" | split: "" %}
+      {% for c in site.collections %}{% for doc_item_tag_main in c.docs %}{% for tag in doc_item_tag_main.tags %}{% unless all_tags_for_main contains tag %}{% assign all_tags_for_main = all_tags_for_main | push: tag %}{% endunless %}{% endfor %}{% endfor %}{% endfor %}
+      {% assign sorted_tags_for_main = all_tags_for_main | sort_natural %}
+
+      {% if sorted_tags_for_main.size > 0 %}
       <div class="box mb-6">
         <h2 class="title is-3">
           <span class="icon-text">
@@ -139,63 +203,134 @@ layout: default
         </h2>
         
         {% assign all_docs_for_tags_section = "" | split: "" %}
-        {% for collection in site.collections %}
-            {% assign all_docs_for_tags_section = all_docs_for_tags_section | concat: collection.docs %}
+        {% for c_item in site.collections %}
+            {% assign all_docs_for_tags_section = all_docs_for_tags_section | concat: c_item.docs %}
         {% endfor %}
         
-        {% for tag in sorted_tags %}
-          <div class="mb-6 scroll-target" id="tag-{{ tag | slugify }}">
-            <h3 class="title is-4 is-flex is-align-items-center">
-              <span class="icon is-medium mr-2"><i class="fas fa-tag"></i></span>
-              <span class="tag is-primary is-medium">{{ tag }}</span>
-            </h3>
-            
-            <div class="columns is-multiline">
-              {% assign tagged_docs_count = 0 %}
-              {% for doc in all_docs_for_tags_section %}
-                {% if doc.tags contains tag %}
-                  {% assign tagged_docs_count = tagged_docs_count | plus: 1 %}
+        {% for tag in sorted_tags_for_main %}
+          {% assign tagged_docs_for_this_tag = "" | split: "" %}
+          {% for doc in all_docs_for_tags_section %} {# Using 'doc' here, as it's the item being checked for the tag #}
+            {% if doc.tags contains tag %}
+              {% assign tagged_docs_for_this_tag = tagged_docs_for_this_tag | push: doc %}
+            {% endif %}
+          {% endfor %}
+          {% assign current_tag_item_count = tagged_docs_for_this_tag.size %}
+
+          {% if current_tag_item_count > 0 %}
+            <div class="mb-6 scroll-target" id="tag-{{ tag | slugify }}">
+              <h3 class="title is-4 is-flex is-align-items-center">
+                <span class="icon is-medium mr-2"><i class="fas fa-tag"></i></span>
+                <span class="tag is-primary is-medium">{{ tag }}</span>
+                <span class="has-text-grey is-size-5 ml-2">({{ current_tag_item_count }} item{% if current_tag_item_count != 1 %}s{% endif %})</span>
+              </h3>
+              
+              <div class="columns is-multiline items-container-visible">
+                {% for doc in tagged_docs_for_this_tag limit: initial_display_limit %} {# 'doc' is the item from the filtered list #}
                   <div class="column is-one-third">
+                    {# --- Card HTML Start (for Tags section) --- #}
                     <div class="card">
                       {% if doc.image %}
                         <div class="card-image">
                           <figure class="image is-4by3">
-                             <a href="{{ doc.url | relative_url }}">
+                            <a href="{{ doc.url | relative_url }}">
                               <img src="{{ doc.image | relative_url }}" alt="{{ doc.title | escape }}" loading="lazy">
                             </a>
                           </figure>
                         </div>
                       {% endif %}
                       <div class="card-content">
-                        <h4 class="title is-5">
-                          <a href="{{ doc.url | relative_url }}">
-                            {{ doc.title | escape }}
-                          </a>
-                        </h4>
+                        <h3 class="title is-5">
+                          <a href="{{ doc.url | relative_url }}">{{ doc.title | escape }}</a>
+                        </h3>
                         <div class="content">
-                          <p class="is-size-7">
-                            <span class="tag is-info is-light mr-2">
-                              {{ doc.collection | capitalize }}
-                            </span>
-                            {% if doc.date %}
+                          {% comment %} Collection badge IS shown here {% endcomment %}
+                          <span class="tag is-info is-light is-pulled-right">
+                            {{ doc.collection | capitalize }}
+                          </span>
+                          {% if doc.date %}
+                            <p class="is-size-7 has-text-grey mb-2">
                               <time datetime="{{ doc.date | date_to_xmlschema }}">
                                 {{ doc.date | date: "%b %-d, %Y" }}
                               </time>
-                            {% endif %}
-                          </p>
+                            </p>
+                          {% endif %}
+                          {% if doc.tags and doc.tags.size > 0 %}
+                            <div class="tags are-small">
+                              {% for tag_item in doc.tags %}
+                                <a href="#tag-{{ tag_item | slugify }}" class="tag is-light tag-link-inline">
+                                  {{ tag_item }}
+                                </a>
+                              {% endfor %}
+                            </div>
+                          {% endif %}
                         </div>
                       </div>
                     </div>
+                    {# --- Card HTML End --- #}
                   </div>
-                {% endif %}
-              {% endfor %}
-              {% if tagged_docs_count == 0 %}
-                <div class="column">
-                  <p><em>No items found with this tag.</em></p>
+                {% endfor %}
+              </div>
+
+              {% if current_tag_item_count > initial_display_limit %}
+                <div class="hidden-items" id="hidden-items-tag-{{ tag | slugify }}" style="display: none;">
+                  <div class="columns is-multiline">
+                    {% for doc in tagged_docs_for_this_tag offset: initial_display_limit %} {# 'doc' is the item from the filtered list #}
+                      <div class="column is-one-third">
+                        {# --- Card HTML Start (for Tags section - hidden items) --- #}
+                        <div class="card">
+                          {% if doc.image %}
+                            <div class="card-image">
+                              <figure class="image is-4by3">
+                                <a href="{{ doc.url | relative_url }}">
+                                  <img src="{{ doc.image | relative_url }}" alt="{{ doc.title | escape }}" loading="lazy">
+                                </a>
+                              </figure>
+                            </div>
+                          {% endif %}
+                          <div class="card-content">
+                            <h3 class="title is-5">
+                              <a href="{{ doc.url | relative_url }}">{{ doc.title | escape }}</a>
+                            </h3>
+                            <div class="content">
+                              <span class="tag is-info is-light is-pulled-right">
+                                {{ doc.collection | capitalize }}
+                              </span>
+                              {% if doc.date %}
+                                <p class="is-size-7 has-text-grey mb-2">
+                                  <time datetime="{{ doc.date | date_to_xmlschema }}">
+                                    {{ doc.date | date: "%b %-d, Y" }}
+                                  </time>
+                                </p>
+                              {% endif %}
+                              {% if doc.tags and doc.tags.size > 0 %}
+                                <div class="tags are-small">
+                                  {% for tag_item in doc.tags %}
+                                    <a href="#tag-{{ tag_item | slugify }}" class="tag is-light tag-link-inline">
+                                      {{ tag_item }}
+                                    </a>
+                                  {% endfor %}
+                                </div>
+                              {% endif %}
+                            </div>
+                          </div>
+                        </div>
+                        {# --- Card HTML End --- #}
+                      </div>
+                    {% endfor %}
+                  </div>
                 </div>
+                <button class="button is-small is-light show-more-button mt-4"
+                        data-target-id="hidden-items-tag-{{ tag | slugify }}"
+                        data-total-items="{{ current_tag_item_count }}"
+                        data-initial-limit="{{ initial_display_limit }}"
+                        data-text-singular="item"
+                        data-text-plural="items"
+                        data-tag-name="{{tag}}">
+                  Show all {{ current_tag_item_count }} items for tag "{{ tag }}"
+                </button>
               {% endif %}
             </div>
-          </div>
+          {% endif %}
         {% endfor %}
       </div>
       {% endif %}
@@ -208,12 +343,12 @@ layout: default
     transition: all 0.2s ease-in-out;
     padding: 0.5em 0.75em;
     border-radius: 4px;
-    width: 100%; /* Ensure full width for better click area and hover bg */
+    width: 100%; 
   }
   .tag-link:hover, .collection-link:hover,
-  .tag-link.is-active, .collection-link.is-active { /* For active state */
-    background-color: hsl(0, 0%, 96%); /* Bulma $grey-lighter */
-    color: hsl(0, 0%, 21%); /* Bulma $grey-darker */
+  .tag-link.is-active, .collection-link.is-active {
+    background-color: hsl(0, 0%, 96%); 
+    color: hsl(0, 0%, 21%); 
     transform: translateX(3px);
   }
   .card {
@@ -221,7 +356,7 @@ layout: default
     display: flex;
     flex-direction: column;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    border: 1px solid hsl(0, 0%, 86%); /* Bulma $grey-light */
+    border: 1px solid hsl(0, 0%, 86%); 
   }
   .card:hover {
     transform: translateY(-4px);
@@ -232,50 +367,46 @@ layout: default
   }
   .menu {
     position: sticky;
-    top: 1.5rem; /* Adjust based on your navbar height if any */
+    top: 1.5rem; 
     max-height: calc(100vh - 3rem);
     overflow-y: auto;
-    padding-right: 0.75rem; /* For scrollbar space */
+    padding-right: 0.75rem; 
   }
-  /* Bulma helper to ensure icon and text align vertically in links */
   .is-flex.is-align-items-center .icon-text .icon { 
     display: inline-flex; 
     align-items: center;
   }
-  .scroll-target { /* For highlighting the target section */
+  .scroll-target { 
     transition: box-shadow 0.5s ease-out;
   }
   .scroll-target-active {
-    box-shadow: 0 0 0 3px hsl(217, 71%, 53%) !important; /* Bulma $primary */
-    border-radius: 6px; /* Bulma $radius-large */
+    box-shadow: 0 0 0 3px hsl(217, 71%, 53%) !important; 
+    border-radius: 6px; 
   }
   .tags.are-small .tag {
-    margin-bottom: 0.25rem; /* Space out tags a bit */
+    margin-bottom: 0.25rem;
   }
   .tag-link-inline:hover {
-    background-color: hsl(0, 0%, 86%); /* Bulma $grey-light */
+    background-color: hsl(0, 0%, 86%); 
   }
+  .menu::-webkit-scrollbar { width: 8px; }
+  .menu::-webkit-scrollbar-track { background: hsl(0, 0%, 96%); border-radius: 10px; }
+  .menu::-webkit-scrollbar-thumb { background: hsl(0, 0%, 86%); border-radius: 10px; }
+  .menu::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 71%); }
 
-  /* Film-roll-esque scrollbar for webkit browsers */
-  .menu::-webkit-scrollbar {
-    width: 8px;
+  .show-more-button {
+    display: block; /* Make button take full width or center it */
+    margin-left: auto;
+    margin-right: auto;
   }
-  .menu::-webkit-scrollbar-track {
-    background: hsl(0, 0%, 96%); /* Bulma $grey-lighter */
-    border-radius: 10px;
-  }
-  .menu::-webkit-scrollbar-thumb {
-    background: hsl(0, 0%, 86%); /* Bulma $grey-light */
-    border-radius: 10px;
-  }
-  .menu::-webkit-scrollbar-thumb:hover {
-    background: hsl(0, 0%, 71%); /* Bulma $grey */
+  .tag.is-pulled-right { /* Ensure proper spacing for pulled-right badge */
+      margin-left: 0.5em;
   }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  const OFFSET_TOP = 80; // Adjust this value based on your fixed header height, if any. 20 is a general padding.
+  const OFFSET_TOP = 80; 
 
   function smoothScrollTo(targetElement) {
     if (targetElement) {
@@ -284,28 +415,23 @@ document.addEventListener('DOMContentLoaded', function() {
         top: topPos,
         behavior: 'smooth'
       });
-
-      // Highlight the target section
       document.querySelectorAll('.scroll-target-active').forEach(activeEl => {
         activeEl.classList.remove('scroll-target-active');
       });
       targetElement.classList.add('scroll-target-active');
       setTimeout(() => {
         targetElement.classList.remove('scroll-target-active');
-      }, 1500); // Keep highlight for 1.5 seconds
+      }, 1500);
     }
   }
 
-  // Smooth scroll for anchor links in sidebar and inline tags
   document.querySelectorAll('a.collection-link, a.tag-link, a.tag-link-inline').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       e.preventDefault();
-      const targetId = this.getAttribute('href'); // #collection-slug or #tag-slug
+      const targetId = this.getAttribute('href');
       const targetElement = document.querySelector(targetId);
-      
       if (targetElement) {
         smoothScrollTo(targetElement);
-        // Update URL hash without page jump for SPA-like feel
         if (history.pushState) {
           history.pushState(null, null, targetId);
         } else {
@@ -315,26 +441,69 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Handle initial load with hash
   function scrollToHash() {
     if (window.location.hash) {
-      // Add a slight delay to ensure all elements are rendered and positions are calculated
       setTimeout(() => {
         const targetElement = document.querySelector(window.location.hash);
         if (targetElement) {
           smoothScrollTo(targetElement);
+          // If the target is within a hidden section, expand it
+          let parentHidden = targetElement.closest('.hidden-items');
+          if (parentHidden && parentHidden.style.display === 'none') {
+            const button = document.querySelector(`.show-more-button[data-target-id="${parentHidden.id}"]`);
+            if (button) button.click(); // Simulate click to expand
+          } else {
+            // If the target is a section title for a tag/collection (not an item card inside hidden items)
+            // we might want to expand its content if it has a show more button
+            const sectionBox = targetElement.closest('.box.scroll-target, .mb-6.scroll-target');
+            if (sectionBox) {
+                const showMoreButtonInSection = sectionBox.querySelector('.show-more-button');
+                const hiddenItemsInSection = sectionBox.querySelector('.hidden-items');
+                if (showMoreButtonInSection && hiddenItemsInSection && hiddenItemsInSection.style.display === 'none' && window.location.hash === `#${sectionBox.id}`) {
+                    // Only expand if the hash directly targets the section AND it's collapsed
+                    // This avoids expanding if a card within the initially visible items is linked
+                }
+            }
+          }
         }
-      }, 100); // 100ms delay, adjust if needed
+      }, 100);
     }
   }
   
-  scrollToHash(); // Call on initial load
-
-  // Optional: If you want to re-scroll if the hash changes (e.g., browser back/forward)
+  scrollToHash();
   window.addEventListener('hashchange', scrollToHash, false);
 
-  // Optional: Active state for sidebar links based on scroll (more complex)
-  // This would require an IntersectionObserver to track which section is in view.
-  // For simplicity, we'll stick to highlighting on click/load.
+  // "Show More / Show Less" functionality
+  document.querySelectorAll('.show-more-button').forEach(button => {
+    button.addEventListener('click', function() {
+      const targetId = this.dataset.targetId;
+      const hiddenItemsDiv = document.getElementById(targetId);
+      const totalItems = parseInt(this.dataset.totalItems);
+      const initialLimit = parseInt(this.dataset.initialLimit);
+      const itemTextSingular = this.dataset.textSingular;
+      const itemTextPlural = this.dataset.textPlural;
+      const tagName = this.dataset.tagName; 
+
+      if (hiddenItemsDiv) {
+        if (hiddenItemsDiv.style.display === 'none') {
+          hiddenItemsDiv.style.display = 'block';
+          this.textContent = 'Show fewer';
+        } else {
+          hiddenItemsDiv.style.display = 'none';
+          let buttonText = `Show all ${totalItems} ${totalItems === 1 ? itemTextSingular : itemTextPlural}`;
+          if (tagName) {
+            buttonText += ` for tag "${tagName}"`;
+          } else {
+            // Attempt to get collection name if not a tag button
+            const collectionTitleElement = this.closest('.box').querySelector('h2 > span:nth-of-type(2) > span:nth-of-type(2)');
+            if (collectionTitleElement) {
+                // buttonText += ` in ${collectionTitleElement.textContent}`; // This might be too verbose
+            }
+          }
+          this.textContent = buttonText;
+        }
+      }
+    });
+  });
 });
 </script>
