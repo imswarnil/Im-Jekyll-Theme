@@ -24,8 +24,8 @@ html {
     // However, for a fixed grid that covers everything, applying to html is robus
     // Grid Lines Background using themed Bulma variables
     background-image:
-        linear-gradient(to right, grey 0.5px, transparent 0.5px), // Vertical lines
-        linear-gradient(to bottom, grey 0.5px, transparent 0.5px); // Horizontal lines
+        linear-gradient(to right, rgb(243, 243, 243) 0.5px, transparent 0.5px), // Vertical lines
+        linear-gradient(to bottom, rgb(241, 241, 241) 0.5px, transparent 0.5px); // Horizontal lines
     background-size: 28px 28px; // Size of each grid cell
     background-attachment: fixed; // Grid stays in place during scroll
 }
