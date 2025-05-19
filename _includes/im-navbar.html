@@ -10,12 +10,6 @@
                 <span class="has-text-weight-bold ml-2">{{ site.title | default: "My Site Title" }}</span>
             </a>
 
-            <div class="navbar-item is-hidden-desktop ml-auto" style="display: flex; align-items: center;">
-                <a href="{{ '/search' | relative_url | default: '#' }}" aria-label="Search">
-                    <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
-                </a>
-            </div>
-
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="bulmaNavbarMenuTarget">
              <span aria-hidden="true"></span>
              <span aria-hidden="true"></span>
@@ -24,7 +18,7 @@
         </div>
 
         <div class="navbar-menu" id="bulmaNavbarMenuTarget">
-            <div class="navbar-start" id="bulma-navbar-start-main-items">
+            <div class="navbar-start">
                 {% assign navbar_items_json = site.navbar | default: '[{"name": "Home", "link": "/", "icon": "house"}, {"name": "Blog", "link": "/blog/", "icon": "article"}, {"name": "Docs", "link": "#", "icon": "book-open", "dropdown": [{"name": "Overview", "link": "/docs/overview/", "icon": "compass"}, {"name": "Components", "link": "/docs/components/", "icon": "puzzle-piece"}]}]' %}
                 {% assign navbar_items = navbar_items_json %}
                 {% if navbar_items_json | type_of == "string" %}{% assign navbar_items = navbar_items_json | parse_json %}{% endif %}
@@ -101,26 +95,26 @@
 </nav>
 
 <style>
+    /* Basic Bulma Navbar Centering for Desktop */
     @media screen and (min-width: 1024px) {
         #bulma-main-navbar .navbar-menu {
-            justify-content: space-between; /* Allows start and end to push to sides */
+            flex-grow: 1; /* Allow navbar-menu to take available space */
         }
-        /* To center navbar-start items, we make navbar-start itself a flex container
-           and then ensure it doesn't take up all the space if navbar-end has items. */
         #bulma-main-navbar .navbar-start {
-            justify-content: center; /* Center items within navbar-start */
-            flex-grow: 1; /* Allow navbar-start to grow and push items to center */
-            margin-right: auto; /* Push navbar-end to the right */
-            margin-left: auto; /* Push navbar-brand to the left */
+            margin-left: auto; /* Push to center */
         }
-         #bulma-main-navbar .navbar-end {
-            margin-left: 0; /* Ensure navbar-end doesn't get pushed by navbar-start's auto margin */
+        #bulma-main-navbar .navbar-end {
+            margin-right: auto; /* Push to center */
         }
-    }
-    /* On mobile, navbar-start items should behave normally (stack vertically) */
-    @media screen and (max-width: 1023px) {
-        #bulma-main-navbar .navbar-start {
-            justify-content: flex-start; /* Default stacking behavior */
+        /* If you only have navbar-start and want it truly centered, 
+           you might need a slightly different approach or ensure navbar-end is present but empty */
+        #bulma-main-navbar .navbar-start + .navbar-end { /* Common scenario */
+             /* This setup usually works well with items in both start and end */
+        }
+         /* If only navbar-start is used for main items and you want them centered: */
+        #bulma-main-navbar .navbar-menu > .navbar-start:only-child {
+            margin-left: auto;
+            margin-right: auto;
         }
     }
 </style>
@@ -135,30 +129,35 @@ document.addEventListener('DOMContentLoaded', () => {
         burger.addEventListener('click', () => {
             const targetId = burger.dataset.target;
             const targetMenu = document.getElementById(targetId);
-            burger.classList.toggle('is-active');
-            targetMenu.classList.toggle('is-active');
+            if (targetMenu) {
+                burger.classList.toggle('is-active');
+                targetMenu.classList.toggle('is-active');
+            }
         });
     });
 
+    // For mobile dropdowns to be clickable instead of hoverable
     const navbarDropdowns = mainNavbar.querySelectorAll('.navbar-item.has-dropdown');
     navbarDropdowns.forEach(dropdown => {
         const link = dropdown.querySelector('.navbar-link');
         if (link) {
             link.addEventListener('click', function(event) {
+                // Only prevent default and toggle for mobile view
                 if (window.innerWidth < 1024) { 
                     event.preventDefault();
-                    dropdown.classList.toggle('is-active');
-                    const isExpanded = link.getAttribute('aria-expanded') === 'true';
+                    // Toggle 'is-active' on the PARENT '.navbar-item.has-dropdown'
+                    dropdown.classList.toggle('is-active'); 
+                     const isExpanded = link.getAttribute('aria-expanded') === 'true';
                     link.setAttribute('aria-expanded', !isExpanded);
                 }
             });
         }
-        
+        // Ensure is-hoverable is only active on desktop if the dropdown itself isn't already marked active by Liquid
         if ('ontouchstart' in document.documentElement) {
             dropdown.classList.remove('is-hoverable');
         } else {
             if (!dropdown.classList.contains('is-active')) { 
-                dropdown.classList.add('is-hoverable');
+                 dropdown.classList.add('is-hoverable');
             }
         }
     });
