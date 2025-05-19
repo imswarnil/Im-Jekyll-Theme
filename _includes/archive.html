@@ -1,29 +1,26 @@
-<section class="section archive-mimic-ui">
+<section class="section archive-cards-v3">
     <div class="container">
         <div id="post-list" class="columns is-multiline">
             {% for post in paginator.posts %}
-                <div class="column is-one-third is-half-mobile">
+                <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
                     <a href="{{ post.url | relative_url }}" class="card-link-wrapper">
                         <div class="card">
                             {% if post.category == "journal" %}
-                                <!-- JOURNAL CARD (Sticky Note Style) -->
-                                <div class="card-header journal-header">
+                                <!-- JOURNAL CARD -->
+                                <div class="card-header journal-card-header">
                                     <p class="card-header-title">
-                                        <span class="icon is-medium mr-2"><i class="ph ph-note-pencil"></i></span>
+                                        <span class="icon is-medium mr-2"><i class="ph ph-notebook"></i></span>
                                         Journal Entry
                                     </p>
-                                    <span class="card-header-icon">
-                                        <span class="icon-text is-size-7 has-text-grey-dark">
-                                            <span class="icon is-small"><i class="ph ph-calendar-blank"></i></span>
-                                            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %d, '%y" }}</time>
-                                        </span>
+                                    <span class="card-header-icon is-size-7 has-text-grey-dark">
+                                        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %d, '%y" }}</time>
                                     </span>
                                 </div>
                                 <div class="card-content">
                                     <div class="content">
-                                        <p class="title is-4 has-text-grey-darker">{{ post.title }}</p>
-                                        <p class="is-size-6 has-text-grey-dark">
-                                            {% if post.excerpt %}{{ post.excerpt | strip_html | truncate: 140 }}{% else %}{{ post.content | strip_html | truncate: 140 }}{% endif %}
+                                        <p class="title is-4 journal-title">{{ post.title }}</p>
+                                        <p class="is-size-6 journal-excerpt">
+                                            {% if post.excerpt %}{{ post.excerpt | strip_html | truncate: 130 }}{% else %}{{ post.content | strip_html | truncate: 130 }}{% endif %}
                                         </p>
                                         {% if post.TLTR %}
                                         <article class="message is-warning is-small mt-3">
@@ -32,21 +29,21 @@
                                         {% endif %}
                                     </div>
                                 </div>
-                                <footer class="card-footer journal-footer">
+                                <footer class="card-footer journal-card-footer">
                                     <div class="card-footer-item">
                                         <div class="tags are-small">
-                                            {% for tag in post.tags limit:2 %}<span class="tag is-warning is-light">{{ tag }}</span>{% endfor %}
+                                            {% for tag in post.tags limit:2 %}<span class="tag is-warning">{{ tag }}</span>{% endfor %}
                                         </div>
                                     </div>
-                                    <span class="card-footer-item has-text-link is-size-7">Read Full Entry →</span>
+                                    <span class="card-footer-item has-text-link is-size-7">Read Entry →</span>
                                 </footer>
 
                             {% elsif post.category == "video" %}
-                                <!-- VIDEO CARD (YouTube Mimic) -->
-                                <div class="card-header video-header">
+                                <!-- VIDEO CARD -->
+                                <div class="card-header video-card-header">
                                      <p class="card-header-title">
                                         <span class="icon is-medium mr-2 has-text-danger"><i class="ph-fill ph-youtube-logo"></i></span>
-                                        {{ post.title | truncatewords: 5, "..."}}
+                                        Video: {{ post.title | truncatewords: 4, "..."}}
                                     </p>
                                 </div>
                                 {% if post.VideoId %}
@@ -56,63 +53,61 @@
                                         <div class="is-overlay is-flex is-align-items-center is-justify-content-center video-play-button-overlay">
                                             <span class="icon is-large has-text-white"><i class="ph-fill ph-play-circle"></i></span>
                                         </div>
+                                        {% if post.duration %}
+                                        <div class="is-overlay is-flex is-align-items-flex-end is-justify-content-flex-end p-2">
+                                            <span class="tag is-dark is-rounded">{{ post.duration }}</span>
+                                        </div>
+                                        {% endif %}
                                     </figure>
                                 </div>
                                 {% endif %}
                                 <div class="card-content py-3">
-                                    <div class="media mb-2">
-                                        {% if post.author_avatar or post.author %}
-                                        <div class="media-left">
-                                            <figure class="image is-32x32">
-                                                {% if post.author_avatar %}<img class="is-rounded" src="{{ post.author_avatar | relative_url }}" alt="{{ post.author }}">
-                                                {% else %}<span class="icon is-medium has-background-grey-lighter is-rounded video-author-placeholder"><i class="ph ph-user"></i></span>{% endif %}
-                                            </figure>
-                                        </div>
-                                        {% endif %}
-                                        <div class="media-content">
-                                            <p class="is-size-6 has-text-weight-semibold mb-0 video-title-in-content">{{ post.title }}</p>
-                                            <p class="is-size-7 has-text-grey">
-                                                {% if post.author %}{{ post.author }} · {% endif %} <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</time>
-                                                {% if post.duration %} · {{ post.duration }}{% endif %}
-                                            </p>
-                                        </div>
-                                    </div>
+                                    <p class="title is-5 mb-1">{{ post.title }}</p>
+                                    <p class="subtitle is-7 has-text-grey">
+                                       <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</time>
+                                        {% if post.author %} · By {{ post.author }}{% endif %}
+                                    </p>
                                     <div class="tags are-small">
-                                        {% for tag in post.tags limit:2 %}<span class="tag is-light">{{ tag }}</span>{% endfor %}
+                                        {% for tag in post.tags limit:2 %}<span class="tag is-info is-light">{{ tag }}</span>{% endfor %}
                                     </div>
                                 </div>
-                                <footer class="card-footer video-footer">
-                                    <span class="card-footer-item has-text-link is-size-7">View Details</span>
+                                <footer class="card-footer video-card-footer">
+                                    <span class="card-footer-item has-text-link is-size-7">Watch on Site →</span>
                                 </footer>
 
 
                             {% elsif post.category == "project" %}
-                                <!-- PROJECT CARD (GitHub Mimic) -->
-                                <div class="card-header project-header">
+                                <!-- PROJECT CARD -->
+                                <div class="card-header project-card-header">
                                     <p class="card-header-title">
-                                        <span class="icon is-medium mr-2"><i class="ph-fill ph-git-branch"></i></span>
-                                        {{ post.title }}
+                                        <span class="icon is-medium mr-2"><i class="ph-fill ph-git-fork"></i></span>
+                                        Project: {{ post.title }}
                                     </p>
                                     <span class="card-header-icon">
-                                       <span class="tag is-light is-small">{{ post.status | default: "Active" }}</span>
+                                       <span class="tag is-info is-light is-small">{{ post.status | default: "Active" }}</span>
                                     </span>
                                 </div>
+                                {% if post.image %}
+                                <div class="card-image">
+                                    <figure class="image is-4by3"> <!-- Different aspect ratio for project images -->
+                                        <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                                    </figure>
+                                </div>
+                                {% endif %}
                                 <div class="card-content">
                                     <div class="content">
                                         <p class="is-size-6 has-text-grey-darker mb-3">{{ post.description | truncate: 100 }}</p>
+                                        <p class="is-size-7 has-text-grey mb-2">Technologies:</p>
                                         <div class="tags">
-                                            {% for tech in post.technologies limit:4 %}
-                                            <span class="tag is-link is-light">{{ tech }}</span>
+                                            {% for tech in post.technologies limit:5 %}
+                                            <span class="tag is-link is-rounded is-light">{{ tech }}</span>
                                             {% endfor %}
                                         </div>
-                                        <p class="is-size-7 has-text-grey mt-3">
-                                            Updated: <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %Y" }}</time>
-                                        </p>
                                     </div>
                                 </div>
-                                <footer class="card-footer project-footer">
-                                    {% if post.live_url %}<a href="{{ post.live_url }}" class="card-footer-item has-text-link is-size-7" target="_blank" rel="noopener"><span class="icon-text"><span class="icon is-small"><i class="ph ph-link-simple"></i></span><span>Demo</span></span></a>{% endif %}
-                                    {% if post.repo_url %}<a href="{{ post.repo_url }}" class="card-footer-item has-text-link is-size-7" target="_blank" rel="noopener"><span class="icon-text"><span class="icon is-small"><i class="ph ph-github-logo"></i></span><span>Repo</span></span></a>{% endif %}
+                                <footer class="card-footer project-card-footer">
+                                    {% if post.live_url %}<a href="{{ post.live_url }}" class="card-footer-item" target="_blank" rel="noopener"><span class="icon-text is-size-7"><span class="icon is-small"><i class="ph ph-link-simple"></i></span><span>Live</span></span></a>{% endif %}
+                                    {% if post.repo_url %}<a href="{{ post.repo_url }}" class="card-footer-item" target="_blank" rel="noopener"><span class="icon-text is-size-7"><span class="icon is-small"><i class="ph ph-github-logo"></i></span><span>Code</span></span></a>{% endif %}
                                     <span class="card-footer-item has-text-link is-size-7">Details →</span>
                                 </footer>
 
@@ -138,7 +133,7 @@
                                         <div class="media-content">
                                             <p class="title is-5 mb-0">{{ post.title }}</p>
                                             <p class="subtitle is-7 has-text-grey">
-                                                {% if post.author %}{{ post.author }} · {% endif %}
+                                                {% if post.author %}By {{ post.author }} · {% endif %}
                                                 <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</time>
                                             </p>
                                         </div>
@@ -170,12 +165,11 @@
                 {% assign ad_frequency = 2 %}
                 {% assign mod_ad = forloop.index | modulo: ad_frequency %}
                 {% if forloop.index >= ad_frequency and mod_ad == 0 %}
-                    <div class="column {{ column_class }}">
+                    <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
                          <div class="card" style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: var(--bulma-scheme-main-bis, #f5f5f5);">
                             <div class="card-content has-text-centered">
                                 <p class="is-size-7 has-text-grey-light mb-2">Advertisement</p>
                                 {% include adsense.html format="square" %}
-                                {% comment %} Fallback for local testing {% endcomment %}
                                 {% capture ad_include_output %}{% include adsense.html format="square" %}{% endcapture %}
                                 {% if ad_include_output == "" %}
                                 <div class="box has-background-white-ter" style="width: 100%; min-height: 250px; display:flex; align-items:center; justify-content:center; border: 1px dashed var(--bulma-grey-light);">
@@ -208,97 +202,101 @@
 <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
 <style>
-.archive-mimic-ui .card-link-wrapper {
+.archive-cards-v3 .card-link-wrapper {
     text-decoration: none;
-    color: inherit;
-    display: block;
+    color: inherit; /* Make link inherit text color */
+    display: block; /* Important for wrapper to take full space */
     height: 100%;
 }
-.archive-mimic-ui .card {
+.archive-cards-v3 .card {
+    height: 100%;
+    display: flex;
+    flex-direction: column; /* Ensure footer is at bottom */
+    background-color: var(--bulma-card-background-color, white);
+    border: 1px solid var(--bulma-border-light, #ededed);
+    border-radius: var(--bulma-card-radius, 0.25rem);
+    box-shadow: var(--bulma-card-shadow, 0 0.5em 1em -0.125em rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.02));
     transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
-    border: 1px solid var(--bulma-border-light, #dbdbdb); /* Default subtle border */
 }
-.archive-mimic-ui .card-link-wrapper:hover .card {
-    transform: translateY(-5px);
-    box-shadow: var(--bulma-card-shadow-hover, 0 0.5em 1em -0.125em rgba(10,10,10,.15), 0 0 0 1px rgba(10,10,10,.03));
+.archive-cards-v3 .card-link-wrapper:hover .card {
+    transform: translateY(-4px);
+    box-shadow: 0 0.75em 1.5em -0.25em rgba(10,10,10,.15), 0 0 0 1px rgba(10,10,10,.03);
 }
-.archive-mimic-ui .card-image img {
+.archive-cards-v3 .card-image img {
     object-fit: cover;
-    width: 100%;
-    height: 100%;
 }
-.archive-mimic-ui .card-content .content p:last-child {
-    margin-bottom: 0.5rem; /* Reduce bottom margin for excerpt */
+.archive-cards-v3 .card-content {
+    flex-grow: 1; /* Allow content to fill available space */
+    display: flex;
+    flex-direction: column;
 }
-.archive-mimic-ui .card-footer {
+.archive-cards-v3 .card-content .content p:last-child { margin-bottom: 0.75rem; }
+.archive-cards-v3 .card-footer {
     border-top: 1px solid var(--bulma-border-light);
-    background-color: var(--bulma-white-bis); /* Subtle footer background */
+    background-color: var(--bulma-scheme-main-bis, #f9f9f9); /* Lighter footer */
 }
-.archive-mimic-ui .card-footer-item {
-    font-size: 0.85rem;
+.archive-cards-v3 .card-footer-item {
+    font-size: 0.8rem;
     padding: 0.75rem;
+    color: var(--bulma-text-light);
 }
+.archive-cards-v3 .card-footer-item:hover {
+    color: var(--bulma-link);
+}
+.archive-cards-v3 .card-footer-item:not(:last-child) { border-right: 1px solid var(--bulma-border-light); }
 
-/* Journal Card Mimic */
-.archive-mimic-ui .journal-mimic {
-    background-color: var(--bulma-warning-light, #fffbeb); /* Sticky note color */
-    border: 1px solid var(--bulma-warning, #ffdd57);
-}
-.archive-mimic-ui .journal-mimic .card-header {
-    background-color: transparent; /* No distinct header bg for sticky note */
+/* Journal Card */
+.archive-cards-v3 .journal-card-header {
+    background-color: var(--bulma-warning-light, #fffbeb); /* Yellowish paper */
     border-bottom: 1px dashed var(--bulma-warning-dark, #947600);
     box-shadow: none;
 }
-.archive-mimic-ui .journal-mimic .card-header-title .icon {
-    color: var(--bulma-warning-dark);
+.archive-cards-v3 .journal-card-header .card-header-title,
+.archive-cards-v3 .journal-card-header .card-header-icon {
+    color: var(--bulma-warning-darker, #7d6a1a);
 }
-.archive-mimic-ui .journal-mimic .journal-footer {
-    border-top: 1px dashed var(--bulma-warning-dark, #947600);
-    background-color: transparent;
-}
+.archive-cards-v3 .journal-card-header .icon { color: var(--bulma-warning-darker, #7d6a1a); }
+.archive-cards-v3 .journal-card-content { background-color: var(--bulma-warning-lightest, #fffef5); } /* Even lighter content area */
+.archive-cards-v3 .journal-title { font-family: 'Georgia', serif; color: #5c5a4d; } /* More distinct font if available */
+.archive-cards-v3 .journal-excerpt { color: #6b685a; line-height: 1.6; }
+.archive-cards-v3 .journal-card-footer { border-top-color: var(--bulma-warning-dark, #947600); }
 
-/* Video Card Mimic */
-.archive-mimic-ui .video-mimic .card-header {
-    background-color: var(--bulma-grey-darker);
-    color: var(--bulma-white);
+/* Video Card */
+.archive-cards-v3 .video-card-header {
+    background-color: var(--bulma-grey-darker, #262626);
+    color: var(--bulma-white, #fff);
     border-bottom: none;
-    box-shadow: none;
 }
-.archive-mimic-ui .video-mimic .card-header-title .icon { color: var(--bulma-danger); }
-.archive-mimic-ui .video-mimic .card-header-icon { color: var(--bulma-grey-lighter); }
-.archive-mimic-ui .video-thumbnail-container { position: relative; background-color: var(--bulma-black); }
-.archive-mimic-ui .video-play-button-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
-.archive-mimic-ui .video-play-button-overlay .icon.is-large i { font-size: 4.5rem; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.6)); }
-.archive-mimic-ui .video-mimic .video-title-in-content { color: var(--bulma-text-strong); } /* Making title a bit more prominent */
-.archive-mimic-ui .video-mimic .video-author-placeholder { width:32px; height:32px; display:flex; align-items:center; justify-content:center; color: var(--bulma-grey); font-size: 1.2em; }
-.archive-mimic-ui .video-mimic .card-footer { background-color: var(--bulma-white-ter); }
+.archive-cards-v3 .video-card-header .card-header-title .icon { color: var(--bulma-danger, #ff3860) !important; }
+.archive-cards-v3 .video-thumbnail-container { position: relative; background-color: var(--bulma-black); }
+.archive-cards-v3 .video-play-button-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none;}
+.archive-cards-v3 .video-play-button-overlay .icon.is-large i { font-size: 4.5rem; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.7));}
+.archive-cards-v3 .video-author-placeholder { width:32px; height:32px; display:flex; align-items:center; justify-content:center; color: var(--bulma-grey-light); font-size: 1.2em; }
+.archive-cards-v3 .video-title-in-content { color: var(--bulma-text-strong); }
 
-/* Project Card Mimic */
-.archive-mimic-ui .project-mimic .card-header {
-    background-color: var(--bulma-grey-darker); /* GitHub header dark */
-    color: var(--bulma-grey-lighter);
-    border-bottom: 1px solid var(--bulma-grey-dark, #4a4a4a);
-    box-shadow: none;
+/* Project Card */
+.archive-cards-v3 .project-card-header {
+    background-color: var(--bulma-link-dark, #296fa8);
+    color: var(--bulma-link-inverted, #fff);
+    border-bottom: none;
 }
-.archive-mimic-ui .project-mimic .card-header-title .icon { color: var(--bulma-white); }
-.archive-mimic-ui .project-mimic .content { color: var(--bulma-text); }
-.archive-mimic-ui .project-mimic .card-footer { background-color: var(--bulma-white-ter); }
+.archive-cards-v3 .project-card-header .card-header-title .icon { color: var(--bulma-link-inverted, #fff); }
+.archive-cards-v3 .project-card-header .tag { background-color: var(--bulma-link, #3e8ed0); color: var(--bulma-link-inverted, #fff); }
+.archive-cards-v3 .tags .tag.is-link.is-rounded { font-size: 0.7rem; }
 
-/* Blog Card Specifics (if any beyond default) */
-.archive-mimic-ui .blog-author-placeholder { width:40px; height:40px; display:flex; align-items:center; justify-content:center; color: var(--bulma-grey); font-size: 1.5em;}
+/* Blog Card */
+.archive-cards-v3 .blog-author-placeholder { width:40px; height:40px; display:flex; align-items:center; justify-content:center; color: var(--bulma-grey); font-size: 1.5em;}
 
 @media screen and (min-width: 769px) {
-    .archive-mimic-ui .columns.is-multiline { align-items: stretch; }
-    .archive-mimic-ui .column { display: flex; }
+    .archive-cards-v3 .columns.is-multiline { align-items: stretch; }
+    .archive-cards-v3 .column { display: flex; }
 }
 </style>
 
 <script>
-// No JavaScript is strictly needed for this version's core functionality.
-// The video hover-play is removed. Card clickability is handled by wrapping in <a>.
-// Phosphor icons script is external.
+// No JavaScript for card interactions in this version.
+// Only the Phosphor Icons script is included.
 document.addEventListener('DOMContentLoaded', () => {
-    // Optional: Add a class to body if this specific archive is loaded, for global tweaks if needed
-    // document.body.classList.add('archive-mimic-ui-loaded');
+    // Placeholder for any future minimal JS if absolutely needed for non-visual Bulma enhancements
 });
 </script>
