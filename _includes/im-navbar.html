@@ -75,6 +75,66 @@
                 <a href="{{ '/search' | relative_url }}" class="navbar-item im-navbar-end-item im-navbar-quick-access is-hidden-touch" aria-label="Search">
                     <span class="icon is-small"><i class="ph ph-magnifying-glass"></i></span>
                 </a>
+                <!-- Example Toggle Button in Navbar -->
+<div class="navbar-item">
+    <button class="button is-light" id="darkModeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <span class="icon">
+            <i class="ph" id="darkModeIcon"></i> <!-- Placeholder for Phospor Icon -->
+        </span>
+    </button>
+</div><!-- Place this script at the end of your <body> or in a separate JS file linked there -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const htmlElement = document.documentElement;
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const darkModeIcon = document.getElementById('darkModeIcon');
+    // const darkModeText = document.getElementById('darkModeText'); // If using text
+
+    // Function to set the theme and update UI
+    const setTheme = (isDark) => {
+        if (isDark) {
+            htmlElement.classList.add('is-dark');
+            if (darkModeIcon) darkModeIcon.className = 'ph ph-sun'; // Phosphor icon for sun
+            // if (darkModeText) darkModeText.textContent = 'Light Mode';
+            if (darkModeToggle) darkModeToggle.setAttribute('aria-pressed', 'true');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            htmlElement.classList.remove('is-dark');
+            if (darkModeIcon) darkModeIcon.className = 'ph ph-moon'; // Phosphor icon for moon
+            // if (darkModeText) darkModeText.textContent = 'Dark Mode';
+            if (darkModeToggle) darkModeToggle.setAttribute('aria-pressed', 'false');
+            localStorage.setItem('theme', 'light');
+        }
+    };
+
+    // Initialize theme based on saved preference or OS setting
+    const preferredTheme = localStorage.getItem('theme');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (preferredTheme === 'dark' || (!preferredTheme && prefersDarkScheme)) {
+        setTheme(true);
+    } else {
+        setTheme(false); // Default to light if no preference
+    }
+
+    // Event listener for the toggle button
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default if it's an <a> tag
+            const isCurrentlyDark = htmlElement.classList.contains('is-dark');
+            setTheme(!isCurrentlyDark);
+        });
+    }
+
+    // Optional: Listen for OS theme changes (if the user changes it while on the site)
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+        // Only change if no theme is explicitly saved in localStorage by the user
+        if (!localStorage.getItem('theme')) {
+            setTheme(event.matches);
+        }
+    });
+});
+</script>
             </div>
         </div>
     </div>
