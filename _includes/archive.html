@@ -1,4 +1,4 @@
-<section class="section archive-clean-3col">
+<section class="section">
     <div class="container">
         <div id="post-list" class="columns is-multiline">
             {% assign posts_processed_count = 0 %}
@@ -6,20 +6,8 @@
                 {% assign posts_processed_count = posts_processed_count | plus: 1 %}
 
                 <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-                    <a href="{{ post.url | relative_url }}" class="card-link-wrapper">
-                        <div class="card">
-                            <header class="card-header">
-                                <div class="macos-dots">
-                                    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-                                </div>
-                                <p class="card-header-title is-size-7 is-clipped">
-                                    {{ post.category | default: "Post" | capitalize }}: {{ post.title | truncatewords: 4, "..."}}
-                                </p>
-                                <span class="card-header-icon" aria-label="more options">
-                                    <span class="icon has-text-grey-light"><i class="ph ph-dots-three-outline"></i></span>
-                                 </span>
-                            </header>
-
+                    <a href="{{ post.url | relative_url }}" style="text-decoration: none; color: inherit; display: block; height: 100%;">
+                        <div class="card" style="display: flex; flex-direction: column; height: 100%;">
                             {% if post.image and post.category != "video" %}
                             <div class="card-image">
                                 <figure class="image is-4by3">
@@ -28,11 +16,8 @@
                             </div>
                             {% elsif post.category == "video" and post.VideoId %}
                             <div class="card-image">
-                                <figure class="image is-16by9 video-thumbnail-container">
+                                <figure class="image is-16by9">
                                     <img src="https://i.ytimg.com/vi/{{ post.VideoId }}/hqdefault.jpg" alt="{{ post.title }}">
-                                    <div class="is-overlay is-flex is-align-items-center is-justify-content-center video-static-play-overlay">
-                                        <span class="icon is-large has-text-white"><i class="ph-fill ph-play-circle"></i></span>
-                                    </div>
                                     {% if post.duration %}
                                     <div class="is-overlay is-flex is-align-items-flex-end is-justify-content-flex-end p-2">
                                         <span class="tag is-dark is-rounded">{{ post.duration }}</span>
@@ -42,58 +27,54 @@
                             </div>
                             {% endif %}
 
-                            <div class="card-content">
+                            <div class="card-content" style="flex-grow: 1; display: flex; flex-direction: column;">
                                 <div class="content">
-                                    <div class="level is-mobile mb-3">
+                                    <div class="level is-mobile is-marginless mb-3">
                                         <div class="level-left">
-                                            <span class="icon-text">
-                                                <span class="icon is-medium card-type-icon
-                                                    {% if post.category == 'journal' %}has-text-warning-dark{% endif %}
-                                                    {% if post.category == 'video' %}has-text-danger{% endif %}
-                                                    {% if post.category == 'project' %}has-text-link{% endif %}
-                                                    {% if post.category != 'journal' and post.category != 'video' and post.category != 'project' %}has-text-info{% endif %}">
-                                                    {% if post.category == "journal" %}<i class="ph ph-notebook"></i>
-                                                    {% elsif post.category == "video" %}<i class="ph ph-monitor-play"></i>
-                                                    {% elsif post.category == "project" %}<i class="ph ph-git-fork"></i>
-                                                    {% else %}<i class="ph ph-article"></i>
-                                                    {% endif %}
-                                                </span>
-                                                <span class="tag is-light is-rounded is-capitalized ml-2
+                                            <div class="level-item">
+                                                <span class="tag 
                                                     {% if post.category == 'journal' %}is-warning{% endif %}
                                                     {% if post.category == 'video' %}is-danger{% endif %}
-                                                    {% if post.category == 'project' %}is-link{% endif %}
-                                                    {% if post.category != 'journal' and post.category != 'video' and post.category != 'project' %}is-info{% endif %}">
-                                                    {{ post.category | default: "Blog" }}</span>
-                                            </span>
+                                                    {% if post.category == 'project' %}is-primary{% endif %}
+                                                    {% if post.category != 'journal' and post.category != 'video' and post.category != 'project' %}is-info{% endif %} 
+                                                    is-light is-rounded is-capitalized">
+                                                    <span class="icon is-small mr-1">
+                                                        {% if post.category == "journal" %}<i class="ph ph-notebook"></i>
+                                                        {% elsif post.category == "video" %}<i class="ph ph-youtube-logo"></i>
+                                                        {% elsif post.category == "project" %}<i class="ph ph-git-branch"></i>
+                                                        {% else %}<i class="ph ph-article"></i>
+                                                        {% endif %}
+                                                    </span>
+                                                    {{ post.category | default: "Blog" }}
+                                                </span>
+                                            </div>
                                         </div>
                                         <div class="level-right">
-                                            <p class="is-size-7 has-text-grey">
+                                            <p class="level-item is-size-7 has-text-grey">
                                                 <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %d, '%y" }}</time>
                                             </p>
                                         </div>
                                     </div>
 
-                                    <p class="title is-5 post-title">{{ post.title }}</p>
-                                    <p class="is-size-6 post-excerpt">
-                                        {% if post.excerpt %}{{ post.excerpt | strip_html | truncate: 110 }}{% else %}{{ post.content | strip_html | truncate: 110 }}{% endif %}
+                                    <p class="title is-5 mb-2">{{ post.title }}</p>
+                                    <p class="is-size-6">
+                                        {% if post.excerpt %}{{ post.excerpt | strip_html | truncate: 100 }}{% else %}{{ post.content | strip_html | truncate: 100 }}{% endif %}
                                     </p>
 
                                     {% if post.TLTR %}
-                                    <article class="message is-light is-small mt-4">
+                                    <article class="message is-light is-small mt-4 {% if post.category == 'journal' %}is-warning{% else %}is-info{% endif %}">
                                         <div class="message-body py-2 px-3"><strong>TL;DR:</strong> {{ post.TLTR }}</div>
                                     </article>
                                     {% endif %}
                                 </div>
                             </div>
-                            <footer class="card-footer">
+                             <footer class="card-footer" style="margin-top: auto;">
                                 {% if post.category == "project" %}
-                                    {% if post.live_url %}<a href="{{ post.live_url }}" class="card-footer-item" target="_blank" rel="noopener"><span class="icon-text is-size-7"><span class="icon is-small"><i class="ph ph-link-simple"></i></span><span>Demo</span></span></a>{% endif %}
-                                    {% if post.repo_url %}<a href="{{ post.repo_url }}" class="card-footer-item" target="_blank" rel="noopener"><span class="icon-text is-size-7"><span class="icon is-small"><i class="ph ph-github-logo"></i></span><span>Code</span></span></a>{% endif %}
-                                    <span class="card-footer-item has-text-link is-size-7">Details →</span>
-                                {% elsif post.category == "video" %}
-                                     <span class="card-footer-item has-text-link is-size-7">Watch Post →</span>
+                                    {% if post.live_url %}<a href="{{ post.live_url }}" class="card-footer-item is-size-7" target="_blank" rel="noopener">Demo</a>{% endif %}
+                                    {% if post.repo_url %}<a href="{{ post.repo_url }}" class="card-footer-item is-size-7" target="_blank" rel="noopener">Code</a>{% endif %}
+                                    <span class="card-footer-item is-size-7">Details →</span>
                                 {% else %}
-                                    <span class="card-footer-item has-text-link is-size-7">Read More →</span>
+                                    <span class="card-footer-item is-size-7">Read More →</span>
                                 {% endif %}
                             </footer>
                         </div>
@@ -102,30 +83,34 @@
 
                 {% if posts_processed_count == 1 %}
                     <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-                         <div class="card card-placeholder ad-placeholder">
+                         <div class="card" style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                             <div class="card-content has-text-centered">
                                 <p class="is-size-7 has-text-grey-light mb-2">Advertisement</p>
                                 {% include adsense.html format="square" %}
                                 {% capture ad_include_output %}{% include adsense.html format="square" %}{% endcapture %}
-                                {% if ad_include_output == "" %}<div class="box has-background-white-ter placeholder-box"><span class="icon is-large has-text-grey-lighter"><i class="ph ph-megaphone"></i></span></div>{% endif %}
+                                {% if ad_include_output == "" %}
+                                <div class="box has-background-white-ter" style="width: 100%; min-height: 250px; display:flex; align-items:center; justify-content:center; border: 1px dashed var(--bulma-grey-lighter);">
+                                    <span class="icon is-large has-text-grey-lighter"><i class="ph ph-megaphone"></i></span>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                 {% elsif posts_processed_count == 3 %} 
-                 <div class="column is-one-third-desktop is-half-tablet is-full-mobile newsletter-column">
-                    <div class="card newsletter-card">
+                 <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+                    <div class="card has-background-info-light" style="height: 100%; display: flex; flex-direction: column;">
                         <div class="card-content has-text-centered">
-                            <span class="icon is-large has-text-primary mb-3"><i class="ph ph-envelope-simple-open"></i></span>
-                            <h3 class="title is-5">Stay Updated!</h3>
-                            <p class="is-size-6 mb-4">Subscribe for the latest posts & news.</p>
+                             <span class="icon is-large has-text-info mb-3"><i class="ph ph-envelope-simple-open"></i></span>
+                            <p class="title is-5 has-text-info-dark">Stay Updated!</p>
+                            <p class="subtitle is-6 has-text-grey-darker">Subscribe for the latest posts & news.</p>
                             <form action="YOUR_NEWSLETTER_FORM_ACTION_URL" method="post" target="_blank">
                                 <div class="field">
                                     <div class="control">
                                         <input class="input is-rounded" type="email" name="EMAIL" placeholder="your.email@example.com" required>
                                     </div>
                                 </div>
-                                <div class="field">
-                                    <button class="button is-primary is-rounded is-fullwidth" type="submit">Subscribe</button>
+                                <div class="field mt-3">
+                                    <button class="button is-info is-rounded is-fullwidth" type="submit">Subscribe</button>
                                 </div>
                             </form>
                         </div>
@@ -145,96 +130,4 @@
     </div>
 </section>
 
-<style>
-.archive-clean-3col .card-link-wrapper { display: block; height: 100%; text-decoration: none; color: var(--bulma-text); }
-.archive-clean-3col .card {
-    height: 100%; display: flex; flex-direction: column;
-    border: 1px solid var(--bulma-border);
-    border-radius: var(--bulma-radius-large, 6px); /* Slightly more rounded for macOS feel */
-    box-shadow: var(--bulma-box-shadow, 0 0.5em 1em -0.125em rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.02));
-    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
-    background-color: var(--bulma-card-background-color);
-}
-.archive-clean-3col .card-link-wrapper:hover .card {
-    transform: translateY(-4px);
-    box-shadow: 0 0.75em 1.5em -0.25em rgba(10,10,10,.15), 0 0 0 1px rgba(10,10,10,.03);
-}
-
-.archive-clean-3col .card-header {
-    background-color: var(--bulma-scheme-main-bis, #f5f5f5); /* macOS title bar color */
-    border-bottom: 1px solid var(--bulma-border-light, #dbdbdb);
-    align-items: center;
-    padding: 0.35rem 0.75rem; /* Tighter header */
-    min-height: 38px; /* Reduced header height */
-    border-radius: var(--bulma-radius-large, 6px) var(--bulma-radius-large, 6px) 0 0; /* Match card radius */
-}
-.archive-clean-3col .macos-dots { display: flex; align-items: center; margin-right: 0.5rem; }
-.archive-clean-3col .macos-dots .dot {
-    height: 10px; width: 10px; border-radius: 50%; margin-right: 4px;
-    background-color: var(--bulma-grey-lighter); /* Default dot color */
-    border: 1px solid var(--bulma-grey-light);
-}
-.archive-clean-3col .macos-dots .red { background-color: #ff5f57; border-color: #e04440; }
-.archive-clean-3col .macos-dots .yellow { background-color: #febc2e; border-color: #dd9f24; }
-.archive-clean-3col .macos-dots .green { background-color: #28c840; border-color: #1fae30; }
-.archive-clean-3col .card-header-title {
-    font-size: 0.7rem; /* Smaller header title */
-    font-weight: 500;
-    color: var(--bulma-text-light);
-    padding: 0.25rem 0.5rem;
-}
-.archive-clean-3col .card-header-icon .icon { font-size: 0.9rem; } /* Smaller header icon */
-
-.archive-clean-3col .card-image img { object-fit: cover; width: 100%; height: 100%;}
-.archive-clean-3col .card-content { flex-grow: 1; padding: 1rem; display: flex; flex-direction: column; }
-.archive-clean-3col .card-content .content { flex-grow: 1; } /* Allow content to push footer down */
-.archive-clean-3col .card-content .content .title.is-5.post-title {
-    margin-bottom: 0.5rem; /* Space between title and meta */
-    line-height: 1.3;
-    color: var(--bulma-text-strong);
-}
-.archive-clean-3col .card-content .post-excerpt {
-    font-size: 0.9rem;
-    line-height: 1.55;
-    color: var(--bulma-text);
-    margin-bottom: 1rem;
-}
-.archive-clean-3col .card-content .card-type-icon .icon { font-size: 1.3rem; } /* Main content icon */
-
-.archive-clean-3col .card-footer {
-    border-top: 1px solid var(--bulma-border-light);
-    background-color: var(--bulma-scheme-main-ter, #fafafa);
-    padding: 0;
-    border-radius: 0 0 var(--bulma-radius-large, 6px) var(--bulma-radius-large, 6px);
-}
-.archive-clean-3col .card-footer-item { font-size: 0.8rem; padding: 0.6rem 0.75rem; }
-.archive-clean-3col .card-footer-item:not(:last-child) { border-right: 1px solid var(--bulma-border-light); }
-
-/* Video Card Specifics */
-.archive-clean-3col .video-thumbnail-container { position: relative; background-color: var(--bulma-black); cursor: default; } /* Not clickable */
-.archive-clean-3col .video-static-play-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; background-color: rgba(0,0,0,0.1); }
-.archive-clean-3col .video-static-play-overlay .icon.is-large i { font-size: 3.5rem; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.7)); }
-
-/* Placeholder Cards (Ads & Newsletter) */
-.archive-clean-3col .card-placeholder, .archive-clean-3col .newsletter-card {
-    height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;
-    background-color: var(--bulma-scheme-main-bis, #f5f5f5);
-    border: 1px dashed var(--bulma-border, #dbdbdb); border-radius: var(--bulma-radius-large, 6px);
-    min-height: 280px; /* Or match average card height */
-}
-.archive-clean-3col .card-placeholder .placeholder-box { width: 100%; min-height: 200px; display:flex; align-items:center; justify-content:center; }
-.archive-clean-3col .newsletter-card .card-content { width: 100%; }
-
-@media screen and (min-width: 769px) { /* Bulma tablet and up */
-    .archive-clean-3col .columns.is-multiline { align-items: stretch; }
-    .archive-clean-3col .column { display: flex; }
-}
-</style>
-
-<script src="https://unpkg.com/@phosphor-icons/web"></script>
-<script>
-// No JavaScript needed for card interactions in this version.
-document.addEventListener('DOMContentLoaded', () => {
-    // console.log("Clean 3-column archive page loaded.");
-});
-</script>
+<!-- Include Phosphor Icons (this is an external script, technically not "pure Bulma HTML" but necessary for icons) -->
