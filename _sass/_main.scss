@@ -1,13 +1,3 @@
-$primary: #e53935;
-$link : $primary;
-$family-sans-serif: "Outfit", "Arial", sans-serif !default;
-$family-monospace: "Roboto Mono", monospace !default;
-
-@import "../node_modules/bulma/sass/index";
-
-@import "./initial-variables.scss";
-@import "./derived-variables.scss";
-
 
 // _variables.scss (or directly in your main scss file before Bulma import)
 
@@ -195,8 +185,7 @@ $tag-padding-right: 0.85em;
 // $input-focus-box-shadow-color: rgba($primary, 0.25);
 
 // ==== 4. IMPORT BULMA ====
-@import "bulma/bulma"; // Or your specific path to node_modules/bulma/bulma.sass
-
+@import "../node_modules/bulma/sass/index";
 // ==== 5. ADDITIONAL GLOBAL STYLES / MINOR OVERRIDES (AFTER BULMA IMPORT) ====
 // Use this section sparingly, prefer variable overrides.
 
