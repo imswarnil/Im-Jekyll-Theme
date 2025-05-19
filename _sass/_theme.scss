@@ -1,95 +1,795 @@
-// theme.scss
-@use "sass:math"; // If you use math.div
+@use "sass:math";
 
-// --- HTML & BODY ---
-html {
-    background-color: $body-background-color; // This is now your themed page background
-    scroll-behavior: smooth;
-}
+/* === BODY AND FADING GRID STYLES (Hardcoded Values) === */
+
 body {
-    position: relative;
-    overflow-x: hidden;
-    // Font, color, line-height will come from Bulma using your themed variables
+    font-family: "Inter", "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; /* Enji Dev Font Stack */
+    color: #4D3D6F; /* Enji Dev Body Text Color */
+    background-color: #F9FAFB; /* Enji Dev Page Background Color */
+    font-size: 16px; /* Standard base size */
+    line-height: 1.7; /* Generous line height from UI */
+    font-weight: 400; /* Normal weight */
+    position: relative; /* For pseudo-elements */
+    overflow-x: hidden; /* Prevent horizontal scroll from pseudo-elements */
+    margin: 0; /* Reset default browser margin */
+    padding-top: 68px; /* Space for fixed navbar (adjust if your navbar height is different) */
 }
-body::before { /* The grid itself */
+
+/* Grid Lines Background */
+body::before {
     content: "";
     position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh;
-    background-image: radial-gradient($border-light 0.5px, transparent 0.5px);
-    background-size: 28px 28px;
-    z-index: -2;
-    opacity: 0.4;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    /* Grid line color (very light grey, similar to Enji Dev UI's subtle grid) */
+    background-image: radial-gradient(#E4E7EC 0.5px, transparent 0.5px);
+    background-size: 28px 28px; /* Grid cell size */
+    z-index: -2; /* Place it behind everything */
+    opacity: 0.5; /* Subtlety of the grid */
 }
-body::after { /* The fading overlay */
+
+/* Fading Overlay (to make grid lines disappear as you scroll down) */
+body::after {
     content: "";
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 150vh;
-    $navbar-height-val: $navbar-height; // Use the themed navbar-height
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 150vh; /* Ensure it covers a good scroll distance */
+    /* Gradient fades from transparent (at navbar height) to the body background color */
     background: linear-gradient(
         to bottom,
-        rgba(red($body-background-color), green($body-background-color), blue($body-background-color), 0) $navbar-height-val,
-        rgba(red($body-background-color), green($body-background-color), blue($body-background-color), 0.3) calc(#{$navbar-height-val} + 10vh),
-        $body-background-color calc(#{$navbar-height-val} + 50vh)
+        rgba(249, 250, 251, 0) 68px,  /* Transparent up to navbar height (68px example) - Page BG RGB: 249,250,251 */
+        rgba(249, 250, 251, 0.3) calc(68px + 10vh), /* Start fading in page background */
+        #F9FAFB calc(68px + 50vh)     /* Fully opaque with page background color */
     );
-    z-index: -1;
-    pointer-events: none;
+    z-index: -1; /* Place it above the grid lines but below content */
+    pointer-events: none; /* Allow clicks to pass through */
 }
 
-// --- Headings (from your theme.scss) ---
-// These will now use your themed $family-primary, weights, and colors implicitly if not overridden here
+
+// Headings
 h1 {
-  font-size: calc( ( 1rem * 1.6 ) + 0.8vw); // Your responsive font size
-  font-weight: $weight-bold; // Use themed weight
-  line-height: 1.2;
-  margin: 0 0 ($gap * 0.5); // Use themed gap (Bulma's $gap)
-  color: $title-color; // Use themed title color
+  font-size: 2.5rem;
+	font-size: calc( ( 1rem * 1.6 ) + 0.8vw);
+	font-weight: 700;
+	line-height: 1.2;
+  margin: 0 0 ($spacing * 0.5);
 }
-// ... (your other h2-h6 styles, update variables to use Bulma's themed ones) ...
+
 h2 {
-  font-size: calc( ( 1rem * 1.3 ) + 0.8vw);
-  font-weight: $weight-bold;
-  line-height: 1.2;
-  margin: 0 0 ($gap * 0.6); // Use Bulma's $gap or your $im-spacing-unit
-  color: $title-color;
+  font-size: 2rem;
+	font-size: calc( ( 1rem * 1.3 ) + 0.8vw);
+	font-weight: 700;
+	line-height: 1.2;
+	margin: 0 0 ($spacing * 0.6);
 }
-// etc.
+
+h3 {
+  font-size: 1.8rem;
+	font-size: calc( ( 1rem * 1 ) + 0.8vw);
+	font-weight: 700;
+	line-height: 1.25;
+	margin: 0 0 ($spacing * 0.7);
+}
+
+h4 {
+  font-size: 1.5rem;
+	font-size: calc( ( 1rem * 0.9 ) + 0.7vw);
+	font-weight: 700;
+	line-height: 1.25;
+	margin: 0 0 ($spacing * 0.8);
+}
+
+h5 {
+	font-size: 1.25rem;
+	font-size: calc( ( 1rem * 0.9 ) + 0.5vw);
+	font-weight: 700;
+	line-height: 1.3;
+	margin: 0 0 ($spacing * 0.9);
+}
+
+h6 {
+  font-size: 1rem;
+	font-size: calc( ( 1rem * 0.9 ) + 0.3vw);
+	font-weight: 700;
+	line-height: 1.3;
+	margin: 0 0 ($spacing * 1);
+}
 
 a {
-  transition: color $speed $easing; // Use themed speed and easing
-  // color: $link; // Link color is already set by Bulma variable
-}
-a:hover {
-    // color: $link-hover; // Already set by Bulma variable
+  transition: color .2s ease;
 }
 
+// Global classes
+.background-img {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 
-// --- Your other custom classes ---
-// .header, .hero, .posts, .post-card, .footer, etc.
-// Adapt these to use the Bulma variables we themed in settings.scss.
-// For example:
-.header .navbar {
-    // background: transparent; // This might be fine if navbar is over hero
-    min-height: $navbar-height; // Use themed variable
-    &-menu .navbar-item {
-        // color: $white; // This was for a transparent navbar over dark hero
-                         // If navbar is white bg, use $navbar-item-color
-        color: $navbar-item-color;
-        font-weight: $weight-semibold; // Use themed weight
+.has-text-weight-extra-bold {
+  font-weight: 800;
+}
+
+// Navbar
+.header {
+  position: absolute;
+  width: 100%;
+
+  .navbar {
+    background: transparent;
+    min-height: 4.5rem;
+
+    &-menu {
+      .navbar-item {
+        color: $white;
+        font-weight: $weight-semibold;
+        text-transform: uppercase;
+
         &:hover {
-            // background-color: transparent;
-            // color: $primary; // $navbar-item-hover-color and $navbar-item-hover-background-color handle this
+          background-color: transparent;
+          color: $primary;
         }
+      }
+
+      &.is-active {
+        .navbar-item { color: $dark; }
+      }
     }
+  }
 }
 
-.hero-body {
-    // padding: 5rem 1.5rem; // $section-padding can be used or specific values
+// Hero
+.hero {
+  position: relative;
+
+  &:after {
+    position: absolute;
+    content: "";
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(to bottom right, $primary, $secondary);
+    mix-blend-mode: multiply;
+  }
+
+  &-body {
+    padding: 5rem 1.5rem;
+    position: relative;
+    z-index: 5;
+
     .title {
-        // margin-bottom: math.div($gap, 2); // Use Bulma $gap
-        // font-weight: $weight-extrabold !important; // Your $im-font-weight-extra-bold if defined and needed
+      margin-bottom: math.div($spacing, 2);
+      font-weight: 800!important;
     }
+
+    .subtitle {
+      margin: $spacing 0!important;
+    }
+  }
 }
 
-// ... and so on for the rest of your theme.scss.
-// The goal is to make `theme.scss` mostly for structural CSS and very specific overrides
-// that Bulma variables cannot achieve.
+.posts {
+  padding: 2* $spacing $spacing;
+}
+
+// Post Card
+.post-card {
+  position: relative;
+  border-radius: $radius;
+
+  &.bottom-border:after {
+    position: absolute;
+    content: "";
+    right: 0;
+    left: 0;
+    height: 1px;
+    background-color: $grey-lighter;
+  }
+
+  &.has-border {
+    padding: $spacing;
+    border: 1px solid $grey-lighter;
+
+    &.bottom-border:after { display: none; }
+
+    .level { margin-bottom: 0; }
+  }
+
+  .item-link {
+    display: block;
+    position: relative;
+  }
+
+  figure {
+    margin-bottom: $spacing;
+    border-radius: $radius;
+  }
+
+  .item-featured {
+    position: absolute;
+    padding: math.div($spacing, 2);
+    top: 10px;
+    right: 10px;
+    background-color: rgba($black, 0.75);
+    border-radius: $radius-rounded;
+
+    .icon {
+      color: $primary;
+    }
+  }
+
+  .item-title { margin-bottom: 1rem; }
+
+  .item-description { margin-bottom: $spacing; }
+
+  .item-tags {
+    margin-bottom: $spacing;
+  }
+
+  .level {
+    display: flex;
+    margin-bottom: $spacing;
+
+    &-right {
+      margin-top: 0;
+    }
+  }
+}
+
+// Pagination
+.pagination {
+  margin: 2 * $spacing auto;
+
+  &-link {
+    padding-left: $spacing;
+    padding-right: $spacing;
+  }
+}
+
+// Iconn
+.icon {
+  display: flex;
+  width: 25px;
+  height: 25px;
+  stroke-width: 2px;
+  fill: none;
+
+  &--sm {
+    width: 20px;
+    height: 20px;
+  }
+
+  &--lg {
+    width: 30px;
+    height: 30px;
+  }
+
+  &--xl {
+    width: 40px;
+    height: 40px;
+  }
+
+  &--2x {
+    width: 50px;
+    height: 50px;
+  }
+
+  &--3x {
+    width: 75px;
+    height: 75px;
+  }
+
+  &--4x {
+    width: 100px;
+    height: 100px;
+  }
+
+  &__svg {
+    fill: inherit;
+    background: inherit;
+    stroke: currentcolor;
+    stroke-width: inherit;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    transform: translateX(0);
+  }
+}
+
+// Footer
+.footer {
+  padding: 2 * $spacing 1.5 * $spacing 2 * $spacing;
+  &-link-title {
+    margin-bottom: $spacing;
+  }
+
+  .navbar-item {
+    padding: 0;
+    margin-bottom: math.div($spacing, 4);
+  }
+
+  .form-group, .footer-text {
+    margin-bottom: $spacing;
+  }
+}
+
+// Social Link
+.social-link {
+  display: flex;
+  margin-bottom: math.div($spacing, 2);
+
+  .icon { margin-right: math.div($spacing, 2); }
+
+  p { line-height: 25px; }
+}
+
+// Post
+.post, .page {
+  padding-top: 2 * $spacing;
+}
+
+.post-tags,
+.social-share {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 $spacing;
+}
+
+.social-share p {
+  display: inline-flex;
+  margin-right: math.div($spacing, 2);
+  padding: 0.375em 0;
+}
+
+// .kg-card-markdown,
+.kg-post,
+.post-content__inner {
+	max-width: 720px;
+	margin: 0 auto;
+  padding: $spacing;
+
+  // Link
+  a {
+    text-decoration: underline;
+
+    &:hover {
+      color: $primary;
+    }
+  }
+
+  p, blockquote, pre, ul, ol, dl {
+    margin-bottom: 1.5 * $spacing;
+    font-size: inherit;
+    color: $black;
+  }
+
+  blockquote {
+    padding: 1em;
+    border-left: 3px solid $primary;
+    background-color: rgba($primary, 0.1);
+  }
+
+  blockquote p {
+    margin: 0;
+  }
+
+  ul, ol {
+    margin-left: 1em;
+  }
+
+  ul {
+    list-style: circle;
+  }
+
+  p:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+// Koenig editor styles
+.kg-embed-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: $spacing 0 2*$spacing;
+  min-width: 100%;
+
+  figcaption {
+    margin: math.div($spacing, 2) 0 0;
+    color: rgba($black, 0.6);
+  }
+
+  .fluid-width-video-wrapper {
+    margin: 0;
+  }
+}
+
+.kg-image-card,
+.kg-gallery-card {
+  margin: 0 0 $spacing;
+  figcaption {
+    margin: 0 0 $spacing;
+    text-align: center;
+    color: rgba($black, 0.6);
+  }
+}
+
+.kg-image-wide, .kg-image-full,
+.kg-width-wide, .kg-width-full {
+  max-width: calc(100% + 2*#{$spacing});
+  margin-left: -$spacing;
+  margin-right: -$spacing;
+}
+
+@media only screen and (min-width: 769px) {
+  .kg-image-wide,
+  .kg-width-wide {
+    max-width: calc(100% + 4*#{$spacing});
+    margin-left: -2*$spacing;
+    margin-right: -2*$spacing;
+  }
+
+  .kg-image-full,
+  .kg-width-full {
+    max-width: calc(100% + 8*#{$spacing});
+    margin-left: -4*$spacing;
+    margin-right: -4*$spacing;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .kg-image-wide,
+  .kg-width-wide {
+    max-width: calc(100% + 6*#{$spacing});
+    margin-left: -3*$spacing;
+    margin-right: -3*$spacing;
+  }
+
+  .kg-image-full,
+  .kg-width-full {
+    max-width: calc(100% + 16*#{$spacing});
+    margin-left: -8*$spacing;
+    margin-right: -8*$spacing;
+  }
+}
+
+// Image gallery style
+.kg-gallery-container {
+  display: flex;
+  flex-direction: column;
+  margin: $spacing auto;
+  max-width: 100%;
+  width: 100vw;
+}
+
+.kg-gallery-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.kg-gallery-image img {
+  display: block;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.kg-gallery-row:not(:first-of-type) {
+  margin: math.div($spacing, 2) 0 0 0;
+}
+
+.kg-gallery-image:not(:first-of-type) {
+  margin: 0 0 0 math.div($spacing, 2);
+}
+
+
+/* Bookmark Style */
+.kg-bookmark-card {
+  background: $white;
+  width: 100%;
+  margin: 0;
+  margin-bottom: $spacing;
+}
+
+.kg-card + .kg-bookmark-card {
+  margin-top: 0;
+}
+
+.kg-bookmark-container {
+  display: flex;
+  text-decoration: none;
+  min-height: 148px;
+  box-shadow: 0px 2px 5px -1px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.09);
+  border-radius: $radius;
+}
+
+.kg-bookmark-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: flex-start;
+  justify-content: start;
+  padding: 20px;
+}
+
+.kg-bookmark-title {
+  font-size: 1.1rem;
+  font-weight: $weight-bold;
+}
+
+.kg-bookmark-container:hover {
+  text-decoration: none!important;
+}
+
+.kg-bookmark-container:hover .kg-bookmark-title {
+  color: $primary;
+}
+
+.kg-bookmark-description {
+  display: -webkit-box;
+  color: $grey;
+  margin-top: 12px;
+  max-height: 48px;
+  overflow-y: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.kg-bookmark-thumbnail {
+  position: relative;
+  min-width: 33%;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.kg-bookmark-thumbnail img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0 3px 3px 0;
+  margin: 0;
+}
+
+.kg-bookmark-metadata {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: $grey;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.kg-bookmark-icon {
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  margin-right: 8px;
+}
+
+.kg-bookmark-author {
+  font-size: 1rem;
+}
+
+.kg-bookmark-author:after {
+  content: "•";
+  margin: 0 6px;
+}
+
+.kg-bookmark-publisher {
+  font-size: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 240px;
+}
+
+
+.related-posts {
+  padding: 2em 1em;
+  background-color: $footer-background-color;
+  border-bottom: 2px solid $white;
+}
+
+// Comments
+.comments {
+	max-width: 720px;
+	margin: 0 auto;
+  padding: $spacing;
+  padding-top: 0;
+}
+
+// Lazyload
+.lazyload {
+  opacity: 0;
+}
+
+.lazyload.loaded {
+  opacity: 1;
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.initial.loaded {
+  opacity: 1;
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+// Prism setup
+.post-content .tag, .post-content .number {
+  display: inline;
+  padding: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  text-align: inherit;
+  vertical-align: inherit;
+  border-radius: inherit;
+  font-weight: inherit;
+  white-space: inherit;
+  background: inherit;
+  margin: inherit;
+}
+
+.author-image {
+  margin: 0 auto;
+  margin-bottom: 1em;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center center;
+}
+
+// Prism
+/* PrismJS 1.14.0
+http://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript+markup-templating+handlebars */
+/**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+ code[class*="language-"],
+ pre[class*="language-"] {
+   color: black;
+   background: none;
+   text-shadow: 0 1px white;
+   font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+   text-align: left;
+   white-space: pre;
+   word-spacing: normal;
+   word-break: normal;
+   word-wrap: normal;
+   line-height: 1.5;
+
+   -moz-tab-size: 4;
+   -o-tab-size: 4;
+   tab-size: 4;
+
+   -webkit-hyphens: none;
+   -moz-hyphens: none;
+   -ms-hyphens: none;
+   hyphens: none;
+ }
+
+ pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+ code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+   text-shadow: none;
+   background: #b3d4fc;
+ }
+
+ pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+ code[class*="language-"]::selection, code[class*="language-"] ::selection {
+   text-shadow: none;
+   background: #b3d4fc;
+ }
+
+ @media print {
+   code[class*="language-"],
+   pre[class*="language-"] {
+     text-shadow: none;
+   }
+ }
+
+ /* Code blocks */
+ pre[class*="language-"] {
+   padding: 1em;
+   margin: 1em 0;
+   overflow: auto;
+ }
+
+ :not(pre) > code[class*="language-"],
+ pre[class*="language-"] {
+   background: #f5f2f0;
+ }
+
+ /* Inline code */
+ :not(pre) > code[class*="language-"] {
+   padding: .1em;
+   border-radius: .3em;
+   white-space: normal;
+ }
+
+ .token.comment,
+ .token.prolog,
+ .token.doctype,
+ .token.cdata {
+   color: slategray;
+ }
+
+ .token.punctuation {
+   color: #999;
+ }
+
+ .namespace {
+   opacity: .7;
+ }
+
+ .token.property,
+ .token.tag,
+ .token.boolean,
+ .token.number,
+ .token.constant,
+ .token.symbol,
+ .token.deleted {
+   color: #905;
+ }
+
+ .token.selector,
+ .token.attr-name,
+ .token.string,
+ .token.char,
+ .token.builtin,
+ .token.inserted {
+   color: #690;
+ }
+
+ .token.operator,
+ .token.entity,
+ .token.url,
+ .language-css .token.string,
+ .style .token.string {
+   color: #9a6e3a;
+   background: hsla(0, 0%, 100%, .5);
+ }
+
+ .token.atrule,
+ .token.attr-value,
+ .token.keyword {
+   color: #07a;
+ }
+
+ .token.function,
+ .token.class-name {
+   color: #DD4A68;
+ }
+
+ .token.regex,
+ .token.important,
+ .token.variable {
+   color: #e90;
+ }
+
+ .token.important,
+ .token.bold {
+   font-weight: bold;
+ }
+ .token.italic {
+   font-style: italic;
+ }
+
+ .token.entity {
+   cursor: help;
+ }
+
+.subscribe-form .input {
+  margin-bottom: 1em;
+}
