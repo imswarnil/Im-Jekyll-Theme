@@ -9,56 +9,66 @@
    {% include site-before-end.html %}
    {% include head/sw.html %}
    <script src="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2"></script>
-   <script>
+   <!-- Place this script at the end of your <body> or in a linked .js file -->
+<script>
 document.addEventListener('DOMContentLoaded', () => {
     const htmlElement = document.documentElement;
-    const darkModeToggle = document.getElementById('darkModeToggle');
-    const darkModeIcon = document.getElementById('darkModeIcon');
-    // const darkModeText = document.getElementById('darkModeText'); // If using text
+    const toggleButton = document.getElementById('themeToggleBtn');
+    const toggleIconElement = document.getElementById('themeToggleIcon');
 
-    // Function to set the theme and update UI
-    const setTheme = (isDark) => {
-        if (isDark) {
-            htmlElement.classList.add('is-dark');
-            if (darkModeIcon) darkModeIcon.className = 'ph ph-sun'; // Phosphor icon for sun
-            // if (darkModeText) darkModeText.textContent = 'Light Mode';
-            if (darkModeToggle) darkModeToggle.setAttribute('aria-pressed', 'true');
-            localStorage.setItem('theme', 'dark');
+    const THEME_STORAGE_KEY = 'userAppThemePreference'; // Use a unique key for your site
+    const DARK_THEME_VALUE = 'dark';
+    const LIGHT_THEME_VALUE = 'light'; // Represents the absence of data-theme or data-theme="light"
+
+    function applyTheme(theme) {
+        if (theme === DARK_THEME_VALUE) {
+            htmlElement.setAttribute('data-theme', DARK_THEME_VALUE);
+            if (toggleIconElement) { toggleIconElement.className = 'ph ph-sun'; } // Sun icon
+            if (toggleButton) { toggleButton.setAttribute('aria-pressed', 'true'); }
         } else {
-            htmlElement.classList.remove('is-dark');
-            if (darkModeIcon) darkModeIcon.className = 'ph ph-moon'; // Phosphor icon for moon
-            // if (darkModeText) darkModeText.textContent = 'Dark Mode';
-            if (darkModeToggle) darkModeToggle.setAttribute('aria-pressed', 'false');
-            localStorage.setItem('theme', 'light');
+            htmlElement.removeAttribute('data-theme'); // Light mode is default (no attribute)
+            // Or if your light mode CSS specifically targets data-theme="light":
+            // htmlElement.setAttribute('data-theme', LIGHT_THEME_VALUE);
+            if (toggleIconElement) { toggleIconElement.className = 'ph ph-moon'; } // Moon icon
+            if (toggleButton) { toggleButton.setAttribute('aria-pressed', 'false'); }
         }
-    };
+    }
 
-    // Initialize theme based on saved preference or OS setting
-    const preferredTheme = localStorage.getItem('theme');
+    function toggleAndStoreTheme() {
+        const isCurrentlyDark = htmlElement.getAttribute('data-theme') === DARK_THEME_VALUE;
+        const newTheme = isCurrentlyDark ? LIGHT_THEME_VALUE : DARK_THEME_VALUE;
+        applyTheme(newTheme);
+        localStorage.setItem(THEME_STORAGE_KEY, newTheme);
+    }
+
+    if (toggleButton) {
+        toggleButton.addEventListener('click', toggleAndStoreTheme);
+    }
+
+    // Initialize theme on page load
+    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    if (preferredTheme === 'dark' || (!preferredTheme && prefersDarkScheme)) {
-        setTheme(true);
+    if (savedTheme) {
+        applyTheme(savedTheme);
+    } else if (prefersDarkScheme) {
+        applyTheme(DARK_THEME_VALUE); // Default to OS preference if no saved theme
     } else {
-        setTheme(false); // Default to light if no preference
+        applyTheme(LIGHT_THEME_VALUE); // Default to light
     }
 
-    // Event listener for the toggle button
-    if (darkModeToggle) {
-        darkModeToggle.addEventListener('click', (event) => {
-            event.preventDefault(); // Prevent default if it's an <a> tag
-            const isCurrentlyDark = htmlElement.classList.contains('is-dark');
-            setTheme(!isCurrentlyDark);
+    // Navbar burger toggle
+    const navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+    if (navbarBurgers.length > 0) {
+        navbarBurgers.forEach(el => {
+            el.addEventListener('click', () => {
+                const target = el.dataset.target;
+                const $target = document.getElementById(target);
+                el.classList.toggle('is-active');
+                $target.classList.toggle('is-active');
+            });
         });
     }
-
-    // Optional: Listen for OS theme changes (if the user changes it while on the site)
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-        // Only change if no theme is explicitly saved in localStorage by the user
-        if (!localStorage.getItem('theme')) {
-            setTheme(event.matches);
-        }
-    });
 });
 </script>
 </body>
