@@ -72,19 +72,8 @@
                 {% endfor %}
             </div>
             <div class="navbar-end">
-                {% if site.social_media %}
-                  {% for item in site.social_media %}
-                    <a class="navbar-item im-navbar-end-item im-navbar-social-icon is-hidden-touch" href="{{ item.url }}" target="_blank" rel="noopener noreferrer" title="{{ item.cta | escape }}">
-                        <span class="icon"><i class="ph ph-{{ item.icon | downcase }}"></i></span>
-                    </a>
-                  {% endfor %}
-                {% endif %}
                 <a href="{{ '/search' | relative_url }}" class="navbar-item im-navbar-end-item im-navbar-quick-access is-hidden-touch" aria-label="Search">
                     <span class="icon is-small"><i class="ph ph-magnifying-glass"></i></span>
-                    <span>Quick Access</span>
-                </a>
-                <a href="#" class="navbar-item im-navbar-end-item im-dark-mode-toggle-desktop is-hidden-touch" id="im-desktop-dark-mode-toggle" title="Toggle Dark Mode" role="button" aria-pressed="false">
-                    <span class="icon is-medium"><i class="ph" id="im-desktop-theme-icon"></i></span>
                 </a>
             </div>
         </div>
