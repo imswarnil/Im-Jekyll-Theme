@@ -6,29 +6,7 @@
 @import "./settings";
 
 // Utilities
-@import "../node_modules/bulma/sass/utilities/index";
-
-// Base
-@import "../node_modules/bulma/sass/base/index";
-
-// Elements
-@import "../node_modules/bulma/sass/elements/index";
-
-// Form
-@import "../node_modules/bulma/sass/form/index";
-
-// Components
-@import "../node_modules/bulma/sass/components/index";
-
-// Grid
-@import "../node_modules/bulma/sass/grid/index";
-
-
-// Helpers
-@import "../node_modules/bulma/sass/helpers/index";
-
-// Layout
-@import "../node_modules/bulma/sass/layout/index";
+@import "../node_modules/bulma/bulma.scss";
 
 // Customizing
 @import "./theme";
