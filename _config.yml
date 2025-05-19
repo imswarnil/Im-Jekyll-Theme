@@ -284,8 +284,6 @@ navbar:
   - name: About # This could link to a page that uses resume data
     link: /about/
     icon: identification-card
-  - name: Resume # Example: Add a direct link to a resume page
-    link: /resume/ # You'll need to create a _pages/resume.md or .html for this
     icon: "file-text" # e.g., ph-file-text or similar
   - name: Elements
     link: /elements/
@@ -325,10 +323,6 @@ navbar:
       - name: Showcase
         link: /showcase/
         icon: star
-  - name: Search
-    link: /search/
-    icon: magnifying-glass
-
 
 # Resume Section - Detailed Professional Information
 #################################################################################################
