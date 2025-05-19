@@ -5,117 +5,48 @@ image: /assets/logos/logo.svg
 layout: default
 ---
 {% if page.url == "/" %}
+{% if page.url == "/" %}
 <section class="section home-hero">
   <div class="container">
-    <div class="columns is-vcentered is-desktop home-hero-main-content">
-
-      <div class="column is-7-desktop is-12-tablet home-hero-content-column">
+    <div class="columns is-vcentered is-desktop">
+      
+      <div class="column is-7-desktop">
         <h1 class="title is-1 home-hero-title">
-          Hello! <span class="home-hero-wave">👋</span><br>
-          I'm
-          {% assign hero_name = site.author.name | default: "Swarnil Singhai" %}
-          {% assign name_parts = hero_name | split: " " %}
-          <span class="home-hero-name-highlight">{{ name_parts[0] }}</span>
-          {% if name_parts.size > 1 %}
-            {% for i in (1..name_parts.size-1) %}{{ name_parts[i] }}{% unless forloop.last %} {% endunless %}{% endfor %},
-          {% else %}
-            ,
-          {% endif %}
+          Hello, I’m <span class="has-text-primary">{{ site.author.name | default: "Swarnil Singhai" }}</span><br>
+          <span class="has-text-grey-dark is-size-4">Filmmaker. Engineer. Storyteller.</span>
         </h1>
 
-        <p class="subtitle is-4 home-hero-tagline">
-          A <strong>{{ site.resume.personal_details.title | default: "Software Engineer" }}</strong>
-          {{ site.description | split: "specializing in" | last | prepend: "specializing in " | default: "specializing in creating innovative solutions." }}
+        <p class="subtitle is-4 mt-4">
+          I blend <strong>code</strong> and <strong>chaos</strong> into cinematic stories. Currently building cool stuff as a <strong>{{ site.resume.personal_details.title | default: "Software Engineer" }}</strong> at <strong>{{ site.resume.work_experience[0].company | default: "a cool company" }}</strong>.
         </p>
 
-        <div class="home-hero-current-status">
-          <p>
-            <i class="ph-duotone ph-briefcase"></i>
-            Currently {{ site.resume.work_experience[0].role | default: "building awesome things" }} at {{ site.resume.work_experience[0].company | default: "a cool company" }}.
-          </p>
-          <p>
-            <i class="ph-duotone ph-map-pin"></i>
-            Based in {{ site.resume.personal_details.location | default: "Bangalore, India" }}.
-          </p>
-        </div>
-
-        <div class="buttons are-medium home-hero-cta-buttons">
-          <a href="{{ '/contact/' | relative_url }}" class="button is-primary is-rounded">
-            <span class="icon is-small"><i class="ph-duotone ph-paper-plane-tilt"></i></span>
-            <span>Get in Touch</span>
+        <div class="is-flex is-align-items-center mt-5">
+          <a href="{{ '/contact/' | relative_url }}" class="button is-primary is-medium is-rounded mr-3">
+            <span class="icon"><i class="ph-duotone ph-paper-plane-tilt"></i></span>
+            <span>Let’s Talk</span>
           </a>
-          <a href="{{ '/resume/' | relative_url }}" class="button is-light is-rounded">
-            <span class="icon is-small"><i class="ph-duotone ph-read-cv-logo"></i></span>
-            <span>View Resume</span>
+          <a href="{{ '/resume/' | relative_url }}" class="button is-light is-medium is-rounded">
+            <span class="icon"><i class="ph-duotone ph-read-cv-logo"></i></span>
+            <span>Resume</span>
           </a>
         </div>
 
-        <div class="home-hero-tech-stack">
-          <p class="home-hero-tech-stack-intro">Key technologies I enjoy working with:</p>
-          <div class="home-hero-tech-icons field is-grouped is-grouped-multiline">
-            {%- assign default_tech = site.resume.skills.categories[0].items | default: site.resume.skills.items | slice: 0, 4 -%}
-            {%- if default_tech.size > 0 -%}
-              {%- for item_name in default_tech -%}
-                <div class="control">
-                  <div class="tags has-addons">
-                      <span class="tag is-dark is-medium home-hero-tech-icon-tag" title="{{ item_name }}">
-                          {%- if item_name contains "Salesforce" or item_name contains "CRM" -%} <i class="ph-duotone ph-cloud-arrow-up"></i>
-                          {%- elsif item_name contains "Analytics" or item_name contains "Tableau" -%} <i class="ph-duotone ph-chart-line-up"></i>
-                          {%- elsif item_name contains "Apex" or item_name contains "Code" -%} <i class="ph-duotone ph-code"></i>
-                          {%- elsif item_name contains "Web" or item_name contains "JS" or item_name contains "HTML" -%} <i class="ph-duotone ph-globe-simple"></i>
-                          {%- else -%} <i class="ph-duotone ph-gear-six"></i>
-                          {%- endif -%}
-                      </span>
-                  </div>
-                </div>
-              {%- endfor -%}
-            {%- else -%}
-              <div class="control"><div class="tags has-addons"><span class="tag is-dark is-medium home-hero-tech-icon-tag" title="JavaScript"><i class="ph-duotone ph-file-js"></i></span></div></div>
-              <div class="control"><div class="tags has-addons"><span class="tag is-dark is-medium home-hero-tech-icon-tag" title="Salesforce"><i class="ph-duotone ph-cloud-arrow-up"></i></span></div></div>
-              <div class="control"><div class="tags has-addons"><span class="tag is-dark is-medium home-hero-tech-icon-tag" title="Analytics"><i class="ph-duotone ph-chart-line-up"></i></span></div></div>
-              <div class="control"><div class="tags has-addons"><span class="tag is-dark is-medium home-hero-tech-icon-tag" title="Databases"><i class="ph-duotone ph-database"></i></span></div></div>
-            {%- endif -%}
-          </div>
-        </div>
+        <p class="is-size-6 mt-5 has-text-grey">
+          Based in {{ site.resume.personal_details.location | default: "Bangalore, India" }} • Dreaming in Frames • Coding with Coffee
+        </p>
       </div>
 
-      <div class="column is-5-desktop is-hidden-touch home-hero-video-column">
-        
+      <div class="column is-5-desktop is-hidden-touch has-text-centered">
+        <figure class="image is-3by4">
+          <img src="/assets/img/hero-portrait.png" alt="Swarnil's Portrait">
+        </figure>
       </div>
+
     </div>
-
-    <div class="home-hero-principles columns is-multiline is-centered">
-      <div class="column is-one-third-desktop is-half-tablet">
-        <div class="box home-hero-principle-box has-text-centered">
-          <span class="icon is-large home-hero-principle-icon has-text-primary">
-            <i class="ph-duotone ph-database is-size-1"></i>
-          </span>
-          <h3 class="title is-4 home-hero-principle-title">Data-Driven Solutions</h3>
-          <p class="home-hero-principle-description">Focusing on leveraging data to create insightful and effective CRM solutions.</p>
-        </div>
-      </div>
-      <div class="column is-one-third-desktop is-half-tablet">
-        <div class="box home-hero-principle-box has-text-centered">
-          <span class="icon is-large home-hero-principle-icon has-text-success">
-            <i class="ph-duotone ph-code-block is-size-1"></i>
-          </span>
-          <h3 class="title is-4 home-hero-principle-title">Clean & Maintainable Code</h3>
-          <p class="home-hero-principle-description">Prioritizing robust, well-documented code for long-term success and scalability.</p>
-        </div>
-      </div>
-      <div class="column is-one-third-desktop is-half-tablet">
-        <div class="box home-hero-principle-box has-text-centered">
-          <span class="icon is-large home-hero-principle-icon has-text-warning">
-            <i class="ph-duotone ph-users-three is-size-1"></i>
-          </span>
-          <h3 class="title is-4 home-hero-principle-title">User-Centric Approach</h3>
-          <p class="home-hero-principle-description">Designing with the end-user in mind to deliver intuitive and valuable experiences.</p>
-        </div>
-      </div>
-    </div>
-
   </div>
 </section>
+{% endif %}
+
 {% endif %}
 
 
