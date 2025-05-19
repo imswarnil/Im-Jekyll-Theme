@@ -1,4 +1,4 @@
-<nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation" id="im-main-navbar">
+<nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation" id="bulma-main-navbar">
     <div class="container">
         <div class="navbar-brand">
             <a href="{{ site.baseurl | default: './' }}/" class="navbar-item">
@@ -11,25 +11,23 @@
             </a>
 
             <div class="navbar-item is-hidden-desktop ml-auto" style="display: flex; align-items: center;">
-                <a href="{{ '/search' | relative_url | default: '#' }}" aria-label="Search" class="mr-2">
+                <a href="{{ '/search' | relative_url | default: '#' }}" aria-label="Search">
                     <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
-                </a>
-                <a href="#" id="im-mobile-dark-mode-toggle-bulma" title="Toggle Dark Mode" role="button" aria-pressed="false">
-                    <span class="icon is-medium">
-                        <i class="ph" id="im-mobile-theme-icon-bulma"></i>
-                    </span>
                 </a>
             </div>
 
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="imBulmaNavbarMenu">
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="bulmaNavbarMenuTarget">
              <span aria-hidden="true"></span>
              <span aria-hidden="true"></span>
              <span aria-hidden="true"></span>
             </a>
         </div>
 
-        <div class="navbar-menu" id="imBulmaNavbarMenu">
+        <div class="navbar-menu" id="bulmaNavbarMenuTarget">
             <div class="navbar-start">
+                
+            </div>
+            <div class="navbar-center-items-desktop" style="flex-grow: 1; display: flex; justify-content: center; align-items: center;">
                 {% assign navbar_items_json = site.navbar | default: '[{"name": "Home", "link": "/", "icon": "house"}, {"name": "Blog", "link": "/blog/", "icon": "article"}, {"name": "Docs", "link": "#", "icon": "book-open", "dropdown": [{"name": "Overview", "link": "/docs/overview/", "icon": "compass"}, {"name": "Components", "link": "/docs/components/", "icon": "puzzle-piece"}]}]' %}
                 {% assign navbar_items = navbar_items_json %}
                 {% if navbar_items_json | type_of == "string" %}{% assign navbar_items = navbar_items_json | parse_json %}{% endif %}
@@ -100,17 +98,38 @@
                     <span class="icon is-small"><i class="ph ph-magnifying-glass"></i></span>
                     <span class="ml-1">Search</span>
                 </a>
-                <a href="#" class="navbar-item is-hidden-touch" id="im-desktop-dark-mode-toggle-bulma" title="Toggle Dark Mode" role="button" aria-pressed="false">
-                    <span class="icon is-medium"><i class="ph" id="im-desktop-theme-icon-bulma"></i></span>
-                </a>
             </div>
         </div>
     </div>
 </nav>
 
+<style>
+    @media screen and (max-width: 1023px) {
+        .navbar-center-items-desktop {
+            display: block !important; /* On mobile, items should stack, not be centered */
+            flex-grow: 0 !important;
+            justify-content: flex-start !important;
+        }
+        .navbar-menu .navbar-center-items-desktop > .navbar-item,
+        .navbar-menu .navbar-center-items-desktop > .has-dropdown {
+            /* Ensure they behave like normal navbar-start items on mobile */
+            display: block; 
+        }
+    }
+    @media screen and (min-width: 1024px) {
+         .navbar-menu { /* Ensure navbar-menu allows for centering container to grow */
+            display: flex;
+            flex-grow: 1;
+        }
+        .navbar-start, .navbar-end { /* Allow them to shrink if center needs space */
+            flex-shrink: 1;
+        }
+    }
+</style>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const mainNavbar = document.getElementById('im-main-navbar');
+    const mainNavbar = document.getElementById('bulma-main-navbar');
     if (!mainNavbar) return;
 
     const navbarBurgers = mainNavbar.querySelectorAll('.navbar-burger');
@@ -130,69 +149,52 @@ document.addEventListener('DOMContentLoaded', () => {
             link.addEventListener('click', function(event) {
                 if (window.innerWidth < 1024) { 
                     event.preventDefault();
-                    // Toggle 'is-active' on the PARENT '.navbar-item.has-dropdown' for Bulma mobile dropdowns
                     dropdown.classList.toggle('is-active');
                     const isExpanded = link.getAttribute('aria-expanded') === 'true';
                     link.setAttribute('aria-expanded', !isExpanded);
                 }
             });
         }
-        // Ensure dropdowns are not hoverable on touch, but clickable
-        // is-hoverable should be managed by Liquid for desktop active states
+        
         if ('ontouchstart' in document.documentElement) {
             dropdown.classList.remove('is-hoverable');
         } else {
-            // If it's not an active parent (handled by Liquid's `is-active` on the dropdown div), make it hoverable
-            if (!dropdown.classList.contains('is-active')) {
-                 dropdown.classList.add('is-hoverable');
+            if (!dropdown.classList.contains('is-active')) { 
+                dropdown.classList.add('is-hoverable');
             }
         }
     });
 
-    // Simplified Dark Mode Toggle (Icon changes and local storage only)
-    const mobileToggle = document.getElementById('im-mobile-dark-mode-toggle-bulma');
-    const desktopToggle = document.getElementById('im-desktop-dark-mode-toggle-bulma');
-    const mobileIcon = document.getElementById('im-mobile-theme-icon-bulma');
-    const desktopIcon = document.getElementById('im-desktop-theme-icon-bulma');
-    const htmlEl = document.documentElement;
+    // Function to move items from navbar-start to the centering div for desktop
+    // and back to navbar-start for mobile.
+    function arrangeNavbarItems() {
+        const navbarStart = mainNavbar.querySelector('.navbar-start');
+        const navbarCenterDesktop = mainNavbar.querySelector('.navbar-center-items-desktop');
+        
+        if (!navbarStart || !navbarCenterDesktop) return;
 
-    function applyThemeIcons(isDark) {
-        if (isDark) {
-            htmlEl.classList.add('is-dark'); // For CSS to target if needed
-            if (mobileIcon) mobileIcon.className = 'ph ph-sun';
-            if (desktopIcon) desktopIcon.className = 'ph ph-sun';
-            if (mobileToggle) mobileToggle.setAttribute('aria-pressed', 'true');
-            if (desktopToggle) desktopToggle.setAttribute('aria-pressed', 'true');
-        } else {
-            htmlEl.classList.remove('is-dark');
-            if (mobileIcon) mobileIcon.className = 'ph ph-moon';
-            if (desktopIcon) desktopIcon.className = 'ph ph-moon';
-            if (mobileToggle) mobileToggle.setAttribute('aria-pressed', 'false');
-            if (desktopToggle) desktopToggle.setAttribute('aria-pressed', 'false');
+        if (window.innerWidth >= 1024) { // Desktop
+            // Move items from navbar-start to navbar-center-desktop
+            // (but only if they aren't already there)
+            if (navbarStart.children.length > 0 && navbarStart.firstChild.classList && (navbarStart.firstChild.classList.contains('navbar-item') || navbarStart.firstChild.classList.contains('has-dropdown')) ) {
+                 while (navbarStart.firstChild) {
+                    navbarCenterDesktop.appendChild(navbarStart.firstChild);
+                }
+            }
+        } else { // Mobile
+            // Move items from navbar-center-desktop back to navbar-start
+             if (navbarCenterDesktop.children.length > 0) {
+                while (navbarCenterDesktop.firstChild) {
+                    navbarStart.appendChild(navbarCenterDesktop.firstChild);
+                }
+            }
         }
     }
 
-    function setThemePreference(isDark) {
-        applyThemeIcons(isDark);
-        localStorage.setItem('bulmaUserTheme', isDark ? 'dark' : 'light');
-    }
+    // Initial arrangement
+    arrangeNavbarItems();
+    // Re-arrange on resize
+    window.addEventListener('resize', arrangeNavbarItems);
 
-    const savedTheme = localStorage.getItem('bulmaUserTheme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-        applyThemeIcons(true);
-    } else {
-        applyThemeIcons(false);
-    }
-
-    [mobileToggle, desktopToggle].forEach(toggle => {
-        if (toggle) {
-            toggle.addEventListener('click', (e) => {
-                e.preventDefault();
-                setThemePreference(!htmlEl.classList.contains('is-dark'));
-            });
-        }
-    });
 });
 </script>
