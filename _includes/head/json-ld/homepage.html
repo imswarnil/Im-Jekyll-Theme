@@ -42,7 +42,7 @@
 
 {%- for nav_item_config in site.navbar -%}
   {%- if nav_item_config.link and nav_item_config.link != "/#" and nav_item_config.link != "#" -%}
-    {%- if nav_item_config.link == "/" %}{% continue %}{% endif %} {# Skip home, already added #}
+    {%- if nav_item_config.link == "/" %}{% continue %}{% endif %} 
     {%- capture nav_action_item -%}
 {
   "@type": "NavigateAction",
@@ -75,7 +75,7 @@
   {%- assign schema_nav_actions = schema_nav_actions | push: nav_action_resume -%}
 {%- endif -%}
 
-{%- if contact_present == false and site.cta_primary_link == "/contact/" or site.email -%} {# Add contact if relevant and not present #}
+{%- if contact_present == false and site.cta_primary_link == "/contact/" or site.email -%}
   {%- capture nav_action_contact -%}
 {
   "@type": "NavigateAction",
@@ -131,7 +131,7 @@
         "@id": {{ person_id | jsonify }}
       },
       {% comment %} Add Sitelinks Search Box if you have a search page {% endcomment %}
-      {% assign search_page_url = "/search/" %} {# Define your search page path here #}
+      {% assign search_page_url = "/search/" %}
       {% comment %} Check if a search page actually exists (basic check, adapt if needed) {% endcomment %}
       {%- assign search_page_exists = false -%}
       {%- for p in site.pages -%}
@@ -161,7 +161,7 @@
     },
     {
       "@type": "WebPage",
-      "@id": {{ webpage_id | jsonify }}, {# This will be the current page's URL + #webpage #}
+      "@id": {{ webpage_id | jsonify }}, 
       "url": {{ page.url | absolute_url | jsonify }},
       "name": {% assign page_title = page.title | default: site.title %}
               {% assign site_desc_first_sentence = site.description | split: "." | first %}
@@ -175,7 +175,7 @@
       },
       {% assign meta_description = page.description | default: site.description %}
       {% if meta_description %}"description": {{ meta_description | strip_html | jsonify }},{% endif %}
-      {% if page.url == "/" and site.hero.enabled %} {# Specific to homepage hero section #}
+      {% if page.url == "/" and site.hero.enabled %}
         {% assign hero_selector = site.hero.css_selector | default: ".hero" %}
         "mainContentOfPage": {
           "@type": "WebPageElement",
