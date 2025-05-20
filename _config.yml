@@ -449,16 +449,6 @@ resume:
     #   issuer: "Salesforce"
     #   date: "YYYY-MM"
 
-jekyll-archives:
-  enabled: []
-  layout: archive
-  permalinks:
-    year: '/:year/'
-    month: '/:year/:month/'
-    day: '/:year/:month/:day/'
-    tag: '/tag/:name/'
-    category: '/category/:name/'
-
 
 
 # 8. Installed Gems
@@ -470,7 +460,6 @@ plugins:
 - jekyll-commonmark
 - jekyll-include-cache
 - jemoji
-- jekyll-archives
 
 
 # 9. Files excluded from Jekyll builds
