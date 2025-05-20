@@ -1,27 +1,48 @@
 ---
-title: Search
+title: Archive
 description: "Search for a page or post you're looking for"
 layout : page
-permalinl : /archive
+permalink : /archive/ # Corrected: permalink, not permalinl
 ---
 
 <section class="section archive-column-cards">
     <div class="container">
+        <!-- Category Filter Buttons -->
+        <div class="field is-grouped is-grouped-centered mb-5" id="category-filters">
+            <div class="control">
+                <button class="button is-light category-filter is-active" data-category="all">All Posts</button>
+            </div>
+            {% assign categories = "" | split: "" %}
+            {% for post in site.posts %}
+              {% unless categories contains post.category %}
+                {% assign categories = categories | push: post.category %}
+              {% endunless %}
+            {% endfor %}
+            {% assign sorted_categories = categories | sort_natural %}
+            {% for category_name in sorted_categories %}
+              {% if category_name and category_name != "" %}
+                <div class="control">
+                    <button class="button is-light category-filter" data-category="{{ category_name | slugify }}">{{ category_name | capitalize }}</button>
+                </div>
+              {% endif %}
+            {% endfor %}
+        </div>
+
         <div id="post-list" class="columns is-multiline">
             {% assign posts_processed_count = 0 %}
             {% for post in paginator.posts %}
                 {% assign posts_processed_count = posts_processed_count | plus: 1 %}
 
-                <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+                <div class="column is-one-third-desktop is-half-tablet is-full-mobile post-card-item" data-post-category="{{ post.category | slugify | default: 'uncategorized' }}">
                     <a href="{{ post.url | relative_url }}" class="post-item-link">
-                        <div class="box post-item-box"> {/* Using a box for a card-like container */}
+                        <div class="box post-item-box">
                             {% if post.image and post.category != "video" %}
                             <figure class="image is-4by3 mb-4">
-                                <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                                <img src="{{ post.image | relative_url }}" alt="{{ post.title | escape }}">
                             </figure>
                             {% elsif post.category == "video" and post.VideoId %}
                             <figure class="image is-16by9 mb-4 video-thumbnail-container-column">
-                                <img src="https://i.ytimg.com/vi/{{ post.VideoId }}/hqdefault.jpg" alt="{{ post.title }}">
+                                <img src="https://i.ytimg.com/vi/{{ post.VideoId }}/hqdefault.jpg" alt="{{ post.title | escape }}">
                                 {% if post.duration %}
                                 <div class="is-overlay is-flex is-align-items-flex-end is-justify-content-flex-end p-2">
                                     <span class="tag is-dark is-rounded">{{ post.duration }}</span>
@@ -39,11 +60,11 @@ permalinl : /archive
                                 <div class="level is-mobile is-marginless mb-3">
                                     <div class="level-left">
                                         <div class="level-item">
-                                            <span class="tag 
+                                            <span class="tag
                                                 {% if post.category == 'journal' %}is-warning{% endif %}
                                                 {% if post.category == 'video' %}is-danger{% endif %}
                                                 {% if post.category == 'project' %}is-primary{% endif %}
-                                                {% if post.category != 'journal' and post.category != 'video' and post.category != 'project' %}is-info{% endif %} 
+                                                {% unless post.category == 'journal' or post.category == 'video' or post.category == 'project' %}is-info{% endunless %}
                                                 is-light is-rounded is-capitalized">
                                                 <span class="icon is-small mr-1">
                                                     {% if post.category == "journal" %}<i class="ph ph-notebook"></i>
@@ -63,7 +84,7 @@ permalinl : /archive
                                     </div>
                                 </div>
 
-                                <p class="title is-5 mb-2">{{ post.title }}</p>
+                                <p class="title is-5 mb-2">{{ post.title | escape }}</p>
                                 <p class="is-size-6 excerpt-text-column">
                                     {% if post.excerpt %}{{ post.excerpt | strip_html | truncate: 100 }}{% else %}{{ post.content | strip_html | truncate: 100 }}{% endif %}
                                 </p>
@@ -74,8 +95,8 @@ permalinl : /archive
                                 </article>
                                 {% endif %}
                             </div>
-                            
-                            <div class="post-item-footer mt-auto pt-3"> {/* Footer section */}
+
+                            <div class="post-item-footer mt-auto pt-3">
                                 {% if post.category == "project" %}
                                     <div class="buttons are-small is-centered">
                                         {% if post.live_url %}<a href="{{ post.live_url }}" class="button is-link is-light" target="_blank" rel="noopener">Demo</a>{% endif %}
@@ -83,8 +104,8 @@ permalinl : /archive
                                     </div>
                                 {% elsif post.tags %}
                                      <div class="tags are-small is-centered">
-                                        {% for tag in post.tags limit:3 %}
-                                        <span class="tag is-light">{{ tag }}</span>
+                                        {% for tag_item in post.tags limit:3 %}
+                                        <span class="tag is-light">{{ tag_item }}</span>
                                         {% endfor %}
                                     </div>
                                 {% endif %}
@@ -93,21 +114,30 @@ permalinl : /archive
                     </a>
                 </div>
 
+                {% comment %}
+                The ad and newsletter placement logic here is tricky with client-side filtering.
+                When you filter, the `posts_processed_count` from Liquid is fixed.
+                If you hide items, the ad/newsletter might appear in strange places or not at all.
+                For simplicity with client-side filtering of the current page's items,
+                we might need to adjust how these are placed or accept that their placement
+                is based on the *original* paginated list.
+                Let's keep it for now and see.
+                {% endcomment %}
                 {% if posts_processed_count == 1 %}
-                    <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+                    <div class="column is-one-third-desktop is-half-tablet is-full-mobile ad-slot" data-post-category="ad-placeholder">
                          <div class="box post-item-box ad-placeholder-box" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
                             <p class="is-size-7 has-text-grey-light mb-2">Advertisement</p>
                             {% include adsense.html format="square" %}
                             {% capture ad_include_output %}{% include adsense.html format="square" %}{% endcapture %}
-                            {% if ad_include_output == "" %}
+                            {% if ad_include_output == "" or ad_include_output == nil %}
                             <div class="has-background-white-ter" style="width: 100%; min-height: 230px; display:flex; align-items:center; justify-content:center; border: 1px dashed var(--bulma-grey-lighter); border-radius: var(--bulma-radius-small);">
                                 <span class="icon is-large has-text-grey-lighter"><i class="ph ph-megaphone"></i></span>
                             </div>
                             {% endif %}
                         </div>
                     </div>
-                {% elsif posts_processed_count == 3 %} 
-                 <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+                {% elsif posts_processed_count == 3 %}
+                 <div class="column is-one-third-desktop is-half-tablet is-full-mobile newsletter-slot" data-post-category="newsletter-placeholder">
                     <div class="box post-item-box newsletter-box-column has-background-info-light">
                         <div class="has-text-centered">
                              <span class="icon is-large has-text-info mb-3"><i class="ph ph-envelope-simple-open"></i></span>
@@ -120,15 +150,89 @@ permalinl : /archive
                 {% endif %}
             {% endfor %}
         </div>
-      
-        {% if paginator.total_pages > 1 %}
-        <nav class="pagination is-centered is-rounded mt-6" role="navigation" aria-label="pagination">
+        <div id="no-posts-message" class="column is-full has-text-centered" style="display: none;">
+            <p>No posts found for this category on the current page.</p>
+        </div>
+
+        {% comment %} Jekyll's pagination controls - might be hidden by JS when filtering {% endcomment %}
+        <nav id="jekyll-pagination-controls" class="pagination is-centered is-rounded mt-6" role="navigation" aria-label="pagination" {% if paginator.total_pages <= 1 %}style="display:none;"{% endif %}>
             {% if paginator.previous_page %}<a href="{{ paginator.previous_page_path | relative_url }}" class="pagination-previous button is-light"><span class="icon is-small"><i class="ph ph-caret-left"></i></span><span>Previous</span></a>{% else %}<a class="pagination-previous button is-light" disabled><span class="icon is-small"><i class="ph ph-caret-left"></i></span><span>Previous</span></a>{% endif %}
             {% if paginator.next_page %}<a href="{{ paginator.next_page_path | relative_url }}" class="pagination-next button is-light"><span>Next</span><span class="icon is-small"><i class="ph ph-caret-right"></i></span></a>{% else %}<a class="pagination-next button is-light" disabled><span>Next</span><span class="icon is-small"><i class="ph ph-caret-right"></i></span></a>{% endif %}
-            <ul class="pagination-list">{% assign P = paginator %}{% assign total = P.total_pages %}{% assign current = P.page %}{% assign R = 1 %}{% assign N = R*2+1 %}{% if total <= N %}{% for page_number in (1..total) %}<li><a href="{% if page_number == 1 %}{{ P.previous_page_path | split: '/' | first | prepend: '/' | relative_url | default: '/' }}{% else %}{{ site.paginate_path | relative_url | replace: ':num', page_number }}{% endif %}" class="pagination-link {% if page_number == current %}is-current{% endif %}" aria-label="Goto page {{ page_number }}">{{ page_number }}</a></li>{% endfor %}{% else %}{% assign offset = current | minus: R | minus: 1 %}{% if offset < 1 %}{% assign offset = 1 %}{% endif %}{% assign limit = offset | plus: N | minus: 1 %}{% if limit > total %}{% assign limit = total %}{% assign offset = total | minus: N | plus: 1 %}{% endif %}{% if offset > 1 %}<li><a href="{% if 1 == 1 %}{{ P.previous_page_path | split: '/' | first | prepend: '/' | relative_url | default: '/' }}{% else %}{{ site.paginate_path | relative_url | replace: ':num', 1 }}{% endif %}" class="pagination-link" aria-label="Goto page 1">1</a></li>{% if offset > 2 %}<li><span class="pagination-ellipsis">…</span></li>{% endif %}{% endif %}{% for page_number in (offset..limit) %}<li><a href="{% if page_number == 1 %}{{ P.previous_page_path | split: '/' | first | prepend: '/' | relative_url | default: '/' }}{% else %}{{ site.paginate_path | relative_url | replace: ':num', page_number }}{% endif %}" class="pagination-link {% if page_number == current %}is-current{% endif %}" aria-label="Goto page {{ page_number }}">{{ page_number }}</a></li>{% endfor %}{% if limit < total %}{% if limit < total | minus: 1 %}<li><span class="pagination-ellipsis">…</span></li>{% endif %}<li><a href="{{ site.paginate_path | relative_url | replace: ':num', total }}" class="pagination-link" aria-label="Goto page {{ total }}">{{ total }}</a></li>{% endif %}{% endif %}</ul>
+            <ul class="pagination-list">
+                {% assign P = paginator %}{% assign total = P.total_pages %}{% assign current = P.page %}{% assign R = 1 %}{% assign N = R*2+1 %}
+                {% if total <= N %}
+                    {% for page_number in (1..total) %}<li><a href="{% if page_number == 1 %}{{ '/archive/' | relative_url }}{% else %}{{ site.paginate_path | relative_url | replace: ':num', page_number }}{% endif %}" class="pagination-link {% if page_number == current %}is-current{% endif %}" aria-label="Goto page {{ page_number }}">{{ page_number }}</a></li>{% endfor %}
+                {% else %}
+                    {% assign offset = current | minus: R | minus: 1 %}{% if offset < 1 %}{% assign offset = 1 %}{% endif %}
+                    {% assign limit = offset | plus: N | minus: 1 %}{% if limit > total %}{% assign limit = total %}{% assign offset = total | minus: N | plus: 1 %}{% endif %}
+                    {% if offset > 1 %}<li><a href="{% if 1 == 1 %}{{ '/archive/' | relative_url }}{% else %}{{ site.paginate_path | relative_url | replace: ':num', 1 }}{% endif %}" class="pagination-link" aria-label="Goto page 1">1</a></li>{% if offset > 2 %}<li><span class="pagination-ellipsis">…</span></li>{% endif %}{% endif %}
+                    {% for page_number in (offset..limit) %}<li><a href="{% if page_number == 1 %}{{ '/archive/' | relative_url }}{% else %}{{ site.paginate_path | relative_url | replace: ':num', page_number }}{% endif %}" class="pagination-link {% if page_number == current %}is-current{% endif %}" aria-label="Goto page {{ page_number }}">{{ page_number }}</a></li>{% endfor %}
+                    {% if limit < total %}{% if limit < total | minus: 1 %}<li><span class="pagination-ellipsis">…</span></li>{% endif %}<li><a href="{{ site.paginate_path | relative_url | replace: ':num', total }}" class="pagination-link" aria-label="Goto page {{ total }}">{{ total }}</a></li>{% endif %}
+                {% endif %}
+            </ul>
         </nav>
-        {% endif %}
     </div>
 </section>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.category-filter');
+    const postItems = document.querySelectorAll('.post-card-item'); // Actual post items
+    const adSlots = document.querySelectorAll('.ad-slot, .newsletter-slot'); // Ad/Newsletter slots
+    const allGridItems = document.querySelectorAll('#post-list > .column'); // All items in the grid including posts and slots
+    const noPostsMessage = document.getElementById('no-posts-message');
+    const jekyllPaginationControls = document.getElementById('jekyll-pagination-controls');
 
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Update active button state
+            filterButtons.forEach(btn => btn.classList.remove('is-active'));
+            this.classList.add('is-active');
+
+            const selectedCategory = this.dataset.category;
+            let visiblePostsCount = 0;
+
+            allGridItems.forEach(item => {
+                const itemCategory = item.dataset.postCategory;
+
+                if (selectedCategory === 'all') {
+                    item.style.display = ''; // Show all items (posts, ads, newsletter)
+                    if (item.classList.contains('post-card-item')) {
+                        visiblePostsCount++;
+                    }
+                } else {
+                    // For specific category, show matching posts and always show ad/newsletter placeholders
+                    if (itemCategory === selectedCategory) {
+                        item.style.display = '';
+                        visiblePostsCount++;
+                    } else if (itemCategory === 'ad-placeholder' || itemCategory === 'newsletter-placeholder') {
+                        // Decide if ad/newsletter should show.
+                        // This is tricky. For now, let's show them if *any* post of the selected category is visible,
+                        // or if we want them to always be visible when a filter is active.
+                        // Simplest: always show them when not 'all' (they might look out of place if few posts)
+                        // A better approach for ad/newsletter with filtering would be JS-driven re-insertion.
+                        // For now, let's just filter the posts themselves.
+                        item.style.display = 'none'; // Hide ads/newsletter when filtering for simplicity, can be adjusted
+                    }
+                    else {
+                        item.style.display = 'none';
+                    }
+                }
+            });
+
+            if (selectedCategory === 'all') {
+                noPostsMessage.style.display = 'none';
+                if (jekyllPaginationControls) jekyllPaginationControls.style.display = '';
+            } else {
+                if (visiblePostsCount === 0) {
+                    noPostsMessage.style.display = 'block';
+                } else {
+                    noPostsMessage.style.display = 'none';
+                }
+                // When a category is filtered, Jekyll's pagination for "all posts" is not relevant.
+                if (jekyllPaginationControls) jekyllPaginationControls.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
