@@ -9,17 +9,14 @@ layout: default
 <section class="section home-hero">
   <div class="container">
     <div class="columns is-vcentered is-desktop">
-      
       <div class="column is-7-desktop">
         <h1 class="title is-1 home-hero-title">
           Hello, I’m <span class="has-text-primary">{{ site.author.name | default: "Swarnil Singhai" }}</span><br>
           <span class="has-text-grey-dark is-size-4">Filmmaker. Engineer. Storyteller.</span>
         </h1>
-
         <p class="subtitle is-4 mt-4">
           I blend <strong>code</strong> and <strong>chaos</strong> into cinematic stories. Currently building cool stuff as a <strong>{{ site.resume.personal_details.title | default: "Software Engineer" }}</strong> at <strong>{{ site.resume.work_experience[0].company | default: "a cool company" }}</strong>.
         </p>
-
         <div class="is-flex is-align-items-center mt-5">
           <a href="{{ '/contact/' | relative_url }}" class="button is-primary is-medium is-rounded mr-3">
             <span class="icon"><i class="ph-duotone ph-paper-plane-tilt"></i></span>
@@ -30,12 +27,10 @@ layout: default
             <span>Resume</span>
           </a>
         </div>
-
         <p class="is-size-6 mt-5 has-text-grey">
           Based in {{ site.resume.personal_details.location | default: "Bangalore, India" }} • Dreaming in Frames • Coding with Coffee
         </p>
       </div>
-
       <div class="column is-5-desktop is-hidden-touch has-text-centered">
         <figure class="image is-3by4">
           <img src="/assets/Imswarnil-profile.jpg" alt="Swarnil's Portrait">
@@ -53,8 +48,7 @@ layout: default
         <div class="column {% if page.sidebar == true %}is-three-quarters{% else %}is-full{% endif %}">
           <h1 class="title is-1 has-text-centered">Blog Posts</h1>
           <p class="subtitle has-text-centered">Thoughts, tutorials, and updates</p>
-          {% include archive.html %}
-        </div>   
+        </div>  
         {% if page.sidebar == true %}
           {% include sidebar/blog-detail.html %}
         {% endif %}
