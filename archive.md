@@ -3,10 +3,14 @@ layout: default
 title: Archives
 permalink: /archives/
 ---
-
-<h1>All Archives</h1>
-<ul>
-  <li><a href="/2025/">2025 Posts</a></li>
-  <li><a href="/categories/">Categories</a></li>
-  <li><a href="/tags/">Tags</a></li>
-</ul>
+<div class="box">
+  <h2 class="title is-4">{{ page.title }}</h2>
+  <ul>
+    {% for post in page.posts %}
+      <li>
+        <a href="{{ post.url }}">{{ post.title }}</a>
+        <span class="is-size-7 has-text-grey">{{ post.date | date: "%d %B %Y" }}</span>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
