@@ -174,65 +174,82 @@ permalink : /archive/ # Corrected: permalink, not permalinl
     </div>
 </section>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const filterButtons = document.querySelectorAll('.category-filter');
-    const postItems = document.querySelectorAll('.post-card-item'); // Actual post items
-    const adSlots = document.querySelectorAll('.ad-slot, .newsletter-slot'); // Ad/Newsletter slots
-    const allGridItems = document.querySelectorAll('#post-list > .column'); // All items in the grid including posts and slots
-    const noPostsMessage = document.getElementById('no-posts-message');
-    const jekyllPaginationControls = document.getElementById('jekyll-pagination-controls');
+<style>
+/* MINIMAL CSS - Only what's necessary beyond Bulma defaults */
+.archive-column-cards .post-item-link {
+    text-decoration: none;
+    color: inherit;
+    display: block; /* For the <a> to take up column space */
+    height: 100%; /* For the <a> to take up column space */
+}
+.archive-column-cards .post-item-box {
+    height: 100%; /* Make the box fill the column */
+    display: flex;
+    flex-direction: column; /* To push footer to bottom */
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    /* Bulma's .box already has a shadow and border-radius */
+}
+.archive-column-cards .post-item-link:hover .post-item-box {
+    transform: translateY(-4px);
+    box-shadow: 0 0.75em 1.5em -0.25em rgba(10,10,10,.15), 0 0 0 1px rgba(10,10,10,.03);
+}
+.archive-column-cards .post-item-box .content {
+    flex-grow: 1; /* Allow main content to push footer down */
+}
+.archive-column-cards .post-item-box .post-item-footer {
+    /* margin-top: auto; ensure this is the direct child of the flex container (.post-item-box) */
+    border-top: 1px solid var(--bulma-border-light, #ededed); /* Footer separator */
+}
 
-    filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Update active button state
-            filterButtons.forEach(btn => btn.classList.remove('is-active'));
-            this.classList.add('is-active');
+.archive-column-cards .image img {
+    object-fit: cover; /* Critical for consistent image display */
+    width: 100%;
+    height: 100%;
+}
+.archive-column-cards .video-thumbnail-container-column {
+    position: relative;
+    background-color: var(--bulma-black);
+}
+.archive-column-cards .video-play-indicator-column {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+.archive-column-cards .has-background-dark-transparent-overlay-column {
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 50%;
+    padding: 0.5rem;
+}
+.archive-column-cards .video-play-indicator-column .icon.is-large i { font-size: 3rem; }
 
-            const selectedCategory = this.dataset.category;
-            let visiblePostsCount = 0;
+.archive-column-cards .excerpt-text-column {
+    /* Add min-height if you want excerpts to take up similar space,
+       but this can lead to too much empty space if excerpts vary a lot.
+       Letting flex-grow on .content handle it is often better. */
+    /* min-height: 60px; */ 
+}
 
-            allGridItems.forEach(item => {
-                const itemCategory = item.dataset.postCategory;
+/* Ad and Newsletter placeholders */
+.archive-column-cards .ad-placeholder-box,
+.archive-column-cards .newsletter-box-column {
+    /* Using Bulma's .box for these, so minimal extra styling */
+    /* The inline style on the div for height/flex is already there */
+}
+.archive-column-cards .newsletter-box-column .icon.is-large {
+    font-size: 3rem; /* Standard Bulma large icon size */
+}
 
-                if (selectedCategory === 'all') {
-                    item.style.display = ''; // Show all items (posts, ads, newsletter)
-                    if (item.classList.contains('post-card-item')) {
-                        visiblePostsCount++;
-                    }
-                } else {
-                    // For specific category, show matching posts and always show ad/newsletter placeholders
-                    if (itemCategory === selectedCategory) {
-                        item.style.display = '';
-                        visiblePostsCount++;
-                    } else if (itemCategory === 'ad-placeholder' || itemCategory === 'newsletter-placeholder') {
-                        // Decide if ad/newsletter should show.
-                        // This is tricky. For now, let's show them if *any* post of the selected category is visible,
-                        // or if we want them to always be visible when a filter is active.
-                        // Simplest: always show them when not 'all' (they might look out of place if few posts)
-                        // A better approach for ad/newsletter with filtering would be JS-driven re-insertion.
-                        // For now, let's just filter the posts themselves.
-                        item.style.display = 'none'; // Hide ads/newsletter when filtering for simplicity, can be adjusted
-                    }
-                    else {
-                        item.style.display = 'none';
-                    }
-                }
-            });
 
-            if (selectedCategory === 'all') {
-                noPostsMessage.style.display = 'none';
-                if (jekyllPaginationControls) jekyllPaginationControls.style.display = '';
-            } else {
-                if (visiblePostsCount === 0) {
-                    noPostsMessage.style.display = 'block';
-                } else {
-                    noPostsMessage.style.display = 'none';
-                }
-                // When a category is filtered, Jekyll's pagination for "all posts" is not relevant.
-                if (jekyllPaginationControls) jekyllPaginationControls.style.display = 'none';
-            }
-        });
-    });
-});
-</script>
+@media screen and (min-width: 769px) { /* Bulma tablet and up */
+    .archive-column-cards .columns.is-multiline {
+        align-items: stretch; 
+    }
+    .archive-column-cards .column {
+        display: flex; /* Important for height:100% on children to work within columns */
+    }
+}
+</style>
+
