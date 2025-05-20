@@ -41,7 +41,7 @@ favicons: # Favicons are also used in the manifest file. Syntax is 'size: path'
 author:
   name: "Swarnil Singhai"
   short_name: "Swarnil" # Or "SS"
-  image : "/assets/logos/logo.svg" # Consider a personal photo here for general author image
+  image : "/assets/imswarnil-profile.jpg" # Consider a personal photo here for general author image
   description: "Software Engineer at Twilio. Passionate about data, CRM, and building impactful solutions. This is my personal blog and portfolio."
   # General social media links for the site author
 social_media:
