@@ -1,0 +1,19 @@
+<!-- _includes/qna_item.html (Conceptual) -->
+<div class="box qna-item mb-4 p-0">
+    <details>
+        <summary class="is-size-5 has-text-weight-semibold">
+            <span class="icon-text">
+                <span class="icon has-text-info">
+                    <i class="ph ph-question"></i>
+                </span>
+                <span>{{ q }}</span> {/* Variable for question */}
+            </span>
+            <span class="icon qna-icon is-medium has-text-grey-dark">
+                <i class="ph ph-caret-down"></i>
+            </span>
+        </summary>
+        <div class="content answer-content">
+            {{ a | safe }} {/* Variable for answer, 'safe' filter if answer contains HTML */}
+        </div>
+    </details>
+</div>

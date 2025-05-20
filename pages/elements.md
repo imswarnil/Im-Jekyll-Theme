@@ -8,6 +8,9 @@ layout : page
 permalink : /elements/
 ---
 
+{% include components/qna.html q="My first question?" a="<p>This is the <strong>answer</strong> to the first question.</p>" %}
+{% include components/qna.html q="Another question..." a="<p>Another answer here.</p>" %}
+
 ---
 __Advertisement :)__
 
