@@ -450,14 +450,18 @@ resume:
     #   date: "YYYY-MM"
 
 jekyll-archives:
-  enabled: []
-  layout: archive
+  enabled:
+    - categories
+    - tags
+    - year
+    - month
+  layout: 'archive'
   permalinks:
+    category: '/categories/:name/'
+    tag: '/tags/:name/'
     year: '/:year/'
     month: '/:year/:month/'
-    day: '/:year/:month/:day/'
-    tag: '/tag/:name/'
-    category: '/category/:name/'
+
 
 
 # 8. Installed Gems
