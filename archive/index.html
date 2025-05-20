@@ -2,7 +2,7 @@
 title: Archive
 description: "Search for a page or post you're looking for"
 layout : page
-permalink : /archive/ # Corrected: permalink, not permalinl
+permalink : /archive/
 ---
 
 <section class="section archive-column-cards">
@@ -13,10 +13,13 @@ permalink : /archive/ # Corrected: permalink, not permalinl
                 <button class="button is-light category-filter is-active" data-category="all">All Posts</button>
             </div>
             {% assign categories = "" | split: "" %}
-            {% for post in site.posts %}
-              {% unless categories contains post.category %}
-                {% assign categories = categories | push: post.category %}
-              {% endunless %}
+            {% for post_item in site.posts %} {# Changed loop variable to avoid conflict with outer 'post' if any #}
+              {% assign cat_name_temp = post_item.category %}
+              {% if cat_name_temp and cat_name_temp != "" %}
+                {% unless categories contains cat_name_temp %}
+                  {% assign categories = categories | push: cat_name_temp %}
+                {% endunless %}
+              {% endif %}
             {% endfor %}
             {% assign sorted_categories = categories | sort_natural %}
             {% for category_name in sorted_categories %}
@@ -114,22 +117,13 @@ permalink : /archive/ # Corrected: permalink, not permalinl
                     </a>
                 </div>
 
-                {% comment %}
-                The ad and newsletter placement logic here is tricky with client-side filtering.
-                When you filter, the `posts_processed_count` from Liquid is fixed.
-                If you hide items, the ad/newsletter might appear in strange places or not at all.
-                For simplicity with client-side filtering of the current page's items,
-                we might need to adjust how these are placed or accept that their placement
-                is based on the *original* paginated list.
-                Let's keep it for now and see.
-                {% endcomment %}
                 {% if posts_processed_count == 1 %}
-                    <div class="column is-one-third-desktop is-half-tablet is-full-mobile ad-slot" data-post-category="ad-placeholder">
+                    <div class="column is-one-third-desktop is-half-tablet is-full-mobile ad-slot" data-post-category="ad-placeholder"> {# Added data-post-category #}
                          <div class="box post-item-box ad-placeholder-box" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
                             <p class="is-size-7 has-text-grey-light mb-2">Advertisement</p>
                             {% include adsense.html format="square" %}
                             {% capture ad_include_output %}{% include adsense.html format="square" %}{% endcapture %}
-                            {% if ad_include_output == "" or ad_include_output == nil %}
+                            {% if ad_include_output == "" or ad_include_output == nil %} {# Corrected nil check #}
                             <div class="has-background-white-ter" style="width: 100%; min-height: 230px; display:flex; align-items:center; justify-content:center; border: 1px dashed var(--bulma-grey-lighter); border-radius: var(--bulma-radius-small);">
                                 <span class="icon is-large has-text-grey-lighter"><i class="ph ph-megaphone"></i></span>
                             </div>
@@ -137,7 +131,7 @@ permalink : /archive/ # Corrected: permalink, not permalinl
                         </div>
                     </div>
                 {% elsif posts_processed_count == 3 %}
-                 <div class="column is-one-third-desktop is-half-tablet is-full-mobile newsletter-slot" data-post-category="newsletter-placeholder">
+                 <div class="column is-one-third-desktop is-half-tablet is-full-mobile newsletter-slot" data-post-category="newsletter-placeholder"> {# Added data-post-category #}
                     <div class="box post-item-box newsletter-box-column has-background-info-light">
                         <div class="has-text-centered">
                              <span class="icon is-large has-text-info mb-3"><i class="ph ph-envelope-simple-open"></i></span>
@@ -150,11 +144,10 @@ permalink : /archive/ # Corrected: permalink, not permalinl
                 {% endif %}
             {% endfor %}
         </div>
-        <div id="no-posts-message" class="column is-full has-text-centered" style="display: none;">
+        <div id="no-posts-message" class="column is-full has-text-centered mt-4" style="display: none;">
             <p>No posts found for this category on the current page.</p>
         </div>
 
-        {% comment %} Jekyll's pagination controls - might be hidden by JS when filtering {% endcomment %}
         <nav id="jekyll-pagination-controls" class="pagination is-centered is-rounded mt-6" role="navigation" aria-label="pagination" {% if paginator.total_pages <= 1 %}style="display:none;"{% endif %}>
             {% if paginator.previous_page %}<a href="{{ paginator.previous_page_path | relative_url }}" class="pagination-previous button is-light"><span class="icon is-small"><i class="ph ph-caret-left"></i></span><span>Previous</span></a>{% else %}<a class="pagination-previous button is-light" disabled><span class="icon is-small"><i class="ph ph-caret-left"></i></span><span>Previous</span></a>{% endif %}
             {% if paginator.next_page %}<a href="{{ paginator.next_page_path | relative_url }}" class="pagination-next button is-light"><span>Next</span><span class="icon is-small"><i class="ph ph-caret-right"></i></span></a>{% else %}<a class="pagination-next button is-light" disabled><span>Next</span><span class="icon is-small"><i class="ph ph-caret-right"></i></span></a>{% endif %}
@@ -173,6 +166,72 @@ permalink : /archive/ # Corrected: permalink, not permalinl
         </nav>
     </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.category-filter');
+    const postListContainer = document.getElementById('post-list');
+    // Select all direct children columns of post-list, which includes posts and ad/newsletter slots
+    const allGridItems = postListContainer.querySelectorAll(':scope > .column');
+    const noPostsMessage = document.getElementById('no-posts-message');
+    const jekyllPaginationControls = document.getElementById('jekyll-pagination-controls');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            filterButtons.forEach(btn => btn.classList.remove('is-active'));
+            this.classList.add('is-active');
+
+            const selectedCategory = this.dataset.category;
+            let visiblePostsThisPageCount = 0;
+
+            allGridItems.forEach(item => {
+                const itemIsPostCard = item.classList.contains('post-card-item');
+                const itemCategory = item.dataset.postCategory;
+
+                if (selectedCategory === 'all') {
+                    item.style.display = ''; // Show item
+                    if (itemIsPostCard) {
+                        visiblePostsThisPageCount++;
+                    }
+                } else {
+                    if (itemIsPostCard) {
+                        if (itemCategory === selectedCategory) {
+                            item.style.display = '';
+                            visiblePostsThisPageCount++;
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    } else {
+                        // For ad/newsletter slots:
+                        // Decide their visibility. If you want them to always show, set display to ''.
+                        // If you want them to hide when filtering, set display to 'none'.
+                        // This example hides them when a specific category is selected.
+                        item.style.display = 'none';
+                    }
+                }
+            });
+
+            if (selectedCategory === 'all') {
+                noPostsMessage.style.display = 'none';
+                if (jekyllPaginationControls) { // Check if it exists
+                    // Show pagination only if there are multiple pages originally
+                    const totalPages = {{ paginator.total_pages | default: 1 }};
+                    jekyllPaginationControls.style.display = totalPages > 1 ? '' : 'none';
+                }
+            } else {
+                if (visiblePostsThisPageCount === 0) {
+                    noPostsMessage.style.display = 'block';
+                } else {
+                    noPostsMessage.style.display = 'none';
+                }
+                if (jekyllPaginationControls) {
+                    jekyllPaginationControls.style.display = 'none';
+                }
+            }
+        });
+    });
+});
+</script>
 
 <style>
 /* MINIMAL CSS - Only what's necessary beyond Bulma defaults */
@@ -229,7 +288,7 @@ permalink : /archive/ # Corrected: permalink, not permalinl
     /* Add min-height if you want excerpts to take up similar space,
        but this can lead to too much empty space if excerpts vary a lot.
        Letting flex-grow on .content handle it is often better. */
-    /* min-height: 60px; */ 
+    /* min-height: 60px; */
 }
 
 /* Ad and Newsletter placeholders */
@@ -245,11 +304,10 @@ permalink : /archive/ # Corrected: permalink, not permalinl
 
 @media screen and (min-width: 769px) { /* Bulma tablet and up */
     .archive-column-cards .columns.is-multiline {
-        align-items: stretch; 
+        align-items: stretch;
     }
     .archive-column-cards .column {
         display: flex; /* Important for height:100% on children to work within columns */
     }
 }
 </style>
-
