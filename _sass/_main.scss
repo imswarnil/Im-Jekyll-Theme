@@ -6,3 +6,511 @@ $family-sans-serif: "Outfit", "Arial", sans-serif !default;
 $family-monospace: "Roboto Mono", monospace !default;
 @import "../node_modules/bulma/sass/index";
 
+/* ==========================================================================
+   CUSTOM THEME BASE CSS (YouTube/Material Design Inspired)
+   Load this file *AFTER* Bulma's default CSS.
+   ========================================================================== */
+
+/*-------------------------------------------------------------------
+  1. CSS CUSTOM PROPERTIES (LIGHT MODE)
+-------------------------------------------------------------------*/
+:root {
+  /* Accent Color */
+  --jk-accent-color: #FF0000; /* YouTube Red */
+  --jk-accent-color-rgb: 255, 0, 0;
+  --jk-accent-foreground-color: #FFFFFF;
+
+  /* Core Colors (YouTube Light Theme Inspired) */
+  --color-contrast: #030303; /* Primary Text / Very Dark Elements */
+  --color-background: #F9F9F9; /* Main Page Background */
+  --color-surface: #FFFFFF;    /* Cards, Menus, Dialogs, Navbar BG */
+  --color-background-100: #F2F2F2; /* Subtle Hover/Active States, Light Grey BG */
+  --color-background-200: #E5E5E5; /* Dividers, More Subtle Backgrounds */
+  --color-background-300: #DADADA; /* Slightly Darker Grey (from original theme) */
+  --color-foreground: #030303;     /* Default Text Color */
+  --color-secondary: #606060;   /* Secondary Text (e.g., metadata, subtitles) */
+  --color-mute: #909090;        /* Disabled/Tertiary Text, Placeholders */
+  --color-border: #E5E5E5;      /* Default Border/Divider for UI elements */
+  --color-border-input: #CCCCCC; /* Specific for Input field borders */
+  --icon-color: #606060;        /* Default Icon Color */
+
+  /* Semantic Colors (Material Inspired) */
+  --color-success: #1e8e3e; /* Google Green */
+  --color-error: #d93025;   /* Google Red (distinct from accent) */
+  --color-info: #1a73e8;    /* Google Blue */
+  --color-warning: #f9ab00; /* Google Yellow */
+  --color-overlay: rgba(5, 5, 5, 0.7); /* From original theme for general overlays */
+
+
+  /* Font Families (Ensure Roboto & Roboto Mono are loaded) */
+  --font-family-base: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-family-headings: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-family-button: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-family-mono: "Roboto Mono", Menlo, Consolas, monospace;
+
+  /* Font Sizes (YouTube/Material Inspired Scale) */
+  --font-x-small: 0.75rem;  /* 12px */
+  --font-small: 0.875rem; /* 14px */
+  --font-base-size: 1rem;     /* 16px - Default body text / Some titles */
+  --font-large: 1.125rem; /* 18px - Subheadings */
+  /* Specific Heading Sizes */
+  --font-h6-size: var(--font-base-size);  /* 1rem */
+  --font-h5-size: var(--font-large);    /* 1.125rem */
+  --font-h4-size: 1.25rem;              /* 20px */
+  --font-h3-size: 1.5rem;               /* 24px */
+  --font-h2-size: 1.75rem;              /* 28px */
+  --font-h1-size: 2.125rem;             /* 34px */
+
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 700; /* Material bold often 700, medium 500 */
+  --font-weight-bold: 700;
+
+  /* Spacings (Material often uses 4dp/8dp grid) */
+  --spacing-unit: 4px;
+  --spacing-xs: var(--spacing-unit);          /* 4px */
+  --spacing-sm: calc(var(--spacing-unit) * 2);  /* 8px */
+  --spacing-md: calc(var(--spacing-unit) * 4);  /* 16px */
+  --spacing-lg: calc(var(--spacing-unit) * 6);  /* 24px */
+  --spacing-xl: calc(var(--spacing-unit) * 8);  /* 32px */
+  --vertical-rhythm: var(--spacing-lg); /* Default margin between block elements */
+
+  /* Border Radius */
+  --radius-sharp: 0px;
+  --radius-subtle: 2px; /* For buttons, inputs */
+  --radius-base: 4px;   /* General Material component radius */
+  --radius-card: var(--radius-sharp);
+  --radius-button: var(--radius-subtle);
+  --radius-pill: 18px; /* For filter chip like buttons */
+  /* Radii from original theme (can be used for custom elements if needed) */
+  --theme-radius-1: 6px; --theme-radius-2: 8px; --theme-radius-3: 10px;
+  --theme-radius-4: 14px; --theme-radius-5: 16px;
+  --theme-radius-6: clamp(16px, calc(11.25px + 1.25vw), 30px);
+
+  /* Shadows (Material Elevation) */
+  --shadow-dp1: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+  --shadow-dp2: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.07); /* More standard MD shadow */
+  --shadow-yt-card: 0 1px 2px 0 rgba(0,0,0,0.05);
+  --shadow-none: none;
+
+  /* Navbar */
+  --navbar-height: 56px;
+
+  /* Button */
+  --button-min-height: 36px;
+  --button-padding-v: 0.5em; /* Based on font-size of button */
+  --button-padding-h: 1em;   /* Based on font-size of button */
+  --button-font-size: var(--font-small); /* For button text itself */
+  --button-font-weight: var(--font-weight-medium);
+  --button-line-height: 1.5; /* From original theme button specs */
+  --button-border-radius: var(--radius-button); /* 2px */
+  /* Specific button state colors */
+  --button-default-bg: var(--color-surface);
+  --button-default-text: var(--color-foreground);
+  --button-default-border: var(--color-border-input);
+  --button-default-hover-bg: var(--color-background-100);
+  --button-primary-bg: var(--jk-accent-color);
+  --button-primary-text: var(--jk-accent-foreground-color);
+  --button-primary-hover-bg: #CC0000; /* Darker Red */
+
+
+  /* Layout Padding for sections/containers */
+  --layout-padding: var(--spacing-md); /* Default 16px */
+  --responsive-layout-padding: clamp(16px, calc(11.25px + 1.25vw), 30px); /* From original theme */
+
+  color-scheme: light;
+}
+
+/*-------------------------------------------------------------------
+  2. GLOBAL BASE STYLES (Overrides Bulma's base where needed)
+-------------------------------------------------------------------*/
+html {
+  background-color: var(--color-background);
+  font-size: var(--font-base-size); /* Default 16px */
+  line-height: 1.5; /* Material default */
+  font-family: var(--font-family-base);
+}
+
+body {
+  font-family: inherit; /* Inherit from html */
+  color: var(--color-foreground);
+  background-color: var(--color-background);
+  font-weight: var(--font-weight-regular);
+  line-height: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  word-break: break-word; /* From theme */
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6,
+.title, .subtitle { /* Target Bulma classes too */
+  font-family: var(--font-family-headings);
+  color: var(--color-contrast);
+  font-weight: var(--font-weight-medium); /* Material headings often medium */
+  margin: var(--spacing-lg) 0 var(--spacing-sm) 0; /* Default Bulma title margin is 0 0 0.5em */
+  line-height: 1.3;
+}
+h1:first-child, .title:first-child { margin-top: 0; } /* Common reset */
+
+h1, .title.is-1 { font-size: var(--font-h1-size); line-height: 1.15; }
+h2, .title.is-2 { font-size: var(--font-h2-size); }
+h3, .title.is-3 { font-size: var(--font-h3-size); }
+h4, .title.is-4 { font-size: var(--font-large); }
+h5, .title.is-5 { font-size: var(--font-base-size); }
+h6, .title.is-6 { font-size: var(--font-small); }
+
+.subtitle {
+  color: var(--color-secondary);
+  font-weight: var(--font-weight-regular);
+}
+
+p {
+  margin-bottom: var(--spacing-md); /* Default 1rem spacing after paragraphs */
+  line-height: 1.6; /* For body copy */
+}
+/* Bulma's .content p already has margin-bottom */
+
+a {
+  color: var(--color-foreground); /* Default link: like normal text */
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+a:hover {
+  color: var(--jk-accent-color); /* Red on hover */
+}
+/* More specific links, e.g., in main content or explicitly styled */
+.content a,
+a.has-text-link, /* Bulma class */
+a.has-text-primary { /* Bulma class */
+    color: var(--jk-accent-color) !important; /* Use important if overriding Bulma's specificity */
+    text-decoration: none;
+}
+.content a:hover,
+a.has-text-link:hover,
+a.has-text-primary:hover {
+    color: #CC0000 !important; /* Darker red */
+    text-decoration: underline !important; /* Underline on hover for these */
+}
+
+
+hr {
+  background-color: var(--divider-color);
+  border: none;
+  display: block;
+  height: 1px;
+  margin: var(--vertical-rhythm) 0;
+}
+
+/* Code blocks */
+pre {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-small);
+  background-color: #202124; /* YT dark code background */
+  color: #e8eaed;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-base); /* 4px */
+  overflow-x: auto;
+  margin: var(--vertical-rhythm) 0;
+}
+pre code {
+  background: none !important;
+  color: inherit !important;
+  padding: 0 !important;
+  font-size: inherit !important;
+  border-radius: 0 !important;
+}
+:not(pre) > code {
+  font-family: var(--font-family-mono);
+  font-size: 0.9em;
+  background-color: var(--color-background-100);
+  color: var(--color-foreground);
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-button); /* 2px */
+}
+
+/*-------------------------------------------------------------------
+  3. BULMA COMPONENT OVERRIDES (Using CSS Custom Properties)
+-------------------------------------------------------------------*/
+
+/* --- Buttons --- */
+.button {
+  font-family: var(--font-family-button);
+  font-size: var(--button-font-size); /* From CSS var */
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  min-height: var(--button-min-height);
+  line-height: normal; /* Let padding control effective line height */
+  padding: var(--button-padding-v) var(--button-padding-h);
+  border-radius: var(--radius-button); /* 2px */
+  border: 1px solid var(--color-border-input);
+  background-color: var(--button-default-bg);
+  color: var(--button-default-text);
+  box-shadow: var(--shadow-none);
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  letter-spacing: 0.025em;
+  vertical-align: middle; /* Better alignment with text */
+}
+.button:hover {
+  background-color: var(--button-default-hover-bg);
+  border-color: var(--color-border-input); /* Or slightly darker */
+  box-shadow: var(--shadow-dp1);
+}
+.button:focus {
+  outline: none;
+  border-color: var(--jk-accent-color) !important;
+  box-shadow: 0 0 0 1px var(--jk-accent-color), var(--shadow-dp1) !important;
+}
+.button:active {
+  background-color: var(--color-background-200);
+  box-shadow: var(--shadow-none);
+}
+
+.button.is-primary {
+  background-color: var(--button-primary-bg);
+  color: var(--button-primary-text);
+  border-color: var(--button-primary-bg);
+  box-shadow: var(--shadow-dp2); /* Raised button */
+}
+.button.is-primary:hover, .button.is-primary:focus {
+  background-color: var(--button-primary-hover-bg);
+  border-color: var(--button-primary-hover-bg);
+  color: var(--button-primary-text);
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12); /* MD shadow */
+}
+.button.is-primary:active {
+  background-color: #B20000; /* Even darker for active */
+  box-shadow: var(--shadow-dp1);
+}
+
+.button.is-text, .button.is-ghost {
+  border-color: transparent;
+  background-color: transparent;
+  box-shadow: none;
+  color: var(--color-secondary);
+  text-transform: none;
+}
+.button.is-text:hover, .button.is-text:focus,
+.button.is-ghost:hover, .button.is-ghost:focus {
+  background-color: var(--color-background-100);
+  color: var(--color-foreground);
+}
+
+/* --- Cards & Boxes (Sharp Edges, Light Border, Subtle YT Shadow) --- */
+.card, .box {
+  border-radius: var(--radius-card) !important; /* 0px */
+  box-shadow: var(--shadow-yt-card) !important;
+  border: 1px solid var(--divider-color) !important;
+  background-color: var(--color-surface);
+}
+
+.card .card-header {
+  background-color: transparent;
+  box-shadow: none;
+  border-bottom: 1px solid var(--divider-color);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: 0 !important;
+}
+.card .card-header-title {
+  padding: 0;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-base-size);
+  color: var(--text-primary-color);
+}
+.card .card-image img { border-radius: 0 !important; }
+.card .card-content { padding: var(--spacing-sm); color: var(--text-primary-color); }
+.card .card-footer { border-top: 1px solid var(--divider-color); background-color: transparent; }
+.card .card-footer-item { color: var(--text-secondary-color); font-size: var(--font-small); padding: var(--spacing-sm); }
+.card .card-footer-item:hover { color: var(--jk-accent-color); background-color: transparent; }
+
+.box { padding: var(--spacing-md); color: var(--text-primary-color); }
+
+/* --- Navbar (Material App Bar) --- */
+.navbar {
+  background-color: var(--color-surface);
+  min-height: var(--navbar-height);
+  box-shadow: var(--shadow-dp1); /* Elevation */
+  border-bottom: none; /* Shadow implies separation */
+}
+.navbar::before { content: none; }
+.navbar-brand { padding-left: var(--spacing-md); }
+.navbar-brand .navbar-item img { max-height: calc(var(--navbar-height) - var(--spacing-md)); }
+.navbar-menu { padding-right: var(--spacing-md); }
+.navbar-item, .navbar-link {
+  color: var(--icon-color);
+  font-family: var(--font-family-base);
+  font-size: var(--font-small);
+  font-weight: var(--font-weight-regular);
+  min-height: var(--navbar-height);
+  padding: 0 var(--spacing-sm);
+}
+.navbar-item:hover, .navbar-item.is-active,
+.navbar-link:hover, .navbar-link.is-active {
+  background-color: var(--color-background-100);
+  color: var(--text-primary-color);
+}
+.navbar-item .icon { color: inherit; }
+
+.navbar-dropdown {
+  background-color: var(--color-surface);
+  border: 1px solid var(--divider-color);
+  border-top: none;
+  border-radius: 0 0 var(--radius-base) var(--radius-base);
+  box-shadow: var(--shadow-dp2);
+  padding: var(--spacing-sm) 0;
+}
+.navbar-dropdown .navbar-item {
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--text-primary-color);
+}
+.navbar-dropdown .navbar-item:hover {
+  background-color: var(--color-background-100);
+}
+
+/* --- Forms (Material Text Fields) --- */
+.input, .textarea, .select select {
+  background-color: var(--color-background-100);
+  border: 1px solid var(--input-border-color);
+  border-radius: var(--radius-base); /* 4px */
+  color: var(--text-primary-color);
+  min-height: 48px;
+  padding: 0 var(--spacing-md);
+  font-size: var(--font-base-size);
+  box-shadow: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.input:hover, .textarea:hover, .select select:hover {
+  border-color: var(--text-secondary-color);
+}
+.input:focus, .input.is-focused,
+.textarea:focus, .textarea.is-focused,
+.select select:focus, .select select.is-focused {
+  border-color: var(--jk-accent-color) !important; /* Ensure focus color applies */
+  box-shadow: 0 0 0 1px var(--jk-accent-color) !important; /* Thin focus ring */
+}
+.input::placeholder, .textarea::placeholder { color: var(--text-disabled-color); }
+label.label {
+  color: var(--text-secondary-color);
+  font-size: var(--font-small);
+  font-weight: var(--font-weight-regular);
+  margin-bottom: var(--spacing-xs);
+}
+.select:not(.is-multiple):not(.is-loading)::after {
+  border-color: var(--icon-color); right: var(--spacing-md);
+}
+
+/* --- Pagination (YouTube like) --- */
+.pagination .pagination-previous, .pagination .pagination-next {
+  font-weight: var(--font-weight-medium); font-size: var(--font-small);
+  color: var(--text-secondary-color); border: none; background-color: transparent;
+  padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-button);
+}
+.pagination .pagination-previous:hover, .pagination .pagination-next:hover {
+  background-color: var(--color-background-100); color: var(--text-primary-color);
+}
+.pagination .pagination-previous[disabled], .pagination .pagination-next[disabled] {
+  color: var(--text-disabled-color); background-color: transparent; opacity: 0.6;
+}
+.pagination .pagination-list .pagination-link {
+  font-weight: var(--font-weight-medium); font-size: var(--font-small);
+  color: var(--text-secondary-color); border: none; background-color: transparent;
+  min-width: 36px; height: 36px; border-radius: 50%;
+}
+.pagination .pagination-list .pagination-link:hover {
+  background-color: var(--color-background-100); color: var(--text-primary-color);
+}
+.pagination .pagination-list .pagination-link.is-current {
+  background-color: var(--color-background-200); color: var(--text-primary-color);
+  border-color: transparent;
+}
+
+/* --- Bulma .content class specific theme styles --- */
+.content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
+  font-weight: var(--font-weight-medium);
+  margin-bottom: 0.5em; margin-top: 1.2em;
+}
+.content p { line-height: 1.6; margin-bottom: 1em; }
+/* List styling from previous theme example */
+.content ul, .content ol { padding-left: 0; margin: var(--vertical-rhythm) 0; }
+.content ul { list-style: none; }
+.content ul > li { padding-left: var(--spacing-8); position: relative; }
+.content ul > li::before {
+  content: ""; position: absolute; left: var(--spacing-2); top: 0.65em;
+  height: 0.25rem; width: 0.25rem; background-color: currentColor; border-radius: 50%;
+}
+.content ul ul > li::before { background-color: transparent; border: 1px solid currentColor; }
+.content ul ul ul > li::before { background-color: currentColor; border-radius: 0; }
+.content ol { padding-left: var(--spacing-8); list-style: none; counter-reset: contentOrderedList; }
+.content ol > li::before {
+  content: counter(contentOrderedList) ". "; counter-increment: contentOrderedList;
+  position: absolute; left: 0;
+  font-weight: var(--font-weight-medium); font-size: 0.938em; color: var(--color-secondary);
+}
+.content ol ol { list-style: lower-alpha; padding-left: var(--spacing-8); }
+.content ol ol ol { list-style: lower-roman; }
+.content li + li { margin-top: var(--spacing-4); }
+
+/* --- Archive Page Specifics (Using Material/YouTube card style) --- */
+/* These rules assume your archive page cards use the Bulma .card class */
+.archive-section .card.post-item-card .card-content .title.is-5 {
+  font-size: var(--font-base-size); /* 1rem */
+  line-height: 1.3;
+}
+.archive-section .card.post-item-card .card-content .level-item .tag {
+  font-size: var(--font-x-small);
+  height: auto;
+  padding: 0.15em 0.6em;
+  border-radius: var(--radius-pill);
+  font-weight: var(--font-weight-medium);
+}
+.archive-section .card.post-item-card .card-content .excerpt-text {
+  font-size: var(--font-small);
+  color: var(--text-secondary-color);
+  line-height: 1.4;
+  margin-top: var(--spacing-xs);
+}
+.archive-section .card.post-item-card .content .message.is-light {
+  background-color: var(--color-background-100);
+  border-radius: var(--radius-button);
+  border: 1px solid var(--divider-color);
+  border-left-width: 0;
+  color: var(--text-secondary-color);
+  font-size: var(--font-x-small);
+  margin-top: var(--spacing-sm);
+}
+.archive-section .card.post-item-card .content .message.is-light .message-body {
+  padding: var(--spacing-xs) var(--spacing-sm);
+}
+.archive-section .post-item-box .post-item-footer .buttons .button {
+  font-size: var(--font-x-small);
+  height: 28px; min-height: auto;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-button);
+  text-transform: none;
+}
+.archive-section .post-item-box .post-item-footer .buttons .button.is-light {
+  border: 1px solid var(--divider-color); /* Ensure it has border */
+}
+.archive-section .ad-placeholder-box,
+.archive-section .newsletter-box-column {
+  border: 1px solid var(--divider-color);
+  box-shadow: var(--shadow-dp1);
+  border-radius: var(--radius-base);
+}
+.archive-section .newsletter-box-column {
+  background-color: var(--color-background-100);
+}
+.archive-section .newsletter-box-column.has-background-info-light {
+  background-color: rgba(26, 115, 232, 0.08); /* Light Google Blue */
+}
+.archive-section .newsletter-box-column .button.is-info {
+  background-color: #1a73e8; /* Google Blue */
+  color: white;
+  border-color: #1a73e8;
+}
+.archive-section .newsletter-box-column .button.is-info:hover {
+  background-color: #1765c8;
+  border-color: #1765c8;
+}
