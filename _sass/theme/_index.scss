@@ -1,8 +1,37 @@
 
-@import "./variable";
 
 @import "../../node_modules/bulma/sass/index";
 
-@import "./custom";
-@import "./override";
-@import "./override";
+/* assets/css/theme.css */
+
+/* Example for Geist - replace with your actual font files and paths */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 100 900; /* Variable font weight range */
+  font-display: swap;
+  src: url('../fonts/geist-variable.woff2') format('woff2'); /* Adjust path */
+}
+
+/* Example for JetBrains Mono */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url('../fonts/jetbrains-mono-variable.woff2') format('woff2'); /* Adjust path */
+}
+
+/* Example for Plus Jakarta Sans */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('../fonts/plus-jakarta-sans-variable.woff2') format('woff2'); /* Adjust path */
+}
+
+/* ... then the rest of your CSS starting with :root ... */
+:root {
+    /* ... */
+}
