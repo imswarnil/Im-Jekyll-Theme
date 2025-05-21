@@ -17,7 +17,7 @@ permalink: /archive/
             {% else %}
                 {% for post in paginator.posts %}
                     <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-                        <div class="card post-item-card"> {# Using Bulma's card component directly for simplicity #}
+                        <div class="card post-item-card"> {# Using Bulma's card component #}
                             {% if post.image %}
                             <div class="card-image">
                                 <figure class="image is-4by3">
@@ -59,82 +59,100 @@ permalink: /archive/
             {% endif %}
         </div>
 
-        {% comment %} --- Correct and Reliable Pagination Controls --- {% endcomment %}
+        {% comment %} --- Bulma Styled Pagination Controls --- {% endcomment %}
         {% if paginator.total_pages > 1 %}
         <nav class="pagination is-centered is-rounded mt-6" role="navigation" aria-label="pagination">
+
             {% comment %} Previous Page Link {% endcomment %}
             {% if paginator.previous_page %}
-                <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination-previous">Previous</a>
+                <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination-previous">
+                    <span class="icon is-small mr-1"><i class="ph-bold ph-caret-left"></i></span> <!-- Optional Icon -->
+                    Previous
+                </a>
             {% else %}
-                <span class="pagination-previous" disabled>Previous</span>
+                <a class="pagination-previous" title="This is the first page" disabled>
+                    <span class="icon is-small mr-1"><i class="ph-bold ph-caret-left"></i></span>
+                    Previous
+                </a>
             {% endif %}
 
             {% comment %} Next Page Link {% endcomment %}
             {% if paginator.next_page %}
-                <a href="{{ paginator.next_page_path | relative_url }}" class="pagination-next">Next page</a>
+                <a href="{{ paginator.next_page_path | relative_url }}" class="pagination-next">
+                    Next page
+                    <span class="icon is-small ml-1"><i class="ph-bold ph-caret-right"></i></span> <!-- Optional Icon -->
+                </a>
             {% else %}
-                <span class="pagination-next" disabled>Next page</span>
+                <a class="pagination-next" title="This is the last page" disabled>
+                    Next page
+                    <span class="icon is-small ml-1"><i class="ph-bold ph-caret-right"></i></span>
+                </a>
             {% endif %}
 
             <ul class="pagination-list">
                 {% assign current = paginator.page %}
                 {% assign total = paginator.total_pages %}
-                {% assign window_radius = 1 %} {# Number of pages to show on each side of current page #}
+                {% assign window_radius = 1 %} {# How many pages to show on each side of current page, e.g., 1 means P C N -> total 3 shown in middle #}
+                                              {# For more pages shown, increase this (e.g., 2 for 5 links in middle) #}
 
-                {% assign pages_in_window_total = window_radius | times: 2 | plus: 1 %}
+                {% comment %}
+                   Calculate the start and end of the window of page numbers to display.
+                   This logic tries to keep the current page somewhat centered.
+                {% endcomment %}
+                {% assign window_start = current | minus: window_radius %}
+                {% assign window_end = current | plus: window_radius %}
 
-                {% if total <= pages_in_window_total %}
-                    {# Show all page numbers if total is small enough #}
-                    {% for page_number in (1..total) %}
-                        <li>
-                            <a href="{% if page_number == 1 %}{{ '/archive/' | relative_url }}{% else %}{{ site.paginate_path | relative_url | replace: ':num', page_number }}{% endif %}"
-                               class="pagination-link {% if page_number == current %}is-current{% endif %}"
-                               aria-label="Goto page {{ page_number }}">{{ page_number }}</a>
-                        </li>
-                    {% endfor %}
-                {% else %}
-                    {# Complex pagination: show first, last, and a window around current #}
-                    {% assign first_loop_page = current | minus: window_radius %}
-                    {% if first_loop_page < 1 %}{% assign first_loop_page = 1 %}{% endif %}
+                {% comment %} Adjust window if it's too close to the start #}
+                {% if window_start < 1 %}
+                    {% assign window_start = 1 %}
+                    {% assign window_end = pages_in_window_total %}
+                {% endif %}
 
-                    {% assign last_loop_page = first_loop_page | plus: pages_in_window_total | minus: 1 %}
+                {% comment %} Adjust window if it's too close to the end #}
+                {% if window_end > total %}
+                    {% assign window_end = total %}
+                    {% assign pages_in_window_total_calc = window_radius | times: 2 | plus: 1 %}
+                    {% assign window_start = total | minus: pages_in_window_total_calc | plus: 1 %}
+                    {% if window_start < 1 %}{% assign window_start = 1 %}{% endif %} {# Ensure start is not less than 1 #}
+                {% endif %}
 
-                    {% if last_loop_page > total %}
-                        {% assign last_loop_page = total %}
-                        {% assign first_loop_page = last_loop_page | minus: pages_in_window_total | plus: 1 %}
-                        {% if first_loop_page < 1 %}{% assign first_loop_page = 1 %}{% endif %}
+
+                {% comment %} --- Page Number Links --- {% endcomment %}
+
+                {% comment %} Always show page 1 unless it's already in the main window #}
+                {% if window_start > 1 %}
+                    <li>
+                        <a href="{{ '/archive/' | relative_url }}" class="pagination-link" aria-label="Goto page 1">1</a>
+                    </li>
+                {% endif %}
+
+                {% comment %} Ellipsis after page 1 if there's a gap #}
+                {% if window_start > 2 %}
+                    <li><span class="pagination-ellipsis">…</span></li>
+                {% endif %}
+
+                {% comment %} The window of page numbers #}
+                {% for page_number in (window_start..window_end) %}
+                    {% if page_number == current %}
+                        <li><a class="pagination-link is-current" aria-label="Page {{ page_number }}" aria-current="page">{{ page_number }}</a></li>
+                    {% elsif page_number == 1 %}
+                        <li><a href="{{ '/archive/' | relative_url }}" class="pagination-link" aria-label="Goto page {{ page_number }}">{{ page_number }}</a></li>
+                    {% else %}
+                        <li><a href="{{ site.paginate_path | relative_url | replace: ':num', page_number }}" class="pagination-link" aria-label="Goto page {{ page_number }}">{{ page_number }}</a></li>
                     {% endif %}
+                {% endfor %}
 
-                    {# Link to Page 1 and ellipsis if needed #}
-                    {% if first_loop_page > 1 %}
-                        <li>
-                            <a href="{{ '/archive/' | relative_url }}" class="pagination-link" aria-label="Goto page 1">1</a>
-                        </li>
-                        {% if first_loop_page > 2 %}
-                            <li><span class="pagination-ellipsis">…</span></li>
-                        {% endif %}
-                    {% endif %}
+                {% comment %} Ellipsis before last page if there's a gap #}
+                {% assign total_minus_one = total | minus: 1 %}
+                {% if window_end < total_minus_one %}
+                    <li><span class="pagination-ellipsis">…</span></li>
+                {% endif %}
 
-                    {# Pages in window #}
-                    {% for page_number in (first_loop_page..last_loop_page) %}
-                        <li>
-                             <a href="{% if page_number == 1 %}{{ '/archive/' | relative_url }}{% else %}{{ site.paginate_path | relative_url | replace: ':num', page_number }}{% endif %}"
-                               class="pagination-link {% if page_number == current %}is-current{% endif %}"
-                               aria-label="Goto page {{ page_number }}">{{ page_number }}</a>
-                        </li>
-                    {% endfor %}
-
-                    {# Ellipsis and Last Page if needed #}
-                    {% assign total_minus_one = total | minus: 1 %}
-                    {% if last_loop_page < total %}
-                        {% if last_loop_page < total_minus_one %}
-                            <li><span class="pagination-ellipsis">…</span></li>
-                        {% endif %}
-                        <li>
-                            <a href="{{ site.paginate_path | relative_url | replace: ':num', total }}"
-                               class="pagination-link" aria-label="Goto page {{ total }}">{{ total }}</a>
-                        </li>
-                    {% endif %}
+                {% comment %} Always show last page unless it's already in the main window or is page 1 #}
+                {% if window_end < total and total > 1 %}
+                    <li>
+                        <a href="{{ site.paginate_path | relative_url | replace: ':num', total }}" class="pagination-link" aria-label="Goto page {{ total }}">{{ total }}</a>
+                    </li>
                 {% endif %}
             </ul>
         </nav>
@@ -145,24 +163,25 @@ permalink: /archive/
 <style>
     /* Minimal styling to make cards look decent and pagination usable */
     .post-item-card {
-        height: 100%; /* Make cards in a row take up same height if columns are flex */
+        height: 100%;
         display: flex;
         flex-direction: column;
     }
     .post-item-card .card-content {
-        flex-grow: 1; /* Allow content to push footer (if any) down */
+        flex-grow: 1;
     }
     .post-item-card .card-image figure.image img {
-        object-fit: cover; /* Ensure images cover their area */
+        object-fit: cover;
     }
 
-    /* Ensure columns in a row stretch to the same height for consistent card heights */
     @media screen and (min-width: 769px) { /* Bulma tablet and up */
         .columns.is-multiline {
             align-items: stretch;
         }
         .column {
-            display: flex; /* Required for height: 100% on direct children like .card */
+            display: flex;
         }
     }
+    /* Optional: Add Phosphor icons if you use them for prev/next */
+    /* @import url("https://unpkg.com/@phosphor-icons/web@2.0.3/src/bold/style.css"); */
 </style>
