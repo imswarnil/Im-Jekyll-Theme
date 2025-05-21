@@ -58,12 +58,10 @@ permalink: /archive/
                 {% endfor %}
             {% endif %}
         </div>
-
-        {% comment %} --- Bulma Styled Pagination Controls --- {% endcomment %}
         {% if paginator.total_pages > 1 %}
         <nav class="pagination is-centered is-rounded mt-6" role="navigation" aria-label="pagination">
 
-            {% comment %} Previous Page Link {% endcomment %}
+
             {% if paginator.previous_page %}
                 <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination-previous">
                     <span class="icon is-small mr-1"><i class="ph-bold ph-caret-left"></i></span> <!-- Optional Icon -->
@@ -76,7 +74,6 @@ permalink: /archive/
                 </a>
             {% endif %}
 
-            {% comment %} Next Page Link {% endcomment %}
             {% if paginator.next_page %}
                 <a href="{{ paginator.next_page_path | relative_url }}" class="pagination-next">
                     Next page
@@ -95,20 +92,16 @@ permalink: /archive/
                 {% assign window_radius = 1 %} {# How many pages to show on each side of current page, e.g., 1 means P C N -> total 3 shown in middle #}
                                               {# For more pages shown, increase this (e.g., 2 for 5 links in middle) #}
 
-                {% comment %}
-                   Calculate the start and end of the window of page numbers to display.
-                   This logic tries to keep the current page somewhat centered.
-                {% endcomment %}
+             
                 {% assign window_start = current | minus: window_radius %}
                 {% assign window_end = current | plus: window_radius %}
 
-                {% comment %} Adjust window if it's too close to the start #}
+             
                 {% if window_start < 1 %}
                     {% assign window_start = 1 %}
                     {% assign window_end = pages_in_window_total %}
                 {% endif %}
 
-                {% comment %} Adjust window if it's too close to the end #}
                 {% if window_end > total %}
                     {% assign window_end = total %}
                     {% assign pages_in_window_total_calc = window_radius | times: 2 | plus: 1 %}
@@ -117,21 +110,17 @@ permalink: /archive/
                 {% endif %}
 
 
-                {% comment %} --- Page Number Links --- {% endcomment %}
 
-                {% comment %} Always show page 1 unless it's already in the main window #}
                 {% if window_start > 1 %}
                     <li>
                         <a href="{{ '/archive/' | relative_url }}" class="pagination-link" aria-label="Goto page 1">1</a>
                     </li>
                 {% endif %}
 
-                {% comment %} Ellipsis after page 1 if there's a gap #}
                 {% if window_start > 2 %}
                     <li><span class="pagination-ellipsis">…</span></li>
                 {% endif %}
 
-                {% comment %} The window of page numbers #}
                 {% for page_number in (window_start..window_end) %}
                     {% if page_number == current %}
                         <li><a class="pagination-link is-current" aria-label="Page {{ page_number }}" aria-current="page">{{ page_number }}</a></li>
@@ -142,13 +131,11 @@ permalink: /archive/
                     {% endif %}
                 {% endfor %}
 
-                {% comment %} Ellipsis before last page if there's a gap #}
                 {% assign total_minus_one = total | minus: 1 %}
                 {% if window_end < total_minus_one %}
                     <li><span class="pagination-ellipsis">…</span></li>
                 {% endif %}
 
-                {% comment %} Always show last page unless it's already in the main window or is page 1 #}
                 {% if window_end < total and total > 1 %}
                     <li>
                         <a href="{{ site.paginate_path | relative_url | replace: ':num', total }}" class="pagination-link" aria-label="Goto page {{ total }}">{{ total }}</a>
