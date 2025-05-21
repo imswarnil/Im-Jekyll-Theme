@@ -12,78 +12,68 @@ $family-monospace: "Roboto Mono", monospace !default;
    ========================================================================== */
 
 /*-------------------------------------------------------------------
-  1. CSS CUSTOM PROPERTIES (LIGHT MODE - Enji's Theme Inspired)
+  1. CSS CUSTOM PROPERTIES (LIGHT MODE)
 -------------------------------------------------------------------*/
 :root {
-  /* Primary Accent Color (Purple from the design) */
-  --jk-accent-color: #7c3aed; /* Approx. purple from "Get in Touch" button */
-  --jk-accent-color-rgb: 124, 58, 237; /* RGB for #7c3aed */
+  /* Primary Accent Color */
+  --jk-accent-color: #7c3aed; /* Purple from "Get in Touch" */
+  --jk-accent-color-rgb: 124, 58, 237;
   --jk-accent-foreground-color: #FFFFFF;
 
   /* Core Colors */
-  --color-background: #F8F9FC; /* Very light grey, almost white, with a hint of blue/purple */
+  --color-background: #F8F9FC; /* Very light grey page BG */
   --color-surface: #FFFFFF;    /* Cards, Navbar background */
-  --color-contrast: #1A202C; /* Dark grey/black for primary text (e.g., "I'm Enji Kusnadi") */
+  --color-contrast: #1A202C; /* Dark grey/black for primary text */
   --color-foreground: #2D3748; /* Slightly lighter dark grey for body text */
-  --color-secondary: #718096;   /* Grey for secondary text, subtitles */
-  --color-mute: #A0AEC0;        /* Muted text, disabled states */
+  --color-secondary: #718096;   /* Grey for secondary text */
+  --color-mute: #A0AEC0;        /* Muted text, placeholders */
   --color-border: #E2E8F0;      /* Light grey for borders, dividers */
   --color-border-subtle: #F1F5F9; /* Even lighter border */
-  --color-grid-line: rgba(196, 181, 253, 0.1); /* Subtle purple for grid lines */
+  --color-grid-line: rgba(196, 181, 253, 0.15); /* Subtle purple for grid lines - opacity adjusted */
 
-  /* Semantic Colors (Standard, can be adjusted) */
-  --color-success: #38A169; /* Green */
-  --color-error: #E53E3E;   /* Red */
-  --color-info: #4299E1;    /* Blue */
-  --color-warning: #DD6B20; /* Orange */
+  /* Semantic Colors */
+  --color-success: #38A169; --color-error: #E53E3E;
+  --color-info: #4299E1;    --color-warning: #DD6B20;
 
-  /* Font Families (Ensure "Outfit" or "Geist" and a good mono are loaded) */
-  --font-family-base: "Outfit", "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  /* Font Families */
+  --font-family-base: "Outfit", "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-family-headings: "Outfit", "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-family-button: "Outfit", "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-family-mono: "Roboto Mono", "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
-  /* Font Sizes (Inspired by the visual hierarchy) */
+  /* Font Sizes */
   --font-x-small: 0.75rem;  /* 12px */
-  --font-small: 0.875rem; /* 14px (e.g., tech stack, card subtitles) */
-  --font-base-size: 1rem;     /* 16px (e.g., body text, intro para) */
-  --font-large: 1.125rem; /* 18px (e.g., smaller headings, list item titles) */
-  --font-h3-size: 1.5rem;    /* 24px (e.g., "Eye Catching...") */
-  --font-h2-size: 2.25rem;   /* 36px (e.g., "Beautiful inside and out") */
-  --font-h1-size: 3rem;      /* 48px (e.g., "I'm Enji Kusnadi") - can be larger */
-  --font-display-size: 4.5rem; /* For very large text like "hi!" */
-
+  --font-small: 0.875rem; /* 14px */
+  --font-base-size: 1rem;     /* 16px */
+  --font-large: 1.125rem; /* 18px */
+  --font-h6-size: var(--font-base-size);
+  --font-h5-size: var(--font-large);
+  --font-h4-size: 1.25rem;
+  --font-h3-size: 1.5rem;
+  --font-h2-size: 2.25rem;
+  --font-h1-size: 3rem;
+  --font-display-size: 4.5rem;
 
   /* Font Weights */
-  --font-weight-light: 300;
-  --font-weight-regular: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;     /* For strong headings */
-  --font-weight-extrabold: 800; /* For "Enji Kusnadi" */
+  --font-weight-light: 300; --font-weight-regular: 400; --font-weight-medium: 500;
+  --font-weight-semibold: 600; --font-weight-bold: 700; --font-weight-extrabold: 800;
 
-  /* Spacings (visual estimation from design) */
-  --spacing-xxs: 0.25rem; /* 4px */
-  --spacing-xs: 0.5rem;  /* 8px */
-  --spacing-sm: 0.75rem;  /* 12px */
-  --spacing-md: 1rem;    /* 16px */
-  --spacing-lg: 1.5rem;  /* 24px */
-  --spacing-xl: 2rem;    /* 32px */
-  --spacing-xxl: 3rem;   /* 48px */
-  --spacing-xxxl: 4rem;  /* 64px */
+  /* Spacings */
+  --spacing-xxs: 0.25rem; --spacing-xs: 0.5rem;  --spacing-sm: 0.75rem;
+  --spacing-md: 1rem;    --spacing-lg: 1.5rem;  --spacing-xl: 2rem;
+  --spacing-xxl: 3rem;   --spacing-xxxl: 4rem;
   --vertical-rhythm: var(--spacing-lg);
 
-  /* Border Radius (Design uses a mix of sharp and rounded) */
+  /* Border Radius */
   --radius-sharp: 0px;
-  --radius-subtle: 4px;
-  --radius-base: 8px;    /* Common card/button rounding in design */
-  --radius-large: 12px;  /* For larger elements or more pronounced rounding */
-  --radius-pill: 9999px; /* For pill-shaped tags/buttons */
-  --radius-card-override: var(--radius-sharp); /* For your specific request on cards */
-  --radius-box-override: var(--radius-sharp); /* For your specific request on boxes */
+  --radius-subtle: 4px; /* More common subtle rounding in design */
+  --radius-base: 8px;
+  --radius-large: 12px;
+  --radius-pill: 9999px;
+  --radius-card-override: var(--radius-sharp);
+  --radius-box-override: var(--radius-sharp);
 
-
-  /* Shadows (Subtle, as seen in the design) */
+  /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 1px -1px rgba(0,0,0,0.02);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
@@ -93,127 +83,91 @@ $family-monospace: "Roboto Mono", monospace !default;
   --navbar-height: 64px; /* Estimate */
 
   /* Button */
-  --button-min-height: 44px; /* Estimate for "Get in Touch" */
-  --button-padding-v: 0.75rem;
+  --button-min-height: 44px;
+  --button-padding-v: 0.65rem; /* Adjusted for 44px height with 14px font */
   --button-padding-h: 1.5rem;
   --button-font-size: var(--font-small);
-  --button-font-weight: var(--font-weight-semibold);
+  --button-font-weight: var(--font-weight-semibold); /* Bolder buttons */
   --button-border-radius: var(--radius-base); /* 8px for main buttons */
 
   /* Layout Padding */
-  --layout-padding: clamp(1.5rem, 5vw, 3rem); /* Responsive padding for sections */
+  --layout-padding: clamp(1.5rem, 5vw, 3rem);
 
   color-scheme: light;
 }
 
 /*-------------------------------------------------------------------
-  2. GLOBAL BASE STYLES (Overrides Bulma's base where needed)
+  2. GLOBAL BASE STYLES
 -------------------------------------------------------------------*/
 html {
   background-color: var(--color-background);
   font-size: var(--font-base-size);
-  line-height: 1.6; /* More readable line height */
+  line-height: 1.6; /* Increased for readability */
   font-family: var(--font-family-base);
-  scroll-padding-top: var(--navbar-height); /* Offset for sticky navbar */
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--navbar-height) + var(--spacing-md)); /* Account for sticky navbar */
 }
 
 body {
-  font-family: inherit;
   color: var(--color-foreground);
-  background-color: var(--color-background);
+  background-color: var(--color-background); /* This will be under the grid */
   font-weight: var(--font-weight-regular);
-  line-height: inherit;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  position: relative; /* For background grid */
-  overflow-x: hidden; /* Prevent horizontal scroll from grid */
+  position: relative; /* For the grid pseudo-element */
+  overflow-x: hidden;
 }
 
-/* Fading Background Grid */
+/* Fading Background Grid on body */
 body::before {
   content: '';
-  position: fixed; /* Or absolute if body is the only scroll container */
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
+  position: fixed; /* Fixed, so it stays while scrolling */
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100%; height: 100%;
   background-image:
     linear-gradient(to right, var(--color-grid-line) 1px, transparent 1px),
     linear-gradient(to bottom, var(--color-grid-line) 1px, transparent 1px);
-  background-size: 40px 40px; /* Adjust grid size */
-  opacity: 0.5; /* Start with some opacity */
-  z-index: -1;
-  mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+  background-size: 30px 30px; /* Adjust grid cell size */
+  opacity: 1; /* Grid is subtle due to color opacity */
+  z-index: -1; /* Behind all content */
   pointer-events: none;
+  mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 95%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 95%);
 }
-
 
 /* Headings */
-h1, h2, h3, h4, h5, h6,
-.title, .subtitle {
-  font-family: var(--font-family-headings);
-  color: var(--color-contrast);
-  font-weight: var(--font-weight-bold); /* Headings are bold in design */
-  line-height: 1.2;
-  margin: var(--spacing-lg) 0 var(--spacing-md) 0;
-}
-h1:first-child, .title.is-1:first-child { margin-top: 0; }
+h1, .title.is-1 { font-size: var(--font-h1-size); font-weight: var(--font-weight-extrabold); line-height: 1.1; margin-bottom: var(--spacing-lg);}
+h2, .title.is-2 { font-size: var(--font-h2-size); font-weight: var(--font-weight-bold); line-height: 1.2; margin-bottom: var(--spacing-md);}
+h3, .title.is-3 { font-size: var(--font-h3-size); font-weight: var(--font-weight-bold); line-height: 1.2; margin-bottom: var(--spacing-md);}
+h4, .title.is-4 { font-size: var(--font-large); font-weight: var(--font-weight-semibold); line-height: 1.3; margin-bottom: var(--spacing-sm);}
+h5, .title.is-5 { font-size: var(--font-base-size); font-weight: var(--font-weight-semibold); line-height: 1.3; margin-bottom: var(--spacing-sm);}
+h6, .title.is-6 { font-size: var(--font-small); font-weight: var(--font-weight-semibold); line-height: 1.3; margin-bottom: var(--spacing-xs);}
+.title, .subtitle { color: var(--color-contrast); font-family: var(--font-family-headings); }
+.subtitle { color: var(--color-secondary); font-weight: var(--font-weight-regular); margin-top: calc(var(--spacing-md) * -0.5); } /* Pull subtitle closer */
 
-h1, .title.is-1 { font-size: var(--font-h1-size); }
-h2, .title.is-2 { font-size: var(--font-h2-size); }
-h3, .title.is-3 { font-size: var(--font-h3-size); }
-h4, .title.is-4 { font-size: var(--font-large); font-weight: var(--font-weight-semibold); }
-h5, .title.is-5 { font-size: var(--font-base-size); font-weight: var(--font-weight-semibold); }
-h6, .title.is-6 { font-size: var(--font-small); font-weight: var(--font-weight-semibold); }
 
-.subtitle {
-  color: var(--color-secondary);
-  font-weight: var(--font-weight-regular);
-}
-
-p {
-  margin-bottom: var(--spacing-md);
-  line-height: 1.7; /* Slightly more spacious paragraphs */
-}
+p { margin-bottom: var(--spacing-md); line-height: 1.7; }
 
 a {
-  color: var(--jk-accent-color); /* Links are accent color */
-  text-decoration: none;
-  font-weight: var(--font-weight-medium);
-  transition: color 0.15s ease, opacity 0.15s ease;
-}
-a:hover {
   color: var(--jk-accent-color);
-  opacity: 0.8;
-}
-.content a { /* Links within markdown content */
   font-weight: var(--font-weight-medium);
-  /* text-decoration: underline; */ /* Optional for content links */
+  text-decoration: none;
+  transition: opacity 0.2s ease;
 }
+a:hover { opacity: 0.8; text-decoration: none; }
+.content a { font-weight: var(--font-weight-medium); } /* Links in markdown */
+.content a:hover { text-decoration: underline; }
 
 hr {
-  background-color: var(--color-border-subtle); /* Very light divider */
-  height: 1px; border: none;
+  background-color: var(--color-border-subtle); height: 1px; border: none;
   margin: var(--spacing-xl) 0;
 }
 
 /*-------------------------------------------------------------------
   3. BULMA COMPONENT OVERRIDES (Enji's Theme Inspired)
 -------------------------------------------------------------------*/
-
-.section {
-  padding: var(--spacing-xxl) var(--layout-padding); /* Generous section padding */
-}
-.container {
-  /* Bulma handles max-width based on its variables.
-     We set $container-max-width and $widescreen in Sass.
-     If overriding here:
-     max-width: var(--container-wide-width); // Or --container--width for narrower default
-  */
-}
+.section { padding: var(--spacing-xxxl) var(--layout-padding); }
+.container { /* Bulma .container */ max-width: var(--container-wide-width); } /* Wider default container */
 
 /* Buttons */
 .button {
@@ -221,288 +175,209 @@ hr {
   font-size: var(--button-font-size);
   font-weight: var(--button-font-weight);
   min-height: var(--button-min-height);
-  line-height: normal; /* Let padding and content define height */
+  line-height: 1; /* Align text better with padding */
   padding: var(--button-padding-v) var(--button-padding-h);
-  border-radius: var(--button-border-radius);
-  border-width: 1px;
-  border-style: solid;
-  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-  text-transform: none; /* Design buttons not all caps */
-  letter-spacing: normal;
+  border-radius: var(--button-border-radius); /* 8px */
+  border: 1px solid transparent; /* Default borderless, or add specific border below */
+  transition: var(--button--transition); /* From CSS vars */
   box-shadow: var(--shadow-sm);
+  text-transform: none;
 }
-.button:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-.button:active {
-  transform: translateY(0);
-  box-shadow: var(--shadow-sm);
-}
-.button:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--color-background), 0 0 0 4px var(--jk-accent-color); /* Focus ring */
-}
+.button:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.button:active { transform: translateY(0px); box-shadow: var(--shadow-sm); }
+.button:focus { outline: none; box-shadow: 0 0 0 2px var(--color-background), 0 0 0 4px var(--jk-accent-color); }
 
-.button.is-primary { /* "Get in Touch" button */
+.button.is-primary { /* "Get in Touch" */
   background-color: var(--jk-accent-color);
   color: var(--jk-accent-foreground-color);
   border-color: var(--jk-accent-color);
   font-weight: var(--font-weight-semibold);
 }
-.button.is-primary:hover {
-  background-color: hsl(from var(--jk-accent-color) h s l - 5%); /* Slightly darker purple */
-  border-color: hsl(from var(--jk-accent-color) h s l - 5%);
-}
-.button.is-primary:active {
-  background-color: hsl(from var(--jk-accent-color) h s l - 10%);
-  border-color: hsl(from var(--jk-accent-color) h s l - 10%);
-}
+.button.is-primary:hover { background-color: hsl(from var(--jk-accent-color) h s l - 7%); border-color: hsl(from var(--jk-accent-color) h s l - 7%);}
+.button.is-primary:active { background-color: hsl(from var(--jk-accent-color) h s l - 12%); border-color: hsl(from var(--jk-accent-color) h s l - 12%);}
 
-.button.is-light { /* "Resume" button */
+.button.is-light, .button.is-white { /* "Resume" or other secondary */
   background-color: var(--color-surface);
   color: var(--color-foreground);
   border-color: var(--color-border);
   font-weight: var(--font-weight-medium);
 }
-.button.is-light:hover {
+.button.is-light:hover, .button.is-white:hover {
   background-color: var(--color-background-100);
-  border-color: var(--color-border);
+  border-color: var(--color-border); /* Keep border color or slightly darken */
 }
-
-/* Specific small icon buttons like tech stack */
-.button.is-small.is-rounded.tech-icon {
-    width: 36px; height: 36px; padding: 0;
+/* For tech stack icons and Quick Access */
+.button.is-small.is-rounded.icon-button {
+    width: 38px; height: 38px; padding: 0;
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     box-shadow: var(--shadow-sm);
     color: var(--color-secondary);
 }
-.button.is-small.is-rounded.tech-icon:hover {
+.button.is-small.is-rounded.icon-button:hover {
     border-color: var(--jk-accent-color);
     color: var(--jk-accent-color);
 }
+.button.quick-access-button { /* Quick Access button */
+  background-color: var(--color-background-100);
+  border-color: var(--color-border);
+  color: var(--color-secondary);
+  font-size: var(--font-x-small);
+  border-radius: var(--radius-base);
+}
 
-/* Cards & Boxes: Sharp Edges, Light Border, NO Shadow as requested */
+/* Cards & Boxes */
 .card, .box {
   border-radius: var(--radius-card-override) !important; /* 0px */
   box-shadow: var(--shadow-none) !important;
   border: 1px solid var(--color-border) !important;
   background-color: var(--color-surface);
-  overflow: hidden; /* To contain images if they are direct children */
 }
 .card .card-header {
-  background-color: transparent;
-  box-shadow: none;
+  background-color: transparent; box-shadow: none;
   border-bottom: 1px solid var(--color-border);
-  border-radius: 0 !important;
-  padding: var(--spacing-md);
+  border-radius: 0 !important; padding: var(--spacing-md);
 }
 .card .card-header-title {
-  padding: 0;
-  font-weight: var(--font-weight-semibold);
-  font-size: var(--font-large);
-  color: var(--color-contrast);
+  padding: 0; font-weight: var(--font-weight-semibold);
+  font-size: var(--font-large); color: var(--color-contrast);
 }
 .card .card-image img { border-radius: 0 !important; }
 .card .card-content { padding: var(--spacing-md); color: var(--color-foreground); }
-.box { padding: var(--spacing-lg); color: var(--color-foreground); }
-
+.box { padding: var(--spacing-lg); color: var(--color-foreground); } /* Larger padding for general boxes */
 
 /* Navbar */
 .navbar {
   min-height: var(--navbar-height);
   background-color: var(--color-surface);
-  box-shadow: var(--shadow-sm); /* Subtle shadow under navbar */
-  border-bottom: none;
-  padding: 0 var(--layout-padding); /* Use responsive layout padding */
+  box-shadow: var(--shadow-sm); /* Subtle shadow */
+  border-bottom: 1px solid var(--color-border-subtle); /* Very light bottom border */
+  padding: 0 var(--layout-padding);
 }
-.navbar::before { content: none; } /* Remove any previous overlay */
-.navbar-brand .navbar-item.logo { /* Assuming a class for logo */
-  font-size: 1.5rem;
-  font-weight: var(--font-weight-bold);
-  color: var(--color-contrast);
-  padding-left: 0; /* Align with edge if no icon */
+.navbar::before { content: none; }
+.navbar-brand .navbar-item.logo {
+  font-size: 1.25rem; padding-left: 0;
+  font-weight: var(--font-weight-extrabold); color: var(--color-contrast);
 }
 .navbar-brand .navbar-item.logo .logo-accent { color: var(--jk-accent-color); }
+.navbar-menu { background-color: transparent; }
 .navbar-item, .navbar-link {
   font-family: var(--font-family-button);
   font-size: var(--font-small);
   font-weight: var(--font-weight-medium);
-  color: var(--color-secondary); /* Nav items are secondary text */
+  color: var(--color-secondary);
   padding: var(--spacing-sm) var(--spacing-md);
   min-height: var(--navbar-height);
 }
 .navbar-item:hover, .navbar-item.is-active,
 .navbar-link:hover, .navbar-link.is-active {
   background-color: transparent;
-  color: var(--jk-accent-color); /* Accent color on hover/active */
+  color: var(--jk-accent-color);
 }
-.navbar-item.has-play-icon .icon { /* For "Work ▶" */
-  margin-left: var(--spacing-xs);
-  font-size: 0.8em; /* Smaller play icon */
-}
-.navbar-end .button { /* For "Quick Access" */
-  font-size: var(--font-x-small);
-  padding: var(--spacing-sm) var(--spacing-md);
-  min-height: auto;
-  height: 36px;
-  border-radius: var(--radius-base);
-  background-color: var(--color-background-100);
-  border-color: var(--color-border);
-  color: var(--color-secondary);
-  font-weight: var(--font-weight-medium);
-  text-transform: none;
-}
-.navbar-end .button .icon { font-size: 1em; }
-.navbar-end .button:hover {
-  background-color: var(--color-background-200);
-  border-color: var(--color-border);
-  box-shadow: var(--shadow-none);
-}
-
-
-/* Forms (Inputs) - Keep them clean and simple */
-.input, .textarea, .select select {
+.navbar-item.has-play-icon .icon { font-size: 0.7em; margin-left: var(--spacing-xxs); }
+.navbar-link::after { border-color: var(--color-secondary); } /* Dropdown arrow */
+.navbar-dropdown {
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-base); /* 8px from theme */
-  color: var(--color-foreground);
-  min-height: 44px; /* Consistent height */
-  padding: var(--spacing-sm) var(--spacing-md);
-  font-size: var(--font-base-size);
-  box-shadow: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-.input:hover, .textarea:hover, .select select:hover {
-  border-color: var(--color-mute); /* Slightly darker on hover */
-}
-.input:focus, .input.is-focused,
-.textarea:focus, .textarea.is-focused,
-.select select:focus, .select select.is-focused {
-  border-color: var(--jk-accent-color) !important;
-  box-shadow: 0 0 0 2px rgba(var(--jk-accent-color-rgb), 0.2) !important; /* Softer focus ring */
-}
-label.label {
-  color: var(--color-contrast);
-  font-weight: var(--font-weight-medium);
-  margin-bottom: var(--spacing-sm);
-  font-size: var(--font-small);
+  border-top: none;
+  border-radius: 0 0 var(--radius-base) var(--radius-base);
+  box-shadow: var(--shadow-md);
 }
 
-/* Content specific (Bulma's .content class) */
-.content {
+/* Forms */
+.input, .textarea, .select select {
+  background-color: var(--color-surface); /* White background for inputs */
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base); /* 8px */
   color: var(--color-foreground);
-  line-height: 1.7;
+  min-height: 44px; /* Match button height */
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-base-size);
+  box-shadow: var(--shadow-none);
 }
+.input:hover, .textarea:hover, .select select:hover { border-color: var(--color-mute); }
+.input:focus, .input.is-focused, .textarea:focus, .textarea.is-focused,
+.select select:focus, .select select.is-focused {
+  border-color: var(--jk-accent-color) !important;
+  box-shadow: 0 0 0 2px rgba(var(--jk-accent-color-rgb), 0.2) !important;
+}
+label.label {
+  color: var(--color-contrast); font-weight: var(--font-weight-medium);
+  margin-bottom: var(--spacing-sm); font-size: var(--font-small);
+}
+
+/* Content Area (.content by Bulma) */
 .content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
-  color: var(--color-contrast);
   font-family: var(--font-family-headings);
-  font-weight: var(--font-weight-bold);
+  color: var(--color-contrast);
+  font-weight: var(--font-weight-bold); /* Bolder for content headings */
 }
-.content strong { font-weight: var(--font-weight-bold); color: var(--color-contrast); }
-.content a { /* Links inside content should be accent */
-  color: var(--jk-accent-color);
-  font-weight: var(--font-weight-medium);
-  text-decoration: none;
-}
-.content a:hover {
-  text-decoration: underline;
-}
-.content blockquote {
-  background-color: var(--color-background-100);
-  border-left: 3px solid var(--jk-accent-color);
-  padding: var(--spacing-md);
-  border-radius: var(--radius-subtle);
-  color: var(--color-secondary);
-}
-.content pre { /* Assuming pre uses default theme styling from above */ }
 .content ul { list-style: disc outside; margin-left: var(--spacing-lg); }
 .content ol { list-style: decimal outside; margin-left: var(--spacing-lg); }
 .content li + li { margin-top: var(--spacing-xs); }
 
-
-/* Footer Styling (Basic multi-column) */
+/* Footer */
 .footer {
-  background-color: var(--color-background); /* Match page bg */
-  padding: var(--spacing-xl) var(--layout-padding);
-  border-top: 1px solid var(--color-border);
+  background-color: var(--color-background);
+  padding: var(--spacing-xxl) var(--layout-padding) var(--spacing-xl);
+  border-top: 1px solid var(--color-border-subtle);
   color: var(--color-secondary);
   font-size: var(--font-small);
 }
-.footer .title.is-6 { /* Footer column titles */
-  color: var(--color-contrast);
-  font-weight: var(--font-weight-semibold);
-  margin-bottom: var(--spacing-md);
-  font-size: var(--font-base-size);
+.footer .title.is-6 {
+  color: var(--color-contrast); font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--spacing-md); font-size: var(--font-base-size);
 }
-.footer a {
-  color: var(--color-foreground); /* Footer links standard text color */
-  font-weight: var(--font-weight-regular);
-}
-.footer a:hover {
-  color: var(--jk-accent-color);
-  text-decoration: underline;
-}
-.footer .level-item { /* For copyright */
-  font-size: var(--font-x-small);
-}
+.footer a { color: var(--color-foreground); font-weight: var(--font-weight-regular); }
+.footer a:hover { color: var(--jk-accent-color); text-decoration: underline; }
 
-/* Specific card styling from your archive example, adapted */
-.archive-section .post-item-card .card-content .level-item .tag {
-  font-size: var(--font-x-small);
-  height: auto;
-  padding: 0.2em 0.75em; /* Bulma default tag padding */
-  border-radius: var(--radius-pill);
-  font-weight: var(--font-weight-medium);
-  /* Bulma .is-light and color modifiers for tags will apply */
+/* Specific Archive Card Styles (from your HTML structure) */
+.archive-section .post-item-box { /* This is a Bulma .box */
+  /* Inherits sharp border, no shadow from global .box override */
+  display: flex; flex-direction: column; height: 100%;
 }
+.archive-section .post-item-link-wrapper { /* Your custom wrapper for clickable area */
+    text-decoration: none; color: inherit; display: flex;
+    flex-direction: column; flex-grow: 1;
+}
+.archive-section .post-item-box .post-media-container .image img { object-fit: cover; }
+.archive-section .post-item-box .content { flex-grow: 1; padding: var(--spacing-md); }
+.archive-section .post-item-box .content .level-item .tag {
+  font-size: var(--font-x-small); padding: 0.2em 0.75em;
+  border-radius: var(--radius-pill); font-weight: var(--font-weight-medium);
+}
+.archive-section .post-item-box .content .title.is-5 {
+  font-family: var(--font-family-headings); font-weight: var(--font-weight-semibold);
+  color: var(--color-contrast); margin-bottom: var(--spacing-xs); font-size: var(--font-large);
+}
+.archive-section .post-item-box .content .excerpt-text-column {
+  color: var(--color-secondary); font-size: var(--font-small); line-height: 1.5;
+}
+.archive-section .post-item-box .content .message.is-light { /* TLDR */
+  background-color: var(--color-background-100); border-radius: var(--radius-subtle);
+  border: 1px solid var(--color-border-subtle); border-left-width: 3px;
+  color: var(--color-secondary); font-size: var(--font-x-small);
+}
+/* Color for TLDR based on category (match Bulma's .is-warning .is-info logic) */
+.archive-section .post-item-box .content .message.is-light.is-warning { border-left-color: #ffdd57; background-color: #fffbeb; color: #947600;}
+.archive-section .post-item-box .content .message.is-light.is-info { border-left-color: #3298dc; background-color: #eff5fb; color: #296fa8;}
 
-/* Styles for the specific numbered list items in the design */
-.numbered-feature-list .media { /* Assuming each item is a media object */
-  align-items: flex-start;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-base);
-  padding: var(--spacing-lg);
-  background-color: var(--color-surface);
-  margin-bottom: var(--spacing-md);
+.archive-section .post-item-box .post-item-footer {
+  padding: var(--spacing-sm); margin-top: auto; /* Push footer to bottom */
+  border-top: 1px solid var(--color-border-subtle);
 }
-.numbered-feature-list .media-left .number-badge {
-  font-size: 2.5rem; /* Large number */
-  font-weight: var(--font-weight-bold);
-  color: var(--color-mute);
-  line-height: 1;
-  margin-right: var(--spacing-lg);
+.archive-section .post-item-box .post-item-footer .buttons .button {
+  font-size: var(--font-x-small); height: 32px; min-height: auto;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-base); /* Slightly more rounded footer buttons */
+  text-transform: none;
 }
-.numbered-feature-list .media-content .title {
-  font-size: var(--font-large);
-  color: var(--color-contrast);
-  font-weight: var(--font-weight-semibold);
-  margin-bottom: var(--spacing-xs);
+.archive-section .ad-placeholder-box,
+.archive-section .newsletter-box-column {
+  /* Inherits global .box styling (sharp, bordered, no shadow) */
+  min-height: 100%; /* Try to make them match card height */
 }
-.numbered-feature-list .media-content p {
-  font-size: var(--font-small);
-  color: var(--color-secondary);
-  line-height: 1.6;
-  margin-bottom: 0;
+.archive-section .newsletter-box-column {
+  background-color: var(--color-background-100);
 }
-
-/* Helper for fading grid background */
-.has-fading-grid-background {
-  position: relative;
-}
-.has-fading-grid-background::before {
-  content: '';
-  position: absolute; /* Changed to absolute, assumes parent has positioning context */
-  top: 0; left: 0; right: 0; bottom: 0;
-  width: 100%; height: 100%;
-  background-image:
-    linear-gradient(to right, var(--color-grid-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--color-grid-line) 1px, transparent 1px);
-  background-size: 30px 30px; /* Smaller grid */
-  opacity: 1; /* Start fully visible */
-  z-index: -1;
-  mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 90%);
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 90%);
-  pointer-events: none;
-}
+/* Add more specific overrides for elements from the design if needed */
