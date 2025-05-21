@@ -495,12 +495,10 @@ layout: default
             </div>
             {% endif %}
 
-            <!-- Share Buttons -->
-            {% include share-buttons.html page=page %} {# Pass page object to share buttons include #}
-
+        
 
             <!-- Comments Section -->
-            {% if page.comments == true and site.comments_provider %}
+            <!-- {% if page.comments == true and site.comments_provider %}
             <div class="box mt-6">
               <h3 class="title is-4 mb-5">Discussion</h3>
               {% if site.comments_provider == "disqus" %}
@@ -513,7 +511,7 @@ layout: default
                 </div>
               {% endif %}
             </div>
-            {% endif %}
+            {% endif %} -->
           </article>
         </div>
 
