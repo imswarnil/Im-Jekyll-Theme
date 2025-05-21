@@ -1,109 +1,286 @@
-// _scss/theme/_overrides.scss
+// _scss/theme/_bulma_overrides.scss
 
-//-------------------------------------------------------------------
-// 1. DEFINE CSS CUSTOM PROPERTIES (LIGHT MODE - DEFAULT)
-//-------------------------------------------------------------------
-:root {
-  // Dynamic Ghost/CMS font variables (provide fallbacks from our Sass vars)
-  --gh-font-heading: #{$fontFamilyHeadings};
-  --gh-font-body: #{$fontFamilyBody};
+// --- General Bulma Element Styling using Theme Vars ---
+// Body is handled by _base_styles.scss
 
-  // Jekyll Themed Accent Color
-  --jk-accent-color: #{$primary};
-  --jk-accent-color-rgb: #{$static-jk-accent-color-rgb}; // <<<< USES THE CORRECT SASS VARIABLE
-  --jk-accent-foreground-color: #{$static-jk-accent-foreground-color};
-
-  // Core Colors (mapping to your theme's naming)
-  --color-contrast: #{$staticColorContrast};
-  --color-background: #{$staticColorBackground};
-  --color-background-100: #{$staticColorBackground100};
-  // ... (rest of your CSS custom property definitions, they should be referencing
-  //      the $staticColorX, $fontFamilyX, $fontWeightX, $size-X, $radius-X, etc.
-  //      Sass variables defined in _variables.scss) ...
-
-  // Example for border (was $staticColorBorder, which is fine, or directly from $border)
-  --color-border: #{$border};
-
-  // Font Families
-  --font-family-headings: #{$fontFamilyHeadings};
-  --font-family-body: #{$fontFamilyBody};
-  --font-family-button: #{$fontFamilyButton};
-  --font-family-mono: #{$fontFamilyMonospace};
-
-  // Font Sizes
-  --font-x-small: #{$size-7};
-  --font-small: #{$size-6};
-  --font-base: #{$size-5};
-  --font-large: #{$size-4};
-
-  // Font Weights
-  --font-weight-light: #{$fontWeightLight};
-  --font-weight-regular: #{$fontWeightRegular};
-  --font-weight-medium: #{$fontWeightMedium};
-  --font-weight-semibold: #{$fontWeightSemibold};
-  --font-weight-bold: #{$fontWeightBold};
-
-  // Spacings
-  --spacing-1: 0.125rem; --spacing-2: 0.25rem;  --spacing-3: 0.375rem;
-  --spacing-4: 0.5rem;   --spacing-5: 0.625rem; --spacing-6: 0.75rem;
-  --spacing-7: 1rem;     --spacing-8: 1.25rem;  --spacing-9: 1.875rem;
-  --spacing-10: 5rem;    --spacing-11: 6.25rem;
-  --vertical-rhythm: 1.5rem;
-
-  // Border Radius
-  --radius-1: #{$radius-small};
-  --radius-2: #{$radius};
-  --radius-3: #{$radius-large};
-  --radius-4: 0px;
-  --radius-5: 0px;
-  --radius-6: 0px;
-
-  // Layout
-  --layout--padding: clamp(16px, 1.0625rem + 1.25vw, 30px); // Using clamp as in your example
-
-  // Navbar
-  --navbar--min-height: #{$navbar-height};
-
-  // Button theme vars for custom elements
-  --button--padding-v: var(--spacing-4);
-  --button--padding-h: var(--spacing-8);
-  --button--min-height: 2.5rem;
-  --button--font-size: var(--font-small);
-  --button--font-weight: var(--font-weight-medium);
-  --button--line-height: 1.5;
-  --button--border-radius: #{$button-radius};
-  --button--color: var(--jk-accent-foreground-color);
-  --button--background-color: var(--jk-accent-color);
-  --button-hover--color: var(--color-background);
-  --button-hover--background-color: var(--color-contrast);
-  --button-hover--opacity: 0.8;
-
-  // Container Widths
-  --container--width: #{$container-max-width};
-  --container-wide--width: #{$widescreen};
-
-  // Shadow
-  --shadow: 0 20px 60px -10px hsla(0, 4%, 68%, 0.24),
-            0 4px 20px -8px rgba(0, 0, 0, 0.24%);
-
-  // Popup / Dropdown / Avatar specific theme vars
-  --popup--overlay--background-color: #e8e8e8; // From your example
-  --dropdown--background-color: var(--color-background);
-  --avatar--size: 2.25rem;
-  --avatar--font-size: var(--font-small);
-  --avatar--color: var(--color-secondary);
-  --avatar--background-color: var(--color-background-100);
-  --avatar-hover--background-color: var(--color-background-200);
-
-
-  color-scheme: light;
+.title, .subtitle { // Bulma classes
+  font-family: var(--font-family-headings);
+  color: var(--color-contrast);
+}
+.title {
+  font-weight: var(--font-weight-semibold);
+  // Sizes .is-1 to .is-6 are set by Bulma Sass vars to match theme conceptual sizes
+}
+.subtitle {
+  color: var(--color-secondary);
+  font-weight: var(--font-weight-regular);
 }
 
-// --- The rest of _overrides.scss with Global styles and Component overrides follows ---
-// Ensure the input focus box-shadow rule is:
-// .input, .textarea, .select select {
-//   &:focus, &.is-focused, &:active, &.is-active {
-//     border-color: var(--jk-accent-color);
-//     box-shadow: 0 0 0 0.125em rgba(var(--jk-accent-color-rgb), 0.25); // Uses the CSS var for RGB
-//   }
-// }
+// Links within Bulma components often inherit or use .has-text-*
+// The global 'a' style from _base_styles.scss will apply widely.
+
+// --- Bulma Component Theming ---
+.button {
+  font-family: var(--font-family-button);
+  font-size: var(--button--font-size);       // from CSS var --font-small
+  font-weight: var(--font-weight-semibold);  // THEME SPECIFIC:semibold, Bulma default is medium ($button-weight)
+  min-height: var(--button--min-height);     // 2.5rem
+  line-height: var(--button--line-height);   // 1.5
+  padding: var(--button--padding-v) var(--button--padding-h); // var(--spacing-4) var(--spacing-8)
+  border-radius: var(--button--border-radius); // calc(var(--button--min-height) * 0.5) -> 20px
+  border-width: 0; // Theme buttons appear borderless
+  transition: var(--button--transition);
+  color: var(--button--color); // var(--jk-accent-foreground-color)
+  background-color: var(--button--background-color); // var(--jk-accent-color)
+
+  &:hover, &:focus {
+    color: var(--button-hover--color); // var(--color-background)
+    background-color: var(--button-hover--background-color); // var(--color-contrast)
+    opacity: var(--button-hover--opacity, 0.8);
+  }
+
+  // If Bulma's .is-primary is used, it will take $button-background-color etc. from _variables.scss
+  // which is set to $primary ($staticJkAccentColor). This rule reinforces if needed.
+  &.is-primary {
+    background-color: var(--jk-accent-color);
+    color: var(--jk-accent-foreground-color);
+    &:hover, &:focus {
+      background-color: var(--color-contrast); // Match --button-hover--background-color
+      color: var(--color-background);    // Match --button-hover--color
+      opacity: 0.8;
+    }
+  }
+
+  &.is-light {
+    background-color: var(--color-background-100);
+    color: var(--color-contrast);
+    border: 1px solid var(--color-border); // Add border for light buttons
+    &:hover, &:focus {
+      background-color: var(--color-background-200);
+      border-color: var(--color-border); // Or a distinct hover border
+    }
+  }
+  // Style other .is-info, .is-success etc. using your CSS vars if needed
+}
+
+// Cards and Boxes: Enforce NO SHADOW, LIGHT BORDER, NO RADIUS
+.card, .box {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: 1px solid var(--color-border) !important;
+  background-color: var(--color-background); // Ensure bg
+}
+
+.card {
+  .card-header {
+    background-color: transparent;
+    box-shadow: none;
+    border-bottom: 1px solid var(--color-border);
+    border-radius: 0 !important;
+    padding: var(--spacing-6) var(--spacing-7); // Use theme spacing
+    .card-header-title {
+      color: var(--color-contrast);
+      font-family: var(--font-family-headings);
+      font-weight: var(--font-weight-semibold);
+      padding: 0;
+    }
+  }
+  .card-image img { border-radius: 0 !important; }
+  .card-content { padding: var(--spacing-7); } // Use theme spacing
+  .card-footer {
+    border-top: 1px solid var(--color-border);
+    background-color: transparent;
+    padding: 0;
+    .card-footer-item {
+      padding: var(--spacing-6) var(--spacing-7);
+      color: var(--jk-accent-color);
+      border-right: 1px solid var(--color-border);
+      &:last-child { border-right: none; }
+      &:hover {
+        color: var(--jk-accent-color); // Keep color, or use a hover accent var
+        background-color: var(--color-background-100);
+      }
+    }
+  }
+}
+
+.box { padding: var(--spacing-8); } // Theme spacing for box
+
+.navbar {
+  min-height: var(--navbar--min-height);
+  background-color: transparent;
+  box-shadow: none;
+  border-bottom: 1px solid var(--color-border);
+
+  &::before { // Overlay effect from theme
+    content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--color-background);
+    opacity: 0.9; // Theme opacity for navbar bg overlay
+    z-index: -1;
+    backdrop-filter: blur(10px); // Theme uses blur
+  }
+
+  .navbar-brand .navbar-item {
+    padding-left: var(--layout--padding); // Theme padding for layout
+  }
+  .navbar-menu {
+    padding-right: var(--layout--padding); // Theme padding for layout
+  }
+
+  .navbar-item, .navbar-link {
+    font-family: var(--font-family-button); // Button font for nav items
+    font-size: var(--font-small);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-contrast); // Contrast color for nav text
+    padding: var(--spacing-4) var(--spacing-6); // Theme consistent padding
+    &:hover, &.is-active {
+      background-color: var(--color-background-200);
+      color: var(--jk-accent-color);
+    }
+  }
+  .navbar-dropdown {
+    background-color: var(--dropdown--background-color);
+    border: 1px solid var(--color-border);
+    border-top: none;
+    border-radius: 0 0 var(--radius-2) var(--radius-2); // Use theme radius
+    box-shadow: var(--shadow); // Theme shadow for dropdowns
+    .navbar-item {
+      color: var(--color-foreground); // Standard text color for dropdown items
+      &:hover {
+        background-color: var(--color-background-100);
+        color: var(--jk-accent-color);
+      }
+    }
+  }
+}
+
+// Forms
+.input, .textarea, .select select {
+  background-color: var(--color-background-100);
+  border: 1px solid var(--color-border);
+  // border-radius: var(--radius-1); // Theme has 1.5rem (24px) for form inputs
+  border-radius: 1.5rem; // Specific from theme form style
+  color: var(--color-contrast);
+  min-height: 3rem; // Specific from theme form style
+  padding: var(--spacing-6) var(--spacing-8); // Specific from theme
+  font-size: var(--font-small);
+  font-weight: var(--font-weight-medium);
+
+  &:hover { border-color: var(--color-border); }
+  &:focus, &.is-focused, &:active, &.is-active {
+    border-color: var(--jk-accent-color);
+    box-shadow: 0 0 0 0.125em rgba(var(--jk-accent-color-rgb), 0.25);
+  }
+  &::placeholder { color: var(--color-mute); }
+}
+.select:not(.is-multiple):not(.is-loading)::after { // Dropdown arrow for select
+  border-color: var(--color-contrast); // Contrast arrow
+  opacity: 0.8; // From theme select arrow
+  right: var(--spacing-8); // Position from theme
+}
+label.label {
+  color: var(--color-contrast);
+  font-weight: var(--font-weight-medium); // Theme label weight
+  margin-bottom: var(--spacing-4);
+  font-size: var(--font-small);
+}
+
+// Pagination
+.pagination {
+  .pagination-link, .pagination-previous, .pagination-next {
+    // Use button styling for pagination items for consistency with theme
+    font-family: var(--font-family-button);
+    font-weight: var(--font-weight-medium); // Match --button--font-weight
+    font-size: var(--font-small);           // Match --button--font-size
+    min-height: var(--button--min-height);
+    height: var(--button--min-height);
+    padding: var(--button--padding-v) var(--button--padding-h);
+    border-radius: var(--button--border-radius); // Rounded like theme buttons
+    border: 1px solid var(--color-border); // Light border
+    color: var(--color-foreground);
+    background-color: var(--color-background);
+    transition: var(--button--transition);
+
+    &:hover {
+      border-color: var(--jk-accent-color);
+      color: var(--jk-accent-color);
+      background-color: var(--color-background-100);
+    }
+    &.is-current {
+      background-color: var(--jk-accent-color);
+      border-color: var(--jk-accent-color);
+      color: var(--jk-accent-foreground-color);
+    }
+    &:disabled {
+      background-color: var(--color-background-100);
+      border-color: var(--color-border);
+      color: var(--color-mute);
+      opacity: 0.5; // Theme disabled opacity
+    }
+  }
+}
+
+// --- Specific styles for your archive page cards ---
+.archive-column-cards {
+  .post-item-box { // This is a .box or .card
+    // General card/box styles for border/radius/shadow are applied above
+    .content {
+      .level-item .tag {
+        font-size: var(--font-x-small);
+        font-weight: var(--font-weight-medium);
+        border-radius: var(--radius-rounded); // Fully rounded tags
+        // Colors like is-warning, is-info are handled by Bulma
+      }
+      .title.is-5 {
+        font-family: var(--font-family-headings);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-contrast);
+        margin-bottom: var(--spacing-4);
+      }
+      .excerpt-text-column {
+        color: var(--color-secondary);
+        font-size: var(--font-small);
+        line-height: 1.5;
+      }
+      .message.is-light { // For TLDR
+         background-color: var(--color-background-100);
+         border-radius: var(--radius-1); // Or 0px for sharp
+         border: 1px solid var(--color-border);
+         border-left-width: 3px; // Standard message accent
+         &.is-warning { border-left-color: $warning; } // Using Bulma var
+         &.is-info { border-left-color: $info; }
+         .message-body {
+            padding: var(--spacing-4) var(--spacing-6);
+            color: var(--color-foreground);
+         }
+      }
+    }
+    .post-item-footer {
+      padding: var(--spacing-6);
+      border-top: 1px solid var(--color-border);
+       .tags .tag.is-light {
+        background-color: var(--color-background-100);
+        color: var(--color-secondary);
+        border-radius: var(--radius-rounded);
+      }
+      .buttons .button { // Demo/Code buttons in footer
+        // These will inherit the main button styling
+        // For .is-light variant if used:
+        &.is-light {
+          background-color: var(--color-background-100);
+          color: var(--color-contrast);
+          border: 1px solid var(--color-border);
+          // Use button-radius from Sass vars (20px)
+          &:hover { background-color: var(--color-background-200); }
+        }
+      }
+    }
+  }
+
+  .ad-placeholder-box, .newsletter-box-column {
+    // Will inherit general .box styling (no radius, no shadow, light border)
+  }
+  .newsletter-box-column {
+    background-color: var(--color-background-100); // Light bg for newsletter
+  }
+}

@@ -1,179 +1,130 @@
 // _scss/theme/_variables.scss
 
 //-------------------------------------------------------------------
-// 1. STATIC COLOR PALETTE (Light Mode Defaults from your CSS Vars)
+// 1. FONT FAMILY SETUP FOR BULMA
+// Bulma needs a string value for font families. We'll use your CSS vars.
+// Note: This relies on the browser interpreting these CSS vars correctly when Bulma uses them.
+// It's generally safer to provide a direct font stack here.
 //-------------------------------------------------------------------
-$static-color-contrast: #000;
-$static-color-background: #fff;
-$static-color-background-100: #f3f3f3;
-$static-color-background-200: #ededed;
-$static-color-background-300: #dadada;
-$static-color-foreground: #4d4d4d;
-$static-color-secondary: #757575;
-$static-color-mute: #b2b2b2;
-$static-color-border: hsl(0, 0%, 50%, 0.2); // --color-border (hsla(0,0%,50%,.2))
-$static-color-border-hover: hsl(0, 0%, 40%, 0.2); // Example static hover, slightly darker
-$static-color-success: #348f3f;
-$static-color-error: #c34d4d;
-
-// Main Accent Color (Your Primary)
-$static-jk-accent-color: #e53935; // This was $static-accent-color before, renamed for clarity
-// RGB components for $static-jk-accent-color (#e53935 is R:229, G:57, B:53)
-$static-jk-accent-color-rgb: 229, 57, 53; // <<<<******* THIS LINE WAS MISSING OR NAMED INCORRECTLY *******
-// Text color on top of the accent color
-$static-jk-accent-foreground-color: #fff;
-
-//-------------------------------------------------------------------
-// 2. TYPOGRAPHY (Static values from your theme)
-//-------------------------------------------------------------------
-$fontFamilyHeadings: "Geist", "Outfit", Arial, sans-serif;
-$fontFamilyBody: "Geist", "Outfit", Arial, sans-serif;
-$fontFamilyButton: $fontFamilyBody;
-$fontFamilyMonospace: "JetBrains Mono", "Roboto Mono", monospace;
-
-$fontWeightLight: 300;
-$fontWeightRegular: 400;
-$fontWeightMedium: 500;
-$fontWeightSemibold: 600;
-$fontWeightBold: 700;
-
-$size-1: 2.25rem; $size-2: 1.75rem; $size-3: 1.375rem;
-$size-4: 1.125rem; $size-5: 1rem;    $size-6: 0.875rem;
-$size-7: 0.75rem;
-
-//-------------------------------------------------------------------
-// 3. BULMA GENERAL VARIABLE OVERRIDES
-//-------------------------------------------------------------------
-$family-sans-serif: $fontFamilyBody !default;
-$family-monospace: $fontFamilyMonospace !default;
+$family-sans-serif: var(--font-family-body, "Geist", "Outfit", Arial, sans-serif) !default;
+$family-monospace: var(--font-family-mono, "JetBrains Mono", "Roboto Mono", monospace) !default; // Assuming you'll define --font-family-mono
 $family-primary: $family-sans-serif;
-$family-secondary: $fontFamilyHeadings;
+$family-secondary: var(--font-family-headings, "Geist", "Outfit", Arial, sans-serif); // For .title class
 
-$primary: $static-jk-accent-color; // Bulma's primary uses our static accent
+//-------------------------------------------------------------------
+// 2. CORE BULMA COLORS (Must be static Sass colors for Bulma's functions)
+// We use the *values* from your light theme CSS custom properties.
+//-------------------------------------------------------------------
+$primary: #e53935; // Your --ghost-accent-color value for light mode
 $link: $primary;
 
-$text: $staticColorForeground;
-$text-light: $staticColorSecondary;
-$text-strong: $staticColorContrast;
+$black: #000; // --color-contrast
+$white: #fff; // --color-background
 
-$background: $staticColorBackground;
-$border: $staticColorBorder;
-$border-light: lighten($staticColorBorder, 10%);
-$border-hover: $primary; // Or $static-color-border-hover
+$text: #4d4d4d; // --color-foreground
+$text-light: #757575; // --color-secondary
+$text-strong: $black;
 
-$grey-darker: darken($staticColorMute, 25%);
-$grey-dark: darken($staticColorMute, 10%);
-$grey: $staticColorMute;
-$grey-light: $staticColorBackground300;
-$grey-lighter: $staticColorBackground200;
+$background: $white;
+$border: hsl(0, 0%, 50%, 0.2); // --color-border
 
-$info: hsl(217, 71%, 53%); $success: $staticColorSuccess;
-$warning: hsl(48, 100%, 67%); $danger: $staticColorError;
+$grey-darker: darken(#b2b2b2, 25%); // Derived from --color-mute for Bulma's scale
+$grey-dark: darken(#b2b2b2, 10%);
+$grey: #b2b2b2; // --color-mute
+$grey-light: #dadada; // --color-background-300
+$grey-lighter: #ededed; // --color-background-200
 
+$info: hsl(217, 71%, 53%); // Bulma's default blue
+$success: #348f3f; // --color-success
+$warning: hsl(48, 100%, 67%); // Bulma's default yellow
+$danger: #c34d4d; // --color-error
+
+//-------------------------------------------------------------------
+// 3. BULMA GENERAL SETTINGS
+//-------------------------------------------------------------------
 $body-background-color: $background;
 $body-color: $text;
-$body-family: $family-primary;
-$body-size: $size-5;
-$body-weight: $fontWeightRegular;
-$body-line-height: 1.5; // From theme
+$body-family: $family-primary; // Uses the var(--font-family-body) string
+$body-size: 1rem; // 16px, from --font-base in your CSS vars
+$body-weight: 400; // --font-weight-regular
+$body-line-height: 1.5; // --button--line-height or theme general
 
 $link-color: $link;
-$link-hover: darken($link, 8%);
+$link-hover: darken($link, 10%); // Bulma's default hover derived from $link
 $link-decoration: underline;
 
 //-------------------------------------------------------------------
-// 4. BULMA COMPONENT VARIABLE OVERRIDES
+// 4. BULMA COMPONENT DEFAULTS (Using static values)
+// We want sharp edges and bordered cards/boxes.
 //-------------------------------------------------------------------
-$radius-small: 0px; $radius: 0px; $radius-large: 0px;
-$radius-rounded: 9999px;
+$radius-small: 0px;
+$radius: 0px;
+$radius-large: 0px;
+$radius-rounded: 9999px; // For fully rounded items like tags
 
-// Buttons
-$button-color: $static-jk-accent-foreground-color;
-$button-background-color: $primary;
-$button-border-color: transparent;
-$button-border-width: 0px;
+// Buttons - Bulma will use its defaults based on $primary, $text, etc.
+// Specific theme button styles will be applied via CSS custom props in _overrides.scss
+$button-family: var(--font-family-button, "Geist", "Outfit", sans-serif); // Use CSS var string
+$button-weight: 500; // --font-weight-medium
+// $button-padding-vertical & $button-padding-horizontal will be styled with CSS vars.
+// $button-radius: calculated from min-height using CSS vars.
 
-$button-hover-color: $staticColorBackground;
-$button-hover-background-color: $staticColorContrast;
-$button-hover-border-color: transparent;
-
-$button-focus-color: $button-hover-color;
-$button-focus-background-color: $button-hover-background-color;
-$button-focus-border-color: $primary;
-$button-focus-box-shadow-size: 0 0 0 0.125em;
-$button-focus-box-shadow-color: rgba($primary, 0.25);
-
-$button-radius: 20px;
-$control-radius: $button-radius;
-
-$button-family: $fontFamilyButton;
-$button-weight: $fontWeightMedium;
-$button-padding-vertical: 0.5rem;
-$button-padding-horizontal: 1.25rem;
-$button-line-height: 1.5;
-
-// Card - NO SHADOW, LIGHT BORDER, NO RADIUS
-$card-background-color: $staticColorBackground;
-$card-color: $staticColorForeground;
-$card-header-color: $staticColorContrast;
+// Card - Sharp edges, no shadow, will add border with CSS
 $card-radius: 0px;
 $card-shadow: none;
-$card-header-padding: 1rem 1.25rem;
+$card-background-color: $white; // --color-background
+$card-color: $text; // --color-foreground
+$card-header-color: $black; // --color-contrast
+$card-header-padding: 1rem 1.25rem; // Match approx theme --spacing
 $card-content-padding: 1.25rem;
-$card-footer-border-top: 1px solid $staticColorBorder;
+$card-footer-border-top: 1px solid $border;
 
-// Box - NO SHADOW, LIGHT BORDER, NO RADIUS
-$box-background-color: $staticColorBackground;
-$box-color: $staticColorForeground;
+// Box - Sharp edges, no shadow, will add border with CSS
 $box-radius: 0px;
 $box-shadow: none;
-$box-padding: 1.25rem;
+$box-background-color: $white;
+$box-color: $text;
+$box-padding: 1.25rem; // Bulma default, can be overridden by CSS vars
 
 // Navbar
-$navbar-background-color: rgba($staticColorBackground, 0.95);
-$navbar-height: 58px;
-$navbar-item-color: $staticColorForeground;
+$navbar-background-color: $white; // Solid initially
+$navbar-height: 58px; // --navbar--min-height
+$navbar-item-color: $text;
 $navbar-item-hover-color: $primary;
-$navbar-item-hover-background-color: $staticColorBackground100;
-$navbar-padding-vertical: 0.5rem;
-$navbar-padding-horizontal: 1rem;
+$navbar-item-hover-background-color: #f3f3f3; // --color-background-100
 
-// Input, Textarea, Select
-$input-color: $staticColorContrast;
-$input-background-color: $staticColorBackground100;
-$input-border-color: $staticColorBorder;
-$input-hover-border-color: $staticColorBorder;
+// Input
+$input-radius: 0px; // Sharp inputs
+$input-border-color: $border;
+$input-background-color: #f3f3f3; // --color-background-100
+$input-color: $text;
+$input-placeholder-color: #b2b2b2; // --color-mute
 $input-focus-border-color: $primary;
-$input-placeholder-color: $staticColorMute;
-$input-radius: $radius-small;
 $input-shadow: none;
 
 // Titles
-$title-color: $staticColorContrast;
-$title-family: $fontFamilyHeadings;
-$title-weight: $fontWeightSemibold;
-$title-line-height: 1.1; // From theme
-$subtitle-color: $staticColorSecondary;
-$subtitle-family: $fontFamilyHeadings;
-$subtitle-weight: $fontWeightRegular;
-$subtitle-line-height: 1.2; // From theme
+$title-family: var(--font-family-headings, "Geist", "Outfit", sans-serif); // Use CSS var string
+$title-color: $black;
+$title-weight: 600; // --font-weight-semibold
+$title-line-height: 1.1;
 
-// Generic
-$hr-background-color: $staticColorBorder;
-$hr-height: 1px;
-$hr-margin: 1.5rem 0;
+$subtitle-family: var(--font-family-headings, "Geist", "Outfit", sans-serif);
+$subtitle-color: #757575; // --color-secondary
+$subtitle-weight: 400; // --font-weight-regular
+$subtitle-line-height: 1.2;
 
-// Container
-$container-max-width: 700px;
-$widescreen: 1100px;
-$fullhd: 1300px;
+// Container widths
+$container-max-width: 700px; // --container--width
+$widescreen: 1100px; // --container-wide--width
+$fullhd: 1300px;   // --featured-image--max-width
 $widescreen-enabled: true;
 $fullhd-enabled: true;
 
-// Defaults for Bulma to compile
+// Standard Bulma defaults needed for compilation
 $body-rendering: optimizeLegibility !default;
 $control-border-width: 1px !default;
 $control-line-height: 1.5 !default;
 $variable-columns: true !default;
 $speed: 86ms !default;
 $easing: ease-out !default;
+$hr-background-color: $border;
