@@ -421,7 +421,7 @@ a {
      border-color: var(--color-border);
   }
   tr:hover {
-    // background-color: var(--color-background-100); // Optional hover
+    background-color: var(--color-background-100); // Optional hover
   }
 }
 
@@ -434,75 +434,75 @@ a {
 // Example: Making .button more like the theme's button
 .button {
   font-family: var(--font-family-button);
-  // font-size: var(--button--font-size) !important; // Use !important cautiously
-  // font-weight: var(--font-weight-semibold) !important; // Theme uses semibold, Bulma uses medium by default
-  // min-height: var(--button--min-height);
-  // padding: var(--button--padding-v) var(--button--padding-h);
-  // border-radius: var(--button--border-radius);
-  // transition: var(--button--transition, all 0.15s ease);
+  font-size: var(--button--font-size) !important; // Use !important cautiously
+  font-weight: var(--font-weight-semibold) !important; // Theme uses semibold, Bulma uses medium by default
+  min-height: var(--button--min-height);
+  padding: var(--button--padding-v) var(--button--padding-h);
+  border-radius: var(--button--border-radius);
+  transition: var(--button--transition, all 0.15s ease);
 
-  // &.is-primary { // Example: ensure primary button matches theme's accent
-  //   background-color: var(--ghost-accent-color);
-  //   color: var(--color-accent-foreground);
-  //   &:hover {
-  //     background-color: var(--button-hover--background-color, $black);
-  //     color: var(--button-hover--color, $white);
-  //     opacity: var(--button-hover--opacity, 0.8);
-  //   }
-  // }
+  &.is-primary { // Example: ensure primary button matches theme's accent
+    background-color: var(--ghost-accent-color);
+    color: var(--color-accent-foreground);
+    &:hover {
+      background-color: var(--button-hover--background-color, $black);
+      color: var(--button-hover--color, $white);
+      opacity: var(--button-hover--opacity, 0.8);
+    }
+  }
 }
 
 
 // Example: .card styling
 .card {
-  // background-color: var(--color-background); // Or background-100 from theme
-  // border-radius: var(--radius-4, 14px);
-  // box-shadow: var(--shadow);
-  // color: var(--color-foreground);
-  // overflow: hidden; // If images go to edge like in card-post-image
+  background-color: var(--color-background); // Or background-100 from theme
+  border-radius: var(--radius-4, 14px);
+  box-shadow: var(--shadow);
+  color: var(--color-foreground);
+  overflow: hidden; // If images go to edge like in card-post-image
 
-  // .card-image {
-  //   img {
-  //     border-top-left-radius: var(--radius-4, 14px); // Match card radius
-  //     border-top-right-radius: var(--radius-4, 14px);
-  //   }
-  // }
-  // .card-content {
-  //   padding: var(--spacing-8, 1.25rem); // Adjust padding
-  // }
-  // .card-header-title {
-  //   color: var(--color-contrast);
-  //   font-family: var(--font-family-headings);
-  //   font-weight: var(--font-weight-semibold);
-  // }
+  .card-image {
+    img {
+      border-top-left-radius: var(--radius-4, 14px); // Match card radius
+      border-top-right-radius: var(--radius-4, 14px);
+    }
+  }
+  .card-content {
+    padding: var(--spacing-8, 1.25rem); // Adjust padding
+  }
+  .card-header-title {
+    color: var(--color-contrast);
+    font-family: var(--font-family-headings);
+    font-weight: var(--font-weight-semibold);
+  }
 }
 
 // Example: .navbar (More detailed Navbar styling would be complex)
 .navbar {
-  // min-height: var(--navbar--min-height);
-  // padding-top: var(--spacing-4);
-  // padding-bottom: var(--spacing-4);
-  // &:before { // Pseudo-element for background with opacity
-  //   content: "";
-  //   position: absolute;
-  //   top: 0; left: 0; right: 0; bottom: 0;
-  //   background-color: var(--color-background);
-  //   opacity: 0.9;
-  //   z-index: -1;
-  //   backdrop-filter: blur(10px); // If supported by browser
-  // }
-  // .navbar-item, .navbar-link {
-  //   font-size: var(--font-small);
-  //   font-weight: var(--font-weight-medium);
-  // }
+  min-height: var(--navbar--min-height);
+  padding-top: var(--spacing-4);
+  padding-bottom: var(--spacing-4);
+  &:before { // Pseudo-element for background with opacity
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--color-background);
+    opacity: 0.9;
+    z-index: -1;
+    backdrop-filter: blur(10px); // If supported by browser
+  }
+  .navbar-item, .navbar-link {
+    font-size: var(--font-small);
+    font-weight: var(--font-weight-medium);
+  }
 }
 
 // Container override if needed
 .container {
-  // max-width: var(--container--width); // Default Bulma container is fine usually
-  // &.is-wide, &.is-widescreen { // If you use Bulma's widescreen modifier
-  //   max-width: var(--container-wide--width);
-  // }
+  max-width: var(--container--width); // Default Bulma container is fine usually
+  &.is-wide, &.is-widescreen { // If you use Bulma's widescreen modifier
+    max-width: var(--container-wide--width);
+  }
 }
 
 // Your Archive Page Specific Styles (from your last example)
