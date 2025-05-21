@@ -5,128 +5,28 @@ layout: page # Or your default layout
 permalink: /archive/
 ---
 
-<section class="section">
-    <div class="container">
-        <h1 class="title is-2 has-text-centered mb-6">All Posts</h1>
+{% if paginator.total_pages > 1 %}
+<div class="pagination">
+  {% if paginator.previous_page %}
+    <a href="{{ paginator.previous_page_path | relative_url }}">&laquo; Prev</a>
+  {% else %}
+    <span>&laquo; Prev</span>
+  {% endif %}
 
-        <div id="post-list" class="columns is-multiline">
-            {% if paginator.posts.size == 0 %}
-                <div class="column is-full">
-                    <p class="has-text-centered is-size-4 has-text-grey">No posts found.</p>
-                </div>
-            {% else %}
-                {% for post in paginator.posts %}
-                    <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-                        <div class="card post-item-card"> {# Using Bulma's card component #}
-                            {% if post.image %}
-                            <div class="card-image">
-                                <figure class="image is-4by3">
-                                    <a href="{{ post.url | relative_url }}">
-                                        <img src="{{ post.image | relative_url }}" alt="{{ post.title | escape }}">
-                                    </a>
-                                </figure>
-                            </div>
-                            {% endif %}
-                            <div class="card-content">
-                                <div class="media mb-2">
-                                    <div class="media-content">
-                                        <p class="title is-5">
-                                            <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
-                                        </p>
-                                        {% if post.category %}
-                                        <p class="subtitle is-7">
-                                            <span class="tag is-light is-capitalized">{{ post.category }}</span>
-                                        </p>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                                <div class="content is-small">
-                                    <p>
-                                        {% if post.excerpt %}
-                                            {{ post.excerpt | strip_html | truncatewords: 25 }}
-                                        {% else %}
-                                            {{ post.content | strip_html | truncatewords: 25 }}
-                                        {% endif %}
-                                    </p>
-                                    <p class="has-text-grey-light">
-                                        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %d, %Y" }}</time>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        </div>
+  {% for page in (1..paginator.total_pages) %}
+    {% if page == paginator.page %}
+      <em>{{ page }}</em>
+    {% elsif page == 1 %}
+      <a href="{{ site.paginate_path | relative_url | replace: 'page:num/', '' }}">{{ page }}</a>
+    {% else %}
+      <a href="{{ site.paginate_path | relative_url | replace: ':num', page }}">{{ page }}</a>
+    {% endif %}
+  {% endfor %}
 
-        {% comment %} --- Bulma Styled Pagination Controls using YOUR working Liquid --- {% endcomment %}
-        {% if paginator.total_pages > 1 %}
-        <nav class="pagination is-centered is-rounded mt-6" role="navigation" aria-label="pagination">
-
-            {% comment %} Previous Page Link {% endcomment %}
-            {% if paginator.previous_page %}
-                <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination-previous">
-                    « Prev
-                </a>
-            {% else %}
-                <a class="pagination-previous" title="This is the first page" disabled>
-                    « Prev
-                </a>
-            {% endif %}
-
-            {% comment %} Next Page Link {% endcomment %}
-            {% if paginator.next_page %}
-                <a href="{{ paginator.next_page_path | relative_url }}" class="pagination-next">
-                    Next »
-                </a>
-            {% else %}
-                <a class="pagination-next" title="This is the last page" disabled>
-                    Next »
-                </a>
-            {% endif %}
-
-            <ul class="pagination-list">
-                {% for page_num in (1..paginator.total_pages) %}
-                    {% if page_num == paginator.page %}
-                        <li><a class="pagination-link is-current" aria-label="Page {{ page_num }}" aria-current="page">{{ page_num }}</a></li>
-                    {% elsif page_num == 1 %}
-                        {% comment %}
-                           Correct handling for page 1 link.
-                           Your paginate_path is "/archive/page:num/"
-                           So replacing 'page:num/' with '' should result in "/archive/"
-                           which is correct for the first page.
-                        {% endcomment %}
-                        <li><a href="{{ site.paginate_path | relative_url | replace: 'page:num/', '' | default: '/archive/' | relative_url }}" class="pagination-link" aria-label="Goto page {{ page_num }}">{{ page_num }}</a></li>
-                    {% else %}
-                        <li><a href="{{ site.paginate_path | relative_url | replace: ':num', page_num }}" class="pagination-link" aria-label="Goto page {{ page_num }}">{{ page_num }}</a></li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        </nav>
-        {% endif %}
-    </div>
-</section>
-
-<style>
-    /* Minimal styling to make cards look decent and pagination usable */
-    .post-item-card {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-    .post-item-card .card-content {
-        flex-grow: 1;
-    }
-    .post-item-card .card-image figure.image img {
-        object-fit: cover;
-    }
-
-    @media screen and (min-width: 769px) { /* Bulma tablet and up */
-        .columns.is-multiline {
-            align-items: stretch; /* Make columns in a row same height */
-        }
-        .column {
-            display: flex; /* Required for height: 100% on direct children like .card */
-        }
-    }
-</style>
+  {% if paginator.next_page %}
+    <a href="{{ paginator.next_page_path | relative_url }}">Next &raquo;</a>
+  {% else %}
+    <span>Next &raquo;</span>
+  {% endif %}
+</div>
+{% endif %}
