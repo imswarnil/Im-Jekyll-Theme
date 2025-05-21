@@ -7,113 +7,101 @@ $family-monospace: "Roboto Mono", monospace !default;
 @import "../node_modules/bulma/sass/index";
 
 /* ==========================================================================
-   THEME CSS - YouTube/Material Design Inspired (Pure CSS Overrides for Bulma)
+   CUSTOM THEME CSS (Inspired by Enji Kusnadi's Portfolio)
    Load this file *AFTER* Bulma's default CSS.
    ========================================================================== */
 
 /*-------------------------------------------------------------------
-  1. CSS CUSTOM PROPERTIES (LIGHT MODE)
-     Your theme's design tokens.
+  1. CSS CUSTOM PROPERTIES (LIGHT MODE - Enji's Theme Inspired)
 -------------------------------------------------------------------*/
 :root {
-  /* Accent Color */
-  --jk-accent-color: #FF0000; /* YouTube Red */
-  --jk-accent-color-rgb: 255, 0, 0;
+  /* Primary Accent Color (Purple from the design) */
+  --jk-accent-color: #7c3aed; /* Approx. purple from "Get in Touch" button */
+  --jk-accent-color-rgb: 124, 58, 237; /* RGB for #7c3aed */
   --jk-accent-foreground-color: #FFFFFF;
 
-  /* Core Colors (YouTube Light Theme Inspired) */
-  --color-contrast: #030303; /* Primary Text / Very Dark Elements */
-  --color-background: #F9F9F9; /* Main Page Background */
-  --color-surface: #FFFFFF;    /* Cards, Menus, Dialogs, Navbar BG */
-  --color-background-100: #F2F2F2; /* Subtle Hover/Active States, Light Grey BG */
-  --color-background-200: #E5E5E5; /* Dividers, More Subtle Backgrounds */
-  --color-background-300: #DADADA;
-  --color-foreground: #030303;     /* Default Text Color */
-  --color-secondary: #606060;   /* Secondary Text */
-  --color-mute: #909090;        /* Disabled/Tertiary Text, Placeholders */
-  --color-border: #E5E5E5;      /* Default Border/Divider for UI elements */
-  --color-border-input: #CCCCCC; /* Specific for Input field borders */
-  --icon-color: #606060;        /* Default Icon Color */
+  /* Core Colors */
+  --color-background: #F8F9FC; /* Very light grey, almost white, with a hint of blue/purple */
+  --color-surface: #FFFFFF;    /* Cards, Navbar background */
+  --color-contrast: #1A202C; /* Dark grey/black for primary text (e.g., "I'm Enji Kusnadi") */
+  --color-foreground: #2D3748; /* Slightly lighter dark grey for body text */
+  --color-secondary: #718096;   /* Grey for secondary text, subtitles */
+  --color-mute: #A0AEC0;        /* Muted text, disabled states */
+  --color-border: #E2E8F0;      /* Light grey for borders, dividers */
+  --color-border-subtle: #F1F5F9; /* Even lighter border */
+  --color-grid-line: rgba(196, 181, 253, 0.1); /* Subtle purple for grid lines */
 
-  /* Semantic Colors (Material Inspired) */
-  --color-success: #1e8e3e;
-  --color-error: #d93025;
-  --color-info: #1a73e8;
-  --color-warning: #f9ab00;
-  --color-overlay: rgba(5, 5, 5, 0.7);
+  /* Semantic Colors (Standard, can be adjusted) */
+  --color-success: #38A169; /* Green */
+  --color-error: #E53E3E;   /* Red */
+  --color-info: #4299E1;    /* Blue */
+  --color-warning: #DD6B20; /* Orange */
 
-  /* Font Families (Ensure Roboto & Roboto Mono are loaded) */
-  --font-family-base: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-family-headings: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-family-button: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-family-mono: "Roboto Mono", Menlo, Consolas, monospace;
+  /* Font Families (Ensure "Outfit" or "Geist" and a good mono are loaded) */
+  --font-family-base: "Outfit", "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-family-headings: "Outfit", "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-family-button: "Outfit", "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-family-mono: "Roboto Mono", "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
-  /* Font Sizes */
-  --font-x-small: 0.75rem;
-  --font-small: 0.875rem;
-  --font-base-size: 1rem;
-  --font-large: 1.125rem;
-  --font-h6-size: var(--font-base-size);
-  --font-h5-size: var(--font-large);
-  --font-h4-size: 1.25rem;
-  --font-h3-size: 1.5rem;
-  --font-h2-size: 1.75rem;
-  --font-h1-size: 2.125rem;
+  /* Font Sizes (Inspired by the visual hierarchy) */
+  --font-x-small: 0.75rem;  /* 12px */
+  --font-small: 0.875rem; /* 14px (e.g., tech stack, card subtitles) */
+  --font-base-size: 1rem;     /* 16px (e.g., body text, intro para) */
+  --font-large: 1.125rem; /* 18px (e.g., smaller headings, list item titles) */
+  --font-h3-size: 1.5rem;    /* 24px (e.g., "Eye Catching...") */
+  --font-h2-size: 2.25rem;   /* 36px (e.g., "Beautiful inside and out") */
+  --font-h1-size: 3rem;      /* 48px (e.g., "I'm Enji Kusnadi") - can be larger */
+  --font-display-size: 4.5rem; /* For very large text like "hi!" */
+
 
   /* Font Weights */
   --font-weight-light: 300;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
-  --font-weight-semibold: 700;
-  --font-weight-bold: 700;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;     /* For strong headings */
+  --font-weight-extrabold: 800; /* For "Enji Kusnadi" */
 
-  /* Spacings */
-  --spacing-unit: 4px;
-  --spacing-xs: var(--spacing-unit);
-  --spacing-sm: calc(var(--spacing-unit) * 2);
-  --spacing-md: calc(var(--spacing-unit) * 4);
-  --spacing-lg: calc(var(--spacing-unit) * 6);
-  --spacing-xl: calc(var(--spacing-unit) * 8);
+  /* Spacings (visual estimation from design) */
+  --spacing-xxs: 0.25rem; /* 4px */
+  --spacing-xs: 0.5rem;  /* 8px */
+  --spacing-sm: 0.75rem;  /* 12px */
+  --spacing-md: 1rem;    /* 16px */
+  --spacing-lg: 1.5rem;  /* 24px */
+  --spacing-xl: 2rem;    /* 32px */
+  --spacing-xxl: 3rem;   /* 48px */
+  --spacing-xxxl: 4rem;  /* 64px */
   --vertical-rhythm: var(--spacing-lg);
 
-  /* Border Radius */
+  /* Border Radius (Design uses a mix of sharp and rounded) */
   --radius-sharp: 0px;
-  --radius-subtle: 2px;
-  --radius-base: 4px;
-  --radius-card: var(--radius-sharp);
-  --radius-button: var(--radius-subtle);
-  --radius-pill: 18px;
+  --radius-subtle: 4px;
+  --radius-base: 8px;    /* Common card/button rounding in design */
+  --radius-large: 12px;  /* For larger elements or more pronounced rounding */
+  --radius-pill: 9999px; /* For pill-shaped tags/buttons */
+  --radius-card-override: var(--radius-sharp); /* For your specific request on cards */
+  --radius-box-override: var(--radius-sharp); /* For your specific request on boxes */
 
-  /* Shadows */
-  --shadow-dp1: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
-  --shadow-dp2: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.07);
-  --shadow-yt-card: 0 1px 2px 0 rgba(0,0,0,0.05);
+
+  /* Shadows (Subtle, as seen in the design) */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 1px -1px rgba(0,0,0,0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
   --shadow-none: none;
 
   /* Navbar */
-  --navbar-height: 56px;
+  --navbar-height: 64px; /* Estimate */
 
   /* Button */
-  --button-min-height: 36px;
-  --button-padding-v: 0.5em;
-  --button-padding-h: 1em;
+  --button-min-height: 44px; /* Estimate for "Get in Touch" */
+  --button-padding-v: 0.75rem;
+  --button-padding-h: 1.5rem;
   --button-font-size: var(--font-small);
-  --button-font-weight: var(--font-weight-medium);
-  --button-line-height: 1.5;
-  --button-border-radius: var(--radius-button);
-
-  /* Button States */
-  --button-default-bg: var(--color-surface);
-  --button-default-text: var(--color-foreground);
-  --button-default-border: var(--color-border-input);
-  --button-default-hover-bg: var(--color-background-100);
-  --button-primary-bg: var(--jk-accent-color);
-  --button-primary-text: var(--jk-accent-foreground-color);
-  --button-primary-hover-bg: #CC0000;
+  --button-font-weight: var(--font-weight-semibold);
+  --button-border-radius: var(--radius-base); /* 8px for main buttons */
 
   /* Layout Padding */
-  --layout-padding: var(--spacing-md);
-  --responsive-layout-padding: clamp(16px, calc(11.25px + 1.25vw), 30px);
+  --layout-padding: clamp(1.5rem, 5vw, 3rem); /* Responsive padding for sections */
 
   color-scheme: light;
 }
@@ -124,8 +112,9 @@ $family-monospace: "Roboto Mono", monospace !default;
 html {
   background-color: var(--color-background);
   font-size: var(--font-base-size);
-  line-height: 1.5;
+  line-height: 1.6; /* More readable line height */
   font-family: var(--font-family-base);
+  scroll-padding-top: var(--navbar-height); /* Offset for sticky navbar */
 }
 
 body {
@@ -136,284 +125,384 @@ body {
   line-height: inherit;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  word-break: break-word;
+  position: relative; /* For background grid */
+  overflow-x: hidden; /* Prevent horizontal scroll from grid */
 }
 
-/* Headings - These will also affect Bulma's .title.is-N classes */
-h1, .title.is-1 { font-size: var(--font-h1-size); line-height: 1.15; font-weight: var(--font-weight-medium); color: var(--color-contrast); margin: var(--spacing-lg) 0 var(--spacing-sm) 0; }
-h2, .title.is-2 { font-size: var(--font-h2-size); line-height: 1.2; font-weight: var(--font-weight-medium); color: var(--color-contrast); margin: var(--spacing-lg) 0 var(--spacing-sm) 0; }
-h3, .title.is-3 { font-size: var(--font-h3-size); line-height: 1.2; font-weight: var(--font-weight-medium); color: var(--color-contrast); margin: var(--spacing-lg) 0 var(--spacing-sm) 0; }
-h4, .title.is-4 { font-size: var(--font-large); line-height: 1.3; font-weight: var(--font-weight-medium); color: var(--color-contrast); margin: var(--spacing-md) 0 var(--spacing-xs) 0; }
-h5, .title.is-5 { font-size: var(--font-base-size); line-height: 1.3; font-weight: var(--font-weight-medium); color: var(--color-contrast); margin: var(--spacing-md) 0 var(--spacing-xs) 0; }
-h6, .title.is-6 { font-size: var(--font-small); line-height: 1.3; font-weight: var(--font-weight-medium); color: var(--color-contrast); margin: var(--spacing-md) 0 var(--spacing-xs) 0; }
-h1:first-child, .title.is-1:first-child { margin-top: 0; } /* Reset top margin for first heading */
+/* Fading Background Grid */
+body::before {
+  content: '';
+  position: fixed; /* Or absolute if body is the only scroll container */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(to right, var(--color-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-grid-line) 1px, transparent 1px);
+  background-size: 40px 40px; /* Adjust grid size */
+  opacity: 0.5; /* Start with some opacity */
+  z-index: -1;
+  mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+  pointer-events: none;
+}
 
-.subtitle { /* Bulma's .subtitle */
+
+/* Headings */
+h1, h2, h3, h4, h5, h6,
+.title, .subtitle {
+  font-family: var(--font-family-headings);
+  color: var(--color-contrast);
+  font-weight: var(--font-weight-bold); /* Headings are bold in design */
+  line-height: 1.2;
+  margin: var(--spacing-lg) 0 var(--spacing-md) 0;
+}
+h1:first-child, .title.is-1:first-child { margin-top: 0; }
+
+h1, .title.is-1 { font-size: var(--font-h1-size); }
+h2, .title.is-2 { font-size: var(--font-h2-size); }
+h3, .title.is-3 { font-size: var(--font-h3-size); }
+h4, .title.is-4 { font-size: var(--font-large); font-weight: var(--font-weight-semibold); }
+h5, .title.is-5 { font-size: var(--font-base-size); font-weight: var(--font-weight-semibold); }
+h6, .title.is-6 { font-size: var(--font-small); font-weight: var(--font-weight-semibold); }
+
+.subtitle {
   color: var(--color-secondary);
   font-weight: var(--font-weight-regular);
-  font-family: var(--font-family-headings); /* Match headings */
 }
 
 p {
   margin-bottom: var(--spacing-md);
-  line-height: 1.6;
+  line-height: 1.7; /* Slightly more spacious paragraphs */
 }
 
 a {
-  color: var(--text-primary-color); /* Default link matches text */
+  color: var(--jk-accent-color); /* Links are accent color */
   text-decoration: none;
-  transition: color 0.15s ease;
+  font-weight: var(--font-weight-medium);
+  transition: color 0.15s ease, opacity 0.15s ease;
 }
 a:hover {
   color: var(--jk-accent-color);
+  opacity: 0.8;
 }
-/* Links within .content or with Bulma's .has-text-link/.has-text-primary */
-.content a,
-a.has-text-link,
-a.has-text-primary {
-  color: var(--jk-accent-color) !important;
-  text-decoration: none;
-}
-.content a:hover,
-a.has-text-link:hover,
-a.has-text-primary:hover {
-  color: var(--button-primary-hover-bg) !important; /* Darker red */
-  text-decoration: underline !important;
+.content a { /* Links within markdown content */
+  font-weight: var(--font-weight-medium);
+  /* text-decoration: underline; */ /* Optional for content links */
 }
 
 hr {
-  background-color: var(--divider-color);
-  border: none;
-  height: 1px;
-  margin: var(--vertical-rhythm) 0;
-}
-
-pre {
-  font-family: var(--font-family-mono);
-  font-size: var(--font-small);
-  background-color: #202124;
-  color: #e8eaed;
-  padding: var(--spacing-md);
-  border-radius: var(--radius-base);
-  overflow-x: auto;
-  margin: var(--vertical-rhythm) 0;
-}
-pre code { background: none !important; color: inherit !important; }
-:not(pre) > code {
-  font-family: var(--font-family-mono);
-  font-size: 0.9em;
-  background-color: var(--color-background-100);
-  color: var(--color-foreground);
-  padding: 0.15em 0.4em;
-  border-radius: var(--radius-button);
+  background-color: var(--color-border-subtle); /* Very light divider */
+  height: 1px; border: none;
+  margin: var(--spacing-xl) 0;
 }
 
 /*-------------------------------------------------------------------
-  3. BULMA COMPONENT OVERRIDES (Using CSS Custom Properties)
+  3. BULMA COMPONENT OVERRIDES (Enji's Theme Inspired)
 -------------------------------------------------------------------*/
 
+.section {
+  padding: var(--spacing-xxl) var(--layout-padding); /* Generous section padding */
+}
+.container {
+  /* Bulma handles max-width based on its variables.
+     We set $container-max-width and $widescreen in Sass.
+     If overriding here:
+     max-width: var(--container-wide-width); // Or --container--width for narrower default
+  */
+}
+
+/* Buttons */
 .button {
   font-family: var(--font-family-button);
   font-size: var(--button-font-size);
-  font-weight: var(--font-weight-medium);
-  text-transform: uppercase;
+  font-weight: var(--button-font-weight);
   min-height: var(--button-min-height);
-  line-height: normal;
+  line-height: normal; /* Let padding and content define height */
   padding: var(--button-padding-v) var(--button-padding-h);
-  border-radius: var(--radius-button);
-  border: 1px solid var(--button-default-border);
-  background-color: var(--button-default-bg);
-  color: var(--button-default-text);
-  box-shadow: var(--shadow-none);
-  transition: background-color 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-  letter-spacing: 0.025em;
-  vertical-align: middle;
+  border-radius: var(--button-border-radius);
+  border-width: 1px;
+  border-style: solid;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  text-transform: none; /* Design buttons not all caps */
+  letter-spacing: normal;
+  box-shadow: var(--shadow-sm);
 }
 .button:hover {
-  background-color: var(--button-default-hover-bg);
-  border-color: var(--button-default-border);
-  box-shadow: var(--shadow-dp1);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.button:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
 }
 .button:focus {
   outline: none;
-  border-color: var(--jk-accent-color) !important;
-  box-shadow: 0 0 0 1px var(--jk-accent-color), var(--shadow-dp1) !important;
-}
-.button:active {
-  background-color: var(--color-background-200);
-  box-shadow: var(--shadow-none);
+  box-shadow: 0 0 0 2px var(--color-background), 0 0 0 4px var(--jk-accent-color); /* Focus ring */
 }
 
-.button.is-primary {
-  background-color: var(--button-primary-bg);
-  color: var(--button-primary-text);
-  border-color: var(--button-primary-bg);
-  box-shadow: var(--shadow-dp2);
+.button.is-primary { /* "Get in Touch" button */
+  background-color: var(--jk-accent-color);
+  color: var(--jk-accent-foreground-color);
+  border-color: var(--jk-accent-color);
+  font-weight: var(--font-weight-semibold);
 }
-.button.is-primary:hover, .button.is-primary:focus {
-  background-color: var(--button-primary-hover-bg);
-  border-color: var(--button-primary-hover-bg);
-  color: var(--button-primary-text);
-  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12);
+.button.is-primary:hover {
+  background-color: hsl(from var(--jk-accent-color) h s l - 5%); /* Slightly darker purple */
+  border-color: hsl(from var(--jk-accent-color) h s l - 5%);
 }
 .button.is-primary:active {
-  background-color: #B20000;
-  box-shadow: var(--shadow-dp1);
+  background-color: hsl(from var(--jk-accent-color) h s l - 10%);
+  border-color: hsl(from var(--jk-accent-color) h s l - 10%);
 }
 
-.button.is-text, .button.is-ghost {
-  border-color: transparent; background-color: transparent; box-shadow: none;
-  color: var(--color-secondary); text-transform: none;
-}
-.button.is-text:hover, .button.is-text:focus,
-.button.is-ghost:hover, .button.is-ghost:focus {
-  background-color: var(--color-background-100); color: var(--color-foreground);
-}
-
-.card, .box {
-  border-radius: var(--radius-card) !important; /* 0px for sharp YT cards */
-  box-shadow: var(--shadow-yt-card) !important;
-  border: 1px solid var(--divider-color) !important;
+.button.is-light { /* "Resume" button */
   background-color: var(--color-surface);
+  color: var(--color-foreground);
+  border-color: var(--color-border);
+  font-weight: var(--font-weight-medium);
+}
+.button.is-light:hover {
+  background-color: var(--color-background-100);
+  border-color: var(--color-border);
+}
+
+/* Specific small icon buttons like tech stack */
+.button.is-small.is-rounded.tech-icon {
+    width: 36px; height: 36px; padding: 0;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    color: var(--color-secondary);
+}
+.button.is-small.is-rounded.tech-icon:hover {
+    border-color: var(--jk-accent-color);
+    color: var(--jk-accent-color);
+}
+
+/* Cards & Boxes: Sharp Edges, Light Border, NO Shadow as requested */
+.card, .box {
+  border-radius: var(--radius-card-override) !important; /* 0px */
+  box-shadow: var(--shadow-none) !important;
+  border: 1px solid var(--color-border) !important;
+  background-color: var(--color-surface);
+  overflow: hidden; /* To contain images if they are direct children */
 }
 .card .card-header {
-  background-color: transparent; box-shadow: none;
-  border-bottom: 1px solid var(--divider-color);
-  padding: var(--spacing-sm) var(--spacing-md); border-radius: 0 !important;
+  background-color: transparent;
+  box-shadow: none;
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 0 !important;
+  padding: var(--spacing-md);
 }
-.card .card-header-title { padding: 0; font-weight: var(--font-weight-medium); font-size: var(--font-base-size); color: var(--text-primary-color); }
+.card .card-header-title {
+  padding: 0;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-large);
+  color: var(--color-contrast);
+}
 .card .card-image img { border-radius: 0 !important; }
-.card .card-content { padding: var(--spacing-sm); color: var(--text-primary-color); }
-.card .card-footer { border-top: 1px solid var(--divider-color); background-color: transparent; }
-.card .card-footer-item { color: var(--text-secondary-color); font-size: var(--font-small); padding: var(--spacing-sm); }
-.card .card-footer-item:hover { color: var(--jk-accent-color); background-color: transparent; }
-.box { padding: var(--spacing-md); color: var(--text-primary-color); }
+.card .card-content { padding: var(--spacing-md); color: var(--color-foreground); }
+.box { padding: var(--spacing-lg); color: var(--color-foreground); }
 
+
+/* Navbar */
 .navbar {
-  background-color: var(--color-surface); min-height: var(--navbar-height);
-  box-shadow: var(--shadow-dp1); border-bottom: none;
+  min-height: var(--navbar-height);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm); /* Subtle shadow under navbar */
+  border-bottom: none;
+  padding: 0 var(--layout-padding); /* Use responsive layout padding */
 }
-.navbar::before { content: none; }
-.navbar-brand { padding-left: var(--spacing-md); }
-.navbar-brand .navbar-item img { max-height: calc(var(--navbar-height) - var(--spacing-md)); }
+.navbar::before { content: none; } /* Remove any previous overlay */
+.navbar-brand .navbar-item.logo { /* Assuming a class for logo */
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-contrast);
+  padding-left: 0; /* Align with edge if no icon */
+}
+.navbar-brand .navbar-item.logo .logo-accent { color: var(--jk-accent-color); }
 .navbar-item, .navbar-link {
-  color: var(--icon-color); font-family: var(--font-family-base);
-  font-size: var(--font-small); font-weight: var(--font-weight-regular);
-  min-height: var(--navbar-height); padding: 0 var(--spacing-sm);
+  font-family: var(--font-family-button);
+  font-size: var(--font-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-secondary); /* Nav items are secondary text */
+  padding: var(--spacing-sm) var(--spacing-md);
+  min-height: var(--navbar-height);
 }
 .navbar-item:hover, .navbar-item.is-active,
 .navbar-link:hover, .navbar-link.is-active {
-  background-color: var(--color-background-100); color: var(--text-primary-color);
+  background-color: transparent;
+  color: var(--jk-accent-color); /* Accent color on hover/active */
 }
-.navbar-item .icon { color: inherit; }
-.navbar-dropdown {
-  background-color: var(--color-surface); border: 1px solid var(--divider-color);
-  border-top: none; border-radius: 0 0 var(--radius-base) var(--radius-base);
-  box-shadow: var(--shadow-dp2); padding: var(--spacing-sm) 0;
+.navbar-item.has-play-icon .icon { /* For "Work ▶" */
+  margin-left: var(--spacing-xs);
+  font-size: 0.8em; /* Smaller play icon */
 }
-.navbar-dropdown .navbar-item { padding: var(--spacing-sm) var(--spacing-md); color: var(--text-primary-color); }
-.navbar-dropdown .navbar-item:hover { background-color: var(--color-background-100); }
-
-.input, .textarea, .select select {
-  background-color: var(--color-background-100);
-  border: 1px solid var(--input-border-color);
+.navbar-end .button { /* For "Quick Access" */
+  font-size: var(--font-x-small);
+  padding: var(--spacing-sm) var(--spacing-md);
+  min-height: auto;
+  height: 36px;
   border-radius: var(--radius-base);
-  color: var(--text-primary-color);
-  min-height: 48px; padding: 0 var(--spacing-md);
-  font-size: var(--font-base-size); box-shadow: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-.input:hover, .textarea:hover, .select select:hover { border-color: var(--text-secondary-color); }
-.input:focus, .input.is-focused, .textarea:focus, .textarea.is-focused,
-.select select:focus, .select select.is-focused {
-  border-color: var(--jk-accent-color) !important;
-  box-shadow: 0 0 0 1px var(--jk-accent-color) !important;
-}
-label.label { color: var(--text-secondary-color); font-size: var(--font-small); margin-bottom: var(--spacing-xs); }
-.select:not(.is-multiple):not(.is-loading)::after { border-color: var(--icon-color); right: var(--spacing-md); }
-
-/* Pagination (YouTube like) */
-.pagination .pagination-previous, .pagination .pagination-next {
-  font-weight: var(--font-weight-medium); font-size: var(--font-small);
-  color: var(--text-secondary-color); border: none; background-color: transparent;
-  padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-button);
-}
-.pagination .pagination-previous:hover, .pagination .pagination-next:hover {
-  background-color: var(--color-background-100); color: var(--text-primary-color);
-}
-.pagination .pagination-previous[disabled], .pagination .pagination-next[disabled] {
-  color: var(--text-disabled-color); background-color: transparent; opacity: 0.6;
-}
-.pagination .pagination-list .pagination-link {
-  font-weight: var(--font-weight-medium); font-size: var(--font-small);
-  color: var(--text-secondary-color); border: none; background-color: transparent;
-  min-width: 36px; height: 36px; border-radius: 50%;
-}
-.pagination .pagination-list .pagination-link:hover {
-  background-color: var(--color-background-100); color: var(--text-primary-color);
-}
-.pagination .pagination-list .pagination-link.is-current {
-  background-color: var(--color-background-200); color: var(--text-primary-color);
-  border-color: transparent;
-}
-
-/* Bulma .content specific styles (for markdown) */
-.content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
-  font-weight: var(--font-weight-medium); margin-bottom: 0.5em; margin-top: 1.2em;
-}
-.content p { line-height: 1.6; margin-bottom: 1em; }
-.content ul, .content ol { padding-left: 1.25em; margin: 1em 0; } /* Less indent than global */
-.content ul { list-style: disc; }
-.content ol { list-style: decimal; }
-.content li + li { margin-top: 0.25em; }
-
-
-/* Archive Page Specifics */
-.archive-section .card.post-item-card .card-content .title.is-5 {
-  font-size: var(--font-base-size); /* 1rem */
-  line-height: 1.3;
-}
-.archive-section .card.post-item-card .card-content .level-item .tag {
-  font-size: var(--font-x-small); height: auto; padding: 0.15em 0.6em;
-  border-radius: var(--radius-pill); font-weight: var(--font-weight-medium);
-}
-.archive-section .card.post-item-card .card-content .excerpt-text {
-  font-size: var(--font-small); color: var(--text-secondary-color);
-  line-height: 1.4; margin-top: var(--spacing-xs);
-}
-.archive-section .card.post-item-card .content .message.is-light {
-  background-color: var(--color-background-100); border-radius: var(--radius-button);
-  border: 1px solid var(--divider-color); border-left-width: 0;
-  color: var(--text-secondary-color); font-size: var(--font-x-small);
-  margin-top: var(--spacing-sm);
-}
-.archive-section .card.post-item-card .content .message.is-light .message-body {
-  padding: var(--spacing-xs) var(--spacing-sm);
-}
-.archive-section .post-item-box .post-item-footer .buttons .button {
-  font-size: var(--font-x-small); height: 28px; min-height: auto;
-  padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-button);
+  background-color: var(--color-background-100);
+  border-color: var(--color-border);
+  color: var(--color-secondary);
+  font-weight: var(--font-weight-medium);
   text-transform: none;
 }
-.archive-section .post-item-box .post-item-footer .buttons .button.is-light {
-  border: 1px solid var(--divider-color); /* Ensure border */
+.navbar-end .button .icon { font-size: 1em; }
+.navbar-end .button:hover {
+  background-color: var(--color-background-200);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-none);
 }
-.archive-section .ad-placeholder-box,
-.archive-section .newsletter-box-column {
-  border: 1px solid var(--divider-color); box-shadow: var(--shadow-dp1);
-  border-radius: var(--radius-base);
+
+
+/* Forms (Inputs) - Keep them clean and simple */
+.input, .textarea, .select select {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base); /* 8px from theme */
+  color: var(--color-foreground);
+  min-height: 44px; /* Consistent height */
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-base-size);
+  box-shadow: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.archive-section .newsletter-box-column {
+.input:hover, .textarea:hover, .select select:hover {
+  border-color: var(--color-mute); /* Slightly darker on hover */
+}
+.input:focus, .input.is-focused,
+.textarea:focus, .textarea.is-focused,
+.select select:focus, .select select.is-focused {
+  border-color: var(--jk-accent-color) !important;
+  box-shadow: 0 0 0 2px rgba(var(--jk-accent-color-rgb), 0.2) !important; /* Softer focus ring */
+}
+label.label {
+  color: var(--color-contrast);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-small);
+}
+
+/* Content specific (Bulma's .content class) */
+.content {
+  color: var(--color-foreground);
+  line-height: 1.7;
+}
+.content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
+  color: var(--color-contrast);
+  font-family: var(--font-family-headings);
+  font-weight: var(--font-weight-bold);
+}
+.content strong { font-weight: var(--font-weight-bold); color: var(--color-contrast); }
+.content a { /* Links inside content should be accent */
+  color: var(--jk-accent-color);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+}
+.content a:hover {
+  text-decoration: underline;
+}
+.content blockquote {
   background-color: var(--color-background-100);
+  border-left: 3px solid var(--jk-accent-color);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-subtle);
+  color: var(--color-secondary);
 }
-.archive-section .newsletter-box-column.has-background-info-light {
-  background-color: rgba(26, 115, 232, 0.08); /* Light Google Blue */
+.content pre { /* Assuming pre uses default theme styling from above */ }
+.content ul { list-style: disc outside; margin-left: var(--spacing-lg); }
+.content ol { list-style: decimal outside; margin-left: var(--spacing-lg); }
+.content li + li { margin-top: var(--spacing-xs); }
+
+
+/* Footer Styling (Basic multi-column) */
+.footer {
+  background-color: var(--color-background); /* Match page bg */
+  padding: var(--spacing-xl) var(--layout-padding);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-secondary);
+  font-size: var(--font-small);
 }
-.archive-section .newsletter-box-column .button.is-info {
-  background-color: var(--color-info); /* Use themed info color */
-  color: white; border-color: var(--color-info);
+.footer .title.is-6 { /* Footer column titles */
+  color: var(--color-contrast);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--spacing-md);
+  font-size: var(--font-base-size);
 }
-.archive-section .newsletter-box-column .button.is-info:hover {
-  background-color: darken(#1a73e8, 8%); /* Darken static value */
-  border-color: darken(#1a73e8, 8%);
+.footer a {
+  color: var(--color-foreground); /* Footer links standard text color */
+  font-weight: var(--font-weight-regular);
+}
+.footer a:hover {
+  color: var(--jk-accent-color);
+  text-decoration: underline;
+}
+.footer .level-item { /* For copyright */
+  font-size: var(--font-x-small);
+}
+
+/* Specific card styling from your archive example, adapted */
+.archive-section .post-item-card .card-content .level-item .tag {
+  font-size: var(--font-x-small);
+  height: auto;
+  padding: 0.2em 0.75em; /* Bulma default tag padding */
+  border-radius: var(--radius-pill);
+  font-weight: var(--font-weight-medium);
+  /* Bulma .is-light and color modifiers for tags will apply */
+}
+
+/* Styles for the specific numbered list items in the design */
+.numbered-feature-list .media { /* Assuming each item is a media object */
+  align-items: flex-start;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base);
+  padding: var(--spacing-lg);
+  background-color: var(--color-surface);
+  margin-bottom: var(--spacing-md);
+}
+.numbered-feature-list .media-left .number-badge {
+  font-size: 2.5rem; /* Large number */
+  font-weight: var(--font-weight-bold);
+  color: var(--color-mute);
+  line-height: 1;
+  margin-right: var(--spacing-lg);
+}
+.numbered-feature-list .media-content .title {
+  font-size: var(--font-large);
+  color: var(--color-contrast);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--spacing-xs);
+}
+.numbered-feature-list .media-content p {
+  font-size: var(--font-small);
+  color: var(--color-secondary);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* Helper for fading grid background */
+.has-fading-grid-background {
+  position: relative;
+}
+.has-fading-grid-background::before {
+  content: '';
+  position: absolute; /* Changed to absolute, assumes parent has positioning context */
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100%; height: 100%;
+  background-image:
+    linear-gradient(to right, var(--color-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-grid-line) 1px, transparent 1px);
+  background-size: 30px 30px; /* Smaller grid */
+  opacity: 1; /* Start fully visible */
+  z-index: -1;
+  mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 90%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 90%);
+  pointer-events: none;
 }
