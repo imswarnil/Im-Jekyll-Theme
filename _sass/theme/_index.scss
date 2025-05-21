@@ -1,11 +1,3 @@
-
-
-@import "../../node_modules/bulma/sass/index";
-
-/* ==========================================================================
-   1. CSS CUSTOM PROPERTIES (LIGHT MODE - DEFAULT)
-   These are your theme's design tokens.
-   ========================================================================== */
 :root {
   /* Jekyll Themed Accent Color */
   --jk-accent-color: #e53935;
@@ -119,6 +111,14 @@
 
   color-scheme: light;
 }
+
+
+@import "../../node_modules/bulma/sass/index";
+
+/* ==========================================================================
+   1. CSS CUSTOM PROPERTIES (LIGHT MODE - DEFAULT)
+   These are your theme's design tokens.
+   ========================================================================== */
 
 
 /* ==========================================================================
