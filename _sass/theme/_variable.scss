@@ -1,130 +1,216 @@
 // _scss/theme/_variables.scss
 
 //-------------------------------------------------------------------
-// 1. FONT FAMILY SETUP FOR BULMA
-// Bulma needs a string value for font families. We'll use your CSS vars.
-// Note: This relies on the browser interpreting these CSS vars correctly when Bulma uses them.
-// It's generally safer to provide a direct font stack here.
+// A. THEME STATIC CONSTANTS (Light Mode Defaults)
+// Derived from your target CSS Custom Properties
 //-------------------------------------------------------------------
-$family-sans-serif: var(--font-family-body, "Geist", "Outfit", Arial, sans-serif) !default;
-$family-monospace: var(--font-family-mono, "JetBrains Mono", "Roboto Mono", monospace) !default; // Assuming you'll define --font-family-mono
-$family-primary: $family-sans-serif;
-$family-secondary: var(--font-family-headings, "Geist", "Outfit", Arial, sans-serif); // For .title class
+
+// Core Colors
+$theme-color-contrast: #000;
+$theme-color-background: #fff;
+$theme-color-background-100: #f3f3f3;
+$theme-color-background-200: #ededed;
+$theme-color-background-300: #dadada;
+$theme-color-foreground: #4d4d4d;
+$theme-color-secondary: #757575;
+$theme-color-mute: #b2b2b2;
+$theme-color-border: hsl(0, 0%, 50%, 0.2); // --color-border (hsla(0,0%,50%,.2))
+$theme-color-success: #348f3f;
+$theme-color-error: #c34d4d;
+
+// Accent Color
+$theme-jk-accent-color: #e53935;
+$theme-jk-accent-color-rgb: 229, 57, 53; // For rgba() CSS
+$theme-jk-accent-foreground-color: #fff;
+
+// Typography
+$theme-font-family-main: "Geist", "Outfit", Arial, sans-serif;
+$theme-font-family-headings: "Geist", "Outfit", Arial, sans-serif;
+$theme-font-family-buttons: $theme-font-family-main;
+$theme-font-family-mono: "JetBrains Mono", "Roboto Mono", monospace;
+
+$theme-font-weight-light: 300;
+$theme-font-weight-regular: 400;
+$theme-font-weight-medium: 500;
+$theme-font-weight-semibold: 600;
+$theme-font-weight-bold: 700;
+
+$theme-font-size-xsmall: 0.75rem;  // 12px
+$theme-font-size-small: 0.875rem; // 14px
+$theme-font-size-base: 1rem;      // 16px
+$theme-font-size-large: 1.125rem; // 18px
+// Larger heading sizes from theme
+$theme-font-size-h3: 1.25rem;
+$theme-font-size-h2: 1.375rem;
+$theme-font-size-h1: 1.75rem;
+
+// Spacing Units (for direct use in SCSS if needed, CSS vars are primary)
+$theme-spacing-unit: 0.25rem; // 4px, can be used as base for multiples
+$theme-spacing-4: 0.5rem;
+$theme-spacing-6: 0.75rem;
+$theme-spacing-7: 1rem;
+$theme-spacing-8: 1.25rem;
+$theme-spacing-9: 1.875rem;
+$theme-vertical-rhythm: 1.5rem;
+
+// Radii -> SHARP EDGES
+$theme-radius-sharp: 0px;
+$theme-radius-small: 6px; // For elements that *do* get rounded
+$theme-radius-default: 8px;
+$theme-radius-large: 10px;
+$theme-button-radius: 20px; // From theme --button--border-radius calc
+
+// Shadow (original theme shadow for elements that *should* have it)
+$theme-shadow-default: 0 20px 60px -10px hsla(0, 4%, 68%, 0.24),
+                       0 4px 20px -8px rgba(0, 0, 0, 0.24);
 
 //-------------------------------------------------------------------
-// 2. CORE BULMA COLORS (Must be static Sass colors for Bulma's functions)
-// We use the *values* from your light theme CSS custom properties.
+// B. BULMA SASS VARIABLE OVERRIDES
+// We set Bulma's variables using our theme constants from above.
 //-------------------------------------------------------------------
-$primary: #e53935; // Your --ghost-accent-color value for light mode
+
+// Typography
+$family-sans-serif: $theme-font-family-main !default;
+$family-monospace: $theme-font-family-mono !default;
+$family-primary: $family-sans-serif;
+$family-secondary: $theme-font-family-headings; // For .title
+
+$weight-light: $theme-font-weight-light;
+$weight-normal: $theme-font-weight-regular;
+$weight-medium: $theme-font-weight-medium;
+$weight-semibold: $theme-font-weight-semibold;
+$weight-bold: $theme-font-weight-bold;
+
+$size-1: $theme-font-size-h1 * 1.2; // Make Bulma's largest title bigger
+$size-2: $theme-font-size-h1;
+$size-3: $theme-font-size-h2;
+$size-4: $theme-font-size-h3;
+$size-5: $theme-font-size-large; // Bulma's .is-5 will be 1.125rem
+$size-6: $theme-font-size-base;    // Bulma's .is-6 will be 1rem
+$size-7: $theme-font-size-small;   // Bulma's .is-7 will be 0.875rem
+// Base body size is handled by $body-size
+
+// Colors
+$primary: $theme-jk-accent-color;
 $link: $primary;
 
-$black: #000; // --color-contrast
-$white: #fff; // --color-background
+$black: $theme-color-contrast;
+$white: $theme-color-background;
 
-$text: #4d4d4d; // --color-foreground
-$text-light: #757575; // --color-secondary
-$text-strong: $black;
+$text: $theme-color-foreground;
+$text-light: $theme-color-secondary;
+$text-strong: $theme-color-contrast;
 
-$background: $white;
-$border: hsl(0, 0%, 50%, 0.2); // --color-border
+$background: $theme-color-background;
+$border: $theme-color-border;
+$border-light: lighten($theme-color-border, 10%);
+$border-hover: $primary;
 
-$grey-darker: darken(#b2b2b2, 25%); // Derived from --color-mute for Bulma's scale
-$grey-dark: darken(#b2b2b2, 10%);
-$grey: #b2b2b2; // --color-mute
-$grey-light: #dadada; // --color-background-300
-$grey-lighter: #ededed; // --color-background-200
+$grey-darker: darken($theme-color-mute, 25%);
+$grey-dark: darken($theme-color-mute, 10%);
+$grey: $theme-color-mute;
+$grey-light: $theme-color-background-300;
+$grey-lighter: $theme-color-background-200;
+// $grey-lightest from theme: $theme-color-background-100 (used for specific backgrounds)
 
-$info: hsl(217, 71%, 53%); // Bulma's default blue
-$success: #348f3f; // --color-success
-$warning: hsl(48, 100%, 67%); // Bulma's default yellow
-$danger: #c34d4d; // --color-error
+$info: hsl(217, 71%, 53%);
+$success: $theme-color-success;
+$warning: hsl(48, 100%, 67%);
+$danger: $theme-color-error;
 
-//-------------------------------------------------------------------
-// 3. BULMA GENERAL SETTINGS
-//-------------------------------------------------------------------
+// General
 $body-background-color: $background;
 $body-color: $text;
-$body-family: $family-primary; // Uses the var(--font-family-body) string
-$body-size: 1rem; // 16px, from --font-base in your CSS vars
-$body-weight: 400; // --font-weight-regular
-$body-line-height: 1.5; // --button--line-height or theme general
+$body-family: $family-primary;
+$body-size: $theme-font-size-base; // 1rem
+$body-weight: $weight-normal;
+$body-line-height: 1.5; // From theme --button--line-height or general text
 
 $link-color: $link;
-$link-hover: darken($link, 10%); // Bulma's default hover derived from $link
+$link-hover: darken($link, 8%);
 $link-decoration: underline;
 
-//-------------------------------------------------------------------
-// 4. BULMA COMPONENT DEFAULTS (Using static values)
-// We want sharp edges and bordered cards/boxes.
-//-------------------------------------------------------------------
-$radius-small: 0px;
-$radius: 0px;
-$radius-large: 0px;
-$radius-rounded: 9999px; // For fully rounded items like tags
+// Components
+$radius-small: $theme-radius-sharp; // Sharp edges
+$radius: $theme-radius-sharp;
+$radius-large: $theme-radius-sharp;
+$radius-rounded: 9999px; // For fully rounded things like some tags
 
-// Buttons - Bulma will use its defaults based on $primary, $text, etc.
-// Specific theme button styles will be applied via CSS custom props in _overrides.scss
-$button-family: var(--font-family-button, "Geist", "Outfit", sans-serif); // Use CSS var string
-$button-weight: 500; // --font-weight-medium
-// $button-padding-vertical & $button-padding-horizontal will be styled with CSS vars.
-// $button-radius: calculated from min-height using CSS vars.
+// Buttons
+$button-color: $theme-jk-accent-foreground-color;
+$button-background-color: $primary;
+$button-border-color: transparent;
+$button-border-width: 0px;
+$button-hover-color: $theme-color-background;
+$button-hover-background-color: $theme-color-contrast;
+$button-hover-border-color: transparent;
+$button-focus-box-shadow-color: rgba($primary, 0.25);
+$button-radius: $theme-button-radius; // 20px
+$control-radius: $button-radius; // Inputs match button radius
+$button-family: $theme-font-family-buttons;
+$button-weight: $weight-medium;
+$button-padding-vertical: $theme-spacing-4;
+$button-padding-horizontal: $theme-spacing-8;
+$button-line-height: 1.5;
 
-// Card - Sharp edges, no shadow, will add border with CSS
-$card-radius: 0px;
+// Card & Box - NO SHADOW, LIGHT BORDER, NO RADIUS
+$card-background-color: $theme-color-background;
+$card-color: $theme-color-foreground;
+$card-header-color: $theme-color-contrast;
+$card-radius: $theme-radius-sharp;
 $card-shadow: none;
-$card-background-color: $white; // --color-background
-$card-color: $text; // --color-foreground
-$card-header-color: $black; // --color-contrast
-$card-header-padding: 1rem 1.25rem; // Match approx theme --spacing
-$card-content-padding: 1.25rem;
-$card-footer-border-top: 1px solid $border;
-
-// Box - Sharp edges, no shadow, will add border with CSS
-$box-radius: 0px;
+$box-background-color: $theme-color-background;
+$box-color: $theme-color-foreground;
+$box-radius: $theme-radius-sharp;
 $box-shadow: none;
-$box-background-color: $white;
-$box-color: $text;
-$box-padding: 1.25rem; // Bulma default, can be overridden by CSS vars
+$box-padding: $theme-spacing-8; // approx 1.25rem
 
 // Navbar
-$navbar-background-color: $white; // Solid initially
-$navbar-height: 58px; // --navbar--min-height
-$navbar-item-color: $text;
+$navbar-background-color: $theme-color-background; // Initial state
+$navbar-height: 58px;
+$navbar-item-color: $theme-color-foreground;
 $navbar-item-hover-color: $primary;
-$navbar-item-hover-background-color: #f3f3f3; // --color-background-100
+$navbar-item-hover-background-color: $theme-color-background-100;
+$navbar-padding-vertical: $theme-spacing-4;
+$navbar-padding-horizontal: $theme-spacing-7;
 
 // Input
-$input-radius: 0px; // Sharp inputs
-$input-border-color: $border;
-$input-background-color: #f3f3f3; // --color-background-100
-$input-color: $text;
-$input-placeholder-color: #b2b2b2; // --color-mute
+$input-color: $theme-color-contrast;
+$input-background-color: $theme-color-background-100;
+$input-border-color: $theme-color-border;
+$input-hover-border-color: $theme-color-border;
 $input-focus-border-color: $primary;
+$input-placeholder-color: $theme-color-mute;
+$input-radius: $theme-radius-small; // Sharp inputs (0px) or $theme-radius-1 for 6px
 $input-shadow: none;
 
 // Titles
-$title-family: var(--font-family-headings, "Geist", "Outfit", sans-serif); // Use CSS var string
-$title-color: $black;
-$title-weight: 600; // --font-weight-semibold
+$title-family: $family-secondary;
+$title-color: $theme-color-contrast;
+$title-weight: $weight-semibold;
 $title-line-height: 1.1;
-
-$subtitle-family: var(--font-family-headings, "Geist", "Outfit", sans-serif);
-$subtitle-color: #757575; // --color-secondary
-$subtitle-weight: 400; // --font-weight-regular
+$subtitle-family: $family-secondary;
+$subtitle-color: $theme-color-secondary;
+$subtitle-weight: $weight-normal;
 $subtitle-line-height: 1.2;
 
-// Container widths
-$container-max-width: 700px; // --container--width
-$widescreen: 1100px; // --container-wide--width
-$fullhd: 1300px;   // --featured-image--max-width
+// Generic
+$hr-background-color: $theme-color-border;
+$hr-height: 1px;
+$hr-margin: $theme-vertical-rhythm 0;
+
+// Container
+$container-offset: (2 * $theme-spacing-7); // approx 2rem, used for max-width calc
+$container-max-width: 700px;
+$widescreen: 1100px;
+$fullhd: 1300px;
 $widescreen-enabled: true;
 $fullhd-enabled: true;
 
-// Standard Bulma defaults needed for compilation
+// Bulma default values for compilation
 $body-rendering: optimizeLegibility !default;
 $control-border-width: 1px !default;
 $control-line-height: 1.5 !default;
 $variable-columns: true !default;
 $speed: 86ms !default;
 $easing: ease-out !default;
-$hr-background-color: $border;
