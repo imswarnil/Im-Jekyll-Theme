@@ -1,13 +1,13 @@
 ---
 title: Archive
 description: "Browse through all our posts"
-layout: page # Assuming you have a 'page' layout. If not, use 'default' or your base layout.
+layout: page # Or your default layout
 permalink: /archive/
 ---
 
 <section class="section">
     <div class="container">
-        <h1 class="title is-2 has-text-centered mb-5">All Posts</h1>
+        <h1 class="title is-2 has-text-centered mb-6">All Posts</h1>
 
         <div id="post-list" class="columns is-multiline">
             {% if paginator.posts.size == 0 %}
@@ -58,89 +58,49 @@ permalink: /archive/
                 {% endfor %}
             {% endif %}
         </div>
+
+        {% comment %} --- Bulma Styled Pagination Controls using YOUR working Liquid --- {% endcomment %}
         {% if paginator.total_pages > 1 %}
         <nav class="pagination is-centered is-rounded mt-6" role="navigation" aria-label="pagination">
 
-
+            {% comment %} Previous Page Link {% endcomment %}
             {% if paginator.previous_page %}
                 <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination-previous">
-                    <span class="icon is-small mr-1"><i class="ph-bold ph-caret-left"></i></span> <!-- Optional Icon -->
-                    Previous
+                    « Prev
                 </a>
             {% else %}
                 <a class="pagination-previous" title="This is the first page" disabled>
-                    <span class="icon is-small mr-1"><i class="ph-bold ph-caret-left"></i></span>
-                    Previous
+                    « Prev
                 </a>
             {% endif %}
 
+            {% comment %} Next Page Link {% endcomment %}
             {% if paginator.next_page %}
                 <a href="{{ paginator.next_page_path | relative_url }}" class="pagination-next">
-                    Next page
-                    <span class="icon is-small ml-1"><i class="ph-bold ph-caret-right"></i></span> <!-- Optional Icon -->
+                    Next »
                 </a>
             {% else %}
                 <a class="pagination-next" title="This is the last page" disabled>
-                    Next page
-                    <span class="icon is-small ml-1"><i class="ph-bold ph-caret-right"></i></span>
+                    Next »
                 </a>
             {% endif %}
 
             <ul class="pagination-list">
-                {% assign current = paginator.page %}
-                {% assign total = paginator.total_pages %}
-                {% assign window_radius = 1 %} {# How many pages to show on each side of current page, e.g., 1 means P C N -> total 3 shown in middle #}
-                                              {# For more pages shown, increase this (e.g., 2 for 5 links in middle) #}
-
-             
-                {% assign window_start = current | minus: window_radius %}
-                {% assign window_end = current | plus: window_radius %}
-
-             
-                {% if window_start < 1 %}
-                    {% assign window_start = 1 %}
-                    {% assign window_end = pages_in_window_total %}
-                {% endif %}
-
-                {% if window_end > total %}
-                    {% assign window_end = total %}
-                    {% assign pages_in_window_total_calc = window_radius | times: 2 | plus: 1 %}
-                    {% assign window_start = total | minus: pages_in_window_total_calc | plus: 1 %}
-                    {% if window_start < 1 %}{% assign window_start = 1 %}{% endif %} {# Ensure start is not less than 1 #}
-                {% endif %}
-
-
-
-                {% if window_start > 1 %}
-                    <li>
-                        <a href="{{ '/archive/' | relative_url }}" class="pagination-link" aria-label="Goto page 1">1</a>
-                    </li>
-                {% endif %}
-
-                {% if window_start > 2 %}
-                    <li><span class="pagination-ellipsis">…</span></li>
-                {% endif %}
-
-                {% for page_number in (window_start..window_end) %}
-                    {% if page_number == current %}
-                        <li><a class="pagination-link is-current" aria-label="Page {{ page_number }}" aria-current="page">{{ page_number }}</a></li>
-                    {% elsif page_number == 1 %}
-                        <li><a href="{{ '/archive/' | relative_url }}" class="pagination-link" aria-label="Goto page {{ page_number }}">{{ page_number }}</a></li>
+                {% for page_num in (1..paginator.total_pages) %}
+                    {% if page_num == paginator.page %}
+                        <li><a class="pagination-link is-current" aria-label="Page {{ page_num }}" aria-current="page">{{ page_num }}</a></li>
+                    {% elsif page_num == 1 %}
+                        {% comment %}
+                           Correct handling for page 1 link.
+                           Your paginate_path is "/archive/page:num/"
+                           So replacing 'page:num/' with '' should result in "/archive/"
+                           which is correct for the first page.
+                        {% endcomment %}
+                        <li><a href="{{ site.paginate_path | relative_url | replace: 'page:num/', '' | default: '/archive/' | relative_url }}" class="pagination-link" aria-label="Goto page {{ page_num }}">{{ page_num }}</a></li>
                     {% else %}
-                        <li><a href="{{ site.paginate_path | relative_url | replace: ':num', page_number }}" class="pagination-link" aria-label="Goto page {{ page_number }}">{{ page_number }}</a></li>
+                        <li><a href="{{ site.paginate_path | relative_url | replace: ':num', page_num }}" class="pagination-link" aria-label="Goto page {{ page_num }}">{{ page_num }}</a></li>
                     {% endif %}
                 {% endfor %}
-
-                {% assign total_minus_one = total | minus: 1 %}
-                {% if window_end < total_minus_one %}
-                    <li><span class="pagination-ellipsis">…</span></li>
-                {% endif %}
-
-                {% if window_end < total and total > 1 %}
-                    <li>
-                        <a href="{{ site.paginate_path | relative_url | replace: ':num', total }}" class="pagination-link" aria-label="Goto page {{ total }}">{{ total }}</a>
-                    </li>
-                {% endif %}
             </ul>
         </nav>
         {% endif %}
@@ -163,12 +123,10 @@ permalink: /archive/
 
     @media screen and (min-width: 769px) { /* Bulma tablet and up */
         .columns.is-multiline {
-            align-items: stretch;
+            align-items: stretch; /* Make columns in a row same height */
         }
         .column {
-            display: flex;
+            display: flex; /* Required for height: 100% on direct children like .card */
         }
     }
-    /* Optional: Add Phosphor icons if you use them for prev/next */
-    /* @import url("https://unpkg.com/@phosphor-icons/web@2.0.3/src/bold/style.css"); */
 </style>
