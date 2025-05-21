@@ -233,7 +233,7 @@ defaults:
       path: ""
     values:
       image: "/assets/default-social-image.png"
-      author: "Swarnil Singhai" # Default author for site content
+      author: "Swarnil Singhai" 
   -
     scope:
       path: ""
@@ -246,29 +246,6 @@ defaults:
       type: "pages"
     values:
       layout: page
-  -
-   scope:
-      path: "_videos"
-   values:
-      layout: "video"
-      author: "Swarnil" # Keeping as is from your original
-  - scope:
-      path: "_webseries"
-      type: "webseries"
-    values:
-      layout: "webseries"
-      author: "Swarnil Singhai"
-      thumbnail: "https://m.media-amazon.com/images/M/MV5BMjg2NmM0MTEtYWY2Yy00NmFlLTllNTMtMjVkZjEwMGVlNzdjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"
-      banner: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0M0nOm5GHoz9vwFo093zwkz5zLFKPwx2e4Q&s"
-      episode_thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXHiiP7LIFPf0-8QIEEFYXRh4w_zoViLHVpKJI1V7avZe-SkxGXw6gMeH-jT8wywMfbBo&usqp=CAU"
-  - scope:
-      path: ""
-      type: "projects"
-    values:
-      layout: project
-      author: "Swarnil" # Keeping as is from your original
-      image: /assets/images/projects/placeholder.png
-      category: ["Project"]
 
 # 9. Site navigation (unchanged from your original for now, can be updated if needed)
 fixed_navbar: true
