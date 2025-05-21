@@ -1,5 +1,5 @@
 ---
-layout: video
+layout: post
 title: Job Seeker Searching Job In Bangalore - Part 2
 description: If you're new to Bangalore and wondering how to find a job in IT, this video will help! I share how I started my job search journey in Bangalore as a fresher. Real experiences, practical tips, and motivation for job seekers in the city.
 date: 2017-08-29

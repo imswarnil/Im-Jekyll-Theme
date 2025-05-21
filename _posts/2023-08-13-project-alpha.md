@@ -1,4 +1,5 @@
 ---
+layout : post
 id: p-alpha
 title: "Project Alpha - Web App Modernization"
 description: "Led the modernization of a legacy web application using React, Node.js, and Bulma, improving performance and user experience significantly."
