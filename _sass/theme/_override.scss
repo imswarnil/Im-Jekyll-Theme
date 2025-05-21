@@ -1,0 +1,109 @@
+// _scss/theme/_overrides.scss
+
+//-------------------------------------------------------------------
+// 1. DEFINE CSS CUSTOM PROPERTIES (LIGHT MODE - DEFAULT)
+//-------------------------------------------------------------------
+:root {
+  // Dynamic Ghost/CMS font variables (provide fallbacks from our Sass vars)
+  --gh-font-heading: #{$fontFamilyHeadings};
+  --gh-font-body: #{$fontFamilyBody};
+
+  // Jekyll Themed Accent Color
+  --jk-accent-color: #{$primary};
+  --jk-accent-color-rgb: #{$static-jk-accent-color-rgb}; // <<<< USES THE CORRECT SASS VARIABLE
+  --jk-accent-foreground-color: #{$static-jk-accent-foreground-color};
+
+  // Core Colors (mapping to your theme's naming)
+  --color-contrast: #{$staticColorContrast};
+  --color-background: #{$staticColorBackground};
+  --color-background-100: #{$staticColorBackground100};
+  // ... (rest of your CSS custom property definitions, they should be referencing
+  //      the $staticColorX, $fontFamilyX, $fontWeightX, $size-X, $radius-X, etc.
+  //      Sass variables defined in _variables.scss) ...
+
+  // Example for border (was $staticColorBorder, which is fine, or directly from $border)
+  --color-border: #{$border};
+
+  // Font Families
+  --font-family-headings: #{$fontFamilyHeadings};
+  --font-family-body: #{$fontFamilyBody};
+  --font-family-button: #{$fontFamilyButton};
+  --font-family-mono: #{$fontFamilyMonospace};
+
+  // Font Sizes
+  --font-x-small: #{$size-7};
+  --font-small: #{$size-6};
+  --font-base: #{$size-5};
+  --font-large: #{$size-4};
+
+  // Font Weights
+  --font-weight-light: #{$fontWeightLight};
+  --font-weight-regular: #{$fontWeightRegular};
+  --font-weight-medium: #{$fontWeightMedium};
+  --font-weight-semibold: #{$fontWeightSemibold};
+  --font-weight-bold: #{$fontWeightBold};
+
+  // Spacings
+  --spacing-1: 0.125rem; --spacing-2: 0.25rem;  --spacing-3: 0.375rem;
+  --spacing-4: 0.5rem;   --spacing-5: 0.625rem; --spacing-6: 0.75rem;
+  --spacing-7: 1rem;     --spacing-8: 1.25rem;  --spacing-9: 1.875rem;
+  --spacing-10: 5rem;    --spacing-11: 6.25rem;
+  --vertical-rhythm: 1.5rem;
+
+  // Border Radius
+  --radius-1: #{$radius-small};
+  --radius-2: #{$radius};
+  --radius-3: #{$radius-large};
+  --radius-4: 0px;
+  --radius-5: 0px;
+  --radius-6: 0px;
+
+  // Layout
+  --layout--padding: clamp(16px, 1.0625rem + 1.25vw, 30px); // Using clamp as in your example
+
+  // Navbar
+  --navbar--min-height: #{$navbar-height};
+
+  // Button theme vars for custom elements
+  --button--padding-v: var(--spacing-4);
+  --button--padding-h: var(--spacing-8);
+  --button--min-height: 2.5rem;
+  --button--font-size: var(--font-small);
+  --button--font-weight: var(--font-weight-medium);
+  --button--line-height: 1.5;
+  --button--border-radius: #{$button-radius};
+  --button--color: var(--jk-accent-foreground-color);
+  --button--background-color: var(--jk-accent-color);
+  --button-hover--color: var(--color-background);
+  --button-hover--background-color: var(--color-contrast);
+  --button-hover--opacity: 0.8;
+
+  // Container Widths
+  --container--width: #{$container-max-width};
+  --container-wide--width: #{$widescreen};
+
+  // Shadow
+  --shadow: 0 20px 60px -10px hsla(0, 4%, 68%, 0.24),
+            0 4px 20px -8px rgba(0, 0, 0, 0.24%);
+
+  // Popup / Dropdown / Avatar specific theme vars
+  --popup--overlay--background-color: #e8e8e8; // From your example
+  --dropdown--background-color: var(--color-background);
+  --avatar--size: 2.25rem;
+  --avatar--font-size: var(--font-small);
+  --avatar--color: var(--color-secondary);
+  --avatar--background-color: var(--color-background-100);
+  --avatar-hover--background-color: var(--color-background-200);
+
+
+  color-scheme: light;
+}
+
+// --- The rest of _overrides.scss with Global styles and Component overrides follows ---
+// Ensure the input focus box-shadow rule is:
+// .input, .textarea, .select select {
+//   &:focus, &.is-focused, &:active, &.is-active {
+//     border-color: var(--jk-accent-color);
+//     box-shadow: 0 0 0 0.125em rgba(var(--jk-accent-color-rgb), 0.25); // Uses the CSS var for RGB
+//   }
+// }
