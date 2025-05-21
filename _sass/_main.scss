@@ -1,218 +1,538 @@
-// main.scss
+/* ==========================================================================
+   YOUTUBE/MATERIAL DESIGN INSPIRED THEME CSS
+   Load this file AFTER Bulma's default CSS.
+   ========================================================================== */
 
-//-------------------------------------------------------------------
-// 1. FONT IMPORTS (Crucial for Material Design/YouTube Feel)
-//-------------------------------------------------------------------
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Roboto+Mono:wght@400;500&display=swap');
-// For Material Icons (include in your HTML <head> or here)
-// @import url('https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp');
-// Or if you prefer Phosphor icons for consistency with previous examples:
-// @import url("https://unpkg.com/@phosphor-icons/web@2.0.3/src/fill/style.css");
-// @import url("https://unpkg.com/@phosphor-icons/web@2.0.3/src/bold/style.css");
+/*-------------------------------------------------------------------
+  1. CSS CUSTOM PROPERTIES (LIGHT MODE - YouTube/Material Inspired)
+-------------------------------------------------------------------*/
+:root {
+  /* Accent Color */
+  --jk-accent-color: #FF0000; /* YouTube Red */
+  --jk-accent-color-rgb: 255, 0, 0;
+  --jk-accent-foreground-color: #FFFFFF;
 
+  /* Core Colors */
+  --color-contrast: #030303; /* YouTube Black for text */
+  --color-background: #F9F9F9; /* YouTube Light Grey Page Background */
+  --color-surface: #FFFFFF;    /* For cards, menus, dialogs */
+  --color-background-100: #F2F2F2; /* Subtle hover/active states */
+  --color-background-200: #E5E5E5; /* Dividers, subtle backgrounds */
+  --color-foreground: #030303;     /* Primary text color */
+  --color-secondary: #606060;   /* Secondary text color */
+  --color-mute: #909090;        /* Disabled/tertiary text */
+  --color-border: #E5E5E5;      /* Default border/divider */
+  --color-border-input: #CCCCCC; /* Input field borders */
+  --icon-color: #606060;        /* Default icon color */
 
-//-------------------------------------------------------------------
-// 2. MATERIAL DESIGN & YOUTUBE INSPIRED STATIC VALUES FOR BULMA
-//-------------------------------------------------------------------
+  /* Font Families (Ensure Roboto & Roboto Mono are loaded via @font-face or Google Fonts) */
+  --font-family-base: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-family-headings: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; /* Often same as body in Material */
+  --font-family-button: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-family-mono: "Roboto Mono", Menlo, Consolas, monospace;
 
-// --- Core Colors (YouTube Light Theme Inspired) ---
-$yt-red: #FF0000;
-$yt-red-rgb: 255, 0, 0;
-$yt-red-darker: #CC0000;
-$yt-white: #FFFFFF;
-$yt-black: #030303; // Very dark text / UI
-$yt-almost-black: #0F0F0F; // Dark mode page BG
+  /* Font Sizes (YouTube/Material inspired scale) */
+  --font-x-small: 0.75rem;  /* 12px */
+  --font-small: 0.875rem; /* 14px */
+  --font-base: 1rem;     /* 16px - Default body text / Video titles on grid */
+  --font-large: 1.125rem; /* 18px - Subheadings or larger body text */
+  --font-h3-size: 1.25rem;   /* ~20px - Video title on watch page */
+  --font-h2-size: 1.5rem;    /* ~24px - Section title */
+  --font-h1-size: 2.125rem;  /* ~34px - Large page title */
 
-$yt-grey-background: #F9F9F9; // Main page background
-$yt-grey-surface: $yt-white;   // Cards, menus, dialogs
-$yt-grey-divider: #E5E5E5;   // Light dividers, subtle borders
-$yt-grey-icon: #606060;      // Icon color
-$yt-grey-text-primary: $yt-black;
-$yt-grey-text-secondary: #606060;
-$yt-grey-text-disabled: #909090;
-$yt-grey-hover-bg: #F2F2F2;   // Subtle hover for list items
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 700; /* Material "bold" is often 700, 500 for medium */
+  --font-weight-bold: 700;
 
-// --- Typography ---
-$font-family-roboto: "Roboto", sans-serif;
-$font-family-roboto-mono: "Roboto Mono", monospace;
+  /* Spacings (Material often uses 4dp/8dp grid) */
+  --spacing-unit: 4px;
+  --spacing-xs: var(--spacing-unit);          /* 4px */
+  --spacing-sm: calc(var(--spacing-unit) * 2);  /* 8px */
+  --spacing-md: calc(var(--spacing-unit) * 4);  /* 16px */
+  --spacing-lg: calc(var(--spacing-unit) * 6);  /* 24px */
+  --spacing-xl: calc(var(--spacing-unit) * 8);  /* 32px */
+  --vertical-rhythm: var(--spacing-lg); /* Default margin between block elements */
 
-$weight-light: 300;
-$weight-regular: 400;
-$weight-medium: 500; // Often used for titles, buttons in Material
-$weight-bold: 700;
+  /* Border Radius (Material often uses 4dp, YT is very subtle or none for cards) */
+  --radius-sharp: 0px;
+  --radius-subtle: 2px; /* For buttons, inputs */
+  --radius-base: 4px;   /* General Material component radius */
+  --radius-card: var(--radius-sharp); /* YouTube cards often sharp */
+  --radius-button: var(--radius-subtle);
+  --radius-pill: 18px; /* For filter chip like buttons */
 
-// --- Material Design Inspired Sizing (Conceptual) ---
-// YouTube uses specific px values. We'll aim for similar rem values.
-$size-1: 2.125rem;  // ~34px H1 (e.g., Large page title)
-$size-2: 1.5rem;    // ~24px H2 (e.g., Section title)
-$size-3: 1.25rem;   // ~20px H3 (e.g., Video title on watch page)
-$size-4: 1rem;      // ~16px H4 / Body 1 (Video title on grid)
-$size-5: 0.875rem;  // ~14px Body 2 / Caption (Secondary text, metadata)
-$size-6: 0.75rem;   // ~12px Overline / Smallest text
-$size-7: 0.625rem;  // Extra small
+  /* Shadows (Material Elevation) */
+  --shadow-dp1: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+  --shadow-dp2: 0 3px 6px 0 rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.1);
+  --shadow-yt-card: 0 1px 2px 0 rgba(0,0,0,0.05);
+  --shadow-none: none;
 
-// --- Radii (Material often uses 4px, YouTube is very subtle or none) ---
-$radius-small: 2px;
-$radius: 4px;        // Common Material radius
-$radius-large: 8px;    // For larger components or more pronounced rounding
-$radius-card-yt: 0px; // YouTube video cards are often sharp
-$radius-button-yt: 2px; // YouTube buttons are subtly rounded
-$radius-button-yt-pill: 18px; // For pill-shaped filter buttons
+  /* Navbar */
+  --navbar-height: 56px;
 
-// --- Shadows (Material Elevation) ---
-// Values from Material Design spec (dp to box-shadow)
-// dp1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24) - App bars, cards
-// dp2: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23) - Raised buttons
-// dp4: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22) - Dialogs
-$shadow-dp1: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1); // Subtle
-$shadow-dp2: 0 3px 6px 0 rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.1);
-$shadow-yt-card: 0 1px 2px 0 rgba(0,0,0,0.05); // Very subtle for YT cards
+  /* Button */
+  --button-min-height: 36px;
+  --button-padding-v: 0.5em; /* Based on font-size */
+  --button-padding-h: 1em;   /* Based on font-size */
 
-//-------------------------------------------------------------------
-// 3. BULMA SASS VARIABLE OVERRIDES
-//-------------------------------------------------------------------
-$family-sans-serif: $font-family-roboto !default;
-$family-monospace: $font-family-roboto-mono !default;
-$family-primary: $family-sans-serif;
-$family-secondary: $family-sans-serif; // Titles same family, different weight
+  color-scheme: light;
+}
 
-$primary: $yt-red;
-$link: $yt-grey-text-primary; // Links are dark text
-$link-hover: $yt-red;
+/*-------------------------------------------------------------------
+  2. GLOBAL BASE STYLES (Using CSS Custom Properties)
+-------------------------------------------------------------------*/
+html {
+  background-color: var(--color-background);
+  font-size: var(--font-base); /* Typically 16px */
+  line-height: 1.5; /* Material Design default line height for body */
+  -webkit-text-size-adjust: 100%;
+  -moz-tab-size: 4;
+  tab-size: 4;
+  font-family: var(--font-family-base);
+  -webkit-tap-highlight-color: transparent;
+  scroll-behavior: smooth;
+}
 
-$black: $yt-black;
-$white: $yt-white;
-$text: $yt-grey-text-primary;
-$text-light: $yt-grey-text-secondary;
-$text-strong: $yt-black;
+body {
+  margin: 0;
+  font-family: var(--font-family-base);
+  color: var(--color-foreground);
+  background-color: var(--color-background);
+  font-weight: var(--font-weight-regular);
+  line-height: inherit; /* Inherit from html */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-$background: $yt-grey-background; // Page background
-$border: $yt-grey-divider;
-$border-hover: darken($yt-grey-divider, 10%);
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-headings);
+  color: var(--color-contrast);
+  font-weight: var(--font-weight-medium); /* Material headings often medium */
+  margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
+  line-height: 1.3;
+}
+h1:first-child, h2:first-child, h3:first-child,
+h4:first-child, h5:first-child, h6:first-child {
+  margin-top: 0;
+}
+h1 { font-size: var(--font-h1-size); }
+h2 { font-size: var(--font-h2-size); }
+h3 { font-size: var(--font-h3-size); }
+h4 { font-size: var(--font-large); } /* 1.125rem */
+h5 { font-size: var(--font-base); }   /* 1rem */
+h6 { font-size: var(--font-small); }  /* 0.875rem */
 
-$grey-darker: darken($yt-grey-text-secondary, 15%);
-$grey-dark: $yt-grey-text-secondary;
-$grey: $yt-grey-icon; // For icons and subtle elements
-$grey-light: $yt-grey-divider;
-$grey-lighter: lighten($yt-grey-background, 1.5%); // Very subtle difference from background
+p {
+  margin-top: 0;
+  margin-bottom: var(--spacing-md); /* 1em or 16px */
+  line-height: 1.6; /* Slightly more for body copy */
+}
+p:last-child {
+  margin-bottom: 0;
+}
 
-$info: #1a73e8; // Google Blue
-$success: #1e8e3e; // Google Green
-$warning: #f9ab00; // Google Yellow
-$danger: #d93025; // Google Red (different from YT accent)
-
-$body-background-color: $background;
-$body-size: $size-5; // 14px body text
-$body-color: $text;
-$body-family: $family-primary;
-$body-weight: $weight-regular;
-$body-line-height: 1.5; // Material uses 1.5 for body1
-
-// Component Radii
-$radius-small: $radius-small;
-$radius: $radius;
-$radius-large: $radius-large;
-$radius-rounded: 50em; // For avatars etc.
-
-// Buttons
-$button-color: $yt-grey-text-primary; // Text for default/light buttons
-$button-background-color: $yt-grey-surface; // Default button bg
-$button-border-color: $yt-grey-divider;
-$button-border-width: 1px;
-$button-hover-color: $yt-grey-text-primary;
-$button-hover-background-color: $yt-grey-hover-bg;
-$button-hover-border-color: $yt-grey-divider;
-$button-focus-border-color: $primary; // Or Google Blue for focus
-$button-focus-box-shadow-color: rgba($primary, 0.25);
-$button-radius: $radius-button-yt; // Subtle rounding
-$control-radius: $button-radius; // Inputs match
-$button-family: $family-primary;
-$button-weight: $weight-medium; // Material buttons often medium
-$button-padding-vertical: 0.5em; // Material standard
-$button-padding-horizontal: 1em;
-
-// Primary "Call to Action" button (e.g., Subscribe)
-$button-primary-color: $yt-white;
-$button-primary-background-color: $primary; // YT Red
-$button-primary-border-color: $primary;
-$button-primary-hover-background-color: $yt-red-darker;
-$button-primary-hover-border-color: $yt-red-darker;
-
-// Card
-$card-background-color: $yt-grey-surface;
-$card-color: $text;
-$card-radius: $radius-card-yt; // Sharp edges for YT cards
-$card-shadow: $shadow-yt-card; // Subtle shadow
-$card-header-color: $text-strong;
-$card-header-padding: 0.75rem 1rem; // Adjust for YT feel
-$card-content-padding: 0.75rem;    // Tighter padding in YT cards
-$card-footer-border-top: 1px solid $yt-grey-divider;
-
-// Box (can be used for containers, less defined than cards)
-$box-background-color: $yt-grey-surface;
-$box-color: $text;
-$box-radius: $radius; // General Material rounding
-$box-shadow: $shadow-dp1;
-$box-padding: 1rem;
-
-// Navbar (App Bar in Material)
-$navbar-background-color: $yt-grey-surface;
-$navbar-height: 56px; // Common Material app bar height
-$navbar-item-color: $yt-grey-icon; // Icons and secondary text
-$navbar-item-hover-color: $yt-grey-text-primary;
-$navbar-item-hover-background-color: $yt-grey-hover-bg;
-$navbar-item-active-color: $primary; // Active nav item is accent
-$navbar-item-active-background-color: transparent; // No bg for active, just color
-$navbar-box-shadow-size: 0 2px 4px; // Material app bar shadow (dp4-like, but less intense)
-$navbar-box-shadow-color: rgba($yt-black, 0.08);
-$navbar-padding-vertical: 0.25rem;
-$navbar-padding-horizontal: 1rem; // Material spec is often 16dp (1rem)
-
-// Input Fields
-$input-color: $text;
-$input-background-color: $yt-grey-background; // Or $yt-grey-surface slightly darker than page
-$input-border-color: $yt-grey-ui-elements;
-$input-hover-border-color: darken($yt-grey-ui-elements, 15%);
-$input-focus-border-color: $primary; // Or Google Blue
-$input-placeholder-color: $yt-grey-text-secondary;
-$input-radius: $radius; // Standard Material rounding (4dp)
-$input-shadow: none; // Material inputs are flat until focused or filled
-$input-padding: 0.75em 1em; // Material padding
-$input-height: 3rem; // ~48dp Material Text Field height
-$control-height: $input-height;
-
-// Titles
-$title-family: $family-secondary;
-$title-color: $text-strong;
-$title-weight: $weight-medium;
-$title-line-height: 1.35; // Material title line height
-$subtitle-family: $family-secondary;
-$subtitle-color: $text-light;
-$subtitle-weight: $weight-regular;
-$subtitle-line-height: 1.5;
-
-// Container
-$container-max-width: 1280px; // YT like
-$widescreen: $container-max-width;
-$fullhd: 1600px; // A bit wider for fullhd context
-$widescreen-enabled: true;
-$fullhd-enabled: true;
-
-// HR
-$hr-background-color: $yt-grey-divider;
-$hr-height: 1px;
-$hr-margin: 1.5rem 0;
-
-// Bulma defaults
-$body-rendering: optimizeLegibility !default;
-$control-border-width: 1px !default;
-$variable-columns: true !default;
-$speed: 150ms !default; // Material transitions are often a bit slower
-$easing: cubic-bezier(0.4, 0, 0.2, 1) !default; // Material standard easing
+a {
+  color: var(--color-foreground); /* Default links are plain text color */
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+a:hover {
+  color: var(--jk-accent-color); /* Red on hover */
+}
+.content a, a.has-text-link, a.has-text-primary { /* More specific links */
+    color: var(--jk-accent-color) !important; /* Force accent for these cases */
+}
+.content a:hover, a.has-text-link:hover, a.has-text-primary:hover {
+    color: #CC0000 !important; /* Darker red for hover */
+}
 
 
-//-------------------------------------------------------------------
-// 4. IMPORT BULMA
-//-------------------------------------------------------------------
-@import "../node_modules/bulma/sass/index"; // Adjust path
+hr {
+  border: 0;
+  border-top: 1px solid var(--divider-color);
+  margin: var(--spacing-lg) 0;
+}
 
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block; /* Remove bottom space */
+}
+
+/* Code blocks */
+pre {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-small); /* 14px */
+  background-color: #202124; /* YouTube dark code background */
+  color: #e8eaed;           /* Light text on dark */
+  padding: var(--spacing-md);
+  border-radius: var(--radius-base); /* 4px */
+  overflow-x: auto;
+  margin: var(--vertical-rhythm) 0;
+}
+pre code {
+  background: none !important;
+  color: inherit !important;
+  padding: 0 !important;
+  font-size: inherit !important;
+  border-radius: 0 !important;
+}
+:not(pre) > code {
+  font-family: var(--font-family-mono);
+  font-size: 0.9em; /* Slightly smaller than surrounding text */
+  background-color: var(--color-background-100); /* Light grey bg */
+  color: var(--color-foreground);
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-button); /* 2px */
+}
+
+/*-------------------------------------------------------------------
+  3. BULMA COMPONENT OVERRIDES (YouTube/Material Inspired)
+-------------------------------------------------------------------*/
+
+/* Titles and Subtitles (Bulma classes) */
+.title, .subtitle {
+  font-family: var(--font-family-headings);
+  color: var(--color-contrast);
+  word-break: break-word; /* Bulma default, keep */
+}
+.title { font-weight: var(--font-weight-medium); }
+.subtitle { color: var(--color-secondary); font-weight: var(--font-weight-regular); }
+/* Bulma's .is-1 to .is-6 title sizes will use the $size-N mappings from SCSS.
+   If you need to override them directly with CSS vars:
+.title.is-1 { font-size: var(--font-h1-size); }
+.title.is-2 { font-size: var(--font-h2-size); }
+...etc.
+*/
+
+/* Buttons */
+.button {
+  font-family: var(--font-family-button);
+  font-size: var(--font-small); /* 14px */
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase; /* Material buttons often uppercase */
+  min-height: var(--button-min-height); /* 36px */
+  line-height: var(--button-min-height); /* Align text vertically */
+  padding: 0 var(--spacing-md); /* 0 16px, height controls vertical padding */
+  border-radius: var(--radius-button); /* 2px */
+  border: 1px solid var(--divider-color);
+  background-color: var(--color-surface);
+  color: var(--text-primary-color);
+  box-shadow: var(--shadow-none); /* Flat by default */
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
+  letter-spacing: 0.025em; /* Slight letter spacing for uppercase */
+}
+.button:hover {
+  background-color: var(--color-background-100); /* Subtle hover */
+  border-color: var(--color-border-input); /* Slightly darker border */
+  box-shadow: var(--shadow-dp1); /* Slight raise on hover */
+}
+.button:focus {
+  outline: none;
+  border-color: var(--jk-accent-color);
+  box-shadow: 0 0 0 1px var(--jk-accent-color), var(--shadow-dp1);
+}
+.button:active {
+  background-color: var(--color-background-200);
+  box-shadow: var(--shadow-none);
+}
+.button.is-primary {
+  background-color: var(--jk-accent-color);
+  color: var(--jk-accent-foreground-color);
+  border-color: var(--jk-accent-color);
+  box-shadow: var(--shadow-dp2); /* Raised button */
+}
+.button.is-primary:hover, .button.is-primary:focus {
+  background-color: #CC0000; /* Darker YT Red */
+  border-color: #CC0000;
+  color: var(--jk-accent-foreground-color);
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.1); /* More prominent shadow */
+}
+.button.is-primary:active {
+  background-color: #B20000; /* Even darker for active */
+  box-shadow: var(--shadow-dp1);
+}
+.button.is-text, .button.is-ghost { /* Text/Icon buttons */
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--color-secondary);
+  box-shadow: none;
+  text-transform: none; /* Usually not uppercase for text buttons */
+}
+.button.is-text:hover, .button.is-text:focus,
+.button.is-ghost:hover, .button.is-ghost:focus {
+  background-color: var(--color-background-100);
+  color: var(--color-foreground);
+}
+
+/* Cards */
+.card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-card); /* 0px for sharp YT cards */
+  box-shadow: var(--shadow-yt-card);
+  border: 1px solid var(--divider-color); /* Or none if shadow is preferred */
+  overflow: hidden; /* If images are part of the card */
+}
+.card .card-header {
+  background-color: transparent;
+  box-shadow: none;
+  border-bottom: 1px solid var(--divider-color);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: 0; /* Ensure header isn't rounded if card is sharp */
+}
+.card .card-header-title {
+  padding: 0;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-base); /* 1rem */
+  color: var(--text-primary-color);
+}
+.card .card-image img {
+  /* object-fit: cover; already global */
+  border-radius: 0; /* Ensure image corners are sharp with card */
+}
+.card .card-content {
+  padding: var(--spacing-sm); /* YouTube card content is often tight */
+  color: var(--text-primary-color);
+}
+.card .card-content .media { margin-bottom: var(--spacing-xs); }
+.card .card-content .media-left .image { width: 36px; height: 36px; } /* YT avatar size */
+.card .card-content .title.is-5, .card .card-content .title.is-6 {
+  font-family: var(--font-family-base);
+  font-size: var(--font-base); /* Video title, ~1rem or 14px */
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+  color: var(--text-primary-color);
+  margin-bottom: var(--spacing-xs) !important;
+  /* 2-line truncation for titles */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 2.6em; /* (1.3em * 2 lines) */
+}
+.card .card-content .subtitle.is-6, .card .card-content .subtitle.is-7 {
+  color: var(--text-secondary-color);
+  font-size: var(--font-x-small); /* 12px for metadata */
+  line-height: 1.3;
+}
+.card .card-footer {
+  border-top: 1px solid var(--divider-color);
+  background-color: transparent;
+}
+.card .card-footer-item {
+  color: var(--text-secondary-color);
+  font-size: var(--font-small);
+  padding: var(--spacing-sm); /* Smaller padding for footer items */
+}
+.card .card-footer-item:hover {
+  color: var(--jk-accent-color);
+  background-color: transparent; /* No bg change on hover for footer items */
+}
+
+/* Box (general container) */
+.box {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-base); /* 4px Material radius */
+  box-shadow: var(--shadow-dp1); /* Subtle Material shadow */
+  border: none; /* No border if shadow is present */
+  padding: var(--spacing-md);
+  color: var(--text-primary-color);
+}
+
+/* Navbar (Material App Bar) */
+.navbar {
+  background-color: var(--color-surface);
+  min-height: var(--navbar-height);
+  box-shadow: var(--shadow-dp1); /* Elevation for app bar */
+  border-bottom: none; /* Shadow implies separation */
+}
+.navbar::before { content: none; } /* Remove previous overlay */
+.navbar-brand { padding-left: var(--spacing-md); } /* Material spec padding */
+.navbar-brand .navbar-item img { max-height: calc(var(--navbar-height) - var(--spacing-md)); }
+.navbar-menu { /* Typically aligned to the right */ }
+.navbar-item, .navbar-link {
+  color: var(--icon-color); /* Icons/text in app bar */
+  font-family: var(--font-family-base);
+  font-size: var(--font-small);
+  font-weight: var(--font-weight-regular);
+  min-height: var(--navbar-height); /* Align items within app bar height */
+  padding: 0 var(--spacing-sm); /* Tighter padding for icon heavy navs */
+}
+.navbar-item:hover, .navbar-item.is-active,
+.navbar-link:hover, .navbar-link.is-active {
+  background-color: var(--color-background-100); /* Subtle hover */
+  color: var(--text-primary-color);
+}
+.navbar-item .icon { color: var(--icon-color); } /* Ensure icon color consistency */
+.navbar-item:hover .icon, .navbar-item.is-active .icon { color: var(--text-primary-color); }
+
+.navbar-dropdown { /* Material Menu */
+  background-color: var(--color-surface);
+  border: none; /* Menus float */
+  border-radius: var(--radius-base); /* 4px */
+  box-shadow: var(--shadow-dp2); /* Menu elevation */
+  padding: var(--spacing-sm) 0; /* Vertical padding for menu */
+}
+.navbar-dropdown .navbar-item {
+  color: var(--text-primary-color);
+  font-size: var(--font-small);
+  padding: var(--spacing-sm) var(--spacing-md); /* Material list item padding */
+}
+.navbar-dropdown .navbar-item:hover {
+  background-color: var(--color-background-100);
+}
+.navbar-divider { background-color: var(--divider-color); }
+
+
+/* Forms (Material Text Fields) */
+.input, .textarea, .select select {
+  background-color: var(--color-background-100); /* Or var(--color-surface) if on white bg */
+  border: 1px solid var(--input-border-color); /* Subtle border */
+  border-radius: var(--radius-base); /* 4px */
+  color: var(--text-primary-color);
+  min-height: 48px; /* Material Text Field standard height */
+  padding: var(--spacing-sm) var(--spacing-md); /* 8px 16px */
+  font-size: var(--font-base); /* 1rem */
+  box-shadow: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.input:hover, .textarea:hover, .select select:hover {
+  border-color: var(--text-secondary-color); /* Darker border on hover */
+}
+.input:focus, .input.is-focused,
+.textarea:focus, .textarea.is-focused,
+.select select:focus, .select select.is-focused {
+  border-color: var(--jk-accent-color); /* Accent color border on focus */
+  box-shadow: 0 0 0 1px var(--jk-accent-color); /* Thin focus ring */
+}
+.input::placeholder, .textarea::placeholder {
+  color: var(--text-disabled-color); /* Muted placeholder */
+}
+label.label { /* Material floating label is more complex, this is for static label */
+  color: var(--text-secondary-color);
+  font-size: var(--font-small); /* Smaller label */
+  font-weight: var(--font-weight-regular);
+  margin-bottom: var(--spacing-xs);
+}
+.select:not(.is-multiple):not(.is-loading)::after { /* Dropdown arrow */
+  border-color: var(--icon-color);
+  right: var(--spacing-md);
+}
+
+/* Pagination (YouTube like) */
+.pagination .pagination-previous, .pagination .pagination-next {
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-small);
+  color: var(--text-secondary-color);
+  border: none;
+  background-color: transparent;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-button);
+  min-width: auto; height: auto; /* Let content define size */
+}
+.pagination .pagination-previous:hover, .pagination .pagination-next:hover {
+  background-color: var(--color-background-100);
+  color: var(--text-primary-color);
+}
+.pagination .pagination-previous[disabled], .pagination .pagination-next[disabled] {
+  color: var(--text-disabled-color); background-color: transparent; opacity: 0.6;
+}
+.pagination .pagination-list .pagination-link {
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-small);
+  color: var(--text-secondary-color);
+  border: none;
+  background-color: transparent;
+  min-width: 36px; height: 36px; /* YouTube like button size */
+  border-radius: 50%; /* Round page numbers */
+}
+.pagination .pagination-list .pagination-link:hover {
+  background-color: var(--color-background-100);
+  color: var(--text-primary-color);
+}
+.pagination .pagination-list .pagination-link.is-current {
+  background-color: var(--color-background-200); /* Subtle current page */
+  color: var(--text-primary-color);
+  border-color: transparent;
+}
+.pagination .pagination-ellipsis {
+  color: var(--text-disabled-color); border: none; padding: var(--spacing-sm) var(--spacing-xs);
+}
+
+
+/* --- Archive Page Specific Styles (using Material/YouTube card style) --- */
+.archive-column-cards .post-item-card {
+  /* Inherits general .card styling */
+  border: 1px solid var(--divider-color); /* Explicit border for archive cards if desired */
+  box-shadow: var(--shadow-yt-card);     /* Consistent subtle shadow */
+}
+.archive-column-cards .post-item-card .card-content .title.is-5 {
+  font-size: var(--font-base); /* 1rem for archive card titles */
+  line-height: 1.3;
+  /* 2-line truncation is already applied in general card title style */
+}
+.archive-column-cards .post-item-card .card-content .level-item .tag {
+  font-size: var(--font-x-small); /* 12px */
+  height: auto; /* Let content define height */
+  padding: 0.15em 0.6em; /* Tighter tag padding */
+  border-radius: var(--radius-pill); /* Pill shape for category tags */
+  font-weight: var(--font-weight-medium);
+  /* Bulma .is-light and color modifiers will style the tag itself */
+}
+.archive-column-cards .post-item-card .card-content .excerpt-text {
+  font-size: var(--font-small); /* 14px for excerpt */
+  color: var(--text-secondary-color);
+  line-height: 1.4;
+  margin-top: var(--spacing-xs);
+}
+.archive-column-cards .post-item-card .content .message.is-light {
+  background-color: var(--color-background-100);
+  border-radius: var(--radius-button); /* Subtle rounding */
+  border: 1px solid var(--divider-color);
+  border-left-width: 0; /* No strong side accent for TLDR */
+  color: var(--text-secondary-color);
+  font-size: var(--font-x-small);
+  margin-top: var(--spacing-sm);
+}
+.archive-column-cards .post-item-card .content .message.is-light .message-body {
+  padding: var(--spacing-xs) var(--spacing-sm);
+}
+.archive-column-cards .post-item-box .post-item-footer .buttons .button {
+  font-size: var(--font-x-small); /* Smaller footer buttons */
+  height: 28px; min-height: auto;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-button); /* Subtle rounding */
+  text-transform: none; /* Footer buttons usually not uppercase */
+}
+.archive-column-cards .post-item-box .post-item-footer .buttons .button.is-light {
+  border: 1px solid var(--divider-color);
+}
+.archive-column-cards .ad-placeholder-box,
+.archive-column-cards .newsletter-box-column {
+  /* Inherits .box styling: 4px radius, subtle shadow, or border */
+  border: 1px solid var(--divider-color);
+  box-shadow: var(--shadow-dp1);
+  border-radius: var(--radius-base);
+}
+.archive-column-cards .newsletter-box-column {
+  background-color: var(--color-background-100); /* Light grey bg */
+}
+.archive-column-cards .newsletter-box-column.has-background-info-light {
+  background-color: rgba(26, 115, 232, 0.08); /* Light Google Blue */
+}
+.archive-column-cards .newsletter-box-column .button.is-info {
+  background-color: #1a73e8; /* Google Blue */
+  color: white;
+  border-color: #1a73e8;
+}
+.archive-column-cards .newsletter-box-column .button.is-info:hover {
+  background-color: #1765c8; /* Darker Google Blue */
+  border-color: #1765c8;
+}
