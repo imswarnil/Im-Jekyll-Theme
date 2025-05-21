@@ -536,3 +536,9 @@ label.label { /* Material floating label is more complex, this is for static lab
   background-color: #1765c8; /* Darker Google Blue */
   border-color: #1765c8;
 }
+
+//-------------------------------------------------------------------
+// 4. IMPORT BULMA
+//-------------------------------------------------------------------
+@import "../node_modules/bulma/sass/index"; // Adjust path
+
