@@ -1,0 +1,21 @@
+// _scss/main.scss
+
+// 1. Local Fonts
+@import "./fonts";
+
+// 2. Theme Variables (Overrides Bulma's defaults)
+@import "./variable";
+
+// 3. Import Bulma (full or partial)
+@import "/node_modules/bulma/sass/index";
+
+// 4. CSS Custom Property Definitions for the theme (Light mode defaults)
+@import "./custom";
+
+// 5. Base HTML Element Styles using Theme's Custom Properties
+@import "./base";
+
+// 6. Theme Overrides for Bulma Components using Theme's Custom Properties
+@import "./override";
+
+

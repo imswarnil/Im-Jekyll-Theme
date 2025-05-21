@@ -1,220 +1,117 @@
 // _scss/theme/_variables.scss
 
-//-------------------------------------------------------------------
-// 0. FONT IMPORTS (if needed and not loaded via HTML)
-//-------------------------------------------------------------------
-// @import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
-
-//-------------------------------------------------------------------
-// 1. STATIC COLOR PALETTE (Light Mode Defaults)
-// These are static values that match your light theme's CSS custom property intentions.
-//-------------------------------------------------------------------
-
-// Core Colors
+// --- Static Color Palette (from Step 1, but ensure these match your CSS props for light mode) ---
 $static-black: #000;
 $static-white: #fff;
 $static-background: $static-white;
-
-// Text & Foreground
 $static-text: #4d4d4d;
 $static-text-light: #757575;
-$static-text-strong: $static-black;
-
-// Grey Scale & Backgrounds
-$static-grey-lightest: #f3f3f3;
-$static-grey-lighter: #ededed;
-$static-grey-light: #dadada;
-$static-grey: #b2b2b2;
-$static-grey-dark: $static-text-light;
-$static-grey-darker: $static-text;
-
-// Accent & Semantic Colors
-$static-primary: #e53935; // Your chosen primary color
-$static-link: $static-primary;
-$static-info: hsl(204, 71%, 53%);
-$static-success: #348f3f;
-$static-warning: hsl(48, 100%, 67%);
-$static-danger: #c34d4d;
-
-// Borders
+$static-primary: #e53935; // Your primary
+// ... (all other static colors as defined before) ...
 $static-border: rgb(128 128 128 / 20%);
 
-//-------------------------------------------------------------------
-// 2. TYPOGRAPHY (Static values)
-//-------------------------------------------------------------------
-$family-sans-serif: "Geist", "Outfit", sans-serif;
-$family-monospace: "Roboto Mono", monospace;
+// --- Typography (Use names that align with your CSS custom props if desired) ---
+$font-family-main: "Plus Jakarta Sans", "Geist", "Outfit", sans-serif; // Corresponds to --font-sans or --font-family-body
+$font-family-heading: "Plus Jakarta Sans", "Geist", "Outfit", sans-serif; // Corresponds to --font-family-headings
+$font-family-mono: "JetBrains Mono", monospace; // Corresponds to --font-mono
 
+$family-sans-serif: $font-family-main;
+$family-monospace: $font-family-mono;
+$family-primary: $font-family-main;
+$family-secondary: $font-family-heading; // For Bulma titles
+
+// Font Weights
 $weight-light: 300;
 $weight-normal: 400;
 $weight-medium: 500;
 $weight-semibold: 600;
 $weight-bold: 700;
 
-// Font Sizes (Bulma's scale - can be adjusted if needed)
-$size-1: 2.5rem;
+// Font Sizes (Map to theme's intentions)
+$size-1: 2.5rem;    // Large H1
 $size-2: 2rem;
-$size-3: 1.75rem;
-$size-4: 1.25rem; // Changed to match theme --font-large more closely
-$size-5: 1rem;
-$size-6: 0.875rem; // Matches theme --font-small
-$size-7: 0.75rem;  // Matches theme --font-x-small
+$size-3: 1.75rem;   // Theme's H1/--h1 equivalent
+$size-4: 1.375rem;  // Theme's H2/--h2 equivalent
+$size-5: 1.25rem;   // Theme's H3/--h3 equivalent
+$size-6: 0.875rem;  // --font-small
+$size-7: 0.75rem;   // --font-x-small
 
-//-------------------------------------------------------------------
-// 3. BULMA GENERAL VARIABLES (Using static values defined above)
-//-------------------------------------------------------------------
-$family-primary: $family-sans-serif;
-$family-secondary: $family-sans-serif;
-
-$primary: $static-primary; // Bulma's primary color
-$link: $static-link;       // Bulma's link color
+// --- Bulma General Variables ---
+$primary: $static-primary;
+$link: $primary; // Links use primary color
 
 $text: $static-text;
 $text-light: $static-text-light;
-$text-strong: $static-text-strong;
+$text-strong: $static-black;
 
 $background: $static-background;
-
 $border: $static-border;
-$border-light: lighten($static-border, 10%); // Sass function works here
-$border-hover: $primary;
 
-$grey-lightest: $static-grey-lightest;
-$grey-lighter: $static-grey-lighter;
-$grey-light: $static-grey-light;
-$grey: $static-grey;
-$grey-dark: $static-grey-dark;
-$grey-darker: $static-grey-darker;
-
-$info: $static-info;
-$success: $static-success;
-$warning: $static-warning;
-$danger: $static-danger;
+// ... (other general Bulma vars like grey scale, semantic colors, using $static- values) ...
+$grey-lightest: #f3f3f3;
+$grey-lighter: #ededed;
+// ...
 
 $body-background-color: $background;
 $body-color: $text;
 $body-family: $family-primary;
-$body-size: 16px;
+$body-size: 1rem; // 16px base for rem units
 $body-weight: $weight-normal;
 $body-line-height: 1.6;
 
-$link-color: $link; // Bulma uses $link for initial color
-$link-hover: darken($link, 10%); // Sass function for hover state
-$link-hover-border: darken($link, 15%);
-$link-focus: darken($link, 10%);
-$link-focus-border: darken($link, 15%);
-$link-active: darken($link, 15%);
-$link-active-border: darken($link, 20%);
+$link-color: $link;
+$link-hover: darken($link, 10%); // Sass can darken the static $link value
 $link-decoration: underline;
 
-
-//-------------------------------------------------------------------
-// 4. BULMA COMPONENT VARIABLES (Using static values)
-//-------------------------------------------------------------------
+// --- Bulma Component Variables ---
 $radius-small: 6px;
 $radius: 8px;
 $radius-large: 10px;
-$radius-rounded: 9999px;
 
-// Buttons
-// Static values matching the theme's CSS vars for button states
-// For the default button state that might use --ghost-accent-color:
-$button-color: $static-white; // Assuming accent is dark enough for white text
-$button-background-color: $primary; // This is the --ghost-accent-color equivalent
+$button-color: $static-white; // Text on primary button (assuming primary is dark)
+$button-background-color: $primary;
 $button-border-color: transparent;
-$button-border-width: 0px;
+$button-hover-color: $static-white; // Theme hover: text is background color
+$button-hover-background-color: $static-black; // Theme hover: bg is contrast color
+$button-radius: 20px; // Matches calc(var(--button--min-height) * 0.5) for 2.5rem height
+$button-family: $family-primary; // Matches --font-family-button
+$button-weight: $weight-medium; // Matches --button--font-weight
 
-// For hover state (matches --button-hover--*)
-$button-hover-color: $static-background; // which is white
-$button-hover-background-color: $static-contrast; // which is black
-$button-hover-border-color: transparent;
-
-$button-focus-color: $button-hover-color;
-$button-focus-background-color: $button-hover-background-color;
-$button-focus-border-color: $button-hover-border-color;
-$button-focus-box-shadow-size: 0 0 0 0.125em rgba($primary, 0.25); // Bulma default, themed
-
-$button-active-color: $button-hover-color;
-$button-active-background-color: darken($button-hover-background-color, 5%);
-$button-active-border-color: transparent;
-
-// For .button.is-text, .is-outlined, etc.
-$button-text-color: $text-strong;
-$button-text-hover-background-color: $grey-lightest;
-$button-text-hover-color: $text-strong;
-
-$button-disabled-background-color: $grey-light;
-$button-disabled-color: $grey;
-$button-disabled-opacity: 0.5;
-
-$button-padding-vertical: 0.5rem;
-$button-padding-horizontal: 1.25rem;
-$button-family: $family-primary;
-$button-weight: $weight-medium;
-$button-line-height: 1.5;
-// Button border-radius from theme: calc(var(--button--min-height) * 0.5); min-height 2.5rem (40px) -> radius 20px
-// Let's set a fixed value for Bulma's default button radius
-$button-radius: 20px;
-$control-radius: $button-radius; // For consistency with inputs
-
-// Card
-$card-background-color: $static-background;
+$card-background-color: $static-white;
 $card-color: $static-text;
-$card-header-color: $static-black;
-$card-radius: 14px;
-$card-shadow: 0 20px 60px -10px rgba(176, 169, 169, 0.24), 0 4px 20px -8px rgba(0, 0, 0, 0.24);
-$card-header-padding: 1rem 1.25rem;
-$card-content-padding: 1.25rem;
+$card-radius: 14px; // --radius-4
+$card-shadow: 0 20px 60px -10px rgba(176, 169, 169, 0.24), 0 4px 20px -8px rgba(0, 0, 0, 0.24); // --shadow
 
-// Box
-$box-background-color: $static-background;
-$box-color: $static-text;
-$box-radius: $radius-small;
-$box-shadow: $card-shadow; // Use card's shadow
-$box-padding: 1.5rem;
+$box-background-color: $static-white;
+$box-radius: $radius-small; // --radius-1
+$box-shadow: $card-shadow; // Match card shadow
+$box-padding: 1.25rem; // approx --spacing-8
 
-// Navbar
-$navbar-background-color: rgba($static-white, 0.9); // For backdrop-filter effect
+$navbar-background-color: rgba($static-white, 0.9);
 $navbar-height: 58px;
 $navbar-item-color: $static-text;
 $navbar-item-hover-color: $primary;
 $navbar-item-hover-background-color: $static-grey-lightest;
-$navbar-item-active-color: $primary;
-$navbar-item-active-background-color: $static-grey-lightest;
-$navbar-padding-vertical: 0.5rem;
-$navbar-padding-horizontal: 1rem; // Fallback for --layout--padding
 
-// Input, Textarea, Select
 $input-color: $static-text;
 $input-background-color: $static-grey-lightest;
 $input-border-color: $static-border;
-$input-hover-border-color: darken($static-border, 10%);
 $input-focus-border-color: $primary;
-$input-placeholder-color: $static-text-light;
-$input-radius: $control-radius; // Match button radius for consistency
-$input-shadow: none;
+$input-radius: $radius-small; // Or a more rounded one like buttons
 
-// Titles and Subtitles
 $title-color: $static-black;
-$title-family: $family-primary;
+$title-family: $family-secondary; // Use heading font
 $title-weight: $weight-semibold;
-$title-line-height: 1.1;
+
 $subtitle-color: $static-text-light;
-$subtitle-family: $family-primary;
+$subtitle-family: $family-secondary;
 $subtitle-weight: $weight-normal;
-$subtitle-line-height: 1.25;
 
-// Generic
-$generic-family: $family-primary;
-$generic-box-shadow: $box-shadow; // Use the var defined for box
-$generic-radius: $radius;
-$hr-background-color: $border;
-$hr-height: 1px;
-$hr-margin: 1.5rem 0;
+// Container widths (can use theme's fixed widths or Bulma's breakpoints)
+$container-max-width: 700px; // --container--width
+$widescreen: 1100px; // for .container.is-widescreen, matches --container-wide--width
+$fullhd: 1300px;   // for .container.is-fullhd, matches --featured-image--max-width
 
-// Container
-$container-max-width: 700px;
-$widescreen-enabled: true;
-$fullhd-enabled: true;
-$widescreen: 1100px;
-$fullhd: 1300px;
+// Ensure variables used by Bulma for its calculations are defined
+$speed: 86ms !default;
+$easing: ease-out !default;
