@@ -1,102 +1,115 @@
 // _scss/theme/_variables.scss
 
 //-------------------------------------------------------------------
-// 1. STATIC COLOR PALETTE (Light Mode Defaults from your CSS Vars)
+// 1. STATIC VALUES DERIVED FROM YOUR THEME'S CSS CUSTOM PROPERTIES (Light Mode)
 //-------------------------------------------------------------------
-$static-color-contrast: #000;
-$static-color-background: #fff;
-$static-color-background-100: #f3f3f3;
-$static-color-background-200: #ededed;
-$static-color-background-300: #dadada;
-$static-color-foreground: #4d4d4d;
-$static-color-secondary: #757575;
-$static-color-mute: #b2b2b2;
-$static-color-border: rgb(128 128 128 / 20%);
-$static-color-border-hover: rgb(100 100 100 / 20%); // Example static hover
-$static-color-success: #348f3f;
-$static-color-error: #c34d4d;
 
-// Main Accent Color (Your Primary)
-$static-accent-color: #e53935; // This will become --jk-accent-color
-// RGB components for $static-accent-color (#e53935 is R:229, G:57, B:53)
-$static-accent-color-rgb: 229, 57, 53;
-// Text color on top of the accent color
-$static-accent-foreground-color: #fff; // This will become --jk-accent-foreground-color
+// Core Colors
+$staticColorContrast: #000;
+$staticColorBackground: #fff;
+$staticColorBackground100: #f3f3f3;
+$staticColorBackground200: #ededed;
+$staticColorBackground300: #dadada;
+$staticColorForeground: #4d4d4d;
+$staticColorSecondary: #757575;
+$staticColorMute: #b2b2b2;
+$staticColorBorder: hsl(0, 0%, 50%, 0.2); // --color-border (hsla(0,0%,50%,.2))
+$staticColorSuccess: #348f3f;
+$staticColorError: #c34d4d;
+
+// Accent Color (Your Primary)
+$staticJkAccentColor: #e53935; // Your chosen primary color
+$staticJkAccentColorRgb: 229, 57, 53; // RGB for #e53935
+$staticJkAccentForegroundColor: #fff; // Text on accent
 
 //-------------------------------------------------------------------
-// 2. TYPOGRAPHY (Static values)
+// 2. TYPOGRAPHY (Static values from your theme)
 //-------------------------------------------------------------------
-$font-family-main: "Geist", "Outfit", Arial, sans-serif;
-$font-family-headings-override: "Geist", "Outfit", Arial, sans-serif;
-$font-family-buttons-override: "Geist", "Outfit", Arial, sans-serif;
-$font-family-mono-override: "JetBrains Mono", "Roboto Mono", monospace;
+// --gh-font-heading/body implies dynamic fonts. We set a static base here.
+// Assuming 'Geist' is your primary choice.
+$fontFamilyHeadings: "Geist", "Outfit", Arial, sans-serif;
+$fontFamilyBody: "Geist", "Outfit", Arial, sans-serif;
+$fontFamilyButton: $fontFamilyBody; // Match body as per your theme
+$fontFamilyMonospace: "JetBrains Mono", "Roboto Mono", monospace; // For code
 
-$weight-light: 300;
-$weight-normal: 400;
-$weight-medium: 500;
-$weight-semibold: 600;
-$weight-bold: 700;
+$fontWeightLight: 300;
+$fontWeightRegular: 400;
+$fontWeightMedium: 500;
+$fontWeightSemibold: 600;
+$fontWeightBold: 700;
 
-$size-1: 2.25rem; $size-2: 1.75rem; $size-3: 1.375rem;
-$size-4: 1.125rem; $size-5: 1rem;    $size-6: 0.875rem;
-$size-7: 0.75rem;
+// Bulma sizes, map to theme's conceptual sizes
+$size-1: 2.25rem;   // Large H1
+$size-2: 1.75rem;   // Matches theme --font-size for H1 (1.75rem)
+$size-3: 1.375rem;  // Matches theme --font-size for H2 (1.375rem)
+$size-4: 1.125rem;  // --font-large (18px)
+$size-5: 1rem;      // Base font size (16px)
+$size-6: 0.875rem;  // --font-small (14px)
+$size-7: 0.75rem;   // --font-x-small (12px)
 
 //-------------------------------------------------------------------
 // 3. BULMA GENERAL VARIABLE OVERRIDES
 //-------------------------------------------------------------------
-$family-sans-serif: $font-family-main !default;
-$family-monospace: $font-family-mono-override !default;
-$family-primary: $family-sans-serif; // Main body font
-$family-secondary: $font-family-headings-override; // Used for Bulma .title by default
+$family-sans-serif: $fontFamilyBody !default;
+$family-monospace: $fontFamilyMonospace !default;
+$family-primary: $family-sans-serif;
+$family-secondary: $fontFamilyHeadings; // For .title class in Bulma
 
-$primary: $static-accent-color; // Bulma's $primary uses our static accent
+$primary: $staticJkAccentColor;
 $link: $primary;
 
-$text: $static-color-foreground;
-$text-light: $static-color-secondary;
-$text-strong: $static-color-contrast;
+$text: $staticColorForeground;
+$text-light: $staticColorSecondary;
+$text-strong: $staticColorContrast;
 
-$background: $static-color-background;
-$border: $static-color-border;
-$border-light: $static-color-border; // Or a defined lighter static version
-$border-hover: $primary; // Or $static-color-border-hover
+$background: $staticColorBackground;
+$border: $staticColorBorder;
+$border-light: lighten($staticColorBorder, 10%); // Sass lighten on HSL works
+$border-hover: $primary;
 
-$grey-darker: #363636; $grey-dark: #4a4a4a;
-$grey: $static-color-mute;
-$grey-light: $static-color-background-300;
-$grey-lighter: $static-color-background-200;
+// Grey scale for Bulma
+$grey-darker: darken($staticColorMute, 25%);
+$grey-dark: darken($staticColorMute, 10%);
+$grey: $staticColorMute;
+$grey-light: $staticColorBackground300;
+$grey-lighter: $staticColorBackground200;
 
-$info: hsl(217, 71%, 53%); $success: $static-color-success;
-$warning: hsl(48, 100%, 67%); $danger: $static-color-error;
+$info: hsl(217, 71%, 53%);
+$success: $staticColorSuccess;
+$warning: hsl(48, 100%, 67%);
+$danger: $staticColorError;
 
+// Body
 $body-background-color: $background;
 $body-color: $text;
 $body-family: $family-primary;
-$body-size: $size-5;
-$body-weight: $weight-normal;
-$body-line-height: 1.6;
+$body-size: $size-5; // 1rem base
+$body-weight: $fontWeightRegular;
+$body-line-height: 1.5; // From theme
 
+// Links
 $link-color: $link;
-$link-hover: darken($link, 8%); // Sass darken is fine as $link is a static color here
+$link-hover: $link; // Theme: color doesn't change, underline does
 $link-decoration: underline;
+$link-hover-decoration: underline; // Will be modified by CSS custom prop for color
 
 //-------------------------------------------------------------------
 // 4. BULMA COMPONENT VARIABLE OVERRIDES
 //-------------------------------------------------------------------
-$radius-small: 0px; $radius: 0px; $radius-large: 0px;
-$radius-rounded: 9999px;
+// Radii -> SHARP EDGES
+$radius-small: 0px;
+$radius: 0px;
+$radius-large: 0px;
+$radius-rounded: 9999px; // For elements that must be round (e.g., some tags)
 
-// Buttons
-$button-color: $static-accent-foreground-color;
-$button-background-color: $primary; // Uses $static-accent-color
+// Buttons (from theme's --button--* CSS vars)
+$button-color: $staticJkAccentForegroundColor;
+$button-background-color: $primary;
 $button-border-color: transparent;
 $button-border-width: 0px;
 
-// For button hover state based on your theme vars:
-// --button-hover--color: var(--color-background); -> $static-color-background
-// --button-hover--background-color: var(--color-contrast); -> $static-color-contrast
-$button-hover-color: $static-color-background;
-$button-hover-background-color: $static-color-contrast;
+$button-hover-color: $staticColorBackground;
+$button-hover-background-color: $staticColorContrast;
 $button-hover-border-color: transparent;
 
 $button-focus-color: $button-hover-color;
@@ -105,74 +118,79 @@ $button-focus-border-color: $primary;
 $button-focus-box-shadow-size: 0 0 0 0.125em;
 $button-focus-box-shadow-color: rgba($primary, 0.25);
 
+// Theme button radius: calc(var(--button--min-height) * 0.5) -> 2.5rem * 0.5 = 1.25rem = 20px
 $button-radius: 20px;
-$control-radius: $button-radius;
+$control-radius: $button-radius; // Make inputs match
 
-$button-family: $font-family-buttons-override;
-$button-weight: $weight-medium;
-$button-padding-vertical: 0.5rem;   // Corresponds to --spacing-4
-$button-padding-horizontal: 1.25rem; // Corresponds to --spacing-8
-$button-line-height: 1.5;
+$button-family: $fontFamilyButton;
+$button-weight: $fontWeightMedium; // --font-weight-medium
+$button-padding-vertical: 0.5rem;   // --spacing-4
+$button-padding-horizontal: 1.25rem; // --spacing-8
+$button-line-height: 1.5;           // --button--line-height
 
 // Card - NO SHADOW, LIGHT BORDER, NO RADIUS
-$card-background-color: $static-color-background;
-$card-color: $static-color-foreground;
-$card-header-color: $static-color-contrast;
+$card-background-color: $staticColorBackground;
+$card-color: $staticColorForeground;
+$card-header-color: $staticColorContrast;
 $card-radius: 0px;
 $card-shadow: none;
-$card-header-padding: 1rem 1.25rem;
-$card-content-padding: 1.25rem;
-$card-footer-border-top: 1px solid $static-color-border;
+// Actual border applied in _overrides.scss using CSS vars
+$card-header-padding: 1rem 1.25rem; // approx --spacing-7 to --spacing-8
+$card-content-padding: 1.25rem;    // approx --spacing-8
+$card-footer-border-top: 1px solid $staticColorBorder;
 
 // Box - NO SHADOW, LIGHT BORDER, NO RADIUS
-$box-background-color: $static-color-background;
-$box-color: $static-color-foreground;
+$box-background-color: $staticColorBackground;
+$box-color: $staticColorForeground;
 $box-radius: 0px;
 $box-shadow: none;
-$box-padding: 1.25rem;
+$box-padding: 1.25rem; // approx --spacing-8
+// Actual border applied in _overrides.scss
 
 // Navbar
-$navbar-background-color: rgba($static-color-background, 0.95);
-$navbar-height: 58px;
-$navbar-item-color: $static-color-foreground;
+$navbar-background-color: $staticColorBackground; // Solid initially, opacity effect via :before in overrides
+$navbar-height: 58px; // --navbar--min-height
+$navbar-item-color: $staticColorForeground;
 $navbar-item-hover-color: $primary;
-$navbar-item-hover-background-color: $static-color-background-100;
-$navbar-padding-vertical: 0.5rem;
-$navbar-padding-horizontal: 1rem;
+$navbar-item-hover-background-color: $staticColorBackground100; // --color-background-100
+$navbar-item-active-color: $primary;
+$navbar-item-active-background-color: $staticColorBackground100;
+$navbar-padding-vertical: 0.5rem; // Approx --spacing-4
+$navbar-padding-horizontal: 1rem; // Approx --spacing-7
 
 // Input, Textarea, Select
-$input-color: $static-color-contrast;
-$input-background-color: $static-color-background-100;
-$input-border-color: $static-color-border;
-$input-hover-border-color: $static-color-border; // Keep same or define static hover
+$input-color: $staticColorContrast;
+$input-background-color: $staticColorBackground100;
+$input-border-color: $staticColorBorder;
+$input-hover-border-color: $staticColorBorder; // No change on hover for border, focus changes
 $input-focus-border-color: $primary;
-$input-placeholder-color: $static-color-mute;
-$input-radius: $radius-small; // 0px for sharp, or specific e.g., 4px
+$input-placeholder-color: $staticColorMute;
+$input-radius: $radius-small; // 0px, or specific small value like 6px (--radius-1)
 $input-shadow: none;
 
 // Titles
-$title-color: $static-color-contrast;
-$title-family: $font-family-headings-override;
-$title-weight: $weight-semibold;
-$title-line-height: 1.125;
-$subtitle-color: $static-color-secondary;
-$subtitle-family: $font-family-headings-override;
-$subtitle-weight: $weight-normal;
-$subtitle-line-height: 1.25;
+$title-color: $staticColorContrast;
+$title-family: $fontFamilyHeadings;
+$title-weight: $fontWeightSemibold;
+$title-line-height: 1.1; // From theme
+$subtitle-color: $staticColorSecondary;
+$subtitle-family: $fontFamilyHeadings;
+$subtitle-weight: $fontWeightRegular; // Usually less than title
+$subtitle-line-height: 1.2; // From theme
 
 // Generic
-$hr-background-color: $static-color-border;
+$hr-background-color: $staticColorBorder;
 $hr-height: 1px;
-$hr-margin: 1.5rem 0;
+$hr-margin: 1.5rem 0; // --vertical-rhythm
 
 // Container
-$container-max-width: 700px;
-$widescreen: 1100px;
-$fullhd: 1300px;
+$container-max-width: 700px; // --container--width
+$widescreen: 1100px; // --container-wide--width
+$fullhd: 1300px;   // --featured-image--max-width (if used as fullhd breakpoint)
 $widescreen-enabled: true;
 $fullhd-enabled: true;
 
-// Defaults for Bulma to compile
+// Ensure Bulma defaults are present if not overridden
 $body-rendering: optimizeLegibility !default;
 $control-border-width: 1px !default;
 $control-line-height: 1.5 !default;
