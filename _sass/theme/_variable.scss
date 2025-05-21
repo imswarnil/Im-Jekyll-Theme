@@ -1,216 +1,118 @@
-// _scss/theme/_variables.scss
+// _scss/theme/_custom_props.scss
 
-//-------------------------------------------------------------------
-// A. THEME STATIC CONSTANTS (Light Mode Defaults)
-// Derived from your target CSS Custom Properties
-//-------------------------------------------------------------------
+:root {
+  /* Dynamic Ghost/CMS font variables (fallbacks from our Sass vars) */
+  --gh-font-heading: #{$theme-font-family-headings};
+  --gh-font-body: #{$theme-font-family-main};
 
-// Core Colors
-$theme-color-contrast: #000;
-$theme-color-background: #fff;
-$theme-color-background-100: #f3f3f3;
-$theme-color-background-200: #ededed;
-$theme-color-background-300: #dadada;
-$theme-color-foreground: #4d4d4d;
-$theme-color-secondary: #757575;
-$theme-color-mute: #b2b2b2;
-$theme-color-border: hsl(0, 0%, 50%, 0.2); // --color-border (hsla(0,0%,50%,.2))
-$theme-color-success: #348f3f;
-$theme-color-error: #c34d4d;
+  /* Jekyll Themed Accent Color */
+  --jk-accent-color: #{$theme-jk-accent-color};
+  --jk-accent-color-rgb: #{$theme-jk-accent-color-rgb};
+  --jk-accent-foreground-color: #{$theme-jk-accent-foreground-color};
+  /* Alias for --ghost-accent-color from your original list */
+  --ghost-accent-color: var(--jk-accent-color);
 
-// Accent Color
-$theme-jk-accent-color: #e53935;
-$theme-jk-accent-color-rgb: 229, 57, 53; // For rgba() CSS
-$theme-jk-accent-foreground-color: #fff;
 
-// Typography
-$theme-font-family-main: "Geist", "Outfit", Arial, sans-serif;
-$theme-font-family-headings: "Geist", "Outfit", Arial, sans-serif;
-$theme-font-family-buttons: $theme-font-family-main;
-$theme-font-family-mono: "JetBrains Mono", "Roboto Mono", monospace;
+  /* Colors. */
+  --color-contrast: #{$theme-color-contrast};
+  --color-background: #{$theme-color-background};
+  --color-background-100: #{$theme-color-background-100};
+  --color-background-200: #{$theme-color-background-200};
+  --color-background-300: #{$theme-color-background-300};
+  --color-foreground: #{$theme-color-foreground};
+  --color-secondary: #{$theme-color-secondary};
+  --color-mute: #{$theme-color-mute};
+  --color-border: #{$theme-color-border};
+  --color-success: #{$theme-color-success};
+  --color-error: #{$theme-color-error};
+  --color-overlay: rgba(5, 5, 5, 0.7);
 
-$theme-font-weight-light: 300;
-$theme-font-weight-regular: 400;
-$theme-font-weight-medium: 500;
-$theme-font-weight-semibold: 600;
-$theme-font-weight-bold: 700;
+  /* Font. */
+  --font-family-headings: var(--gh-font-heading, #{$theme-font-family-headings});
+  --font-family-body: var(--gh-font-body, #{$theme-font-family-main});
+  --font-family-button: var(--font-family-body); // As per your theme
+  --font-family-mono: #{$theme-font-family-mono};
 
-$theme-font-size-xsmall: 0.75rem;  // 12px
-$theme-font-size-small: 0.875rem; // 14px
-$theme-font-size-base: 1rem;      // 16px
-$theme-font-size-large: 1.125rem; // 18px
-// Larger heading sizes from theme
-$theme-font-size-h3: 1.25rem;
-$theme-font-size-h2: 1.375rem;
-$theme-font-size-h1: 1.75rem;
+  --font-x-small: #{$theme-font-size-xsmall};
+  --font-small: #{$theme-font-size-small};
+  --font-base: #{$theme-font-size-base};
+  --font-large: #{$theme-font-size-large};
+  // Additional heading font sizes if needed for direct CSS use
+  --font-size-h1: #{$theme-font-size-h1};
+  --font-size-h2: #{$theme-font-size-h2};
+  --font-size-h3: #{$theme-font-size-h3};
 
-// Spacing Units (for direct use in SCSS if needed, CSS vars are primary)
-$theme-spacing-unit: 0.25rem; // 4px, can be used as base for multiples
-$theme-spacing-4: 0.5rem;
-$theme-spacing-6: 0.75rem;
-$theme-spacing-7: 1rem;
-$theme-spacing-8: 1.25rem;
-$theme-spacing-9: 1.875rem;
-$theme-vertical-rhythm: 1.5rem;
 
-// Radii -> SHARP EDGES
-$theme-radius-sharp: 0px;
-$theme-radius-small: 6px; // For elements that *do* get rounded
-$theme-radius-default: 8px;
-$theme-radius-large: 10px;
-$theme-button-radius: 20px; // From theme --button--border-radius calc
+  --font-weight-light: #{$theme-font-weight-light};
+  --font-weight-regular: #{$theme-font-weight-regular};
+  --font-weight-medium: #{$theme-font-weight-medium};
+  --font-weight-semibold: #{$theme-font-weight-semibold};
+  --font-weight-bold: #{$theme-font-weight-bold};
 
-// Shadow (original theme shadow for elements that *should* have it)
-$theme-shadow-default: 0 20px 60px -10px hsla(0, 4%, 68%, 0.24),
-                       0 4px 20px -8px rgba(0, 0, 0, 0.24);
+  /* Spacings. */
+  --spacing-1: 0.125rem; --spacing-2: 0.25rem;  --spacing-3: 0.375rem;
+  --spacing-4: 0.5rem;   --spacing-5: 0.625rem; --spacing-6: 0.75rem;
+  --spacing-7: 1rem;     --spacing-8: 1.25rem;  --spacing-9: 1.875rem;
+  --spacing-10: 5rem;    --spacing-11: 6.25rem;
+  --vertical-rhythm: 1.5rem;
 
-//-------------------------------------------------------------------
-// B. BULMA SASS VARIABLE OVERRIDES
-// We set Bulma's variables using our theme constants from above.
-//-------------------------------------------------------------------
+  /* Border radius. */
+  --radius-1: #{$theme-radius-small}; // 6px
+  --radius-2: #{$theme-radius-default}; // 8px
+  --radius-3: #{$theme-radius-large}; // 10px
+  --radius-4: 14px; // from theme
+  --radius-5: 16px; // from theme
+  --radius-6: clamp(16px, calc(11.25px + 1.25vw), 30px); // from theme, using clamp
+  --radius-sharp: #{$theme-radius-sharp}; // 0px for cards/boxes
 
-// Typography
-$family-sans-serif: $theme-font-family-main !default;
-$family-monospace: $theme-font-family-mono !default;
-$family-primary: $family-sans-serif;
-$family-secondary: $theme-font-family-headings; // For .title
+  /* Layout. */
+  --layout--padding: clamp(16px, calc(11.25px + 1.25vw), 30px); // from theme, using clamp
 
-$weight-light: $theme-font-weight-light;
-$weight-normal: $theme-font-weight-regular;
-$weight-medium: $theme-font-weight-medium;
-$weight-semibold: $theme-font-weight-semibold;
-$weight-bold: $theme-font-weight-bold;
+  /* Navbar. */
+  --navbar--min-height: #{$navbar-height};
 
-$size-1: $theme-font-size-h1 * 1.2; // Make Bulma's largest title bigger
-$size-2: $theme-font-size-h1;
-$size-3: $theme-font-size-h2;
-$size-4: $theme-font-size-h3;
-$size-5: $theme-font-size-large; // Bulma's .is-5 will be 1.125rem
-$size-6: $theme-font-size-base;    // Bulma's .is-6 will be 1rem
-$size-7: $theme-font-size-small;   // Bulma's .is-7 will be 0.875rem
-// Base body size is handled by $body-size
+  /* Button. */
+  --button--padding-v: var(--spacing-4);
+  --button--padding-h: var(--spacing-8);
+  --button--min-height: 2.5rem;
+  --button--font-size: var(--font-small);
+  --button--font-weight: var(--font-weight-medium);
+  --button--line-height: 1.5;
+  --button--border-radius: #{$theme-button-radius}; // 20px
+  --button--color: var(--jk-accent-foreground-color);
+  --button--background-color: var(--jk-accent-color);
+  --button--opacity: 1;
+  --button--transition: clip-path 0.2s ease, background-color 0.1s ease,
+                      border-color 0.1s ease, color 0.1s ease, opacity 0.1s ease;
+  --button-hover--color: var(--color-background);
+  --button-hover--background-color: var(--color-contrast);
+  --button-hover--opacity: 0.8;
 
-// Colors
-$primary: $theme-jk-accent-color;
-$link: $primary;
+  /* Container. */
+  --container--width: #{$container-max-width};
+  --container-wide--width: #{$widescreen};
 
-$black: $theme-color-contrast;
-$white: $theme-color-background;
+  /* Featured image. */
+  --featured-image--max-width: #{$fullhd};
 
-$text: $theme-color-foreground;
-$text-light: $theme-color-secondary;
-$text-strong: $theme-color-contrast;
+  /* Popup. */
+  --popup--overlay--background-color: #e8e8e8;
 
-$background: $theme-color-background;
-$border: $theme-color-border;
-$border-light: lighten($theme-color-border, 10%);
-$border-hover: $primary;
+  /* Avatar. */
+  --avatar--size: 2.25rem;
+  --avatar-large--size: 2.875rem;
+  --avatar-small--size: 1.375rem;
+  --avatar--font-size: var(--font-small);
+  --avatar--color: var(--color-secondary);
+  --avatar--background-color: var(--color-background-100);
+  --avatar-hover--background-color: var(--color-background-200);
 
-$grey-darker: darken($theme-color-mute, 25%);
-$grey-dark: darken($theme-color-mute, 10%);
-$grey: $theme-color-mute;
-$grey-light: $theme-color-background-300;
-$grey-lighter: $theme-color-background-200;
-// $grey-lightest from theme: $theme-color-background-100 (used for specific backgrounds)
+  /* Dropdown. */
+  --dropdown--background-color: var(--color-background);
 
-$info: hsl(217, 71%, 53%);
-$success: $theme-color-success;
-$warning: hsl(48, 100%, 67%);
-$danger: $theme-color-error;
+  /* Shadow. */
+  --shadow: #{$theme-shadow-default};
+  --shadow-none: none; // For elements that should explicitly have no shadow
 
-// General
-$body-background-color: $background;
-$body-color: $text;
-$body-family: $family-primary;
-$body-size: $theme-font-size-base; // 1rem
-$body-weight: $weight-normal;
-$body-line-height: 1.5; // From theme --button--line-height or general text
-
-$link-color: $link;
-$link-hover: darken($link, 8%);
-$link-decoration: underline;
-
-// Components
-$radius-small: $theme-radius-sharp; // Sharp edges
-$radius: $theme-radius-sharp;
-$radius-large: $theme-radius-sharp;
-$radius-rounded: 9999px; // For fully rounded things like some tags
-
-// Buttons
-$button-color: $theme-jk-accent-foreground-color;
-$button-background-color: $primary;
-$button-border-color: transparent;
-$button-border-width: 0px;
-$button-hover-color: $theme-color-background;
-$button-hover-background-color: $theme-color-contrast;
-$button-hover-border-color: transparent;
-$button-focus-box-shadow-color: rgba($primary, 0.25);
-$button-radius: $theme-button-radius; // 20px
-$control-radius: $button-radius; // Inputs match button radius
-$button-family: $theme-font-family-buttons;
-$button-weight: $weight-medium;
-$button-padding-vertical: $theme-spacing-4;
-$button-padding-horizontal: $theme-spacing-8;
-$button-line-height: 1.5;
-
-// Card & Box - NO SHADOW, LIGHT BORDER, NO RADIUS
-$card-background-color: $theme-color-background;
-$card-color: $theme-color-foreground;
-$card-header-color: $theme-color-contrast;
-$card-radius: $theme-radius-sharp;
-$card-shadow: none;
-$box-background-color: $theme-color-background;
-$box-color: $theme-color-foreground;
-$box-radius: $theme-radius-sharp;
-$box-shadow: none;
-$box-padding: $theme-spacing-8; // approx 1.25rem
-
-// Navbar
-$navbar-background-color: $theme-color-background; // Initial state
-$navbar-height: 58px;
-$navbar-item-color: $theme-color-foreground;
-$navbar-item-hover-color: $primary;
-$navbar-item-hover-background-color: $theme-color-background-100;
-$navbar-padding-vertical: $theme-spacing-4;
-$navbar-padding-horizontal: $theme-spacing-7;
-
-// Input
-$input-color: $theme-color-contrast;
-$input-background-color: $theme-color-background-100;
-$input-border-color: $theme-color-border;
-$input-hover-border-color: $theme-color-border;
-$input-focus-border-color: $primary;
-$input-placeholder-color: $theme-color-mute;
-$input-radius: $theme-radius-small; // Sharp inputs (0px) or $theme-radius-1 for 6px
-$input-shadow: none;
-
-// Titles
-$title-family: $family-secondary;
-$title-color: $theme-color-contrast;
-$title-weight: $weight-semibold;
-$title-line-height: 1.1;
-$subtitle-family: $family-secondary;
-$subtitle-color: $theme-color-secondary;
-$subtitle-weight: $weight-normal;
-$subtitle-line-height: 1.2;
-
-// Generic
-$hr-background-color: $theme-color-border;
-$hr-height: 1px;
-$hr-margin: $theme-vertical-rhythm 0;
-
-// Container
-$container-offset: (2 * $theme-spacing-7); // approx 2rem, used for max-width calc
-$container-max-width: 700px;
-$widescreen: 1100px;
-$fullhd: 1300px;
-$widescreen-enabled: true;
-$fullhd-enabled: true;
-
-// Bulma default values for compilation
-$body-rendering: optimizeLegibility !default;
-$control-border-width: 1px !default;
-$control-line-height: 1.5 !default;
-$variable-columns: true !default;
-$speed: 86ms !default;
-$easing: ease-out !default;
+  color-scheme: light;
+}
