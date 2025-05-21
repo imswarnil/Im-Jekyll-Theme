@@ -1,179 +1,90 @@
 ---
 title: Archive
 description: "Browse through all our posts"
-layout: page
+layout: page # Assuming you have a 'page' layout. If not, use 'default' or your base layout.
 permalink: /archive/
 ---
 
-<section class="section archive-column-cards">
+<section class="section">
     <div class="container">
-        <h1 class="title is-2 has-text-centered mb-6">All Posts</h1>
+        <h1 class="title is-2 has-text-centered mb-5">All Posts</h1>
+
         <div id="post-list" class="columns is-multiline">
             {% if paginator.posts.size == 0 %}
                 <div class="column is-full">
                     <p class="has-text-centered is-size-4 has-text-grey">No posts found.</p>
                 </div>
             {% else %}
-                {% assign posts_processed_count = 0 %}
                 {% for post in paginator.posts %}
-                    {% assign posts_processed_count = posts_processed_count | plus: 1 %}
-
                     <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-                        <a href="{{ post.url | relative_url }}" class="post-item-link">
-                            <div class="box post-item-box">
-                                {% comment %} --- Media Section --- {% endcomment %}
-                                <div class="post-media-container mb-4">
-                                    {% if post.image and post.category != "video" %}
-                                    <figure class="image is-4by3">
+                        <div class="card post-item-card"> {# Using Bulma's card component directly for simplicity #}
+                            {% if post.image %}
+                            <div class="card-image">
+                                <figure class="image is-4by3">
+                                    <a href="{{ post.url | relative_url }}">
                                         <img src="{{ post.image | relative_url }}" alt="{{ post.title | escape }}">
-                                    </figure>
-                                    {% elsif post.category == "video" and post.VideoId %}
-                                    <figure class="image is-16by9 video-thumbnail-container-column">
-                                        <img src="https://i.ytimg.com/vi/{{ post.VideoId }}/hqdefault.jpg" alt="{{ post.title | escape }}">
-                                        {% if post.duration %}
-                                        <div class="is-overlay is-flex is-align-items-flex-end is-justify-content-flex-end p-2">
-                                            <span class="tag is-dark is-rounded">{{ post.duration }}</span>
-                                        </div>
+                                    </a>
+                                </figure>
+                            </div>
+                            {% endif %}
+                            <div class="card-content">
+                                <div class="media mb-2">
+                                    <div class="media-content">
+                                        <p class="title is-5">
+                                            <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+                                        </p>
+                                        {% if post.category %}
+                                        <p class="subtitle is-7">
+                                            <span class="tag is-light is-capitalized">{{ post.category }}</span>
+                                        </p>
                                         {% endif %}
-                                        <div class="is-overlay is-flex is-align-items-center is-justify-content-center video-play-indicator-column">
-                                            <span class="icon is-large has-text-white has-background-dark-transparent-overlay-column">
-                                                <i class="ph-fill ph-play-circle"></i>
-                                            </span>
-                                        </div>
-                                    </figure>
-                                    {% else %}
-                                     <figure class="image is-4by3 has-background-light">
-                                         <div class="is-flex is-align-items-center is-justify-content-center" style="height:100%;">
-                                             <span class="icon is-large has-text-grey-lighter"><i class="ph ph-image"></i></span>
-                                         </div>
-                                     </figure>
-                                    {% endif %}
-                                </div>
-
-                                <div class="content">
-                                    {% comment %} --- Category Tag and Date --- {% endcomment %}
-                                    <div class="level is-mobile is-marginless mb-3">
-                                        <div class="level-left">
-                                            {% if post.category and post.category != "" %}
-                                            <div class="level-item">
-                                                <span class="tag
-                                                    {% if post.category == 'journal' %}is-warning{% endif %}
-                                                    {% if post.category == 'video' %}is-danger{% endif %}
-                                                    {% if post.category == 'project' %}is-primary{% endif %}
-                                                    {% unless post.category == 'journal' or post.category == 'video' or post.category == 'project' %}is-info{% endunless %}
-                                                    is-light is-rounded is-capitalized">
-                                                    <span class="icon is-small mr-1">
-                                                        {% if post.category == "journal" %}<i class="ph ph-notebook"></i>
-                                                        {% elsif post.category == "video" %}<i class="ph ph-youtube-logo"></i>
-                                                        {% elsif post.category == "project" %}<i class="ph ph-git-branch"></i>
-                                                        {% else %}<i class="ph ph-article"></i>
-                                                        {% endif %}
-                                                    </span>
-                                                    {{ post.category }}
-                                                </span>
-                                            </div>
-                                            {% endif %}
-                                        </div>
-                                        <div class="level-right">
-                                            <p class="level-item is-size-7 has-text-grey">
-                                                <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %d, '%y" }}</time>
-                                            </p>
-                                        </div>
                                     </div>
-
-                                    <p class="title is-5 mb-2">{{ post.title | escape }}</p>
-                                    <p class="is-size-6 excerpt-text-column">
-                                        {% if post.excerpt %}{{ post.excerpt | strip_html | truncate: 100 }}{% else %}{{ post.content | strip_html | truncate: 100 }}{% endif %}
+                                </div>
+                                <div class="content is-small">
+                                    <p>
+                                        {% if post.excerpt %}
+                                            {{ post.excerpt | strip_html | truncatewords: 25 }}
+                                        {% else %}
+                                            {{ post.content | strip_html | truncatewords: 25 }}
+                                        {% endif %}
                                     </p>
-
-                                    {% if post.TLTR %}
-                                    <article class="message is-light is-small mt-4 {% if post.category == 'journal' %}is-warning{% else %}is-info{% endif %}">
-                                        <div class="message-body py-2 px-3"><strong>TL;DR:</strong> {{ post.TLTR }}</div>
-                                    </article>
-                                    {% endif %}
+                                    <p class="has-text-grey-light">
+                                        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %d, %Y" }}</time>
+                                    </p>
                                 </div>
-
-                                <div class="post-item-footer mt-auto pt-3">
-                                    {% if post.category == "project" %}
-                                        <div class="buttons are-small is-centered">
-                                            {% if post.live_url %}<a href="{{ post.live_url }}" class="button is-link is-light" target="_blank" rel="noopener">Demo</a>{% endif %}
-                                            {% if post.repo_url %}<a href="{{ post.repo_url }}" class="button is-dark is-light" target="_blank" rel="noopener">Code</a>{% endif %}
-                                        </div>
-                                    {% elsif post.tags %}
-                                         <div class="tags are-small is-centered">
-                                            {% for tag_item in post.tags limit:3 %}
-                                            <span class="tag is-light">{{ tag_item }}</span>
-                                            {% endfor %}
-                                        </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    {% comment %} --- Ad and Newsletter Slots --- {% endcomment %}
-                    {% if posts_processed_count == 1 and paginator.posts.size > 1 %}
-                        <div class="column is-one-third-desktop is-half-tablet is-full-mobile ad-slot">
-                             <div class="box post-item-box ad-placeholder-box" style="display: flex; flex-direction: column; justify-content: center; align-items: center; min-height:300px;">
-                                <p class="is-size-7 has-text-grey-light mb-2">Advertisement</p>
-                                {% include adsense.html format="square" %}
-                                {% capture ad_include_output %}{% include adsense.html format="square" %}{% endcapture %}
-                                {% if ad_include_output == "" or ad_include_output == nil %}
-                                <div class="has-background-white-ter" style="width: 100%; min-height: 230px; display:flex; align-items:center; justify-content:center; border: 1px dashed var(--bulma-grey-lighter); border-radius: var(--bulma-radius-small);">
-                                    <span class="icon is-large has-text-grey-lighter"><i class="ph ph-megaphone"></i></span>
-                                </div>
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% elsif posts_processed_count == 3 and paginator.posts.size > 3 %}
-                     <div class="column is-one-third-desktop is-half-tablet is-full-mobile newsletter-slot">
-                        <div class="box post-item-box newsletter-box-column has-background-info-light" style="min-height:300px; display: flex; flex-direction: column; justify-content: center;">
-                            <div class="has-text-centered">
-                                 <span class="icon is-large has-text-info mb-3"><i class="ph ph-envelope-simple-open"></i></span>
-                                <p class="title is-5 has-text-info-dark">Stay Updated!</p>
-                                <p class="subtitle is-6 has-text-grey-darker">Subscribe for the latest posts & news.</p>
-                              <div style="min-height: 58px;max-width: 440px;margin: 0 auto;width: 100%"><script src="https://cdn.jsdelivr.net/ghost/signup-form@~0.2/umd/signup-form.min.js" data-label-1="IsActive" data-button-color="#e53935" data-button-text-color="#FFFFFF" data-site="https://imswarnil.com/" data-locale="en" async></script></div>
                             </div>
                         </div>
                     </div>
-                    {% endif %}
                 {% endfor %}
             {% endif %}
         </div>
 
-        {% comment %} --- Reliable Pagination Controls --- {% endcomment %}
+        {% comment %} --- Correct and Reliable Pagination Controls --- {% endcomment %}
         {% if paginator.total_pages > 1 %}
         <nav class="pagination is-centered is-rounded mt-6" role="navigation" aria-label="pagination">
             {% comment %} Previous Page Link {% endcomment %}
             {% if paginator.previous_page %}
-                <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination-previous button is-light">
-                    <span class="icon is-small"><i class="ph ph-caret-left"></i></span><span>Previous</span>
-                </a>
+                <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination-previous">Previous</a>
             {% else %}
-                <a class="pagination-previous button is-light" disabled>
-                    <span class="icon is-small"><i class="ph ph-caret-left"></i></span><span>Previous</span>
-                </a>
+                <span class="pagination-previous" disabled>Previous</span>
             {% endif %}
 
             {% comment %} Next Page Link {% endcomment %}
             {% if paginator.next_page %}
-                <a href="{{ paginator.next_page_path | relative_url }}" class="pagination-next button is-light">
-                    <span>Next</span><span class="icon is-small"><i class="ph ph-caret-right"></i></span>
-                </a>
+                <a href="{{ paginator.next_page_path | relative_url }}" class="pagination-next">Next page</a>
             {% else %}
-                <a class="pagination-next button is-light" disabled>
-                    <span>Next</span><span class="icon is-small"><i class="ph ph-caret-right"></i></span>
-                </a>
+                <span class="pagination-next" disabled>Next page</span>
             {% endif %}
 
             <ul class="pagination-list">
                 {% assign current = paginator.page %}
                 {% assign total = paginator.total_pages %}
-                {% assign window_radius = 1 %}
+                {% assign window_radius = 1 %} {# Number of pages to show on each side of current page #}
 
                 {% assign pages_in_window_total = window_radius | times: 2 | plus: 1 %}
 
                 {% if total <= pages_in_window_total %}
+                    {# Show all page numbers if total is small enough #}
                     {% for page_number in (1..total) %}
                         <li>
                             <a href="{% if page_number == 1 %}{{ '/archive/' | relative_url }}{% else %}{{ site.paginate_path | relative_url | replace: ':num', page_number }}{% endif %}"
@@ -182,6 +93,7 @@ permalink: /archive/
                         </li>
                     {% endfor %}
                 {% else %}
+                    {# Complex pagination: show first, last, and a window around current #}
                     {% assign first_loop_page = current | minus: window_radius %}
                     {% if first_loop_page < 1 %}{% assign first_loop_page = 1 %}{% endif %}
 
@@ -193,6 +105,7 @@ permalink: /archive/
                         {% if first_loop_page < 1 %}{% assign first_loop_page = 1 %}{% endif %}
                     {% endif %}
 
+                    {# Link to Page 1 and ellipsis if needed #}
                     {% if first_loop_page > 1 %}
                         <li>
                             <a href="{{ '/archive/' | relative_url }}" class="pagination-link" aria-label="Goto page 1">1</a>
@@ -202,6 +115,7 @@ permalink: /archive/
                         {% endif %}
                     {% endif %}
 
+                    {# Pages in window #}
                     {% for page_number in (first_loop_page..last_loop_page) %}
                         <li>
                              <a href="{% if page_number == 1 %}{{ '/archive/' | relative_url }}{% else %}{{ site.paginate_path | relative_url | replace: ':num', page_number }}{% endif %}"
@@ -210,6 +124,7 @@ permalink: /archive/
                         </li>
                     {% endfor %}
 
+                    {# Ellipsis and Last Page if needed #}
                     {% assign total_minus_one = total | minus: 1 %}
                     {% if last_loop_page < total %}
                         {% if last_loop_page < total_minus_one %}
@@ -228,62 +143,26 @@ permalink: /archive/
 </section>
 
 <style>
-/* MINIMAL CSS - Only what's necessary beyond Bulma defaults */
-.archive-column-cards .post-item-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    height: 100%;
-}
-.archive-column-cards .post-item-box {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
-}
-.archive-column-cards .post-item-link:hover .post-item-box {
-    transform: translateY(-4px);
-    box-shadow: 0 0.75em 1.5em -0.25em rgba(10,10,10,.15), 0 0 0 1px rgba(10,10,10,.03);
-}
-.archive-column-cards .post-item-box .content {
-    flex-grow: 1;
-}
-.archive-column-cards .post-item-box .post-item-footer {
-    border-top: 1px solid var(--bulma-border-light, #ededed);
-}
-
-.archive-column-cards .post-media-container {
-    position: relative;
-}
-.archive-column-cards .image img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-}
-.archive-column-cards .video-thumbnail-container-column {
-    background-color: var(--bulma-black);
-}
-.archive-column-cards .video-play-indicator-column {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-}
-.archive-column-cards .has-background-dark-transparent-overlay-column {
-    background-color: rgba(0,0,0,0.3);
-    border-radius: 50%;
-    padding: 0.5rem;
-}
-.archive-column-cards .video-play-indicator-column .icon.is-large i { font-size: 3rem; }
-
-@media screen and (min-width: 769px) { /* Bulma tablet and up */
-    .archive-column-cards .columns.is-multiline {
-        align-items: stretch;
-    }
-    .archive-column-cards .column {
+    /* Minimal styling to make cards look decent and pagination usable */
+    .post-item-card {
+        height: 100%; /* Make cards in a row take up same height if columns are flex */
         display: flex;
+        flex-direction: column;
     }
-}
+    .post-item-card .card-content {
+        flex-grow: 1; /* Allow content to push footer (if any) down */
+    }
+    .post-item-card .card-image figure.image img {
+        object-fit: cover; /* Ensure images cover their area */
+    }
+
+    /* Ensure columns in a row stretch to the same height for consistent card heights */
+    @media screen and (min-width: 769px) { /* Bulma tablet and up */
+        .columns.is-multiline {
+            align-items: stretch;
+        }
+        .column {
+            display: flex; /* Required for height: 100% on direct children like .card */
+        }
+    }
 </style>
