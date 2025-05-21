@@ -1,5 +1,6 @@
-@import "./materia/index";
 
+
+@import "../node_modules/bulma/sass/index";
 
 /* ==========================================================================
    THEME CSS - Load AFTER Bulma's default CSS
@@ -518,3 +519,4 @@ label.label { /* Bulma .label */
   .button.is-light { background-color: var(--color-background-200); ... }
 }
 */
+
