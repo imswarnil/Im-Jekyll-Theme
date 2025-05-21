@@ -1,161 +1,118 @@
 // _scss/theme/_overrides.scss
 
 //-------------------------------------------------------------------
-// A. MIXINS (Example)
-//-------------------------------------------------------------------
-@mixin sharp-bordered-container {
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  border: 1px solid var(--color-border) !important;
-  background-color: var(--color-background);
-}
-
-//-------------------------------------------------------------------
-// B. CSS CUSTOM PROPERTIES (LIGHT MODE - DEFAULT)
-// Using values from _variables.scss (our $theme-* constants)
+// 1. DEFINE CSS CUSTOM PROPERTIES (LIGHT MODE - YouTube Inspired)
 //-------------------------------------------------------------------
 :root {
-  // Jekyll Themed Accent Color
-  --jk-accent-color: #{$theme-jk-accent-color};
-  --jk-accent-color-rgb: #{$theme-jk-accent-color-rgb};
-  --jk-accent-foreground-color: #{$theme-jk-accent-foreground-color};
-
-  // Ghost specific vars (fallbacks)
-  --gh-font-heading: #{$theme-font-family-headings};
-  --gh-font-body: #{$theme-font-family-main};
-  --ghost-accent-color: var(--jk-accent-color);
+  // Accent Color
+  --jk-accent-color: #{$primary}; // #ff0000
+  --jk-accent-color-rgb: 255, 0, 0;
+  --jk-accent-foreground-color: #{$yt-white};
 
   // Core Colors
-  --color-contrast: #{$theme-color-contrast};
-  --color-background: #{$theme-color-background};
-  --color-background-100: #{$theme-color-background-100};
-  --color-background-200: #{$theme-color-background-200};
-  --color-background-300: #{$theme-color-background-300};
-  --color-foreground: #{$theme-color-foreground};
-  --color-secondary: #{$theme-color-secondary};
-  --color-mute: #{$theme-color-mute};
-  --color-border: #{$theme-color-border};
-  --color-success: #{$theme-color-success};
-  --color-error: #{$theme-color-error};
-  --color-overlay: rgba(5, 5, 5, 0.7);
+  --color-contrast: #{$yt-black};
+  --color-background: #{$yt-background-light}; // Page background
+  --color-surface: #{$yt-white}; // For cards, menus, modals
+  --color-background-100: #{$yt-grey-hover-bg}; // Light hover/active state
+  --color-background-200: #{$yt-grey-divider}; // For subtle backgrounds
+  --color-foreground: #{$yt-black};
+  --color-secondary: #{$yt-grey-secondary-text};
+  --color-mute: #{$yt-grey-disabled-text};
+  --color-border: #{$yt-grey-divider};
+  --color-border-input: #{$yt-grey-ui-elements}; // Specific for input borders
 
   // Font Families
-  --font-family-headings: #{$theme-font-family-headings};
-  --font-family-body: #{$theme-font-family-main};
-  --font-family-button: #{$theme-font-family-buttons};
-  --font-family-mono: #{$theme-font-family-mono};
+  --font-family-main: #{$family-sans-serif};
+  --font-family-headings: #{$family-sans-serif};
+  --font-family-button: #{$family-sans-serif};
+  --font-family-mono: #{$family-monospace};
 
-  // Font Sizes
-  --font-x-small: #{$theme-font-size-xsmall};
-  --font-small: #{$theme-font-size-small};
-  --font-base: #{$theme-font-size-base};
-  --font-large: #{$theme-font-size-large};
-  // Additional theme heading sizes if needed directly as CSS vars
-  --font-size-h1: #{$theme-font-size-h1};
-  --font-size-h2: #{$theme-font-size-h2};
-  --font-size-h3: #{$theme-font-size-h3};
-
+  // Font Sizes (map to Bulma's $size variables which are now YT-themed)
+  --font-x-small: #{$size-7}; // 0.75rem
+  --font-small: #{$size-6};   // 0.875rem
+  --font-base: #{$size-5};    // 1rem
+  --font-large: #{$size-4};   // 1.25rem
+  // Larger heading sizes
+  --font-size-h3: #{$size-3}; // 1.5rem
+  --font-size-h2: #{$size-2}; // 1.75rem
+  --font-size-h1: #{$size-1}; // 2rem
 
   // Font Weights
-  --font-weight-light: #{$theme-font-weight-light};
-  --font-weight-regular: #{$theme-font-weight-regular};
-  --font-weight-medium: #{$theme-font-weight-medium};
-  --font-weight-semibold: #{$theme-font-weight-semibold};
-  --font-weight-bold: #{$theme-font-weight-bold};
+  --font-weight-light: #{$weight-light};
+  --font-weight-regular: #{$weight-normal};
+  --font-weight-medium: #{$weight-medium};
+  --font-weight-semibold: #{$weight-semibold}; // YT uses this for some bold text
+  --font-weight-bold: #{$weight-bold};
 
-  // Spacings
-  --spacing-1: 0.125rem; --spacing-2: 0.25rem;  --spacing-3: 0.375rem;
-  --spacing-4: 0.5rem;   --spacing-5: 0.625rem; --spacing-6: 0.75rem;
-  --spacing-7: 1rem;     --spacing-8: 1.25rem;  --spacing-9: 1.875rem;
-  --spacing-10: 5rem;    --spacing-11: 6.25rem;
-  --vertical-rhythm: 1.5rem;
+  // Spacings (Use Bulma's spacing utilities or define your own based on YT's feel)
+  // Example: YT spacing is often in multiples of 4px or 8px.
+  --spacing-xs: 0.25rem; // 4px
+  --spacing-sm: 0.5rem;  // 8px
+  --spacing-md: 1rem;    // 16px
+  --spacing-lg: 1.5rem;  // 24px
+  --spacing-xl: 2rem;    // 32px
+  --vertical-rhythm: var(--spacing-lg);
 
-  // Border Radius
-  --radius-1: #{$theme-radius-small}; // 6px for elements that *do* get rounded
-  --radius-2: #{$theme-radius-default}; // 8px
-  --radius-3: #{$theme-radius-large}; // 10px
-  --radius-4: 0px; // Was 14px in theme, now sharp
-  --radius-5: 0px; // Was 16px in theme, now sharp
-  --radius-6: clamp(0px, calc(11.25px + 1.25vw - 16px * 0.0125 * 380 / 1px), 0px); // Or simply 0px
-  --radius-sharp: 0px; // For explicit sharp edges
+  // Border Radius (Subtle rounding)
+  --radius-1: #{$radius-small}; // 2px
+  --radius-2: #{$radius};       // 3px
+  --radius-3: #{$radius-large}; // 4px
+  --radius-button: #{$button-radius}; // 3px, or more rounded for subscribe button
 
   // Layout
-  --layout--padding: clamp(16px, calc(11.25px + 1.25vw), 30px);
+  --layout--padding: var(--spacing-md); // Default padding for sections
 
   // Navbar
-  --navbar--min-height: #{$navbar-height};
+  --navbar--min-height: #{$navbar-height}; // 56px
 
-  // Button
-  --button--padding-v: var(--spacing-4);
-  --button--padding-h: var(--spacing-8);
-  --button--min-height: 2.5rem;
-  --button--font-size: var(--font-small);
+  // Button (CSS Vars for custom elements or deeper overrides)
+  --button--padding-v: 0.5em;
+  --button--padding-h: 1em;
+  --button--min-height: 36px; // Common YT button height
+  --button--font-size: var(--font-small); // 0.875rem
   --button--font-weight: var(--font-weight-medium);
   --button--line-height: 1.5;
-  --button--border-radius: #{$theme-button-radius}; // 20px
-  --button--color: var(--jk-accent-foreground-color);
-  --button--background-color: var(--jk-accent-color);
-  --button--opacity: 1;
-  --button--transition: clip-path 0.2s ease, background-color 0.1s ease,
-		border-color 0.1s ease, color 0.1s ease, opacity 0.1s ease;
-  --button-hover--color: var(--color-background);
-  --button-hover--background-color: var(--color-contrast);
-  --button-hover--opacity: 0.8;
+  --button--border-radius: var(--radius-1); // Subtle 2px radius
+  // Colors set by Bulma classes .is-primary, .button (default light)
 
   // Container
-  --container--width: #{$container-max-width};
-  --container-wide--width: #{$widescreen};
+  --container--width: #{$container-max-width}; // 1280px
 
-  // Featured image
-  --featured-image--max-width: #{$fullhd}; // Assuming this maps
-
-  // Popup / Dropdown / Avatar
-  --popup--overlay--background-color: #e8e8e8;
-  --dropdown--background-color: var(--color-background);
-  --avatar--size: 2.25rem;
-  --avatar--font-size: var(--font-small);
-  --avatar--color: var(--color-secondary);
-  --avatar--background-color: var(--color-background-100);
-  --avatar-hover--background-color: var(--color-background-200);
-
-  // Shadow (Use --shadow-themed for original, --shadow-none for no shadow)
-  --shadow-themed: #{$theme-shadow-default};
+  // Shadow (Very subtle for cards/popups)
+  --shadow-subtle: #{$card-shadow};
   --shadow-none: none;
-  --shadow: var(--shadow-none); // Default to no shadow for elements like card/box
 
   color-scheme: light;
 }
 
 //-------------------------------------------------------------------
-// C. GLOBAL HTML & BODY STYLES (Using CSS Custom Properties)
+// 2. GLOBAL HTML & BODY STYLES
 //-------------------------------------------------------------------
 html {
   background-color: var(--color-background);
-  font-size: $body-size; // Sass variable for root font size
+  font-size: var(--font-base);
 }
 
 body {
-  font-family: var(--font-family-body);
+  font-family: var(--font-family-main);
   font-weight: var(--font-weight-regular);
   color: var(--color-foreground);
   background-color: var(--color-background);
-  line-height: $body-line-height; // Sass variable
+  line-height: 1.4; // YT style
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 //-------------------------------------------------------------------
-// D. TYPOGRAPHY & CONTENT OVERRIDES (Using CSS Custom Properties)
+// 3. TYPOGRAPHY & CONTENT OVERRIDES
 //-------------------------------------------------------------------
 .title, .subtitle {
   font-family: var(--font-family-headings);
   color: var(--color-contrast);
 }
 .title {
-  font-weight: var(--font-weight-semibold);
-  // Sizes are set by Bulma .is-N classes using $size-N Sass vars
-  // Example override for H1 to exactly match theme if Bulma's .is-1 isn't precise enough
-  &.is-1 { font-size: var(--font-size-h1, 1.75rem); line-height: 1.1; }
+  font-weight: var(--font-weight-medium); // Or semibold for stronger titles
+  // Sizes .is-N are set by Bulma Sass vars
 }
 .subtitle {
   color: var(--color-secondary);
@@ -163,216 +120,354 @@ body {
 }
 
 a {
-  color: var(--jk-accent-color);
-  text-decoration: underline;
-  text-decoration-color: currentColor;
-  text-decoration-thickness: 0.075em;
-  text-underline-offset: 0.15em;
-  transition: var(--button--transition); // Use button's transition for links too
-
+  color: var(--color-foreground); // Default link color (dark grey/black)
+  text-decoration: none; // YT links often have no underline until hover
+  transition: color 0.15s ease;
   &:hover {
-    color: var(--jk-accent-color);
-    text-decoration-color: transparent;
+    color: var(--jk-accent-color); // Red on hover
+    text-decoration: none;
+  }
+  // For links that should always be accent color:
+  &.has-text-accent, &.is-accent {
+    color: var(--jk-accent-color) !important;
+    &:hover {
+      color: darken($static-jk-accent-color, 10%) !important; // Sass darken on static value
+    }
   }
 }
 
-.content { // Styles for content generated from Markdown, etc.
-  blockquote {
-    border-left: 2px solid var(--jk-accent-color);
-    color: var(--color-contrast);
+.content { // Styling for Markdown content
+  line-height: 1.6; // More readable line height for articles
+  h1, h2, h3, h4, h5, h6 {
     font-weight: var(--font-weight-medium);
-    padding: var(--spacing-4) var(--spacing-7);
-    background-color: transparent;
-    margin: var(--vertical-rhythm) 0 var(--vertical-rhythm) 0; // No Bulma indent
+    margin-bottom: 0.75em;
+    margin-top: 1.5em;
   }
-
-  pre {
-    background-color: var(--color-background-100);
-    border-radius: var(--radius-1); // Use theme radius or --radius-sharp
-    padding: var(--spacing-6) var(--spacing-7);
-    border: 1px solid var(--color-border);
-    box-shadow: var(--shadow-none); // Explicitly no shadow
-    color: var(--color-contrast);
-    font-size: var(--font-small);
-    font-family: var(--font-family-mono);
-    overflow-x: auto;
-    margin: var(--vertical-rhythm) 0;
-    code {
-      background: none !important; color: inherit !important; padding: 0 !important;
-      font-size: inherit !important; border-radius: 0 !important; border: none !important;
-      box-shadow: none !important;
+  p {
+    margin-bottom: 1em;
+  }
+  ul, ol {
+    margin-left: 1.25em; // Standard indent
+    margin-bottom: 1em;
+    li + li {
+      margin-top: 0.25em;
     }
+  }
+  blockquote {
+    border-left: 3px solid var(--color-border-input);
+    background-color: var(--color-background); // Or background-100
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-left: 0;
+    color: var(--color-secondary);
+  }
+  pre {
+    background-color: #202124; // YT dark code background
+    color: #e8eaed; // Light text on dark
+    padding: var(--spacing-md);
+    border-radius: var(--radius-2);
+    overflow-x: auto;
+    font-family: var(--font-family-mono);
+    font-size: var(--font-small);
+    code { background: none !important; color: inherit !important; }
   }
   :not(pre) > code {
     background-color: var(--color-background-100);
+    color: var(--color-foreground);
+    padding: var(--spacing-xs) var(--spacing-sm);
     border-radius: var(--radius-1);
-    padding: var(--spacing-2) var(--spacing-3);
-    border: 1px solid var(--color-border);
-    box-shadow: var(--shadow-none);
-    color: var(--color-contrast);
     font-family: var(--font-family-mono);
-    font-size: inherit; // Take size from parent, then apply 0.875em if needed
+    font-size: 0.9em;
   }
-
   hr {
-    background-color: var(--color-border); height: 1px; border: none;
-    margin: var(--vertical-rhythm) 0;
+    background-color: var(--color-border);
+    height: 1px; border: none;
+    margin: var(--spacing-lg) 0;
   }
 }
 
 //-------------------------------------------------------------------
-// E. BULMA COMPONENT OVERRIDES (Using CSS Custom Properties)
+// 4. BULMA COMPONENT OVERRIDES (YouTube Inspired)
 //-------------------------------------------------------------------
 
 .button {
   font-family: var(--font-family-button);
   font-size: var(--button--font-size);
-  font-weight: var(--font-weight-semibold); // Theme wants semibold
+  font-weight: var(--font-weight-medium); // YT buttons are often medium weight
   min-height: var(--button--min-height);
   line-height: var(--button--line-height);
   padding: var(--button--padding-v) var(--button--padding-h);
-  border-radius: var(--button--border-radius); // 20px
-  border-width: 0;
-  transition: var(--button--transition);
-  color: var(--button--color);
-  background-color: var(--button--background-color);
-  opacity: var(--button--opacity);
+  border-radius: var(--button--border-radius); // Use CSS var for button radius
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  border-width: 1px; // Most YT buttons have a border
 
-  &:hover, &:focus {
-    color: var(--button-hover--color);
-    background-color: var(--button-hover--background-color);
-    opacity: var(--button-hover--opacity);
+  // Default button style (like search button, filter buttons)
+  background-color: var(--color-surface); // White or very light grey
+  color: var(--color-foreground);
+  border-color: var(--color-border-input);
+  &:hover {
+    background-color: var(--color-background-100); // Light grey hover
+    border-color: darken($static-color-border, 5%); // Use Sass var for calculation
   }
-  &.is-light {
-    background-color: var(--color-background-100);
-    color: var(--color-contrast);
-    border: 1px solid var(--color-border); // Give light buttons a border
+  &:focus {
+    border-color: var(--jk-accent-color); // Red focus outline
+    box-shadow: 0 0 0 0.125em rgba(var(--jk-accent-color-rgb), 0.25);
+  }
+
+  // Primary Action Button (e.g., Subscribe)
+  &.is-primary {
+    background-color: var(--jk-accent-color);
+    color: var(--jk-accent-foreground-color);
+    border-color: var(--jk-accent-color);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase; // YT subscribe button text is uppercase
     &:hover, &:focus {
-      background-color: var(--color-background-200);
-      border-color: var(--color-border); // Or a slightly darker static color
+      background-color: darken($static-jk-accent-color, 8%); // Use Sass var for darken
+      border-color: darken($static-jk-accent-color, 8%);
+      color: var(--jk-accent-foreground-color);
     }
   }
-}
 
-.card, .box {
-  @include sharp-bordered-container; // Using the mixin
-  // Additional specific styles if needed that the mixin doesn't cover
-}
-
-.card {
-  .card-header {
+  // Text-like buttons (e.g., "Show More", icons with text)
+  &.is-text { // Or a custom class like .button-yt-text
     background-color: transparent;
-    box-shadow: none;
-    border-bottom: 1px solid var(--color-border);
-    border-radius: 0 !important; // Ensure header part is also sharp
-    padding: var(--spacing-6) var(--spacing-7);
-    .card-header-title {
-      color: var(--color-contrast);
-      font-family: var(--font-family-headings);
-      font-weight: var(--font-weight-semibold);
-      padding: 0; // Reset Bulma padding
+    border-color: transparent;
+    color: var(--color-secondary);
+    font-weight: var(--font-weight-medium);
+    &:hover, &:focus {
+      background-color: var(--color-background-100);
+      color: var(--color-foreground);
     }
   }
-  .card-image img { border-radius: 0 !important; }
-  .card-content { padding: var(--spacing-7); }
-  .card-footer {
-    border-top: 1px solid var(--color-border);
-    background-color: transparent;
-    padding: 0;
-    .card-footer-item {
-      padding: var(--spacing-6) var(--spacing-7);
-      color: var(--jk-accent-color);
-      border-right: 1px solid var(--color-border);
-      &:last-child { border-right: none; }
-      &:hover {
-        background-color: var(--color-background-100);
+  // Icon only buttons (like like/dislike, share)
+  &.is-icon-only { // Custom class
+      padding: var(--spacing-sm);
+      min-width: auto;
+      height: var(--button--min-height);
+      width: var(--button--min-height);
+      border-radius: 50%; // YT icon buttons are round
+      border: none;
+      background-color: transparent;
+      color: var(--color-secondary);
+      .icon { margin: 0 !important; }
+      &:hover, &:focus {
+          background-color: var(--color-background-100);
+          color: var(--color-foreground);
       }
+  }
+}
+
+// Cards for video grids, etc.
+.card {
+  background-color: var(--color-surface); // Usually white
+  border-radius: var(--radius-2); // YT cards have subtle rounding (e.g. 3-4px)
+  box-shadow: var(--shadow-subtle); // Very subtle shadow
+  border: none; // YT cards usually don't have a visible border line
+  overflow: hidden; // If image is part of card bg or needs to be clipped
+
+  .card-image {
+    // Bulma default structure is fine
+    img {
+      // border-radius: var(--radius-2) var(--radius-2) 0 0; // Round top corners if image is separate
+    }
+  }
+  .card-content {
+    padding: var(--spacing-sm); // Smaller padding for YT cards
+    .media { margin-bottom: var(--spacing-xs) !important; }
+    .media-left .image { // Avatar in card
+        width: 36px; height: 36px; // --avatar--size
+    }
+    .title.is-5, .title.is-6 { // Video titles
+      color: var(--color-contrast);
+      font-family: var(--font-family-main);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.3;
+      margin-bottom: var(--spacing-xs) !important;
+      // YT titles often truncate after 2 lines
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-height: 2.6em; // Approx 2 lines for 1.3 line-height
+    }
+    .subtitle.is-6, .subtitle.is-7 { // Channel name, views, date
+      color: var(--color-secondary);
+      font-size: var(--font-x-small); // Smaller metadata
+      line-height: 1.3;
     }
   }
 }
 
-.box { padding: var(--spacing-8); }
+// Box - if used for other UI elements
+.box {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-2);
+  box-shadow: var(--shadow-subtle);
+  border: none;
+  padding: var(--spacing-md);
+  color: var(--color-foreground);
+}
 
+// Navbar
 .navbar {
   min-height: var(--navbar--min-height);
-  background-color: transparent;
-  box-shadow: none;
-  border-bottom: 1px solid var(--color-border);
-  &::before { // The overlay effect
-    content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    background-color: var(--color-background);
-    opacity: 0.95;
-    z-index: -1;
-    backdrop-filter: blur(8px); // If desired
+  background-color: var(--color-surface); // Solid white/light
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1); // YT navbar shadow
+  border-bottom: none; // No extra border if shadow is present
+  &::before { content: none; } // Remove the overlay effect if navbar is solid
+
+  .navbar-brand {
+    padding-left: var(--spacing-md);
+    .navbar-item img { max-height: calc(var(--navbar--min-height) - var(--spacing-md)); } // Logo size
+  }
+  .navbar-menu {
+    // YT search bar is prominent. Bulma's structure is different.
+    // This section would need significant custom HTML & CSS for YT search.
+  }
+  .navbar-start, .navbar-end {
+    align-items: center;
   }
   .navbar-item, .navbar-link {
-    color: var(--color-foreground);
-    font-family: var(--font-family-button);
+    color: var(--color-secondary); // Icons and text are often secondary
+    font-family: var(--font-family-main);
     font-size: var(--font-small);
-    font-weight: var(--font-weight-medium);
-    padding: var(--spacing-4) var(--spacing-6); // Theme padding
+    font-weight: var(--font-weight-regular);
+    padding: var(--spacing-sm) var(--spacing-md); // YT nav items have generous padding
     &:hover, &.is-active {
       background-color: var(--color-background-100);
-      color: var(--jk-accent-color);
+      color: var(--color-foreground);
     }
-  }
-  .navbar-dropdown {
-    background-color: var(--dropdown--background-color);
-    border: 1px solid var(--color-border);
-    border-top: none;
-    border-radius: 0 0 var(--radius-2) var(--radius-2); // Use theme radius (which is 0px if $radius is 0)
-    box-shadow: var(--shadow-themed); // Use themed shadow for dropdowns
+    .icon { color: var(--color-secondary); } // Ensure icons match text
+    &:hover .icon, &.is-active .icon { color: var(--color-foreground); }
   }
 }
 
+// Inputs (Search bar, form fields)
 .input, .textarea, .select select {
-  background-color: var(--color-background-100);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-1); // Or specific input radius from theme like 1.5rem
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-input);
+  border-radius: var(--radius-1); // Subtle 2px radius
   color: var(--color-contrast);
-  min-height: 3rem; // From theme form specs
-  padding: var(--spacing-6) var(--spacing-8); // From theme form specs
+  min-height: 36px; // Common YT input height
+  padding: var(--spacing-sm) var(--spacing-md);
   font-size: var(--font-small);
-  font-weight: var(--font-weight-medium);
-  box-shadow: none; // No default input shadow
+  box-shadow: none;
 
-  &:hover { border-color: var(--color-border); }
+  &:hover { border-color: darken($staticColorBorder, 10%); }
   &:focus, &.is-focused, &:active, &.is-active {
-    border-color: var(--jk-accent-color);
-    box-shadow: 0 0 0 0.125em rgba(var(--jk-accent-color-rgb), 0.25);
+    border-color: var(--jk-accent-color); // Or YT's blue: #1c62b9
+    box-shadow: 0 0 0 1px var(--jk-accent-color); // Thinner focus ring
   }
   &::placeholder { color: var(--color-mute); }
 }
-label.label { // Bulma .label
-  color: var(--color-contrast);
-  font-weight: var(--font-weight-medium); // Theme
-  margin-bottom: var(--spacing-4);
-  font-size: var(--font-small);
+// YT Search bar is often a specific component with an icon inside
+// .field.has-addons .control .input { border-radius: var(--radius-1) 0 0 var(--radius-1); }
+// .field.has-addons .control .button { border-radius: 0 var(--radius-1) var(--radius-1) 0; margin-left: -1px; }
+
+
+// Pagination - styled more like YT's subtle controls
+.pagination {
+  .pagination-previous, .pagination-next {
+    font-family: var(--font-family-button);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-small);
+    color: var(--color-secondary);
+    border: 1px solid transparent; // No border usually
+    background-color: transparent;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-1);
+    &:hover {
+      background-color: var(--color-background-100);
+      color: var(--color-foreground);
+    }
+    &:disabled {
+      color: var(--color-mute);
+      background-color: transparent;
+      opacity: 0.6;
+    }
+  }
+  .pagination-list {
+    .pagination-link {
+      font-family: var(--font-family-button);
+      font-weight: var(--font-weight-medium);
+      font-size: var(--font-small);
+      color: var(--color-secondary);
+      border: 1px solid transparent;
+      background-color: transparent;
+      min-width: 36px; height: 36px;
+      border-radius: 50%; // YT page numbers are often round
+      &:hover {
+        background-color: var(--color-background-100);
+        color: var(--color-foreground);
+      }
+      &.is-current {
+        background-color: var(--color-background-200); // Light grey for current
+        color: var(--color-contrast);
+        border-color: transparent;
+      }
+    }
+  }
+  .pagination-ellipsis {
+    color: var(--color-mute);
+    border: none;
+    padding: var(--spacing-sm) var(--spacing-xs);
+  }
 }
 
-
-// Archive Page Specific Styles
+// --- Archive Page Specific Card Styling (using YT card style) ---
 .archive-column-cards {
-  .post-item-box { // This is a .box or .card
-    // Uses @include sharp-bordered-container;
+  .post-item-card { // This is a .card
+    // Inherits general .card styling (subtle radius, subtle shadow or none)
     .content {
-      .message.is-light {
+      .level-item .tag { // Category tag
+        font-size: var(--font-x-small);
+        font-weight: var(--font-weight-medium);
+        border-radius: var(--radius-1); // Subtle rounding for tags
+        padding: var(--spacing-xs) var(--spacing-sm);
+        // Let Bulma's .is-light and color modifiers handle specific tag colors
+      }
+      .title.is-5 { // Post title
+        font-size: var(--font-base); // 1rem
+        // Truncation for post titles already in general card style
+        // Ensure link color is standard text color, hover to accent
+        a { color: var(--color-contrast); }
+        a:hover { color: var(--jk-accent-color); }
+      }
+      .excerpt-text-column { // Post excerpt
+        color: var(--color-secondary);
+        font-size: var(--font-small);
+        line-height: 1.4;
+        margin-top: var(--spacing-xs);
+      }
+      .message.is-light { // For TLDR
          background-color: var(--color-background-100);
          border-radius: var(--radius-1);
          border: 1px solid var(--color-border);
          border-left-width: 3px;
-         // Use Bulma's color classes to handle the left border and text color
-         // e.g., <article class="message is-light is-warning">
-         &.is-warning { border-left-color: $warning; } // Sass var here is fine as it's a static color
-         &.is-info   { border-left-color: $info; }
          .message-body {
-            padding: var(--spacing-4) var(--spacing-6);
+            padding: var(--spacing-sm) var(--spacing-md);
             color: var(--color-foreground);
+            font-size: var(--font-x-small);
          }
+         &.is-warning { border-left-color: $warning; }
+         &.is-info   { border-left-color: $info; }
       }
     }
-    .post-item-footer .buttons .button.is-light {
-        border: 1px solid var(--color-border); // Ensure footer light buttons also get border
+    .post-item-footer {
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-top: 1px solid var(--color-border);
+       .tags .tag.is-light {
+        background-color: var(--color-background-100);
+        color: var(--color-secondary);
+        border-radius: var(--radius-1);
+        font-size: var(--font-x-small);
+      }
+      .buttons .button { // Demo/Code buttons
+        font-size: var(--font-x-small);
+        height: 2rem; min-height: auto;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        // General button styling applies, .is-light will make them white-ish
+      }
     }
   }
 }
