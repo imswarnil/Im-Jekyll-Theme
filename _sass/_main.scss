@@ -1,522 +1,606 @@
+// main.scss
+
+//-------------------------------------------------------------------
+// 1. FONT IMPORTS (Crucial for Material Design/YouTube Feel)
+//-------------------------------------------------------------------
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Roboto+Mono:wght@400;500&display=swap');
+// For Material Icons (include in your HTML <head> or here)
+// @import url('https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp');
+// Or if you prefer Phosphor icons for consistency with previous examples:
+// @import url("https://unpkg.com/@phosphor-icons/web@2.0.3/src/fill/style.css");
+// @import url("https://unpkg.com/@phosphor-icons/web@2.0.3/src/bold/style.css");
 
 
-@import "../node_modules/bulma/sass/index";
+//-------------------------------------------------------------------
+// 2. MATERIAL DESIGN & YOUTUBE INSPIRED STATIC VALUES FOR BULMA
+//-------------------------------------------------------------------
 
-/* ==========================================================================
-   THEME CSS - Load AFTER Bulma's default CSS
-   ========================================================================== */
+// --- Core Colors (YouTube Light Theme Inspired) ---
+$yt-red: #FF0000;
+$yt-red-rgb: 255, 0, 0;
+$yt-red-darker: #CC0000;
+$yt-white: #FFFFFF;
+$yt-black: #030303; // Very dark text / UI
+$yt-almost-black: #0F0F0F; // Dark mode page BG
 
-/*-------------------------------------------------------------------
-  1. CSS CUSTOM PROPERTIES (LIGHT MODE - DEFAULT)
-     Your theme's design tokens.
--------------------------------------------------------------------*/
+$yt-grey-background: #F9F9F9; // Main page background
+$yt-grey-surface: $yt-white;   // Cards, menus, dialogs
+$yt-grey-divider: #E5E5E5;   // Light dividers, subtle borders
+$yt-grey-icon: #606060;      // Icon color
+$yt-grey-text-primary: $yt-black;
+$yt-grey-text-secondary: #606060;
+$yt-grey-text-disabled: #909090;
+$yt-grey-hover-bg: #F2F2F2;   // Subtle hover for list items
+
+// --- Typography ---
+$font-family-roboto: "Roboto", sans-serif;
+$font-family-roboto-mono: "Roboto Mono", monospace;
+
+$weight-light: 300;
+$weight-regular: 400;
+$weight-medium: 500; // Often used for titles, buttons in Material
+$weight-bold: 700;
+
+// --- Material Design Inspired Sizing (Conceptual) ---
+// YouTube uses specific px values. We'll aim for similar rem values.
+$size-1: 2.125rem;  // ~34px H1 (e.g., Large page title)
+$size-2: 1.5rem;    // ~24px H2 (e.g., Section title)
+$size-3: 1.25rem;   // ~20px H3 (e.g., Video title on watch page)
+$size-4: 1rem;      // ~16px H4 / Body 1 (Video title on grid)
+$size-5: 0.875rem;  // ~14px Body 2 / Caption (Secondary text, metadata)
+$size-6: 0.75rem;   // ~12px Overline / Smallest text
+$size-7: 0.625rem;  // Extra small
+
+// --- Radii (Material often uses 4px, YouTube is very subtle or none) ---
+$radius-small: 2px;
+$radius: 4px;        // Common Material radius
+$radius-large: 8px;    // For larger components or more pronounced rounding
+$radius-card-yt: 0px; // YouTube video cards are often sharp
+$radius-button-yt: 2px; // YouTube buttons are subtly rounded
+$radius-button-yt-pill: 18px; // For pill-shaped filter buttons
+
+// --- Shadows (Material Elevation) ---
+// Values from Material Design spec (dp to box-shadow)
+// dp1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24) - App bars, cards
+// dp2: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23) - Raised buttons
+// dp4: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22) - Dialogs
+$shadow-dp1: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1); // Subtle
+$shadow-dp2: 0 3px 6px 0 rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.1);
+$shadow-yt-card: 0 1px 2px 0 rgba(0,0,0,0.05); // Very subtle for YT cards
+
+//-------------------------------------------------------------------
+// 3. BULMA SASS VARIABLE OVERRIDES
+//-------------------------------------------------------------------
+$family-sans-serif: $font-family-roboto !default;
+$family-monospace: $font-family-roboto-mono !default;
+$family-primary: $family-sans-serif;
+$family-secondary: $family-sans-serif; // Titles same family, different weight
+
+$primary: $yt-red;
+$link: $yt-grey-text-primary; // Links are dark text
+$link-hover: $yt-red;
+
+$black: $yt-black;
+$white: $yt-white;
+$text: $yt-grey-text-primary;
+$text-light: $yt-grey-text-secondary;
+$text-strong: $yt-black;
+
+$background: $yt-grey-background; // Page background
+$border: $yt-grey-divider;
+$border-hover: darken($yt-grey-divider, 10%);
+
+$grey-darker: darken($yt-grey-text-secondary, 15%);
+$grey-dark: $yt-grey-text-secondary;
+$grey: $yt-grey-icon; // For icons and subtle elements
+$grey-light: $yt-grey-divider;
+$grey-lighter: lighten($yt-grey-background, 1.5%); // Very subtle difference from background
+
+$info: #1a73e8; // Google Blue
+$success: #1e8e3e; // Google Green
+$warning: #f9ab00; // Google Yellow
+$danger: #d93025; // Google Red (different from YT accent)
+
+$body-background-color: $background;
+$body-size: $size-5; // 14px body text
+$body-color: $text;
+$body-family: $family-primary;
+$body-weight: $weight-regular;
+$body-line-height: 1.5; // Material uses 1.5 for body1
+
+// Component Radii
+$radius-small: $radius-small;
+$radius: $radius;
+$radius-large: $radius-large;
+$radius-rounded: 50em; // For avatars etc.
+
+// Buttons
+$button-color: $yt-grey-text-primary; // Text for default/light buttons
+$button-background-color: $yt-grey-surface; // Default button bg
+$button-border-color: $yt-grey-divider;
+$button-border-width: 1px;
+$button-hover-color: $yt-grey-text-primary;
+$button-hover-background-color: $yt-grey-hover-bg;
+$button-hover-border-color: $yt-grey-divider;
+$button-focus-border-color: $primary; // Or Google Blue for focus
+$button-focus-box-shadow-color: rgba($primary, 0.25);
+$button-radius: $radius-button-yt; // Subtle rounding
+$control-radius: $button-radius; // Inputs match
+$button-family: $family-primary;
+$button-weight: $weight-medium; // Material buttons often medium
+$button-padding-vertical: 0.5em; // Material standard
+$button-padding-horizontal: 1em;
+
+// Primary "Call to Action" button (e.g., Subscribe)
+$button-primary-color: $yt-white;
+$button-primary-background-color: $primary; // YT Red
+$button-primary-border-color: $primary;
+$button-primary-hover-background-color: $yt-red-darker;
+$button-primary-hover-border-color: $yt-red-darker;
+
+// Card
+$card-background-color: $yt-grey-surface;
+$card-color: $text;
+$card-radius: $radius-card-yt; // Sharp edges for YT cards
+$card-shadow: $shadow-yt-card; // Subtle shadow
+$card-header-color: $text-strong;
+$card-header-padding: 0.75rem 1rem; // Adjust for YT feel
+$card-content-padding: 0.75rem;    // Tighter padding in YT cards
+$card-footer-border-top: 1px solid $yt-grey-divider;
+
+// Box (can be used for containers, less defined than cards)
+$box-background-color: $yt-grey-surface;
+$box-color: $text;
+$box-radius: $radius; // General Material rounding
+$box-shadow: $shadow-dp1;
+$box-padding: 1rem;
+
+// Navbar (App Bar in Material)
+$navbar-background-color: $yt-grey-surface;
+$navbar-height: 56px; // Common Material app bar height
+$navbar-item-color: $yt-grey-icon; // Icons and secondary text
+$navbar-item-hover-color: $yt-grey-text-primary;
+$navbar-item-hover-background-color: $yt-grey-hover-bg;
+$navbar-item-active-color: $primary; // Active nav item is accent
+$navbar-item-active-background-color: transparent; // No bg for active, just color
+$navbar-box-shadow-size: 0 2px 4px; // Material app bar shadow (dp4-like, but less intense)
+$navbar-box-shadow-color: rgba($yt-black, 0.08);
+$navbar-padding-vertical: 0.25rem;
+$navbar-padding-horizontal: 1rem; // Material spec is often 16dp (1rem)
+
+// Input Fields
+$input-color: $text;
+$input-background-color: $yt-grey-background; // Or $yt-grey-surface slightly darker than page
+$input-border-color: $yt-grey-ui-elements;
+$input-hover-border-color: darken($yt-grey-ui-elements, 15%);
+$input-focus-border-color: $primary; // Or Google Blue
+$input-placeholder-color: $yt-grey-text-secondary;
+$input-radius: $radius; // Standard Material rounding (4dp)
+$input-shadow: none; // Material inputs are flat until focused or filled
+$input-padding: 0.75em 1em; // Material padding
+$input-height: 3rem; // ~48dp Material Text Field height
+$control-height: $input-height;
+
+// Titles
+$title-family: $family-secondary;
+$title-color: $text-strong;
+$title-weight: $weight-medium;
+$title-line-height: 1.35; // Material title line height
+$subtitle-family: $family-secondary;
+$subtitle-color: $text-light;
+$subtitle-weight: $weight-regular;
+$subtitle-line-height: 1.5;
+
+// Container
+$container-max-width: 1280px; // YT like
+$widescreen: $container-max-width;
+$fullhd: 1600px; // A bit wider for fullhd context
+$widescreen-enabled: true;
+$fullhd-enabled: true;
+
+// HR
+$hr-background-color: $yt-grey-divider;
+$hr-height: 1px;
+$hr-margin: 1.5rem 0;
+
+// Bulma defaults
+$body-rendering: optimizeLegibility !default;
+$control-border-width: 1px !default;
+$variable-columns: true !default;
+$speed: 150ms !default; // Material transitions are often a bit slower
+$easing: cubic-bezier(0.4, 0, 0.2, 1) !default; // Material standard easing
+
+
+//-------------------------------------------------------------------
+// 4. IMPORT BULMA
+//-------------------------------------------------------------------
+@import "../node_modules/bulma/sass/index"; // Adjust path
+
+
+//-------------------------------------------------------------------
+// 5. DEFINE CSS CUSTOM PROPERTIES (For components & dynamic theming)
+//-------------------------------------------------------------------
 :root {
-  /* Jekyll Themed Accent Color */
-  --jk-accent-color: #e53935;
-  --jk-accent-color-rgb: 229, 57, 53;
-  --jk-accent-foreground-color: #fff;
+  // Accent
+  --jk-accent-color: #{$primary};
+  --jk-accent-color-rgb: #{$yt-red-rgb};
+  --jk-accent-foreground-color: #{$yt-white};
 
-  /* Ghost specific vars (fallbacks) */
-  --gh-font-heading: "Geist", "Outfit", Arial, sans-serif;
-  --gh-font-body: "Geist", "Outfit", Arial, sans-serif;
-  --ghost-accent-color: var(--jk-accent-color);
+  // Surface & Backgrounds
+  --surface-color: #{$yt-grey-surface};
+  --background-color: #{$yt-grey-background};
+  --background-color-hover: #{$yt-grey-hover-bg};
+  --background-color-secondary: #{$yt-grey-dark-bg-secondary}; // For dark mode or secondary regions
 
-  /* Colors from your theme */
-  --color-contrast: #000;
-  --color-background: #fff;
-  --color-background-100: #f3f3f3;
-  --color-background-200: #ededed;
-  --color-background-300: #dadada;
-  --color-foreground: #4d4d4d;
-  --color-secondary: #757575;
-  --color-mute: #b2b2b2;
-  --color-border: hsl(0, 0%, 50%, 0.2);
-  --color-success: #348f3f;
-  --color-error: #c34d4d;
-  --color-overlay: rgba(5, 5, 5, 0.7);
+  // Text
+  --text-primary-color: #{$yt-grey-text-primary};
+  --text-secondary-color: #{$yt-grey-text-secondary};
+  --text-disabled-color: #{$yt-grey-text-disabled};
+  --text-on-accent-color: var(--jk-accent-foreground-color);
 
-  /* Font Families from your theme */
-  --font-family-headings: var(--gh-font-heading, "Geist", "Outfit", sans-serif);
-  --font-family-body: var(--gh-font-body, "Geist", "Outfit", sans-serif);
-  --font-family-button: var(--font-family-body);
-  --font-family-mono: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  // Borders & Dividers
+  --divider-color: #{$yt-grey-divider};
+  --input-border-color: #{$yt-grey-ui-elements};
 
-  /* Font Sizes from your theme */
-  --font-x-small: 0.75rem;  /* 12px */
-  --font-small: 0.875rem; /* 14px */
-  --font-base: 1rem;     /* 16px */
-  --font-large: 1.125rem; /* 18px */
-  /* Larger heading sizes from theme */
-  --font-size-h6: 1rem;
-  --font-size-h5: 1.125rem;
-  --font-size-h4: 1.188rem;
-  --font-size-h3: 1.25rem;
-  --font-size-h2: 1.375rem;
-  --font-size-h1: 1.75rem;
+  // Icons
+  --icon-color: #{$yt-grey-icon};
 
+  // Fonts
+  --font-family-base: #{$family-sans-serif};
+  --font-family-mono: #{$family-monospace};
 
-  /* Font Weights from your theme */
-  --font-weight-light: 300;
-  --font-weight-regular: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
+  // Radii
+  --radius-base: #{$radius}; // 4px
+  --radius-button: #{$radius-button-yt}; // 2px
+  --radius-card: #{$radius-card-yt}; // 0px
+  --radius-pill: #{$radius-button-yt-pill}; // 18px
 
-  /* Spacings from your theme */
-  --spacing-1: 0.125rem; --spacing-2: 0.25rem;  --spacing-3: 0.375rem;
-  --spacing-4: 0.5rem;   --spacing-5: 0.625rem; --spacing-6: 0.75rem;
-  --spacing-7: 1rem;     --spacing-8: 1.25rem;  --spacing-9: 1.875rem;
-  --spacing-10: 5rem;    --spacing-11: 6.25rem;
-  --vertical-rhythm: 1.5rem;
+  // Shadows (Material elevation)
+  --shadow-dp1: #{$shadow-dp1};
+  --shadow-dp2: #{$shadow-dp2};
+  --shadow-yt-card: #{$shadow-yt-card};
 
-  /* Border radius from your theme */
-  --radius-1: 6px;
-  --radius-2: 8px;
-  --radius-3: 10px;
-  --radius-4: 14px; /* Used for cards in original theme */
-  --radius-5: 16px;
-  --radius-6: clamp(16px, calc(11.25px + 1.25vw), 30px);
-  --radius-sharp: 0px; /* For your sharp edge requirement */
-  --radius-button-calculated: 20px; /* calc(2.5rem * 0.5) */
-
-  /* Layout from your theme */
-  --layout--padding: clamp(16px, calc(11.25px + 1.25vw), 30px);
-
-  /* Navbar from your theme */
-  --navbar--min-height: 58px;
-
-  /* Button from your theme */
-  --button--padding-v: var(--spacing-4);
-  --button--padding-h: var(--spacing-8);
-  --button--min-height: 2.5rem;
-  --button--font-size: var(--font-small);
-  --button--font-weight: var(--font-weight-medium);
-  --button--line-height: 1.5;
-  --button--border-radius: var(--radius-button-calculated); /* 20px */
-  --button--color: var(--jk-accent-foreground-color);
-  --button--background-color: var(--jk-accent-color);
-  --button--opacity: 1;
-  --button--transition: clip-path 0.2s ease, background-color 0.1s ease,
-                      border-color 0.1s ease, color 0.1s ease, opacity 0.1s ease;
-  --button-hover--color: var(--color-background);
-  --button-hover--background-color: var(--color-contrast);
-  --button-hover--opacity: 0.8;
-
-  /* Container from your theme */
-  --container--width: 700px;
-  --container-wide--width: 1100px;
-
-  /* Featured image from your theme */
-  --featured-image--max-width: 1300px;
-
-  /* Popup, Avatar, Dropdown from your theme */
-  --popup--overlay--background-color: #e8e8e8;
-  --avatar--size: 2.25rem;
-  --avatar--font-size: var(--font-small);
-  --avatar--color: var(--color-secondary);
-  --avatar--background-color: var(--color-background-100);
-  --avatar-hover--background-color: var(--color-background-200);
-  --dropdown--background-color: var(--color-background);
-
-  /* Shadow from your theme */
-  --shadow: 0 20px 60px -10px hsla(0, 4%, 68%, 0.24),
-            0 4px 20px -8px rgba(0, 0, 0, 0.24);
-  --shadow-none: none; /* For explicit no-shadow */
+  // Spacing (map to some theme values)
+  --spacing-unit: 0.25rem; /* 4px */
+  --spacing-xs: var(--spacing-unit);      /* 4px */
+  --spacing-sm: calc(var(--spacing-unit) * 2); /* 8px */
+  --spacing-md: calc(var(--spacing-unit) * 4); /* 16px */
+  --spacing-lg: calc(var(--spacing-unit) * 6); /* 24px */
+  --spacing-xl: calc(var(--spacing-unit) * 8); /* 32px */
 
   color-scheme: light;
 }
 
-/*-------------------------------------------------------------------
-  2. GLOBAL BASE STYLES (Using CSS Custom Properties from above)
--------------------------------------------------------------------*/
-/* Minimal Reset (Bulma handles most of this) */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
+//-------------------------------------------------------------------
+// 6. GLOBAL HTML & BODY STYLES (Using CSS Custom Properties)
+//-------------------------------------------------------------------
 html {
-  line-height: 1.5; /* From theme */
-  -webkit-text-size-adjust: 100%;
-  -moz-tab-size: 4;
-  tab-size: 4;
-  font-family: var(--font-family-body);
-  -webkit-tap-highlight-color: transparent;
-  scroll-behavior: smooth;
-  background-color: var(--color-background);
-  font-size: var(--font-base, 16px);
+  background-color: var(--background-color);
+  font-size: 100%; /* Equivalent to 16px if browser default is 16px */
 }
 
 body {
-  margin: 0;
-  line-height: inherit;
-  font-family: var(--font-family-body);
-  color: var(--color-foreground);
-  background-color: var(--color-background);
-  font-weight: var(--font-weight-regular);
-  font-style: normal;
-  word-break: break-word;
+  font-family: var(--font-family-base);
+  color: var(--text-primary-color);
+  background-color: var(--background-color);
+  font-weight: $weight-regular;
+  line-height: 1.5; // Material spec often 1.5 for body
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  min-height: 100%;
-  padding: 0;
-}
-
-img {
-  display: block;
-  height: auto;
-  max-width: 100%;
-  vertical-align: middle;
-}
-svg {
-  vertical-align: middle;
-}
-
-p {
-  margin-top: 0;
-  margin-bottom: var(--vertical-rhythm);
-}
-p:last-child {
-  margin-bottom: 0;
-}
-
-button, input, select, textarea {
-  font: inherit;
   margin: 0;
 }
 
-hr {
-  border: 0;
-  border-top: 1px solid var(--color-border);
-  margin: var(--vertical-rhythm) 0;
-  opacity: 1;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-family-headings);
-  color: var(--color-contrast);
-  margin: 0 0 var(--vertical-rhythm) 0;
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.2;
-}
-h1 { font-size: var(--font-size-h1, 1.75rem); line-height: 1.1; }
-h2 { font-size: var(--font-size-h2, 1.375rem); }
-h3 { font-size: var(--font-size-h3, 1.25rem); }
-h4 { font-size: var(--font-large); } /* Theme --font-large */
-h5 { font-size: var(--font-large); }
-h6 { font-size: var(--font-base); }
-
-a {
-  color: var(--ghost-accent-color); /* Theme's link style */
-  text-decoration: underline;
-  text-decoration-color: currentColor;
-  text-decoration-thickness: 0.075em;
-  text-underline-offset: 0.15em;
-  transition: color .1s ease, text-decoration-color .1s ease;
-}
-a:hover {
-  color: var(--ghost-accent-color);
-  text-decoration-color: transparent;
-}
-
-/* Code block styling (global) */
-pre {
-  font-family: var(--font-family-mono, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
-  font-size: var(--font-small);
-  background-color: var(--color-background-100);
-  color: var(--color-contrast);
-  padding: var(--spacing-6) var(--spacing-7);
-  border-radius: var(--radius-2); /* Theme radius-2 */
-  border: 1px solid var(--color-border); /* Explicit border */
-  box-shadow: var(--shadow-none); /* No shadow */
-  overflow: auto;
-  margin: var(--vertical-rhythm) 0;
-}
-pre code {
-  background-color: transparent !important;
-  color: inherit !important;
-  padding: 0 !important;
-  font-size: inherit !important;
-  border-radius: 0 !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-:not(pre) > code {
-  font-family: var(--font-family-mono, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
-  font-size: 0.875em; /* Theme */
-  background-color: var(--color-background-100);
-  color: var(--color-contrast);
-  padding: var(--spacing-2) var(--spacing-3);
-  border-radius: var(--radius-1); /* Theme */
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-none);
-}
-
-/*-------------------------------------------------------------------
-  3. BULMA COMPONENT OVERRIDES (Using CSS Custom Properties)
--------------------------------------------------------------------*/
-
-/* General Bulma Typography Alignment */
+//-------------------------------------------------------------------
+// 7. TYPOGRAPHY & CONTENT OVERRIDES (Using CSS Custom Properties)
+//-------------------------------------------------------------------
 .title, .subtitle {
-  font-family: var(--font-family-headings);
-  color: var(--color-contrast);
+  font-family: var(--font-family-base); // All text Roboto
+  color: var(--text-primary-color);
 }
-.title { font-weight: var(--font-weight-semibold); }
-.subtitle { color: var(--color-secondary); font-weight: var(--font-weight-regular); }
-/* Bulma .is-N title sizes should already be influenced by $size-N Sass vars.
-   If direct override is needed:
-   .title.is-1 { font-size: var(--font-size-h1); line-height: 1.1; }
-*/
+.title {
+  font-weight: $weight-medium; // Material titles often medium or regular
+}
+.subtitle {
+  color: var(--text-secondary-color);
+  font-weight: $weight-regular;
+}
 
-/* Buttons */
+// Link styling
+a {
+  color: var(--text-primary-color); // Or --jk-accent-color for more prominent links
+  text-decoration: none;
+  transition: color 0.15s ease;
+  &:hover {
+    color: var(--jk-accent-color);
+    // text-decoration: underline; // Optional hover underline
+  }
+}
+
+.content { // Bulma's .content class for Markdown
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: $weight-medium;
+    line-height: 1.3;
+    margin-bottom: 0.5em;
+    margin-top: 1.2em;
+  }
+  p {
+    line-height: 1.6;
+    margin-bottom: 1em;
+  }
+  pre {
+    background-color: $yt-almost-black; // Dark background for code
+    color: #f1f1f1;                   // Light text
+    padding: var(--spacing-md);
+    border-radius: var(--radius-base); // 4px
+    font-family: var(--font-family-mono);
+    font-size: $size-6; // 0.875rem
+    code { background: none !important; color: inherit !important; }
+  }
+  :not(pre) > code {
+    background-color: $yt-grey-hover-bg;
+    color: $yt-grey-text-primary;
+    padding: 0.1em 0.4em;
+    border-radius: var(--radius-button); // 2px
+    font-family: var(--font-family-mono);
+    font-size: 0.9em;
+  }
+  blockquote {
+    border-left: 3px solid var(--divider-color);
+    padding-left: var(--spacing-md);
+    margin-left: 0;
+    color: var(--text-secondary-color);
+  }
+}
+
+//-------------------------------------------------------------------
+// 8. BULMA COMPONENT OVERRIDES (Using CSS Custom Properties)
+// Make Bulma components look more "Material/YouTube"
+//-------------------------------------------------------------------
+
 .button {
-  font-family: var(--font-family-button);
-  font-size: var(--button--font-size);
-  font-weight: var(--font-weight-semibold); /* Theme specific */
-  min-height: var(--button--min-height);
-  line-height: var(--button--line-height);
-  padding: var(--button--padding-v) var(--button--padding-h);
-  border-radius: var(--button--border-radius); /* 20px */
-  border-width: 0; /* Theme buttons are borderless by default */
-  transition: var(--button--transition);
-  color: var(--button--color);
-  background-color: var(--button--background-color);
-  opacity: var(--button--opacity);
-}
-.button:hover, .button:focus {
-  color: var(--button-hover--color);
-  background-color: var(--button-hover--background-color);
-  opacity: var(--button-hover--opacity);
-}
-.button.is-primary {
-  background-color: var(--jk-accent-color);
-  color: var(--jk-accent-foreground-color);
-}
-.button.is-primary:hover, .button.is-primary:focus {
-  background-color: var(--color-contrast); /* Theme hover */
-  color: var(--color-background);
-  opacity: 0.8;
-}
-.button.is-light {
-  background-color: var(--color-background-100);
-  color: var(--color-contrast);
-  border: 1px solid var(--color-border);
-}
-.button.is-light:hover, .button.is-light:focus {
-  background-color: var(--color-background-200);
-  border-color: var(--color-border);
-}
-
-/* Cards & Boxes: Sharp Edges, Light Border, No Shadow */
-.card, .box {
-  border-radius: var(--radius-sharp) !important; /* 0px */
-  box-shadow: var(--shadow-none) !important;
-  border: 1px solid var(--color-border) !important;
-  background-color: var(--color-background);
-}
-
-.card .card-header {
-  background-color: transparent;
-  box-shadow: none;
-  border-bottom: 1px solid var(--color-border);
-  border-radius: 0 !important;
-  padding: var(--spacing-6) var(--spacing-7);
-}
-.card .card-header-title {
-  padding: 0;
-  color: var(--color-contrast);
-  font-family: var(--font-family-headings);
-  font-weight: var(--font-weight-semibold);
-}
-.card .card-image img {
-  border-radius: 0 !important;
-}
-.card .card-content {
-  padding: var(--spacing-7);
-  color: var(--color-foreground);
-}
-.card .card-footer {
-  border-top: 1px solid var(--color-border);
-  background-color: transparent;
-  padding: 0;
-}
-.card .card-footer-item {
-  padding: var(--spacing-6) var(--spacing-7);
-  color: var(--jk-accent-color);
-  border-right: 1px solid var(--color-border);
-}
-.card .card-footer-item:last-child {
-  border-right: none;
-}
-.card .card-footer-item:hover {
-  background-color: var(--color-background-100);
-}
-
-.box {
-  padding: var(--spacing-8); /* Theme's preferred box padding */
-  color: var(--color-foreground);
-}
-
-/* Navbar */
-.navbar {
-  min-height: var(--navbar--min-height);
-  background-color: transparent; /* Relies on ::before */
-  box-shadow: none; /* Theme navbar is flat */
-  border-bottom: 1px solid var(--color-border); /* Add border to navbar */
-}
-.navbar::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: var(--color-background);
-  opacity: 0.9; /* From theme */
-  z-index: -1;
-  backdrop-filter: blur(10px); /* From theme */
-}
-.navbar-brand { padding-left: var(--layout--padding); }
-.navbar-brand .navbar-item img { max-height: calc(var(--navbar--min-height) - var(--spacing-6)); }
-.navbar-menu { padding-right: var(--layout--padding); }
-.navbar-item, .navbar-link {
-  font-family: var(--font-family-button); /* Theme uses button font for nav */
-  font-size: var(--font-small);
+  font-family: var(--font-family-base);
   font-weight: var(--font-weight-medium);
-  color: var(--color-contrast); /* Theme nav links are contrast */
-  padding: var(--spacing-4) var(--spacing-6); /* Theme's nav-link padding */
-}
-.navbar-item:hover, .navbar-item.is-active,
-.navbar-link:hover, .navbar-link.is-active {
-  background-color: var(--color-background-200); /* Theme's nav-link hover */
-  color: var(--color-contrast); /* Stays contrast on hover */
-}
-.navbar-dropdown {
-  background-color: var(--dropdown--background-color); /* Theme */
-  border: 1px solid var(--color-border);
-  border-top: none;
-  border-radius: 0 0 var(--radius-2) var(--radius-2); /* Theme --radius-2 for dropdown bottom */
-  box-shadow: var(--shadow); /* Theme shadow */
-  padding: var(--spacing-2) 0; /* Theme */
-}
-.navbar-dropdown .navbar-item {
-  padding-left: var(--spacing-6); /* Theme */
-  padding-right: var(--spacing-6);
-  color: var(--color-foreground);
-}
-.navbar-dropdown .navbar-item:hover {
-  background-color: var(--color-background-100);
-  color: var(--jk-accent-color);
+  font-size: var(--font-small); // 14px
+  text-transform: uppercase; // Material buttons often uppercase
+  padding: var(--spacing-sm) var(--spacing-md); // 8px 16px
+  border-radius: var(--radius-button); // 2px
+  min-height: 36px; // Material spec
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: var(--shadow-dp1); // Subtle shadow for default buttons
+  border-width: 1px; // Ensure borders are consistent
+
+  &:hover {
+    box-shadow: var(--shadow-dp2); // Slightly more elevation on hover
+  }
+  &:active {
+    box-shadow: none; // Flat on active
+  }
+
+  // Default Bulma button (often acts as light/secondary)
+  background-color: var(--surface-color);
+  color: var(--text-primary-color);
+  border-color: var(--divider-color);
+  &:hover {
+    background-color: var(--background-color-hover);
+  }
+
+  &.is-primary {
+    background-color: var(--jk-accent-color);
+    color: var(--text-on-accent-color);
+    border-color: var(--jk-accent-color);
+    box-shadow: var(--shadow-dp2); // Raised button shadow
+    &:hover {
+      background-color: darken($yt-red, 8%); // Use Sass var for calculation
+      border-color: darken($yt-red, 8%);
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.12); // dp4 like
+    }
+  }
+
+  &.is-text, &.is-ghost { // For text/icon buttons
+    box-shadow: none;
+    background-color: transparent;
+    color: var(--text-secondary-color);
+    border-color: transparent;
+    &:hover {
+      background-color: var(--background-color-hover);
+      color: var(--text-primary-color);
+    }
+  }
 }
 
+.card, .box { // YouTube cards are often borderless with subtle shadow
+  border-radius: var(--radius-card); // 0px (sharp)
+  box-shadow: var(--shadow-yt-card);
+  border: 1px solid var(--divider-color); // Or 'none' if shadow is enough
+  background-color: var(--surface-color);
+}
 
-/* Forms (Inputs, Textarea, Select) */
+.card {
+  .card-header {
+    box-shadow: none; // No separate shadow for header
+    border-bottom: 1px solid var(--divider-color);
+    padding: var(--spacing-sm) var(--spacing-md);
+    .card-header-title {
+      font-weight: var(--font-weight-medium);
+      font-size: $size-5; // 1rem
+      color: var(--text-primary-color);
+    }
+  }
+  .card-content {
+    padding: var(--spacing-sm); // Tighter padding
+    .media { margin-bottom: var(--spacing-xs); }
+    .title.is-5 { font-size: $size-5; margin-bottom: var(--spacing-xs); }
+    .subtitle.is-7 { font-size: $size-7; color: var(--text-secondary-color); }
+  }
+  .card-footer {
+    border-top: 1px solid var(--divider-color);
+    .card-footer-item {
+      color: var(--text-secondary-color);
+      font-size: var(--font-small);
+      &:hover {
+        color: var(--jk-accent-color);
+        background-color: transparent;
+      }
+    }
+  }
+}
+
+.navbar { // Material App Bar style
+  background-color: var(--surface-color);
+  min-height: var(--navbar--min-height); // 56px
+  box-shadow: var(--shadow-dp1); // Standard app bar elevation
+  border-bottom: none; // Shadow provides separation
+  &::before { content: none; } // Remove the overlay from previous example
+
+  .navbar-brand { padding-left: var(--spacing-md); }
+  .navbar-menu { padding-right: var(--spacing-md); }
+
+  .navbar-item, .navbar-link {
+    color: var(--icon-color); // Icons in app bar are often grey
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-small);
+    min-height: var(--navbar--min-height); // Ensure items can fill height
+    padding: 0 var(--spacing-sm); // Tighter padding for icon-heavy nav
+    &:hover, &.is-active {
+      background-color: var(--background-color-hover);
+      color: var(--text-primary-color);
+    }
+    // If text is used in navbar items
+    &.has-text-primary-color { color: var(--text-primary-color); }
+  }
+  .navbar-dropdown {
+    background-color: var(--surface-color);
+    border: 1px solid var(--divider-color);
+    border-top: none;
+    border-radius: 0 0 var(--radius-base) var(--radius-base); // 4px
+    box-shadow: var(--shadow-dp2);
+  }
+}
+
 .input, .textarea, .select select {
-  background-color: var(--color-background-100);
-  border: 1px solid transparent; /* Theme form inputs borderless initially */
-  border-radius: 1.5rem; /* 24px from theme's form styles */
-  color: var(--color-contrast);
-  min-height: 3rem; /* From theme */
-  padding: var(--spacing-6) var(--spacing-8); /* From theme */
-  font-size: var(--font-small);
-  font-weight: var(--font-weight-medium);
+  background-color: var(--background-color); // Often matches page bg or slightly off
+  border: 1px solid var(--input-border-color);
+  border-radius: var(--radius-base); // 4px Material radius
+  color: var(--text-primary-color);
+  min-height: 48px; // Material Text Field standard height
+  padding: 0 var(--spacing-md); // Material padding for inputs
+  font-size: var(--font-base); // 1rem for input text
   box-shadow: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    border-color: darken($yt-grey-ui-elements, 15%);
+  }
+  &:focus, &.is-focused, &:active, &.is-active {
+    border-color: var(--jk-accent-color); // Or Google Blue for forms
+    box-shadow: 0 0 0 1px var(--jk-accent-color); // Thinner focus ring
+  }
 }
-.input:hover, .textarea:hover, .select select:hover {
-  border-color: transparent; /* Still no border on hover */
-}
-.input:focus, .input.is-focused, .input:active, .input.is-active,
-.textarea:focus, .textarea.is-focused, .textarea:active, .textarea.is-active,
-.select select:focus, .select select.is-focused, .select select:active, .select select.is-active {
-  border-color: var(--jk-accent-color);
-  box-shadow: 0 0 0 0.125em rgba(var(--jk-accent-color-rgb), 0.25);
-}
-.input::placeholder, .textarea::placeholder {
-  color: var(--color-mute);
-}
-label.label { /* Bulma .label */
-  font-size: var(--font-small);
-  font-weight: var(--font-weight-medium); /* Theme */
-  color: var(--color-contrast);
-  margin-bottom: var(--spacing-4); /* Approx 0.5rem */
-}
-.select:not(.is-multiple):not(.is-loading)::after { /* Dropdown arrow for select */
-  border-color: var(--color-contrast); /* Match text */
-  opacity: 0.8; /* From theme */
-  right: var(--spacing-8); /* From theme */
+label.label {
+  color: var(--text-secondary-color); // Labels are often secondary text
+  font-size: var(--font-small); // Material labels can be smaller
+  font-weight: var(--font-weight-regular);
+  margin-bottom: var(--spacing-xs);
 }
 
-/* Content Styling (Bulma's .content class) */
-.content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
-  font-family: var(--font-family-headings);
-  color: var(--color-contrast);
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.2;
-  margin-top: calc(var(--vertical-rhythm) * 1.5); /* More space above headings in content */
-  margin-bottom: var(--vertical-rhythm);
-}
-.content h1:first-child, .content h2:first-child, .content h3:first-child,
-.content h4:first-child, .content h5:first-child, .content h6:first-child {
-  margin-top: 0;
-}
-/* Specific theme heading sizes for .content if needed */
-.content h1 { font-size: var(--font-size-h1); line-height: 1.1;}
-.content h2 { font-size: var(--font-size-h2); }
-/* ... etc ... */
+// --- Archive Page Specifics (Material/YouTube Cards) ---
+.archive-column-cards {
+  .post-item-card { // This is a .card
+    .card-image figure.image img { object-fit: cover; }
+    .video-play-icon-overlay { /* Keep this for videos */
+      background-color: rgba(0,0,0,0.3);
+      .icon i { font-size: 3rem; opacity: 0.9; }
+    }
+    .video-duration-overlay .tag { font-size: var(--font-x-small); }
 
-.content p { line-height: 1.6; margin-bottom: var(--vertical-rhythm); }
-.content ul, .content ol { padding-left: 0; margin: var(--vertical-rhythm) 0; }
-.content ul { list-style: none; }
-.content ul > li { padding-left: var(--spacing-8); position: relative; }
-.content ul > li::before {
-  content: ""; position: absolute; left: var(--spacing-2); top: 0.65em;
-  height: 0.25rem; width: 0.25rem; background-color: currentColor; border-radius: 50%;
+    .card-content {
+      padding: var(--spacing-sm); // Tighter YouTube card padding
+      .media {
+        margin-bottom: var(--spacing-sm) !important; // Space between avatar/title and metadata
+        .media-left .image { width: 36px; height: 36px; } // YT avatar size
+      }
+      .title.is-5 { // Video title in grid
+        font-size: var(--font-base); // 1rem, or font-small (14px)
+        font-weight: var(--font-weight-medium);
+        line-height: 1.3;
+        color: var(--text-primary-color);
+        margin-bottom: var(--spacing-xs) !important;
+        // 2-line truncation
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-height: 2.6em; /* for 1.3 line-height */
+      }
+      .level-item .tag { // Category tag
+        font-size: var(--font-x-small);
+        font-weight: var(--font-weight-regular);
+        border-radius: var(--radius-button); // 2px
+        height: auto; padding: 0.1em 0.5em;
+        // Use Bulma .is-light with color modifiers
+      }
+      .level-item.is-size-7 { // Date
+        font-size: var(--font-x-small) !important;
+        color: var(--text-secondary-color);
+      }
+      .excerpt-text {
+        display: none; // YT cards usually don't show excerpt text directly in grid
+      }
+      .message.is-light { // TLDR (if you keep it)
+         background-color: var(--background-color-hover);
+         border-radius: var(--radius-button);
+         border: 1px solid var(--divider-color);
+         border-left-width: 0; // No strong side accent
+         color: var(--text-secondary-color);
+         font-size: var(--font-x-small);
+         margin-top: var(--spacing-sm);
+         .message-body { padding: var(--spacing-xs) var(--spacing-sm); }
+      }
+    }
+    .post-item-footer {
+      padding: var(--spacing-xs) var(--spacing-sm);
+      border-top: 1px solid var(--divider-color);
+      .buttons .button { // Demo/Code
+        font-size: var(--font-x-small);
+        height: 28px; min-height: auto;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--radius-button);
+        &.is-light {
+          border: 1px solid var(--divider-color);
+          background-color: var(--surface-color);
+          color: var(--text-secondary-color);
+          &:hover { background-color: var(--background-color-hover); }
+        }
+      }
+      .tags .tag {
+        font-size: var(--font-x-small);
+        background-color: var(--background-color-hover);
+        color: var(--text-secondary-color);
+        border-radius: var(--radius-button);
+      }
+    }
+  }
+  // Ad/Newsletter placeholders
+  .ad-placeholder-box, .newsletter-box-column {
+    // Will inherit general .box styling
+  }
+  .newsletter-box-column {
+    background-color: var(--background-color-hover); // Slightly off-white
+    &.has-background-info-light { // Bulma specific, override for YT
+        background-color: var(--background-color-hover);
+        .title, .subtitle { color: var(--text-primary-color); }
+        .icon { color: var(--icon-color); }
+        .button.is-info { // Make subscribe button YT primary style
+            @extend .button.is-primary; // If Sass was allowed, or copy styles
+            background-color: var(--jk-accent-color);
+            color: var(--jk-accent-foreground-color);
+            border-color: var(--jk-accent-color);
+            &:hover {
+                background-color: darken($yt-red, 8%);
+                border-color: darken($yt-red, 8%);
+            }
+        }
+    }
+  }
 }
-.content ul ul > li::before { background-color: transparent; border: 1px solid currentColor; }
-.content ul ul ul > li::before { background-color: currentColor; border-radius: 0; }
-.content ol { padding-left: var(--spacing-8); list-style: none; counter-reset: contentOrderedList; }
-.content ol > li::before {
-  content: counter(contentOrderedList) ". "; counter-increment: contentOrderedList;
-  position: absolute; left: 0;
-  font-weight: var(--font-weight-medium); font-size: 0.938em; color: var(--color-secondary);
-}
-.content ol ol { list-style: lower-alpha; padding-left: var(--spacing-8); }
-.content ol ol ol { list-style: lower-roman; }
-.content li + li { margin-top: var(--spacing-4); } /* approx 0.5em */
-.content figure figcaption {
-  color: var(--color-secondary); font-size: var(--font-small);
-  margin-top: var(--spacing-6); text-align: center;
-}
-
-/* Archive Page Specifics */
-.archive-column-cards .post-item-box .content .message.is-light {
-  background-color: var(--color-background-100);
-  border-radius: var(--radius-1); /* Or var(--radius-sharp) */
-  border: 1px solid var(--color-border);
-  border-left-width: 3px; /* Standard message accent */
-  color: var(--color-foreground);
-}
-.archive-column-cards .post-item-box .content .message.is-light.is-warning {
-  border-left-color: #ffdd57; /* Bulma warning */
-  /* You might want to override Bulma's .message.is-warning .message-body color if needed */
-}
-.archive-column-cards .post-item-box .content .message.is-light.is-info {
-  border-left-color: #3298dc; /* Bulma info */
-}
-.archive-column-cards .post-item-box .content .message.is-light .message-body {
-  padding: var(--spacing-4) var(--spacing-6); /* Consistent padding */
-  font-size: var(--font-x-small); /* Smaller for TLDR */
-}
-.archive-column-cards .post-item-box .post-item-footer .buttons .button.is-light {
-  border: 1px solid var(--color-border); /* Ensure these also get the border */
-}
-
-/* You would add the dark mode styles here, typically: */
-/*
-[data-theme="dark"] {
-  --jk-accent-color: #your_dark_accent;
-  --color-background: #0f0f0f;
-  // ... all other dark mode CSS custom property overrides ...
-
-  // Then, component specific overrides for dark mode if needed,
-  // e.g., if a component doesn't perfectly adapt just by changing CSS vars
-  .button.is-light { background-color: var(--color-background-200); ... }
-}
-*/
-
