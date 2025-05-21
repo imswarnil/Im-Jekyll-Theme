@@ -1,0 +1,14 @@
+// _scss/main.scss
+
+// 1. Theme Variables (Overrides Bulma's defaults)
+@import "theme/variables";
+
+// 2. Import Bulma
+// You can import the whole thing:
+@import "../node_modules/bulma/bulma";
+
+// 3. Theme Overrides and CSS Custom Property Definitions
+@import "theme/overrides";
+
+// 4. Dark Mode Styles
+@import "theme/dark_mode";

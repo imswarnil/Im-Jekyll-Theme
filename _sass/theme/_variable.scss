@@ -1,0 +1,240 @@
+// _scss/theme/_variables.scss
+
+//-------------------------------------------------------------------
+// 0. FONT IMPORTS (if needed and not loaded via HTML)
+//-------------------------------------------------------------------
+// @import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap'); // Example for Geist
+
+//-------------------------------------------------------------------
+// 1. COLOR PALETTE
+// Derived from your :root CSS variables
+//-------------------------------------------------------------------
+
+// Core Colors
+$black: #000;                      // --color-contrast
+$white: #fff;                      // --color-background
+$background: $white;
+
+// Text & Foreground
+$text: #4d4d4d;                   // --color-foreground
+$text-light: #757575;             // --color-secondary
+$text-strong: $black;
+
+// Grey Scale & Backgrounds
+$grey-lightest: #f3f3f3;          // --color-background-100
+$grey-lighter: #ededed;           // --color-background-200
+$grey-light: #dadada;             // --color-background-300
+$grey: #b2b2b2;                   // --color-mute
+$grey-dark: $text-light;
+$grey-darker: $text;
+
+// Accent & Semantic Colors
+$primary: #e53935;                // Your chosen primary/accent color
+                                   // For theme matching: consider a var like --ghost-accent-color if it's dynamic
+$link: $primary;
+$info: hsl(204, 71%, 53%);        // Default Bulma info, adjust if theme has specific info color
+$success: #348f3f;                // --color-success
+$warning: hsl(48, 100%, 67%);     // Default Bulma warning
+$danger: #c34d4d;                 // --color-error
+
+// Borders
+$border: rgb(128 128 128 / 20%);  // --color-border
+$border-light: lighten($border, 10%);
+$border-hover: $primary;
+
+
+//-------------------------------------------------------------------
+// 2. TYPOGRAPHY
+//-------------------------------------------------------------------
+// Font Families
+// Note: --gh-font-heading and --gh-font-body from your example are likely dynamic.
+// Set a sensible default here.
+$family-sans-serif: "Geist", "Outfit", sans-serif; // Fallback if "Geist" isn't available
+$family-monospace: "Roboto Mono", monospace;
+$family-primary: $family-sans-serif;
+$family-secondary: $family-sans-serif; // For headings if same as body
+
+// Font Sizes (Mapping to Bulma's scale)
+// $size-1 to $size-7 are Bulma's heading/text sizes.
+$size-1: 2.5rem;    // Large H1 (adjust as needed)
+$size-2: 2rem;      // H2
+$size-3: 1.75rem;   // H3 (matches theme's H1 if --font-family-headings is used)
+$size-4: 1.375rem;  // H4 (matches theme's H2)
+$size-5: 1.25rem;   // H5 (matches theme's H3)
+$size-6: 0.875rem;  // Normal text / --font-small
+$size-7: 0.75rem;   // Small text / --font-x-small
+
+// Font Weights
+$weight-light: 300;
+$weight-normal: 400;
+$weight-medium: 500;
+$weight-semibold: 600;
+$weight-bold: 700;
+
+//-------------------------------------------------------------------
+// 3. BULMA GENERAL VARIABLES
+//-------------------------------------------------------------------
+$body-background-color: $background;
+$body-color: $text;
+$body-family: $family-primary;
+$body-size: 16px; // Standard base font size
+$body-weight: $weight-normal;
+$body-line-height: 1.6; // Common for readability
+
+// Links
+$link-color: $link;
+$link-hover: darken($link, 10%);
+$link-hover-border: darken($link, 15%);
+$link-focus: darken($link, 10%);
+$link-focus-border: darken($link, 15%);
+$link-active: darken($link, 15%);
+$link-active-border: darken($link, 20%);
+$link-decoration: underline; // Theme uses underline with offset
+
+//-------------------------------------------------------------------
+// 4. BULMA COMPONENT VARIABLES
+//-------------------------------------------------------------------
+// Spacing and Radius
+$radius-small: 6px;                // --radius-1
+$radius: 8px;                      // --radius-2
+$radius-large: 10px;               // --radius-3
+$radius-rounded: 9999px;           // For fully rounded elements
+
+// Buttons (Based on --button--* variables)
+$button-color: $white; // Assuming accent color is darker: --color-accent-foreground
+$button-background-color: $primary; // Represents --ghost-accent-color
+$button-border-color: transparent; // Theme buttons seem borderless initially
+$button-border-width: 0px;
+
+$button-hover-color: $white;           // --button-hover--color is --color-background
+$button-hover-background-color: $black; // --button-hover--background-color is --color-contrast
+$button-hover-border-color: transparent;
+
+$button-focus-color: $button-hover-color;
+$button-focus-background-color: $button-hover-background-color;
+$button-focus-border-color: $button-hover-border-color; // or a distinct focus ring
+$button-focus-box-shadow-size: none; // Remove Bulma's default focus shadow if theme doesn't use
+
+$button-active-color: $button-hover-color;
+$button-active-background-color: darken($button-hover-background-color, 5%);
+$button-active-border-color: transparent;
+
+$button-text-color: $button-color; // For .button.is-text
+$button-text-hover-background-color: $grey-lightest;
+$button-text-hover-color: $text-strong;
+
+$button-disabled-background-color: $grey-light;
+$button-disabled-color: $grey;
+$button-disabled-opacity: 0.5;
+
+$button-padding-vertical: 0.5rem;     // --spacing-4
+$button-padding-horizontal: 1.25rem;  // --spacing-8
+$button-family: $family-primary;      // --font-family-button
+// $button-font-size: $size-6; // Handled by .button class size or global font size
+$button-weight: $weight-medium;       // --button--font-weight
+$button-line-height: 1.5;             // --button--line-height
+// $button-border-radius: 20px; // This will be calc((0.5rem * 2 + 1em * 1.5) * 0.5) for a standard button or based on --button--min-height
+                                    // --button--border-radius: calc(var(--button--min-height) * 0.5); min-height is 2.5rem (40px) -> radius 20px
+
+// Card
+$card-background-color: $white;
+$card-color: $text;
+$card-header-color: $black;
+$card-radius: 14px; // --radius-4
+$card-shadow: 0 20px 60px -10px rgba(176, 169, 169, 0.24), 0 4px 20px -8px rgba(0, 0, 0, 0.24); // --shadow
+$card-header-padding: 1rem 1.25rem; // More padding like theme
+$card-content-padding: 1.25rem;    // More padding like theme
+
+// Box (Often used for cards)
+$box-background-color: $white;
+$box-color: $text;
+$box-radius: $radius-small; // --radius-1 or --radius-2
+$box-shadow: $card-shadow; // Use the same shadow as cards for consistency if desired
+$box-padding: 1.5rem; // --spacing-7 or --spacing-8 approx
+
+// Navbar
+$navbar-background-color: rgba($white, 0.9); // For the backdrop-filter effect base
+$navbar-height: 58px; // --navbar--min-height
+$navbar-item-color: $text;
+$navbar-item-hover-color: $primary;
+$navbar-item-hover-background-color: $grey-lightest;
+$navbar-item-active-color: $primary;
+$navbar-item-active-background-color: $grey-lightest;
+$navbar-padding-vertical: 0.5rem;   // (58px - (1.5rem line-height for item)) / 2 approx
+$navbar-padding-horizontal: 1rem; // --layout--padding (using a fixed value for simplicity)
+
+// Input, Textarea, Select
+$input-color: $text;
+$input-background-color: $grey-lightest; // --color-background-100
+$input-border-color: $border; // Or transparent if theme inputs are borderless until focus
+$input-hover-border-color: darken($border, 10%);
+$input-focus-border-color: $primary;
+$input-placeholder-color: $text-light; // --color-secondary / --color-mute
+$input-radius: 24px; // (1.5rem for 24px) if matching button-like radius from theme form styles
+$input-shadow: none; // Theme inputs don't seem to have shadow by default
+
+// Titles and Subtitles (Bulma classes)
+$title-color: $black; // --color-contrast
+$title-family: $family-primary; // --font-family-headings
+$title-weight: $weight-semibold;
+$title-line-height: 1.1;
+
+$subtitle-color: $text-light; // --color-secondary or --color-foreground
+$subtitle-family: $family-primary;
+$subtitle-weight: $weight-normal;
+$subtitle-line-height: 1.25;
+
+// Breadcrumb
+$breadcrumb-item-color: $text-light;
+$breadcrumb-item-hover-color: $text;
+$breadcrumb-item-active-color: $text-strong;
+$breadcrumb-item-separator-color: $grey-light;
+
+// Message
+$message-background-color: $grey-lightest;
+$message-header-background-color: $grey-lighter;
+$message-header-color: $text-strong;
+$message-body-border-color: $grey-light;
+$message-radius: $radius-small;
+
+// Pagination
+$pagination-color: $text;
+$pagination-border-color: $border;
+$pagination-hover-color: $text-strong;
+$pagination-hover-border-color: $primary;
+$pagination-focus-border-color: $primary;
+$pagination-active-color: $white;
+$pagination-active-border-color: $primary;
+$pagination-active-background-color: $primary;
+$pagination-disabled-color: $grey;
+$pagination-disabled-border-color: $border;
+$pagination-disabled-background-color: $background; // Keep it same as page background
+
+// Tabs
+$tabs-link-color: $text-light;
+$tabs-link-hover-border-bottom-color: $primary;
+$tabs-link-hover-color: $primary;
+$tabs-link-active-border-bottom-color: $primary;
+$tabs-link-active-color: $primary;
+$tabs-border-bottom-color: $border;
+
+// Control how Bulma generates utility classes, if you want to limit them for file size
+// $control-height: 2.5em; // Default, can be adjusted
+// $control-radius: $radius;
+
+// Generic
+$generic-family: $family-primary;
+$generic-box-shadow: $box-shadow;
+$generic-radius: $radius;
+$hr-background-color: $border;
+$hr-height: 1px;
+$hr-margin: 1.5rem 0; // --vertical-rhythm
+
+
+// Container widths from theme
+$container-max-width: 700px; // --container--width
+// Bulma's $desktop, $widescreen, $fullhd control other container breakpoints
+$widescreen-enabled: true;
+$fullhd-enabled: true;
+$widescreen: 1100px; // --container-wide--width (approx)
+$fullhd: 1300px;   // --featured-image--max-width (approx)

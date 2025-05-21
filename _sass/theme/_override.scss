@@ -1,0 +1,514 @@
+// _scss/theme/_overrides.scss
+
+//-------------------------------------------------------------------
+// 1. DEFINE CSS CUSTOM PROPERTIES (LIGHT MODE - DEFAULT)
+// These will be available globally in your CSS.
+// Values are derived from the _variables.scss for consistency
+//-------------------------------------------------------------------
+:root {
+  // Dynamic Ghost variables (provide fallbacks)
+  --gh-font-heading: #{$family-sans-serif}; // Fallback to Bulma's sans-serif
+  --gh-font-body: #{$family-sans-serif};   // Fallback
+
+  // Accent Color (this will be used by many components)
+  --ghost-accent-color: #{$primary};
+  --color-accent-foreground: #{if(lightness($primary) > 50, $black, $white)}; // Auto-contrast for text on accent
+
+  // Core Colors
+  --color-contrast: #{$black};
+  --color-background: #{$background};
+  --color-background-100: #{$grey-lightest};
+  --color-background-200: #{$grey-lighter};
+  --color-background-300: #{$grey-light};
+  --color-foreground: #{$text};
+  --color-secondary: #{$text-light};
+  --color-mute: #{$grey};
+  --color-border: #{$border};
+  --color-success: #{$success};
+  --color-error: #{$danger};
+  --color-overlay: rgba(5, 5, 5, 0.7);
+
+  // Font Families (redundant if Bulma variables are set, but good for direct use)
+  --font-family-headings: #{$family-sans-serif}; // Using what's set for Bulma
+  --font-family-body: #{$family-sans-serif};
+  --font-family-button: #{$family-sans-serif};
+
+  // Font Sizes
+  --font-x-small: #{$size-7};
+  --font-small: #{$size-6};
+  --font-base: #{$body-size}; // Corresponds to Bulma's base
+  --font-large: #{$size-4};   // Corresponds to Bulma's size-4
+
+  // Font Weights
+  --font-weight-light: #{$weight-light};
+  --font-weight-regular: #{$weight-normal};
+  --font-weight-medium: #{$weight-medium};
+  --font-weight-semibold: #{$weight-semibold};
+  --font-weight-bold: #{$weight-bold};
+
+  // Spacings (provide fixed fallbacks for fluid values for now)
+  --spacing-1: 0.125rem; /* 2px */
+  --spacing-2: 0.25rem;  /* 4px */
+  --spacing-3: 0.375rem; /* 6px */
+  --spacing-4: 0.5rem;   /* 8px */
+  --spacing-5: 0.625rem; /* 10px */
+  --spacing-6: 0.75rem;  /* 12px */
+  --spacing-7: 1rem;     /* 16px */
+  --spacing-8: 1.25rem;  /* 20px */
+  --spacing-9: 1.875rem; /* 30px */
+  --spacing-10: 5rem;    /* 80px */
+  --spacing-11: 6.25rem; /* 100px */
+  --vertical-rhythm: 1.5rem; /* 24px */
+
+  // Border Radius
+  --radius-1: #{$radius-small};
+  --radius-2: #{$radius};
+  --radius-3: #{$radius-large};
+  --radius-4: 14px;
+  --radius-5: 16px;
+  --radius-6: 16px; // Fallback for fluid(16px, 30px)
+
+  // Layout
+  --layout--padding: 1.5rem; // Fallback for fluid(16px, 30px)
+
+  // Navbar
+  --navbar--min-height: #{$navbar-height};
+
+  // Button specifics from theme (Bulma's .button class will be styled by variables)
+  // These are more for custom elements that might use these vars directly.
+  --button--padding-v: var(--spacing-4);
+  --button--padding-h: var(--spacing-8);
+  --button--min-height: 2.5rem;
+  --button--font-size: var(--font-small);
+  --button--font-weight: var(--font-weight-medium);
+  --button--line-height: 1.5;
+  --button--border-radius: calc(var(--button--min-height) * 0.5);
+  --button--color: var(--color-accent-foreground);
+  --button--background-color: var(--ghost-accent-color);
+  --button-hover--color: var(--color-background);
+  --button-hover--background-color: var(--color-contrast);
+
+  // Container Widths
+  --container--width: #{$container-max-width}; // Use Bulma's, or your defined value
+  --container-wide--width: #{$widescreen};    // Use Bulma's, or your defined value
+
+  // Shadow
+  --shadow: #{$card-shadow}; // Using the shadow defined for cards
+
+  color-scheme: light;
+}
+
+
+//-------------------------------------------------------------------
+// 2. GLOBAL HTML & BODY STYLES
+//-------------------------------------------------------------------
+html {
+  background-color: var(--color-background); // Ensures bg color even before body loads
+  // scroll-behavior: smooth; // Bulma might already handle this or you can add
+}
+
+body {
+  // Bulma's _all.sass or base.sass already sets font-family, color, background-color
+  // from the Sass variables. We can fine-tune here if needed.
+  font-family: var(--font-family-body); // Reinforce if needed
+  font-weight: var(--font-weight-regular);
+  line-height: 1.65; // Common readability tweak
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+//-------------------------------------------------------------------
+// 3. TYPOGRAPHY OVERRIDES (for Bulma elements)
+//-------------------------------------------------------------------
+h1, h2, h3, h4, h5, h6,
+.title, .subtitle {
+  font-family: var(--font-family-headings);
+  color: var(--color-contrast);
+  // Weights and line-heights are largely handled by Bulma variables now
+}
+
+// Ensure Bulma's title classes use the theme's heading font sizes
+.title {
+  &.is-1 { font-size: 1.75rem; line-height: 1.1; } // Approx theme H1
+  &.is-2 { font-size: 1.375rem; }             // Approx theme H2
+  &.is-3 { font-size: 1.25rem; }              // Approx theme H3
+  // &.is-4, &.is-5, &.is-6 will use Bulma's defaults which are close enough or can be adjusted via $size variables.
+}
+
+a {
+  color: var(--ghost-accent-color); // Use custom property for dynamic accent
+  text-decoration: underline;
+  text-decoration-color: currentColor; // Or var(--ghost-accent-color) for more emphasis
+  text-decoration-thickness: 0.075em; // As per theme
+  text-underline-offset: 0.15em;   // As per theme
+  transition: color 0.1s ease, text-decoration-color 0.1s ease;
+
+  &:hover {
+    color: var(--ghost-accent-color); // Keep color same, remove underline decoration
+    text-decoration-color: transparent;
+  }
+}
+
+// Blockquotes to match theme
+.content blockquote, blockquote {
+  border-left: 2px solid var(--ghost-accent-color);
+  color: var(--color-contrast);
+  font-weight: var(--font-weight-medium);
+  padding: var(--spacing-4) var(--spacing-7); // Use theme spacing vars
+  background-color: transparent; // Override Bulma's possible light grey
+  margin-left: 0; // Override Bulma's margin
+  margin-right: 0;
+}
+
+// Code blocks to match theme
+.content pre, pre {
+  background-color: var(--color-background-100);
+  border-radius: var(--radius-2);
+  padding: var(--spacing-6) var(--spacing-7);
+  box-shadow: inset 0 0 0 1px var(--color-border); // Theme style
+  color: var(--color-contrast);
+  overflow-x: auto;
+
+  code {
+    background-color: transparent !important;
+    color: inherit !important;
+    padding: 0 !important;
+    font-size: var(--font-small) !important; // Ensure code block font size matches
+    box-shadow: none !important;
+  }
+}
+
+.content :not(pre) > code, :not(pre) > code {
+  background-color: var(--color-background-100);
+  border-radius: var(--radius-1);
+  padding: var(--spacing-2) var(--spacing-3);
+  box-shadow: inset 0 0 0 1px var(--color-border);
+  color: var(--color-contrast);
+  font-size: 0.875em; // Slightly smaller than body
+}
+
+// Tables - basic theming
+.table {
+  th {
+    color: var(--color-contrast);
+    font-weight: var(--font-weight-medium);
+    border-color: var(--color-border);
+  }
+  td {
+    border-color: var(--color-border);
+    color: var(--color-foreground);
+  }
+  thead, tfoot {
+    th, td {
+      border-bottom-width: 1px; // Theme has 1px border bottom for thead
+    }
+  }
+  tbody tr:last-child {
+    td, th {
+      border-bottom-width: 0; // No bottom border for last row in body
+    }
+  }
+  &.is-hoverable tbody tr:hover {
+    background-color: var(--color-background-100);
+  }
+}
+
+
+//-------------------------------------------------------------------
+// 4. BULMA COMPONENT SPECIFIC STYLING
+// (using CSS custom properties for easy theming)
+//-------------------------------------------------------------------
+
+.button {
+  // Most button styling is now handled by Bulma Sass Variables (_variables.scss)
+  // This section is for fine-tuning or styles not coverable by vars.
+  font-family: var(--font-family-button);
+  transition: var(--button--transition, opacity 0.15s ease, background-color 0.15s ease, color 0.15s ease);
+  // Ensure border-radius applies if Bulma's default is different
+  border-radius: var(--button--border-radius);
+  min-height: var(--button--min-height);
+  padding: var(--button--padding-v) var(--button--padding-h);
+  font-size: var(--button--font-size); // Ensure this applies
+  font-weight: var(--font-weight-semibold); // Theme uses semibold, Bulma default is medium
+
+  // Match theme's primary button style
+  &.is-primary {
+    background-color: var(--ghost-accent-color);
+    color: var(--button--color); // which is --color-accent-foreground
+    &:hover, &:focus {
+      background-color: var(--button-hover--background-color);
+      color: var(--button-hover--color);
+      opacity: var(--button-hover--opacity, 0.8);
+    }
+  }
+
+  // Style for .is-light buttons to match theme's "background-100" style
+  &.is-light {
+    background-color: var(--color-background-100);
+    color: var(--color-contrast);
+    border-color: transparent; // If theme doesn't have border for these
+    &:hover, &:focus {
+      background-color: var(--color-background-200);
+      color: var(--color-contrast);
+    }
+  }
+}
+
+.card {
+  background-color: var(--color-background); // or --color-background-100
+  border-radius: var(--radius-4);
+  box-shadow: var(--shadow);
+  color: var(--color-foreground);
+  // overflow: hidden; // If images need to be clipped by border-radius
+
+  .card-header {
+    background-color: transparent; // Default Bulma card-header has bg
+    box-shadow: none; // Remove Bulma's default card-header shadow
+    border-bottom: 1px solid var(--color-border);
+    .card-header-title {
+      color: var(--color-contrast);
+      font-family: var(--font-family-headings);
+      font-weight: var(--font-weight-semibold);
+    }
+  }
+
+  .card-image {
+    // If image is direct child and needs to be clipped by card's border-radius
+    img {
+      border-top-left-radius: calc(var(--radius-4) - 1px); // Adjust if card has border
+      border-top-right-radius: calc(var(--radius-4) - 1px);
+    }
+  }
+
+  .card-content {
+    padding: var(--spacing-8); // Theme-like padding
+  }
+
+  .card-footer {
+    border-top: 1px solid var(--color-border);
+    background-color: transparent;
+    .card-footer-item {
+      color: var(--ghost-accent-color);
+      &:hover {
+        color: darken(var(--ghost-accent-color), 10%);
+      }
+    }
+  }
+}
+
+.box { // Often used as a simpler card
+  background-color: var(--color-background);
+  border-radius: var(--radius-2); // Or --radius-1
+  box-shadow: var(--shadow);
+  padding: var(--spacing-8); // Theme-like padding
+  color: var(--color-foreground);
+}
+
+.navbar {
+  min-height: var(--navbar--min-height);
+  // padding: var(--spacing-4) var(--layout--padding); // Use theme padding, applied inline in HTML before
+  position: sticky; // Ensure it's sticky if that's the theme's behavior
+  top: 0;
+  z-index: 30; // Bulma's default, ensure it's high enough
+  box-shadow: none; // Theme navbar seems flat initially
+
+  // Transparent background effect
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--color-background);
+    opacity: 0.9; // Adjust opacity
+    z-index: -1;
+    // backdrop-filter: blur(10px); // If you want blur, check browser support
+  }
+
+  .navbar-brand {
+    .navbar-item img { // Logo max height
+      max-height: calc(var(--navbar--min-height) - var(--spacing-7)); // Example: 58px - 16px = 42px
+    }
+  }
+
+  .navbar-item, .navbar-link {
+    color: var(--color-foreground); // Or --color-contrast if more prominent
+    font-family: var(--font-family-button); // Or --font-family-body
+    font-size: var(--font-small);
+    font-weight: var(--font-weight-medium);
+    &:hover, &.is-active {
+      background-color: var(--color-background-100); // Subtle hover
+      color: var(--ghost-accent-color);
+    }
+  }
+  .navbar-link::after { // Arrow for dropdowns
+    border-color: var(--ghost-accent-color);
+  }
+  .navbar-dropdown {
+    background-color: var(--dropdown--background-color, var(--color-background));
+    border-radius: var(--radius-2);
+    box-shadow: var(--shadow);
+    border-top: none; // Bulma default might have a top border
+    .navbar-item {
+      color: var(--color-foreground);
+      &:hover {
+        background-color: var(--color-background-100);
+        color: var(--ghost-accent-color);
+      }
+    }
+  }
+}
+
+// Forms
+.input, .textarea, .select select {
+  background-color: var(--color-background-100);
+  border-color: var(--color-border); // Use theme border
+  border-radius: var(--radius-1); // Or var(--radius-6) if inputs are very rounded like buttons
+  color: var(--color-contrast);
+  font-size: var(--font-small);
+  font-weight: var(--font-weight-medium);
+  // min-height: 3rem; // From theme form styles if needed
+  // padding: var(--spacing-6) var(--spacing-8); // From theme
+
+  &:hover {
+    border-color: darken($border, 15%);
+  }
+  &:focus, &.is-focused, &:active, &.is-active {
+    border-color: var(--ghost-accent-color);
+    box-shadow: 0 0 0 0.125em rgba(var(--ghost-accent-color), 0.25); // Bulma focus style, themed
+  }
+  &::placeholder {
+    color: var(--color-mute);
+  }
+}
+.select:not(.is-multiple):not(.is-loading)::after { // Dropdown arrow for select
+  border-color: var(--color-secondary);
+  right: var(--spacing-7); // Adjust position
+}
+
+// Pagination (using theme variables)
+.pagination {
+  .pagination-link, .pagination-previous, .pagination-next {
+    border-color: var(--color-border);
+    color: var(--color-foreground);
+    font-weight: var(--font-weight-medium);
+    min-width: var(--button--min-height); // Match button height
+    height: var(--button--min-height);
+    border-radius: var(--radius-1); // Or --button--border-radius
+    &:hover {
+      border-color: var(--ghost-accent-color);
+      color: var(--ghost-accent-color);
+    }
+    &.is-current {
+      background-color: var(--ghost-accent-color);
+      border-color: var(--ghost-accent-color);
+      color: var(--color-accent-foreground);
+    }
+  }
+  .pagination-ellipsis {
+    color: var(--color-mute);
+  }
+}
+
+// Message component
+.message {
+  border-radius: var(--radius-1);
+  background-color: var(--color-background-100);
+  .message-header {
+    background-color: var(--color-background-200);
+    color: var(--color-contrast);
+    font-weight: var(--font-weight-semibold);
+    border-bottom: 1px solid var(--color-border);
+    border-top-left-radius: var(--radius-1);
+    border-top-right-radius: var(--radius-1);
+  }
+  .message-body {
+    border-color: var(--color-border); // For the side border if any
+    color: var(--color-foreground);
+    padding: var(--spacing-7);
+    border-width: 0 0 0 4px; // If messages have a side accent
+    // Example for different message types
+    &.is-info { border-left-color: $info; }
+    &.is-success { border-left-color: var(--color-success); }
+    &.is-warning { border-left-color: $warning; }
+    &.is-danger { border-left-color: var(--color-error); }
+  }
+}
+
+// Footer
+.footer {
+  background-color: var(--color-background-100); // Or a darker shade
+  color: var(--color-secondary);
+  padding: var(--spacing-10) var(--layout--padding); // Large padding
+  a {
+    color: var(--color-foreground);
+    &:hover {
+      color: var(--ghost-accent-color);
+    }
+  }
+}
+
+// Specific styling for your archive cards
+.archive-column-cards {
+  .post-item-box {
+    background-color: var(--color-background);
+    border-radius: var(--radius-2); // Theme's card radius
+    box-shadow: var(--shadow);
+    color: var(--color-foreground);
+
+    .post-media-container {
+      .image img { // Assuming .image is a Bulma class
+        border-top-left-radius: var(--radius-2);
+        border-top-right-radius: var(--radius-2);
+      }
+      .video-thumbnail-container-column img {
+         border-top-left-radius: var(--radius-2);
+         border-top-right-radius: var(--radius-2);
+      }
+    }
+    .content {
+      padding: var(--spacing-7); // Use theme spacing
+      .level-item .tag { // Category tags
+        font-size: var(--font-x-small);
+        padding: var(--spacing-2) var(--spacing-4);
+      }
+      .title.is-5 {
+        color: var(--color-contrast);
+        font-family: var(--font-family-headings);
+        font-weight: var(--font-weight-semibold);
+      }
+      .excerpt-text-column {
+        color: var(--color-secondary);
+        font-size: var(--font-small);
+      }
+      .message { // TLDR message
+         background-color: var(--color-background-100);
+         border-radius: var(--radius-1);
+         .message-body {
+            border-left-width: 0; // Remove side border for TLDR
+            padding: var(--spacing-4);
+         }
+      }
+    }
+    .post-item-footer {
+      border-top: 1px solid var(--color-border);
+      padding: var(--spacing-6);
+      .tags .tag {
+        background-color: var(--color-background-100);
+        color: var(--color-secondary);
+        font-size: var(--font-x-small);
+      }
+    }
+  }
+
+  .ad-placeholder-box, .newsletter-box-column {
+    // Use box styling or customize
+    // min-height: 300px; (from your HTML)
+  }
+  .newsletter-box-column {
+    background-color: var(--color-background-100); // Or an accent color
+    // If using an accent, make sure text contrasts:
+    // color: var(--color-accent-foreground);
+    // .title, .subtitle { color: var(--color-accent-foreground); }
+  }
+}
+
+// Add more overrides as you identify them
