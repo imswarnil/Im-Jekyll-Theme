@@ -2,18 +2,18 @@
 
 //-------------------------------------------------------------------
 // 1. DEFINE CSS CUSTOM PROPERTIES (LIGHT MODE - DEFAULT)
-// These are your source of truth for dynamic styling.
 //-------------------------------------------------------------------
 :root {
-  // Dynamic Ghost variables (provide fallbacks)
+  // Dynamic Ghost/CMS font variables (provide fallbacks from our Sass vars)
   --gh-font-heading: #{$font-family-headings-override};
   --gh-font-body: #{$font-family-main};
 
-  // Accent Color
-  --ghost-accent-color: #{$primary}; // From Bulma's $primary (which uses static)
-  --color-accent-foreground: #{$static-color-accent-foreground};
+  // Jekyll Themed Accent Color
+  --jk-accent-color: #{$primary}; // Uses Bulma's $primary (which is $static-accent-color)
+  --jk-accent-color-rgb: #{$static-accent-color-rgb}; // e.g., 229, 57, 53
+  --jk-accent-foreground-color: #{$static-accent-foreground-color};
 
-  // Core Colors (from your list)
+  // Core Colors (mapping to your theme's naming)
   --color-contrast: #{$static-color-contrast};
   --color-background: #{$static-color-background};
   --color-background-100: #{$static-color-background-100};
@@ -22,22 +22,21 @@
   --color-foreground: #{$static-color-foreground};
   --color-secondary: #{$static-color-secondary};
   --color-mute: #{$static-color-mute};
-  --color-border: #{$static-color-border}; // Use the static value here
+  --color-border: #{$static-color-border};
   --color-success: #{$static-color-success};
   --color-error: #{$static-color-error};
   --color-overlay: rgba(5, 5, 5, 0.7);
 
-  // Font Families
+  // Font Families (reflecting Sass vars)
   --font-family-headings: #{$font-family-headings-override};
   --font-family-body: #{$font-family-main};
   --font-family-button: #{$font-family-buttons-override};
   --font-family-mono: #{$font-family-mono-override};
 
-
-  // Font Sizes
+  // Font Sizes (reflecting Sass vars)
   --font-x-small: #{$size-7};
   --font-small: #{$size-6};
-  --font-base: #{$size-5}; // Base font size for rem units
+  --font-base: #{$size-5};
   --font-large: #{$size-4};
 
   // Font Weights
@@ -47,39 +46,38 @@
   --font-weight-semibold: #{$weight-semibold};
   --font-weight-bold: #{$weight-bold};
 
-  // Spacings (your direct values)
+  // Spacings (direct from your list)
   --spacing-1: 0.125rem; --spacing-2: 0.25rem;  --spacing-3: 0.375rem;
   --spacing-4: 0.5rem;   --spacing-5: 0.625rem; --spacing-6: 0.75rem;
   --spacing-7: 1rem;     --spacing-8: 1.25rem;  --spacing-9: 1.875rem;
   --spacing-10: 5rem;    --spacing-11: 6.25rem;
   --vertical-rhythm: 1.5rem;
 
-  // Border Radius (using Bulma's $radius values, now mostly 0px)
+  // Border Radius (reflecting Sass vars - mostly 0px now)
   --radius-1: #{$radius-small};
   --radius-2: #{$radius};
   --radius-3: #{$radius-large};
-  --radius-4: 0px; // Specific to your theme values, if larger elements also sharp
+  --radius-4: 0px;
   --radius-5: 0px;
-  // --radius-6: clamp(0px, ...); // If you want fluid sharp, else 0px
-  --radius-6: 0px;
+  --radius-6: 0px; // Fallback for fluid value, keeping it sharp
 
   // Layout
-  // --layout--padding: clamp(1rem, ...); // If fluid, else fixed
-  --layout--padding: 1.5rem;
+  --layout--padding: 1.5rem; // Fallback for fluid value
 
   // Navbar
   --navbar--min-height: #{$navbar-height};
 
-  // Button theme vars for custom elements
+  // Button theme vars for custom elements (Bulma buttons use their own Sass vars for base, then CSS vars for overrides)
   --button--padding-v: var(--spacing-4);
   --button--padding-h: var(--spacing-8);
   --button--min-height: 2.5rem;
   --button--font-size: var(--font-small);
-  --button--font-weight: var(--font-weight-medium); // Bulma buttons use $button-weight
+  --button--font-weight: var(--font-weight-medium);
   --button--line-height: 1.5;
-  --button--border-radius: #{$button-radius}; // Use Bulma's (now 20px)
-  --button--color: var(--color-accent-foreground);
-  --button--background-color: var(--ghost-accent-color);
+  --button--border-radius: #{$button-radius}; // Should be 20px
+  // Theme's direct button colors
+  --button--color: var(--jk-accent-foreground-color);
+  --button--background-color: var(--jk-accent-color);
   --button-hover--color: var(--color-background);
   --button-hover--background-color: var(--color-contrast);
   --button-hover--opacity: 0.8;
@@ -88,254 +86,45 @@
   --container--width: #{$container-max-width};
   --container-wide--width: #{$widescreen};
 
-  // Shadow (define it even if not used on cards/boxes, for other elements)
-  --shadow: 0 20px 60px -10px rgba(176, 169, 169, 0.24),
-            0 4px 20px -8px rgba(0, 0, 0, 0.24%);
+  // Shadow (set to none if cards/boxes don't have it, or keep for other elements)
+  --shadow: none; // For elements that should explicitly have no shadow
+  --shadow-themed: 0 20px 60px -10px rgba(176, 169, 169, 0.24),
+                   0 4px 20px -8px rgba(0, 0, 0, 0.24%); // Original theme shadow
 
   color-scheme: light;
 }
 
-//-------------------------------------------------------------------
-// 2. GLOBAL HTML & BODY STYLES (Using CSS Custom Properties)
-//-------------------------------------------------------------------
-html {
-  background-color: var(--color-background);
-  font-size: $body-size; // Use Sass var for root font size
-}
+// --- The rest of _overrides.scss (Global styles, Component overrides) ---
+// Important change for focus box-shadow:
+// In .input, .textarea, .select select:focus rule:
+// box-shadow: 0 0 0 0.125em rgba(var(--jk-accent-color-rgb), 0.25);
 
-body {
-  font-family: var(--font-family-body);
-  font-weight: var(--font-weight-regular);
-  color: var(--color-foreground);
-  background-color: var(--color-background);
-  line-height: $body-line-height; // Use Sass var
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+// And update 'a' tag hover color if you want to use Sass darken on the static $link:
+// a:hover {
+//   color: #{$link-hover}; // $link-hover is darken($link, 10%) from _variables.scss
+//   text-decoration-color: transparent;
+// }
+// OR if you want to use CSS vars for more dynamic hover:
+// a:hover {
+//   color: var(--jk-accent-color-hover, darken($static-accent-color, 10%)); // Define --jk-accent-color-hover or use Sass
+//   text-decoration-color: transparent;
+// }
+// For simplicity, let's stick to the current CSS var approach for links for now:
+// a:hover {
+//    color: var(--jk-accent-color); // Or a defined --jk-accent-color-hover
+//    text-decoration-color: transparent;
+// }
 
-//-------------------------------------------------------------------
-// 3. TYPOGRAPHY OVERRIDES (Using CSS Custom Properties)
-//-------------------------------------------------------------------
-.title, .subtitle { // Bulma classes
-  font-family: var(--font-family-headings);
-  color: var(--color-contrast);
-}
-.title {
-  font-weight: var(--font-weight-semibold);
-  // Sizes for .is-N are set by Bulma Sass vars $size-N
-}
-.subtitle {
-  color: var(--color-secondary);
-  font-weight: var(--font-weight-regular);
-}
+// In .card .card-footer .card-footer-item:hover
+// color: darken($static-accent-color, 10%); // This is fine as $static-accent-color is a SASS var
 
-a {
-  color: var(--ghost-accent-color);
-  text-decoration: underline;
-  text-decoration-color: currentColor;
-  text-decoration-thickness: 0.075em;
-  text-underline-offset: 0.15em;
-  transition: color 0.1s ease, text-decoration-color 0.1s ease;
-  &:hover {
-    color: var(--ghost-accent-color); // Or a hover variant if defined
-    text-decoration-color: transparent;
-  }
-}
+// In .archive-column-cards .post-item-box .content .message
+// &.is-warning { background-color: rgba($static-color-warning, 0.1); } // Use the static var for rgba
+// &.is-info { background-color: rgba($static-color-info, 0.1); }
 
-.content blockquote, blockquote {
-  border-left: 2px solid var(--ghost-accent-color);
-  color: var(--color-contrast);
-  font-weight: var(--font-weight-medium);
-  padding: var(--spacing-4) var(--spacing-7);
-  background-color: transparent;
-  margin-left: 0; margin-right: 0;
-}
+// In .archive-column-cards .post-item-box .post-item-footer .buttons .button.is-dark.is-light:hover
+// background-color: darken($static-color-background-300, 5%); // Example of using Sass func on static var
 
-.content pre, pre {
-  background-color: var(--color-background-100);
-  border-radius: var(--radius-1); // Or 0
-  padding: var(--spacing-6) var(--spacing-7);
-  border: 1px solid var(--color-border);
-  box-shadow: none; // No shadow
-  color: var(--color-contrast);
-  font-size: var(--font-small);
-  font-family: var(--font-family-mono);
-  code {
-    background-color: transparent !important;
-    color: inherit !important;
-    padding: 0 !important;
-    font-size: inherit !important;
-    border-radius: 0 !important;
-    border: none !important;
-    box-shadow: none !important;
-  }
-}
-.content :not(pre) > code, :not(pre) > code {
-  background-color: var(--color-background-100);
-  border-radius: var(--radius-1); // Or 0
-  padding: var(--spacing-2) var(--spacing-3);
-  border: 1px solid var(--color-border);
-  box-shadow: none; // No shadow
-  color: var(--color-contrast);
-  font-family: var(--font-family-mono);
-  font-size: 0.875em;
-}
-
-//-------------------------------------------------------------------
-// 4. BULMA COMPONENT SPECIFIC STYLING
-//-------------------------------------------------------------------
-
-.button {
-  font-family: var(--font-family-button);
-  font-weight: var(--font-weight-semibold); // Match theme
-  // Other properties like padding, min-height, border-radius are set by Bulma Sass variables
-  // and should reflect the theme if $button-radius was set to calc(var(--button--min-height) * 0.5) value.
-  // Or override border-radius here if Bulma's var isn't enough:
-  // border-radius: var(--button--border-radius);
-  transition: var(--button--transition, background-color 0.15s ease, color 0.15s ease, opacity 0.15s ease);
-
-  &.is-primary { // Should take colors from $button-color & $button-background-color
-    &:hover, &:focus { // Use theme's hover colors
-      background-color: var(--button-hover--background-color);
-      color: var(--button-hover--color);
-      opacity: var(--button-hover--opacity, 0.8);
-    }
-  }
-  &.is-light { // Style Bulma's light button to match theme
-    background-color: var(--color-background-100);
-    color: var(--color-contrast);
-    border: 1px solid var(--color-border);
-    &:hover, &:focus {
-      background-color: var(--color-background-200);
-      border-color: var(--color-border); // Keep border or use hover var
-    }
-  }
-}
-
-// Cards and Boxes: Enforce NO SHADOW, LIGHT BORDER, NO RADIUS
-// Bulma Sass variables $card-radius, $box-radius, $card-shadow, $box-shadow
-// have been set to 0 or none. We add the border here.
-.card, .box {
-  border-radius: 0 !important; // Enforce, just in case
-  box-shadow: none !important;   // Enforce
-  border: 1px solid var(--color-border) !important;
-  background-color: var(--color-background);
-}
-
-.card {
-  .card-header {
-    background-color: transparent;
-    box-shadow: none;
-    border-bottom: 1px solid var(--color-border);
-    border-radius: 0 !important;
-    padding: var(--spacing-6) var(--spacing-7);
-    .card-header-title {
-      color: var(--color-contrast);
-      font-family: var(--font-family-headings);
-      font-weight: var(--font-weight-semibold);
-      padding: 0;
-    }
-  }
-  .card-image img {
-    border-radius: 0 !important;
-  }
-  .card-content {
-    padding: var(--spacing-7);
-  }
-  .card-footer {
-    border-top: 1px solid var(--color-border);
-    background-color: transparent;
-    padding: 0;
-    .card-footer-item {
-      padding: var(--spacing-6) var(--spacing-7);
-      color: var(--ghost-accent-color);
-      border-right: 1px solid var(--color-border);
-      &:last-child { border-right: none; }
-      &:hover {
-        color: var(--ghost-accent-color); // Or a hover accent
-        background-color: var(--color-background-100);
-      }
-    }
-  }
-}
-
-.box { // Padding set by $box-padding via Sass var
-  padding: var(--spacing-8);
-}
-
-.navbar {
-  min-height: var(--navbar--min-height);
-  background-color: transparent;
-  box-shadow: none;
-  border-bottom: 1px solid var(--color-border);
-
-  &:before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: var(--color-background);
-    opacity: 0.98;
-    z-index: -1;
-  }
-  // Navbar items styling mainly comes from Bulma Sass Variables
-}
-
-// Forms
-.input, .textarea, .select select {
-  background-color: var(--color-background-100);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-1); // Or 0px if you want fully sharp inputs
-  color: var(--color-contrast);
-  min-height: var(--button--min-height);
-  padding: var(--button--padding-v) var(--button--padding-h); // Match button padding
-  font-size: var(--font-small);
-  font-weight: var(--font-weight-medium);
-
-  &:hover {
-    border-color: var(--color-border); // Or a slightly darker static hover border
-  }
-  &:focus, &.is-focused, &:active, &.is-active {
-    border-color: var(--ghost-accent-color);
-    box-shadow: 0 0 0 0.125em rgba($static-primary, 0.25); // Use static for rgba
-  }
-  &::placeholder { color: var(--color-mute); }
-}
-label.label {
-  color: var(--color-contrast);
-  font-weight: var(--font-weight-semibold);
-  margin-bottom: var(--spacing-4);
-  font-size: var(--font-small);
-}
-
-// Your Archive Page Specific Styles
-.archive-column-cards {
-  .post-item-box { // This is a .box or .card
-    // Inherits .box/.card styles: no radius, no shadow, light border
-    .content {
-      .message.is-light { // For TLDR
-         background-color: var(--color-background-100);
-         border-radius: var(--radius-1); // Or 0
-         border: 1px solid var(--color-border); // TLDR messages have a border too
-         border-left-width: 3px; // Accent border
-         &.is-warning { border-left-color: $static-warning; }
-         &.is-info { border-left-color: $static-info; }
-         .message-body {
-            padding: var(--spacing-4) var(--spacing-6);
-         }
-      }
-    }
-    .post-item-footer {
-      .buttons .button {
-        &.is-light {
-          border: 1px solid var(--color-border); // Ensure light buttons in footer also have border
-        }
-      }
-    }
-  }
-  .ad-placeholder-box, .newsletter-box-column {
-    // Will inherit .box styling (no radius, no shadow, light border)
-  }
-  .newsletter-box-column {
-    background-color: var(--color-background-100);
-  }
-}
+// The rest of your _overrides.scss remains largely the same, but ensure that
+// any place you had `var(--ghost-accent-color)` is now `var(--jk-accent-color)`
+// and `var(--ghost-accent-color-rgb)` is now `var(--jk-accent-color-rgb)`.
