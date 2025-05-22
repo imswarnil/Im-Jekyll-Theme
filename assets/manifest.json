@@ -20,5 +20,5 @@ sitemap: false
     ],
   {% endif -%}
   "start_url": "/",
-  "display": "standalone"
+  "display": "fullscreen"
 }
