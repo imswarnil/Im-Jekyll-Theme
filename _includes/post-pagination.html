@@ -1,27 +1,125 @@
-<nav class="pagination is-centered is-primary mt-5" role="navigation" aria-label="pagination">
-  {% if paginator.previous_page %}
-    <a href="{{ site.baseurl }}{{ paginator.previous_page_path }}" class="pagination-previous">
-      &larr; Newer
-    </a>
-  {% else %}
-    <a href="#" class="pagination-previous is-disabled" disabled>
-      &larr; Newer
-    </a>
-  {% endif %}
+---
+title: Archive
+description: "Browse through all our posts"
+layout: page # Or your default layout
+permalink: /archive/
+---
 
-  <span class="pagination-list">
-    <span class="pagination-link">
-      Page: {{ paginator.page }} of {{ paginator.total_pages }}
-    </span>
-  </span>
+<section class="section archive-listing-bulma">
+    <div class="container">
+        <h1 class="title is-2 has-text-centered mb-6">All Posts</h1>
 
-  {% if paginator.next_page %}
-    <a href="{{ site.baseurl }}{{ paginator.next_page_path }}" class="pagination-next">
-      Older &rarr;
-    </a>
-  {% else %}
-    <a href="#" class="pagination-next is-disabled" disabled>
-      Older &rarr;
-    </a>
-  {% endif %}
-</nav>
+        <div class="columns is-multiline">
+            {% if paginator.posts.size == 0 %}
+                <div class="column is-full">
+                    <p class="has-text-centered is-size-4 has-text-grey">No posts found.</p>
+                </div>
+            {% else %}
+                {% for post in paginator.posts %}
+                    <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+                        <div class="card is-flex is-flex-direction-column" style="height: 100%;">
+                            <a href="{{ post.url | relative_url }}" class="is-flex is-flex-direction-column is-flex-grow-1" style="text-decoration: none; color: inherit;">
+                                {% if post.image %}
+                                    <div class="card-image">
+                                        <figure class="image {% if post.category == 'video' %}is-16by9{% else %}is-4by3{% endif %}">
+                                            {% if post.category == "video" and post.VideoId %}
+                                                <img src="https://i.ytimg.com/vi/{{ post.VideoId }}/hqdefault.jpg" alt="{{ post.title | escape }}" style="object-fit: cover;">
+                                            {% else %}
+                                                <img src="{{ post.image | relative_url }}" alt="{{ post.title | escape }}" style="object-fit: cover;">
+                                            {% endif %}
+                                        </figure>
+                                    </div>
+                                {% endif %}
+
+                                <div class="card-content is-flex-grow-1">
+                                    <div class="content">
+                                        <p class="title is-5 mb-2">{{ post.title | escape }}</p>
+                                        <p class="subtitle is-7 has-text-grey mb-3">
+                                            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %d, %Y" }}</time>
+                                        </p>
+                                        <div class="is-size-6 mb-3 post-excerpt">
+                                            {% if post.excerpt %}
+                                                {{ post.excerpt | strip_html | truncatewords: 25 }}
+                                            {% else %}
+                                                {{ post.content | strip_html | truncatewords: 25 }}
+                                            {% endif %}
+                                        </div>
+                                        {% assign category_slug = post.category | default: "general" | slugify %}
+                                        <div class="tags">
+                                            <span class="tag is-rounded
+                                                {% if category_slug == 'video' %}is-danger{% endif %}
+                                                {% if category_slug == 'course' %}is-success{% endif %}
+                                                {% if category_slug == 'project' %}is-primary{% endif %}
+                                                {% if category_slug == 'journal' %}is-warning{% endif %}
+                                                {% if category_slug == 'blog' or category_slug == 'post' or category_slug == 'general' %}is-info{% endif %}
+                                                is-light">
+                                                <span class="icon is-small mr-1">
+                                                    {% if category_slug == "video" %}<i class="ph-bold ph-youtube-logo"></i>
+                                                    {% elsif category_slug == "course" %}<i class="ph-bold ph-graduation-cap"></i>
+                                                    {% elsif category_slug == "project" %}<i class="ph-bold ph-git-branch"></i>
+                                                    {% elsif category_slug == "journal" %}<i class="ph-bold ph-notebook"></i>
+                                                    {% else %}<i class="ph-bold ph-article"></i>
+                                                    {% endif %}
+                                                </span>
+                                                {{ post.category | default: "General" | capitalize }}
+                                            </span>
+                                            {# You can add more tags from post.tags here if you want #}
+                                            {# {% for tag_item in post.tags limit:2 %}
+                                                <span class="tag is-light">{{ tag_item }}</span>
+                                            {% endfor %} #}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        {% comment %} --- Bulma Styled Pagination (Adapted from your "Newer/Older" logic) --- {% endcomment %}
+        {% if paginator.total_pages > 1 %}
+        <nav class="pagination is-centered is-primary mt-6" role="navigation" aria-label="pagination">
+            {# Previous Page ("Newer Posts") Link #}
+            {% if paginator.previous_page %}
+                <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination-previous button is-light">
+                    <span class="icon is-small"><i class="ph-bold ph-arrow-left"></i></span>
+                    <span>Newer</span>
+                </a>
+            {% else %}
+                <a class="pagination-previous button is-light" disabled>
+                    <span class="icon is-small"><i class="ph-bold ph-arrow-left"></i></span>
+                    <span>Newer</span>
+                </a>
+            {% endif %}
+
+            {# Next Page ("Older Posts") Link #}
+            {% if paginator.next_page %}
+                <a href="{{ paginator.next_page_path | relative_url }}" class="pagination-next button is-light">
+                    <span>Older</span>
+                    <span class="icon is-small"><i class="ph-bold ph-arrow-right"></i></span>
+                </a>
+            {% else %}
+                <a class="pagination-next button is-light" disabled>
+                    <span>Older</span>
+                    <span class="icon is-small"><i class="ph-bold ph-arrow-right"></i></span>
+                </a>
+            {% endif %}
+
+            {# Page Number List - Kept your working logic #}
+            <ul class="pagination-list">
+                {% for page_num in (1..paginator.total_pages) %}
+                    {% if page_num == paginator.page %}
+                        <li><a class="pagination-link is-current" aria-label="Page {{ page_num }}" aria-current="page">{{ page_num }}</a></li>
+                    {% elsif page_num == 1 %}
+                        <li><a href="{{ site.paginate_path | relative_url | replace: 'page:num/', '' | default: '/archive/' | relative_url }}" class="pagination-link" aria-label="Goto page {{ page_num }}">{{ page_num }}</a></li>
+                    {% else %}
+                        <li><a href="{{ site.paginate_path | relative_url | replace: ':num', page_num }}" class="pagination-link" aria-label="Goto page {{ page_num }}">{{ page_num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </nav>
+        {% endif %}
+
+    </div>
+</section>
