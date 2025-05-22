@@ -3,7 +3,7 @@ layout: compress
 ---
 
 <!DOCTYPE html>
-<html lang="{{ site.lang | default: 'en-US' }}" class="{% if site.fixed_navbar %}has-navbar-fixed-top{% endif %}" >
+<html lang="{{ site.lang | default: 'en-US' }}" id="htmlTag" data-theme="dark" class="{% if site.fixed_navbar %}has-navbar-fixed-top{% endif %}">
 {% include im-head.html %}
 <body class="layout-{{ page.layout | default: 'default'}} im-main-content-area">
     {% include im-navbar.html %}
@@ -13,5 +13,41 @@ layout: compress
    {% include site-before-end.html %}
    {% include head/sw.html %}
    <script src="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2"></script>
+   <script>
+    const htmlTag = document.getElementById('htmlTag');
+  const toggleBtn = document.getElementById('themeToggleBtn');
+  const icon = document.getElementById('themeToggleIcon');
+
+  // Optional: Add transition on theme switch
+  function addThemeTransition() {
+    htmlTag.style.transition = 'background-color 0.5s ease, color 0.5s ease';
+  }
+
+  function setTheme(theme) {
+    htmlTag.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+
+    if (theme === 'dark') {
+      icon.className = 'ph ph-moon'; // Phosphor icon for dark mode
+    } else {
+      icon.className = 'ph ph-sun'; // Phosphor icon for light mode
+    }
+
+    addThemeTransition();
+  }
+
+  // Toggle handler
+  toggleBtn.addEventListener('click', () => {
+    const currentTheme = htmlTag.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+  });
+
+  // On page load, apply saved theme
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(savedTheme);
+  });
+   </script>
 </body>
 </html>

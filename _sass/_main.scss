@@ -5,3 +5,7 @@ $link : $primary;
 $family-sans-serif: "Outfit", "Arial", sans-serif !default;
 $family-monospace: "Roboto Mono", monospace !default;
 @import "../node_modules/bulma/sass/index";
+
+html {
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
