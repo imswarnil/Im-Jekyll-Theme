@@ -129,7 +129,6 @@ description_separator: <!-- more -->
 #------------------------------------------------------------------------------------------------
 css_inline: false
 sass:
-  sass_dir: _scss
   style: compressed
   
 theme_color : '#fff'
