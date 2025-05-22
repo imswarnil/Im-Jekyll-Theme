@@ -1,113 +1,170 @@
-{% comment %} --- Enhanced Newer / Older Post Navigation with Image Left --- {% endcomment %}
-{% assign newer_post = page.previous %}
+{% comment %}
+  Insert this section in your layout (e.g., _layouts/default.html or _layouts/page visually appealing and robust using Bulma, still focusing on **pure Bulma classes and helpers** with no custom CSS beyond.html)
+  AFTER your navbar include and BEFORE your main content/hero section.
+{% endcomment %}
+
+{% what your Bulma theme variables provide.
+
+We'll aim for a more card-like appearance for the "Newer" if page.url != "/" %} {# Don't show on homepage itself #}
+<section class="section is-small py-4 has-background-white-bis beautiful-breadcrumb-ad-bar"> {# py-4 and "Older" post previews, ensuring they are responsive and look good.
+
+Here's the refined section for your `_layouts/post.html`:
+
+```html
+{% comment %} --- Enhanced & Beautified Newer / Older Post Navigation --- {% endcomment %}
+{% for a bit more vertical space, white-bis for very light bg #}
+    <div class="container">
+         assign newer_post = page.previous %}
 {% assign older_post = page.next %}
 
 {% if newer_post or older_post %}
-<section class="section is-small post-navigation-section-enhanced">
+<section class="section is-medium post-navigation-beautified pt<div class="columns is-vcentered is-mobile"> {# is-vcentered for vertical alignment, is-mobile for responsive-5 pb-6"> {# Added padding utilities #}
     <div class="container">
-        <div class="columns is-variable is-2-mobile is-4-tablet">
+        <hr stacking #}
 
-        
+            {# Left Column: Back Button and Breadcrumbs #}
+            <div class="column is-narrow class="mb-6"> {# A subtle divider before the navigation #}
+        <div class="columns is-variable-tablet is-full-mobile"> {# Takes content width on tablet+, full on mobile #}
+                <div is-1-mobile is-2-tablet is-3-desktop"> {# Responsive column gaps #}
+
+            {# class="is-flex is-align-items-center">
+                    {# Back Button - More subtle, icon-focused Newer Post Block - styled like a preview card #}
             <div class="column">
                 {% if newer_post %}
-                    <a href="{{ newer_post.url | relative_url }}" class="box post-nav-box is-block" title="Newer Post: {{ newer_post.title | escape }}">
-                        <p class="heading is-size-7 has-text-grey mb-2">
-                            <span class="icon is-small"><i class="ph-bold ph-arrow-left"></i></span>
-                            Newer Post
-                        </p>
-                        <article class="media">
-                            {% if newer_post.image %}
-                            <figure class="media-left">
-                                <p class="image is-64x64"> 
-                                    {% if newer_post.category == "video" and newer_post.VideoId %}
-                                        <img src="https://i.ytimg.com/vi/{{ newer_post.VideoId }}/default.jpg" alt="" style="object-fit: cover; border-radius: 4px;">
+                    < on smaller screens #}
+                    <a href="javascript:history.length > 1 ? history.back() : '{{ "/" | relative_url }}';"
+                       class="button is-small is-light is-outlineda href="{{ newer_post.url | relative_url }}" class="post-nav-link is-block" title="Newer Post: {{ newer_post.title | escape }}">
+                        <div class="box is-fullheight is-rounded mr-3"
+                       title="Go Back">
+                        <span class="icon is-small">
+                            <i class="ph-bold ph-arrow-left"></i>
+                        </span>
+                        <span class="is-hidden-mobile">Back</span> {# Hide text on mobile #}
+                    </a>
+
+                    {# Breadcrumbs # is-flex is-flex-direction-column has-hover-shadow"> {# Bulma .box with full height and hover}
+                    <nav class="breadcrumb is-small" aria-label="breadcrumbs" style="flex-grow: 1; effect #}
+                            <p class="heading is-size-7 has-text-grey mb-3">
+                                <span class="icon white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        <ul>
+                            <li>
+                                <a href="{{ '/'-text">
+                                    <span class="icon is-small"><i class="ph-bold ph-arrow-left"></i> | relative_url }}" class="has-text-link">
+                                    <span class="icon is-small</span>
+                                    <span>Newer Post</span>
+                                </span>
+                            </p>
+                            {% if newer_post.image %}"><i class="ph-bold ph-house"></i></span>
+                                    <span>Home</span>
+                                </a>
+                            </li>
+                            
+                                <figure class="image {% if newer_post.category == 'video' %}is-16by9{% else %}is{% if page.category %}
+                                {% assign category_slug = page.category | slugify %}
+                                {% assign category_page_url-3by2{% endif %} mb-3">
+                                    {% if newer_post.category == "video" and newer_post = site.baseurl | append: '/archive/category/' | append: category_slug | append: '/' %}
+                                {% assign.VideoId %}
+                                        <img src="https://i.ytimg.com/vi/{{ newer category_page_object = site.pages | where: "url", category_page_url | first %}
+
+_post.VideoId }}/mqdefault.jpg" alt="" style="object-fit: cover; border-radius                                {% if category_page_object %}
+                                    <li>
+                                        <a href="{{ category_page_object: 4px;">
                                     {% else %}
-                                        <img src="{{ newer_post.image | relative_url }}" alt="" style="object-fit: cover; border-radius: 4px;">
+                                        <img src="{{ newer_post.image | relative_url.url | relative_url }}" class="has-text-link">
+                                            {{ page.category | capitalize }}" alt="" style="object-fit: cover; border-radius: 4px;">
                                     {% endif %}
-                                </p>
-                            </figure>
+                                </figure>
                             {% endif %}
-                            <div class="media-content">
-                                <div class="content">
-                                    <p class="title is-6 mb-1 post-nav-title is-clipped">
-                                        {{ newer_post.title | escape }}
-                                    </p>
-                                    <p class="is-size-7 has-text-grey post-nav-excerpt is-clipped">
-                                        {% if newer_post.excerpt %}{{ newer_post.excerpt | strip_html | truncatewords: 8 }}{% else %}{{ newer_post.content | strip_html | truncatewords: 8 }}{% endif %}
-                                    </p>
-                                </div>
+                            <div class="content is-flex-grow-1">
+                                <h }}
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    {# If no dedicated category page, could4 class="title is-6 mb-1 post-nav-title">{{ newer_post.title | escape }}</h4>
+                                <p class="is-size-7 has-text-grey post-nav-excerpt mb-2">
+                                    {% if newer_post.excerpt %}{{ newer_post.excerpt | strip_html | truncatewords link to a filtered archive view or just display #}
+                                    {# For now, display as non-linked or: 12 }}{% else %}{{ newer_post.content | strip_html | truncatewords: 12 }}{% endif link to a generic archive section #}
+                                    <li>
+                                        <span class="has-text-grey">{{ page.category | capitalize }}</span>
+                                        {# Or: <a href="{{ '/archive/' | relative_url }}# %}
+                                </p>
+                                {% if newer_post.category %}
+                                    {% assign newer_category{{ category_slug }}">{{ page.category | capitalize }}</a> #}
+                                    </li>
+                                {% endif %}
+                            _slug = newer_post.category | slugify %}
+                                    <div class="tags are-small">
+                                        <span{% endif %}
+                            <li class="is-active">
+                                <a href="{{ page.url | relative_url }}" aria class="tag is-rounded
+                                            {% if newer_category_slug == 'video' %}is-danger{% endif %}
+                                            {% if newer_category_slug == 'course' %}is-success{% endif %}
+                                            {% if-current="page" class="has-text-grey-dark has-text-weight-medium" style="pointer newer_category_slug == 'project' %}is-primary{% endif %}
+                                            {% if newer_category_slug == 'journal' %}is-warning{% endif %}
+                                            {% if newer_category_slug == 'blog' or newer_category_slug ==-events: none;">
+                                    {{ page.title | escape | truncatewords: 5 }} {# Truncate long 'post' %}is-info{% endif %}
+                                            is-light">
+                                            <span class="icon page titles in breadcrumb #}
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+             is-small mr-1"><i class="ph-bold ph-tag"></i></span>
+                                            {{ newer_post.</div>
+
+            {# Right Column: Ad Placeholder #}
+            <div class="column is-narrow is-hidden-mobilecategory | capitalize }}
+                                        </span>
+                                    </div>
+                                {% endif %}
                             </div>
-                        </article>
+                        </div>
                     </a>
                 {% else %}
-                    <div class="box post-nav-box is-disabled is-block">
-                        <p class="heading is-size-7 has-text-grey-light mb-2">
-                            <span class="icon is-small"><i class="ph-bold ph-arrow-left"></i></span>
+                    <div class="box is-fullheight is-flex is-flex-direction-column is-justify"> {# Takes content width, hidden on mobile #}
+                <div class="is-flex is-justify-content-flex-content-center has-text-centered post-nav-disabled">
+                        <p class="heading is-size-7 has-text-end">
+                    <div class="ad-placeholder-breadcrumb-bar has-background-white-ter is-flex is-align-items-grey-light mb-1">
+                            <span class="icon is-small"><i class="ph-bold ph-arrow-center is-justify-content-center"
+                         style="width: 220px; height: 5-left"></i></span>
                             Newer Post
                         </p>
-                        <article class="media">
-                            <div class="media-content">
-                                <p class="title is-6 mb-1 has-text-grey-light">None</p>
-                            </div>
-                        </article>
+                        <p class="title is-60px; border: 1px dashed #dbdbdb; border-radius: 4px;">
+                        <span class="is- has-text-grey-light">No newer posts</p>
                     </div>
                 {% endif %}
             </div>
 
-            <div class="column">
-                {% if older_post %}
-                    <a href="{{ older_post.url | relative_url }}" class="box post-nav-box is-block" title="Older Post: {{ older_post.title | escape }}">
-                        <p class="heading is-size-7 has-text-grey mb-2 has-text-right">
-                            Older Post
-                            <span class="icon is-small"><i class="ph-bold ph-arrow-right"></i></span>
-                        </p>
-                        <article class="media">
-                            <div class="media-content has-text-right">
-                                <div class="content">
-                                    <p class="title is-6 mb-1 post-nav-title is-clipped">
-                                        {{ older_post.title | escape }}
-                                    </p>
-                                    <p class="is-size-7 has-text-grey post-nav-excerpt is-clipped">
-                                        {% if older_post.excerpt %}{{ older_post.excerpt | strip_html | truncatewords: 8 }}{% else %}{{ older_post.content | strip_html | truncatewords: 8 }}{% endif %}
-                                    </p>
-                                </div>
-                            </div>
-                            {% if older_post.image %}
-                            <figure class="media-right">
-                                <p class="image is-64x64">
-                                     {% if older_post.category == "video" and older_post.VideoId %}
-                                        <img src="https://i.ytimg.com/vi/{{ older_post.VideoId }}/default.jpg" alt="" style="object-fit: cover; border-radius: 4px;">
-                                    {% else %}
-                                        <img src="{{ older_post.image | relative_url }}" alt="" style="object-fit: cover; border-radius: 4px;">
-                                    {% endif %}
-                                </p>
-                            </figure>
-                            {% endif %}
-                        </article>
-                    </a>
-                {% else %}
-                     <div class="box post-nav-box is-disabled is-block">
-                        <p class="heading is-size-7 has-text-grey-light mb-2 has-text-right">
-                            Older Post
-                            <span class="icon is-small"><i class="ph-bold ph-arrow-right"></i></span>
-                        </p>
-                        <article class="media">
-                            <div class="media-content has-text-right">
-                                <p class="title is-6 mb-1 has-text-grey-light">None</p>
-                            </div>
-                        </article>
+size-7 has-text-grey-light">Advertisement</span>
+                        {# {% include adsense_small_banner.html %} #}            {# "All Posts" link in the middle for larger screens #}
+            <div class="column is-narrow
                     </div>
-                {% endif %}
+                </div>
             </div>
         </div>
     </div>
 </section>
 {% endif %}
 
-<!--
-    No custom <style> block here.
-    All styling relies on:
-    1. Standard Bulma classes.
-    2. Your customizations to Bulma's Sass variables in your main SCSS file.
-    3. Minimal inline styles for object-fit and image border-radius.
+<!-- is-hidden-mobile is-flex is-align-items-center is-justify-content-center">
+
+  No custom <style> block is strictly needed if you rely on Bulma's defaults
+  and your                <a href="{{ '/archive/' | relative_url }}" class="button is-light is-rounded" title="Back to Archive">
+                    <span class="icon"><i class="ph-bold ph-squares-four"></i></span>
+                 SCSS variable customizations for colors, fonts, radii etc.
+  The inline styles are primarily for the ad placeholder dimensions</a>
+            </div>
+
+            {# Older Post Block - styled like a preview card #}
+            <div class="column">
+                {% if older_post %}
+                    <a href="{{ older_post.url | relative_url }}" class="post-nav and minor text overflow handling.
+
+  Ensure Phosphor Icons are linked in your main HTML layout <head>
+  Example-link is-block" title="Older Post: {{ older_post.title | escape }}">
+                        <div class:
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/="box is-fullheight is-flex is-flex-direction-column has-hover-shadow">
+                            <p class="heading is-size-7 has-text-grey mb-3 has-text-right">
+                                <src/bold/style.css">
 -->
