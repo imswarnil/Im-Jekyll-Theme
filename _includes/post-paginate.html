@@ -7,7 +7,7 @@
     <div class="container">
         <div class="columns is-variable is-2-mobile is-4-tablet">
 
-            {# Newer Post Block #}
+        
             <div class="column">
                 {% if newer_post %}
                     <a href="{{ newer_post.url | relative_url }}" class="box post-nav-box is-block" title="Newer Post: {{ newer_post.title | escape }}">
@@ -18,7 +18,7 @@
                         <article class="media">
                             {% if newer_post.image %}
                             <figure class="media-left">
-                                <p class="image is-64x64"> {# Fixed size for consistent image display #}
+                                <p class="image is-64x64"> 
                                     {% if newer_post.category == "video" and newer_post.VideoId %}
                                         <img src="https://i.ytimg.com/vi/{{ newer_post.VideoId }}/default.jpg" alt="" style="object-fit: cover; border-radius: 4px;">
                                     {% else %}
@@ -54,7 +54,6 @@
                 {% endif %}
             </div>
 
-            {# Older Post Block #}
             <div class="column">
                 {% if older_post %}
                     <a href="{{ older_post.url | relative_url }}" class="box post-nav-box is-block" title="Older Post: {{ older_post.title | escape }}">
@@ -63,7 +62,7 @@
                             <span class="icon is-small"><i class="ph-bold ph-arrow-right"></i></span>
                         </p>
                         <article class="media">
-                            <div class="media-content has-text-right"> {# Content aligned right for "Older" #}
+                            <div class="media-content has-text-right">
                                 <div class="content">
                                     <p class="title is-6 mb-1 post-nav-title is-clipped">
                                         {{ older_post.title | escape }}
