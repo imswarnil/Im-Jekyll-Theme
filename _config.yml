@@ -139,15 +139,7 @@ fonts:
     - https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap
     - https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap
 
-compress_html:
-  clippings: all
-  comments: ["<!-- ", " -->"]
-  endings: all
-  ignore:
-    envs: [local]
-  blanklines: false
-  profile: true
-  startings: [html, head, body]
+
 
 # Robots And Indexing Settings
 indexing: true
