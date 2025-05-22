@@ -1,6 +1,8 @@
-
-<article class="section post-page-enji-theme"> 
-    <div class="container content"> 
+---
+layout: default # Or your base layout
+---
+<article class="section post-page"> {# Removed specific theme class, relying on Bulma only #}
+    <div class="container content"> {# Use .content for nice typography on post body #}
         <h1 class="title is-1 has-text-centered">{{ page.title | escape }}</h1>
         {% if page.date %}
         <p class="subtitle is-6 has-text-centered has-text-grey">
@@ -12,8 +14,8 @@
         {% endif %}
 
         {% if page.image %}
-        <figure class="image is-16by9 mb-5">
-            <img src="{{ page.image | relative_url }}" alt="{{ page.title | escape }}">
+        <figure class="image is-16by9 mb-5"> {# Or other appropriate aspect ratio #}
+            <img src="{{ page.image | relative_url }}" alt="{{ page.title | escape }}" style="object-fit: cover;">
         </figure>
         {% endif %}
 
@@ -29,98 +31,109 @@
         {% endif %}
     </div>
 
-    {% comment %} --- Newer / Older Post Navigation --- {% endcomment %}
-    {% assign newer_post = page.previous %} {# In Jekyll, 'previous' is chronologically newer #}
-    {% assign older_post = page.next %}    {# In Jekyll, 'next' is chronologically older #}
+    {% comment %} --- Enhanced Newer / Older Post Navigation with Image, Title, Desc --- {% endcomment %}
+    {% assign newer_post = page.previous %}
+    {% assign older_post = page.next %}
 
     {% if newer_post or older_post %}
-    <section class="section is-small post-navigation-section">
+    <section class="section is-small post-navigation-section-enhanced">
         <div class="container">
-            <nav class="level is-mobile">
-                <div class="level-left">
-                    <div class="level-item">
-                        {% if newer_post %}
-                            <a href="{{ newer_post.url | relative_url }}" class="button is-light is-outlined" title="Newer Post: {{ newer_post.title | escape }}">
-                                <span class="icon is-small"><i class="ph-bold ph-arrow-left"></i></span>
-                                <span>Newer</span>
-                            </a>
-                        {% else %}
-                            <a class="button is-light is-outlined" disabled>
-                                <span class="icon is-small"><i class="ph-bold ph-arrow-left"></i></span>
-                                <span>Newer</span>
-                            </a>
-                        {% endif %}
-                    </div>
+            <div class="columns is-variable is-2-mobile is-4-tablet"> {# Add some gap between columns #}
+                <div class="column">
+                    {% if newer_post %}
+                        <a href="{{ newer_post.url | relative_url }}" class="box post-nav-box is-fullheight" title="Newer Post: {{ newer_post.title | escape }}">
+                            <article class="media is-align-items-center">
+                                <div class="media-left">
+                                    <span class="icon is-medium has-text-primary">
+                                        <i class="ph-bold ph-arrow-left is-size-4"></i>
+                                    </span>
+                                </div>
+                                <div class="media-content">
+                                    <p class="heading is-size-7 has-text-grey mb-1">Newer Post</p>
+                                    <p class="title is-6 mb-1 post-nav-title">{{ newer_post.title | escape }}</p>
+                                    {% if newer_post.image %}
+                                        <figure class="image is-2by1 mb-2" style="max-height: 60px; overflow: hidden;">
+                                            <img src="{{ newer_post.image | relative_url }}" alt="" style="object-fit: cover;">
+                                        </figure>
+                                    {% endif %}
+                                    <p class="is-size-7 has-text-grey post-nav-excerpt">
+                                        {% if newer_post.excerpt %}{{ newer_post.excerpt | strip_html | truncatewords: 10 }}{% else %}{{ newer_post.content | strip_html | truncatewords: 10 }}{% endif %}
+                                    </p>
+                                </div>
+                            </article>
+                        </a>
+                    {% else %}
+                        <div class="box post-nav-box is-disabled is-fullheight">
+                             <article class="media is-align-items-center">
+                                <div class="media-left">
+                                    <span class="icon is-medium has-text-grey-light">
+                                        <i class="ph-bold ph-arrow-left is-size-4"></i>
+                                    </span>
+                                </div>
+                                <div class="media-content">
+                                    <p class="heading is-size-7 has-text-grey-light mb-1">Newer Post</p>
+                                    <p class="title is-6 mb-1 has-text-grey-light">None</p>
+                                </div>
+                            </article>
+                        </div>
+                    {% endif %}
                 </div>
 
-                <div class="level-item has-text-centered is-hidden-mobile">
-                    <a href="{{ '/archive/' | relative_url }}" class="button is-light" title="Back to Archive">
-                        <span class="icon"><i class="ph-bold ph-squares-four"></i></span>
-                        <span>All Posts</span>
-                    </a>
+                <div class="column">
+                    {% if older_post %}
+                        <a href="{{ older_post.url | relative_url }}" class="box post-nav-box is-fullheight" title="Older Post: {{ older_post.title | escape }}">
+                            <article class="media is-align-items-center">
+                                <div class="media-content has-text-right"> {# Align text to right for older post #}
+                                    <p class="heading is-size-7 has-text-grey mb-1">Older Post</p>
+                                    <p class="title is-6 mb-1 post-nav-title">{{ older_post.title | escape }}</p>
+                                     {% if older_post.image %}
+                                        <figure class="image is-2by1 mb-2" style="max-height: 60px; overflow: hidden;">
+                                            <img src="{{ older_post.image | relative_url }}" alt="" style="object-fit: cover;">
+                                        </figure>
+                                    {% endif %}
+                                    <p class="is-size-7 has-text-grey post-nav-excerpt">
+                                        {% if older_post.excerpt %}{{ older_post.excerpt | strip_html | truncatewords: 10 }}{% else %}{{ older_post.content | strip_html | truncatewords: 10 }}{% endif %}
+                                    </p>
+                                </div>
+                                <div class="media-right">
+                                     <span class="icon is-medium has-text-primary">
+                                        <i class="ph-bold ph-arrow-right is-size-4"></i>
+                                    </span>
+                                </div>
+                            </article>
+                        </a>
+                    {% else %}
+                         <div class="box post-nav-box is-disabled is-fullheight">
+                             <article class="media is-align-items-center">
+                                <div class="media-content has-text-right">
+                                    <p class="heading is-size-7 has-text-grey-light mb-1">Older Post</p>
+                                    <p class="title is-6 mb-1 has-text-grey-light">None</p>
+                                </div>
+                                <div class="media-right">
+                                    <span class="icon is-medium has-text-grey-light">
+                                        <i class="ph-bold ph-arrow-right is-size-4"></i>
+                                    </span>
+                                </div>
+                            </article>
+                        </div>
+                    {% endif %}
                 </div>
-
-                <div class="level-right">
-                    <div class="level-item">
-                        {% if older_post %}
-                            <a href="{{ older_post.url | relative_url }}" class="button is-light is-outlined" title="Older Post: {{ older_post.title | escape }}">
-                                <span>Older</span>
-                                <span class="icon is-small"><i class="ph-bold ph-arrow-right"></i></span>
-                            </a>
-                        {% else %}
-                            <a class="button is-light is-outlined" disabled>
-                                <span>Older</span>
-                                <span class="icon is-small"><i class="ph-bold ph-arrow-right"></i></span>
-                            </a>
-                        {% endif %}
-                    </div>
-                </div>
-            </nav>
+            </div>
         </div>
     </section>
     {% endif %}
 </article>
 
-<style>
-/* Minimal styles if needed, mostly relies on Bulma and your SCSS vars */
-.post-page-enji-theme .post-navigation-section {
-    border-top: 1px solid var(--bulma-border-light, #ededed); /* Use Bulma var or your theme's border */
-    margin-top: 2rem; /* Add some space above the navigation */
-}
+<!--
+    No custom <style> block here.
+    All styling relies on:
+    1. Standard Bulma classes.
+    2. Your customizations to Bulma's Sass variables in your main SCSS file
+       (e.g., for $primary color, $radius, $box-shadow, $text colors, etc.).
+    3. Inline styles are used minimally for things like object-fit and specific image height constraints.
+-->
 
-.post-page-enji-theme .post-navigation-section .button {
-    /* You can customize button appearance here if needed,
-       but it should inherit from your global button styles.
-       Example:
-       border-radius: var(--bulma-radius-rounded);
-       font-weight: var(--bulma-weight-semibold);
-    */
-}
-.post-page-enji-theme .post-navigation-section .button .icon {
-    margin-left: 0.25em;
-    margin-right: 0.25em;
-}
-.post-page-enji-theme .content { /* For the main post body */
-    /* Add any specific typography styles for post content here if needed */
-    /* Example:
-    line-height: 1.7;
-    font-size: 1.1rem;
-    */
-}
-.post-page-enji-theme .content h1,
-.post-page-enji-theme .content h2,
-.post-page-enji-theme .content h3,
-.post-page-enji-theme .content h4 {
-    /* margin-top: 2em;
-    margin-bottom: 0.75em; */
-}
-.post-page-enji-theme .card-image figure.image img,
-.post-page-enji-theme figure.image.is-16by9 img {
-    object-fit: cover; /* Ensure images cover their area */
-}
-</style>
-
-<!-- Make sure Phosphor Icons are linked in your main HTML layout <head> -->
+<!-- Ensure Phosphor Icons are linked in your main HTML layout <head> -->
 <!-- Example:
 <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/bold/style.css">
 -->
