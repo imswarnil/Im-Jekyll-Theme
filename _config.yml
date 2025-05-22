@@ -129,7 +129,9 @@ description_separator: <!-- more -->
 #------------------------------------------------------------------------------------------------
 css_inline: false
 sass:
+  sass_dir: _scss
   style: compressed
+  
 theme_color : '#fff'
 fonts:
   preconnect_urls:
@@ -138,8 +140,6 @@ fonts:
     - https://fonts.googleapis.com/css2?family=Geist:wght@100&display=swap
     - https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap
     - https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap
-
-
 
 # Robots And Indexing Settings
 indexing: true
@@ -151,38 +151,13 @@ robots:
 
 # Service Worker Configuration
 service_worker: true
-  id: "/?utm_source=pwa"
-  orientation: "portrait"
-  launch_handler:
-    client_mode: "focus-existing"
-  screenshots:
-    - src: "/assets/screenshots/dummy-mobile-1.jpg"
-      sizes: "540x720"
-      type: "image/jpeg"
-      form_factor: "narrow"
-      label: "Dummy Screenshot 1 - Mobile View"
-    - src: "/assets/screenshots/dummy-desktop-1.png"
-      sizes: "1280x800"
-      type: "image/png"
-      form_factor: "wide"
-      label: "Dummy Screenshot 2 - Desktop View"
-  dir: "ltr"
-  scope: "/"
-  categories:
-    - "news"
-    - "social"
-    - "lifestyle"
-    - "technology"
-    - "portfolio" # Added
-  iarc_rating_id: "dummy_iarc_rating_123abc"
-  related_applications:
-    - platform: "play"
-      url: "https://play.google.com/store/apps/details?id=com.example.app"
-      id: "com.example.app"
-  prefer_related_applications: false
-  scope_extensions:
-   - origin: "https://subdomain.example.com"
-   - origin: "https://partner.example.com"
+
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  profile: true
+  startings: [head, body]
 
 google_analytics: "G-GGHMLZR4YQ"
 adsense:
