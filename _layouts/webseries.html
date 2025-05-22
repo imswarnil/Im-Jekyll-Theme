@@ -1,237 +1,644 @@
-<!DOCTYPE html>
-<html lang="{{ site.lang | default: 'en-US' }}" class="has-navbar-fixed-top has-background-grey-darker">
-{% include im-head.html %}
+---
+layout: default
+---
 
-<head>
-  {% comment %}############ JSON-LD STRUCTURED DATA ############{% endcomment %}
-  {% if page.collection_type == "series_detail" %}
-    {% assign series_episodes = site.webseries | where_exp: "item", "item.collection_type == 'episode' and item.series_slug == page.series_slug" | sort: "episode_number" %}
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSeries",
-      "name": "{{ page.title | escape }}",
-      "description": "{{ page.description | default: page.excerpt | strip_html | escape }}",
-      "image": "{{ page.banner | default: page.default_thumbnail | default: site.defaults.defaults.banner | absolute_url }}",
-      {% if page.actor or page.cast %}
-      "actor": [
-        {% for member in page.cast %}
-          {
-            "@type": "Person",
-            "name": "{{ member.name | escape }}"
-            {% if member.url %},"url": "{{ member.url | absolute_url }}" {% endif %}
-          }{% unless forloop.last %},{% endunless %}
-        {% endfor %}
-      ],
-      {% endif %}
-      "episodes": [
-        {% for episode in series_episodes %}
-          {
-            "@type": "Episode",
-            "url": "{{ episode.url | absolute_url }}",
-            "name": "{{ episode.title | escape }}",
-            "episodeNumber": "{{ episode.episode_number }}",
-            "description": "{{ episode.excerpt | default: episode.content | strip_html | escape }}"
-          }{% unless forloop.last %},{% endunless %}
-        {% endfor %}
-      ]
-    }
-    </script>
-  {% elsif page.collection_type == "episode" %}
-    {% assign parent_series = site.webseries | where_exp: "item", "item.collection_type == 'series_detail' and item.series_slug == page.series_slug" | first %}
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Episode",
-      "name": "{{ page.title | escape }}",
-      "episodeNumber": "{{ page.episode_number }}",
-      {% if parent_series %}
-      "partOfSeries": {
-        "@type": "WebSeries",
-        "name": "{{ parent_series.title | escape }}",
-        "url": "{{ parent_series.url | absolute_url }}"
-      },
-      {% endif %}
-      "description": "{{ page.excerpt | default: page.content | strip_html | escape }}",
-      {% assign ep_thumb_ld = page.thumbnail | default: parent_series.default_thumbnail | default: site.defaults.defaults.episode_thumb %}
-      {% if page.youtube_id %}{% assign ep_thumb_ld = "https://img.youtube.com/vi/" | append: page.youtube_id | append: "/mqdefault.jpg" %}{% endif %}
-      "image": "{{ ep_thumb_ld | absolute_url }}",
-      {% if page.youtube_id %}
-      "video": {
-        "@type": "VideoObject",
-        "name": "{{ page.title | escape }}",
-        "description": "{{ page.excerpt | default: page.content | strip_html | escape }}",
-        "thumbnailUrl": "{{ ep_thumb_ld | absolute_url }}",
-        "uploadDate": "{{ page.published_date | default: page.date | date_to_xmlschema }}",
-        "duration": "{{ page.duration }}",
-        "embedUrl": "https://www.youtube.com/embed/{{ page.youtube_id }}"
-      }
-      {% elsif page.external_video_url %}
-       "video": {
-        "@type": "VideoObject",
-        "name": "{{ page.title | escape }}",
-        "description": "{{ page.excerpt | default: page.content | strip_html | escape }}",
-        "thumbnailUrl": "{{ ep_thumb_ld | absolute_url }}",
-         "uploadDate": "{{ page.published_date | default: page.date | date_to_xmlschema }}",
-        "duration": "{{ page.duration }}",
-        "contentUrl": "{{ page.external_video_url }}"
-        {% comment %} Embed URL might not be applicable for all external sources {% endcomment %}
-      }
-      {% endif %}
-    }
-    </script>
-  {% endif %}
-</head>
+<style>
+      
+        .webseries-page-container .section {
+            padding: 2rem 1.5rem;
+        }
+        .series-intro .title.is-1 {
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .series-intro .subtitle.is-4 {
+            color: #52616b;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+        .series-intro strong { color: #34495e; }
+        .series-intro .tags .tag {
+            background-color: #e0f2f1; /* Light teal */
+            color: #00796b; /* Darker teal */
+            font-weight: 500;
+        }
+        .series-intro .image img {
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
 
-<body class="layout-webseries has-background-grey-darker has-text-light-bis">
-  {% include im-navbar.html %}
+        /* --- Player & Ads Layout --- */
+        .player-section .columns {
+            align-items: flex-start; /* Align columns at the top */
+        }
 
-  <main>
-    {% assign collection_type = page.collection_type %}
+        /* --- Custom Player Container --- */
+        .custom-player-container {
+            background-color: #000;
+            padding: 0;
+            overflow: visible;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
 
-    {% if collection_type == "series_listing" %}
-      <section class="section">
-        <div class="container">
-          <div class="box has-background-grey-dark has-text-centered py-5 mb-6">
-            <p class="has-text-grey-light is-size-7">[Ad Placeholder: Listing Top Banner (e.g., 728x90)]</p>
-          </div>
-          <h1 class="title is-2 has-text-weight-semibold mb-6 has-text-light">{{ page.title | default: "Web Series" }}</h1>
-          {% assign all_series = site.webseries | where_exp: "item", "item.collection_type == 'series_detail'" | sort: "title" %}
-          {% if all_series.size > 0 %}
-            <div class="columns is-multiline is-variable is-4">
-              {% for series in all_series %}
-                {% assign series_thumb = series.default_thumbnail | default: site.defaults.defaults.thumbnail %}
-                <div class="column is-one-third-desktop is-half-tablet">
-                  <a href="{{ series.url | relative_url }}">
-                    <div class="card is-shadowless has-background-grey-darker has-text-light" style="height: 100%; border: 1px solid var(--bulma-grey-dark);">
-                      <div class="card-image"> <figure class="image is-16by9 has-background-grey-dark"> <img src="{{ series_thumb }}" alt="{{ series.title | escape }}" style="object-fit: cover;"> </figure> </div>
-                      <div class="card-content is-flex is-flex-direction-column" style="flex-grow: 1;"> <h3 class="title is-5 has-text-weight-semibold mb-2 has-text-light">{{ series.title }}</h3> <div class="content is-size-7 has-text-grey-light mb-4" style="flex-grow: 1;"> <p>{{ series.description | default: "Explore this series." | strip_html | truncatewords: 15 }}</p> </div> <div class="tags"> {% if series.tags %}{% for tag in series.tags limit:3 %}<span class="tag is-black">{{ tag }}</span>{% endfor %}{% endif %} </div> </div>
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            background-color: #0a0a0a;
+            border-radius: 12px; 
+        }
+        #video-player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+        #video-player video, #video-player iframe { width: 100%; height: 100%; display: block; border-radius: 12px; }
+
+        /* --- Player Controls (refined) --- */
+        .player-controls {
+            background: rgba(18, 18, 18, 0.85); 
+            backdrop-filter: blur(8px); 
+            -webkit-backdrop-filter: blur(8px);
+            padding: 8px 15px;
+            color: #f0f0f0;
+            font-size: 0.875em;
+            border-radius: 10px;
+            opacity: 0; 
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+            position: absolute; 
+            bottom: 12px; 
+            left: 12px;
+            right: 12px;
+            z-index: 21;
+            box-shadow: 0 -3px 15px rgba(0,0,0,0.35);
+            transform: translateY(10px); /* Start slightly offset for transition */
+        }
+        .custom-player-container:hover .player-controls,
+        .custom-player-container.controls-active .player-controls {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .player-controls .level-item { margin-right: 10px; }
+        .player-controls-top { margin-bottom: 8px; }
+        .player-controls-bottom { margin-bottom: 0; }
+
+        input[type="range"] { 
+            -webkit-appearance: none; appearance: none; width: 100%; height: 6px;
+            background: rgba(255,255,255,0.3); outline: none; opacity: 0.9;
+            transition: opacity .2s, background .2s; border-radius: 3px; margin: 7px 0; cursor: pointer;
+        }
+        input[type="range"]:hover { opacity: 1; background: rgba(255,255,255,0.4); }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none; width: 15px; height: 15px; border-radius: 50%;
+            background: #00d1b2; cursor: pointer; margin-top: -4.5px; 
+            box-shadow: 0 0 10px rgba(0, 209, 178, 0.7);
+            transition: transform 0.15s ease-in-out; border: 2px solid rgba(18,18,18,0.9);
+        }
+        input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+        input[type="range"]::-moz-range-thumb { 
+            width: 15px; height: 15px; border-radius: 50%; background: #00d1b2; cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 209, 178, 0.7); border: 2px solid rgba(18,18,18,0.9);
+        }
+        input[type="range"]#progress-bar { background-image: linear-gradient(#00d1b2, #00d1b2); background-size: 0% 100%; background-repeat: no-repeat; }
+        input[type="range"]#volume-slider { width: 75px; background-image: linear-gradient(#00d1b2, #00d1b2); background-size: 100% 100%; background-repeat: no-repeat; }
+        .current-time-display, .total-time-display { font-variant-numeric: tabular-nums; color: #ccc; }
+        
+        .player-controls .button {
+            color: #e8e8e8; background-color: transparent; border: none;
+            transition: color 0.2s ease, transform 0.15s ease, background-color 0.2s ease; 
+            padding: 0.5em 0.7em;
+        }
+        .player-controls .button:hover { color: #00d1b2; background-color: rgba(255,255,255,0.08); transform: scale(1.1); }
+        .player-controls .button.is-primary { background-color: #00d1b2; color: #111; }
+        .player-controls .button.is-primary:hover { background-color: #00c4a7; color: #000; box-shadow: 0 1px 5px rgba(0,209,178,0.25); }
+        #autoplay-checkbox { margin-right: 5px; vertical-align: middle; }
+        #autoplay-checkbox + span { vertical-align: middle; }
+        #next-episode-btn-player {
+            background-color: rgba(0, 209, 178, 0.9); color: #fff; font-weight: 500;
+            margin-left: auto; border: none;
+        }
+        #next-episode-btn-player:hover { background-color: #00d1b2; color: #111; }
+
+
+        /* --- Episode List --- */
+        .episode-list-container .box {
+            background-color: #ffffff;
+            box-shadow: 0 6px 18px rgba(44,62,80,0.08);
+            padding: 0; 
+            border-radius: 8px;
+        }
+        .episode-list-title {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid #eef2f5;
+            margin-bottom: 0;
+            font-weight: 600;
+            color: #34495e;
+        }
+        #episode-list {
+            list-style: none; margin: 0; padding: 0;
+            max-height: 500px; /* Adjust based on your needs */
+            overflow-y: auto;
+        }
+        #episode-list::-webkit-scrollbar { width: 8px; }
+        #episode-list::-webkit-scrollbar-track { background: #f4f6f8; border-radius: 4px; }
+        #episode-list::-webkit-scrollbar-thumb { background: #c5d0db; border-radius: 4px; }
+        #episode-list::-webkit-scrollbar-thumb:hover { background: #adb9c9; }
+
+        #episode-list li {
+            padding: 0.8rem 1.25rem; cursor: pointer; border-bottom: 1px solid #eef2f5;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            font-size: 0.95rem; display: flex; align-items: center; color: #52616b;
+        }
+        #episode-list li:last-child { border-bottom: none; }
+        #episode-list li:hover { background-color: #e0f2f1; color: #00796b; }
+        #episode-list li.is-active {
+            background-color: #00bfa5; 
+            color: white; font-weight: 600;
+        }
+        #episode-list li.is-active:hover { background-color: #00a991; }
+        #episode-list li .icon { margin-right: 0.85rem; color: inherit; }
+        .episode-title-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* --- Display Ad Placeholders --- */
+        .display-ad-placeholder {
+            background-color: #ffffff; border: 1px solid #dfe3e8;
+            display: flex; justify-content: center; align-items: center;
+            text-align: center; color: #8d949e; font-size: 0.9rem;
+            border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            min-height: 90px; 
+        }
+        .sidebar-ad { height: 250px; margin-bottom: 1.5rem; }
+        .bottom-ad { height: 90px; margin-top: 1.5rem; }
+        
+        .series-notes.section { padding-top: 1rem; }
+        .series-notes .content {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 6px 18px rgba(44,62,80,0.08);
+        }
+        .series-notes .content h2, .series-notes .content h3 { color: #34495e; }
+    </style>
+
+    <main class="main">
+        <div class="webseries-page-container">
+            <!-- Series Info -->
+            <section class="section series-intro">
+                <div class="container">
+                    <div class="columns is-vcentered">
+                        {% if page.series_poster %}
+                        <div class="column is-narrow-tablet is-one-quarter-desktop">
+                            <figure class="image is-3by4">
+                                <img src="{{ page.series_poster | relative_url }}" alt="{{ page.title }} Poster">
+                            </figure>
+                        </div>
+                        {% endif %}
+                        <div class="column">
+                            <h1 class="title is-1 is-size-2-mobile">{{ page.title }}</h1>
+                            {% if page.description %}
+                                <p class="subtitle is-4 is-size-5-mobile">{{ page.description }}</p>
+                            {% endif %}
+                            {% if page.creator %}
+                                <p class="is-size-5 mb-3"><strong>Created By:</strong> {{ page.creator }}</p>
+                            {% endif %}
+                            {% if page.tags %}
+                                <div class="tags">
+                                    {% for tag in page.tags %}
+                                        <span class="tag is-medium">{{ tag }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
                     </div>
-                  </a>
                 </div>
-              {% endfor %}
-            </div>
-            <div class="box has-background-grey-dark has-text-centered py-5 mt-6">
-              <p class="has-text-grey-light is-size-7">[Ad Placeholder: Listing Bottom (Responsive)]</p>
-            </div>
-          {% else %} <div class="notification is-warning is-light has-text-dark">No web series found.</div> {% endif %}
+            </section>
+
+            <!-- Player and Episode List Area -->
+            <section class="section player-section pt-0">
+                <div class="container">
+                    <div class="columns">
+                        <!-- Main Player Column -->
+                        <div class="column is-two-thirds-tablet is-three-quarters-desktop">
+                            <div class="box custom-player-container" id="main-player-box">
+                                <div class="video-wrapper">
+                                    <div id="video-player">
+                                        <!-- YouTube Player will be injected here -->
+                                    </div>
+                                </div>
+                                
+                                <div class="player-controls">
+                                    <div class="level is-mobile player-controls-top">
+                                        <div class="level-left">
+                                            <div class="level-item">
+                                                <button id="play-pause-btn" class="button is-small is-rounded is-primary" title="Play/Pause">
+                                                    <span class="icon is-small"><i class="fas fa-play"></i></span>
+                                                </button>
+                                            </div>
+                                            <div class="level-item">
+                                                <button id="prev-episode-btn" class="button is-small is-rounded" title="Previous Episode" disabled>
+                                                    <span class="icon is-small"><i class="fas fa-backward-step"></i></span>
+                                                </button>
+                                            </div>
+                                            <div class="level-item">
+                                                <button id="next-episode-btn" class="button is-small is-rounded" title="Next Episode" disabled>
+                                                    <span class="icon is-small"><i class="fas fa-forward-step"></i></span>
+                                                </button>
+                                            </div>
+                                            <div class="level-item current-time-display">00:00</div>
+                                        </div>
+                                        <div class="level-right">
+                                            <div class="level-item total-time-display">00:00</div>
+                                        </div>
+                                    </div>
+                                    <input type="range" id="progress-bar" class="slider is-fullwidth" min="0" value="0" step="0.1">
+                                    <div class="level is-mobile player-controls-bottom">
+                                        <div class="level-left">
+                                            <div class="level-item">
+                                                <button id="mute-btn" class="button is-small is-rounded" title="Mute/Unmute">
+                                                    <span class="icon is-small"><i class="fas fa-volume-up"></i></span>
+                                                </button>
+                                            </div>
+                                            <div class="level-item">
+                                                <input type="range" id="volume-slider" class="slider volume-slider" min="0" max="1" value="1" step="0.05">
+                                            </div>
+                                            <div class="level-item">
+                                                <label class="checkbox" for="autoplay-checkbox" style="color: #e0e0e0; font-size: 0.9em; display:inline-flex; align-items:center;" title="Autoplay next episode">
+                                                    <input type="checkbox" id="autoplay-checkbox" checked>
+                                                    <span style="margin-left: 5px;">Autoplay</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="level-right">
+                                            <div class="level-item">
+                                                <button id="next-episode-btn-player" class="button is-small is-rounded is-hidden" title="Play Next Episode">
+                                                    Next Episode <span class="icon is-small ml-1"><i class="fas fa-play"></i></span>
+                                                </button>
+                                            </div>
+                                            <div class="level-item">
+                                                <button id="fullscreen-btn" class="button is-small is-rounded" title="Fullscreen">
+                                                    <span class="icon is-small"><i class="fas fa-expand"></i></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             <!-- Bottom Display Ad Placeholder -->
+                            <div class="display-ad-placeholder bottom-ad is-hidden-tablet mt-4">
+                                Mobile Ad Banner
+                            </div>
+                        </div>
+
+                        <!-- Episode List Column -->
+                        <div class="column is-one-third-tablet is-one-quarter-desktop">
+                            <div class="episode-list-container">
+                                <div class="box">
+                                    <h2 class="title is-5 episode-list-title">Episodes</h2>
+                                    <ul id="episode-list">
+                                        <p class="has-text-centered p-4 has-text-grey-light">Loading episodes...</p>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Sidebar Display Ad Placeholder -->
+                            <div class="display-ad-placeholder sidebar-ad mt-4 is-hidden-mobile">
+                                Sidebar Ad (e.g., 300x250)
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Desktop Bottom Ad -->
+                    <div class="columns is-centered is-hidden-mobile">
+                        <div class="column is-three-quarters-desktop is-two-thirds-tablet">
+                             <div class="display-ad-placeholder bottom-ad">
+                                Desktop Ad Banner (e.g., 728x90 or responsive)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Extended Series Content from Markdown -->
+            {% if content and content != "" and content != " " %}
+            <section class="section series-notes">
+                <div class="container">
+                    <div class="columns is-centered">
+                        <div class="column is-three-quarters-desktop is-full-tablet">
+                             <div class="content">
+                                {{ content }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            {% endif %}
         </div>
-      </section>
+    </main>
 
-    {% elsif collection_type == "series_detail" %}
-       {% assign banner_image = page.banner | default: page.default_thumbnail | default: site.defaults.defaults.banner %}
-        <section class="hero is-medium is-dark is-bold" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url('{{ banner_image | relative_url }}'); background-size: cover; background-position: center;">
-          <div class="hero-body"> <div class="container"> <h1 class="title is-2 has-text-weight-bold mb-2">{{ page.title }}</h1> {% if page.subtitle %}<p class="subtitle is-5 mb-4">{{ page.subtitle }}</p>{% endif %} {% assign first_episode = site.webseries | where_exp: "item", "item.collection_type == 'episode' and item.series_slug == page.series_slug" | sort: "episode_number" | first %} {% if first_episode %} <a href="{{ first_episode.url | relative_url }}" class="button is-primary"> <span class="icon is-small"><i class="fas fa-play"></i></span> <span>Watch Episode 1</span> </a> {% endif %} {% if page.youtube_playlist %} <a href="https://www.youtube.com/playlist?list={{ page.youtube_playlist }}" target="_blank" rel="noopener noreferrer" class="button is-danger is-outlined ml-2"> <span class="icon is-small"><i class="fab fa-youtube"></i></span> <span>Playlist</span> </a> {% endif %} </div> </div>
-        </section>
-         <div class="container mt-5 mb-5"> <div class="box has-background-grey-dark has-text-centered py-5"> <p class="has-text-grey-light is-size-7">[Ad Placeholder: Detail - Below Hero (e.g., 728x90)]</p> </div> </div>
-        <section class="section pt-0">
-            <div class="container">
-              <div class="columns is-variable is-5-desktop">
-                <div class="column is-two-thirds-desktop">
-                  <h2 class="title is-4 mb-4 has-text-light">Episodes</h2>
-                  {% assign series_episodes = site.webseries | where_exp: "item", "item.collection_type == 'episode' and item.series_slug == page.series_slug" | sort: "episode_number" %}
-                  {% if series_episodes.size > 0 %} <div class="box has-background-grey-darker p-3"> {% for episode in series_episodes %} {% assign ep_thumb = episode.thumbnail | default: page.default_thumbnail | default: site.defaults.defaults.episode_thumb %} {% if episode.youtube_id %}{% assign ep_thumb = "https://img.youtube.com/vi/" | append: episode.youtube_id | append: "/mqdefault.jpg" %}{% endif %} <a href="{{ episode.url | relative_url }}" class="mb-3 is-block p-1 is-hoverable-list-item" style="border-radius: 4px;"> <article class="media is-align-items-center"> <figure class="media-left"> <p class="image is-128x72 has-background-grey-dark"> <img src="{{ ep_thumb }}" alt="{{ episode.title | escape }}" style="border-radius: 4px;"> </p> </figure> <div class="media-content"> <div class="content"> <p class="mb-1 has-text-light has-text-weight-semibold is-size-6">{{ episode.episode_number }}. {{ episode.title }}</p> <p class="is-size-7 has-text-grey-light"> {% if episode.duration %}<span class="icon-text is-size-7 mr-2"><span class="icon is-small"><i class="far fa-clock"></i></span><span>{{ episode.duration }}</span></span> • {% endif %} {{ episode.excerpt | default: episode.content | strip_html | truncatewords: 12 }} </p> </div> </div> </article> </a> {% endfor %} </div> <div class="box has-background-grey-dark has-text-centered py-5 mt-5"> <p class="has-text-grey-light is-size-7">[Ad Placeholder: Detail - Below Episodes (Responsive)]</p> </div> {% else %} <div class="notification is-info is-light has-text-dark">No episodes found yet.</div> {% endif %}
-                   <div class="mt-6 pt-5" style="border-top: 1px solid var(--bulma-grey-dark);">
-                      <h3 class="title is-5 has-text-light">Comments / Feedback</h3>
-                       <div class="box has-background-grey-dark has-text-centered py-6">
-                         <p class="has-text-grey-light">[Comment System Placeholder (e.g., Disqus)]</p>
-                       </div>
-                   </div>
-                </div>
-                <div class="column is-one-third-desktop">
-                  <div class="box has-background-grey-darker mb-4"> <h3 class="title is-5 mb-3 has-text-light">About</h3> <div class="content is-small has-text-grey-light"> {% if page.description %}<p>{{ page.description }}</p>{% else %}<p>Details coming soon.</p>{% endif %} <div class="field is-grouped is-grouped-multiline mt-3"> <div class="control"> <div class="tags has-addons"> <span class="tag is-black">Episodes</span> <span class="tag is-primary">{{ series_episodes.size }}</span> </div> </div> {% if page.rating %} <div class="control"> <div class="tags has-addons"> <span class="tag is-black">Rating</span> <span class="tag is-warning"> <span class="icon is-small"><i class="fas fa-star"></i></span> <span>{{ page.rating }}</span> </span> </div> </div> {% endif %} {% if page.tags %}{% for tag in page.tags %} <div class="control"><span class="tag is-info is-light">{{ tag }}</span></div> {% endfor %}{% endif %} </div> </div> </div>
-                   <div class="box has-background-grey-dark has-text-centered py-6 mb-4"> <p class="has-text-grey-light is-size-7">[Ad Placeholder: Detail Sidebar (e.g., 300x250)]</p> </div>
-                   <div class="box has-background-grey-darker mb-4">
-                     <h3 class="title is-5 mb-3 has-text-light">Support Us</h3>
-                     <div class="content is-small has-text-grey-light">
-                       <p>If you enjoy this series, please consider supporting its creation.</p>
-                       <div class="buttons is-centered">
-                         <a href="#" class="button is-warning is-light"> <span class="icon is-small"><i class="fas fa-donate"></i></span> <span>Donate</span> </a>
-                         <a href="#" class="button is-info is-light"> <span class="icon is-small"><i class="fas fa-share-alt"></i></span> <span>Share</span> </a>
-                       </div>
-                     </div>
-                   </div>
-                  {% if page.cast and page.cast.size > 0 %} <div class="box has-background-grey-darker"> <h3 class="title is-5 mb-4 has-text-light">Cast</h3> <div class="columns is-mobile is-multiline is-variable is-2"> {% for member in page.cast %} <div class="column is-one-quarter has-text-centered"> <figure class="image is-64x64 is-inline-block mb-1"> <img class="is-rounded" src="{{ member.avatar | default: site.defaults.defaults.cast_avatar }}" alt="{{ member.name | escape }}"> </figure> <p class="is-size-7 has-text-weight-semibold has-text-light">{{ member.name }}</p> {% if member.role %}<p class="is-size-7 has-text-grey-light">{{ member.role }}</p>{% endif %} </div> {% endfor %} </div> </div> {% endif %}
-                </div>
-              </div>
-          </section>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    
+    <script>
+        const youtubePlaylistID = "{{ page.youtube_playlist_id }}";
 
-    {% elsif collection_type == "episode" %}
-      <section class="section pt-4 pb-4">
-        <div class="container is-fluid">
-          <div class="columns is-variable is-4-desktop">
-            <div class="column is-two-thirds-desktop">
-              {% comment %} --- Video Player Logic --- {% endcomment %}
-              {% if page.youtube_id %}
-                <figure class="image is-16by9 has-background-black mb-4">
-                  <iframe class="has-ratio" src="https://www.youtube.com/embed/{{ page.youtube_id }}?autoplay=1&color=white&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="{{ page.title | escape }}"></iframe>
-                </figure>
-              {% elsif page.external_video_url %}
-                 {% comment %} Basic iframe for other sources - might need more specific players {% endcomment %}
-                 <figure class="image is-16by9 has-background-black mb-4">
-                     <iframe class="has-ratio" src="{{ page.external_video_url }}" frameborder="0" allowfullscreen title="{{ page.title | escape }}"></iframe>
-                 </figure>
-              {% else %}
-                <div class="box has-background-black has-text-centered py-6 mb-4"> <p class="has-text-grey">Video Unavailable</p> </div>
-              {% endif %}
+        document.addEventListener('DOMContentLoaded', () => {
+            const videoPlayerContainer = document.getElementById('video-player');
+            const mainPlayerBox = document.getElementById('main-player-box');
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            const playPauseIcon = playPauseBtn.querySelector('.icon i');
+            const progressBar = document.getElementById('progress-bar');
+            const currentTimeDisplay = document.querySelector('.current-time-display');
+            const totalTimeDisplay = document.querySelector('.total-time-display');
+            const muteBtn = document.getElementById('mute-btn');
+            const muteIcon = muteBtn.querySelector('.icon i');
+            const volumeSlider = document.getElementById('volume-slider');
+            const fullscreenBtn = document.getElementById('fullscreen-btn');
+            const fullscreenIcon = fullscreenBtn.querySelector('.icon i');
+            
+            const episodeListUl = document.getElementById('episode-list');
+            const prevEpisodeBtn = document.getElementById('prev-episode-btn');
+            const nextEpisodeBtn = document.getElementById('next-episode-btn');
+            const nextEpisodeBtnPlayer = document.getElementById('next-episode-btn-player');
+            const autoplayCheckbox = document.getElementById('autoplay-checkbox');
 
-              {% assign parent_series = site.webseries | where_exp: "item", "item.collection_type == 'series_detail' and item.series_slug == page.series_slug" | first %}
-              <nav class="breadcrumb is-small mb-3" aria-label="breadcrumbs"> <ul class="has-text-grey-light"> <li><a class="has-text-grey-light" href="{{ '/webseries/' | relative_url }}">Series</a></li> {% if parent_series %} <li><a class="has-text-grey-light" href="{{ parent_series.url | relative_url }}">{{ parent_series.title }}</a></li> {% else %} <li><a class="has-text-grey-light" href="#">{{ page.series_title }}</a></li> {% endif %} <li class="is-active"><a class="has-text-light" href="#" aria-current="page">Episode {{ page.episode_number }}</a></li> </ul> </nav>
-              <h1 class="title is-4 has-text-weight-semibold mb-2 has-text-light">{{ page.episode_number }}. {{ page.title }}</h1>
-              <div class="tags mb-4"> {% if page.duration %}<span class="tag is-dark">{{ page.duration }}</span>{% endif %} {% if page.published_date %}<span class="tag is-dark">{{ page.published_date | date: "%b %d, %Y" }}</span>{% endif %} </div>
-              <div class="content is-normal has-text-light-bis mb-5"> {{ content }} </div>
-               <div class="box has-background-grey-dark has-text-centered py-5 mb-5"> <p class="has-text-grey-light is-size-7">[Ad Placeholder: Episode - Below Description (Responsive)]</p> </div>
-              {% assign current_ep_num = page.episode_number | plus: 0 %}{% assign prev_ep_num = current_ep_num | minus: 1 %}{% assign next_ep_num = current_ep_num | plus: 1 %}{% assign prev_episode = site.webseries | where_exp:"item", "item.collection_type == 'episode' and item.series_slug == page.series_slug and item.episode_number == prev_ep_num" | first %}{% assign next_episode = site.webseries | where_exp:"item", "item.collection_type == 'episode' and item.series_slug == page.series_slug and item.episode_number == next_ep_num" | first %}
-              <div class="buttons is-justify-content-space-between"> {% if prev_episode %} <a href="{{ prev_episode.url | relative_url }}" class="button is-outlined is-light"> <span class="icon is-small"><i class="fas fa-arrow-left"></i></span> <span>Prev</span> </a> {% else %} <span></span> {% endif %} {% if next_episode %} <a href="{{ next_episode.url | relative_url }}" class="button is-primary"> <span>Next</span> <span class="icon is-small"><i class="fas fa-arrow-right"></i></span> </a> {% else %} <span></span> {% endif %} </div>
-            </div>
+            let activePlayer = null;
+            let isSeeking = false;
+            let volumeBeforeMute = 1;
+            let progressUpdateInterval = null;
+            let controlsTimeout = null;
+            
+            let playlistVideos = []; 
+            let currentPlaylistIndex = 0;
 
-            <div class="column is-one-third-desktop">
-               <div class="box has-background-grey-dark has-text-centered py-5 mb-4"> <p class="has-text-grey-light is-size-7">[Ad Placeholder: Episode Sidebar Top (e.g., 300x250)]</p> </div>
-              <h3 class="title is-5 mb-3 has-text-light">Episodes</h3>
-              <div class="box has-background-grey-darker p-2" style="max-height: 65vh; overflow-y: auto;">
-                {% assign series_episodes = site.webseries | where_exp: "item", "item.collection_type == 'episode' and item.series_slug == page.series_slug" | sort: "episode_number" %}
-                {% if series_episodes.size > 0 %}
-                  {% for episode in series_episodes %}
-                    {% assign ep_is_active = false %}{% if episode.url == page.url %} {% assign ep_is_active = true %} {% endif %}
-                    {% assign ep_thumb = episode.thumbnail | default: parent_series.default_thumbnail | default: site.defaults.defaults.episode_thumb %}
-                    {% if episode.youtube_id %}{% assign ep_thumb = "https://img.youtube.com/vi/" | append: episode.youtube_id | append: "/mqdefault.jpg" %}{% endif %}
-                    <a href="{{ episode.url | relative_url }}" class="p-1 is-block {% if ep_is_active %}has-background-grey-dark{% else %}is-hoverable-list-item{% endif %}" style="border-radius: 4px; margin-bottom: 0.5rem;">
-                      <article class="media is-align-items-center">
-                          <figure class="media-left"> <p class="image is-16by9 is-96x54 has-background-grey-dark"> <img src="{{ ep_thumb }}" alt="{{ episode.title | escape }}" style="border-radius: 3px;"> </p> </figure>
-                          <div class="media-content">
-                              <p class="is-size-7 has-text-weight-semibold {% if ep_is_active %}has-text-primary-light{% else %}has-text-light{% endif %} mb-0">{{ episode.episode_number }}. {{ episode.title }}</p>
-                              {% if episode.duration %}<p class="is-size-7 has-text-grey-light"><span class="icon-text is-size-7"><span class="icon is-small"><i class="far fa-clock fa-xs"></i></span><span>{{ episode.duration }}</span></span></p>{% endif %}
-                          </div>
-                           {% if ep_is_active %} <span class="icon is-small has-text-primary ml-auto mr-2"><i class="fas fa-play-circle"></i></span>{% endif %}
-                      </article>
-                    </a>
-                  {% endfor %}
-                {% else %} <p class="has-text-grey is-size-7 p-3">No episodes found.</p> {% endif %}
-              </div>
-               <div class="box has-background-grey-dark has-text-centered py-5 mt-4"> <p class="has-text-grey-light is-size-7">[Ad Placeholder: Episode Sidebar Bottom (e.g., 300x100)]</p> </div>
-                <div class="box has-background-grey-darker mt-4">
-                     <h3 class="title is-6 mb-3 has-text-light">Sponsor / Support</h3>
-                     <div class="content is-small has-text-grey-light">
-                       <p>This space can feature a sponsor logo/link or donation options.</p>
-                       <div class="buttons is-centered">
-                         <a href="#" class="button is-small is-warning is-light">Donate</a>
-                         <a href="#" class="button is-small is-info is-light">Become a Patron</a>
-                       </div>
-                     </div>
-                   </div>
-            </div>
-          </div>
-        </div>
-      </section>
+            const formatTime = (timeInSeconds) => { 
+                if (isNaN(timeInSeconds) || timeInSeconds < 0) return "00:00";
+                const totalSeconds = Math.floor(timeInSeconds);
+                const hours = Math.floor(totalSeconds / 3600);
+                const minutes = Math.floor((totalSeconds % 3600) / 60);
+                const seconds = totalSeconds % 60;
+                const paddedSeconds = String(seconds).padStart(2, '0');
+                const paddedMinutes = String(minutes).padStart(2, '0');
+                if (hours > 0) return `${hours}:${paddedMinutes}:${paddedSeconds}`;
+                return `${paddedMinutes}:${paddedSeconds}`;
+            };
+            const updatePlayPauseIcon = () => { 
+                if (activePlayer && activePlayer.getPlayerState && activePlayer.getPlayerState() === YT.PlayerState.PLAYING) {
+                    playPauseIcon.classList.replace('fa-play', 'fa-pause');
+                } else {
+                    playPauseIcon.classList.replace('fa-pause', 'fa-play');
+                }
+            };
+            const updateVolumeIcon = () => { 
+                let currentVolume = 0; let isMutedFlag = false;
+                if (activePlayer && activePlayer.getVolume) {
+                    currentVolume = activePlayer.getVolume() / 100;
+                    isMutedFlag = activePlayer.isMuted();
+                }
+                muteIcon.classList.remove('fa-volume-up', 'fa-volume-down', 'fa-volume-mute');
+                if (isMutedFlag || currentVolume === 0) muteIcon.classList.add('fa-volume-mute');
+                else if (currentVolume < 0.5) muteIcon.classList.add('fa-volume-down');
+                else muteIcon.classList.add('fa-volume-up');
+            };
+            const updateProgressBarFill = () => { 
+                if (!activePlayer || isNaN(progressBar.max) || progressBar.max <= 0) {
+                    progressBar.style.backgroundImage = `linear-gradient(to right, #00d1b2 0%, #00d1b2 0%, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.3) 100%)`;
+                    return;
+                }
+                const value = (parseFloat(progressBar.value) / parseFloat(progressBar.max)) * 100;
+                progressBar.style.backgroundImage = `linear-gradient(to right, #00d1b2 0%, #00d1b2 ${value}%, rgba(255,255,255,0.3) ${value}%, rgba(255,255,255,0.3) 100%)`;
+            };
+            const updateVolumeSliderFill = () => { 
+                const value = parseFloat(volumeSlider.value) * 100; 
+                volumeSlider.style.backgroundImage = `linear-gradient(to right, #00d1b2 0%, #00d1b2 ${value}%, rgba(255,255,255,0.3) ${value}%, rgba(255,255,255,0.3) 100%)`;
+            };
 
-    {% else %}
-      <section class="section"> <div class="container"> <div class="notification is-danger is-light has-text-dark">Layout Error: Unknown collection type '{{ collection_type }}'.</div> </div> </section>
-    {% endif %}
-  </main>
+            const playerControls = {
+                play: () => { if (activePlayer && activePlayer.playVideo) activePlayer.playVideo(); updatePlayPauseIcon(); },
+                pause: () => { if (activePlayer && activePlayer.pauseVideo) activePlayer.pauseVideo(); updatePlayPauseIcon(); },
+                togglePlayPause: () => {
+                    if (!activePlayer || !activePlayer.getPlayerState) return;
+                    const ps = activePlayer.getPlayerState();
+                    (ps === YT.PlayerState.PLAYING || ps === YT.PlayerState.BUFFERING) ? playerControls.pause() : playerControls.play();
+                },
+                seekTo: (t) => { if (activePlayer && activePlayer.seekTo) activePlayer.seekTo(t, true); },
+                setVolume: (v) => { 
+                    if (activePlayer && activePlayer.setVolume) {
+                        activePlayer.setVolume(v * 100);
+                        if (v === 0 && activePlayer.mute) activePlayer.mute(); 
+                        else if (activePlayer.unMute) activePlayer.unMute();
+                    }
+                    volumeSlider.value = v; updateVolumeSliderFill(); updateVolumeIcon();
+                },
+                toggleMute: () => {
+                    if (!activePlayer || !activePlayer.isMuted) return;
+                    if (activePlayer.isMuted() || (activePlayer.getVolume && activePlayer.getVolume() === 0)) {
+                        if(activePlayer.unMute) activePlayer.unMute();
+                        if(activePlayer.setVolume) activePlayer.setVolume(volumeBeforeMute * 100 > 0 ? volumeBeforeMute * 100 : 50);
+                    } else {
+                        if(activePlayer.getVolume) volumeBeforeMute = activePlayer.getVolume() / 100;
+                        if(activePlayer.mute) activePlayer.mute();
+                    }
+                    volumeSlider.value = activePlayer.isMuted() ? 0 : (activePlayer.getVolume ? activePlayer.getVolume() / 100 : 0);
+                    updateVolumeSliderFill(); updateVolumeIcon();
+                },
+                getCurrentTime: () => (activePlayer && activePlayer.getCurrentTime) ? activePlayer.getCurrentTime() : 0,
+                getDuration: () => (activePlayer && activePlayer.getDuration) ? activePlayer.getDuration() : NaN,
+                toggleFullscreen: () => { 
+                    if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                        if (mainPlayerBox.requestFullscreen) mainPlayerBox.requestFullscreen();
+                        else if (mainPlayerBox.webkitRequestFullscreen) mainPlayerBox.webkitRequestFullscreen();
+                        else if (mainPlayerBox.msRequestFullscreen) mainPlayerBox.msRequestFullscreen();
+                    } else {
+                        if (document.exitFullscreen) document.exitFullscreen();
+                        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                        else if (document.msExitFullscreen) document.msExitFullscreen();
+                    }
+                },
+                next: () => { if (activePlayer && activePlayer.nextVideo) activePlayer.nextVideo(); },
+                previous: () => { if (activePlayer && activePlayer.previousVideo) activePlayer.previousVideo(); },
+                playAt: (idx) => { if (activePlayer && activePlayer.playVideoAt) activePlayer.playVideoAt(idx); }
+            };
 
-  <footer class="footer has-background-black">
-    <div class="content has-text-centered"> <p class="has-text-grey-light"> <strong>{{ site.title | default: "Web Series" }}</strong> </p> <p class="is-size-7 has-text-grey-light mt-2"> © {{ "now" | date: "%Y" }} {{ site.author | default: "" }}. </p> </div>
-  </footer>
+            const resetPlayerUI = () => { 
+                playPauseIcon.classList.replace('fa-pause', 'fa-play');
+                progressBar.value = 0; progressBar.max = 100; 
+                updateProgressBarFill();
+                currentTimeDisplay.textContent = '00:00'; totalTimeDisplay.textContent = '00:00';
+                if (progressUpdateInterval) clearInterval(progressUpdateInterval);
+                nextEpisodeBtnPlayer.classList.add('is-hidden');
+                prevEpisodeBtn.disabled = true; nextEpisodeBtn.disabled = true;
+            };
+            
+            const loadSeriesPlayer = (playlistId) => {
+                if (!playlistId) {
+                    episodeListUl.innerHTML = '<p class="has-text-centered p-4 has-text-grey-light">No playlist ID provided.</p>'; return;
+                }
+                videoPlayerContainer.innerHTML = ''; 
+                if (activePlayer && activePlayer.destroy) activePlayer.destroy();
+                activePlayer = null;
+                resetPlayerUI();
+                episodeListUl.innerHTML = '<p class="has-text-centered p-4 has-text-grey-light">Loading episodes...</p>';
 
-</body>
-</html>
+                if (typeof YT === 'undefined' || typeof YT.Player === 'undefined') {
+                    window.onYouTubeIframeAPIReady = () => loadSeriesPlayer(playlistId); return;
+                }
+
+                activePlayer = new YT.Player('video-player', {
+                    playerVars: {
+                        controls: 0, modestbranding: 1, rel: 0, fs: 0, iv_load_policy: 3,
+                        listType: 'playlist', list: playlistId, origin: window.location.origin
+                    },
+                    events: { 'onReady': onPlayerReady, 'onStateChange': onPlayerStateChange }
+                });
+                if (progressUpdateInterval) clearInterval(progressUpdateInterval);
+                progressUpdateInterval = setInterval(updateProgress, 250);
+            };
+            
+            function populateEpisodeList() {
+                if (!activePlayer || !activePlayer.getPlaylist) {
+                    episodeListUl.innerHTML = '<p class="has-text-centered p-4 has-text-grey-light">Could not load episodes.</p>'; return;
+                }
+                const playlist = activePlayer.getPlaylist();
+                if (!playlist || playlist.length === 0) {
+                    episodeListUl.innerHTML = '<p class="has-text-centered p-4 has-text-grey-light">Playlist is empty or invalid.</p>'; return;
+                }
+                playlistVideos = []; episodeListUl.innerHTML = ''; 
+
+                playlist.forEach((videoId, index) => {
+                    playlistVideos.push({ id: videoId, title: `Episode ${index + 1}` });
+                    const li = document.createElement('li');
+                    li.dataset.index = index;
+                    li.innerHTML = `<span class="icon"><i class="fas fa-play-circle"></i></span><span class="episode-title-text">Episode ${index + 1} (Loading title...)</span>`;
+                    li.addEventListener('click', () => playerControls.playAt(index));
+                    episodeListUl.appendChild(li);
+                });
+                updateEpisodeListHighlight();
+            }
+
+            function updateEpisodeListHighlight() {
+                if (!activePlayer || !activePlayer.getPlaylistIndex || !playlistVideos.length) return;
+                currentPlaylistIndex = activePlayer.getPlaylistIndex();
+
+                document.querySelectorAll('#episode-list li').forEach(li => {
+                    li.classList.remove('is-active');
+                    if (parseInt(li.dataset.index) === currentPlaylistIndex) {
+                        li.classList.add('is-active');
+                        const titleTextElement = li.querySelector('.episode-title-text');
+                        if (titleTextElement && activePlayer.getVideoData && activePlayer.getVideoData().title) {
+                            titleTextElement.textContent = activePlayer.getVideoData().title;
+                            playlistVideos[currentPlaylistIndex].title = activePlayer.getVideoData().title;
+                        } else if (titleTextElement && playlistVideos[currentPlaylistIndex] && playlistVideos[currentPlaylistIndex].title !== `Episode ${currentPlaylistIndex + 1}`) {
+                             titleTextElement.textContent = playlistVideos[currentPlaylistIndex].title;
+                        }
+                        li.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                });
+                prevEpisodeBtn.disabled = (currentPlaylistIndex === 0);
+                nextEpisodeBtn.disabled = (currentPlaylistIndex >= playlistVideos.length - 1);
+                nextEpisodeBtnPlayer.classList.add('is-hidden');
+            }
+
+            window.onYouTubeIframeAPIReady = () => { console.log("YouTube IFrame API is ready."); };
+
+            function onPlayerReady(event) {
+                activePlayer = event.target;
+                playerControls.setVolume(parseFloat(volumeSlider.value));
+                populateEpisodeList(); updateProgress(); showControlsTemporarily();
+            }
+
+            function onPlayerStateChange(event) {
+                updatePlayPauseIcon(); updateEpisodeListHighlight(); 
+                if (event.data === YT.PlayerState.PLAYING) {
+                    showControlsTemporarily(); nextEpisodeBtnPlayer.classList.add('is-hidden');
+                } else if (event.data === YT.PlayerState.ENDED) {
+                    progressBar.value = activePlayer.getDuration ? activePlayer.getDuration() : progressBar.max;
+                    updateProgressBarFill(); mainPlayerBox.classList.add('controls-active');
+                    if (autoplayCheckbox.checked && currentPlaylistIndex < playlistVideos.length - 1) {
+                        playerControls.next();
+                    } else if (currentPlaylistIndex < playlistVideos.length - 1) {
+                        nextEpisodeBtnPlayer.classList.remove('is-hidden'); 
+                    }
+                } else if (event.data === YT.PlayerState.PAUSED) {
+                    mainPlayerBox.classList.add('controls-active');
+                    if(controlsTimeout) clearTimeout(controlsTimeout);
+                }
+                updateProgress();
+            }
+            
+            function showControlsTemporarily() { 
+                mainPlayerBox.classList.add('controls-active');
+                if (controlsTimeout) clearTimeout(controlsTimeout);
+                controlsTimeout = setTimeout(() => {
+                    if (activePlayer && activePlayer.getPlayerState && activePlayer.getPlayerState() === YT.PlayerState.PLAYING) {
+                        mainPlayerBox.classList.remove('controls-active');
+                    }
+                }, 3500); 
+            }
+            mainPlayerBox.addEventListener('mousemove', showControlsTemporarily);
+            mainPlayerBox.addEventListener('mouseleave', () => { 
+                 if (controlsTimeout) clearTimeout(controlsTimeout);
+                 if (activePlayer && activePlayer.getPlayerState && activePlayer.getPlayerState() === YT.PlayerState.PLAYING) {
+                    mainPlayerBox.classList.remove('controls-active');
+                }
+            });
+
+            playPauseBtn.addEventListener('click', playerControls.togglePlayPause);
+            prevEpisodeBtn.addEventListener('click', playerControls.previous);
+            nextEpisodeBtn.addEventListener('click', playerControls.next);
+            nextEpisodeBtnPlayer.addEventListener('click', playerControls.next);
+
+            progressBar.addEventListener('input', () => { 
+                isSeeking = true; currentTimeDisplay.textContent = formatTime(parseFloat(progressBar.value));
+                updateProgressBarFill(); showControlsTemporarily();
+            });
+            progressBar.addEventListener('change', () => { 
+                playerControls.seekTo(parseFloat(progressBar.value)); isSeeking = false; showControlsTemporarily();
+            });
+            volumeSlider.addEventListener('input', () => { 
+                playerControls.setVolume(parseFloat(volumeSlider.value)); showControlsTemporarily();
+            });
+            muteBtn.addEventListener('click', () => { 
+                playerControls.toggleMute(); showControlsTemporarily();
+            });
+            fullscreenBtn.addEventListener('click', playerControls.toggleFullscreen);
+
+            const updateProgress = () => { 
+                if (!activePlayer || isSeeking || !activePlayer.getCurrentTime) return;
+                const currentTime = playerControls.getCurrentTime();
+                const duration = playerControls.getDuration();
+                if (!isNaN(duration) && duration > 0) {
+                    progressBar.value = currentTime; progressBar.max = duration; 
+                    currentTimeDisplay.textContent = formatTime(currentTime);
+                    if (totalTimeDisplay.textContent === "00:00" || totalTimeDisplay.textContent === "--:--") {
+                         totalTimeDisplay.textContent = formatTime(duration);
+                    }
+                    updateProgressBarFill();
+                } else { totalTimeDisplay.textContent = '--:--'; }
+                updatePlayPauseIcon(); 
+            };
+            
+            document.addEventListener('fullscreenchange', () => { 
+                const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+                fullscreenIcon.classList.toggle('fa-compress', !!isFullscreen);
+                fullscreenIcon.classList.toggle('fa-expand', !isFullscreen);
+            });
+            document.addEventListener('webkitfullscreenchange', () => { 
+                const isFullscreen = document.webkitFullscreenElement;
+                fullscreenIcon.classList.toggle('fa-compress', !!isFullscreen);
+                fullscreenIcon.classList.toggle('fa-expand', !isFullscreen);
+            });
+
+            // --- Initial Load from Jekyll Front Matter ---
+            if (youtubePlaylistID) {
+                loadSeriesPlayer(youtubePlaylistID);
+            } else {
+                episodeListUl.innerHTML = '<p class="has-text-centered p-4 has-text-grey-light">Error: YouTube Playlist ID not provided in page front matter.</p>';
+                console.error("Error: youtube_playlist_id not found in page front matter.");
+            }
+        });
+    </script>
