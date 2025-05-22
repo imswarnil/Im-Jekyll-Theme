@@ -14,11 +14,9 @@ layout: page # Or your default layout
             <div class="control is-expanded has-icons-left">
               <input class="input is-medium is-rounded" type="text" placeholder="Search posts, videos, pages..." name="q" id="search-input" autocomplete="off">
               <span class="icon is-left is-medium"><i class="ph-bold ph-magnifying-glass"></i></span>
-              {# Dropdown for suggestions - will be styled by Bulma if .dropdown.is-active is added by JS #}
               <div class="dropdown" id="search-suggestions" style="position: absolute; width: 100%; z-index: 20;">
                 <div class="dropdown-menu" id="dropdown-menu-suggestions" role="menu" style="width: 100%; display: none;">
                   <div class="dropdown-content" id="suggestions-content">
-                    {# Suggestions injected by JS #}
                   </div>
                 </div>
               </div>
@@ -42,26 +40,22 @@ layout: page # Or your default layout
          <div class="level-left"><h2 class="title is-4">Search Results</h2></div>
          <div class="level-right"><p class="has-text-grey is-size-7" id="results-count"></p></div>
        </div>
-       {# No custom grid background, rely on Bulma's section/container background #}
        <div>
            <div class="columns is-multiline" id="results-container">
-               {# Results Cards & Ads Injected Here by JavaScript #}
            </div>
        </div>
        <div id="search-loading-spinner" class="has-text-centered mt-5 py-6" style="display: none;">
-         {# Bulma doesn't have a default spinner class like this, JS needs to handle or use a simple text message #}
          <button class="button is-loading is-large is-primary is-outlined" disabled>Loading</button>
          <p class="has-text-grey mt-3">Searching...</p>
        </div>
        <div id="no-results" class="has-text-centered mt-5" style="display: none;">
-          <div class="box content has-text-centered"> {# Added .content for better typography in box #}
+          <div class="box content has-text-centered">
             <p><span class="icon is-large has-text-grey-light"><i class="ph-bold ph-binoculars is-size-1"></i></span></p>
             <h3 class="title is-5 mt-4">No results found</h3>
             <p class="subtitle is-6 has-text-grey">Try different keywords or check your spelling.</p>
           </div>
         </div>
        <div id="search-error" class="mt-5" style="display: none;">
-           {# Error messages will be injected here by JS using .notification.is-danger #}
        </div>
      </div>
   </div>
