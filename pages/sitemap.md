@@ -226,3 +226,173 @@ seo:
     </div>
   </div>
 </section>
+
+<style>
+    // assets/css/style.scss or similar
+
+// --- Sitemap Page General Styles ---
+.sitemap-page {
+  background-color: hsl(0, 0%, 98%); // Very light grey background for the whole page
+
+  .title.is-1 {
+    color: hsl(0, 0%, 21%); // Bulma's default title color
+  }
+  .subtitle.is-4 {
+    color: hsl(0, 0%, 48%); // Bulma's default subtitle color
+  }
+
+  .sitemap-section {
+    background-color: #fff;
+    padding: 2rem 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,0.05), 0 0 0 1px rgba(10,10,10,0.02);
+
+    .title.is-3 {
+      border-bottom: 2px solid hsl(204, 86%, 53%); // Bulma primary color
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem !important;
+      .icon {
+        margin-right: 0.5rem;
+        color: hsl(204, 86%, 53%);
+      }
+    }
+  }
+}
+
+// --- Key Destinations Tiles ---
+.key-pages-section .tile.is-child {
+  padding: 1.5rem;
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+  }
+  .title .icon { margin-right: 0.5em; }
+}
+
+// --- Post Cards Enhanced ---
+.sitemap-post-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid hsl(0, 0%, 86%); // Softer border
+  border-radius: 6px;
+  overflow: hidden; // Important for child border-radius and image fit
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+  &.raise-on-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08), 0 3px 6px rgba(0,0,0,0.05);
+  }
+
+  .card-image {
+    border-bottom: 1px solid hsl(0, 0%, 93%);
+    img {
+      object-fit: cover;
+      height: 100%; // Ensure image tries to fill its figure container
+      width: 100%;
+    }
+  }
+
+  .card-content {
+    flex-grow: 1;
+    padding: 1rem;
+    .content { margin-bottom: 0;} // Remove extra margin from Bulma's .content
+    .card-post-title a {
+      color: hsl(0, 0%, 29%);
+      &:hover { color: hsl(217, 71%, 53%); }
+    }
+    .post-excerpt {
+      color: hsl(0, 0%, 48%);
+      line-height: 1.5;
+    }
+  }
+
+  .card-footer {
+    background-color: hsl(0, 0%, 98%);
+    border-top: 1px solid hsl(0, 0%, 93%);
+    a.card-footer-item {
+      color: hsl(0, 0%, 48%);
+      font-weight: 500;
+      transition: color 0.2s ease;
+      &:hover {
+        background-color: hsl(0, 0%, 96%);
+        color: hsl(217, 71%, 53%);
+      }
+      .icon { margin-right: 0.3em; }
+    }
+  }
+}
+
+
+// --- Topic Tiles (Categories) ---
+.topic-tile {
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  border-left: 4px solid transparent; // Placeholder for hover effect
+  .media-left .icon {
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.08);
+    border-left-color: hsl(171, 100%, 41%); // Bulma success color
+    .media-left .icon {
+      transform: rotate(-5deg) scale(1.1);
+    }
+  }
+  .title { color: hsl(0,0%,29%); }
+  .subtitle { color: hsl(0,0%,48%); }
+}
+
+// --- Tag Cloud (Tags) ---
+.tags-section .tags .tag {
+  padding: 0.5em 1em;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  &:hover {
+    background-color: hsl(141, 53%, 53%) !important; // Bulma success (stronger)
+    color: white !important;
+    transform: scale(1.05);
+  }
+  .icon { margin-right: 0.3em; }
+}
+
+// --- Other Pages List ---
+.other-pages-section .sitemap-list {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+  li a {
+    display: inline-flex; // For icon alignment
+    align-items: center;
+    padding: 0.4em 0;
+    font-size: 1rem;
+    color: hsl(217, 71%, 53%);
+    transition: color 0.2s ease;
+    .icon { margin-right: 0.5em; color: hsl(217, 71%, 65%);}
+    &:hover {
+      color: hsl(217, 71%, 48%);
+      text-decoration: underline;
+      .icon {color: hsl(217, 71%, 48%);}
+    }
+  }
+}
+
+// Helper for icon usage in titles etc.
+.icon-text .icon {
+  vertical-align: middle;
+}
+
+// General link styling for sitemap tiles
+a.sitemap-tile-link {
+  display: block; // Make the whole tile clickable
+  text-decoration: none !important; // Remove underline from tile links
+  p.title, p.subtitle {
+    transition: color 0.2s ease;
+  }
+  &:hover {
+    p.title { color: hsl(217, 71%, 48%) !important; } // Adjust hover color if needed
+  }
+}
+    </style>
