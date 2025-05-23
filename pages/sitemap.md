@@ -1,11 +1,178 @@
 ---
 layout: default
 title: Site Overview
-permalink: /site/ # New permalink
+permalink: /site/
 seo:
   title: Site Overview & Sitemap - A Holistic View of Our Content
   description: Discover everything on our site! Explore pages, blog posts, topics (categories), and keywords (tags) in a visually organized manner.
 ---
+
+<style>
+/* --- Sitemap Page General Styles --- */
+.sitemap-page {
+  background-color: hsl(0, 0%, 98%); /* Very light grey background for the whole page */
+}
+
+.sitemap-page .title.is-1 {
+  color: hsl(0, 0%, 21%); /* Bulma's default title color */
+}
+.sitemap-page .subtitle.is-4 {
+  color: hsl(0, 0%, 48%); /* Bulma's default subtitle color */
+}
+
+.sitemap-page .sitemap-section {
+  background-color: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,0.05), 0 0 0 1px rgba(10,10,10,0.02);
+}
+
+.sitemap-page .sitemap-section .title.is-3 {
+  border-bottom: 2px solid hsl(204, 86%, 53%); /* Bulma primary color */
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem !important;
+}
+.sitemap-page .sitemap-section .title.is-3 .icon {
+  margin-right: 0.5rem;
+  color: hsl(204, 86%, 53%);
+}
+
+/* --- Key Destinations Tiles --- */
+.sitemap-page .key-pages-section .tile.is-child {
+  padding: 1.5rem;
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+.sitemap-page .key-pages-section .tile.is-child:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+.sitemap-page .key-pages-section .tile.is-child .title .icon { margin-right: 0.5em; }
+
+/* --- Post Cards Enhanced --- */
+.sitemap-page .sitemap-post-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid hsl(0, 0%, 86%); /* Softer border */
+  border-radius: 6px;
+  overflow: hidden; /* Important for child border-radius and image fit */
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.sitemap-page .sitemap-post-card.raise-on-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08), 0 3px 6px rgba(0,0,0,0.05);
+}
+
+.sitemap-page .sitemap-post-card .card-image {
+  border-bottom: 1px solid hsl(0, 0%, 93%);
+}
+.sitemap-page .sitemap-post-card .card-image img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.sitemap-page .sitemap-post-card .card-content {
+  flex-grow: 1;
+  padding: 1rem;
+}
+.sitemap-page .sitemap-post-card .card-content .content { margin-bottom: 0;}
+.sitemap-page .sitemap-post-card .card-content .card-post-title a {
+  color: hsl(0, 0%, 29%);
+}
+.sitemap-page .sitemap-post-card .card-content .card-post-title a:hover { color: hsl(217, 71%, 53%); }
+.sitemap-page .sitemap-post-card .card-content .post-excerpt {
+  color: hsl(0, 0%, 48%);
+  line-height: 1.5;
+}
+
+.sitemap-page .sitemap-post-card .card-footer {
+  background-color: hsl(0, 0%, 98%);
+  border-top: 1px solid hsl(0, 0%, 93%);
+}
+.sitemap-page .sitemap-post-card .card-footer a.card-footer-item {
+  color: hsl(0, 0%, 48%);
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+.sitemap-page .sitemap-post-card .card-footer a.card-footer-item:hover {
+  background-color: hsl(0, 0%, 96%);
+  color: hsl(217, 71%, 53%);
+}
+.sitemap-page .sitemap-post-card .card-footer a.card-footer-item .icon { margin-right: 0.3em; }
+
+/* --- Topic Tiles (Categories) --- */
+.sitemap-page .topic-tile {
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  border-left: 4px solid transparent; /* Placeholder for hover effect */
+}
+.sitemap-page .topic-tile .media-left .icon {
+  transition: transform 0.3s ease;
+}
+.sitemap-page .topic-tile:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 5px 12px rgba(0,0,0,0.08);
+  border-left-color: hsl(171, 100%, 41%); /* Bulma success color */
+}
+.sitemap-page .topic-tile:hover .media-left .icon {
+  transform: rotate(-5deg) scale(1.1);
+}
+.sitemap-page .topic-tile .title { color: hsl(0,0%,29%); }
+.sitemap-page .topic-tile .subtitle { color: hsl(0,0%,48%); }
+
+/* --- Tag Cloud (Tags) --- */
+.sitemap-page .tags-section .tags .tag {
+  padding: 0.5em 1em;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.sitemap-page .tags-section .tags .tag:hover {
+  background-color: hsl(141, 53%, 53%) !important; /* Bulma success (stronger) */
+  color: white !important;
+  transform: scale(1.05);
+}
+.sitemap-page .tags-section .tags .tag .icon { margin-right: 0.3em; }
+
+/* --- Other Pages List --- */
+.sitemap-page .other-pages-section .sitemap-list {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+.sitemap-page .other-pages-section .sitemap-list li a {
+  display: inline-flex; /* For icon alignment */
+  align-items: center;
+  padding: 0.4em 0;
+  font-size: 1rem;
+  color: hsl(217, 71%, 53%);
+  transition: color 0.2s ease;
+}
+.sitemap-page .other-pages-section .sitemap-list li a .icon { margin-right: 0.5em; color: hsl(217, 71%, 65%);}
+.sitemap-page .other-pages-section .sitemap-list li a:hover {
+  color: hsl(217, 71%, 48%);
+  text-decoration: underline;
+}
+.sitemap-page .other-pages-section .sitemap-list li a:hover .icon {color: hsl(217, 71%, 48%);}
+
+/* Helper for icon usage in titles etc. */
+.sitemap-page .icon-text .icon {
+  vertical-align: middle;
+}
+
+/* General link styling for sitemap tiles */
+.sitemap-page a.sitemap-tile-link {
+  display: block; /* Make the whole tile clickable */
+  text-decoration: none !important; /* Remove underline from tile links */
+}
+.sitemap-page a.sitemap-tile-link p.title,
+.sitemap-page a.sitemap-tile-link p.subtitle {
+  transition: color 0.2s ease;
+}
+.sitemap-page a.sitemap-tile-link:hover p.title {
+  color: hsl(217, 71%, 48%) !important; /* Adjust hover color if needed */
+}
+</style>
 
 <section class="section sitemap-page">
   <div class="container">
@@ -18,7 +185,8 @@ seo:
         Your guide to all the content, topics, and resources available here.
       </p>
     </div>
-    <!-- Section for Key Pages (could be manually defined or smart-filtered) -->
+
+    <!-- Section for Key Pages -->
     <div class="sitemap-section key-pages-section mb-6">
       <h2 class="title is-3 has-text-weight-semibold">
         <span class="icon-text">
@@ -52,7 +220,7 @@ seo:
         </div>
         {%- else -%}
          <div class="tile is-parent">
-          <a href="/#latest-posts-anchor" class="tile is-child box has-background-link-light has-text-link-dark sitemap-tile-link"> {# Fallback if no /blog/ page #}
+          <a href="#latest-posts-anchor" class="tile is-child box has-background-link-light has-text-link-dark sitemap-tile-link">
             <p class="title is-5"><span class="icon"><i class="ph ph-article"></i></span> Latest Articles</p>
             <p class="subtitle is-6">Catch up on our posts.</p>
           </a>
@@ -69,6 +237,8 @@ seo:
         {%- endif -%}
       </div>
     </div>
+
+
     <!-- Blog Posts Section -->
     <div class="sitemap-section posts-section mb-6" id="latest-posts-anchor">
       <h2 class="title is-3 has-text-weight-semibold">
@@ -107,13 +277,16 @@ seo:
                 </div>
                 <footer class="card-footer">
                   {%- if post.categories.size > 0 -%}
-                    {%- assign first_category = post.categories | first | default: "" | strip -%}
-                    {%- if first_category != "" -%}
-                      {%- assign cat_slug = first_category | slugify -%}
-                      {%- assign cat_url = "/category/" | append: cat_slug | append: "/" | relative_url -%}
-                      <a href="{{ cat_url }}" class="card-footer-item is-size-7">
-                        <span class="icon is-small"><i class="ph ph-tag"></i></span>{{ first_category | capitalize }}
-                      </a>
+                    {%- assign post_first_category_raw = post.categories | first -%}
+                    {%- if post_first_category_raw and post_first_category_raw != "" -%}
+                        {%- assign post_first_category = post_first_category_raw | downcase | strip -%}
+                        {%- if post_first_category != "" -%}
+                            {%- assign cat_slug = post_first_category | slugify -%}
+                            {%- assign cat_url = "/category/" | append: cat_slug | append: "/" | relative_url -%}
+                            <a href="{{ cat_url }}" class="card-footer-item is-size-7">
+                                <span class="icon is-small"><i class="ph ph-tag"></i></span>{{ post_first_category_raw | capitalize }}
+                            </a>
+                        {%- endif -%}
                     {%- endif -%}
                   {%- endif -%}
                    <a href="{{ post.url | relative_url }}" class="card-footer-item is-size-7 has-text-link">
@@ -136,6 +309,7 @@ seo:
         <div class="notification is-warning">No blog posts found yet. Stay tuned!</div>
       {%- endif -%}
     </div>
+
     <!-- Topics (Categories) Section -->
     {%- if site.categories.size > 0 -%}
     <div class="sitemap-section topics-section mb-6">
@@ -145,34 +319,41 @@ seo:
           <span>Explore by Topic</span>
         </span>
       </h2>
-      <div class="tile is-ancestor is-flex-wrap-wrap"> {# is-flex-wrap-wrap for tiles to wrap #}
+      <div class="tile is-ancestor is-flex-wrap-wrap">
         {%- assign sorted_categories = site.categories | sort_natural -%}
-        {%- for category_item in sorted_categories -%}
-          {%- assign category_name = category_item[0] -%}
-          {%- assign category_posts_count = category_item[1].size -%}
-          {%- if category_name and category_name != "" -%}
-            {%- assign category_slug = category_name | slugify -%}
-            {%- assign category_page_url = "/category/" | append: category_slug | append: "/" | relative_url -%}
-            <div class="tile is-parent is-4"> {# Adjust is-4 for number of columns (3 per row) #}
-              <a href="{{ category_page_url }}" class="tile is-child box sitemap-tile-link topic-tile raise-on-hover">
-                <article class="media">
-                  <div class="media-left">
-                    <span class="icon is-large has-text-info">
-                      <i class="ph ph-folder-simple-dashed ph-2x"></i>
-                    </span>
-                  </div>
-                  <div class="media-content">
-                    <p class="title is-5">{{ category_name | capitalize }}</p>
-                    <p class="subtitle is-6">{{ category_posts_count }} Article{% if category_posts_count != 1 %}s{% endif %}</p>
-                  </div>
-                </article>
-              </a>
-            </div>
+        {%- for category_item_array in sorted_categories -%}
+          {%- assign category_name_raw = category_item_array[0] -%}
+          {%- if category_name_raw -%}
+            {%- assign category_name_str = category_name_raw |is_a:"String" ? category_name_raw : category_name_raw | join: "," | default:"" -%}
+            {%- assign category_name_clean = category_name_str | strip | downcase -%}
+            {%- if category_name_clean != "" -%}
+                {%- assign category_posts_count = category_item_array[1].size -%}
+                {%- assign category_slug = category_name_clean | slugify -%}
+                {%- if category_slug != "" -%} {# Final check for slugify output #}
+                    {%- assign category_page_url = "/category/" | append: category_slug | append: "/" | relative_url -%}
+                    <div class="tile is-parent is-4">
+                    <a href="{{ category_page_url }}" class="tile is-child box sitemap-tile-link topic-tile raise-on-hover">
+                        <article class="media">
+                        <div class="media-left">
+                            <span class="icon is-large has-text-info">
+                            <i class="ph ph-folder-simple-dashed ph-2x"></i>
+                            </span>
+                        </div>
+                        <div class="media-content">
+                            <p class="title is-5">{{ category_name_raw | capitalize }}</p>
+                            <p class="subtitle is-6">{{ category_posts_count }} Article{% if category_posts_count != 1 %}s{% endif %}</p>
+                        </div>
+                        </article>
+                    </a>
+                    </div>
+                {%- endif -%}
+            {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
       </div>
     </div>
     {%- endif -%}
+
     <!-- Keywords (Tags) Section -->
     {%- if site.tags.size > 0 -%}
     <div class="sitemap-section tags-section mb-6">
@@ -182,23 +363,30 @@ seo:
           <span>Browse by Keyword</span>
         </span>
       </h2>
-      <div class="tags are-medium"> {# Simpler tag cloud style #}
+      <div class="tags are-medium">
         {%- assign sorted_tags = site.tags | sort_natural -%}
-        {%- for tag_item in sorted_tags -%}
-          {%- assign tag_name = tag_item[0] -%}
-          {%- assign tag_posts_count = tag_item[1].size -%}
-          {%- if tag_name and tag_name != "" -%}
-            {%- assign tag_slug = tag_name | slugify -%}
-            {%- assign tag_page_url = "/tag/" | append: tag_slug | append: "/" | relative_url -%}
-            <a href="{{ tag_page_url }}" class="tag is-light is-rounded sitemap-tag-link">
-              <span class="icon is-small"><i class="ph ph-tag"></i></span>
-              {{ tag_name }} ({{ tag_posts_count }})
-            </a>
+        {%- for tag_item_array in sorted_tags -%}
+          {%- assign tag_name_raw = tag_item_array[0] -%}
+           {%- if tag_name_raw -%}
+            {%- assign tag_name_str = tag_name_raw |is_a:"String" ? tag_name_raw : tag_name_raw | join: "," | default:"" -%}
+            {%- assign tag_name_clean = tag_name_str | strip | downcase -%}
+            {%- if tag_name_clean != "" -%}
+                {%- assign tag_posts_count = tag_item_array[1].size -%}
+                {%- assign tag_slug = tag_name_clean | slugify -%}
+                {%- if tag_slug != "" -%} {# Final check for slugify output #}
+                    {%- assign tag_page_url = "/tag/" | append: tag_slug | append: "/" | relative_url -%}
+                    <a href="{{ tag_page_url }}" class="tag is-light is-rounded sitemap-tag-link">
+                    <span class="icon is-small"><i class="ph ph-tag"></i></span>
+                    {{ tag_name_raw }} ({{ tag_posts_count }})
+                    </a>
+                {%- endif -%}
+            {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
       </div>
     </div>
     {%- endif -%}
+
     <!-- All Other Pages Section -->
     <div class="sitemap-section other-pages-section">
       <h2 class="title is-3 has-text-weight-semibold">
@@ -224,175 +412,6 @@ seo:
         </ul>
       </div>
     </div>
+
   </div>
 </section>
-
-<style>
-    // assets/css/style.scss or similar
-
-// --- Sitemap Page General Styles ---
-.sitemap-page {
-  background-color: hsl(0, 0%, 98%); // Very light grey background for the whole page
-
-  .title.is-1 {
-    color: hsl(0, 0%, 21%); // Bulma's default title color
-  }
-  .subtitle.is-4 {
-    color: hsl(0, 0%, 48%); // Bulma's default subtitle color
-  }
-
-  .sitemap-section {
-    background-color: #fff;
-    padding: 2rem 2.5rem;
-    border-radius: 8px;
-    box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,0.05), 0 0 0 1px rgba(10,10,10,0.02);
-
-    .title.is-3 {
-      border-bottom: 2px solid hsl(204, 86%, 53%); // Bulma primary color
-      padding-bottom: 0.5rem;
-      margin-bottom: 1.5rem !important;
-      .icon {
-        margin-right: 0.5rem;
-        color: hsl(204, 86%, 53%);
-      }
-    }
-  }
-}
-
-// --- Key Destinations Tiles ---
-.key-pages-section .tile.is-child {
-  padding: 1.5rem;
-  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-  }
-  .title .icon { margin-right: 0.5em; }
-}
-
-// --- Post Cards Enhanced ---
-.sitemap-post-card {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid hsl(0, 0%, 86%); // Softer border
-  border-radius: 6px;
-  overflow: hidden; // Important for child border-radius and image fit
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-
-  &.raise-on-hover:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.08), 0 3px 6px rgba(0,0,0,0.05);
-  }
-
-  .card-image {
-    border-bottom: 1px solid hsl(0, 0%, 93%);
-    img {
-      object-fit: cover;
-      height: 100%; // Ensure image tries to fill its figure container
-      width: 100%;
-    }
-  }
-
-  .card-content {
-    flex-grow: 1;
-    padding: 1rem;
-    .content { margin-bottom: 0;} // Remove extra margin from Bulma's .content
-    .card-post-title a {
-      color: hsl(0, 0%, 29%);
-      &:hover { color: hsl(217, 71%, 53%); }
-    }
-    .post-excerpt {
-      color: hsl(0, 0%, 48%);
-      line-height: 1.5;
-    }
-  }
-
-  .card-footer {
-    background-color: hsl(0, 0%, 98%);
-    border-top: 1px solid hsl(0, 0%, 93%);
-    a.card-footer-item {
-      color: hsl(0, 0%, 48%);
-      font-weight: 500;
-      transition: color 0.2s ease;
-      &:hover {
-        background-color: hsl(0, 0%, 96%);
-        color: hsl(217, 71%, 53%);
-      }
-      .icon { margin-right: 0.3em; }
-    }
-  }
-}
-
-
-// --- Topic Tiles (Categories) ---
-.topic-tile {
-  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
-  border-left: 4px solid transparent; // Placeholder for hover effect
-  .media-left .icon {
-    transition: transform 0.3s ease;
-  }
-
-  &:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 5px 12px rgba(0,0,0,0.08);
-    border-left-color: hsl(171, 100%, 41%); // Bulma success color
-    .media-left .icon {
-      transform: rotate(-5deg) scale(1.1);
-    }
-  }
-  .title { color: hsl(0,0%,29%); }
-  .subtitle { color: hsl(0,0%,48%); }
-}
-
-// --- Tag Cloud (Tags) ---
-.tags-section .tags .tag {
-  padding: 0.5em 1em;
-  font-size: 0.9rem;
-  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
-  &:hover {
-    background-color: hsl(141, 53%, 53%) !important; // Bulma success (stronger)
-    color: white !important;
-    transform: scale(1.05);
-  }
-  .icon { margin-right: 0.3em; }
-}
-
-// --- Other Pages List ---
-.other-pages-section .sitemap-list {
-  list-style: none;
-  margin-left: 0;
-  padding-left: 0;
-  li a {
-    display: inline-flex; // For icon alignment
-    align-items: center;
-    padding: 0.4em 0;
-    font-size: 1rem;
-    color: hsl(217, 71%, 53%);
-    transition: color 0.2s ease;
-    .icon { margin-right: 0.5em; color: hsl(217, 71%, 65%);}
-    &:hover {
-      color: hsl(217, 71%, 48%);
-      text-decoration: underline;
-      .icon {color: hsl(217, 71%, 48%);}
-    }
-  }
-}
-
-// Helper for icon usage in titles etc.
-.icon-text .icon {
-  vertical-align: middle;
-}
-
-// General link styling for sitemap tiles
-a.sitemap-tile-link {
-  display: block; // Make the whole tile clickable
-  text-decoration: none !important; // Remove underline from tile links
-  p.title, p.subtitle {
-    transition: color 0.2s ease;
-  }
-  &:hover {
-    p.title { color: hsl(217, 71%, 48%) !important; } // Adjust hover color if needed
-  }
-}
-    </style>
