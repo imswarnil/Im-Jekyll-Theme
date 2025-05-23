@@ -1,41 +1,44 @@
 ---
 layout: default
 ---
-  <style>
-        /* Minimal Custom CSS - Primarily for aspect ratio if Bulma's helpers aren't enough, and hiding native controls */
-        /* Bulma's 'image is-16by9' class will handle aspect ratio for the video player container */
+
+ <style>
+        /* Minimal Custom CSS for Pure Bulma Approach */
         #video-player iframe {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            border: 0; /* Ensure no iframe border */
+            border: 0;
         }
-        /* Make episode list scrollable */
         #episode-list {
-            max-height: 60vh; /* Adjust as needed */
+            max-height: 60vh; 
             overflow-y: auto;
         }
-        .episode-list-container .menu-list a.is-active { 
-            /* Bulma's is-active for menu-list is often primary color by default, which is good. */
-            /* No further custom styling needed if Bulma's default is acceptable. */
-        }
-        .episode-title-text { /* To prevent long titles from breaking layout */
+        .episode-title-text { 
             display: inline-block;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: calc(100% - 30px); /* Adjust if icon size changes */
+            max-width: calc(100% - 30px); 
             vertical-align: middle;
         }
-        .player-controls .slider { /* Ensure Bulma slider is fullwidth within its context */
+        .player-controls .slider {
              width: 100%;
         }
-        .player-controls { z-index: 10; } /* Ensure controls are clickable, above player in DOM flow */
-
+        .player-controls { 
+            z-index: 10; 
+            border-top: 1px solid hsl(0, 0%, 86%); /* Add a separator like Bulma's box */
+        }
+         /* Ensure player box itself doesn't get extra padding if it's a Bulma box */
+        #main-player-box.box {
+            padding: 0;
+        }
     </style>
+</head>
 
+  
         <nav class="navbar is-white has-shadow" role="navigation" aria-label="main navigation">
             <div class="container">
                 <div class="navbar-brand">
@@ -45,7 +48,6 @@ layout: default
                 </div>
             </div>
         </nav>
-    {% endif %}
 
     <main class="main">
         <div class="webseries-page-container">
@@ -73,7 +75,7 @@ layout: default
                 <div class="container">
                     <div class="columns is-variable is-1-mobile is-3-tablet is-5-desktop">
                         <div class="column is-two-thirds-desktop is-full-tablet">
-                            <div class="box p-0" id="main-player-box"> {/* Remove padding from box and player container */}
+                            <div class="box" id="main-player-box"> {/* Added .box for consistent styling */}
                                 <figure class="image is-16by9" id="video-wrapper-bulma">
                                     <div id="video-player">
                                         <!-- YouTube Player will be injected here -->
@@ -117,7 +119,7 @@ layout: default
                             <div class="box episode-list-container p-0">
                                 <p class="menu-label p-3 has-text-centered is-uppercase has-background-grey-lighter">Episodes</p>
                                 <ul id="episode-list" class="menu-list">
-                                    <p class="p-4 has-text-centered has-text-grey">Loading episodes...</p>
+                                    <li class="p-3 has-text-grey has-text-centered">Loading episodes...</li>
                                 </ul>
                             </div>
                             <div class="box mt-4 display-ad-placeholder is-hidden-touch has-text-centered">
@@ -128,7 +130,7 @@ layout: default
                     <div class="columns is-centered is-hidden-touch">
                         <div class="column is-two-thirds-desktop is-full-tablet">
                              <div class="box mt-4 display-ad-placeholder has-text-centered">
-                                 <p>Desktop Ad Banner</p><small>(e.g. 728x90 or responsive)</small>
+                                 <p>Desktop Ad Banner</p><small>(e.g. 728x90)</small>
                             </div>
                         </div>
                     </div>
@@ -171,7 +173,8 @@ layout: default
 
         document.addEventListener('DOMContentLoaded', () => {
             const videoPlayerContainer = document.getElementById('video-player');
-            const mainPlayerBox = document.getElementById('main-player-box');
+            // const mainPlayerBox = document.getElementById('main-player-box'); // Not strictly needed for fullscreen if figure is targeted
+            const videoWrapperBulma = document.getElementById('video-wrapper-bulma'); // Target for fullscreen
             const playPauseBtn = document.getElementById('play-pause-btn');
             const playPauseIcon = playPauseBtn.querySelector('.icon i');
             const progressBar = document.getElementById('progress-bar');
@@ -193,18 +196,16 @@ layout: default
             let isSeeking = false;
             let volumeBeforeMute = 1;
             let progressUpdateInterval = null;
-            let controlsTimeout = null; // For auto-hiding controls (Bulma doesn't do this by default)
             
             let playlistVideos = []; 
             let currentPlaylistIndex = 0;
             let youtubeApiReady = false;
-            let playerIsReady = false; // Renamed for clarity
+            let playerIsReady = false;
 
             const formatTime=(s)=>{if(isNaN(s)||s<0)return"00:00";const t=Math.floor(s),h=Math.floor(t/3600),m=Math.floor(t%3600/60),c=t%60;return h>0?`${h}:${String(m).padStart(2,"0")}:${String(c).padStart(2,"0")}`:`${String(m).padStart(2,"0")}:${String(c).padStart(2,"0")}`};
             const updatePlayPauseIcon=()=>{playerIsReady&&activePlayer.getPlayerState&&activePlayer.getPlayerState()===YT.PlayerState.PLAYING?playPauseIcon.classList.replace("fa-play","fa-pause"):playPauseIcon.classList.replace("fa-pause","fa-play")};
             const updateVolumeIcon=()=>{let c=0,i=!1;if(playerIsReady&&activePlayer.getVolume){c=activePlayer.getVolume()/100;i=activePlayer.isMuted()}muteIcon.classList.remove("fa-volume-up","fa-volume-down","fa-volume-mute");if(i||c===0)muteIcon.classList.add("fa-volume-mute");else if(c<0.5)muteIcon.classList.add("fa-volume-down");else muteIcon.classList.add("fa-volume-up")};
-            // No updateProgressBarFill or updateVolumeSliderFill as Bulma's .slider handles appearance.
-
+            
             const playerControls = {
                 play:()=>{if(playerIsReady&&activePlayer.playVideo)activePlayer.playVideo()},
                 pause:()=>{if(playerIsReady&&activePlayer.pauseVideo)activePlayer.pauseVideo()},
@@ -214,7 +215,18 @@ layout: default
                 toggleMute:()=>{if(!playerIsReady||!activePlayer.isMuted)return;if(activePlayer.isMuted()||activePlayer.getVolume&&activePlayer.getVolume()===0){if(activePlayer.unMute)activePlayer.unMute();if(activePlayer.setVolume)activePlayer.setVolume(volumeBeforeMute*100>0?volumeBeforeMute*100:50)}else{if(activePlayer.getVolume)volumeBeforeMute=activePlayer.getVolume()/100;if(activePlayer.mute)activePlayer.mute()}volumeSlider.value=activePlayer.isMuted()?0:activePlayer.getVolume?activePlayer.getVolume()/100:0;updateVolumeIcon()},
                 getCurrentTime:()=>playerIsReady&&activePlayer.getCurrentTime?activePlayer.getCurrentTime():0,
                 getDuration:()=>playerIsReady&&activePlayer.getDuration?activePlayer.getDuration():NaN,
-                toggleFullscreen:()=>{if(!document.fullscreenElement&&!document.webkitFullscreenElement&&!document.msFullscreenElement){if(mainPlayerBox.requestFullscreen)mainPlayerBox.requestFullscreen();else if(mainPlayerBox.webkitRequestFullscreen)mainPlayerBox.webkitRequestFullscreen();else if(mainPlayerBox.msRequestFullscreen)mainPlayerBox.msRequestFullscreen()}else{if(document.exitFullscreen)document.exitFullscreen();else if(document.webkitExitFullscreen)document.webkitExitFullscreen();else if(document.msExitFullscreen)document.msExitFullscreen()}},
+                toggleFullscreen:()=>{
+                    const targetElement = videoWrapperBulma; // Target the figure for fullscreen
+                    if(!document.fullscreenElement&&!document.webkitFullscreenElement&&!document.msFullscreenElement){
+                        if(targetElement.requestFullscreen)targetElement.requestFullscreen();
+                        else if(targetElement.webkitRequestFullscreen)targetElement.webkitRequestFullscreen();
+                        else if(targetElement.msRequestFullscreen)targetElement.msRequestFullscreen()
+                    }else{
+                        if(document.exitFullscreen)document.exitFullscreen();
+                        else if(document.webkitExitFullscreen)document.webkitExitFullscreen();
+                        else if(document.msExitFullscreen)document.msExitFullscreen()
+                    }
+                },
                 next:()=>{if(playerIsReady&&activePlayer.nextVideo)activePlayer.nextVideo()},
                 previous:()=>{if(playerIsReady&&activePlayer.previousVideo)activePlayer.previousVideo()},
                 playAt:idx=>{if(playerIsReady&&activePlayer.playVideoAt)activePlayer.playVideoAt(idx)}
@@ -261,8 +273,7 @@ layout: default
                     const override = jekyllPageData.episodeOverrides.find(eo => eo.video_id === vId) || {};
                     const title = override.title || `Episode ${idx + 1} (Loading...)`;
                     playlistVideos.push({ 
-                        id: vId, 
-                        title: title, 
+                        id: vId, title: title, 
                         description: override.description || jekyllPageData.description, 
                         thumbnail: override.thumbnail ? window.location.origin + override.thumbnail : (jekyllPageData.seriesPoster ? window.location.origin + jekyllPageData.seriesPoster : undefined),
                         air_date: override.air_date || jekyllPageData.datePublished,
@@ -271,7 +282,7 @@ layout: default
                     const li=document.createElement("li");
                     const a=document.createElement("a"); a.dataset.index=idx;
                     a.innerHTML=`<span class="icon is-small"><i class="fas fa-play-circle"></i></span><span class="episode-title-text">${title}</span>`;
-                    a.addEventListener("click",()=>playerControls.playAt(idx));
+                    a.addEventListener("click",(e)=>{ e.preventDefault(); playerControls.playAt(idx); }); // Added preventDefault
                     li.appendChild(a);
                     episodeListUl.appendChild(li)
                 });
@@ -282,13 +293,13 @@ layout: default
                 if(!playerIsReady||!activePlayer.getPlaylistIndex||!playlistVideos.length)return;
                 currentPlaylistIndex=activePlayer.getPlaylistIndex();
                 document.querySelectorAll("#episode-list li a").forEach(aEl=>{
-                    aEl.classList.remove("is-active"); // Bulma class for menu links
+                    aEl.classList.remove("is-active"); 
                     if(parseInt(aEl.dataset.index)===currentPlaylistIndex){
                         aEl.classList.add("is-active");
                         const tt=aEl.querySelector(".episode-title-text");
                         if(tt&&activePlayer.getVideoData&&activePlayer.getVideoData().title){
                             const ytTitle=activePlayer.getVideoData().title;tt.textContent=ytTitle;
-                            if(playlistVideos[currentPlaylistIndex]) playlistVideos[currentPlaylistIndex].title=ytTitle; // Update stored title
+                            if(playlistVideos[currentPlaylistIndex]) playlistVideos[currentPlaylistIndex].title=ytTitle;
                         } else if (tt&&playlistVideos[currentPlaylistIndex]){tt.textContent=playlistVideos[currentPlaylistIndex].title}
                         aEl.parentElement.scrollIntoView({behavior:"smooth",block:"nearest"});
                     }
@@ -296,7 +307,7 @@ layout: default
                 prevEpisodeBtn.disabled=currentPlaylistIndex===0;
                 nextEpisodeBtn.disabled=currentPlaylistIndex>=playlistVideos.length-1;
                 nextEpisodeBtnPlayer.classList.add("is-hidden");
-                if (playerIsReady) generateJsonLd(); // Update JSON-LD with current episode details
+                if (playerIsReady) generateJsonLd();
             }
             
             function onPlayerStateChange(e){
@@ -307,8 +318,8 @@ layout: default
                     progressBar.value=activePlayer.getDuration?activePlayer.getDuration():progressBar.max;
                     if(autoplayCheckbox.checked&¤tPlaylistIndex<playlistVideos.length-1)playerControls.next();
                     else if(currentPlaylistIndex<playlistVideos.length-1)nextEpisodeBtnPlayer.classList.remove("is-hidden")
-                } else if (e.data === YT.PlayerState.CUED) { // New video in playlist loaded
-                    updateEpisodeListHighlight(); // Ensure new title is fetched if available
+                } else if (e.data === YT.PlayerState.CUED) { 
+                    updateEpisodeListHighlight(); // Important to update title on CUED
                 }
                 updateProgressUI();
             }
@@ -328,9 +339,8 @@ layout: default
             const onFullscreenChange=()=>{const i=document.fullscreenElement||document.webkitFullscreenElement||document.msFullscreenElement;fullscreenIcon.classList.toggle("fa-compress",!!i);fullscreenIcon.classList.toggle("fa-expand",!i)};
             document.addEventListener("fullscreenchange",onFullscreenChange);document.addEventListener("webkitfullscreenchange",onFullscreenChange);document.addEventListener("msfullscreenchange",onFullscreenChange);
 
-            function generateJsonLd() {
+            function generateJsonLd() { /* ... (Same JSON-LD generation function as previous response) ... */
                 if (!playerIsReady || playlistVideos.length === 0) return;
-                const currentEpisodeData = playlistVideos[currentPlaylistIndex] || {};
                 const episodesLd = playlistVideos.map(ep => ({
                     "@type": "TVEpisode", "episodeNumber": ep.episode_number, "name": ep.title,
                     "description": ep.description, "datePublished": ep.air_date, 
@@ -340,7 +350,7 @@ layout: default
                     "video": {
                         "@type": "VideoObject", "name": ep.title, "description": ep.description,
                         "thumbnailUrl": ep.thumbnail, "uploadDate": ep.air_date,
-                        "duration": activePlayer && activePlayer.getDuration && ep.id === (playlistVideos[currentPlaylistIndex] || {}).id ? `PT${Math.round(activePlayer.getDuration())}S` : undefined, // Duration for current video
+                        "duration": activePlayer && activePlayer.getDuration && ep.id === (playlistVideos[currentPlaylistIndex] || {}).id ? `PT${Math.round(activePlayer.getDuration())}S` : undefined,
                         "embedUrl": `https://www.youtube.com/embed/${ep.id}?list=${jekyllPageData.youtubePlaylistId}`
                     }
                 }));
@@ -363,7 +373,6 @@ layout: default
                 if (jsonLdScriptTag) jsonLdScriptTag.textContent = JSON.stringify(webSeriesLd, null, 2);
             }
             
-            // Initial check
             if (youtubeApiReady && jekyllPageData.youtubePlaylistId) {
                 initializePlayer(jekyllPageData.youtubePlaylistId);
             } else if (jekyllPageData.youtubePlaylistId) {
