@@ -185,7 +185,6 @@ seo:
         Your guide to all the content, topics, and resources available here.
       </p>
     </div>
-
     <!-- Section for Key Pages -->
     <div class="sitemap-section key-pages-section mb-6">
       <h2 class="title is-3 has-text-weight-semibold">
@@ -237,8 +236,6 @@ seo:
         {%- endif -%}
       </div>
     </div>
-
-
     <!-- Blog Posts Section -->
     <div class="sitemap-section posts-section mb-6" id="latest-posts-anchor">
       <h2 class="title is-3 has-text-weight-semibold">
@@ -309,7 +306,6 @@ seo:
         <div class="notification is-warning">No blog posts found yet. Stay tuned!</div>
       {%- endif -%}
     </div>
-
     <!-- Topics (Categories) Section -->
     {%- if site.categories.size > 0 -%}
     <div class="sitemap-section topics-section mb-6">
@@ -353,7 +349,6 @@ seo:
       </div>
     </div>
     {%- endif -%}
-
     <!-- Keywords (Tags) Section -->
     {%- if site.tags.size > 0 -%}
     <div class="sitemap-section tags-section mb-6">
@@ -386,7 +381,6 @@ seo:
       </div>
     </div>
     {%- endif -%}
-
     <!-- All Other Pages Section -->
     <div class="sitemap-section other-pages-section">
       <h2 class="title is-3 has-text-weight-semibold">
