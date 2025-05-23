@@ -33,7 +33,7 @@ layout: default
       </div>
       <div class="column is-5-desktop is-hidden-touch has-text-centered">
         <figure class="image is-1by1">
-          <img src="/assets/Imswarnil.gif" alt="Swarnil's Portrait">
+          <img src="/assets/swarnil.gif" alt="Swarnil's Portrait">
         </figure>
       </div>
 
