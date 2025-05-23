@@ -2,217 +2,45 @@
 layout: default
 ---
 
-<div class="hero is-white is-small is-resume-header">
-  <div class="hero-body">
-    <div class="container">
-      <div class="columns is-mobile is-multiline is-vcentered">
+{% include resume/header.html %}
 
-        <!-- Image column -->
-        <div class="column is-3-mobile is-one-quarter-tablet is-2 has-text-centered">
-          <figure class="image is-128x128">
-            <img class="is-rounded" src="{{ page.image }}" alt="Profile Image">
-          </figure>
-        </div>
-
-        <!-- Name and job title column -->
-        <div class="column is-9-mobile is-three-quarters-tablet is-7">
-          <div class="content">
-            <h1 class="title">
-              <span class="first">{{ page.first_name }}</span>
-              <span>{{ page.last_name }}</span>
-            </h1>
-            <p class="subtitle">
-              <i class="fas fa-briefcase has-text-grey-darker"></i>
-              {{ page.job_title }} for {{ page.technology }}
-              at <i class="fas fa-map-marker-alt has-text-grey-darker"></i>
-              {{ page.location }}
-            </p>
-          </div>
-        </div>
-
-        <!-- Details column -->
-        <div class="column is-9-mobile is-three-quarters-tablet is-3">
-          <div class="content has-text-centered-mobile">
-            <p><strong>{{ page.city }}, {{ page.country }}</strong></p>
-            <p><strong>Contact:</strong> {{ page.contact_no }}</p>
-            <p><strong>Email:</strong> {{ page.email }}</p>
-            <p>
-              <strong>Website:</strong>
-              <a href="{{ page.website }}" target="_blank" rel="noopener noreferrer">{{ page.website }}</a>
-            </p>
-            <div class="social-icons">
-              {% for social in page.social_media %}
-              <a href="{{ social.url }}" class="social-icon" target="_blank" rel="noopener noreferrer">
-                <span class="icon"><i class="{{ social.icon }}"></i></span>
-                <span>{{ social.handle }}</span>
-              </a>
-              {% endfor %}
+<section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-7 p-2">
+                    {% include resume/summary.html %}
+                    {% include resume/experience.html %}
+                    {% include resume/education.html %}
+                    {% include resume/achievements.html %}
+                </div>
+                <div class="column is-5 ml-0 ml-5-tablet"> <!-- Adjusted margin for responsiveness -->
+                    {% include resume/projects.html %}
+                    {% include resume/skills.html %}
+                    {% include resume/tools.html %}
+                    {% include resume/languages.html %}
+                </div>
             </div>
-          </div>
         </div>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Sections -->
-
-{% assign sections = 
-  "summary,experience,education,achievements,projects,skills,tools,languages" | split: "," %}
-
-{% for section in sections %}
-  {% assign sec = page[section] %}
-  {% if sec %}
-    <section class="section">
-      <div class="container">
-        {% if sec.icon %}
-          <h2 class="title is-4">
-            <i class="{{ sec.icon }}"></i>
-            {{ section | capitalize }}
-          </h2>
-        {% endif %}
-        <div class="content">
-
-          {% case section %}
-            {% when "summary" %}
-              <p>{{ sec.content }}</p>
-
-            {% when "experience" %}
-              {% for item in sec.items %}
-                <div class="box">
-                  <article class="media">
-                    <figure class="media-left">
-                      <p class="image is-64x64">
-                        <img src="{{ item.logo }}" alt="{{ item.company }}">
-                      </p>
-                    </figure>
-                    <div class="media-content">
-                      <div class="content">
-                        <p>
-                          <strong>{{ item.position }}</strong> @ {{ item.company }}
-                          <br>
-                          <small>{{ item.location }} | {{ item.duration }}</small>
-                          <ul>
-                            {% for detail in item.details %}
-                              <li>{{ detail }}</li>
-                            {% endfor %}
-                          </ul>
-                        </p>
-                      </div>
-                    </div>
-                  </article>
-                </div>
-              {% endfor %}
-
-            {% when "education" %}
-              {% for item in sec.items %}
-                <div class="box">
-                  <article class="media">
-                    <figure class="media-left">
-                      <p class="image is-64x64">
-                        <img src="{{ item.image }}" alt="{{ item.institution }}">
-                      </p>
-                    </figure>
-                    <div class="media-content">
-                      <div class="content">
-                        <p>
-                          <strong>{{ item.degree }}</strong> - {{ item.institution }}
-                          <br>
-                          <small>{{ item.location }} | {{ item.duration }}</small><br>
-                          {{ item.details }}<br>
-                          <em>CGPA: {{ item.cgpa }}</em>
-                        </p>
-                      </div>
-                    </div>
-                  </article>
-                </div>
-              {% endfor %}
-
-            {% when "achievements" %}
-              {% for item in sec.items %}
-                <div class="box">
-                  <article class="media">
-                    <figure class="media-left">
-                      <p class="image is-64x64">
-                        <img src="{{ item.icon }}" alt="{{ item.title }}">
-                      </p>
-                    </figure>
-                    <div class="media-content">
-                      <div class="content">
-                        <p>
-                          <strong>{{ item.title }}</strong> <br>
-                          <small>{{ item.subtitle }}</small><br>
-                          {{ item.description }}
-                        </p>
-                      </div>
-                    </div>
-                  </article>
-                </div>
-              {% endfor %}
-
-            {% when "projects" %}
-              {% for item in sec.items %}
-                <div class="box">
-                  <article class="media">
-                    <figure class="media-left">
-                      <p class="image is-64x64">
-                        <img src="{{ item.logo }}" alt="{{ item.name }}">
-                      </p>
-                    </figure>
-                    <div class="media-content">
-                      <div class="content">
-                        <p>
-                          <strong>{{ item.name }}</strong> ({{ item.type }})<br>
-                          <small>{{ item.duration }}</small><br>
-                          {{ item.summary }}
-                        </p>
-                      </div>
-                    </div>
-                  </article>
-                </div>
-              {% endfor %}
-
-            {% when "skills" %}
-              <div class="columns is-multiline">
-                {% for skill in sec.items %}
-                  <div class="column is-half">
-                    <p>
-                      <i class="{{ skill.icon }}"></i> {{ skill.name }}
-                      {% if skill.proficiency %}
-                        <progress class="progress is-primary" value="{{ skill.proficiency_percent }}" max="100">
-                          {{ skill.proficiency_percent }}%
-                        </progress>
-                      {% endif %}
-                    </p>
-                  </div>
-                {% endfor %}
-              </div>
-
-            {% when "tools" %}
-              <div class="tags">
-                {% for tool in sec.items %}
-                  <span class="tag is-info">
-                    <i class="{{ tool.icon }}"></i> {{ tool.name }}
-                  </span>
-                {% endfor %}
-              </div>
-
-            {% when "languages" %}
-              <ul>
-                {% for lang in sec.items %}
-                  <li>
-                    <strong>{{ lang.name }}</strong> —
-                    Speak: {{ lang.speak | default: false | stringify }},
-                    Write: {{ lang.write | default: false | stringify }},
-                    Read: {{ lang.read | default: false | stringify }}
-                  </li>
-                {% endfor %}
-              </ul>
-          {% endcase %}
-
-        </div>
-      </div>
     </section>
-  {% endif %}
-{% endfor %}
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+    const downloadButton = document.getElementById('downloadPdfButton');
+    if (downloadButton) {
+        downloadButton.addEventListener('click', () => {
+            // Optional: You can add classes to body before printing to tweak layout
+            // document.body.classList.add('is-printing');
+            window.print();
+            // Optional: Remove class after print dialog is closed (hard to detect reliably)
+            // setTimeout(() => {
+            //    document.body.classList.remove('is-printing');
+            // }, 1000);
+        });
+    }
+
+    // For Phosphor Icons if you are using the class-based approach and need to initialize
+    // If you're using the web component (<i class="ph-..."> directly), this is not needed.
+    // However, the script tag in the head `<script src="https://unpkg.com/@phosphor-icons/web"></script>`
+    // should handle rendering. If icons don't appear, ensure this script is loaded.
+});
+    </script>
+    {% include resume/button.html %}
