@@ -2,6 +2,7 @@
 layout: default
 ---
 
+<div id="resume-content">
 {% include resume/header.html %}
 
 <section class="section">
@@ -22,25 +23,90 @@ layout: default
             </div>
         </div>
     </section>
+  </div>
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
     const downloadButton = document.getElementById('downloadPdfButton');
-    if (downloadButton) {
-        downloadButton.addEventListener('click', () => {
-            // Optional: You can add classes to body before printing to tweak layout
-            // document.body.classList.add('is-printing');
-            window.print();
-            // Optional: Remove class after print dialog is closed (hard to detect reliably)
-            // setTimeout(() => {
-            //    document.body.classList.remove('is-printing');
-            // }, 1000);
-        });
-    }
+    const resumeContentElement = document.getElementById('resume-content'); // The element to capture
 
-    // For Phosphor Icons if you are using the class-based approach and need to initialize
-    // If you're using the web component (<i class="ph-..."> directly), this is not needed.
-    // However, the script tag in the head `<script src="https://unpkg.com/@phosphor-icons/web"></script>`
-    // should handle rendering. If icons don't appear, ensure this script is loaded.
+    if (downloadButton && resumeContentElement) {
+        downloadButton.addEventListener('click', () => {
+            // Temporarily hide the button itself from the capture
+            downloadButton.style.display = 'none';
+
+            const { jsPDF } = window.jspdf; // Destructure jsPDF from the global window object
+
+            html2canvas(resumeContentElement, {
+                scale: 2, // Increase scale for better quality (can make file size larger)
+                useCORS: true, // Important if you have external images
+                logging: true, // For debugging html2canvas issues
+                onclone: (document) => {
+                    // This function is called when html2canvas clones the document
+                    // You can make modifications to the cloned document before rendering
+                    // For example, ensure all elements are visible, etc.
+                    // Remove any print-specific styles that hide elements if they interfere
+                }
+            }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF({
+                    orientation: 'p', // portrait
+                    unit: 'pt', // points
+                    format: 'a4' // A4 paper format
+                });
+
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+
+                const canvasWidth = canvas.width;
+                const canvasHeight = canvas.height;
+
+                // Calculate the ratio to fit the image onto the PDF page
+                const ratio = Math.min(pdfWidth / canvasWidth, pdfHeight / canvasHeight);
+                const imgWidth = canvasWidth * ratio;
+                const imgHeight = canvasHeight * ratio;
+
+                // Calculate how many pages are needed
+                const pageHeightInCanvasPixels = pdfHeight / ratio;
+                let- currentPosition = 0;
+                let pageCount = 1;
+
+                while (currentPosition < canvasHeight) {
+                    if (pageCount > 1) {
+                        pdf.addPage();
+                    }
+                    // Create a temporary canvas for the current page segment
+                    const pageCanvas = document.createElement('canvas');
+                    pageCanvas.width = canvasWidth;
+                    pageCanvas.height = Math.min(pageHeightInCanvasPixels, canvasHeight - currentPosition);
+
+                    const pageCtx = pageCanvas.getContext('2d');
+                    // Draw the segment of the original canvas onto the temporary canvas
+                    pageCtx.drawImage(canvas, 0, currentPosition, canvasWidth, pageCanvas.height, 0, 0, canvasWidth, pageCanvas.height);
+
+                    const pageImgData = pageCanvas.toDataURL('image/png');
+                    pdf.addImage(pageImgData, 'PNG', 0, 0, imgWidth, imgHeight * (pageCanvas.height / canvasHeight) );
+
+                    currentPosition += pageHeightInCanvasPixels;
+                    pageCount++;
+                }
+
+                pdf.save('Prachi_Jain_Resume.pdf'); // Name of the downloaded file
+
+                // Show the button again after processing
+                downloadButton.style.display = '';
+            }).catch(error => {
+                console.error("Error generating PDF:", error);
+                // Show the button again in case of error
+                downloadButton.style.display = '';
+                alert("Sorry, an error occurred while generating the PDF.");
+            });
+        });
+    } else {
+        if (!downloadButton) console.error("Download button not found!");
+        if (!resumeContentElement) console.error("Resume content element not found!");
+    }
 });
     </script>
     {% include resume/button.html %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
