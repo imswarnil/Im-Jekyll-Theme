@@ -4,7 +4,7 @@ description: "Browse through all our posts"
 layout: page
 ---
 
-<section class="section"> {# Removed custom parent class, relying on Bulma defaults #}
+<section class="section"> 
     <div class="container">
         <h1 class="title is-2 has-text-centered mb-6">All Posts</h1>
         <div id="post-list" class="columns is-multiline">
@@ -18,13 +18,12 @@ layout: page
                     {% assign posts_processed_count = posts_processed_count | plus: 1 %}
 
                     <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-                        <div class="card is-flex is-flex-direction-column" style="height: 100%;"> {# Bulma card, ensure full height #}
+                        <div class="card is-flex is-flex-direction-column" style="height: 100%;"> 
                             <a href="{{ post.url | relative_url }}" class="is-flex is-flex-direction-column is-flex-grow-1" style="text-decoration: none; color: inherit;">
                                 {% if post.category == "video" and post.VideoId %}
                                     <div class="card-image">
                                         <figure class="image is-16by9">
                                             <img src="https://i.ytimg.com/vi/{{ post.VideoId }}/hqdefault.jpg" alt="{{ post.title | escape }}">
-                                            {# Minimal overlay for play icon if desired, using Bulma utilities #}
                                             <div class="is-overlay is-flex is-align-items-center is-justify-content-center" style="background-color: rgba(0,0,0,0.1);">
                                                 <span class="icon is-large has-text-white">
                                                     <i class="ph-fill ph-play-circle" style="font-size: 3.5rem; opacity: 0.7;"></i>
@@ -54,7 +53,7 @@ layout: page
                                 {% endif %}
 
                                 <div class="card-content is-flex-grow-1">
-                                    <div class="content"> {# Bulma .content for typography #}
+                                    <div class="content">
                                         <div class="level is-mobile is-marginless mb-3">
                                             <div class="level-left">
                                                 <div class="level-item">
@@ -65,7 +64,7 @@ layout: page
                                                         {% if category_slug == 'project' %}is-primary{% endif %}
                                                         {% if category_slug == 'journal' %}is-warning{% endif %}
                                                         {% if category_slug == 'blog' or category_slug == 'post' or category_slug == '' %}is-info{% endif %}
-                                                        is-light"> {# Added is-light for better contrast with colored tags #}
+                                                        is-light">
                                                         <span class="icon is-small mr-1">
                                                             {% if category_slug == "video" %}<i class="ph-bold ph-youtube-logo"></i>
                                                             {% elsif category_slug == "course" %}<i class="ph-bold ph-graduation-cap"></i>
@@ -79,20 +78,20 @@ layout: page
                                                 </div>
                                             </div>
                                             <div class="level-right">
-                                                <p class="level-item is-size-7 has-text-grey"> {# Changed to has-text-grey for better contrast #}
+                                                <p class="level-item is-size-7 has-text-grey">
                                                     <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %d, '%y" }}</time>
                                                 </p>
                                             </div>
                                         </div>
 
                                         <h3 class="title is-5 mb-2">{{ post.title | escape }}</h3>
-                                        <p class="is-size-6"> {# Removed custom excerpt class #}
+                                        <p class="is-size-6">
                                             {% if post.excerpt %}{{ post.excerpt | strip_html | truncatewords: 20 }}{% else %}{{ post.content | strip_html | truncatewords: 20 }}{% endif %}
                                         </p>
 
                                         {% if post.TLTR %}
                                         <div class="message is-small mt-3 {% if post.category == 'journal' %}is-warning{% else %}is-info{% endif %}">
-                                            <div class="message-body p-2"> {# Use p-2 for smaller padding #}
+                                            <div class="message-body p-2">
                                                 <strong>TL;DR:</strong> {{ post.TLTR }}
                                             </div>
                                         </div>
@@ -100,7 +99,6 @@ layout: page
                                     </div>
                                 </div>
                             </a>
-                            {# Footer outside the main card link wrapper for separate button interactivity #}
                             {% if post.category == "project" and (post.live_url or post.repo_url) %}
                             <footer class="card-footer">
                                 {% if post.live_url %}
@@ -117,7 +115,6 @@ layout: page
                                 {% endif %}
                             </footer>
                             {% elsif post.tags %}
-                            <footer class="card-footer"> {# Unified footer style #}
                                  <div class="tags card-footer-item is-justify-content-center" style="padding: 0.5rem;">
                                     {% for tag_item in post.tags limit:3 %}
                                     <span class="tag is-light is-rounded">{{ tag_item }}</span>
