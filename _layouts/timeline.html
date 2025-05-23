@@ -1,0 +1,371 @@
+---
+layout: default # Or your base layout
+---
+<style>
+/* Custom Timeline Styles */
+.timeline {
+  position: relative;
+  margin: 2rem auto; /* Centered and spaced */
+  padding: 2rem 0;
+}
+
+/* The main timeline vertical bar */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  bottom: 0;
+  width: 4px; /* Thickness of the line */
+  background-color: #dbdbdb; /* Bulma's default border color */
+  border-radius: 2px;
+}
+
+/* Year Separator Styling */
+.timeline-year-separator {
+  text-align: center;
+  margin: 40px 0 20px;
+  position: relative; /* To sit on top of the line */
+  z-index: 1;
+}
+.timeline-year-separator .year-tag {
+  background-color: #3273dc; /* Bulma's primary color */
+  color: white;
+  padding: 0.5em 1em;
+  border-radius: 15px; /* Rounded tag */
+  font-size: 1.5em;
+  font-weight: bold;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1);
+}
+
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 40px; /* Space between items */
+  width: 50%; /* Each item takes half width */
+}
+
+/* Alternating items */
+.timeline-item:nth-child(odd) {
+  left: 0;
+  padding-right: 30px; /* Space from the central line */
+  text-align: right;
+}
+
+.timeline-item:nth-child(even) {
+  left: 50%;
+  padding-left: 30px; /* Space from the central line */
+  text-align: left;
+}
+
+/* The circular marker on the timeline */
+.timeline-marker {
+  position: absolute;
+  top: 5px; /* Adjust alignment with content */
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: white;
+  border: 4px solid #3273dc; /* Bulma's primary color */
+  z-index: 10;
+}
+
+.timeline-item:nth-child(odd) .timeline-marker {
+  right: -10px; /* (width/2) to center on line */
+  transform: translateX(0%);
+}
+
+.timeline-item:nth-child(even) .timeline-marker {
+  left: -10px;  /* -(width/2) to center on line */
+  transform: translateX(0%);
+}
+
+.timeline-item-date {
+  display: block;
+  font-size: 0.9em;
+  color: #7a7a7a; /* Bulma's grey-darker */
+  margin-bottom: 8px;
+}
+.timeline-item:nth-child(odd) .timeline-item-date {
+    text-align: right;
+}
+.timeline-item:nth-child(even) .timeline-item-date {
+    text-align: left;
+}
+
+
+.timeline-content {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 4px;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  position: relative; /* For pseudo-elements if needed */
+}
+.timeline-item:nth-child(odd) .timeline-content {
+    text-align: left; /* Align card content to left */
+}
+
+
+/* Arrow pointing to the timeline */
+.timeline-content::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.timeline-item:nth-child(odd) .timeline-content::before {
+  right: -10px; /* Pointing to the right */
+  border-width: 10px 0 10px 10px;
+  border-color: transparent transparent transparent #fff; /* Arrow color matches content bg */
+}
+
+.timeline-item:nth-child(even) .timeline-content::before {
+  left: -10px; /* Pointing to the left */
+  border-width: 10px 10px 10px 0;
+  border-color: transparent #fff transparent transparent; /* Arrow color matches content bg */
+}
+
+.timeline-content .card-header-title {
+    justify-content: inherit; /* Override Bulma default for cards in odd items */
+}
+
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .timeline::before {
+    left: 10px; /* Move line to the left */
+    transform: translateX(0);
+  }
+
+  .timeline-item {
+    width: 100%;
+    padding-left: 40px; /* Space for items to the right of the line */
+    padding-right: 0;
+    text-align: left !important; /* Force left align */
+    left: 0 !important; /* Reset left positioning */
+  }
+
+  .timeline-item:nth-child(odd),
+  .timeline-item:nth-child(even) {
+    left: 0; /* Align all items to the new line position */
+    padding-left: 40px;
+    padding-right: 0;
+    text-align: left !important;
+  }
+  
+  .timeline-item:nth-child(odd) .timeline-content {
+      text-align: left; /* Ensure card content is left aligned */
+  }
+
+
+  .timeline-marker {
+    left: 0px !important; /* Align marker to the new line position */
+    transform: translateX(0%) !important;
+  }
+  
+  .timeline-item:nth-child(odd) .timeline-marker,
+  .timeline-item:nth-child(even) .timeline-marker {
+    left: 0px !important;
+  }
+
+  .timeline-content::before {
+    left: -10px !important; /* Pointing to the left for all items */
+    right: auto !important;
+    border-width: 10px 10px 10px 0 !important;
+    border-color: transparent #fff transparent transparent !important;
+  }
+  .timeline-year-separator .year-tag {
+    font-size: 1.2em;
+  }
+}
+
+/* YouTube Embed Styling */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    background: #000;
+    margin-top: 10px;
+}
+.video-container iframe,
+.video-container object,
+.video-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.youtube-thumbnail {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 4px; /* Match card radius */
+}
+</style>
+
+<section class="section">
+  <div class="container">
+    <h1 class="title has-text-centered is-1">{{ page.title | default: "My Timeline" }}</h1>
+    {% if page.description %}
+    <p class="subtitle has-text-centered">{{ page.description }}</p>
+    {% endif %}
+
+    <div class="timeline">
+      {%- assign raw_timeline_items = "" | split: "," -%}
+
+      {%- comment -%} Add your birthday or other static milestones here {%- endcomment -%}
+      {%- assign birthday_date = "1990-01-01" | date_to_xmlschema -%}
+      {%- assign birthday = '{
+        "title": "Born This Day!",
+        "date": "' | append: birthday_date | append: '",
+        "description": "The journey began.",
+        "type": "Milestone",
+        "icon": "fas fa-birthday-cake"
+      }' | parse_json -%}
+      {%- assign raw_timeline_items = raw_timeline_items | push: birthday -%}
+
+      {%- comment -%} Add other static milestones as needed {%- endcomment -%}
+      {%- assign grad_date = "2012-06-15" | date_to_xmlschema -%}
+      {%- assign graduation = '{
+        "title": "Graduated University",
+        "date": "' | append: grad_date | append: '",
+        "description": "Completed my Bachelor's degree.",
+        "type": "Milestone",
+        "icon": "fas fa-graduation-cap"
+      }' | parse_json -%}
+      {%- assign raw_timeline_items = raw_timeline_items | push: graduation -%}
+
+
+      {%- for post in site.posts -%}
+        {%- if post.timeline == true -%}
+          {%- assign item = '{
+            "title": "'       | append: post.title       | replace: '"', '\"' | append: '",
+            "date": "'        | append: post.date        | append: '",
+            "description": "' | append: post.description | replace: '"', '\"' | append: '",
+            "type": "'        | append: post.type        | append: '",
+            "category": "'    | append: post.category    | append: '",
+            "VideoId": "'     | append: post.VideoId     | append: '",
+            "url": "'         | append: post.url         | relative_url | append: '",
+            "author": "'      | append: post.author      | append: '",
+            "icon": "fas fa-file-alt"
+          }' | parse_json -%}
+          {%- if post.type == "YouTube" -%}
+            {%- assign item_icon = "fab fa-youtube" -%}
+            {%- assign item = item | default: {} | map_assoc: "icon", item_icon -%}
+          {%- elsif post.category == "video" -%}
+            {%- assign item_icon = "fas fa-video" -%}
+            {%- assign item = item | default: {} | map_assoc: "icon", item_icon -%}
+          {%- endif -%}
+          {%- assign raw_timeline_items = raw_timeline_items | push: item -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- assign timeline_items = raw_timeline_items | sort: "date" | reverse -%}
+      {%- comment -%} Use reverse if you want newest first, remove it for oldest first {%- endcomment -%}
+
+      {%- assign current_year = "" -%}
+      {%- for item in timeline_items -%}
+        {%- assign item_year = item.date | date: "%Y" -%}
+        {%- if item_year != current_year -%}
+          {%- if current_year != "" -%}
+            {%- comment -%} Closing previous year's items if any, not strictly needed with this structure {%- endcomment -%}
+          {%- endif -%}
+          <div class="timeline-year-separator">
+            <span class="year-tag">{{ item_year }}</span>
+          </div>
+          {%- assign current_year = item_year -%}
+        {%- endif -%}
+
+        <div class="timeline-item">
+          <div class="timeline-marker is-icon">
+            <i class="{{ item.icon | default: 'fas fa-calendar-alt' }}"></i>
+          </div>
+          <div class="timeline-content">
+            <span class="timeline-item-date">{{ item.date | date: "%B %d, %Y" }}</span>
+            
+            {%- if item.type == "YouTube" and item.VideoId -%}
+              <div class="card">
+                {%- if item.VideoId -%}
+                <div class="card-image">
+                  <figure class="image is-16by9">
+                    <img src="https://img.youtube.com/vi/{{ item.VideoId }}/hqdefault.jpg" alt="{{ item.title }} thumbnail" class="youtube-thumbnail">
+                  </figure>
+                </div>
+                {%- endif -%}
+                <div class="card-content">
+                  <div class="media">
+                    <div class="media-content">
+                      <p class="title is-4">
+                        {% if item.url and item.url != "" %}<a href="{{ item.url }}">{% endif %}
+                        {{ item.title }}
+                        {% if item.url and item.url != "" %}</a>{% endif %}
+                      </p>
+                      {% if item.author %}<p class="subtitle is-6">By {{ item.author }}</p>{% endif %}
+                    </div>
+                  </div>
+                  <div class="content">
+                    {{ item.description | markdownify | truncatewords: 25 }}
+                    <div class="video-container mt-3">
+                      <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ item.VideoId }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {%- elsif item.type == "Milestone" -%}
+              <h3 class="title is-4">{{ item.title }}</h3>
+              <p class="is-size-6">{{ item.description }}</p>
+            {%- else -%} {# Assumed to be a blog post or generic item #}
+              <div class="card">
+                <div class="card-content">
+                  <div class="media">
+                    <div class="media-content">
+                       <p class="title is-4">
+                        {% if item.url and item.url != "" %}<a href="{{ item.url }}">{% endif %}
+                        {{ item.title }}
+                        {% if item.url and item.url != "" %}</a>{% endif %}
+                      </p>
+                      {% if item.author %}<p class="subtitle is-6">By {{ item.author }}</p>{% endif %}
+                    </div>
+                  </div>
+                  <div class="content">
+                    {{ item.description | markdownify | truncatewords: 30 }}
+                    {% if item.url and item.url != "" %}
+                      <br><a href="{{ item.url }}" class="button is-link is-outlined is-small mt-2">Read More</a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div><!-- /.timeline -->
+
+  </div>
+</section>
+
+<script>
+// Optional: If you want to make thumbnails clickable to show/hide video or open modal
+// For simplicity, the above embeds directly.
+// Example for playing video on thumbnail click (requires more setup)
+document.addEventListener('DOMContentLoaded', () => {
+    const videoThumbnails = document.querySelectorAll('.youtube-thumbnail');
+    videoThumbnails.forEach(thumb => {
+        thumb.addEventListener('click', function() {
+            const card = this.closest('.card');
+            const videoContainer = card.querySelector('.video-container');
+            if (videoContainer) {
+                // This is a very basic toggle, you might want to hide thumb and show player
+                videoContainer.style.display = videoContainer.style.display === 'none' ? 'block' : 'none';
+            }
+        });
+    });
+});
+</script>
