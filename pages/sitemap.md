@@ -1,7 +1,7 @@
 ---
-layout: default # Or your preferred page layout
+layout: default
 title: Sitemap
-permalink: /sitemap/ # Or /sitemap.html
+permalink: /sitemap/
 seo:
   title: Sitemap - Comprehensive Overview of Our Content
   description: Explore all pages, blog posts, categories, and tags available on our site. A complete guide to our content.
@@ -32,7 +32,7 @@ seo:
       <h2 class="title is-3 mb-4">Latest Blog Posts</h2>
       {%- if site.posts.size > 0 -%}
         <div class="columns is-multiline is-desktop">
-          {%- for post in site.posts limit:20 -%} {# Limit to recent posts or remove limit for all #}
+          {%- for post in site.posts limit:20 -%}
             <div class="column is-one-quarter-desktop is-half-mobile">
               <div class="card sitemap-post-card">
                 {%- if post.image -%}
@@ -50,8 +50,8 @@ seo:
                     <time datetime="{{ post.date | date_to_xmlschema }}">
                       {{ post.date | date: "%B %d, %Y" }}
                     </time>
-                    {%- if post.categories.size > 0 -%}
-                      • {{ post.categories | first | capitalize }}
+                    {%- if post.categories.size > 0 and post.categories.first != "" and post.categories.first != nil -%}
+                      • {{ post.categories.first | capitalize }}
                     {%- endif -%}
                   </p>
                 </div>
@@ -59,9 +59,9 @@ seo:
             </div>
           {%- endfor -%}
         </div>
-        {%- if site.posts.size > 20 -%} {# Add link to full blog archive if limiting posts #}
+        {%- if site.posts.size > 20 -%}
           <div class="has-text-centered mt-4">
-            <a href="{{ "/blog/" | relative_url }}" class="button is-link">View All Blog Posts</a> {# Adjust /blog/ if your blog index is elsewhere #}
+            <a href="{{ "/blog/" | relative_url }}" class="button is-link">View All Blog Posts</a>
           </div>
         {%- endif -%}
       {%- else -%}
@@ -75,11 +75,16 @@ seo:
       <div class="tags are-medium">
         {%- assign sorted_categories = site.categories | sort_natural -%}
         {%- for category_array in sorted_categories -%}
-          {%- assign category_name = category_array[0] -%}
-          {%- assign category_slug = category_name | slugify -%}
-          {%- assign category_page_url = "/category/" | append: category_slug | append: "/" | relative_url -%}
-          {# Adjust category_page_url if your category URL structure is different #}
-          <a href="{{ category_page_url }}" class="tag is-info is-light">{{ category_name | capitalize }} ({{ category_array[1].size }})</a>
+          {%- assign category_name_raw = category_array[0] -%}
+          {%- if category_name_raw and category_name_raw != "" -%}
+            {%- comment -%} Ensure category_name_raw is a string; default to empty if not for safety, though it should be. {%- endcomment -%}
+            {%- assign category_name = category_name_raw | default: "" | strip -%}
+            {%- if category_name != "" -%}
+              {%- assign category_slug = category_name | slugify -%}
+              {%- assign category_page_url = "/category/" | append: category_slug | append: "/" | relative_url -%}
+              <a href="{{ category_page_url }}" class="tag is-info is-light">{{ category_name | capitalize }} ({{ category_array[1].size }})</a>
+            {%- endif -%}
+          {%- endif -%}
         {%- endfor -%}
       </div>
     </div>
@@ -91,11 +96,16 @@ seo:
       <div class="tags are-medium">
         {%- assign sorted_tags = site.tags | sort_natural -%}
         {%- for tag_array in sorted_tags -%}
-          {%- assign tag_name = tag_array[0] -%}
-          {%- assign tag_slug = tag_name | slugify -%}
-          {%- assign tag_page_url = "/tag/" | append: tag_slug | append: "/" | relative_url -%}
-          {# Adjust tag_page_url if your tag URL structure is different #}
-          <a href="{{ tag_page_url }}" class="tag is-success is-light">{{ tag_name }} ({{ tag_array[1].size }})</a>
+          {%- assign tag_name_raw = tag_array[0] -%}
+          {%- if tag_name_raw and tag_name_raw != "" -%}
+            {%- comment -%} Ensure tag_name_raw is a string {%- endcomment -%}
+            {%- assign tag_name = tag_name_raw | default: "" | strip -%}
+            {%- if tag_name != "" -%}
+              {%- assign tag_slug = tag_name | slugify -%}
+              {%- assign tag_page_url = "/tag/" | append: tag_slug | append: "/" | relative_url -%}
+              <a href="{{ tag_page_url }}" class="tag is-success is-light">{{ tag_name }} ({{ tag_array[1].size }})</a>
+            {%- endif -%}
+          {%- endif -%}
         {%- endfor -%}
       </div>
     </div>
@@ -103,73 +113,3 @@ seo:
 
   </div>
 </section>
-<style>
-// --- Sitemap Page Specific Styles ---
-.sitemap-section {
-  // General spacing is handled by Bulma's mb-6 on the section div itself
-}
-.sitemap-list {
-  list-style: none; // Remove default bullet points
-  margin-left: 0;
-  padding-left: 0;
-
-  li {
-    padding: 0.3rem 0;
-    border-bottom: 1px solid hsl(0, 0%, 93%); // Bulma's is-light border color
-
-    &:last-child {
-      border-bottom: none;
-    }
-
-    a {
-      font-size: 1.1rem;
-      color: hsl(217, 71%, 53%); // Bulma's link color
-      &:hover {
-        color: hsl(217, 71%, 48%); // Darker on hover
-        text-decoration: underline;
-      }
-    }
-  }
-}
-
-.sitemap-post-card {
-  height: 100%; // Makes cards in a row the same height
-  display: flex;
-  flex-direction: column;
-
-  .card-image {
-    img {
-      object-fit: cover; // Ensures image covers the area without distortion
-    }
-  }
-
-  .card-content {
-    flex-grow: 1; // Allows content to expand and push footer down if present
-    padding: 1rem; // Slightly reduced padding for a tighter look
-  }
-
-  .card-post-title {
-    margin-bottom: 0.5rem !important; // Override Bulma if needed
-    line-height: 1.3;
-    a {
-      color: hsl(0, 0%, 21%); // Bulma's title color
-      &:hover {
-        color: hsl(217, 71%, 53%);
-      }
-    }
-  }
-  .subtitle.is-7 {
-    font-size: 0.8rem;
-  }
-}
-
-// Optional: Add some hover effect to cards
-.sitemap-post-card:hover {
-  box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
-  transform: translateY(-2px);
-  transition: all 0.2s ease-in-out;
-}
-
-.tags.are-medium .tag {
-  margin: 0.25rem; // Ensure good spacing between tags
-}</style>
