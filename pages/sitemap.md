@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Sitemap
-permalink: /sitemap/
+permalink: /site/
 seo:
   title: Sitemap - Comprehensive Overview of Our Content
   description: Explore all pages, blog posts, categories, and tags available on our site. A complete guide to our content.
