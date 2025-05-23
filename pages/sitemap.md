@@ -306,80 +306,87 @@ seo:
         <div class="notification is-warning">No blog posts found yet. Stay tuned!</div>
       {%- endif -%}
     </div>
-    <!-- Topics (Categories) Section -->
+<!-- Topics (Categories) Section - SIMPLIFIED DEBUG -->
     {%- if site.categories.size > 0 -%}
     <div class="sitemap-section topics-section mb-6">
       <h2 class="title is-3 has-text-weight-semibold">
-        <span class="icon-text">
-          <span class="icon"><i class="ph ph-folders"></i></span>
-          <span>Explore by Topic</span>
-        </span>
+        <span class="icon-text"><span class="icon"><i class="ph ph-folders"></i></span><span>DEBUG: Topics (Categories)</span></span>
       </h2>
-      <div class="tile is-ancestor is-flex-wrap-wrap">
-        {%- assign sorted_categories = site.categories | sort_natural -%}
-        {%- for category_item_array in sorted_categories -%}
+      <p>Raw site.categories count: {{ site.categories.size }}</p>
+      <ul>
+        {%- for category_item_array in site.categories -%}
           {%- assign category_name_raw = category_item_array[0] -%}
-          {%- if category_name_raw -%}
-            {%- assign category_name_str = category_name_raw |is_a:"String" ? category_name_raw : category_name_raw | join: "," | default:"" -%}
-            {%- assign category_name_clean = category_name_str | strip | downcase -%}
-            {%- if category_name_clean != "" -%}
-                {%- assign category_posts_count = category_item_array[1].size -%}
+          {%- assign category_posts_count = category_item_array[1].size -%}
+          <li>
+            <strong>Name (Raw):</strong> {{ category_name_raw | inspect }} <br>
+            <strong>Is String?:</strong> {{ category_name_raw | is_a:"String" }} <br>
+            <strong>Posts Count:</strong> {{ category_posts_count }} <br>
+            {%- if category_name_raw and category_name_raw != "" -%}
+              {%- assign category_name_str = category_name_raw | is_a:"String" ? category_name_raw : category_name_raw | join: "," | default:"" -%}
+              {%- assign category_name_clean = category_name_str | strip | downcase -%}
+              <strong>Cleaned Name for Slug:</strong> {{ category_name_clean }} <br>
+              {%- if category_name_clean != "" -%}
                 {%- assign category_slug = category_name_clean | slugify -%}
-                {%- if category_slug != "" -%} {# Final check for slugify output #}
-                    {%- assign category_page_url = "/category/" | append: category_slug | append: "/" | relative_url -%}
-                    <div class="tile is-parent is-4">
-                    <a href="{{ category_page_url }}" class="tile is-child box sitemap-tile-link topic-tile raise-on-hover">
-                        <article class="media">
-                        <div class="media-left">
-                            <span class="icon is-large has-text-info">
-                            <i class="ph ph-folder-simple-dashed ph-2x"></i>
-                            </span>
-                        </div>
-                        <div class="media-content">
-                            <p class="title is-5">{{ category_name_raw | capitalize }}</p>
-                            <p class="subtitle is-6">{{ category_posts_count }} Article{% if category_posts_count != 1 %}s{% endif %}</p>
-                        </div>
-                        </article>
-                    </a>
-                    </div>
+                <strong>Slug:</strong> {{ category_slug }}
+                {%- if category_slug != "" -%}
+                  (Link would go here for {{ category_name_raw | capitalize }})
+                {%- else -%}
+                  (Slug is empty after slugify)
                 {%- endif -%}
+              {%- else -%}
+                (Cleaned name is empty)
+              {%- endif -%}
+            {%- else -%}
+              (Raw name is nil or empty)
             {%- endif -%}
-          {%- endif -%}
+            <hr>
+          </li>
         {%- endfor -%}
-      </div>
+      </ul>
     </div>
+    {%- else -%}
+        <p class="notification is-warning">DEBUG: site.categories is empty or size is 0.</p>
     {%- endif -%}
-    <!-- Keywords (Tags) Section -->
+    <!-- Keywords (Tags) Section - SIMPLIFIED DEBUG -->
     {%- if site.tags.size > 0 -%}
     <div class="sitemap-section tags-section mb-6">
       <h2 class="title is-3 has-text-weight-semibold">
-        <span class="icon-text">
-          <span class="icon"><i class="ph ph-tags"></i></span>
-          <span>Browse by Keyword</span>
-        </span>
+        <span class="icon-text"><span class="icon"><i class="ph ph-tags"></i></span><span>DEBUG: Keywords (Tags)</span></span>
       </h2>
-      <div class="tags are-medium">
-        {%- assign sorted_tags = site.tags | sort_natural -%}
-        {%- for tag_item_array in sorted_tags -%}
+      <p>Raw site.tags count: {{ site.tags.size }}</p>
+      <ul>
+        {%- for tag_item_array in site.tags -%}
           {%- assign tag_name_raw = tag_item_array[0] -%}
-           {%- if tag_name_raw -%}
-            {%- assign tag_name_str = tag_name_raw |is_a:"String" ? tag_name_raw : tag_name_raw | join: "," | default:"" -%}
-            {%- assign tag_name_clean = tag_name_str | strip | downcase -%}
-            {%- if tag_name_clean != "" -%}
-                {%- assign tag_posts_count = tag_item_array[1].size -%}
-                {%- assign tag_slug = tag_name_clean | slugify -%}
-                {%- if tag_slug != "" -%} {# Final check for slugify output #}
-                    {%- assign tag_page_url = "/tag/" | append: tag_slug | append: "/" | relative_url -%}
-                    <a href="{{ tag_page_url }}" class="tag is-light is-rounded sitemap-tag-link">
-                    <span class="icon is-small"><i class="ph ph-tag"></i></span>
-                    {{ tag_name_raw }} ({{ tag_posts_count }})
-                    </a>
+          {%- assign tag_posts_count = tag_item_array[1].size -%}
+          <li>
+            <strong>Name (Raw):</strong> {{ tag_name_raw | inspect }} <br>
+            <strong>Is String?:</strong> {{ tag_name_raw | is_a:"String" }} <br>
+            <strong>Posts Count:</strong> {{ tag_posts_count }} <br>
+            {%- if tag_name_raw and tag_name_raw != "" -%}
+                {%- assign tag_name_str = tag_name_raw | is_a:"String" ? tag_name_raw : tag_name_raw | join: "," | default:"" -%}
+                {%- assign tag_name_clean = tag_name_str | strip | downcase -%}
+                <strong>Cleaned Name for Slug:</strong> {{ tag_name_clean }} <br>
+                {%- if tag_name_clean != "" -%}
+                    {%- assign tag_slug = tag_name_clean | slugify -%}
+                    <strong>Slug:</strong> {{ tag_slug }}
+                    {%- if tag_slug != "" -%}
+                        (Link would go here for {{ tag_name_raw }})
+                    {%- else -%}
+                        (Slug is empty after slugify)
+                    {%- endif -%}
+                {%- else -%}
+                    (Cleaned name is empty)
                 {%- endif -%}
+            {%- else -%}
+                (Raw name is nil or empty)
             {%- endif -%}
-          {%- endif -%}
+            <hr>
+          </li>
         {%- endfor -%}
-      </div>
+      </ul>
     </div>
+    {%- else -%}
+        <p class="notification is-warning">DEBUG: site.tags is empty or size is 0.</p>
     {%- endif -%}
     <!-- All Other Pages Section -->
     <div class="sitemap-section other-pages-section">
