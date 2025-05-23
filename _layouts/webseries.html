@@ -1,62 +1,49 @@
 ---
 layout: default
 ---
-<style>
-        :root {
-            --brand-primary: #00d1b2; /* Bulma's Teal */
-            --brand-primary-dark: #00a991;
-            --text-primary: #2c3e50;
-            --text-secondary: #52616b;
-            --bg-light: #f4f6f8;
-            --bg-soft: #ffffff;
-            --border-color: #e1e8ed;
-            --player-bg: #000000;
-            --controls-bg: rgba(20, 20, 20, 0.88);
-            --controls-text: #e8e8e8;
-            --slider-track: rgba(255,255,255,0.25);
-            --slider-thumb-border: rgba(20,20,20,0.88);
-        }
 
-        body {
-            background-color: var(--bg-light); 
-            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            color: var(--text-primary);
-            line-height: 1.6;
-            font-size: 16px;
+
+    <style>
+        :root {
+            --brand-primary: #00d1b2; --brand-primary-dark: #00a991; --text-primary: #2c3e50;
+            --text-secondary: #52616b; --bg-light: #f4f6f8; --bg-soft: #ffffff;
+            --border-color: #e1e8ed; --player-bg: #000000; --controls-bg: rgba(20, 20, 20, 0.9);
+            --controls-text: #e8e8e8; --slider-track: rgba(255,255,255,0.28);
+            --slider-thumb-border: rgba(20,20,20,0.9);
         }
-        .webseries-page-container .section { padding: 2.5rem 1.5rem; }
-        .series-intro .title.is-1 { color: var(--text-primary); font-weight: 700; margin-bottom: 0.5rem; line-height: 1.2; }
-        .series-intro .subtitle.is-4 { color: var(--text-secondary); font-weight: 400; margin-bottom: 1.2rem; line-height: 1.5; }
-        .series-intro strong { color: var(--text-primary); }
-        .series-intro .tags .tag { background-color: var(--brand-primary-dark); color: white; font-weight: 500; padding: 0.5em 1em; font-size: 0.9rem;}
-        .series-intro .image img { border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.12); }
+        body { background-color: var(--bg-light); font-family: "Inter", sans-serif; color: var(--text-primary); line-height: 1.65; font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;}
+        .webseries-page-container .section { padding: 2rem 1.5rem; }
+        .series-intro .title.is-1 { color: var(--text-primary); font-weight: 700; margin-bottom: 0.75rem; line-height: 1.25; }
+        .series-intro .subtitle.is-4 { color: var(--text-secondary); font-weight: 400; margin-bottom: 1.5rem; line-height: 1.55; }
+        .series-intro strong { color: var(--text-primary); font-weight: 600; }
+        .series-intro .tags .tag { background-color: #e0f2f1; color: #00796b; font-weight: 500; padding: 0.4em 0.9em; font-size: 0.85rem; border-radius: 6px;}
+        .series-intro .image img { border-radius: 12px; box-shadow: 0 6px 24px rgba(0,0,0,0.15); }
 
         .player-section .columns { align-items: flex-start; }
-
         .custom-player-container {
-            background-color: var(--player-bg); padding: 0; overflow: visible;
-            border-radius: 14px; display: flex; flex-direction: column; position: relative;
-            box-shadow: 0 12px 35px rgba(0,0,0,0.22);
+            background-color: var(--player-bg); padding: 0; overflow: hidden; /* Changed from visible */
+            border-radius: 16px; display: flex; flex-direction: column; position: relative;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
         }
         .video-wrapper {
             position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
-            background-color: #050505; border-radius: 14px; 
+            background-color: #080808; border-radius: 16px; 
         }
         #video-player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
-        #video-player iframe { width: 100%; height: 100%; display: block; border-radius: 14px; }
+        #video-player iframe { width: 100%; height: 100%; display: block; border-radius: 16px; border:0; }
 
         .player-controls {
-            background: var(--controls-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            padding: 10px 18px; color: var(--controls-text); font-size: 0.9em; border-radius: 12px;
+            background: var(--controls-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            padding: 10px 20px; color: var(--controls-text); font-size: 0.9em; border-radius: 12px;
             opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-            position: absolute; bottom: 15px; left: 15px; right: 15px; z-index: 21;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.4); transform: translateY(15px);
+            position: absolute; bottom: 10px; left: 10px; right: 10px; z-index: 21; /* Ensure controls are above video iframe */
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.5); transform: translateY(20px);
         }
         .custom-player-container:hover .player-controls,
         .custom-player-container.controls-active .player-controls { opacity: 1; visibility: visible; transform: translateY(0); }
         
-        .player-controls .level-item { margin-right: 12px; }
-        .player-controls-top { margin-bottom: 8px; }
+        .player-controls .level-item { margin-right: 10px; }
+        .player-controls-top { margin-bottom: 6px; }
         .player-controls-bottom { margin-bottom: 0; }
 
         input[type="range"] { 
@@ -64,94 +51,109 @@ layout: default
             background: var(--slider-track); outline: none; opacity: 0.9;
             transition: opacity .2s, background .2s; border-radius: 3px; margin: 8px 0; cursor: pointer;
         }
-        input[type="range"]:hover { opacity: 1; background: rgba(255,255,255,0.4); }
+        input[type="range"]:hover { opacity: 1; background: rgba(255,255,255,0.45); }
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none; appearance: none; width: 16px; height: 16px; border-radius: 50%;
             background: var(--brand-primary); cursor: pointer; margin-top: -5px; 
-            box-shadow: 0 0 12px rgba(0, 209, 178, 0.7);
+            box-shadow: 0 0 10px rgba(0, 209, 178, 0.6);
             transition: transform 0.15s ease-in-out; border: 2px solid var(--slider-thumb-border);
         }
         input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
         input[type="range"]::-moz-range-thumb { 
             width: 16px; height: 16px; border-radius: 50%; background: var(--brand-primary); cursor: pointer;
-            box-shadow: 0 0 12px rgba(0, 209, 178, 0.7); border: 2px solid var(--slider-thumb-border);
+            box-shadow: 0 0 10px rgba(0, 209, 178, 0.6); border: 2px solid var(--slider-thumb-border);
         }
         input[type="range"]#progress-bar { background-image: linear-gradient(var(--brand-primary), var(--brand-primary)); background-size: 0% 100%; background-repeat: no-repeat; }
         input[type="range"]#volume-slider { width: 80px; background-image: linear-gradient(var(--brand-primary), var(--brand-primary)); background-size: 100% 100%; background-repeat: no-repeat; }
         
-        .current-time-display, .total-time-display { font-variant-numeric: tabular-nums; color: #ddd; font-family: "Roboto Mono", monospace; font-size:0.95em; }
+        .current-time-display, .total-time-display { font-variant-numeric: tabular-nums; color: #e0e0e0; font-family: "Roboto Mono", monospace; font-size:0.9em; }
         
         .player-controls .button {
             color: var(--controls-text); background-color: transparent; border: none;
             transition: color 0.2s ease, transform 0.15s ease, background-color 0.2s ease; 
-            padding: 0.5em 0.75em;
+            padding: 0.5em 0.75em; border-radius: 6px;
         }
-        .player-controls .button:hover { color: var(--brand-primary); background-color: rgba(255,255,255,0.1); transform: scale(1.12); }
+        .player-controls .button:hover { color: var(--brand-primary); background-color: rgba(255,255,255,0.12); transform: scale(1.1); }
         .player-controls .button.is-primary { background-color: var(--brand-primary); color: #111; }
         .player-controls .button.is-primary:hover { background-color: var(--brand-primary-dark); color: #000; box-shadow: 0 2px 8px rgba(0,209,178,0.3); }
         
-        #autoplay-checkbox-label { color: var(--controls-text); font-size: 0.95em; display:inline-flex; align-items:center; cursor:pointer;}
+        #autoplay-checkbox-label { color: var(--controls-text); font-size: 0.9em; display:inline-flex; align-items:center; cursor:pointer;}
         #autoplay-checkbox { margin-right: 6px; vertical-align: middle; }
         #autoplay-checkbox + span { vertical-align: middle; }
         
         #next-episode-btn-player {
             background-color: var(--brand-primary); color: #000; font-weight: 600;
-            margin-left: auto; border: none; padding: 0.6em 1em;
+            margin-left: auto; border: none; padding: 0.6em 1em; font-size: 0.9em; border-radius: 6px;
         }
         #next-episode-btn-player:hover { background-color: var(--brand-primary-dark); }
 
         .episode-list-container .box {
-            background-color: var(--bg-soft); box-shadow: 0 8px 20px rgba(44,62,80,0.1);
-            padding: 0; border-radius: 10px;
+            background-color: var(--bg-soft); box-shadow: 0 8px 24px rgba(44,62,80,0.12);
+            padding: 0; border-radius: 12px;
         }
         .episode-list-title {
-            padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-color);
-            margin-bottom: 0; font-weight: 600; color: var(--text-primary); font-size: 1.2rem;
+            padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-color);
+            margin-bottom: 0; font-weight: 700; color: var(--text-primary); font-size: 1.25rem;
         }
-        #episode-list {
-            list-style: none; margin: 0; padding: 0.5rem 0;
-            max-height: 550px; overflow-y: auto;
-        }
-        #episode-list::-webkit-scrollbar { width: 6px; }
-        #episode-list::-webkit-scrollbar-track { background: var(--bg-light); border-radius: 3px; }
-        #episode-list::-webkit-scrollbar-thumb { background: #bdc3c7; border-radius: 3px; }
-        #episode-list::-webkit-scrollbar-thumb:hover { background: #95a5a6; }
+        #episode-list { list-style: none; margin: 0; padding: 0.5rem 0; max-height: 55vh; overflow-y: auto; }
+        #episode-list::-webkit-scrollbar { width: 7px; }
+        #episode-list::-webkit-scrollbar-track { background: #f0f2f5; border-radius: 3.5px; }
+        #episode-list::-webkit-scrollbar-thumb { background: #ced4da; border-radius: 3.5px; }
+        #episode-list::-webkit-scrollbar-thumb:hover { background: #adb5bd; }
 
         #episode-list li {
-            padding: 0.9rem 1.5rem; cursor: pointer; border-bottom: 1px solid var(--border-color);
-            transition: background-color 0.2s ease, color 0.2s ease, border-left 0.2s ease;
-            font-size: 1rem; display: flex; align-items: center; color: var(--text-secondary);
-            border-left: 4px solid transparent; /* For active indicator */
+            padding: 0.9rem 1.5rem; cursor: pointer; border-bottom: 1px solid #f0f2f5;
+            transition: background-color 0.25s ease, color 0.25s ease, border-left-color 0.25s ease;
+            font-size: 0.95rem; display: flex; align-items: center; color: var(--text-secondary);
+            border-left: 5px solid transparent;
         }
         #episode-list li:last-child { border-bottom: none; }
-        #episode-list li:hover { background-color: #ecf0f1; color: var(--text-primary); border-left-color: var(--brand-primary-dark); }
+        #episode-list li:hover { background-color: #eaf6f5; color: var(--text-primary); border-left-color: var(--brand-primary); }
         #episode-list li.is-active {
             background-color: var(--brand-primary); color: white; font-weight: 600;
             border-left-color: var(--brand-primary-dark);
         }
         #episode-list li.is-active:hover { background-color: var(--brand-primary-dark); }
-        #episode-list li .icon { margin-right: 1rem; color: inherit; font-size: 1.1em; }
-        .episode-title-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 30px); }
-        .episode-placeholder-text { padding: 1rem; text-align: center; color: var(--text-secondary); }
+        #episode-list li .icon { margin-right: 1rem; color: inherit; font-size: 1.1em; transition: color 0.2s ease; }
+        #episode-list li:hover .icon { color: var(--brand-primary); }
+        #episode-list li.is-active .icon { color: white; }
+        .episode-title-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 35px); }
+        .episode-placeholder-text { padding: 1.5rem; text-align: center; color: var(--text-secondary); font-style: italic; }
 
         .display-ad-placeholder {
-            background-color: var(--bg-soft); border: 1px dashed #bdc3c7;
-            display: flex; justify-content: center; align-items: center;
-            text-align: center; color: #7f8c8d; font-size: 0.9rem;
-            border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            min-height: 100px; 
+            background-color: var(--bg-soft); border: 1px solid var(--border-color);
+            display: flex; flex-direction:column; justify-content: center; align-items: center;
+            text-align: center; color: #95a5a6; font-size: 0.9rem;
+            border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+            min-height: 100px; padding:1rem;
         }
-        .sidebar-ad { height: 250px; margin-bottom: 1.5rem; }
-        .bottom-ad { height: 100px; margin-top: 2rem; }
+        .display-ad-placeholder small {font-size: 0.8em; margin-top: 0.5em;}
+        .sidebar-ad { min-height: 250px; margin-bottom: 1.5rem; } /* Ensure height is enough for typical ads */
+        .bottom-ad { min-height: 90px; margin-top: 2rem; }
         
-        .series-notes.section { padding-top: 1.5rem; }
+        .series-notes.section { padding-top: 2rem; }
         .series-notes .content {
-            background-color: var(--bg-soft); padding: 2rem; border-radius: 10px;
-            box-shadow: 0 8px 20px rgba(44,62,80,0.1);
+            background-color: var(--bg-soft); padding: 2rem 2.5rem; border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(44,62,80,0.12);
         }
-        .series-notes .content h2, .series-notes .content h3 { color: var(--text-primary); font-weight: 600; }
-        .series-notes .content p { color: var(--text-secondary); }
+        .series-notes .content h2, .series-notes .content h3 { color: var(--text-primary); font-weight: 600; margin-top: 1.5em; margin-bottom: 0.75em; }
+        .series-notes .content p { color: var(--text-secondary); margin-bottom: 1.2em; }
     </style>
+
+    {% if site.data.includes and site.data.includes.header %}
+        {% include header.html %}
+    {% else %}
+        <!-- Basic Header Placeholder -->
+        <nav class="navbar is-light" role="navigation" aria-label="main navigation">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a class="navbar-item has-text-weight-bold" href="{{ "/" | relative_url }}">
+                        {{ site.title | default: "My Web Series Site" }}
+                    </a>
+                </div>
+            </div>
+        </nav>
+    {% endif %}
 
     <main class="main">
         <div class="webseries-page-container">
@@ -168,7 +170,7 @@ layout: default
                         <div class="column is-full-mobile {% if page.series_poster %}is-two-thirds-tablet is-three-quarters-desktop{% else %}is-full{% endif %}">
                             <h1 class="title is-1 is-size-2-tablet is-size-3-mobile">{{ page.title }}</h1>
                             {% if page.description %}<p class="subtitle is-4 is-size-5-mobile">{{ page.description }}</p>{% endif %}
-                            {% if page.series_creator %}<p class="is-size-5 mb-2"><strong>Created by:</strong> {{ page.series_creator }}</p>{% endif %}
+                            {% if page.series_creator_name %}<p class="is-size-5 mb-2"><strong>Creator/Channel:</strong> {{ page.series_creator_name }}</p>{% endif %}
                             {% if page.tags %}<div class="tags mb-4">{% for tag in page.tags %}<span class="tag">{{ tag }}</span>{% endfor %}</div>{% endif %}
                         </div>
                     </div>
@@ -177,8 +179,8 @@ layout: default
 
             <section class="section player-section pt-0">
                 <div class="container">
-                    <div class="columns">
-                        <div class="column is-two-thirds-widescreen is-full-desktop"> {/* Player takes more space */}
+                    <div class="columns is-variable is-5-desktop">
+                        <div class="column is-two-thirds-desktop is-full-tablet">
                             <div class="box custom-player-container" id="main-player-box">
                                 <div class="video-wrapper"><div id="video-player"></div></div>
                                 <div class="player-controls">
@@ -203,38 +205,38 @@ layout: default
                                             </div>
                                         </div>
                                         <div class="level-right">
-                                            <div class="level-item"><button id="next-episode-btn-player" class="button is-small is-rounded is-hidden" title="Play Next Episode">Next <span class="icon is-small ml-1"><i class="fas fa-play"></i></span></button></div>
+                                            <div class="level-item"><button id="next-episode-btn-player" class="button is-small is-rounded is-hidden" title="Play Next Episode">Next Episode <span class="icon is-small ml-1"><i class="fas fa-play"></i></span></button></div>
                                             <div class="level-item"><button id="fullscreen-btn" class="button is-small is-rounded" title="Fullscreen"><span class="icon is-small"><i class="fas fa-expand"></i></span></button></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="display-ad-placeholder bottom-ad is-hidden-tablet mt-5">Mobile Ad Banner</div>
+                            <div class="display-ad-placeholder bottom-ad is-hidden-desktop mt-5"><p>Mobile Ad Banner</p><small>(e.g. 320x50)</small></div>
                         </div>
 
-                        <div class="column is-one-third-widescreen is-full-desktop">
+                        <div class="column is-one-third-desktop is-full-tablet">
                             <div class="episode-list-container">
                                 <div class="box">
                                     <h2 class="title is-5 episode-list-title">Episodes</h2>
                                     <ul id="episode-list"><p class="episode-placeholder-text">Loading episodes...</p></ul>
                                 </div>
                             </div>
-                            <div class="display-ad-placeholder sidebar-ad mt-5 is-hidden-mobile">Sidebar Ad (300x250)</div>
+                            <div class="display-ad-placeholder sidebar-ad mt-5 is-hidden-touch"><p>Sidebar Ad</p><small>(e.g. 300x250)</small></div>
                         </div>
                     </div>
-                    <div class="columns is-centered is-hidden-mobile">
-                        <div class="column is-two-thirds-widescreen is-full-desktop">
-                             <div class="display-ad-placeholder bottom-ad">Desktop Ad Banner (e.g., 728x90)</div>
+                    <div class="columns is-centered is-hidden-touch">
+                        <div class="column is-two-thirds-desktop is-full-tablet">
+                             <div class="display-ad-placeholder bottom-ad"><p>Desktop Ad Banner</p><small>(e.g. 728x90)</small></div>
                         </div>
                     </div>
                 </div>
             </section>
             
             {% if content and content != "" and content != " " %}
-            <section class="section series-notes">
+            <section class="section series-notes pt-0">
                 <div class="container">
                     <div class="columns is-centered">
-                        <div class="column is-three-quarters-desktop is-full-tablet">
+                        <div class="column is-two-thirds-desktop is-full-tablet">
                              <div class="content"> {{ content }} </div>
                         </div>
                     </div>
@@ -249,17 +251,18 @@ layout: default
     
     <script>
         const jekyllPageData = {
-            youtubePlaylistId: "{{ page.youtube_playlist_id }}",
+            youtubePlaylistId: "{{ page.youtube_playlist_id | escape }}",
             title: "{{ page.title | escape }}",
-            description: "{{ page.description | strip_html | escape }}",
+            description: "{{ page.description | strip_html | replace: '\', '\\\\' | replace: '"', '\\"' | escape }}",
             seriesPoster: "{{ page.series_poster | relative_url | escape }}",
             datePublished: "{{ page.date_published | escape }}",
             genre: "{{ page.genre | escape }}",
-            creatorName: "{{ page.series_creator | escape }}", // Used as director/creator in JSON-LD
-            actors: [{% for actor in page.actor_names %}{"@type": "Person", "name": "{{ actor | escape }}"}{% unless forloop.last %},{% endunless %}{% endfor %}],
-            directors: [{% for director in page.director_names %}{"@type": "Person", "name": "{{ director | escape }}"}{% endfor %}{% if page.series_creator and page.director_names == nil %}{"@type": "Person", "name": "{{ page.series_creator | escape }}"}{% endif %}],
-            productionCompany: {"@type": "Organization", "name": "{{ page.production_company | default: page.publisher_name | escape }}"},
-            publisher: {"@type": "Organization", "name": "{{ page.publisher_name | escape }}"}
+            seriesCreatorName: "{{ page.series_creator_name | escape }}",
+            actors: {{ page.actors | jsonify | default: '[]' }},
+            directors: {{ page.directors | jsonify | default: '[]' }},
+            productionCompanyName: "{{ page.production_company_name | escape }}",
+            publisherName: "{{ page.publisher_name | default: site.title | escape }}",
+            episodeOverrides: {{ page.episode_overrides | jsonify | default: '[]' }}
         };
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -290,75 +293,99 @@ layout: default
             
             let playlistVideos = []; 
             let currentPlaylistIndex = 0;
+            let youtubeApiReady = false;
+            let playerReady = false;
 
-            const formatTime = (s) => { /* ... same ... */ 
-                if(isNaN(s)||s<0)return"00:00";const t=Math.floor(s),h=Math.floor(t/3600),m=Math.floor(t%3600/60),c=t%60;return h>0?`${h}:${String(m).padStart(2,"0")}:${String(c).padStart(2,"0")}`:`${String(m).padStart(2,"0")}:${String(c).padStart(2,"0")}`
-            };
-            const updatePlayPauseIcon = () => { /* ... same ... */ activePlayer&&activePlayer.getPlayerState&&activePlayer.getPlayerState()===YT.PlayerState.PLAYING?playPauseIcon.classList.replace("fa-play","fa-pause"):playPauseIcon.classList.replace("fa-pause","fa-play") };
-            const updateVolumeIcon = () => { /* ... same ... */ 
-                let cv=0,im=false;if(activePlayer&&activePlayer.getVolume){cv=activePlayer.getVolume()/100;im=activePlayer.isMuted()}muteIcon.classList.remove("fa-volume-up","fa-volume-down","fa-volume-mute");if(im||cv===0)muteIcon.classList.add("fa-volume-mute");else if(cv<0.5)muteIcon.classList.add("fa-volume-down");else muteIcon.classList.add("fa-volume-up")
-            };
-            const updateProgressBarFill = () => { /* ... same ... */ 
-                if(!activePlayer||isNaN(progressBar.max)||progressBar.max<=0){progressBar.style.backgroundImage=`linear-gradient(to right, var(--brand-primary) 0%, var(--brand-primary) 0%, var(--slider-track) 0%, var(--slider-track) 100%)`;return}const v=parseFloat(progressBar.value)/parseFloat(progressBar.max)*100;progressBar.style.backgroundImage=`linear-gradient(to right, var(--brand-primary) 0%, var(--brand-primary) ${v}%, var(--slider-track) ${v}%, var(--slider-track) 100%)`
-            };
-            const updateVolumeSliderFill = () => { /* ... same ... */ const v=parseFloat(volumeSlider.value)*100;volumeSlider.style.backgroundImage=`linear-gradient(to right, var(--brand-primary) 0%, var(--brand-primary) ${v}%, var(--slider-track) ${v}%, var(--slider-track) 100%)` };
+            // Helper Functions (minimized for brevity, ensure full versions if copying)
+            const formatTime=(s)=>{if(isNaN(s)||s<0)return"00:00";const t=Math.floor(s),h=Math.floor(t/3600),m=Math.floor(t%3600/60),c=t%60;return h>0?`${h}:${String(m).padStart(2,"0")}:${String(c).padStart(2,"0")}`:`${String(m).padStart(2,"0")}:${String(c).padStart(2,"0")}`};
+            const updatePlayPauseIcon=()=>{activePlayer&&activePlayer.getPlayerState&&activePlayer.getPlayerState()===YT.PlayerState.PLAYING?playPauseIcon.classList.replace("fa-play","fa-pause"):playPauseIcon.classList.replace("fa-pause","fa-play")};
+            const updateVolumeIcon=()=>{let c=0,i=!1;if(activePlayer&&activePlayer.getVolume){c=activePlayer.getVolume()/100;i=activePlayer.isMuted()}muteIcon.classList.remove("fa-volume-up","fa-volume-down","fa-volume-mute");if(i||c===0)muteIcon.classList.add("fa-volume-mute");else if(c<0.5)muteIcon.classList.add("fa-volume-down");else muteIcon.classList.add("fa-volume-up")};
+            const updateProgressBarFill=()=>{if(!activePlayer||isNaN(progressBar.max)||progressBar.max<=0){progressBar.style.backgroundImage=`linear-gradient(to right, var(--brand-primary) 0%, var(--brand-primary) 0%, var(--slider-track) 0%, var(--slider-track) 100%)`;return}const v=parseFloat(progressBar.value)/parseFloat(progressBar.max)*100;progressBar.style.backgroundImage=`linear-gradient(to right, var(--brand-primary) 0%, var(--brand-primary) ${v}%, var(--slider-track) ${v}%, var(--slider-track) 100%)`};
+            const updateVolumeSliderFill=()=>{const v=parseFloat(volumeSlider.value)*100;volumeSlider.style.backgroundImage=`linear-gradient(to right, var(--brand-primary) 0%, var(--brand-primary) ${v}%, var(--slider-track) ${v}%, var(--slider-track) 100%)`};
 
             const playerControls = {
-                play:()=>{if(activePlayer&&activePlayer.playVideo)activePlayer.playVideo();updatePlayPauseIcon()},
-                pause:()=>{if(activePlayer&&activePlayer.pauseVideo)activePlayer.pauseVideo();updatePlayPauseIcon()},
-                togglePlayPause:()=>{if(!activePlayer||!activePlayer.getPlayerState)return;const p=activePlayer.getPlayerState();p===YT.PlayerState.PLAYING||p===YT.PlayerState.BUFFERING?playerControls.pause():playerControls.play()},
-                seekTo:(t)=>{if(activePlayer&&activePlayer.seekTo)activePlayer.seekTo(t,!0)},
-                setVolume:(v)=>{if(activePlayer&&activePlayer.setVolume){activePlayer.setVolume(v*100);if(v===0&&activePlayer.mute)activePlayer.mute();else if(activePlayer.unMute)activePlayer.unMute()}volumeSlider.value=v;updateVolumeSliderFill();updateVolumeIcon()},
-                toggleMute:()=>{if(!activePlayer||!activePlayer.isMuted)return;if(activePlayer.isMuted()||activePlayer.getVolume&&activePlayer.getVolume()===0){if(activePlayer.unMute)activePlayer.unMute();if(activePlayer.setVolume)activePlayer.setVolume(volumeBeforeMute*100>0?volumeBeforeMute*100:50)}else{if(activePlayer.getVolume)volumeBeforeMute=activePlayer.getVolume()/100;if(activePlayer.mute)activePlayer.mute()}volumeSlider.value=activePlayer.isMuted()?0:activePlayer.getVolume?activePlayer.getVolume()/100:0;updateVolumeSliderFill();updateVolumeIcon()},
-                getCurrentTime:()=>activePlayer&&activePlayer.getCurrentTime?activePlayer.getCurrentTime():0,
-                getDuration:()=>activePlayer&&activePlayer.getDuration?activePlayer.getDuration():NaN,
+                play:()=>{if(playerReady&&activePlayer.playVideo)activePlayer.playVideo()},
+                pause:()=>{if(playerReady&&activePlayer.pauseVideo)activePlayer.pauseVideo()},
+                togglePlayPause:()=>{if(!playerReady||!activePlayer.getPlayerState)return;const p=activePlayer.getPlayerState();p===YT.PlayerState.PLAYING||p===YT.PlayerState.BUFFERING?playerControls.pause():playerControls.play()},
+                seekTo:(t)=>{if(playerReady&&activePlayer.seekTo)activePlayer.seekTo(t,!0)},
+                setVolume:(v)=>{if(playerReady&&activePlayer.setVolume){activePlayer.setVolume(v*100);if(v===0&&activePlayer.mute)activePlayer.mute();else if(v>0&&activePlayer.unMute)activePlayer.unMute()}volumeSlider.value=v;updateVolumeSliderFill();updateVolumeIcon()},
+                toggleMute:()=>{if(!playerReady||!activePlayer.isMuted)return;if(activePlayer.isMuted()||activePlayer.getVolume&&activePlayer.getVolume()===0){if(activePlayer.unMute)activePlayer.unMute();if(activePlayer.setVolume)activePlayer.setVolume(volumeBeforeMute*100>0?volumeBeforeMute*100:50)}else{if(activePlayer.getVolume)volumeBeforeMute=activePlayer.getVolume()/100;if(activePlayer.mute)activePlayer.mute()}volumeSlider.value=activePlayer.isMuted()?0:activePlayer.getVolume?activePlayer.getVolume()/100:0;updateVolumeSliderFill();updateVolumeIcon()},
+                getCurrentTime:()=>playerReady&&activePlayer.getCurrentTime?activePlayer.getCurrentTime():0,
+                getDuration:()=>playerReady&&activePlayer.getDuration?activePlayer.getDuration():NaN,
                 toggleFullscreen:()=>{if(!document.fullscreenElement&&!document.webkitFullscreenElement&&!document.msFullscreenElement){if(mainPlayerBox.requestFullscreen)mainPlayerBox.requestFullscreen();else if(mainPlayerBox.webkitRequestFullscreen)mainPlayerBox.webkitRequestFullscreen();else if(mainPlayerBox.msRequestFullscreen)mainPlayerBox.msRequestFullscreen()}else{if(document.exitFullscreen)document.exitFullscreen();else if(document.webkitExitFullscreen)document.webkitExitFullscreen();else if(document.msExitFullscreen)document.msExitFullscreen()}},
-                next:()=>{if(activePlayer&&activePlayer.nextVideo)activePlayer.nextVideo()},
-                previous:()=>{if(activePlayer&&activePlayer.previousVideo)activePlayer.previousVideo()},
-                playAt:idx=>{if(activePlayer&&activePlayer.playVideoAt)activePlayer.playVideoAt(idx)}
+                next:()=>{if(playerReady&&activePlayer.nextVideo)activePlayer.nextVideo()},
+                previous:()=>{if(playerReady&&activePlayer.previousVideo)activePlayer.previousVideo()},
+                playAt:idx=>{if(playerReady&&activePlayer.playVideoAt)activePlayer.playVideoAt(idx)}
             };
 
-            const resetPlayerUI = () => { /* ... same ... */ 
-                playPauseIcon.classList.replace("fa-pause","fa-play");progressBar.value=0;progressBar.max=100;updateProgressBarFill();currentTimeDisplay.textContent="00:00";totalTimeDisplay.textContent="00:00";if(progressUpdateInterval)clearInterval(progressUpdateInterval);nextEpisodeBtnPlayer.classList.add("is-hidden");prevEpisodeBtn.disabled=!0;nextEpisodeBtn.disabled=!0
-            };
+            function resetPlayerUI(){playPauseIcon.classList.replace("fa-pause","fa-play");progressBar.value=0;progressBar.max=100;updateProgressBarFill();currentTimeDisplay.textContent="00:00";totalTimeDisplay.textContent="00:00";if(progressUpdateInterval)clearInterval(progressUpdateInterval);nextEpisodeBtnPlayer.classList.add("is-hidden");prevEpisodeBtn.disabled=!0;nextEpisodeBtn.disabled=!0}
             
-            const loadSeriesPlayer = (playlistId) => {
-                if(!playlistId){episodeListUl.innerHTML='<p class="episode-placeholder-text">No playlist ID provided.</p>';return}
-                videoPlayerContainer.innerHTML="";if(activePlayer&&activePlayer.destroy)activePlayer.destroy();
-                activePlayer=null;resetPlayerUI();
-                episodeListUl.innerHTML='<p class="episode-placeholder-text">Loading episodes...</p>';
-                if("undefined"==typeof YT||"undefined"==typeof YT.Player){window.onYouTubeIframeAPIReady=()=>loadSeriesPlayer(playlistId);return}
-                activePlayer=new YT.Player("video-player",{playerVars:{controls:0,modestbranding:1,rel:0,fs:0,iv_load_policy:3,listType:"playlist",list:playlistId,origin:window.location.origin},events:{onReady:onPlayerReady,onStateChange:onPlayerStateChange}});
-                if(progressUpdateInterval)clearInterval(progressUpdateInterval);progressUpdateInterval=setInterval(updateProgress,250)
-            };
+            function initializePlayer(playlistId) {
+                if (!youtubeApiReady) { console.log("YouTube API not ready, queuing player init."); return; }
+                if (!playlistId) { episodeListUl.innerHTML = '<p class="episode-placeholder-text">No playlist ID provided.</p>'; return; }
+                
+                videoPlayerContainer.innerHTML = ""; 
+                if (activePlayer && activePlayer.destroy) activePlayer.destroy();
+                activePlayer = null; playerReady = false;
+                resetPlayerUI();
+                episodeListUl.innerHTML = '<p class="episode-placeholder-text">Initializing player...</p>';
+
+                activePlayer = new YT.Player("video-player", {
+                    playerVars: { controls: 0, modestbranding: 1, rel: 0, fs: 0, iv_load_policy: 3, listType: "playlist", list: playlistId, origin: window.location.origin },
+                    events: { onReady: onPlayerReady, onStateChange: onPlayerStateChange }
+                });
+            }
             
+            window.onYouTubeIframeAPIReady = () => {
+                console.log("YouTube IFrame API is ready.");
+                youtubeApiReady = true;
+                if (jekyllPageData.youtubePlaylistId) {
+                    initializePlayer(jekyllPageData.youtubePlaylistId);
+                }
+            };
+
+            function onPlayerReady(event) {
+                console.log("Player is ready.");
+                activePlayer = event.target; playerReady = true;
+                playerControls.setVolume(parseFloat(volumeSlider.value));
+                populateEpisodeList(); updateProgress(); showControlsTemporarily();
+                if(progressUpdateInterval) clearInterval(progressUpdateInterval);
+                progressUpdateInterval = setInterval(updateProgress, 250);
+            }
+
             function populateEpisodeList() {
-                if(!activePlayer||!activePlayer.getPlaylist){episodeListUl.innerHTML='<p class="episode-placeholder-text">Could not load episodes.</p>';return}
+                if(!playerReady||!activePlayer.getPlaylist){episodeListUl.innerHTML='<p class="episode-placeholder-text">Could not load episodes.</p>';return}
                 const p=activePlayer.getPlaylist();if(!p||p.length===0){episodeListUl.innerHTML='<p class="episode-placeholder-text">Playlist is empty or invalid.</p>';return}
                 playlistVideos=[];episodeListUl.innerHTML="";
-                p.forEach((vId,idx)=>{playlistVideos.push({id:vId,title:`Episode ${idx+1}`});const li=document.createElement("li");li.dataset.index=idx;li.innerHTML=`<span class="icon"><i class="fas fa-play-circle"></i></span><span class="episode-title-text">Episode ${idx+1} (Loading...)</span>`;li.addEventListener("click",()=>playerControls.playAt(idx));episodeListUl.appendChild(li)});
-                updateEpisodeListHighlight();
-                generateJsonLd(); // Generate JSON-LD once playlist videos are known
+                p.forEach((vId,idx)=>{
+                    const override = jekyllPageData.episodeOverrides.find(eo => eo.video_id === vId);
+                    const title = override && override.title ? override.title : `Episode ${idx + 1} (Loading...)`;
+                    const description = override && override.description ? override.description : jekyllPageData.description;
+                    const thumbnail = override && override.thumbnail ? window.location.origin + override.thumbnail : (jekyllPageData.seriesPoster ? window.location.origin + jekyllPageData.seriesPoster : undefined);
+                    const airDate = override && override.air_date ? override.air_date : jekyllPageData.datePublished;
+
+                    playlistVideos.push({ id: vId, title: title, description: description, thumbnail: thumbnail, air_date: airDate, episode_number: override && override.episode_number ? override.episode_number : idx + 1 });
+                    
+                    const li=document.createElement("li");li.dataset.index=idx;
+                    li.innerHTML=`<span class="icon"><i class="fas fa-play-circle"></i></span><span class="episode-title-text">${title}</span>`;
+                    li.addEventListener("click",()=>playerControls.playAt(idx));episodeListUl.appendChild(li)
+                });
+                updateEpisodeListHighlight(); generateJsonLd();
             }
 
             function updateEpisodeListHighlight() {
-                if(!activePlayer||!activePlayer.getPlaylistIndex||!playlistVideos.length)return;
+                if(!playerReady||!activePlayer.getPlaylistIndex||!playlistVideos.length)return;
                 currentPlaylistIndex=activePlayer.getPlaylistIndex();
-                document.querySelectorAll("#episode-list li").forEach(li=>{li.classList.remove("is-active");if(parseInt(li.dataset.index)===currentPlaylistIndex){li.classList.add("is-active");const tt=li.querySelector(".episode-title-text");if(tt&&activePlayer.getVideoData&&activePlayer.getVideoData().title){tt.textContent=activePlayer.getVideoData().title;playlistVideos[currentPlaylistIndex].title=activePlayer.getVideoData().title;playlistVideos[currentPlaylistIndex].description=activePlayer.getVideoData().shortDescription||jekyllPageData.description;playlistVideos[currentPlaylistIndex].uploadDate=new Date().toISOString(); // Placeholder, actual date needs Data API
-                generateJsonLd();}else if(tt&&playlistVideos[currentPlaylistIndex]&&playlistVideos[currentPlaylistIndex].title!==`Episode ${currentPlaylistIndex+1}`){tt.textContent=playlistVideos[currentPlaylistIndex].title}li.scrollIntoView({behavior:"smooth",block:"nearest"})}});
+                document.querySelectorAll("#episode-list li").forEach(li=>{li.classList.remove("is-active");if(parseInt(li.dataset.index)===currentPlaylistIndex){li.classList.add("is-active");const tt=li.querySelector(".episode-title-text");if(tt&&activePlayer.getVideoData&&activePlayer.getVideoData().title){const ytTitle=activePlayer.getVideoData().title;tt.textContent=ytTitle;playlistVideos[currentPlaylistIndex].title=ytTitle}else if(tt&&playlistVideos[currentPlaylistIndex]){tt.textContent=playlistVideos[currentPlaylistIndex].title}li.scrollIntoView({behavior:"smooth",block:"nearest"})}});
                 prevEpisodeBtn.disabled=currentPlaylistIndex===0;
                 nextEpisodeBtn.disabled=currentPlaylistIndex>=playlistVideos.length-1;
                 nextEpisodeBtnPlayer.classList.add("is-hidden")
             }
-
-            window.onYouTubeIframeAPIReady=()=>{console.log("YouTube IFrame API is ready.")};
-
-            function onPlayerReady(e){activePlayer=e.target;playerControls.setVolume(parseFloat(volumeSlider.value));populateEpisodeList();updateProgress();showControlsTemporarily()}
+            
             function onPlayerStateChange(e){updatePlayPauseIcon();updateEpisodeListHighlight();if(e.data===YT.PlayerState.PLAYING){showControlsTemporarily();nextEpisodeBtnPlayer.classList.add("is-hidden")}else if(e.data===YT.PlayerState.ENDED){progressBar.value=activePlayer.getDuration?activePlayer.getDuration():progressBar.max;updateProgressBarFill();mainPlayerBox.classList.add("controls-active");if(autoplayCheckbox.checked&¤tPlaylistIndex<playlistVideos.length-1)playerControls.next();else if(currentPlaylistIndex<playlistVideos.length-1)nextEpisodeBtnPlayer.classList.remove("is-hidden")}else if(e.data===YT.PlayerState.PAUSED){mainPlayerBox.classList.add("controls-active");if(controlsTimeout)clearTimeout(controlsTimeout)}updateProgress()}
             
-            function showControlsTemporarily(){mainPlayerBox.classList.add("controls-active");if(controlsTimeout)clearTimeout(controlsTimeout);controlsTimeout=setTimeout(()=>{if(activePlayer&&activePlayer.getPlayerState&&activePlayer.getPlayerState()===YT.PlayerState.PLAYING)mainPlayerBox.classList.remove("controls-active")},3500)}
-            mainPlayerBox.addEventListener("mousemove",showControlsTemporarily);
-            mainPlayerBox.addEventListener("mouseleave",()=>{if(controlsTimeout)clearTimeout(controlsTimeout);if(activePlayer&&activePlayer.getPlayerState&&activePlayer.getPlayerState()===YT.PlayerState.PLAYING)mainPlayerBox.classList.remove("controls-active")});
+            function showControlsTemporarily(){mainPlayerBox.classList.add("controls-active");if(controlsTimeout)clearTimeout(controlsTimeout);controlsTimeout=setTimeout(()=>{if(playerReady&&activePlayer.getPlayerState&&activePlayer.getPlayerState()===YT.PlayerState.PLAYING)mainPlayerBox.classList.remove("controls-active")},4000)}
+            mainPlayerBox.addEventListener("mousemove",showControlsTemporarily);mainPlayerBox.addEventListener("mouseleave",()=>{if(controlsTimeout)clearTimeout(controlsTimeout);if(playerReady&&activePlayer.getPlayerState&&activePlayer.getPlayerState()===YT.PlayerState.PLAYING)mainPlayerBox.classList.remove("controls-active")});
 
             playPauseBtn.addEventListener("click",playerControls.togglePlayPause);
             prevEpisodeBtn.addEventListener("click",playerControls.previous);
@@ -370,53 +397,48 @@ layout: default
             muteBtn.addEventListener("click",()=>{playerControls.toggleMute();showControlsTemporarily()});
             fullscreenBtn.addEventListener("click",playerControls.toggleFullscreen);
 
-            const updateProgress=()=>{if(!activePlayer||isSeeking||!activePlayer.getCurrentTime)return;const ct=playerControls.getCurrentTime(),dur=playerControls.getDuration();if(!isNaN(dur)&&dur>0){progressBar.value=ct;progressBar.max=dur;currentTimeDisplay.textContent=formatTime(ct);if(totalTimeDisplay.textContent==="00:00"||totalTimeDisplay.textContent==="--:--")totalTimeDisplay.textContent=formatTime(dur);updateProgressBarFill()}else totalTimeDisplay.textContent="--:--";updatePlayPauseIcon()};
+            const updateProgress=()=>{if(!playerReady||isSeeking||!activePlayer.getCurrentTime)return;const ct=playerControls.getCurrentTime(),dur=playerControls.getDuration();if(!isNaN(dur)&&dur>0){progressBar.value=ct;progressBar.max=dur;currentTimeDisplay.textContent=formatTime(ct);if(totalTimeDisplay.textContent==="00:00"||totalTimeDisplay.textContent==="--:--")totalTimeDisplay.textContent=formatTime(dur);updateProgressBarFill()}else totalTimeDisplay.textContent="--:--";updatePlayPauseIcon()};
             
-            const onFullscreenChange = () => {
-                const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
-                fullscreenIcon.classList.toggle('fa-compress', !!isFullscreen);
-                fullscreenIcon.classList.toggle('fa-expand', !isFullscreen);
-            };
-            document.addEventListener('fullscreenchange', onFullscreenChange);
-            document.addEventListener('webkitfullscreenchange', onFullscreenChange); // Safari
-            document.addEventListener('msfullscreenchange', onFullscreenChange); // IE11
+            const onFullscreenChange=()=>{const i=document.fullscreenElement||document.webkitFullscreenElement||document.msFullscreenElement;fullscreenIcon.classList.toggle("fa-compress",!!i);fullscreenIcon.classList.toggle("fa-expand",!i)};
+            document.addEventListener("fullscreenchange",onFullscreenChange);document.addEventListener("webkitfullscreenchange",onFullscreenChange);document.addEventListener("msfullscreenchange",onFullscreenChange);
 
             function generateJsonLd() {
-                const episodesLd = playlistVideos.map((ep, index) => {
-                    return {
-                        "@type": "TVEpisode",
-                        "episodeNumber": index + 1,
-                        "name": ep.title || `Episode ${index + 1}`,
-                        "description": ep.description || jekyllPageData.description,
-                        "datePublished": ep.uploadDate || jekyllPageData.datePublished, // Needs better data source
-                        "url": `${window.location.href}?episode=${index + 1}`, // Simple URL
-                        "partOfTVSeries": { "@type": "WebSeries", "name": jekyllPageData.title },
-                        "video": { // VideoObject for the episode
-                            "@type": "VideoObject",
-                            "name": ep.title || `Episode ${index + 1}`,
-                            "description": ep.description || jekyllPageData.description,
-                            "thumbnailUrl": jekyllPageData.seriesPoster, // Placeholder, ideally episode specific
-                            "uploadDate": ep.uploadDate || jekyllPageData.datePublished,
-                            "embedUrl": `https://www.youtube.com/embed/${ep.id}`
-                        }
-                    };
-                });
+                const episodesLd = playlistVideos.map(ep => ({
+                    "@type": "TVEpisode",
+                    "episodeNumber": ep.episode_number,
+                    "name": ep.title,
+                    "description": ep.description,
+                    "datePublished": ep.air_date,
+                    "url": `${window.location.href.split('?')[0]}#ep${ep.episode_number}`, // Link to episode on page
+                    "partOfTVSeries": { "@type": "WebSeries", "name": jekyllPageData.title },
+                    "image": ep.thumbnail,
+                    "video": {
+                        "@type": "VideoObject",
+                        "name": ep.title,
+                        "description": ep.description,
+                        "thumbnailUrl": ep.thumbnail,
+                        "uploadDate": ep.air_date,
+                        "embedUrl": `https://www.youtube.com/embed/${ep.id}?list=${jekyllPageData.youtubePlaylistId}`
+                    }
+                }));
 
                 const webSeriesLd = {
                     "@context": "https://schema.org",
                     "@type": "WebSeries",
                     "name": jekyllPageData.title,
                     "description": jekyllPageData.description,
-                    "url": window.location.href,
+                    "url": window.location.href.split('?')[0],
                     "image": jekyllPageData.seriesPoster ? window.location.origin + jekyllPageData.seriesPoster : undefined,
                     "datePublished": jekyllPageData.datePublished,
                     "genre": jekyllPageData.genre ? jekyllPageData.genre.split(',').map(g => g.trim()) : undefined,
-                    "publisher": jekyllPageData.publisher,
-                    "productionCompany": jekyllPageData.productionCompany,
-                    "actor": jekyllPageData.actors.length > 0 ? jekyllPageData.actors : undefined,
-                    "director": jekyllPageData.directors.length > 0 ? jekyllPageData.directors : undefined,
-                    "creator": jekyllPageData.directors.length > 0 ? jekyllPageData.directors : (jekyllPageData.creatorName ? {"@type": "Person", "name": jekyllPageData.creatorName} : undefined),
-                    "episode": episodesLd
+                    "publisher": {"@type": "Organization", "name": jekyllPageData.publisherName },
+                    "productionCompany": {"@type": "Organization", "name": jekyllPageData.productionCompanyName || jekyllPageData.seriesCreatorName },
+                    "actor": jekyllPageData.actors.length > 0 ? jekyllPageData.actors.map(name => ({"@type": "Person", "name": name})) : undefined,
+                    "director": jekyllPageData.directors.length > 0 ? jekyllPageData.directors.map(name => ({"@type": "Person", "name": name})) : 
+                                (jekyllPageData.seriesCreatorName ? [{"@type": "Person", "name": jekyllPageData.seriesCreatorName}] : undefined),
+                    "creator": jekyllPageData.seriesCreatorName ? {"@type": "Person", "name": jekyllPageData.seriesCreatorName} : 
+                               (jekyllPageData.directors.length > 0 ? jekyllPageData.directors.map(name => ({"@type": "Person", "name": name})) : undefined),
+                    "episode": episodesLd.length > 0 ? episodesLd : undefined
                 };
                 
                 const jsonLdScriptTag = document.getElementById('webseries-jsonld');
@@ -425,12 +447,16 @@ layout: default
                 }
             }
             
-            // --- Initial Load from Jekyll Front Matter ---
-            if (jekyllPageData.youtubePlaylistId) {
-                loadSeriesPlayer(jekyllPageData.youtubePlaylistId);
+            if (youtubeApiReady && jekyllPageData.youtubePlaylistId) {
+                initializePlayer(jekyllPageData.youtubePlaylistId);
+            } else if (jekyllPageData.youtubePlaylistId) {
+                // API not ready yet, onYouTubeIframeAPIReady will call initializePlayer
+                console.log("DOM ready, YouTube API not yet. Waiting for API.");
             } else {
-                episodeListUl.innerHTML = '<p class="episode-placeholder-text">Error: YouTube Playlist ID not provided in page front matter.</p>';
+                episodeListUl.innerHTML = '<p class="episode-placeholder-text">Error: YouTube Playlist ID not provided.</p>';
                 console.error("Error: youtube_playlist_id not found in page front matter.");
             }
         });
     </script>
+    
+  
