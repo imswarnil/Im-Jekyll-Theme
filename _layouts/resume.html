@@ -24,87 +24,69 @@ layout: default
         </div>
     </section>
   </div>
+
+    {% include resume/button.html %}
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
+      document.addEventListener('DOMContentLoaded', () => {
     const downloadButton = document.getElementById('downloadPdfButton');
-    const resumeContentElement = document.getElementById('resume-content'); // The element to capture
+    const resumeContentElement = document.getElementById('resume-content');
 
-    if (downloadButton && resumeContentElement) {
-        downloadButton.addEventListener('click', () => {
-            // Temporarily hide the button itself from the capture
-            downloadButton.style.display = 'none';
-
-            const { jsPDF } = window.jspdf; // Destructure jsPDF from the global window object
-
-            html2canvas(resumeContentElement, {
-                scale: 2, // Increase scale for better quality (can make file size larger)
-                useCORS: true, // Important if you have external images
-                logging: true, // For debugging html2canvas issues
-                onclone: (document) => {
-                    // This function is called when html2canvas clones the document
-                    // You can make modifications to the cloned document before rendering
-                    // For example, ensure all elements are visible, etc.
-                    // Remove any print-specific styles that hide elements if they interfere
-                }
-            }).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF({
-                    orientation: 'p', // portrait
-                    unit: 'pt', // points
-                    format: 'a4' // A4 paper format
-                });
-
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfHeight = pdf.internal.pageSize.getHeight();
-
-                const canvasWidth = canvas.width;
-                const canvasHeight = canvas.height;
-
-                // Calculate the ratio to fit the image onto the PDF page
-                const ratio = Math.min(pdfWidth / canvasWidth, pdfHeight / canvasHeight);
-                const imgWidth = canvasWidth * ratio;
-                const imgHeight = canvasHeight * ratio;
-
-                // Calculate how many pages are needed
-                const pageHeightInCanvasPixels = pdfHeight / ratio;
-                let- currentPosition = 0;
-                let pageCount = 1;
-
-                while (currentPosition < canvasHeight) {
-                    if (pageCount > 1) {
-                        pdf.addPage();
-                    }
-                    // Create a temporary canvas for the current page segment
-                    const pageCanvas = document.createElement('canvas');
-                    pageCanvas.width = canvasWidth;
-                    pageCanvas.height = Math.min(pageHeightInCanvasPixels, canvasHeight - currentPosition);
-
-                    const pageCtx = pageCanvas.getContext('2d');
-                    // Draw the segment of the original canvas onto the temporary canvas
-                    pageCtx.drawImage(canvas, 0, currentPosition, canvasWidth, pageCanvas.height, 0, 0, canvasWidth, pageCanvas.height);
-
-                    const pageImgData = pageCanvas.toDataURL('image/png');
-                    pdf.addImage(pageImgData, 'PNG', 0, 0, imgWidth, imgHeight * (pageCanvas.height / canvasHeight) );
-
-                    currentPosition += pageHeightInCanvasPixels;
-                    pageCount++;
-                }
-
-                pdf.save('Prachi_Jain_Resume.pdf'); // Name of the downloaded file
-
-                // Show the button again after processing
-                downloadButton.style.display = '';
-            }).catch(error => {
-                console.error("Error generating PDF:", error);
-                // Show the button again in case of error
-                downloadButton.style.display = '';
-                alert("Sorry, an error occurred while generating the PDF.");
-            });
-        });
-    } else {
-        if (!downloadButton) console.error("Download button not found!");
-        if (!resumeContentElement) console.error("Resume content element not found!");
+    if (!downloadButton) {
+        console.error("Download button with ID 'downloadPdfButton' not found!");
+        return;
     }
+    if (!resumeContentElement) {
+        console.error("Content element with ID 'resume-content' not found!");
+        return;
+    }
+
+    downloadButton.addEventListener('click', () => {
+        console.log("Download button clicked. Trying to generate PDF...");
+        downloadButton.style.display = 'none'; // Hide button
+
+        // Check if libraries are loaded
+        if (typeof html2canvas === 'undefined') {
+            console.error('html2canvas is not loaded!');
+            alert('Error: html2canvas library not loaded.');
+            downloadButton.style.display = ''; // Show button
+            return;
+        }
+        if (typeof window.jspdf === 'undefined' || typeof window.jspdf.jsPDF === 'undefined') {
+            console.error('jsPDF is not loaded!');
+            alert('Error: jsPDF library not loaded.');
+            downloadButton.style.display = ''; // Show button
+            return;
+        }
+
+        const { jsPDF } = window.jspdf;
+
+        html2canvas(resumeContentElement, {
+            scale: 1, // Start with scale 1 for simplicity
+            useCORS: true,
+            logging: true
+        }).then(canvas => {
+            console.log("html2canvas success. Canvas created.");
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF(); // Simplest jsPDF instantiation
+
+            // Simple single page for now
+            const imgProps= pdf.getImageProperties(imgData);
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+            if (pdfHeight > pdf.internal.pageSize.getHeight()) {
+                console.warn("Content is taller than a single PDF page with current scaling. Will be truncated in this simple test.");
+            }
+
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save('test_resume.pdf');
+            console.log("PDF should be saved.");
+            downloadButton.style.display = ''; // Show button
+        }).catch(error => {
+            console.error("Error during PDF generation:", error);
+            alert("An error occurred while generating the PDF. Check the console.");
+            downloadButton.style.display = ''; // Show button
+        });
+    });
 });
     </script>
-    {% include resume/button.html %}
