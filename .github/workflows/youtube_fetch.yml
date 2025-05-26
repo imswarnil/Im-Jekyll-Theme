@@ -1,0 +1,49 @@
+name: Fetch YouTube Videos to Jekyll Posts
+
+on:
+  workflow_dispatch: # Allows manual triggering from the Actions tab
+  schedule:
+    - cron: '0 3 * * *' # Runs daily at 3 AM UTC. Adjust as needed.
+  # You can also add:
+  # push:
+  #   branches:
+  #     - main # Or your default branch, if you want to run it on every push
+
+jobs:
+  fetch-videos:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required to push changes back to the repo
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11' # Or your preferred Python version
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install google-api-python-client python-dateutil isodate PyYAML zoneinfo
+
+      - name: Run YouTube fetch script
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          YOUTUBE_CHANNEL_ID: UCRkqSGyfZkhOzZIHjlgBXcQ # Your channel ID
+        run: python .github/scripts/fetch_youtube_videos.py
+
+      - name: Commit and push new posts
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action - YouTube Fetch"
+          git add _posts/*.md
+          # Check if there are any staged changes
+          if ! git diff --staged --quiet; then
+            git commit -m "CI: Add new YouTube video posts"
+            git push
+          else
+            echo "No new video posts to commit."
+          fi
