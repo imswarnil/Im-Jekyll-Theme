@@ -123,7 +123,7 @@ work_experience:
   section_title: "Professional Journey" # Title for this section when displayed
   jobs:
     - company: "Twilio"
-      company_logo: "/assets/images/logos/twilio-logo.svg" # Replace with actual path to Twilio logo
+      company_logo: "https://www.svgrepo.com/show/354472/twilio-icon.svg" # Replace with actual path to Twilio logo
       company_url: "https://www.twilio.com/"
       role: "Tableau CRM Engineer"
       location: "Bangalore, India"
@@ -149,7 +149,7 @@ work_experience:
         - "JIRA / Agile Methodologies"
 
     - company: "Cognizant"
-      company_logo: "/assets/images/logos/cognizant-logo.svg" # Replace with actual path
+      company_logo: "https://companieslogo.com/img/orig/CTSH-82a8444b.png?t=1720244491" # Replace with actual path
       company_url: "https://www.cognizant.com/"
       role: "Project Associate (Tableau CRM)"
       location: "Bangalore, India"
@@ -171,7 +171,7 @@ work_experience:
         - "Client Communication"
 
     - company: "Accenture"
-      company_logo: "/assets/images/logos/accenture-logo.svg" # Replace with actual path
+      company_logo: "https://companieslogo.com/img/orig/ACN-cce5b411.png?t=1720244490" # Replace with actual path
       company_url: "https://www.accenture.com/"
       role: "Software Engineer"
       previous_role: "Associate Software Engineer" # Optional: to show progression
