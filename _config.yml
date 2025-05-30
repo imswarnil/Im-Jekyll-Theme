@@ -38,11 +38,116 @@ favicons: # Favicons are also used in the manifest file. Syntax is 'size: path'
   1024: '/assets/logos/logo@1024px.png'
 
 # Author Information - General site author
+# Author Configuration (imswarnil.yml or in _config.yml)
 author:
   name: "Swarnil Singhai"
-  short_name: "Swarnil" # Or "SS"
-  image : "/assets/imswarnil-profile.jpg" # Consider a personal photo here for general author image
-  description: "Software Engineer at Twilio. Passionate about data, CRM, and building impactful solutions. This is my personal blog and portfolio."
+  short_name: "Swarnil"
+  tagline: "Cinematic chaos meets code." # Feel free to tweak
+  image: "/assets/imswarnil-profile.jpg"
+  description: >
+    I'm Swarnil — Software Engineer by day, Filmmaker by heart, and creative chaos incarnate all the time.
+    I build with logic, I shoot with soul. Welcome to the multiverse of a data-loving storyteller.
+  dob: "1994-05-23" # Date of Birth (YYYY-MM-DD)
+  pronouns: "he/him"
+  location: "Bangalore, India"
+  nationality: "Indian"
+  email: "contact@imswarnil.com"
+  phone: "" # Optional
+  website: "https://jekyll.imswarnil.com"
+  resume_url: "/assets/Swarnil_Resume.pdf" # Adjust if hosted elsewhere
+  github: "https://github.com/imswarnil"
+  linkedin: "https://linkedin.com/in/imswarnil"
+  youtube: "https://youtube.com/@imswarnil"
+  instagram: "https://instagram.com/imswarnil"
+  twitter: "https://twitter.com/imswarnil"
+
+  # Setup and Preferences
+  uses:
+    operating_system: "macOS Ventura"
+    computer: "MacBook Pro M2, 16GB RAM"
+    editor: "VS Code + iTerm2"
+    browser: "Arc Browser"
+    terminal_theme: "Rosé Pine"
+    phone: "iPhone 14 Pro"
+    camera_gear:
+      - "Sony ZV-E10"
+      - "iPhone 14 Pro (Cinematic mode 😎)"
+      - "GoPro Hero 11"
+    mic: "Rode Wireless Go II"
+    editing_software:
+      - "Final Cut Pro"
+      - "CapCut (mobile chaos edition)"
+    design_tools:
+      - "Figma"
+      - "Canva Pro"
+    productivity_stack:
+      - "Notion"
+      - "Obsidian"
+      - "Cron Calendar"
+      - "Raycast"
+      - "CleanShot X"
+    website_stack:
+      - "Jekyll + Bulma CSS"
+      - "Ghost CMS (legacy blog)"
+      - "GitHub Pages"
+    music_while_coding: "Lo-fi + Hans Zimmer + AR Rahman"
+    backup_drive: "1TB SSD + Google Drive"
+    favorite_fonts:
+      - "JetBrains Mono"
+      - "Satoshi"
+    morning_routine: "Chai. Code. Chaos."
+
+  # Skills
+  skills:
+    - name: "Tableau CRM (Einstein Analytics)"
+      category: "CRM & Analytics"
+      icon: "chart-bar"
+    - name: "Salesforce Development"
+      category: "CRM & Analytics"
+      icon: "cloud"
+    - name: "JavaScript (ES6+)"
+      category: "Web Development"
+      icon: "code"
+    - name: "HTML / CSS / SCSS"
+      category: "Web Development"
+      icon: "file-html"
+    - name: "Git & GitHub"
+      category: "Dev Tools"
+      icon: "github-logo"
+    - name: "Jekyll"
+      category: "Static Site Generators"
+      icon: "stack-simple"
+    - name: "Final Cut Pro"
+      category: "Filmmaking"
+      icon: "video-camera"
+    - name: "Storytelling"
+      category: "Creative"
+      icon: "book-open"
+    - name: "Public Speaking"
+      category: "Soft Skills"
+      icon: "microphone"
+
+  # Use with Phosphor Icons (or Font Awesome alt)
+  icon_library: "phosphor-icons"
+
+  # Summary / Bio
+  bio: >
+    I'm not just a guy with a camera and a keyboard — I'm a man on a mission. From engineering dashboards to editing timelines, 
+    I breathe narrative into numbers and soul into scripts. With 3 years in the Salesforce ecosystem, deep dives into data, 
+    and a passion for storytelling, I create both products and perspectives. This site is my playground — part resume, part 
+    portfolio, part personal logbook. Expect code, chaos, camera gear breakdowns, and stories straight from Bangalore's caffeinated streets.
+
+  # Fun Stuff
+  fun_facts:
+    - "I once edited a video for 14 hours straight. No caffeine. Just vibes."
+    - "I treat Notion like it's a second brain. And maybe it is."
+    - "My aesthetic is somewhere between minimal monk and maximal meme lord."
+    - "I believe even error messages can have personality."
+    - "Half my YouTube videos start with: ‘So, here’s what happened…’"
+
+
+
+
 social_media:
   - name: "twitter"
     icon : x-logo # (or fab fa-x-twitter)
