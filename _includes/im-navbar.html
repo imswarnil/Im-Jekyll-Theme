@@ -46,7 +46,7 @@
                     <div class="navbar-item has-dropdown is-hoverable im-navbar-dropdown-container">
                       <a class="navbar-link im-navbar-link {% if is_active_parent %}is-active-nav-item{% endif %}" {% if item.link != "/#" %}href="{{ item_url_relative }}"{% else %}role="button" aria-haspopup="true" aria-expanded="false"{% endif %}>
                         {% if item.image %}<img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="im-navbar-icon im-navbar-image-icon">
-                        {% elsif item.icon %}<span class="icon im-navbar-icon"><i class="ph ph-{{ item.icon }} im-navbar-ph-icon"></i></span>{% endif %}
+                        {% elsif item.icon %}<span class="icon im-navbar-icon"><i class="ph-{{site.icon_style}} ph-{{ item.icon }} im-navbar-ph-icon"></i></span>{% endif %}
                         <span class="im-navbar-text">{{ item.name }}</span>
                       </a>
                       <div class="navbar-dropdown is-boxed im-navbar-dropdown-box">

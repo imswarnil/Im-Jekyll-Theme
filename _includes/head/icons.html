@@ -1,6 +1,3 @@
 {%- assign icon_style = site.icon_style | default: "regular" -%}
 {%- assign valid_styles = "regular,bold,duotone,fill,thin,light" | split: "," -%}
-{%- unless valid_styles contains icon_style -%}
-  {%- assign icon_style = "regular" -%}
-{%- endunless -%}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/{{ icon_style }}/style.css">
