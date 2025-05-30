@@ -65,56 +65,6 @@ social_media:
     url: "https://instagram.com/imswarnil"
     cta: "Follow on Instagram"
 
-
-hero:
-  enabled: true # Set to false to hide the hero section
-  greeting: "hi!"
-  wave_emoji: "👋"
-  intro_text_before_name: "I'm"
-  name_highlight: "Swarnil" # Your first name or highlighted part
-  name_suffix: "Singhai,"   # Your last name or rest of it
-  tagline_prefix: "a"
-  tagline_main: "Software Engineer & CRM Analytics Specialist"
-  tagline_suffix: "who loves crafting efficient, data-driven solutions and exploring the Salesforce ecosystem."
-  current_status_prefix: "Currently"
-  current_role: "Software Engineer at Twilio"
-  location_prefix: "Based in"
-  location: "Bangalore, India"
-  # location_icon: "ph-duotone ph-briefcase" # Example, already defaulted in HTML if not present
-
-  cta_primary_text: "Get in Touch"
-  cta_primary_link: "/contact/" # Or mailto:your.email@example.com
-  cta_primary_icon: "ph-duotone ph-paper-plane-tilt"
-
-  cta_secondary_text: "View Resume"
-  cta_secondary_link: "/resume/"
-  cta_secondary_icon: "ph-duotone ph-read-cv-logo"
-
-  tech_stack_intro: "current favorite tech stack/tools:"
-  tech_stack_icons:
-    - name: "Salesforce"
-      icon_class: "ph-duotone ph-cloud-arrow-up"
-    - name: "Tableau CRM"
-      icon_class: "ph-duotone ph-chart-line-up"
-    - name: "Apex"
-      icon_class: "ph-duotone ph-code"
-    # Add more...
-
-  principles:
-    - title: "Data-Driven Insights"
-      description: "Leveraging CRM Analytics and data to uncover actionable insights and drive decisions."
-      icon_class: "ph-duotone ph-magnifying-glass-plus"
-      # color_class: "has-text-info" # Optional Bulma text color class for the icon
-    - title: "Efficient & Scalable Code"
-      description: "Writing clean, well-documented, and performant code that stands the test of time."
-      icon_class: "ph-duotone ph-swatches"
-    # Add more...
-
-  profile_image_url: "/assets/images/your-profile-illustration.png" # IMPORTANT: Add your image path
-  background_video_url: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
-  enable_video_background: true
-  video_opacity: 0.1 # Between 0 (transparent) and 1 (opaque)
-
 # --------------------------------------------
  # 1.2. Site Url, Links & Github Repo
  #----------------------------------------------------------------------------------------------
