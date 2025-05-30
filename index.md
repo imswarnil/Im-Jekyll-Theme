@@ -5,41 +5,6 @@ image: /assets/logos/logo.svg
 layout: default
 ---
 
-<section class="section home-hero">
-  <div class="container">
-    <div class="columns is-vcentered is-desktop">
-      <div class="column is-7-desktop">
-        <h1 class="title is-1 home-hero-title">
-          Hello, I’m <span class="has-text-primary">{{ site.author.name | default: "Swarnil Singhai" }}</span><br>
-          <span class="has-text-grey-dark is-size-4">Filmmaker. Engineer. Storyteller.</span>
-        </h1>
-        <p class="subtitle is-4 mt-4">
-          I blend <strong>code</strong> and <strong>chaos</strong> into cinematic stories. Currently building cool stuff as a <strong>{{ site.resume.personal_details.title | default: "Software Engineer" }}</strong> at <strong>{{ site.resume.work_experience[0].company | default: "a cool company" }}</strong>.
-        </p>
-        <div class="is-flex is-align-items-center mt-5">
-          <a href="{{ '/contact/' | relative_url }}" class="button is-primary is-medium is-rounded mr-3">
-            <span class="icon"><i class="ph-duotone ph-paper-plane-tilt"></i></span>
-            <span>Let’s Talk</span>
-          </a>
-          <a href="{{ '/resume/' | relative_url }}" class="button is-light is-medium is-rounded">
-            <span class="icon"><i class="ph-duotone ph-read-cv-logo"></i></span>
-            <span>Resume</span>
-          </a>
-        </div>
-        <p class="is-size-6 mt-5 has-text-grey">
-          Based in {{ site.resume.personal_details.location | default: "Bangalore, India" }} • Dreaming in Frames • Coding with Coffee
-        </p>
-      </div>
-      <div class="column is-5-desktop is-hidden-touch has-text-centered">
-        <figure class="image is-1by1">
-          <img src="/assets/swarnil.gif" alt="Swarnil's Portrait">
-        </figure>
-      </div>
-
-    </div>
-  </div>
-</section>
-
 {
   "@context": "https://schema.org",
   "@graph": [
