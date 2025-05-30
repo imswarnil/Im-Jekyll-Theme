@@ -57,7 +57,7 @@ author:
   nationality: "Indian"
   email: "contact@imswarnil.com"
   website: "https://imswarnil.com"
-  
+
 # Social Media Links
 #################################################################################################
 social_media: # This remains a top-level section for clarity
@@ -119,17 +119,105 @@ skills:
 # Work Experience (Top-Level Section)
 #################################################################################################
 work_experience:
-  section_title: "Professional Journey"
+  enabled: true # Set to false to hide this section if needed
+  section_title: "Professional Journey" # Title for this section when displayed
   jobs:
     - company: "Twilio"
+      company_logo: "/assets/images/logos/twilio-logo.svg" # Replace with actual path to Twilio logo
+      company_url: "https://www.twilio.com/"
       role: "Tableau CRM Engineer"
       location: "Bangalore, India"
-      start_date: "2021-12-23"
+      start_date: "2021-12-23" # YYYY-MM-DD
+      end_date: null # Set to null or omit if current
       current: true
+      # Duration can be calculated in Liquid template: (Current Date - Start Date)
       description:
-        - "Develop and maintain Tableau CRM dashboards and dataflows."
-        # ... more details
-    # ... other job entries
+        - "Architect, develop, and maintain complex Tableau CRM (Einstein Analytics) dashboards, datasets, and dataflows, providing critical business insights for global sales, marketing, and support stakeholders."
+        - "Lead requirement gathering sessions and technical design workshops with diverse business users, translating ambiguous needs into robust, scalable analytics solutions."
+        - "Proactively optimize and troubleshoot existing Tableau CRM assets, significantly enhancing performance, data accuracy, and user experience for thousands of users."
+        - "Champion data governance, security best practices, and innovative visualization techniques within the CRM analytics domain, contributing to the overall data strategy and roadmap."
+        - "Collaborate cross-functionally with Salesforce administrators, developers, and data engineers to ensure seamless data integration and alignment with broader system architecture."
+        - "Mentor junior team members and conduct knowledge-sharing sessions on Tableau CRM development, SAQL, and Salesforce data principles."
+      technologies_used:
+        - "Tableau CRM (Einstein Analytics)"
+        - "Salesforce Sales Cloud & Service Cloud"
+        - "SAQL (Salesforce Analytics Query Language)"
+        - "JSON (for Dataflows & Dashboards)"
+        - "Data Integration Tools"
+        - "SQL"
+        - "Git & GitHub"
+        - "JIRA / Agile Methodologies"
+
+    - company: "Cognizant"
+      company_logo: "/assets/images/logos/cognizant-logo.svg" # Replace with actual path
+      company_url: "https://www.cognizant.com/"
+      role: "Project Associate (Tableau CRM)"
+      location: "Bangalore, India"
+      start_date: "2021-03-23"
+      end_date: "2021-12-22"
+      duration: "9 Months" # Manually added, or can be calculated
+      description:
+        - "Delivered end-to-end Tableau CRM solutions for multiple enterprise clients across various industries, including requirements gathering, data modeling, dashboard development, and security implementation."
+        - "Successfully translated complex client business requirements into impactful and user-friendly analytics solutions, enabling data-driven decision-making and KPI tracking."
+        - "Gained comprehensive hands-on experience with the full lifecycle of CRM Analytics projects, from initial discovery and solution design to deployment, UAT, and post-go-live support."
+        - "Collaborated effectively within project teams, adhering to agile methodologies and ensuring timely delivery of high-quality analytics assets."
+      technologies_used:
+        - "Tableau CRM (Einstein Analytics)"
+        - "Salesforce Platform"
+        - "Dataflows & Datasets"
+        - "SAQL"
+        - "Dashboard Design"
+        - "Security Predicates"
+        - "Client Communication"
+
+    - company: "Accenture"
+      company_logo: "/assets/images/logos/accenture-logo.svg" # Replace with actual path
+      company_url: "https://www.accenture.com/"
+      role: "Software Engineer"
+      previous_role: "Associate Software Engineer" # Optional: to show progression
+      location: "Bangalore, India"
+      start_date: "2018-03-23"
+      end_date: "2021-03-22"
+      duration: "3 Years" # Manually added, or can be calculated
+      description:
+        - "Promoted from Associate Software Engineer to Software Engineer based on consistent high performance, technical expertise, and leadership potential within Salesforce projects."
+        - "Specialized in Salesforce Einstein Analytics, designing and developing complex dataflows, predictive models, and interactive dashboards for large-scale enterprise clients."
+        - "Underwent extensive training and achieved proficiency in various Salesforce technologies including Apex, Lightning Web Components (LWC), Visualforce, and SOQL/SOSL."
+        - "Played a key role in multiple Salesforce implementation, customization, and enhancement projects, contributing to solution architecture, custom development, and system integration."
+        - "Contributed to code reviews, unit testing, and deployment processes, ensuring adherence to best practices and quality standards."
+      technologies_used:
+        - "Salesforce Einstein Analytics"
+        - "Apex"
+        - "Lightning Web Components (LWC)"
+        - "Visualforce"
+        - "SOQL & SOSL"
+        - "Salesforce Administration & Configuration"
+        - "SQL"
+        - "Agile / Scrum"
+
+    - company: "Kenscio Digital Marketing"
+      company_logo: "/assets/images/logos/kenscio-logo.png" # Replace with actual path (if available)
+      company_url: "https://www.kenscio.com/" # Verify URL
+      role: "Web Developer (Internship)"
+      location: "Bangalore, India"
+      start_date: "2018-01-15"
+      end_date: "2018-04-14"
+      duration: "3 Months" # Manually added, or can be calculated
+      description:
+        - "Developed and maintained client websites and landing pages using HTML5, CSS3, JavaScript (jQuery), and PHP in a dynamic, fast-paced digital marketing agency environment."
+        - "Acquired foundational experience in full-stack web development practices, responsive design principles, cross-browser compatibility, and version control (Git)."
+        - "Collaborated with designers and marketing teams to translate mockups and requirements into functional web solutions."
+        - "Assisted in troubleshooting and debugging existing web applications and performing updates as required."
+      technologies_used:
+        - "HTML5"
+        - "CSS3"
+        - "JavaScript (jQuery)"
+        - "PHP"
+        - "MySQL"
+        - "Git"
+        - "Responsive Web Design"
+
+# Other top-level sections like 'author', 'skills', 'education', etc. would follow here.
 
 # Education (Top-Level Section)
 #################################################################################################
