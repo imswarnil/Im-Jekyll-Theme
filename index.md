@@ -4,6 +4,107 @@ description: "An open-source Jekyll theme crafted using the Bulma CSS framework.
 image: /assets/logos/logo.svg
 layout: default
 ---
+{% assign featured_roles_limit = 3 %}
+{% assign featured_roles = "" | split: "," %}
+
+{% comment %}
+  Select specific roles to feature, or the most recent ones.
+  For this example, let's take the first 'featured_roles_limit' jobs from your work_experience.
+  You could also add a 'feature_in_hero: true' flag to your job data in _config.yml
+  and filter by that.
+{% endcomment %}
+{% assign work_jobs = site.work_experience.jobs | reverse %} {% comment %} Get most recent first {% endcomment %}
+{% for job in work_jobs limit:featured_roles_limit %}
+  {% assign featured_roles = featured_roles | push: job %}
+{% endfor %}
+{% assign featured_roles = featured_roles | reverse %} {% comment %} Revert to chronological if preferred for display {% endcomment %}
+
+
+{% if featured_roles.size > 0 %}
+<section class="section is-small pt-5 pb-5" id="career-highlights">
+  <div class="container">
+    <div class="has-text-centered mb-5">
+      <p class="subtitle is-6 has-text-grey">My Journey Highlights</p>
+    </div>
+
+    <div class="columns is-mobile is-multiline is-centered">
+      {% for job in featured_roles %}
+        <div class="column is-one-third-tablet is-half-mobile">
+          <div class="card journey-widget has-text-centered">
+            <div class="card-image pt-4">
+              {% if job.company_logo %}
+                <figure class="image is-64x64 is-inline-block">
+                  <img src="{{ job.company_logo | relative_url }}" alt="{{ job.company }} logo" style="border-radius: 8px; object-fit: contain;">
+                </figure>
+              {% else %}
+                <figure class="image is-64x64 is-inline-block">
+                  <span class="icon is-large has-text-grey-light">
+                    <i class="fas fa-briefcase fa-2x"></i>
+                  </span>
+                </figure>
+              {% endif %}
+            </div>
+            <div class="card-content p-3">
+              <div class="content">
+                <p class="title is-6 mb-1 has-text-weight-semibold">
+                  {{ job.hero_highlight | default: job.role }}
+                </p>
+                <p class="subtitle is-7 has-text-grey-darker">
+                  {{ job.company }}
+                </p>
+                <p class="is-size-7 has-text-grey">
+                  {% if job.current %}
+                    Since {{ job.start_date | date: "%b %Y" }}
+                  {% else %}
+                    {{ job.start_date | date: "%b %Y" }} - {{ job.end_date | date: "%b %Y" }}
+                  {% endif %}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="has-text-centered mt-5">
+      <a href="/resume/" class="button is-link is-outlined">
+        <span>View Full Resume</span>
+        <span class="icon">
+          <i class="fas fa-arrow-right"></i>
+        </span>
+      </a>
+    </div>
+
+  </div>
+</section>
+{% endif %}
+
+<style>
+  .journey-widget {
+    border: 1px solid #dbdbdb; /* Light border for the card */
+    border-radius: 8px;
+    height: 100%; /* Make cards in a row same height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Pushes content to top and bottom */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+  .journey-widget:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05), 0 3px 6px rgba(0,0,0,0.08);
+  }
+  .journey-widget .card-image .image img {
+    max-height: 64px; /* Ensure logo doesn't overflow */
+  }
+  .journey-widget .card-content {
+    flex-grow: 1; /* Allows content to fill space */
+  }
+  .section.is-small {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+</style>
+
 
 {% comment %}
   Displays the work experience section using Bulma CSS.
