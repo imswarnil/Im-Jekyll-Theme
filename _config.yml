@@ -126,9 +126,6 @@ author:
       category: "Soft Skills"
       icon: "microphone"
 
-  # Use with Phosphor Icons (or Font Awesome alt)
-  icon_library: "phosphor-icons"
-
   # Summary / Bio
   bio: >
     I'm not just a guy with a camera and a keyboard — I'm a man on a mission. From engineering dashboards to editing timelines, 
