@@ -178,10 +178,6 @@ navbar:
   - name: Home
     link: /
     icon: house
-    dropdown:
-      - name: Personal
-        link: /personal/
-        icon: user
   - name: About # This could link to a page that uses resume data
     link: /about/
     icon: identification-card
