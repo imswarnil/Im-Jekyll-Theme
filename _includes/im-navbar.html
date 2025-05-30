@@ -70,7 +70,7 @@
               {% if subitem.image %}
               <img src="{{ subitem.image | relative_url }}" alt="{{ subitem.name | escape }}" class="image is-small">
               {% elsif subitem.icon %}
-              <span class="icon is-small"><i class="ph ph-{{ subitem.icon }}"></i></span>
+              <span class="icon is-small"><i class="ph-{{site.icon_style}} ph-{{ subitem.icon }}"></i></span>
               {% endif %}
               <span>{{ subitem.name }}</span>
             </a>
@@ -82,7 +82,7 @@
           {% if item.image %}
           <img src="{{ item.image | relative_url }}" alt="{{ item.name | escape }}" class="image">
           {% elsif item.icon %}
-          <span class="icon"><i class="ph ph-{{ item.icon }}"></i></span>
+          <span class="icon"><i class="ph-{{site.icon_style}} ph-{{ item.icon }}"></i></span>
           {% endif %}
           <span>{{ item.name }}</span>
         </a>
@@ -92,7 +92,7 @@
       </div>
       <div class="navbar-end">
         <a href="{{ '/search' | relative_url }}" class="navbar-item is-hidden-touch" aria-label="Search">
-          <span class="icon is-small"><i class="ph ph-magnifying-glass"></i></span>
+          <span class="icon is-small"><i class="ph-{{site.icon_style}} ph-magnifying-glass"></i></span>
         </a>
         <div class="navbar-item"></div>
       </div>
