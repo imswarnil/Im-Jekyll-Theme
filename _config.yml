@@ -80,7 +80,7 @@ description_separator: <!-- more -->
 css_inline: false
 sass:
   style: compressed
-  
+icon_style: duotone # Options: regular, thin, light, bold, fill, duotone  
 theme_color : '#fff'
 fonts:
   preconnect_urls:

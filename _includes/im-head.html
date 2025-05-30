@@ -7,10 +7,10 @@
     {% include head/jsonld.html %}  
     {% include head/fonts.html %} 
     {% include head/style.html %}  
+    {% include head/icons.html %}
     <link rel="sitemap" type="application/xml" title="Sitemap" href="{{ site.url }}/sitemap.xml">
     <link rel="manifest" href="{{ "/manifest.json" | relative_url }}">
     <link rel="canonical" href="{{ site.url }}{{ page.url | replace:'index.html','' }}">
-    <link rel="stylesheet" href="{{ "/assets/icon.css" | relative_url }}">
     {% include head/favicons.html %}
     {% include head/google-analytics.html %}
     {% include head/adsense.html %}
