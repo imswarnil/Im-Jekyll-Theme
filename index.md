@@ -5,7 +5,6 @@ image: /assets/logos/logo.svg
 layout: default
 ---
 
-{% if page.url == "/" %}
 <section class="section home-hero">
   <div class="container">
     <div class="columns is-vcentered is-desktop">
@@ -40,25 +39,7 @@ layout: default
     </div>
   </div>
 </section>
-{% endif %}
 
- <div class="section">
-    <div class="container">
-      <div class="columns">
-        <div class="column {% if page.sidebar == true %}is-three-quarters{% else %}is-full{% endif %}">
-          <h1 class="title is-1 has-text-centered">Blog Posts</h1>
-          <p class="subtitle has-text-centered">Thoughts, tutorials, and updates</p>
-        </div>  
-        {% if page.sidebar == true %}
-          {% include sidebar/blog-detail.html %}
-        {% endif %}
-      </div>
-    </div>
-</div>
-
-
-
-<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
