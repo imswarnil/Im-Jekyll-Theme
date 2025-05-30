@@ -11,7 +11,7 @@
       <!-- Mobile search & dark toggle -->
       <div class="navbar-item is-hidden-desktop ml-auto">
         <a href="{{ '/search' | relative_url }}" class="navbar-item" aria-label="Search">
-          <span class="icon is-medium"><i class="ph ph-magnifying-glass"></i></span>
+          <span class="icon is-medium"><i class="ph-{{ site.icon_style }} ph-magnifying-glass"></i></span>
         </a>
         <a href="#" class="navbar-item" id="mobile-dark-mode-toggle" title="Toggle Dark Mode" role="button">
           <span class="icon is-medium"><i class="ph" id="mobile-theme-icon"></i></span>
@@ -47,13 +47,12 @@
               {% endif %}
             {% endfor %}
           {% endif %}
-
           {% if item.dropdown %}
             <div class="navbar-item has-dropdown is-hoverable">
               <a class="navbar-link {% if is_active_parent %}is-active{% endif %}"
                 {% if item.link != "/#" %}href="{{ item_url_relative }}"{% else %}role="button"{% endif %}>
                 {% if item.icon %}
-                  <span class="icon"><i class="ph ph-{{ item.icon }}"></i></span>
+                  <span class="icon"><i class="ph-ph-{{ site.icon_style }} ph-{{ item.icon }}"></i></span>
                 {% endif %}
                 <span>{{ item.name }}</span>
               </a>
@@ -62,7 +61,7 @@
                   <a class="navbar-item {% if current_page_url == subitem.link | relative_url %}is-active{% endif %}"
                     href="{{ subitem.link | relative_url }}">
                     {% if subitem.icon %}
-                      <span class="icon is-small"><i class="ph ph-{{ subitem.icon }}"></i></span>
+                      <span class="icon is-small"><i class="ph-{{ site.icon_style }} ph-{{ subitem.icon }}"></i></span>
                     {% endif %}
                     {{ subitem.name }}
                   </a>
